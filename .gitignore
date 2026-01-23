@@ -46,3 +46,15 @@ wp-config.php
 # Note: If you wish to whitelist themes,
 # uncomment the next line
 #/wp-content/themes
+
+# Backups and Cache
+/wp-content/updraft/
+/wp-content/wflogs/
+/wp-content/cache/
+/wp-content/wp-rocket-config/
+/wp-content/upgrade/
+/wp-content/backup-db/
+*.sql
+*.zip
+*.tar.gz
+*.rar

@@ -1,0 +1,67 @@
+/* 
+Theme Name: Hello Elementor Child
+Theme URI: https://github.com/elementor/hello-theme-child/
+Description: Hello Elementor Child is a child theme of Hello Elementor, created by Elementor team
+Author: Elementor Team
+Author URI: https://elementor.com/
+Template: hello-elementor
+Version: 2.0.0
+Text Domain: hello-elementor-child
+License: GNU General Public License v3 or later.
+License URI: https://www.gnu.org/licenses/gpl-3.0.html
+Tags: flexible-header, custom-colors, custom-menu, custom-logo, editor-style, featured-images, rtl-language-support, threaded-comments, translation-ready
+*/
+
+@import url("assets/css/woocommerce-prodotto-dettaglio.css");
+@import url("assets/css/woocommerce-prodotto-dettaglio-addtocart.css");
+@import url("assets/css/woocommerce-prodotto-dettaglio-pewc.css");
+@import url("assets/css/woocommerce-cart.css");
+@import url("assets/css/woocommerce-checkout.css");
+
+/* Fix configuratore su Iphone */
+@media only screen and (max-width: 767px) and (-webkit-min-device-pixel-ratio: 2) {
+	.woocommerce div.product div.images img {
+		width: auto;
+	}
+}
+
+body:not(.woocommerce-checkout) footer.elementor-location-footer .elementor-widget-nav-menu ul.elementor-nav-menu > li {padding-left:20px;}
+body:not(.woocommerce-checkout) footer.elementor-location-footer .elementor-widget-nav-menu ul.elementor-nav-menu > li:before {
+	position: absolute;
+	top: 3px;
+	left: 0;
+	font-family: "Font Awesome 5 Free";
+	font-weight: 900;
+	font-size: 12px;
+	content: "\f101";
+	color: var(--e-global-color-390a957);
+	transition: color 0.3s;
+}
+
+/* Elementor fix: toglie bordi da pulsanti 
+button:not(.elementor-button) {border:none!important;}
+*/
+
+/* Elementor: fix scrollbar orizzontale */
+html, body {overflow-x:hidden;}
+
+/* Elementor: fix margine ultimo paragrafo */
+.elementor-widget-text-editor p:last-child {margin-bottom:0!important;}
+
+/* Elementor: aggiungi icona al pulsante */
+.elementor-widget-woocommerce-products li.product .woocommerce-loop-product__buttons > a:after {content:"\f30b"; font-family:"Font Awesome 5 Free"; font-weight:900; margin-left:10px;}
+
+/* Woocommerce/Dettaglio prodotto */
+.elementor-widget-woocommerce-breadcrumb nav.woocommerce-breadcrumb {margin-bottom:0;}
+
+/* Woocommerce/Dettaglio prodotto: widget "Prezzo prodotto" */
+.elementor-widget-woocommerce-product-price p.price {margin-bottom:0!important;}
+
+/* Woocommerce/Generale: badge "on sale" */
+.woocommerce span.onsale {color:var(--e-global-color-60b8a75); background-color:var(--e-global-color-accent);}
+.woocommerce span.onsale {font-size:13px; line-height:25px; font-weight:400; letter-spacing:0.5px; word-spacing:0;}
+.woocommerce span.onsale {min-width:80px; min-height:25px; border-radius:0; top:10px; left:10px;}
+
+.elementor-location-footer a.iubenda-cs-preferences-link {color: var( --e-global-color-1494b09 ); transition: color 0.3s;}
+.elementor-location-footer a.iubenda-cs-preferences-link:hover,
+.elementor-location-footer a.iubenda-cs-preferences-link:focus {color:var( --e-global-color-390a957 );}

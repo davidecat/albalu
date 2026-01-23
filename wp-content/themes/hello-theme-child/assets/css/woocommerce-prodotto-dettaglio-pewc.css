@@ -1,0 +1,82 @@
+/* Fix configuratore su Iphone */
+@media only screen and (max-width: 767px) and (-webkit-min-device-pixel-ratio: 2) {
+	.woocommerce div.product div.images img {
+		width: auto;
+	}
+}
+
+/* Stili custom per PEWC */
+/* Wrapper esterno */
+.pewc-product-extra-groups-wrap {margin-bottom:30px;}
+.pewc-product-extra-groups-wrap > .pewc-group-wrap {}
+/* Titolo e prezzo */
+.pewc-product-extra-groups-wrap > p.pewc-total-only {margin-top:30px; margin-bottom:0; font-size:20px; font-weight:600; color: var(--e-global-color-219b603);}
+.pewc-product-extra-groups-wrap > .pewc-group-wrap > .pewc-group-heading-wrapper {display:none!important;}
+/* Contenuto: descrizione gruppo */
+.pewc-product-extra-groups-wrap > .pewc-group-wrap > .pewc-group-content-wrapper > .pewc-group-description {margin-bottom:30px;}
+.pewc-product-extra-groups-wrap > .pewc-group-wrap > .pewc-group-content-wrapper > .pewc-group-description h4.elementor-heading-title {margin:0!important;}
+
+/* Contenuto: items */
+.pewc-product-extra-groups-wrap > .pewc-group-wrap > .pewc-group-content-wrapper > ul.pewc-product-extra-groups > li {margin-bottom:0;}
+.pewc-product-extra-groups-wrap > .pewc-group-wrap > .pewc-group-content-wrapper > ul.pewc-product-extra-groups > li + li {margin-top:30px;}
+/* Contenuto: campi */
+ul.pewc-product-extra-groups > li > .pewc-item-field-wrapper {margin-bottom:0;}
+ul.pewc-product-extra-groups > li > .pewc-item-field-wrapper > .pewc-field-label {margin-top:0; margin-bottom:10px; font-size:18px;}
+ul.pewc-product-extra-groups > li > .pewc-item-field-wrapper > .pewc-field-label > span.required {display:none;}
+ul.pewc-product-extra-groups > li > .pewc-item-field-wrapper > .pewc-description {font-size:12px; line-height:16px; margin-top:10px; margin-bottom:0;}
+
+
+
+.cfvsw-label-option,
+.cfvsw-image-option,
+.pewc-preset-style .pewc-radio-image-wrapper,
+.pewc-preset-style .pewc-checkbox-image-wrapper {border:2px solid #ebebeb;}
+
+/*
+.pewc-item-field-wrapper > .pewc-radio-images-wrapper > .pewc-radio-image-wrapper > label > img {border:none!important;}
+*/
+
+/* Contenuto: gruppo "Image swatch" con "replace main image */
+.pewc-group-image_swatch.pewc-replace-main-image > .pewc-item-field-wrapper > .pewc-radio-images-wrapper {cursor:auto;}
+.pewc-group-image_swatch.pewc-replace-main-image > .pewc-item-field-wrapper > .pewc-radio-images-wrapper > .pewc-radio-image-wrapper {padding:10px!important; border-radius:5px; cursor:pointer;}
+.pewc-group-image_swatch.pewc-replace-main-image > .pewc-item-field-wrapper > .pewc-radio-images-wrapper > .pewc-radio-image-wrapper > label {height:25px; line-height:25px; padding-left:35px; align-items:flex-start;}
+.pewc-group-image_swatch.pewc-replace-main-image > .pewc-item-field-wrapper > .pewc-radio-images-wrapper > .pewc-radio-image-wrapper > label > img {display:none;}
+.pewc-group-image_swatch.pewc-replace-main-image > .pewc-item-field-wrapper > .pewc-radio-images-wrapper > .pewc-radio-image-wrapper > label > .pewc-radio-image-desc {margin-top:0;}
+.pewc-group-image_swatch.pewc-replace-main-image > .pewc-item-field-wrapper > .pewc-radio-images-wrapper > .pewc-radio-image-wrapper > label > .pewc-theme-element {top:0; left:0;}
+.pewc-group-image_swatch.pewc-replace-main-image > .pewc-item-field-wrapper > .pewc-radio-images-wrapper > .pewc-radio-image-wrapper:not(.checked) > label > .pewc-theme-element {display:block; border:1px solid #578e99; background-color:#FFF;}
+.pewc-group-image_swatch.pewc-replace-main-image > .pewc-item-field-wrapper > .pewc-radio-images-wrapper > .pewc-radio-image-wrapper:last-child {margin-bottom:0!important;}
+
+/* Contenuto: gruppo "Image swatch" normale (senza replace main image) che imposta un layer */
+.pewc-group-image_swatch.pewc-layered-image > .pewc-item-field-wrapper > .pewc-radio-images-wrapper > .pewc-radio-image-wrapper {margin:0!important; padding:0!important; border-width:2px!important;}
+.pewc-group-image_swatch.pewc-layered-image > .pewc-item-field-wrapper > .pewc-radio-images-wrapper > .pewc-radio-image-wrapper > label > .pewc-radio-image-desc {display:none;}
+.pewc-group-image_swatch.pewc-layered-image > .pewc-item-field-wrapper > .pewc-radio-images-wrapper > .pewc-radio-image-wrapper > label > .pewc-theme-element {top:0!important; left:0!important;}
+
+
+/* Contenuto: campi "radio" */
+.pewc-group-radio > .pewc-item-field-wrapper > ul.pewc-checkbox-group-wrapper > li {margin-bottom:0;}
+.pewc-group-radio > .pewc-item-field-wrapper > ul.pewc-checkbox-group-wrapper > li + li {margin-top:15px;}
+.pewc-group-radio > .pewc-item-field-wrapper > ul.pewc-checkbox-group-wrapper > li > label {margin-bottom:0; padding-left:30px; min-height:25px; line-height:25px;}
+.pewc-group-radio > .pewc-item-field-wrapper > ul.pewc-checkbox-group-wrapper > li > label > span.pewc-radio-option-text {}
+.pewc-group-radio > .pewc-item-field-wrapper > ul.pewc-checkbox-group-wrapper > li > label > span.pewc-theme-element:after {width:11px; height:11px; border:none!important;}
+
+/* Stili per swatches */
+.pewc-product-extra-groups ul.pewc-checkbox-group-wrapper > li > label {margin-bottom:15px;}
+.pewc-radio-checkbox-image-wrapper.checked {pointer-events:none!important;}
+
+/* Stili per campo upload */
+.pewc-group-upload .dropzone {padding: 1rem 1rem !important; display:flex; align-items:center; justify-content:center;}
+.pewc-group-upload .dropzone table.dz-preview td {border:none!important; padding:5px!important;}
+.pewc-group-upload .dropzone table.dz-preview td.pewc-dz-image-wrapper > img {display:block;}
+.pewc-group-upload .dropzone table.dz-preview td.dz-details .dz-size {display:none!important;}
+
+/* Cambia numero colonne su iPad, Tablets **/
+@media (min-width:481px) and (max-width:768px){
+	.pewc-swatch-grid .pewc-radio-images-wrapper.pewc-columns-6,
+	.pewc-swatch-grid .pewc-checkboxes-images-wrapper.pewc-columns-6 {grid-template-columns:1fr 1fr 1fr 1fr 1fr;}
+}
+
+/* Cambia numero colonne su Mobile devices **/
+@media (max-width: 480px){
+	.pewc-swatch-grid .pewc-radio-images-wrapper.pewc-columns-6,
+	.pewc-swatch-grid .pewc-checkboxes-images-wrapper.pewc-columns-6 {grid-template-columns:1fr 1fr 1fr 1fr;}
+}
