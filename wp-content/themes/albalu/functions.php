@@ -2,7 +2,7 @@
 /**
  * Enqueue scripts and styles
  */
-function bootscore_child_enqueue_styles() {
+function albalu_enqueue_styles() {
     // Enqueue parent style
     wp_enqueue_style('parent-style', get_template_directory_uri() . '/style.css');
     
@@ -15,7 +15,7 @@ function bootscore_child_enqueue_styles() {
     // Enqueue migrated assets (example)
     // wp_enqueue_style('woo-product-detail', get_stylesheet_directory_uri() . '/assets/css/woocommerce-prodotto-dettaglio.css');
 }
-add_action('wp_enqueue_scripts', 'bootscore_child_enqueue_styles');
+add_action('wp_enqueue_scripts', 'albalu_enqueue_styles');
 
 /* Shortcode/Footer: mostra anno corrente */
 function mostra_anno_corrente () {
