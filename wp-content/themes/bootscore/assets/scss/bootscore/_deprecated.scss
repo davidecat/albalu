@@ -1,0 +1,17 @@
+/*--------------------------------------------------------------
+Deprecated
+--------------------------------------------------------------*/
+
+
+// Reset .is-layout-flow group block margins
+// Use hide-wp-block-classes instead
+// See https://github.com/bootscore/bootscore/pull/977
+.is-layout-flow:not(.hide-wp-block-classes.is-layout-flow) > {
+  * {
+    margin-block-start: 0;
+  }
+
+  p:not(:last-child) {
+    margin-block-end: $spacer;
+  }
+}

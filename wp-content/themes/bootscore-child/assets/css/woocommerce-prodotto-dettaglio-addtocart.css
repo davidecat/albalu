@@ -1,0 +1,28 @@
+/* Caso 1: senza variazioni e senza configuratore, es. https://staging.ggservice.com/prodotto/sacchetto-portaconfetti-bianco-applicazione-albero-della-vita-con-strass-confetti-bianchi-inclusi/ */
+/* OK, Niente da sistemare */
+
+/* Caso 2: con variazioni ma senza configuratore */
+/* OK, Niente da sistemare */
+
+/* Caso 3: senza variazioni ma con configuratore https://staging.ggservice.com/prodotto/fiocco-nascita-celeste-con-placca-santa-rita/ */
+/* OK, Niente da sistemare */
+
+/* Caso 3: prodotto con variazioni e configuratore, es. https://staging.ggservice.com/prodotto/portafoto-legno-albero-della-vita-in-porcellana/ */
+.elementor-widget-jet-single-add-to-cart .single_variation_wrap .woocommerce-variation-add-to-cart {
+	display:flex!important;
+	flex-direction:row!important;
+	flex-wrap:wrap!important;
+}
+
+/* Modifica messaggio "Add to cart" */
+.elementor-widget-woocommerce-notices .woocommerce-message .button-gotocart {
+	border:none!important;
+	color: var(--e-global-color-60b8a75);
+	background-color: var(--e-global-color-219b603);
+}
+
+.elementor-widget-woocommerce-notices .woocommerce-message .button-gotocart:hover,
+.elementor-widget-woocommerce-notices .woocommerce-message .button-gotocart:focus {
+	color: var(--e-global-color-60b8a75);
+	background-color: var(--e-global-color-secondary);
+}

@@ -1,0 +1,183 @@
+/*
+Theme Name: Bootscore Child
+Description: Child theme for Bootscore
+Template: bootscore
+Version: 1.0.0
+*/
+
+:root {
+    --bs-primary: #578E99; /* CTA scuro */
+    --bs-secondary: #A29893; /* Elementi */
+    --bs-body-color: #3F494F; /* Testo */
+    --bs-body-bg: #FFFFFF; /* Bianco */
+    
+    /* Global Colors from Elementor Active Kit */
+    --color-principale-logo: #006699;
+    --color-cta-chiaro: #76A9B4;
+    --color-testo: #3F494F;
+    --color-in-risalto: #F3915C;
+    --color-titoli: #0E1011;
+    --color-sfondi-chiaro: #EAE3E0;
+    --color-sfondi-scuro: #C8BDB7;
+    --color-elementi: #A29893;
+    --color-cta-scuro: #578E99;
+    --color-bianco: #FFFFFF;
+    --color-trasparenza: #FFFFFF00;
+}
+
+/* Import Old Theme Assets if needed, but better to integrate manually */
+/* @import url("assets/css/woocommerce-prodotto-dettaglio.css"); */
+
+/* Global Overrides */
+body {
+    color: var(--color-testo);
+    font-family: "Roboto", sans-serif; /* Assumed from common Elementor defaults or check later */
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: var(--color-titoli);
+}
+
+a {
+    color: var(--color-cta-scuro);
+}
+
+a:hover {
+    color: var(--color-elementi);
+}
+
+/* Button Overrides */
+.btn-primary {
+    background-color: var(--color-cta-scuro);
+    border-color: var(--color-cta-scuro);
+    border-radius: 0 !important; /* Elementor default seems to be 0 based on dumps */
+}
+
+.btn-primary:hover {
+    background-color: var(--color-elementi);
+    border-color: var(--color-elementi);
+}
+
+.rounded-pill {
+    border-radius: 0 !important; /* Force override for exact match if Elementor uses square buttons */
+}
+
+/* Header Tweaks */
+header {
+    background-color: var(--color-bianco);
+}
+
+/* Footer Tweaks */
+footer {
+    background-color: var(--color-sfondi-chiaro);
+    color: var(--color-titoli);
+}
+
+/* Homepage Specific Fixes */
+.home .site-content {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+}
+
+.home .entry-content {
+    margin-bottom: 0 !important;
+}
+
+/* Ensure images in content are responsive */
+.entry-content img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* --- NEW FIXES --- */
+
+/* Hero Section */
+.hero-title {
+    font-size: 2.75rem; /* More balanced */
+    line-height: 1.1;
+    color: var(--color-titoli);
+}
+
+.hero-subtitle {
+    font-size: 1.25rem;
+    color: #4a4a4a;
+    font-weight: 400;
+}
+
+/* Product Grid Replica (Elementor Style) */
+.staging-product-grid ul.products {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin: 0 -10px; /* Counteract padding if needed, or adjust */
+}
+
+.staging-product-grid ul.products li.product {
+    background: #fff;
+    padding: 20px;
+    border-radius: 0;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid rgba(0,0,0,0.02);
+}
+
+.staging-product-grid ul.products li.product:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+
+.staging-product-grid ul.products li.product img {
+    margin-bottom: 15px;
+    transition: opacity 0.3s ease;
+}
+
+.staging-product-grid ul.products li.product:hover img {
+    opacity: 0.9;
+}
+
+.staging-product-grid ul.products li.product .woocommerce-loop-product__title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--color-titoli);
+    margin-bottom: 10px;
+    line-height: 1.4;
+    min-height: 2.8em; /* Align heights */
+}
+
+.staging-product-grid ul.products li.product .price {
+    color: var(--color-cta-scuro);
+    font-weight: 700;
+    font-size: 1.1rem;
+    display: block;
+    margin-bottom: 15px;
+}
+
+.staging-product-grid ul.products li.product .button {
+    background-color: var(--color-cta-scuro);
+    color: #fff;
+    border-radius: 0; /* Elementor Style seems to be square based on other widgets */
+    padding: 8px 24px;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 1px;
+    font-weight: 600;
+    display: inline-block;
+    margin-top: auto;
+}
+
+.staging-product-grid ul.products li.product .button:hover {
+    background-color: var(--color-elementi);
+    color: #fff;
+}
+
+.menu-border {
+    --display: flex;
+    border-style: solid;
+    border-width: 1px 0px 1px 0px;
+    border-color: #EAE3E0;
+    --padding-top: 0px;
+    --padding-bottom: 0px;
+    --padding-left: 10px;
+    --padding-right: 10px;
+}
