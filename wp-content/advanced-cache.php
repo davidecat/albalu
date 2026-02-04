@@ -1,46 +1,108 @@
 <?php
-/**
- * File: advanced-cache.php
- *
- * W3 Total Cache advanced cache module.
- *
- * @package W3TC
- */
 
-defined( 'ABSPATH' ) || die();
+use WP_Rocket\Buffer\Cache;
+use WP_Rocket\Buffer\Config;
+use WP_Rocket\Buffer\Tests;
 
-global $w3tc_start_microtime;
-$w3tc_start_microtime = microtime( true );
+defined( 'ABSPATH' ) || exit;
 
-/**
- * Abort W3TC loading if WordPress is upgrading.
- */
-if ( defined( 'WP_INSTALLING' ) && WP_INSTALLING ) {
+define( 'WP_ROCKET_ADVANCED_CACHE', true );
+
+$rocket_path        = '/var/www/staging.albalu.it/wp-content/plugins/wp-rocket/';
+$rocket_config_path = '/var/www/staging.albalu.it/wp-content/wp-rocket-config/';
+$rocket_cache_path  = '/var/www/staging.albalu.it/wp-content/cache/wp-rocket/';
+
+if (
+	version_compare( phpversion(), '7.3', '<' )
+	|| ! file_exists( $rocket_path )
+	|| ! file_exists( $rocket_config_path )
+	|| ! file_exists( $rocket_cache_path )
+) {
+	define( 'WP_ROCKET_ADVANCED_CACHE_PROBLEM', true );
 	return;
 }
 
-if ( ! defined( 'W3TC_IN_MINIFY' ) ) {
-	if ( ! defined( 'W3TC_DIR' ) ) {
-		define( 'W3TC_DIR', ( defined( 'WP_PLUGIN_DIR' ) ? WP_PLUGIN_DIR : WP_CONTENT_DIR . '/plugins' ) . '/w3-total-cache' );
-	}
 
-	if ( ! @is_dir( W3TC_DIR ) || ! file_exists( W3TC_DIR . '/w3-total-cache-api.php' ) ) {
-		if ( defined( 'WP_ADMIN' ) ) {
-			// Only display errors in wp-admin.
-			printf( '<strong>W3 Total Cache Error:</strong> some files appear to be missing or out of place. Please re-install plugin or remove <strong>%s</strong>. <br />', __FILE__ );
-		}
-	} else {
-		require_once W3TC_DIR . '/w3-total-cache-api.php';
-
-		if ( class_exists( '\W3TC\Dispatcher' ) ) {
-			$w3tc_redirect = \W3TC\Dispatcher::component( 'Mobile_Redirect' );
-			$w3tc_redirect->process();
-
-			$w3tc_config = \W3TC\Dispatcher::config();
-			if ( $w3tc_config->get_boolean( 'pgcache.enabled' ) ) {
-				$o = \W3TC\Dispatcher::component( 'PgCache_ContentGrabber' );
-				$o->process();
-			}
-		}
-	}
+if ( file_exists( '/var/www/staging.albalu.it/wp-content/plugins/wp-rocket/inc/classes/dependencies/mobiledetect/mobiledetectlib/Mobile_Detect.php' ) && ! class_exists( 'WP_Rocket_Mobile_Detect' ) ) {
+	include_once '/var/www/staging.albalu.it/wp-content/plugins/wp-rocket/inc/classes/dependencies/mobiledetect/mobiledetectlib/Mobile_Detect.php';
 }
+
+
+spl_autoload_register(
+	function ( $class ) use ( $rocket_path ) { // phpcs:ignore Universal.NamingConventions.NoReservedKeywordParameterNames.classFound
+		$rocket_classes = [
+			'WP_Rocket\\Buffer\\Abstract_Buffer' => [ $rocket_path . 'inc/classes/Buffer/class-abstract-buffer.php' ],
+			'WP_Rocket\\Buffer\\Cache'           => [ $rocket_path . 'inc/classes/Buffer/class-cache.php' ],
+			'WP_Rocket\\Buffer\\Tests'           => [ $rocket_path . 'inc/classes/Buffer/class-tests.php' ],
+			'WP_Rocket\\Buffer\\Config'          => [ $rocket_path . 'inc/classes/Buffer/class-config.php' ],
+			'WP_Rocket\\Logger\\HTMLFormatter'   => [
+				$rocket_path . 'inc/Logger/HTMLFormatter.php',
+				$rocket_path . 'inc/classes/logger/class-html-formatter.php',
+			],
+			'WP_Rocket\\Logger\\Logger'          => [
+				$rocket_path . 'inc/Logger/Logger.php',
+				$rocket_path . 'inc/classes/logger/class-logger.php',
+			],
+			'WP_Rocket\\Logger\\StreamHandler'   => [
+				$rocket_path . 'inc/Logger/StreamHandler.php',
+				$rocket_path . 'inc/classes/logger/class-stream-handler.php',
+			],
+			'WP_Rocket\\Traits\\Memoize'         => [ $rocket_path . 'inc/classes/traits/trait-memoize.php' ],
+		];
+
+		if ( isset( $rocket_classes[ $class ] ) ) {
+			$file_options = $rocket_classes[ $class ];
+			$file         = '';
+
+			foreach ( $file_options as $file_option ) {
+				if ( file_exists( $file_option ) ) {
+					$file = $file_option;
+					break;
+				}
+			}
+		} elseif ( strpos( $class, 'WP_Rocket\\Dependencies\\Monolog\\' ) === 0 ) {
+			$class = str_replace( 'WP_Rocket\\Dependencies\\Monolog\\', '', $class );
+
+			$file = $rocket_path . 'inc/Dependencies/Monolog/' . str_replace( '\\', '/', $class ) . '.php';
+			if ( ! file_exists( $file ) ) {
+				$file = $rocket_path . 'vendor/monolog/monolog/src/' . str_replace( '\\', '/', $class ) . '.php';
+			}
+		} elseif ( strpos( $class, 'WP_Rocket\\Dependencies\\Psr\\Log\\' ) === 0 ) {
+			$class = str_replace( 'WP_Rocket\\Dependencies\\Psr\\Log\\', '', $class );
+
+			$file = $rocket_path . 'inc/Dependencies/Psr/Log/' . str_replace( '\\', '/', $class ) . '.php';
+			if ( ! file_exists( $file ) ) {
+				$file = $rocket_path . 'vendor/psr/log/' . str_replace( '\\', '/', $class ) . '.php';
+			}
+		} else {
+			return;
+		}
+
+		if ( file_exists( $file ) ) {
+			require $file;
+		}
+	}
+);
+
+if ( ! class_exists( '\WP_Rocket\Buffer\Cache' ) ) {
+	if ( ! defined( 'DONOTROCKETOPTIMIZE' ) ) {
+		define( 'DONOTROCKETOPTIMIZE', true ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedConstantFound
+	}
+	return;
+}
+
+$rocket_config_class = new Config(
+	[
+		'config_dir_path' => $rocket_config_path,
+	]
+);
+
+( new Cache(
+	new Tests(
+		$rocket_config_class
+	),
+	$rocket_config_class,
+	[
+		'cache_dir_path' => $rocket_cache_path,
+	]
+) )->maybe_init_process();
