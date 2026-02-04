@@ -82,14 +82,12 @@ get_header();
             <!-- 2. Most Requested Products (WooCommerce Shortcode) -->
             <section class="products-section py-5 bg-white">
                 <div class="container">
-                    <div class="text-center mb-5">
-                        <h2 class="fw-bold mb-0" style="color: var(--color-titoli);">Le <strong>bomboniere</strong> più richieste per <strong>ogni tipo di evento</strong></h2>
+                    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-5">
+                        <h2 class="fw-bold-1 mb-3 mb-md-0" style="color: var(--color-titoli);">Le <strong>bomboniere</strong> più richieste per <strong>ogni tipo di evento</strong></h2>
+                        <a href="/shop/" class="btn btn-primary px-4 py-2 text-uppercase fw-bold shadow-sm" style="background-color: var(--color-cta-scuro); border: none; letter-spacing: 1px;">Scopri il catalogo <i class="fas fa-arrow-right ms-2"></i></a>
                     </div>
                     <div class="staging-product-grid">
                         <?php echo do_shortcode('[products limit="4" columns="4" orderby="popularity"]'); ?>
-                    </div>
-                    <div class="text-center mt-5">
-                        <a href="/shop/" class="btn btn-primary px-5 py-2 text-uppercase fw-bold shadow-sm" style="background-color: var(--color-cta-scuro); border: none; letter-spacing: 1px;">Vedi tutte</a>
                     </div>
                 </div>
             </section>

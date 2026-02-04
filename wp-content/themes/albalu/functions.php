@@ -75,3 +75,8 @@ add_filter( 'wp_get_attachment_image_attributes', function( $attr, $attachment )
     }
     return $attr;
 }, 10, 2 );
+
+/* Force "Select options" text on loop buttons to match design */
+add_filter( 'woocommerce_product_add_to_cart_text', function() {
+    return 'Select options';
+} );
