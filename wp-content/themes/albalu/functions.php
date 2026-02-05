@@ -6,12 +6,21 @@ function albalu_enqueue_styles() {
     // Enqueue parent style
     wp_enqueue_style('parent-style', get_template_directory_uri() . '/style.css');
     
-    // Enqueue Google Fonts (Roboto)
-    wp_enqueue_style('google-fonts-roboto', 'https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap', [], null);
+    // Enqueue Google Fonts (Montserrat)
+    wp_enqueue_style('google-fonts-montserrat', 'https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap', [], null);
+
+    // Enqueue Swiper CSS
+    wp_enqueue_style('swiper-css', 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css', [], '11.0.0');
 
     // Enqueue child style
-    wp_enqueue_style('child-style', get_stylesheet_uri(), array('parent-style'));
+    wp_enqueue_style('child-style', get_stylesheet_uri(), array('parent-style', 'swiper-css'));
     
+    // Enqueue Swiper JS
+    wp_enqueue_script('swiper-js', 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js', [], '11.0.0', true);
+
+    // Enqueue Custom JS
+    wp_enqueue_script('albalu-custom-js', get_stylesheet_directory_uri() . '/assets/js/custom.js', array('swiper-js'), '1.0.0', true);
+
     // Enqueue migrated assets (example)
     // wp_enqueue_style('woo-product-detail', get_stylesheet_directory_uri() . '/assets/css/woocommerce-prodotto-dettaglio.css');
 }
@@ -76,7 +85,7 @@ add_filter( 'wp_get_attachment_image_attributes', function( $attr, $attachment )
     return $attr;
 }, 10, 2 );
 
-/* Force "Select options" text on loop buttons to match design */
+/* Force "Vedi il prodotto" text on loop buttons to match design */
 add_filter( 'woocommerce_product_add_to_cart_text', function() {
-    return 'Select options';
+    return 'Vedi il prodotto';
 } );

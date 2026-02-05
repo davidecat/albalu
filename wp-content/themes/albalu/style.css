@@ -1,217 +1,114 @@
 /*
 Theme Name: Albalu
-Description: Child theme for Bootscore
-Template: bootscore
+Description: Custom theme for Albalu
 Version: 1.0.0
 */
 
-:root {
-    --bs-primary: #578E99; /* CTA scuro */
-    --bs-secondary: #A29893; /* Elementi */
-    --bs-body-color: #3F494F; /* Testo */
-    --bs-body-bg: #FFFFFF; /* Bianco */
-    
-    /* Global Colors from Elementor Active Kit */
-    --color-principale-logo: #006699;
-    --color-cta-chiaro: #76A9B4;
-    --color-testo: #3F494F;
-    --color-in-risalto: #F3915C;
-    --color-titoli: #0E1011;
-    --color-sfondi-chiaro: #EAE3E0;
-    --color-sfondi-scuro: #C8BDB7;
-    --color-elementi: #A29893;
-    --color-cta-scuro: #578E99;
-    --color-bianco: #FFFFFF;
-    --color-trasparenza: #FFFFFF00;
+/* Custom Container */
+.container-custom {
+    width: 100%;
+    padding-right: var(--bs-gutter-x, 0.75rem);
+    padding-left: var(--bs-gutter-x, 0.75rem);
+    margin-right: auto;
+    margin-left: auto;
+    max-width: 1440px;
 }
 
-/* Import Old Theme Assets if needed, but better to integrate manually */
-/* @import url("assets/css/woocommerce-prodotto-dettaglio.css"); */
-
-/* Global Overrides */
-body {
-    color: var(--color-testo);
-    font-family: "Roboto", sans-serif; /* Assumed from common Elementor defaults or check later */
+/* Menu Item Spacing */
+.navbar-nav .nav-link {
+    padding-right: 0.5rem !important;
+    padding-left: 0.5rem !important;
+    font-size: 0.85rem;
+}
+.navbar-nav.gap-3 {
+    gap: 0.25rem !important;
 }
 
-h1, h2, h3, h4, h5, h6 {
-    color: var(--color-titoli);
-}
-
-a {
-    color: var(--color-cta-scuro);
-}
-
-a:hover {
-    color: var(--color-elementi);
-}
-
-/* Button Overrides */
-.btn-primary {
-    background-color: var(--color-cta-scuro);
-    border-color: var(--color-cta-scuro);
-    border-radius: 0 !important; /* Elementor default seems to be 0 based on dumps */
-}
-
-.btn-primary:hover {
-    background-color: var(--color-elementi);
-    border-color: var(--color-elementi);
-}
-
-.rounded-pill {
-    border-radius: 0 !important; /* Force override for exact match if Elementor uses square buttons */
-}
-
-/* Header Tweaks */
-header {
-    background-color: var(--color-bianco);
-}
-
-/* Footer Tweaks */
-footer {
-    background-color: var(--color-sfondi-chiaro);
-    color: var(--color-titoli);
-}
-
-/* Homepage Specific Fixes */
-.home .site-content {
-    padding-top: 0 !important;
-    padding-bottom: 0 !important;
-}
-
-.home .entry-content {
-    margin-bottom: 0 !important;
-}
-
-/* Ensure images in content are responsive */
-.entry-content img {
-    max-width: 100%;
-    height: auto;
-}
-
-/* --- NEW FIXES --- */
-
-/* Hero Section */
-.hero-title {
-    font-size: 2.75rem; /* More balanced */
-    line-height: 1.1;
-    color: var(--color-titoli);
-}
-
-.hero-subtitle {
-    font-size: 1.25rem;
-    color: #4a4a4a;
-    font-weight: 400;
-}
-
-/* Product Grid Replica (Elementor Style) */
-.staging-product-grid ul.products {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    margin: 0 -10px; /* Counteract padding if needed, or adjust */
-}
-
-.staging-product-grid ul.products li.product {
-    background: #fff;
-    padding: 15px;
-    border-radius: 0;
-    box-shadow: none;
-    text-align: center;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    border: 1px solid #e5e5e5;
+/* Testimonial Styles */
+.testimonial-box {
     position: relative;
-    display: flex;
-    flex-direction: column;
+    background: #fff;
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 .125rem .25rem rgba(0,0,0,.075);
+    margin-bottom: 1.5rem; /* Space for the tail */
 }
 
-.staging-product-grid ul.products li.product:hover {
-    transform: none;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-    border-color: var(--color-cta-scuro);
-}
-
-.staging-product-grid ul.products li.product img {
-    margin-bottom: 15px;
-    transition: opacity 0.3s ease;
-    width: 100%;
-    height: auto;
-}
-
-.staging-product-grid ul.products li.product .woocommerce-loop-product__title {
-    font-size: 1rem;
-    font-weight: 700;
-    color: var(--color-titoli);
-    margin-bottom: 10px;
-    line-height: 1.3;
-    min-height: 2.6em;
-}
-
-.staging-product-grid ul.products li.product .price {
-    color: var(--color-testo);
-    font-weight: 400;
-    font-size: 0.95rem;
-    display: block;
-    margin-bottom: 15px;
-}
-
-.staging-product-grid ul.products li.product .price ins {
-    text-decoration: none;
-    color: #D9534F; /* Red for sale price */
-    font-weight: 700;
-}
-
-.staging-product-grid ul.products li.product .price del {
-    color: #999;
-    opacity: 0.7;
-    font-size: 0.85em;
-}
-
-.staging-product-grid ul.products li.product .button {
-    background-color: var(--color-cta-scuro);
-    color: #fff;
-    border-radius: 0;
-    padding: 10px 15px;
-    text-transform: none; /* Screenshot shows "Select options", usually normal case or capitalized, but user said "Select options" */
-    font-size: 0.9rem;
-    letter-spacing: 0;
-    font-weight: 500;
-    display: block; /* Full width */
-    width: 100%;
-    margin-top: auto;
-    border: none;
-}
-
-.staging-product-grid ul.products li.product .button:hover {
-    background-color: var(--color-elementi);
-    color: #fff;
-}
-
-/* Sale Badge */
-.staging-product-grid ul.products li.product .onsale {
+.testimonial-box::after {
+    content: '';
     position: absolute;
-    top: 10px;
-    right: 10px;
-    left: auto;
-    background-color: #F3915C; /* var(--color-in-risalto) */
-    color: #fff;
-    font-size: 0.75rem;
-    font-weight: 700;
-    padding: 4px 10px;
-    border-radius: 0;
-    z-index: 9;
-    min-height: auto;
-    line-height: 1.2;
-    margin: 0;
+    bottom: -10px; /* Position below the box */
+    left: 20px; /* Position from left */
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-top: 10px solid #fff; /* Match background color */
+    filter: drop-shadow(0 2px 1px rgba(0,0,0,0.05)); /* Subtle shadow to match box */
 }
 
-.menu-border {
-    --display: flex;
-    border-style: solid;
-    border-width: 1px 0px 1px 0px;
-    border-color: #EAE3E0;
-    --padding-top: 0px;
-    --padding-bottom: 0px;
-    --padding-left: 10px;
-    --padding-right: 10px;
+/* Features Icons */
+.icon-box-img {
+    filter: invert(61%) sepia(61%) saturate(464%) hue-rotate(356deg) brightness(91%) contrast(92%); /* Orange/Brown approximation */
+    transition: all 0.3s ease;
+}
+
+.icon-box-img:hover {
+    transform: scale(1.1);
+}
+
+/* Footer Styles */
+.footer-arrow-list li {
+    padding-left: 0;
+    margin-bottom: 0.5rem;
+    position: relative;
+}
+
+.footer-arrow-list li::before {
+    content: "»";
+    margin-right: 5px;
+    color: var(--color-testo); /* Or a specific gray */
+    font-weight: bold;
+}
+
+.footer-arrow-list a {
+    color: var(--color-testo) !important;
+    font-size: 0.9rem;
+    transition: color 0.2s ease;
+}
+
+.footer-arrow-list a:hover {
+    color: var(--color-elementi) !important;
+    text-decoration: underline !important;
+}
+
+.footer-social-icon {
+    width: 35px;
+    height: 35px;
+    background-color: #A9A9A9; /* Gray box */
+    color: white !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s ease;
+    border-radius: 2px; /* Slightly rounded */
+}
+
+.footer-social-icon:hover {
+    background-color: var(--color-elementi);
+}
+
+.footer-newsletter-btn {
+    background-color: #76a9b4; /* Teal color */
+    color: white;
+    border: none;
+    font-weight: 500;
+    padding: 10px 20px;
+    width: 100%;
+    transition: background-color 0.3s ease;
+}
+
+.footer-newsletter-btn:hover {
+    background-color: #578e99;
+    color: white;
 }
