@@ -14,6 +14,7 @@
 	font-size: 12px;
 	position: relative;
 	cursor: help;
+	z-index:999;
 }
 
 .ss88sizeinfo .tooltiptext {
@@ -130,6 +131,13 @@
 	display:grid;
 }
 
+.ss88MLFS_VV_metabox {
+	gap: 30px;
+	grid-template-columns: repeat(auto-fit, 100px);
+	grid-gap: 30px;
+	display:grid;
+}
+
 .ss88MLFS_VV_box {
 	max-width: 100px;
 	min-width: 100px;
@@ -187,6 +195,26 @@
 }
 .ss88MLFS_VV_box span.name2 {
 	font-size:9px;
+}
+
+.ss88MLFS_grid_variants {
+	margin-top: 10px;
+	padding: 10px 0;
+	border-top: 1px solid #dcdcde;
+}
+
+.ss88MLFS_grid_variants_title {
+	display: block;
+	margin-bottom: 8px;
+}
+
+.ss88MLFS_grid_variants_list {
+	margin: 0;
+	padding-left: 16px;
+}
+
+.ss88MLFS_grid_variants_list li {
+	margin: 0 0 6px;
 }
 
 .ss88mlfs-lds-ellipsis {

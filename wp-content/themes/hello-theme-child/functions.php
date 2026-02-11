@@ -91,3 +91,10 @@ add_filter( 'wp_get_attachment_image_attributes', function( $attr, $attachment )
     }
     return $attr;
 }, 10, 2 );
+
+add_filter('woocommerce_get_canonical_product_url', function($url, $product) {
+    if ($product->is_type('variation')) {
+        return $product->get_parent_id() ? get_permalink($product->get_parent_id()) : $url;
+    }
+    return $url;
+}, 10, 2);
