@@ -61,4 +61,78 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
     });
+
+    // Infinite Scroll
+    const productsContainer = document.querySelector('.products');
+    // Bootscore pagination container
+    let paginationNav = document.querySelector('nav[aria-label="Product Pagination"]');
+    
+    if (productsContainer && paginationNav) {
+        let isLoading = false;
+        
+        // Helper to find next link
+        const getNextLink = () => {
+            // Re-query pagination inside the nav
+            const paginationLinks = document.querySelectorAll('.pagination .page-link');
+            let nextUrl = null;
+            
+            paginationLinks.forEach(link => {
+                // Check for » or Next text (bootscore/woo default is &raquo;)
+                if (link.innerHTML.includes('»') || link.textContent.includes('»')) {
+                    nextUrl = link.getAttribute('href');
+                }
+            });
+            return nextUrl;
+        };
+
+        const loadMoreProducts = async () => {
+            if (isLoading) return;
+
+            const url = getNextLink();
+            if (!url) return;
+
+            isLoading = true;
+            
+            // Add loading opacity/indicator if desired
+            productsContainer.style.opacity = '0.5';
+
+            try {
+                const response = await fetch(url);
+                const html = await response.text();
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                
+                const newProducts = doc.querySelectorAll('.products > *'); // Get product columns
+                const newPaginationNav = doc.querySelector('nav[aria-label="Product Pagination"]');
+
+                if (newProducts.length > 0) {
+                    newProducts.forEach(product => {
+                        // Ensure we append the element correctly
+                        productsContainer.appendChild(product);
+                    });
+                }
+
+                // Update pagination
+                if (newPaginationNav) {
+                    paginationNav.innerHTML = newPaginationNav.innerHTML;
+                } else {
+                    paginationNav.remove(); // No more pages
+                }
+
+            } catch (error) {
+                console.error('Error loading products:', error);
+            } finally {
+                isLoading = false;
+                productsContainer.style.opacity = '1';
+            }
+        };
+
+        // Scroll Event
+        window.addEventListener('scroll', () => {
+            // Trigger when near bottom (1000px buffer)
+            if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 1000) {
+                loadMoreProducts();
+            }
+        });
+    }
 });

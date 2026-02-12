@@ -31,7 +31,7 @@ defined('ABSPATH') || exit;
   <a class="skip-link visually-hidden-focusable" href="#footer"><?php esc_html_e( 'Skip to footer', 'bootscore' ); ?></a>
 
   <!-- 1. Top Bar (Beige Color) -->
-  <div class="top-bar py-2 small fw-bold" style="background-color: var(--color-sfondi-chiaro); color: var(--color-titoli);">
+  <div class="top-bar py-2 small fw-bold" style="background-color: #eae3e0; color: var(--color-titoli);">
     <div class="container-custom">
         <div class="row align-items-center">
             <div class="col-md-4 text-center text-md-start">
@@ -114,26 +114,26 @@ defined('ABSPATH') || exit;
   </header>
 
   <!-- 3. Navigation Bar (Mega Menu) -->
-  <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom py-0 d-none d-lg-block position-relative menu-border">
+  <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom border-top py-0 d-none d-lg-block position-relative menu-border">
     <div class="container-custom justify-content-center">
         <?php
         $mega_menus = [
             'Nascita e Battesimo' => [
-                'link' => '/categoria-prodotto/nascita-e-battesimo/',
+                'link' => '/categoria-prodotto/bomboniere-e-confettate-nascita-battesimo/',
                 'title' => 'Nascita e Battesimo',
                 'items' => ['Bomboniere Nascita', 'Bomboniere Battesimo', 'Confettate e Segnaposto'],
                 'img1' => 'https://albalu.displayer25.com/wp-content/uploads/2024/09/megamenu_nascita-01.webp',
                 'img2' => 'https://albalu.displayer25.com/wp-content/uploads/2024/09/megamenu_nascita-02.webp'
             ],
             'Comunione' => [
-                'link' => '/categoria-prodotto/comunione/',
+                'link' => '/categoria-prodotto/bomboniere-comunione-e-confettate/',
                 'title' => 'Comunione',
                 'items' => ['Bomboniere Comunione', 'Bomboniere Comunione Bambino', 'Confettate e Segnaposto'],
                 'img1' => 'https://albalu.displayer25.com/wp-content/uploads/2024/09/megamenu_comunione-01.webp',
                 'img2' => 'https://albalu.displayer25.com/wp-content/uploads/2024/09/megamenu_comunione-02.webp'
             ],
             'Cresima' => [
-                'link' => '/categoria-prodotto/cresima/',
+                'link' => '/categoria-prodotto/bomboniere-e-confettate-cresima/',
                 'title' => 'Cresima',
                 'items' => ['Bomboniere Cresima', 'Confettate e Segnaposto'],
                 'img1' => 'https://albalu.displayer25.com/wp-content/uploads/2024/09/megamenu_cresima-01.webp',
@@ -147,28 +147,28 @@ defined('ABSPATH') || exit;
                 'img2' => 'https://albalu.displayer25.com/wp-content/uploads/2024/09/megamenu_compleanno-02.webp'
             ],
             'Laurea' => [
-                'link' => '/categoria-prodotto/laurea/',
+                'link' => '/categoria-prodotto/bomboniere-e-confettate-laurea/',
                 'title' => 'Laurea',
                 'items' => ['Bomboniere Laurea', 'Confettate e Segnaposto'],
                 'img1' => 'https://albalu.displayer25.com/wp-content/uploads/2024/09/megamenu_laurea-01.webp',
                 'img2' => 'https://albalu.displayer25.com/wp-content/uploads/2024/09/megamenu_laurea-02.webp'
             ],
             'Matrimonio' => [
-                'link' => '/categoria-prodotto/matrimonio/',
+                'link' => '/categoria-prodotto/bomboniere-e-confettate-matrimonio/',
                 'title' => 'Matrimonio',
                 'items' => ['Bomboniere Matrimonio', 'Confettate e Segnaposto'],
                 'img1' => 'https://albalu.displayer25.com/wp-content/uploads/2024/09/megamenu_matrimonio-01.webp',
                 'img2' => 'https://albalu.displayer25.com/wp-content/uploads/2024/09/megamenu_matrimonio-02.webp'
             ],
             'Anniversario' => [
-                'link' => '/categoria-prodotto/anniversario/',
+                'link' => '/categoria-prodotto/bomboniere-e-confettate-anniversario/',
                 'title' => 'Anniversario',
                 'items' => ['Bomboniere Anniversario', 'Confettate e Segnaposto'],
                 'img1' => 'https://albalu.displayer25.com/wp-content/uploads/2024/09/megamenu_anniversario-01.webp',
                 'img2' => 'https://albalu.displayer25.com/wp-content/uploads/2024/09/megamenu_anniversario-02.webp'
             ],
             'Complementi D\'Arredo e Regali' => [
-                'link' => '/categoria-prodotto/complementi-darredo-e-regali/',
+                'link' => '/categoria-prodotto/complementi-d-arredo-regali/',
                 'title' => 'Complementi D\'Arredo e Regali',
                 'items' => ['Orologi da Parete', 'Quadri', 'Regali', 'Portafoto Argentati', 'Portafoto Regalo Infanzia', 'Prodotti Padre Pio'],
                 'img1' => 'https://albalu.displayer25.com/wp-content/uploads/2024/09/megamenu_complementi-arredo-e-regali-01.webp',
@@ -193,38 +193,45 @@ defined('ABSPATH') || exit;
         <ul class="navbar-nav justify-content-center w-100 gap-1">
             <?php foreach ($mega_menus as $name => $data) : ?>
             <li class="nav-item dropdown position-static">
-                <a class="nav-link text-dark py-3 dropdown-toggle" href="<?= esc_url($data['link']); ?>" id="dropdown-<?= sanitize_title($name); ?>" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <a class="nav-link text-dark py-3 dropdown-toggle" href="<?= esc_url(home_url($data['link'])); ?>" id="dropdown-<?= sanitize_title($name); ?>" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                     <?= esc_html($name); ?>
                 </a>
-                <div class="dropdown-menu w-100 mt-0 shadow-lg border-0 p-0" aria-labelledby="dropdown-<?= sanitize_title($name); ?>" style="border-top: 3px solid var(--color-cta-scuro) !important;">
-                    <div class="container py-4">
+                <div class="dropdown-menu w-100 mt-0 border-0 p-0 rounded-0" aria-labelledby="dropdown-<?= sanitize_title($name); ?>" style="background-color: #fbf9f6; border-top: 3px solid var(--color-cta-scuro) !important;">
+                    <div class="container-custom py-5">
                         <div class="row">
-                            <!-- Col 1: Links -->
-                            <div class="col-lg-3 border-end">
-                                <h6 class="text-uppercase fw-bold mb-3" style="font-size: 1.1rem; color: var(--color-titoli);"><?= esc_html($data['title']); ?></h6>
-                                <p class="small text-muted mb-3">Scopri la nostra selezione esclusiva.</p>
-                                <hr class="mb-3" style="width: 50px; border-top: 2px solid var(--color-cta-scuro); opacity: 1;">
+                            <!-- Left Column: Text & Links -->
+                            <div class="col-lg-4">
+                                <h6 class="text-uppercase fw-bold mb-3" style="letter-spacing: 1px; color: var(--color-titoli);"><?= esc_html($data['title']); ?></h6>
+                                <p class="mb-4 small text-muted">Puoi trovare qui tutti gli articoli dedicati al <strong><?= strtolower($data['title']); ?></strong>.</p>
+                                
                                 <ul class="list-unstyled mb-4">
                                     <?php foreach ($data['items'] as $item) : ?>
                                     <li class="mb-2">
-                                        <a href="#" class="text-decoration-none text-secondary hover-primary transition-colors">
-                                            <i class="fas fa-angle-right me-2 small text-muted"></i> <?= esc_html($item); ?>
+                                        <a href="#" class="text-decoration-none text-dark small">
+                                            <span class="me-2 text-muted">&raquo;</span> <?= esc_html($item); ?>
                                         </a>
                                     </li>
                                     <?php endforeach; ?>
                                 </ul>
-                                <a href="<?= esc_url($data['link']); ?>" class="btn btn-primary rounded-0 btn-sm px-4 text-uppercase fw-bold">Vedi tutto</a>
+                                
+                                <a href="<?= esc_url($data['link']); ?>" class="text-decoration-none fw-bold small" style="color: var(--color-cta-chiaro);">
+                                    Tutti i prodotti <i class="fas fa-arrow-right ms-1"></i>
+                                </a>
                             </div>
-                            <!-- Col 2: Image 1 -->
-                            <div class="col-lg-4 offset-lg-1">
-                                <div class="ratio ratio-1x1 overflow-hidden">
-                                    <img src="<?= esc_url($data['img1']); ?>" class="img-fluid object-fit-cover w-100 h-100" alt="<?= esc_attr($name); ?> 1">
-                                </div>
-                            </div>
-                            <!-- Col 3: Image 2 -->
-                            <div class="col-lg-4">
-                                <div class="ratio ratio-1x1 overflow-hidden">
-                                    <img src="<?= esc_url($data['img2']); ?>" class="img-fluid object-fit-cover w-100 h-100" alt="<?= esc_attr($name); ?> 2">
+                            
+                            <!-- Right Column: Images -->
+                            <div class="col-lg-8">
+                                <div class="row g-3">
+                                    <div class="col-6">
+                                        <div class="ratio ratio-1x1 bg-white">
+                                            <img src="<?= esc_url($data['img1']); ?>" class="img-fluid object-fit-cover" alt="<?= esc_attr($name); ?> 1">
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="ratio ratio-1x1 bg-white">
+                                            <img src="<?= esc_url($data['img2']); ?>" class="img-fluid object-fit-cover" alt="<?= esc_attr($name); ?> 2">
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>

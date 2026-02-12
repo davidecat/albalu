@@ -1,114 +1,185 @@
 /*
-Theme Name: Albalu
-Description: Custom theme for Albalu
-Version: 1.0.0
+Theme Name: Albalu Child
+Template: bootscore
 */
 
-/* Custom Container */
-.container-custom {
-    width: 100%;
-    padding-right: var(--bs-gutter-x, 0.75rem);
-    padding-left: var(--bs-gutter-x, 0.75rem);
-    margin-right: auto;
-    margin-left: auto;
+:root {
+    --color-titoli: #0E1011;
+    --color-cta-scuro: #eae3e0;
+    --color-cta-chiaro: #76A9B4;
+    --color-sfondo-beige: #fbf9f6;
+}
+
+/* Custom Container 1440px */
+.container-custom, .container {
     max-width: 1440px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
 }
 
-/* Menu Item Spacing */
+/* Navbar Tweaks */
 .navbar-nav .nav-link {
-    padding-right: 0.5rem !important;
-    padding-left: 0.5rem !important;
     font-size: 0.85rem;
-}
-.navbar-nav.gap-3 {
-    gap: 0.25rem !important;
+    padding-left: 0.5rem !important;
+    padding-right: 0.5rem !important;
+    text-transform: uppercase;
+    font-weight: 500;
 }
 
-/* Testimonial Styles */
+/* Navbar Justified & Hover & Mega Menu (Desktop) */
+@media (min-width: 992px) {
+    .navbar-nav {
+        width: 100%;
+        justify-content: space-between;
+    }
+    
+    .navbar-nav .nav-item {
+        flex-grow: 1;
+        text-align: center;
+    }
+    
+    /* Force Static Position for Mega Menu Container Hierarchy */
+    .navbar .container-custom,
+    .navbar .navbar-nav,
+    .navbar-nav .nav-item.dropdown {
+        position: static !important;
+    }
+
+    .navbar-nav .nav-item.dropdown {
+        border-top: 3px solid transparent;
+        transition: border-top-color 0.2s ease;
+    }
+
+    .navbar-nav .nav-item.dropdown:hover {
+        border-top-color: var(--color-cta-scuro);
+    }
+
+    /* Hover Dropdown & Mega Menu Styles */
+    .nav-item.dropdown:hover .dropdown-menu {
+        display: block;
+        margin-top: 0;
+        visibility: visible;
+        opacity: 1;
+    }
+    
+    .dropdown-menu {
+        border-top: 3px solid var(--color-cta-scuro) !important;
+        margin-top: 0 !important;
+        /* Mega Menu Full Width Overrides */
+        position: absolute !important;
+        top: 100% !important;
+        left: 0 !important;
+        width: 100% !important;
+        right: auto !important;
+        transform: none !important;
+        border-radius: 0 !important;
+        box-shadow: 0 10px 15px #eae3e0 !important;
+        background-color: var(--color-sfondo-beige) !important;
+        padding: 0 !important; /* Remove default padding */
+    }
+}
+
+/* Product Card Overrides */
+.woocommerce ul.products li.product .card {
+    text-align: left !important;
+    border: none !important;
+}
+
+.woocommerce ul.products li.product .card-body {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
 .testimonial-box {
     position: relative;
     background: #fff;
-    padding: 1.5rem;
-    border-radius: 0.5rem;
-    box-shadow: 0 .125rem .25rem rgba(0,0,0,.075);
-    margin-bottom: 1.5rem; /* Space for the tail */
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 2rem;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
 }
 
 .testimonial-box::after {
     content: '';
     position: absolute;
     bottom: -10px; /* Position below the box */
-    left: 20px; /* Position from left */
-    width: 0;
-    height: 0;
-    border-left: 10px solid transparent;
-    border-right: 10px solid transparent;
-    border-top: 10px solid #fff; /* Match background color */
-    filter: drop-shadow(0 2px 1px rgba(0,0,0,0.05)); /* Subtle shadow to match box */
+    left: 2rem; /* Align with the user info */
+    width: 20px;
+    height: 20px;
+    background: #fff;
+    border-bottom: 1px solid #e0e0e0;
+    border-right: 1px solid #e0e0e0;
+    transform: rotate(45deg);
 }
 
-/* Features Icons */
-.icon-box-img {
-    filter: invert(61%) sepia(61%) saturate(464%) hue-rotate(356deg) brightness(91%) contrast(92%); /* Orange/Brown approximation */
-    transition: all 0.3s ease;
+/* Features Icons Filter (Orange) */
+.features-icon-img {
+    filter: invert(65%) sepia(60%) saturate(500%) hue-rotate(350deg) brightness(95%) contrast(90%); /* Approximate orange filter */
+    transition: transform 0.3s ease;
 }
 
-.icon-box-img:hover {
-    transform: scale(1.1);
+.feature-item:hover .features-icon-img {
+    transform: translateY(-5px);
 }
 
 /* Footer Styles */
 .footer-arrow-list li {
-    padding-left: 0;
-    margin-bottom: 0.5rem;
     position: relative;
+    padding-left: 1.5rem;
 }
 
 .footer-arrow-list li::before {
-    content: "»";
-    margin-right: 5px;
-    color: var(--color-testo); /* Or a specific gray */
-    font-weight: bold;
-}
-
-.footer-arrow-list a {
-    color: var(--color-testo) !important;
-    font-size: 0.9rem;
-    transition: color 0.2s ease;
-}
-
-.footer-arrow-list a:hover {
-    color: var(--color-elementi) !important;
-    text-decoration: underline !important;
+    content: "\f0da"; /* FontAwesome arrow-right */
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    position: absolute;
+    left: 0;
+    top: 2px;
+    color: var(--color-cta-scuro); /* Or match the design color */
 }
 
 .footer-social-icon {
-    width: 35px;
-    height: 35px;
-    background-color: #A9A9A9; /* Gray box */
-    color: white !important;
-    display: flex;
+    width: 32px;
+    height: 32px;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
-    transition: background-color 0.3s ease;
-    border-radius: 2px; /* Slightly rounded */
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 50%;
+    color: #fff;
+    transition: all 0.3s ease;
 }
 
 .footer-social-icon:hover {
-    background-color: var(--color-elementi);
+    background-color: var(--color-cta-scuro);
+    border-color: var(--color-cta-scuro);
+    color: #fff;
 }
 
-.footer-newsletter-btn {
-    background-color: #76a9b4; /* Teal color */
-    color: white;
-    border: none;
-    font-weight: 500;
-    padding: 10px 20px;
-    width: 100%;
-    transition: background-color 0.3s ease;
+.btn-primary {
+  --bs-btn-color: #fff;
+  --bs-btn-bg: #76A9B4;
+  --bs-btn-border-color: #76A9B4;
 }
 
-.footer-newsletter-btn:hover {
-    background-color: #578e99;
-    color: white;
+.btn-primary:hover {
+  --bs-btn-color: #fff;
+  --bs-btn-bg: #578E99;
+  --bs-btn-border-color: #578E99;
+}
+
+.btn:hover {
+  background-color: #578E99;
+}
+
+.category-link {
+    color: #578E99;
+}
+
+.woocommerce div.product {
+    padding: 20px;
+}
+.woocommerce .card .woocommerce-loop-product__title {
+  font-size: 15px;
 }

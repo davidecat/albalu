@@ -62,7 +62,7 @@ get_header();
                                 Dal 1991 realizziamo bomboniere artigianali Made in Italy per rendere indimenticabile ogni tuo evento speciale.
                             </p>
                             <div class="d-flex gap-3">
-                                <a href="/shop/" class="btn btn-primary rounded-0 px-4 py-3 text-uppercase fw-bold shadow-sm" style="background-color: var(--color-cta-scuro); border: none; letter-spacing: 1px;">
+                                <a href="/shop/" class="btn btn-primary rounded-0 px-4 py-3 text-uppercase fw-bold shadow-sm" style="border: none; letter-spacing: 1px;">
                                     Vai allo Shop
                                 </a>
                                 <a href="/contatti/" class="btn btn-outline-secondary rounded-0 px-4 py-3 text-uppercase fw-bold" style="border: 2px solid #ddd; color: var(--color-titoli);">
@@ -84,7 +84,7 @@ get_header();
                 <div class="container-custom">
                     <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-5">
                         <h2 class="mb-3 mb-md-0" style="color: var(--color-titoli);">Le <strong>bomboniere</strong> più richieste per <strong>ogni tipo di evento</strong></h2>
-                        <a href="/shop/" class="btn btn-primary px-4 py-2 text-uppercase fw-bold shadow-sm" style="background-color: var(--color-cta-scuro); border: none; letter-spacing: 1px;">Scopri il catalogo <i class="fas fa-arrow-right ms-2"></i></a>
+                        <a href="/shop/" class="btn btn-primary px-4 py-2 text-uppercase fw-bold shadow-sm" style="border: none; letter-spacing: 1px;">Scopri il catalogo <i class="fas fa-arrow-right ms-2"></i></a>
                     </div>
                     <div class="staging-product-grid">
                         <?php echo do_shortcode('[products limit="4" columns="4" orderby="popularity"]'); ?>
@@ -137,7 +137,7 @@ get_header();
                                                     <?php echo esc_html( $category->name ); ?>
                                                 </a>
                                             </h5>
-                                            <a href="<?php echo esc_url( get_term_link( $category ) ); ?>" class="category-link small text-uppercase fw-bold text-decoration-none" style="color: var(--color-cta-scuro);">
+                                            <a href="<?php echo esc_url( get_term_link( $category ) ); ?>" class="category-link small text-uppercase fw-bold text-decoration-none">
                                                 Tutti i prodotti <i class="fas fa-arrow-right ms-1"></i>
                                             </a>
                                         </div>
