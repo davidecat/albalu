@@ -1205,3 +1205,24 @@ function pewc_show_complete_variation_title( $title, $child_product ) {
 
 }
 add_filter( 'pewc_child_product_title', 'pewc_show_complete_variation_title', 1, 2 );
+
+/**
+ * Filter the child product name to add the price
+ * @since 3.27.5
+ */
+function pewc_add_child_product_price( $name, $child_product, $option_price=false, $item=false ) {
+
+	// Don't add zero price to name
+	// 3.27.6, made $option_price and $item optional in the arguments to prevent fatal error with pewc_show_complete_variation_title() which only has 2 arguments
+	if( empty( $option_price ) || ! $item || apply_filters( 'pewc_hide_zero_option_price', false, $item ) ) {
+		return $name;
+	}
+	
+	if( pewc_display_option_prices_product_page( $item ) ) {
+		$name .= apply_filters( 'pewc_option_price_separator', '+', $item ) . pewc_get_semi_formatted_raw_price( $option_price );
+	}
+
+	return $name;
+
+}
+add_filter( 'pewc_child_product_title', 'pewc_add_child_product_price', 10, 4 );

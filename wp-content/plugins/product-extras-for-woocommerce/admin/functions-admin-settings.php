@@ -18,7 +18,7 @@ function pewc_get_general_settings() {
 	$settings = array(
 
 		'general_section_title' => array(
-			'name'     => __( 'General', 'pewc' ),
+			'name'     => __( 'Pricing', 'pewc' ),
 			'type'     => 'title',
 			'desc'     => '',
 			'id'       => 'pewc_general_title'
@@ -69,14 +69,46 @@ function pewc_get_general_settings() {
 			'default'	=> '+',
 			'std'			=> '+'
 		),
-		'pewc_enable_cart_editing' => array(
-			'name'		=> __( 'Enable editing', 'pewc' ),
+		'pewc_update_price_label' => array(
+			'name'		=> __( 'Update price label', 'pewc' ),
 			'type'		=> 'checkbox',
 			'desc_tip'	=> true,
-			'desc'		=> __( 'Allow users to edit the add-ons in products that have already been added to the cart.', 'pewc' ),
-			'id'			=> 'pewc_enable_cart_editing',
+			'desc'		=> __( 'Update the price label on product pages when price changes.', 'pewc' ),
+			'id'			=> 'pewc_update_price_label',
 			'default'	=> 'no',
 			'std'			=> 'no'
+		),
+		'general_section_end' => array(
+			'type' => 'sectionend',
+			'id' => 'pewc_general_title'
+		),
+
+
+		'roles_section_title' => array(
+			'name'     => __( 'Role-based Pricing', 'pewc' ),
+			'type'     => 'title',
+			'desc'     => '',
+			'id'       => 'pewc_roles_title'
+		),
+		'pewc_role_prices' => array(
+			'name'			=> __( 'Roles', 'pewc' ),
+			'type'			=> 'multiselect',
+			'desc_tip'	=> true,
+			'desc'			=> __( 'Enter the roles that you would like to have different add-on prices for.', 'pewc' ),
+			'id'				=> 'pewc_role_prices',
+			'options'		=> pewc_get_all_roles(),
+			'class'			=> 'pewc-multiselect'
+		),
+		'roles_section_end' => array(
+			'type' => 'sectionend',
+			'id' => 'pewc_roles_title'
+		),
+
+		'general_enhancements_title' => array(
+			'name'     => __( 'Enhancements', 'pewc' ),
+			'type'     => 'title',
+			'desc'     => '',
+			'id'       => 'general_enhancements_title'
 		),
 		'pewc_enable_tooltips' => array(
 			'name'		=> __( 'Enable tooltips', 'pewc' ),
@@ -91,30 +123,21 @@ function pewc_get_general_settings() {
 				'enhanced'	=> __( 'Enhanced', 'pewc' ),
 			)
 		),
-		// 'pewc_enhanced_tooltips' => array(
-		// 	'name'		=> __( 'Enhanced tooltips', 'pewc' ),
-		// 	'type'		=> 'checkbox',
-		// 	'desc_tip'	=> true,
-		// 	'desc'		=> __( 'Enhanced tooltips pull content from posts into a modal box.', 'pewc' ),
-		// 	'id'		=> 'pewc_enhanced_tooltips',
-		// 	'default'	=> 'no',
-		// 	'std'		=> 'no'
-		// ),
-		'pewc_update_price_label' => array(
-			'name'		=> __( 'Update price label', 'pewc' ),
+		'pewc_enable_clear_all_button' => array(
+			'name'		=> __( 'Enable Clear All Options button', 'pewc' ),
 			'type'		=> 'checkbox',
 			'desc_tip'	=> true,
-			'desc'		=> __( 'Update the price label on product pages when price changes.', 'pewc' ),
-			'id'			=> 'pewc_update_price_label',
+			'desc'		=> __( 'Display the Clear All Options button on the product page, which allows customers to clear all Add-On field values. Requires Optimise conditions.', 'pewc' ),
+			'id'			=> 'pewc_enable_clear_all_button',
 			'default'	=> 'no',
 			'std'			=> 'no'
 		),
-		'pewc_dequeue_scripts' => array(
-			'name'		=> __( 'Dequeue scripts', 'pewc' ),
+		'pewc_enable_cart_editing' => array(
+			'name'		=> __( 'Enable cart editing', 'pewc' ),
 			'type'		=> 'checkbox',
 			'desc_tip'	=> true,
-			'desc'		=> __( 'Dequeue scripts and stylesheets on non-product pages.', 'pewc' ),
-			'id'			=> 'pewc_dequeue_scripts',
+			'desc'		=> __( 'Allow users to edit the add-ons in products that have already been added to the cart.', 'pewc' ),
+			'id'			=> 'pewc_enable_cart_editing',
 			'default'	=> 'no',
 			'std'			=> 'no'
 		),
@@ -127,15 +150,6 @@ function pewc_get_general_settings() {
 			'default'	=> 'no',
 			'std'			=> 'no'
 		),
-		'pewc_enable_clear_all_button' => array(
-			'name'		=> __( 'Enable Clear All Options button', 'pewc' ),
-			'type'		=> 'checkbox',
-			'desc_tip'	=> true,
-			'desc'		=> __( 'Display the Clear All Options button on the product page, which allows customers to clear all Add-On field values. Requires Optimise conditions.', 'pewc' ),
-			'id'			=> 'pewc_enable_clear_all_button',
-			'default'	=> 'no',
-			'std'			=> 'no'
-		),
 		'pewc_hide_empty_fields_cart' => array(
 			'name'		=> __( 'Exclude empty fields in cart', 'pewc' ),
 			'type'		=> 'checkbox',
@@ -144,9 +158,9 @@ function pewc_get_general_settings() {
 			'id'			=> 'pewc_hide_empty_fields_cart',
 			'default'	=> 'yes'
 		),
-		'general_section_end' => array(
+		'enhancements_section_end' => array(
 			'type' => 'sectionend',
-			'id' => 'pewc_general_title'
+			'id' => 'general_enhancements_title'
 		),
 
 		'pewc_progress_title' => array(
@@ -321,34 +335,16 @@ function pewc_get_general_settings() {
 			'id' => 'pewc_labels_title'
 		),
 
-		'roles_section_title' => array(
-			'name'     => __( 'Role-based Pricing', 'pewc' ),
-			'type'     => 'title',
-			'desc'     => '',
-			'id'       => 'pewc_roles_title'
-		),
-		'pewc_role_prices' => array(
-			'name'			=> __( 'Roles', 'pewc' ),
-			'type'			=> 'multiselect',
-			'desc_tip'	=> true,
-			'desc'			=> __( 'Enter the roles that you would like to have different add-on prices for.', 'pewc' ),
-			'id'				=> 'pewc_role_prices',
-			'options'		=> pewc_get_all_roles(),
-			'class'			=> 'pewc-multiselect'
-		),
-		'roles_section_end' => array(
-			'type' => 'sectionend',
-			'id' => 'pewc_roles_title'
-		),
+		
 
 		'optimise_section_title' => array(
-			'name'     => __( 'Optimisations', 'pewc' ),
+			'name'     => __( 'Optimizations', 'pewc' ),
 			'type'     => 'title',
 			'desc'     => '',
 			'id'       => 'pewc_optimise_title'
 		),
 		'pewc_optimise_calculations' => array(
-			'name'			=> __( 'Optimise calculations', 'pewc' ),
+			'name'			=> __( 'Optimize calculations', 'pewc' ),
 			'type'			=> 'checkbox',
 			'desc_tip'		=> true,
 			'desc'			=> __( 'This will enable an alternative method for checking calculations which might improve page performance.', 'pewc' ),
@@ -356,36 +352,45 @@ function pewc_get_general_settings() {
 			'default'		=> 'yes'
 		),
 		'pewc_optimise_conditions' => array(
-			'name'			=> __( 'Optimise conditions', 'pewc' ),
+			'name'			=> __( 'Optimize conditions', 'pewc' ),
 			'type'			=> 'checkbox',
 			'desc_tip'		=> true,
 			'desc'			=> __( 'This will enable an alternative method for checking conditions which might improve page performance.', 'pewc' ),
 			'id'			=> 'pewc_optimise_conditions',
 			'default'		=> 'yes'
 		),
+		'pewc_dequeue_scripts' => array(
+			'name'		=> __( 'Dequeue scripts', 'pewc' ),
+			'type'		=> 'checkbox',
+			'desc_tip'	=> true,
+			'desc'		=> __( 'Dequeue scripts and stylesheets on non-product pages.', 'pewc' ),
+			'id'		=> 'pewc_dequeue_scripts',
+			'default'	=> 'no',
+			'std'		=> 'no'
+		),
 		'optimise_section_end' => array(
 			'type' => 'sectionend',
 			'id' => 'pewc_optimise_title'
 		),
-		'beta_section_title' => array(
-			'name'     => __( 'Beta', 'pewc' ),
-			'type'     => 'title',
-			'desc'     => '',
-			'id'       => 'pewc_beta_title'
-		),
-		'pewc_beta_testing' => array(
-			'name'			=> __( 'Beta testing', 'pewc' ),
-			'type'			=> 'checkbox',
-			'desc_tip'	=> true,
-			'desc'			=> __( 'Opt in to beta testing the plugin. You should only choose this option on a staging or development site - don\'t enable this on your live site.', 'pewc' ),
-			'id'				=> 'pewc_beta_testing',
-			'default'		=> 'no',
-			'std'				=> 'no'
-		),
-		'beta_section_end' => array(
-			'type' => 'sectionend',
-			'id' => 'pewc_beta_title'
-		),
+		// 'beta_section_title' => array(
+		// 	'name'     => __( 'Beta', 'pewc' ),
+		// 	'type'     => 'title',
+		// 	'desc'     => '',
+		// 	'id'       => 'pewc_beta_title'
+		// ),
+		// 'pewc_beta_testing' => array(
+		// 	'name'			=> __( 'Beta testing', 'pewc' ),
+		// 	'type'			=> 'checkbox',
+		// 	'desc_tip'	=> true,
+		// 	'desc'			=> __( 'Opt in to beta testing the plugin. You should only choose this option on a staging or development site - don\'t enable this on your live site.', 'pewc' ),
+		// 	'id'				=> 'pewc_beta_testing',
+		// 	'default'		=> 'no',
+		// 	'std'				=> 'no'
+		// ),
+		// 'beta_section_end' => array(
+		// 	'type' => 'sectionend',
+		// 	'id' => 'pewc_beta_title'
+		// ),
 
 	);
 

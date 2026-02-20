@@ -78,6 +78,8 @@ class Meta_Options {
 			];
 		}
 
+		$rollback_options = wcf_ca()->helper->get_rollback_versions_options();
+
 		$settings = [
 			'general-settings'         => [
 				'title'    => __( 'General', 'woo-cart-abandonment-recovery' ),
@@ -98,6 +100,16 @@ class Meta_Options {
 						'value'        => wcf_ca()->utils->wcar_get_option( 'wcf_ca_cron_run_time', 20 ),
 						'desc'         => __( 'Consider cart abandoned after above entered minutes of item being added to cart and order not placed.', 'woo-cart-abandonment-recovery' ),
 						'after'        => __( 'minutes', 'woo-cart-abandonment-recovery' ),
+						'min'          => '10',
+						'is_fullwidth' => true,
+					],
+					'wcf-ca-cart-lost-time'        => [
+						'type'         => 'number',
+						'label'        => __( 'Abandoned cart lost time', 'woo-cart-abandonment-recovery' ),
+						'name'         => 'wcf_ca_cart_lost_time',
+						'value'        => wcf_ca()->utils->wcar_get_option( 'wcf_ca_cart_lost_time', WCF_DEFAULT_CART_LOST_TIME ),
+						'desc'         => __( 'Consider cart lost after above entered days of item being added to cart and order not placed.', 'woo-cart-abandonment-recovery' ),
+						'after'        => __( 'days', 'woo-cart-abandonment-recovery' ),
 						'min'          => '10',
 						'is_fullwidth' => true,
 					],
@@ -260,6 +272,14 @@ class Meta_Options {
 						'name'         => 'wcf_ca_global_param',
 						'value'        => wcf_ca()->utils->wcar_get_option( 'wcf_ca_global_param' ),
 						'desc'         => __( 'The UTM parameters will be appended to the checkout page links which is available in the recovery emails. For multiple parameters, add each parameter per line.', 'woo-cart-abandonment-recovery' ),
+						'is_fullwidth' => true,
+					],
+					'wcf-ca-rollback'           => [
+						'type'         => 'rollback',
+						'label'        => __( 'Rollback to Previous Version', 'woo-cart-abandonment-recovery' ),
+						'name'         => 'wcf_ca_rollback',
+						'desc'         => __( 'Experiencing an issue with the current version of Cart Abandonment Recovery? Roll back to a previous version to help troubleshoot the problem.', 'woo-cart-abandonment-recovery' ),
+						'options'      => $rollback_options,
 						'is_fullwidth' => true,
 					],
 					// TODO: Remove this after new UI is enabled by default.
@@ -775,7 +795,7 @@ class Meta_Options {
 			'recovery-settings'  => [
 				'slug'     => 'recovery-settings',
 				'fields'   => [
-					'wcf-ca-status'       => [
+					'wcf-ca-status'         => [
 						'type'         => 'toggle',
 						'label'        => __( 'Enable Tracking', 'woo-cart-abandonment-recovery' ),
 						'name'         => 'wcf_ca_status',
@@ -783,7 +803,7 @@ class Meta_Options {
 						'desc'         => __( 'Cart will be considered abandoned if order is not completed in cut-off time.', 'woo-cart-abandonment-recovery' ),
 						'is_fullwidth' => true,
 					],
-					'wcf-ca-cut-off-time' => [
+					'wcf-ca-cut-off-time'   => [
 						'type'         => 'number',
 						'label'        => __( 'Cart abandoned cut-off time', 'woo-cart-abandonment-recovery' ),
 						'name'         => 'wcf_ca_cron_run_time',
@@ -793,7 +813,17 @@ class Meta_Options {
 						'min'          => '10',
 						'is_fullwidth' => true,
 					],
-					'wcf-ca-ignore-users' => [
+					'wcf-ca-cart-lost-time' => [
+						'type'         => 'number',
+						'label'        => __( 'Abandoned cart lost time', 'woo-cart-abandonment-recovery' ),
+						'name'         => 'wcf_ca_cart_lost_time',
+						'value'        => wcf_ca()->utils->wcar_get_option( 'wcf_ca_cart_lost_time', WCF_DEFAULT_CART_LOST_TIME ),
+						'desc'         => __( 'Consider cart lost after above entered days of item being added to cart and order not placed.', 'woo-cart-abandonment-recovery' ),
+						'after'        => __( 'days', 'woo-cart-abandonment-recovery' ),
+						'min'          => '10',
+						'is_fullwidth' => true,
+					],
+					'wcf-ca-ignore-users'   => [
 						'type'         => 'multi-select',
 						'label'        => __( 'Disable Tracking For', 'woo-cart-abandonment-recovery' ),
 						'name'         => 'wcf_ca_ignore_users',

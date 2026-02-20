@@ -101,6 +101,13 @@ class Iubenda_Code_Extractor {
 	private $google_ads_data_redaction = null;
 
 	/**
+	 * Whether the code uses the unified embed format (embeds.iubenda.com/widgets/).
+	 *
+	 * @var bool
+	 */
+	private $is_unified_embed_format = false;
+
+	/**
 	 * List of scripts that will be ignored from appending to body
 	 *
 	 * @var string[]
@@ -130,6 +137,9 @@ class Iubenda_Code_Extractor {
 	public function enqueue_embed_code( $code ) {
 		$this->code = $code;
 
+		// Detect format: unified embed URL or csConfiguration.
+		$this->is_unified_embed_format = $this->detect_unified_embed_format( $code );
+
 		$this->set_auto_blocking_state( $code );
 		$this->extract_html_tags();
 		$this->handle_scripts();
@@ -157,6 +167,15 @@ class Iubenda_Code_Extractor {
 	 * @param   string $code  embed code.
 	 */
 	private function set_auto_blocking_state( $code ) {
+		// If it's the new unified format, check if autoblocking is actually enabled.
+		// The unified format handles autoblocking differently, so we don't need old scripts.
+		if ( $this->is_unified_embed_format ) {
+			$instance                       = new Auto_Blocking();
+			$this->is_auto_blocking_enabled = $instance->is_unified_autoblocking_enabled( $code );
+
+			return;
+		}
+
 		$instance      = new Auto_Blocking();
 		$this->site_id = $instance->get_site_id_from_cs_code( $code );
 		if ( $this->site_id ) {
@@ -217,6 +236,21 @@ class Iubenda_Code_Extractor {
 		// Extract scripts with src to enqueue it.
 		foreach ( $this->scripts as $key => $script ) {
 			if ( $this->may_escape_script_from_body( $script ) ) {
+				continue;
+			}
+
+			if ( $this->is_unified_embed_format ) {
+				// phpcs:disable WordPress.WP.EnqueuedResources.NonEnqueuedScript
+				// phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped -- wp_get_script_tag handles escaping internally.
+				echo wp_get_script_tag(
+					array(
+						'type'  => $script['attributes']['type'] ?? 'text/javascript',
+						'class' => $script['attributes']['class'] ?? '',
+						'src'   => $script['src'],
+					)
+				);
+				// phpcs:enable WordPress.Security.EscapeOutput.OutputNotEscaped
+				// phpcs:enable WordPress.WP.EnqueuedResources.NonEnqueuedScript
 				continue;
 			}
 
@@ -609,6 +643,27 @@ class Iubenda_Code_Extractor {
 	 */
 	public function get_google_ads_data_redaction() {
 		return $this->google_ads_data_redaction;
+	}
+
+	/**
+	 * Detect if the embed code uses the unified format (embeds.iubenda.com/widgets/).
+	 *
+	 * @param   string $code  embed code.
+	 *
+	 * @return bool True if the code uses the unified embed format, false if csConfiguration.
+	 */
+	private function detect_unified_embed_format( $code ) {
+		// Support both production and staging environments.
+		return false !== strpos( $code, 'embeds.iubenda.com/widgets/' );
+	}
+
+	/**
+	 * Check if the current code is using unified embed format.
+	 *
+	 * @return bool True if unified embed format, false if csConfiguration format.
+	 */
+	public function is_unified_embed_format() {
+		return $this->is_unified_embed_format;
 	}
 	// phpcs:enable
 }

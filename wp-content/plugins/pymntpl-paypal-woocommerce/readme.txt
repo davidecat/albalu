@@ -3,8 +3,8 @@ Contributors: mr.clayton
 Tags: paypal, paylater, venmo, credit cards
 Requires at least: 4.7
 Tested up to: 6.9
-Requires PHP: 7.1
-Stable tag: 2.0.8
+Requires PHP: 7.4
+Stable tag: 2.0.10
 Copyright: Payment Plugins
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -51,6 +51,15 @@ Our documentation has a step-by-step guide on how to connect the plugin to your 
 Payment Plugins is the team behind several of the highest reviewed and installed Payment integrations for WooCommerce.
 
 == Changelog ==
+= 2.0.10 - 02/05/26 =
+* Updated - WooCommerce tested up to: 10.5
+* Updated - Account for exchange rate when adding the PayPal fee and net amount to the WooCommerce order during capture of authorized payment
+* Updated - Moved the OrderStatusController class into the PaymentPlugins\WooCommerce\PPCP\Orders namespace
+* Added - If an order is authorized, the transaction link will point to the authorization in the PayPal dashboard.
+* Added - Full list of shipping carriers supported by PayPal on the Add Tracking section.
+* Fixed - In some cases the incorrect payment_method ID was passed to the shipping calculation due to 3rd party plugins resulting in a notice that said the shop did not ship to the selected address.
+= 2.0.9 - 01/12/26 =
+* Fixed - Issue with WooCommerce Subscriptions and the PayPal gateway if the "Stripe Express Buttons" option is enabled. This bug was introduced in version 2.0.6. [https://wordpress.org/support/topic/issue-with-subscription-renewals/](https://wordpress.org/support/topic/issue-with-subscription-renewals/)
 = 2.0.8 - 01/08/26 =
 * Fixed - [https://wordpress.org/support/topic/funnelkit-upsells-on-credit-card-gateway-not-working-after-2-0-6/](https://wordpress.org/support/topic/funnelkit-upsells-on-credit-card-gateway-not-working-after-2-0-6/)
 * Added - Apple Pay and Google Pay support for Funnelkit's smart button express checkout section of checkout shortcode

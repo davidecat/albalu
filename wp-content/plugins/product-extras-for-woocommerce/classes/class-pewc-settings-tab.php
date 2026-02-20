@@ -132,20 +132,20 @@ if( ! class_exists( 'PEWC_Settings_Tab' ) ) {
 		}
 
 		public function action_links( $links ) {
-			if( ! pewc_is_pro() ) {
+			// if( ! pewc_is_pro() ) {
 				$url = pewc_get_upgrade_url();
 				$links['upgrade'] = sprintf(
 					'<a target="_blank" href="%s">%s</a>',
 					esc_url( $url ),
 					__( 'Upgrade', 'pewc' )
 				);
-			}
+			// }
 			return $links;
 		}
 
 		public function upgrade_submenu() {
-	    global $submenu;
-	    $submenu['pewc_home'][] = array( __( 'Upgrade', 'pewc' ), 'manage_plugins', pewc_get_upgrade_url() );
+			global $submenu;
+			$submenu['pewc_home'][] = array( __( 'Upgrade', 'pewc' ), 'manage_plugins', pewc_get_upgrade_url() );
 		}
 
 		/**
@@ -178,11 +178,15 @@ if( ! class_exists( 'PEWC_Settings_Tab' ) ) {
 							// $error = get_option( 'pewc_test_response', false );
 							printf(
 								"<p>%s</p>",
-							 	__( "It hasn't been possible to validate your licence key. Please check that you've entered it correctly. Remember, the licence key will be on the email you were sent with the downloadable plugin files.", 'pewc' )
+							 	__( "It hasn't been possible to validate your license key.", 'pewc' )
 							);
 							printf(
 								"<p>%s</p>",
-							 	__( "If the licence key is correct and you're still seeing this message, please check the link below for help.", 'pewc' )
+							 	__( "<strong>However, don\'t worry - all the plugin\'s features and functionality are fully available so you can start using the plugin straightaway without needing to activate the license.</strong>", 'pewc' )
+							);
+							printf(
+								"<p>%s</p>",
+							 	__( "There are a number of possible reasons for the license not validating - most probably there is an issue connecting between this site and the Plugin Republic site. For more information please see the following link:", 'pewc' )
 							);
 							printf(
 								"<p><strong><a target='_blank' href='https://pluginrepublic.com/documentation/problems-activating-your-licence/'>%s</a></strong></p>",
@@ -205,17 +209,18 @@ if( ! class_exists( 'PEWC_Settings_Tab' ) ) {
 							//  	__( "Get error message.", 'pewc' )
 							// );
 
-							printf(
-								"<p>%s</p>",
-							 	__( "If you still can't activate your licence using the resources above, please copy and paste the following data into a support ticket.", 'pewc' )
-							);
-							$error = get_option( 'pewc_test_response', false );
-							if( $error ) {
-								printf(
-									'<pre style="background: white; padding: 20px;">%s</pre>',
-									print_r( $error, true )
-								);
-							}
+							// printf(
+							// 	"<p>%s</p>",
+							//  	__( "If you still can't activate your licence using the resources above, please copy and paste the following data into a support ticket.", 'pewc' )
+							// );
+							// $error = get_option( 'pewc_test_response', false );
+							// error_log( print_r( $error, true ) );
+							// if( $error ) {
+							// 	printf(
+							// 		'<pre style="background: white; padding: 20px;">%s</pre>',
+							// 		print_r( $error, true )
+							// 	);
+							// }
 						}
 					} ?>
 				</td>

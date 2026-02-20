@@ -25,6 +25,7 @@ class Status {
 	}
 
 	public function set_payment_date_on_status_change( $order_id, $old_status, $new_status ){
+		/** @var array $status_paid_list */
 		$status_paid_list = $this->wcbvCustomStatusIsPaid([]);
 		if( empty( $status_paid_list ) ){
 			return;
@@ -212,8 +213,7 @@ if ( !empty( $order->get_date_paid() ) ) {
 		}
 
 		wp_add_inline_style( 'woocommerce_admin_styles', $custom_css );
-		wp_enqueue_style( 'font-awesome-cdn', 'https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css?ver=5.15.3', array(), '5.13.3', 'all' );
-		wp_enqueue_style( 'font-awesome-cdn', 'https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css?ver=5.15.3', array(), '5.13.3', 'all' );
+		wp_enqueue_style( 'font-awesome-cdn', COSMBP_ASSETS . '/css/fontawesome/fontawesome-free-all.min.css', array(), '5.15.3', 'all' );
 	}
 	/**
 	 * Enqueue scripts (fontawesome)
@@ -224,8 +224,8 @@ if ( !empty( $order->get_date_paid() ) ) {
 		if ( !is_account_page() ) {
 			return;
 		}
-		wp_enqueue_style( 'fa5', 'https://use.fontawesome.com/releases/v5.13.0/css/all.css', array(), '5.13.0', 'all' );
-		wp_enqueue_style( 'fa5-v4-shims', 'https://use.fontawesome.com/releases/v5.13.0/css/v4-shims.css', array(), '5.13.0', 'all' );
+		wp_enqueue_style( 'fa5', COSMBP_ASSETS . '/css/fontawesome/fa5-fontawesome-all.css', array(), '5.13.0', 'all' );
+		wp_enqueue_style( 'fa5-v4-shims', COSMBP_ASSETS . '/css/fontawesome/fa5-fontawesome-v4-shims.css', array(), '5.13.0', 'all' );
 	}
 
 	/**
@@ -247,10 +247,14 @@ if ( !empty( $order->get_date_paid() ) ) {
 	/**
 	 * Insert custom status to woocommerce statuses paid array
 	 *
-	 * @param  $statuses Current woocommerce array with paid status
-	 * @return mixed.
+	 * @param  array $statuses Current woocommerce array with paid status
+	 * @return array Array of paid status slugs
 	 */
 	public function wcbvCustomStatusIsPaid( $statuses ) {
+		if ( ! is_array( $statuses ) ) {
+			$statuses = array();
+		}
+		
 		$arg = array(
 			'numberposts' => -1,
 			'post_type'   => 'order_status',
@@ -356,8 +360,8 @@ if ( !empty( $order->get_date_paid() ) ) {
 	/**
 	 * Get a list of all custom statuses
 	 *
-	 * @param  $cut_prefix If should return wc- prefix on custom status return array
-	 * @return mixed.
+	 * @param  bool $cut_prefix If should return wc- prefix on custom status return array
+	 * @return array Array of status slugs => status labels
 	 */
 	public function getOrderStatusList( $cut_prefix = false ) {
 		$defaultOptions        = get_option( 'wcbv_status_default', null );
@@ -428,12 +432,16 @@ if ( !empty( $order->get_date_paid() ) ) {
 	/**
 	 * Add all custom status to woocommerce status list (used on order view page)
 	 *
-	 * @param  $defaultOrderStatus The current list of woocommerce order status
-	 * @return mixed.
+	 * @param  array|string $defaultOrderStatus The current list of woocommerce order status
+	 * @return array Array of order statuses
 	 */
 	public function addStatusToFilter( $defaultOrderStatus ) {
+		/** @var array $orderStastusArray */
 		$orderStastusArray  = $this->getOrderStatusList();
 		$defaultOrderStatus = ( '' === $defaultOrderStatus ) ? array() : $defaultOrderStatus;
+		if ( ! is_array( $defaultOrderStatus ) ) {
+			$defaultOrderStatus = array();
+		}
 		return array_merge( $defaultOrderStatus, $orderStastusArray );
 	}
 

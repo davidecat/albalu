@@ -294,6 +294,8 @@ function pewc_ajax_upload_script( $id, $field, $multiply_price ) {
 
 					<?php if ( ! empty( $field['quantity_per_upload'] ) ) { ?>
 						// adjust quantity per field for Advanced Uploads
+						// this is no longer working when tested with AU 1.2.16 because this is run first before a name is assigned to the upload quantity input form
+						// issue should be fixed in AU 1.2.17
 						if (typeof existingFile.quantity !== 'undefined') {
 							$( 'input[name="<?php echo esc_attr( $id ); ?>_extra_fields[quantity]\['+key+'\]"]' ).val( existingFile.quantity );
 						}

@@ -1,3 +1,12 @@
+Version 2.0.7 - Monday, 2nd February 2026
+- Fix: Resolved an issue where some address fields were not captured for abandoned carts in block-based checkout.
+- Fix: Improved responsiveness of the date range selector.
+
+Version 2.0.6 - Monday, 26th January 2026
+- New: Added plugin rollback functionality.
+- New: Introduced a lost-time setting for abandoned carts.
+- Improvement: Improved structure and processing logic of weekly email reports.
+
 Version 2.0.5 - Tuesday, 30th December 2025
 - New: Added onboarding screens for a smoother initial setup.
 - Improvement: Updated UI for improved usability.

@@ -235,16 +235,16 @@ class Cartflows_Ca_Admin_Notices {
 
 		Astra_Notices::add_notice(
 			array(
-				'id'                   => 'wcar-new-ui-notice',
-				'type'                 => 'info',
-				'class'                => 'wcar-new-ui',
+				'id'                   => 'wcar-ui-switch-notice',
+				'type'                 => 'warning',
+				'class'                => 'wcar-switch-ui',
 				'show_if'              => true,
 				/* translators: %1$s white label plugin name and %2$s deactivation link */
 				'message'              => sprintf(
 					'<div class="notice-image" style="display: flex;">
                         <img src="%1$s" class="custom-logo" alt="Cart Abandonment Recovery for WooCommerce Icon" itemprop="logo"></div>
                         <div class="notice-content">
-                            <div class="notice-heading">
+                            <div class="notice-heading" style="font-weight: 700;">
                                 %2$s
                             </div>
                             <div class="notice-description">
@@ -254,22 +254,16 @@ class Cartflows_Ca_Admin_Notices {
 								<button type="button" class="astra-notice-close astra-review-notice button-primary wcar-switch-ui-btn" data-action="new-ui" data-nonce="%4$s">
 									%5$s
 								</button>
-                                <a href="#" data-repeat-notice-after="%6$s" class="astra-notice-close astra-review-notice" data-nonce="%7$s">
-                                	%8$s
-                                </a>
                             </div>
                         </div>',
 					$image_path,
-					__( "We've Got a New Look!", 'woo-cart-abandonment-recovery' ),
-					__( 'We’ve updated the admin interface to make it faster and easier to use. Switch now for a better experience.', 'woo-cart-abandonment-recovery' ),
+					__( 'Legacy UI Deprecation', 'woo-cart-abandonment-recovery' ),
+					__( 'We’re retiring the Legacy UI of Cart Abandonment Recovery to improve performance, ensure better WooCommerce compatibility, and support upcoming features. Please switch to the new UI to maintain uninterrupted cart recovery.', 'woo-cart-abandonment-recovery' ),
 					$ajax_nonce,
-					__( 'Use New UI', 'woo-cart-abandonment-recovery' ),
-					2 * WEEK_IN_SECONDS,
-					$ajax_nonce,
-					__( 'Nope, maybe later', 'woo-cart-abandonment-recovery' ),
+					__( 'Switch to New UI', 'woo-cart-abandonment-recovery' )
 				),
-				'repeat-notice-after'  => 2 * WEEK_IN_SECONDS,
-				'display-notice-after' => false, // Display notice after 2 weeks.
+				'repeat-notice-after'  => 1 * WEEK_IN_SECONDS,
+				'display-notice-after' => false,
 			)
 		);
 	}
@@ -358,7 +352,7 @@ class Cartflows_Ca_Admin_Notices {
 		 *
 		 * @since 2.0.0
 		 */
-		return ( 0 <= $total_email_templates );
+		return ( 1 <= $total_email_templates );
 	}
 }
 

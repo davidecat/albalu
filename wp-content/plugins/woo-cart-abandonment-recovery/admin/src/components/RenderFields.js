@@ -20,6 +20,7 @@ import TextareaDropdownField from '@Components/fields/TextareaDropdownField';
 import PasswordField from '@Components/fields/PasswordField';
 import DynamicSelectField from '@Components/fields/DynamicSelectField';
 import SelectSearchField from '@Components/fields/SelectSearchField';
+import RollbackField from '@Components/fields/RollbackField';
 
 const RenderFields = ( {
 	data,
@@ -345,6 +346,16 @@ const RenderFields = ( {
 					} ) }
 					{ ...( autoSave !== undefined && { autoSave } ) }
 					{ ...( disableStyle !== undefined && { disableStyle } ) }
+				/>
+			);
+		case 'rollback':
+			return (
+				<RollbackField
+					title={ data.label }
+					description={ data.desc }
+					name={ data.name }
+					value={ value }
+					options={ data?.options || [] }
 				/>
 			);
 		default:

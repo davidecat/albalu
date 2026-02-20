@@ -95,7 +95,7 @@ if ( ! class_exists( 'CARTFLOWS_CA_Loader' ) ) {
 			define( 'CARTFLOWS_CA_BASE', plugin_basename( CARTFLOWS_CA_FILE ) );
 			define( 'CARTFLOWS_CA_DIR', plugin_dir_path( CARTFLOWS_CA_FILE ) );
 			define( 'CARTFLOWS_CA_URL', plugins_url( '/', CARTFLOWS_CA_FILE ) );
-			define( 'CARTFLOWS_CA_VER', '2.0.5' );
+			define( 'CARTFLOWS_CA_VER', '2.0.7' );
 			define( 'CARTFLOWS_CA_REQ_PRO_VER', '1.1.0' );
 
 			define( 'CARTFLOWS_CA_SLUG', 'cartflows_ca' );
@@ -108,6 +108,8 @@ if ( ! class_exists( 'CARTFLOWS_CA_Loader' ) ) {
 			define( 'CARTFLOWS_CA_DOMAIN_URL', 'https://cartflows.com/' );
 			define( 'CARTFLOWS_CA_NPS_WEBHOOK_URL', 'https://webhook.ottokit.com/ottokit/c883bcf8-1f86-4a16-9b81-7fd4cfaa3a49' );
 			define( 'WCAR_ONBOARDING_USER_SUB_WORKFLOW_URL', 'https://webhook.ottokit.com/ottokit/9d32a688-8d3f-4329-8f59-261dfc62c938' );
+
+			define( 'WCF_DEFAULT_CART_LOST_TIME', 30 );
 		}
 
 		/**
@@ -270,6 +272,8 @@ if ( ! class_exists( 'CARTFLOWS_CA_Loader' ) ) {
 			include_once CARTFLOWS_CA_DIR . 'classes/class-cartflows-ca-tabs.php';
 			
 			include_once CARTFLOWS_CA_DIR . 'classes/class-cartflows-ca-admin-notices.php';
+
+			include_once CARTFLOWS_CA_DIR . 'classes/class-cartflows-ca-rollback.php';
 			
 			if ( ! $this->is_legacy_admin() ) {
 				/* New admin loader with namespace */
@@ -509,7 +513,6 @@ if ( ! class_exists( 'CARTFLOWS_CA_Loader' ) ) {
 		 * @return bool True if notice should be shown.
 		 */
 		public function should_show_ui_switch_notice(): bool {
-			$saved_version = get_option( 'wcf_ca_version', false );
 			$user_opted_in = get_option( 'cartflows_ca_use_new_ui', false );
 
 			// Don't show notice if user already opted in.
@@ -517,13 +520,7 @@ if ( ! class_exists( 'CARTFLOWS_CA_Loader' ) ) {
 				return false;
 			}
 
-			// Show notice only for versions below or equal to 2.0.0.
-			// Check for null, empty, and exclude RC versions from comparison.
-			if ( ! empty( $saved_version ) && false === stripos( $saved_version, 'RC' ) && version_compare( $saved_version, '2.0.0', '<=' ) ) {
-				return true;
-			}
-
-			return false;
+			return true;
 		}
 
 		/**

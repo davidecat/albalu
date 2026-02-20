@@ -11,7 +11,7 @@ public static $allowedAttributesForWidget = [
 'template' => ['id' => true, 'class' => true, 'style' => true],
 'pre' => ['id' => true, 'style' => true, 'class' => true],
 'div' => [
-'id' => true, 'class' => true, 'style' => true, 'aria-label' => true, 'role' => true,
+'id' => true, 'class' => true, 'style' => true, 'aria-label' => true, 'role' => true, 'tabindex' => true,
 'data-template-id' => true,
 'data-css-url' => true,
 'data-no-translation' => true,
@@ -46,6 +46,8 @@ public static $allowedAttributesForWidget = [
 'data-style' => true,
 'data-src' => true,
 'data-type' => true,
+'data-plugin-version' => true,
+'data-only-rating-locale' => true,
 ],
 'a' => [
 'class' => true, 'style' => true, 'href' => true, 'role' => true, 'target' => true, 'rel' => true, 'aria-label' => true,
@@ -922,7 +924,7 @@ $className = 'TrustindexPlugin_' . $forcePlatform;
 if (!class_exists($className)) {
 return wp_kses_post($this->frontEndErrorForAdmins(ucfirst($forcePlatform) . ' plugin is not active or not found!'));
 }
-$chosedPlatform = new $className($forcePlatform, $filePath, "do-not-care-13.2.5", "do-not-care-Widgets for Google Reviews", "do-not-care-Google");
+$chosedPlatform = new $className($forcePlatform, $filePath, "do-not-care-13.2.7", "do-not-care-Widgets for Google Reviews", "do-not-care-Google");
 $chosedPlatform->setNotificationParam('not-using-no-widget', 'active', false);
 if (!$chosedPlatform->is_noreg_linked()) {
 /* translators: %s: Platform name */
@@ -1170,7 +1172,7 @@ public static $widget_templates = array (
  array (
  'name' => 'Slider I. - with header',
  'type' => 'slider',
- 'is-active' => false,
+ 'is-active' => true,
  'is-popular' => false,
  'is-top-rated-badge' => false,
  'params' => 
@@ -6234,6 +6236,7 @@ $styleText .= 'left: '.$this->getWidgetOption('fomo-margin', false, $isPreview).
 $hideCount = $this->getWidgetOption('fomo-hide-count', false, $isPreview);
 $content = str_replace('" data-layout-id=', '" style="'.$styleText.'" data-hide-count='.$hideCount.' data-layout-id=', $content);
 }
+$content = str_replace('" data-layout-id=', '" data-plugin-version="'.str_replace('do-not-care-', '', $this->getVersion()).'" data-layout-id=', $content);
 return $content;
 }
 private function getReviewsForWidgetHtml($isDemoReviews = false, $isForceDemoReviews = false, $isPreview = false)
@@ -6244,28 +6247,36 @@ $onlyRatings = isset($filter['only-ratings']) && $filter['only-ratings'] ? 1 : 0
 if (isset($filter['stars']) && count($filter['stars']) === 1 && (int)$filter['stars'][0] === 5) {
 if ($this->is_ten_scale_rating_platform()) {
 // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
-$reviews = $wpdb->get_results($wpdb->prepare('SELECT *, rating AS original_rating, ROUND(rating / 2, 0) AS rating FROM %i WHERE hidden = 0 AND ROUND(rating / 2, 0) = 5 AND (%d = 0 OR (text != "")) ORDER BY date DESC', $this->get_tablename('reviews'), $onlyRatings));
+$reviews = $wpdb->get_results($wpdb->prepare('SELECT *, rating AS original_rating, ROUND(rating / 2, 0) AS rating FROM %i WHERE hidden = 0 AND ROUND(rating / 2, 0) = 5 ORDER BY date DESC', $this->get_tablename('reviews')));
 } else {
 // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
-$reviews = $wpdb->get_results($wpdb->prepare('SELECT *, rating AS original_rating FROM %i WHERE hidden = 0 AND (rating IS NULL OR rating = 5) AND (%d = 0 OR (text != "")) ORDER BY date DESC', $this->get_tablename('reviews'), $onlyRatings));
+$reviews = $wpdb->get_results($wpdb->prepare('SELECT *, rating AS original_rating FROM %i WHERE hidden = 0 AND (rating IS NULL OR rating = 5) ORDER BY date DESC', $this->get_tablename('reviews')));
 }
 }
 else if (isset($filter['stars']) && count($filter['stars']) === 2) {
 if ($this->is_ten_scale_rating_platform()) {
 // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
-$reviews = $wpdb->get_results($wpdb->prepare('SELECT *, rating AS original_rating, ROUND(rating / 2, 0) AS rating FROM %i WHERE hidden = 0 AND ROUND(rating / 2, 0) IN (4,5) AND (%d = 0 OR (text != "")) ORDER BY date DESC', $this->get_tablename('reviews'), $onlyRatings));
+$reviews = $wpdb->get_results($wpdb->prepare('SELECT *, rating AS original_rating, ROUND(rating / 2, 0) AS rating FROM %i WHERE hidden = 0 AND ROUND(rating / 2, 0) IN (4,5) ORDER BY date DESC', $this->get_tablename('reviews')));
 } else {
 // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
-$reviews = $wpdb->get_results($wpdb->prepare('SELECT *, rating AS original_rating FROM %i WHERE hidden = 0 AND (rating IS NULL OR rating IN (4,5)) AND (%d = 0 OR (text != "")) ORDER BY date DESC', $this->get_tablename('reviews'), $onlyRatings));
+$reviews = $wpdb->get_results($wpdb->prepare('SELECT *, rating AS original_rating FROM %i WHERE hidden = 0 AND (rating IS NULL OR rating IN (4,5)) ORDER BY date DESC', $this->get_tablename('reviews')));
 }
 }
 else {
 if ($this->is_ten_scale_rating_platform()) {
 // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
-$reviews = $wpdb->get_results($wpdb->prepare('SELECT *, rating AS original_rating, ROUND(rating / 2, 0) AS rating FROM %i WHERE hidden = 0 AND (%d = 0 OR (text != "")) ORDER BY date DESC', $this->get_tablename('reviews'), $onlyRatings));
+$reviews = $wpdb->get_results($wpdb->prepare('SELECT *, rating AS original_rating, ROUND(rating / 2, 0) AS rating FROM %i WHERE hidden = 0 ORDER BY date DESC', $this->get_tablename('reviews')));
 } else {
 // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
-$reviews = $wpdb->get_results($wpdb->prepare('SELECT *, rating AS original_rating FROM %i WHERE hidden = 0 AND (%d = 0 OR (text != "")) ORDER BY date DESC', $this->get_tablename('reviews'), $onlyRatings));
+$reviews = $wpdb->get_results($wpdb->prepare('SELECT *, rating AS original_rating FROM %i WHERE hidden = 0 ORDER BY date DESC', $this->get_tablename('reviews')));
+}
+}
+if ($onlyRatings) {
+for ($i = 0; $i < count($reviews); $i++) {
+if (!$reviews[$i]->text || !trim($reviews[$i]->text)) {
+array_splice($reviews, $i, 1);
+$i--;
+}
 }
 }
 if ($isDemoReviews && ($isForceDemoReviews || !$reviews)) {

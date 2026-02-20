@@ -14,6 +14,8 @@ export const initialState = {
 	dashboardError: '',
 	followUpData: '',
 	productData: '',
+	legacyUiNoticeDismissed:
+		cart_abandonment_admin?.car_legacy_ui_notice_dismissed || false,
 };
 
 export const reducer = ( state = initialState, action ) => {
@@ -88,7 +90,13 @@ export const reducer = ( state = initialState, action ) => {
 				...state,
 				licenseStatus: action.payload,
 			};
+		case ActionTypes.DISMISS_LEGACY_UI_NOTICE:
+			return {
+				...state,
+				legacyUiNoticeDismissed: action.payload,
+			};
 		default:
 			return state;
 	}
 };
+

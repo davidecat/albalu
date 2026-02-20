@@ -402,6 +402,189 @@ class Cartflows_Ca_Helper {
 		return esc_url( $url );
 	}
 
+	/**
+	 * Get Rollback versions.
+	 *
+	 * @since x.x.x
+	 * @return array
+	 * @access public
+	 */
+	public static function get_rollback_versions() {
+
+		$rollback_versions = get_transient( 'wcar_rollback_versions_' . CARTFLOWS_CA_VER );
+
+		if ( empty( $rollback_versions ) ) {
+
+			$max_versions = 10;
+
+			require_once ABSPATH . 'wp-admin/includes/plugin-install.php';
+
+			$plugin_information = plugins_api(
+				'plugin_information',
+				array(
+					'slug' => 'woo-cart-abandonment-recovery',
+				)
+			);
+
+			if ( empty( $plugin_information->versions ) || ! is_array( $plugin_information->versions ) ) {
+				return array();
+			}
+
+			krsort( $plugin_information->versions );
+
+			$rollback_versions = array();
+
+			foreach ( $plugin_information->versions as $version => $download_link ) {
+
+				$lowercase_version = strtolower( $version );
+
+				$is_valid_rollback_version = ! preg_match( '/(trunk|beta|rc|dev)/i', $lowercase_version );
+
+				if ( ! $is_valid_rollback_version ) {
+					continue;
+				}
+
+				if ( version_compare( $version, CARTFLOWS_CA_VER, '>=' ) ) {
+					continue;
+				}
+
+				$rollback_versions[] = $version;
+			}
+
+			usort( $rollback_versions, array( __CLASS__, 'sort_rollback_versions' ) );
+
+			$rollback_versions = array_slice( $rollback_versions, 0, $max_versions, true );
+
+			set_transient( 'wcar_' . CARTFLOWS_CA_VER, $rollback_versions, WEEK_IN_SECONDS );
+		}
+
+		return (array) $rollback_versions;
+	}
+	/**
+	 * Sort Rollback versions.
+	 *
+	 * @since x.x.x
+	 * @param string $prev Previous Version.
+	 * @param string $next Next Version.
+	 *
+	 * @return int
+	 */
+	public static function sort_rollback_versions( $prev, $next ) {
+
+		if ( version_compare( $prev, $next, '==' ) ) {
+			return 0;
+		}
+
+		if ( version_compare( $prev, $next, '>' ) ) {
+			return -1;
+		}
+
+		return 1;
+	}
+
+	/**
+	 * Get Rollback versions.
+	 *
+	 * @since x.x.x
+	 * @return array
+	 * @access public
+	 */
+	public static function get_rollback_versions_options() {
+
+		$rollback_versions = self::get_rollback_versions();
+
+		$rollback_versions_options = array();
+
+		foreach ( $rollback_versions as $version ) {
+
+			$version = array(
+				'id'   => $version,
+				'name' => $version,
+			);
+
+			$rollback_versions_options[] = $version;
+		}
+
+		return $rollback_versions_options;
+	}
+
+	/**
+	 * Get top product by type.
+	 *
+	 * @param string $from_date from date.
+	 * @param string $to_date to date.
+	 * @param string $type abondened|completed.
+	 */
+	public function get_top_product_by_type( $from_date, $to_date, $type = WCF_CART_ABANDONED_ORDER ) {
+		global $wpdb;
+		$cart_abandonment_table = $wpdb->prefix . CARTFLOWS_CA_CART_ABANDONMENT_TABLE;
+
+		// Get all cart_contents for the given date range and type.
+		$results = $wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT `cart_contents`, `cart_total` FROM {$cart_abandonment_table} WHERE `order_status` = %s AND DATE(`time`) >= %s AND DATE(`time`) <= %s", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+				$type,
+				$from_date,
+				$to_date
+			),
+			ARRAY_A
+		);
+
+		if ( empty( $results ) ) {
+			return null;
+		}
+
+		$product_counts = array();
+		$product_totals = array();
+
+		foreach ( $results as $row ) {
+			$cart_data = maybe_unserialize( $row['cart_contents'] );
+			if ( ! is_array( $cart_data ) ) {
+				continue;
+			}
+
+			foreach ( $cart_data as $item ) {
+				if ( ! isset( $item['product_id'] ) ) {
+					continue;
+				}
+
+				$product_id   = $item['product_id'];
+				$cart_product = wc_get_product( $product_id );
+				if ( ! $cart_product ) {
+					continue;
+				}
+
+				$product_key = (int) $product_id;
+
+				if ( ! isset( $product_counts[ $product_key ] ) ) {
+					$product_counts[ $product_key ] = 0;
+					$product_totals[ $product_key ] = 0;
+				}
+
+				$quantity                        = isset( $item['quantity'] ) ? (int) $item['quantity'] : 1;
+				$product_counts[ $product_key ] += 1;
+				$product_totals[ $product_key ] += isset( $item['line_total'] ) ? (float) $item['line_total'] : 0;
+			}
+		}
+
+		if ( empty( $product_counts ) ) {
+			return null;
+		}
+
+		// Find the product with highest frequency.
+		arsort( $product_counts );
+		$top_product_id   = (int) key( $product_counts );
+		$top_product      = wc_get_product( $top_product_id );
+		$top_product_name = $top_product ? $top_product->get_title() : '';
+
+		return array(
+			'product_id'      => $top_product_id,
+			'product_name'    => $top_product_name,
+			'total_frequency' => $product_counts[ $top_product_id ],
+			'total_amount'    => $product_totals[ $top_product_id ],
+		);
+	}
+
 }
 
 Cartflows_Ca_Helper::get_instance();

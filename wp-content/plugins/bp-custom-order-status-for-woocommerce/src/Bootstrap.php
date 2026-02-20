@@ -17,16 +17,101 @@ class Bootstrap {
 	public $woddp_activate;
 	public function __construct() {
 		$this->woddpDefination();
-		new Cpt();
+		//new Cpt();
 		new StatusColums();
 		new Status();
 		new Email();
 		new Checkout();
-		new Settings();
+		//new Settings();
 
 		add_action( 'admin_notices', [$this, 'review'] );
 		add_action( 'admin_init', [$this, 'url_param_check'] );
 		add_filter( 'cosm_upsale_notice', [$this, 'cosm_upsale_notice_render'] );
+
+		add_action( 'upgrader_process_complete', [$this, 'new_version_updated'], 10, 2 );
+		/**
+		 * It tries to join the pro version
+		 */
+		$this->try_to_join_pro_version();
+	}
+
+
+	/**
+	 * New version updated
+	 * 
+	 * @since 2.0
+	 * 
+	 * @return void
+	 */
+	public function new_version_updated( $upgrader_object, $options ) {
+
+		try {
+			if ( version_compare( '2.0', BVOS_PLUGIN_VER, '<=' ) ) {
+
+				if ($options['action'] == 'update' && $options['type'] == 'plugin' && isset($options['plugins'])) {
+					foreach ($options['plugins'] as $plugin) {
+						if ($plugin == BVOS_PLUGIN_BASE) {
+							set_transient('cosmbp_new_version_installed_show_notice', true, 600);
+						}
+					}
+				}
+
+				add_action('admin_notices', function() {
+					
+					if (get_transient('cosmbp_new_version_installed_show_notice')) {
+						
+						$setting_page_url = admin_url('admin.php?page=wcbv-order-status-setting');
+						
+						?>
+						<div class="notice notice-success is-dismissible">
+							<p>
+								<strong>Custom Order Status Manager for WooCommerce just got better!.</strong> We’ve added new features and improvements to enhance your workflow (PRO version).
+								<a href="<?php echo esc_url($setting_page_url); ?>">Go to the settings page</a> to see what’s new.
+							</p>
+						</div>
+						<?php
+						
+						delete_transient('cosmbp_new_version_installed_show_notice');
+					}
+				});
+			}
+		} catch (\Throwable $th) {
+			//throw $th;
+		}
+	}
+
+	/**
+	 * Is the pro version activated ?
+	 * 
+	 * @since 1.2
+	 * 
+	 * @return bool
+	 */
+	public static function is_pro_version_activated() {
+		return class_exists( '\Brightplugins_COS_PRO\Premium\PRO_Plugin' );
+	}
+
+	/**
+	 * It tries to join the pro version module into this one
+	 * 
+	 * @since 1.2
+	 * 
+	 * @return void
+	 */
+	public function try_to_join_pro_version() {
+		/**
+		 * It fires when the free version has been loaded
+		 */
+		do_action( 'cosmbp_free_version_loaded' );
+
+		/**
+		 * If the pro version is not install
+		 * Then it initializes the classes that may be to replaced/extended by the PRO version
+		 */
+		if ( !self::is_pro_version_activated() ) {
+			new Cpt();
+			new Settings();
+		}
 	}
 	/**
 	 * Get data of Custom Order status plugin
@@ -62,7 +147,11 @@ class Bootstrap {
 	 */
 	public function cosm_upsale_notice_render( $data ) {
 
-		$data = '🌟 Checkout our new <b>Order Delivery Date Time & Pickup for WooCommerce</b> plugin.<br>It\'s enables customers to conveniently select the date and time they prefer for the delivery of their orders. <a href="' . $this->woddp_plugin_url . '">' . $this->woddp_title . '</a>';
+		$data = "<b>Would you like to automate your workflow?</b><br><br>
+				Imagine having your custom statuses transition to new stages automatically based on specific <b>actions</b>, <b>events</b>, <b>dates</b>, or <b>custom parameters—all</b> while triggering automated emails to the right people.
+				We will be building new features over the next few days, and you can decide what’s next. The most voted features will be built!<br><br>
+				Vote here or comment below with the feature you’d love to see in the Premium version:<br><br>
+				<a href='https://app.loopedin.io/custom-order-status-manager#/ideas-board' target='_blank' class='button button-primary'>Vote for new features</a><br>";
 		return $data;
 
 	}

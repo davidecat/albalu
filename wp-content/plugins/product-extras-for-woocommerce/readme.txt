@@ -3,7 +3,7 @@ Contributors: Gareth Harris
 Tags: add-ons, ecommerce
 Requires at least: 4.7
 Tested up to: 6.9
-Stable tag: 3.27.4
+Stable tag: 4.0.2
 Allow your users to customise products through additional fields
 
 == Description ==
@@ -23,6 +23,55 @@ WooCommerce Product Add Ons Ultimate allows your users to customise products thr
 1.
 
 == Changelog ==
+
+= 4.0.2, 18 February 2026 =
+* Updated: improved handling of failed license validation
+
+= 4.0.1, 18 February 2026 =
+* Fixed: error on Plugins page if licence API returns false
+* Updated: improvements to admin UI
+
+= 4.0.0, 4 February 2026 =
+* Added: admin label field for back end field names
+* Fixed: Price per booking unit setting in Bookings for WooCommerce stopped working correctly
+* Fixed: Radio Group default value not working if field is initially hidden
+* Updated: admin interface revamp
+* Updated: minor style update to front end select fields
+* Updated: allow the use of both Multiply Price and Price per booking unit in a Number field
+* Updated: set Dropzone auto discover to false for better compatibility with plugins that defer JS scripts
+
+= 3.27.11, 29 January 2026 =
+* Fixed: issue with global fields not saving
+
+= 3.27.10, 28 January 2026 =
+* Updated: version bump
+
+= 3.27.9, 22 January 2026 =
+* Fixed: product search in Group Rule not working when adding a new Global Add-On group
+* Fixed: fields with conditions using quantity not showing up when editing options from the cart
+* Fixed: fields that use attributes in conditions and the rules Is Not or Does Not Contain do not match for simple products that do not contain the attribute
+* Updated: include field prices in the product page totals for fields inside a hidden group that has the setting 'Always Include in Order' enabled
+* Updated: enable AJAX uploader by default
+* Updated: show inputs on swatches and products by default
+
+= 3.27.8, 18 December 2025 =
+* Fixed: selected variation's image not used as base image when creating a composite image
+* Fixed: selector classes not added to the main image container if Layer image setting is enabled
+
+= 3.27.7, 16 December 2025 =
+* Fixed: fatal error sometimes happen on the checkout page when using {product_sku} tag
+* Fixed: global flat rate price is being added to the cart per product instead of just once for the whole cart
+* Updated: selected products are now sortable on a newly created Products field
+
+= 3.27.6, 10 December 2025 =
+* Fixed: fatal error on product pages with child products
+
+= 3.27.5, 9 December 2025 =
+* Added: $option_cost and $item parameters to pewc_child_product_title filter
+* Fixed: main product price are sometimes incorrectly updated with price from Related Products
+* Updated: changed location of selector classes in the main image container
+* Updated: moved pewc_end_checkbox_row action
+* Updated: set default separator between option and price to plus symbol
 
 = 3.27.4, 3 December 2025 =
 * Added: selector classes to the main image container when an image is replaced by the selected swatch

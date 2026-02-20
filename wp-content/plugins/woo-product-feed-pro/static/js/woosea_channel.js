@@ -1,6 +1,6 @@
 jQuery(document).ready(function ($) {
   const { __ } = wp.i18n;
-  
+
   jQuery('#shipping_zone').on('click', function () {
     var variations = $('#shipping_zone').is(':checked') ? 1 : 0;
     if (variations == '1') {
@@ -16,12 +16,16 @@ jQuery(document).ready(function ($) {
             '<tr id="select_shipping_zone">',
             '  <td>',
             '    <i>' + __('Select shipping zone:', 'woo-product-feed-pro') + '</i><br/>',
-            '    ' + __('You have multiple shipping zones configured for your shop. Do you want to add all Shipping zones to your product feed or just a one?', 'woo-product-feed-pro'),
+            '    ' +
+              __(
+                'You have multiple shipping zones configured for your shop. Do you want to add all Shipping zones to your product feed or just a one?',
+                'woo-product-feed-pro'
+              ),
             '  </td>',
             '  <td valign="top">',
             '    <select name="zone" class="select-field">' + data.dropdown + '</select>',
             '  </td>',
-            '</tr>'
+            '</tr>',
           ].join('');
           $('#shipping_zones').after(selectShippingZoneHtml);
         })
@@ -44,7 +48,7 @@ jQuery(document).ready(function ($) {
       'Google - DSA': ['csv'],
       'Wish.com': ['csv'],
       'Google Local Products Inventory': ['xml', 'txt'],
-      'Google Shopping': ['xml'],
+      'Google Shopping': ['xml', 'csv', 'txt', 'tsv'],
       'Fashionchick.nl': ['csv', 'txt'],
       'Bol.com': ['csv', 'txt'],
       'Snapchat Product Catalog': ['csv'],
@@ -147,7 +151,9 @@ jQuery(document).ready(function ($) {
       // Put delimiter dropdown back
       if ($('#delimiter').length == 0) {
         $('#file').after(
-          '<tr id="delimiter"><td><span>' + __('Delimiter:', 'woo-product-feed-pro') + '</span></td><td><select name="delimiter" class="select-field"><option value=",">, comma</option><option value="|">| pipe</option><option value=";">;</option><option value="tab">tab</option><option value="#">#</option></select></td></tr>'
+          '<tr id="delimiter"><td><span>' +
+            __('Delimiter:', 'woo-product-feed-pro') +
+            '</span></td><td><select name="delimiter" class="select-field"><option value=",">, comma</option><option value="|">| pipe</option><option value=";">;</option><option value="tab">tab</option><option value="#">#</option></select></td></tr>'
         );
       }
     }

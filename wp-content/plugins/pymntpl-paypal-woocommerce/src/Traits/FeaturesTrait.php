@@ -23,41 +23,20 @@ trait FeaturesTrait {
 			]
 		);
 
-		$traits = \class_uses( \get_class( $this ) );
+		// Get traits from the class and all parent classes
+		$traits = [];
+		$class  = \get_class( $this );
+		do {
+			$traits = array_merge( \class_uses( $class ), $traits );
+		} while ( $class = \get_parent_class( $class ) );
 
 		foreach ( $traits as $trait ) {
-			switch ( $trait ) {
-
-				case 'PaymentPlugins\WooCommerce\PPCP\Traits\ThreeDSecureTrait':
-					$supports[] = '3ds';
-					break;
-				case 'PaymentPlugins\WooCommerce\PPCP\Traits\VaultTokenTrait':
-					$supports[] = 'vault';
-					break;
-				case 'PaymentPlugins\WooCommerce\PPCP\Traits\BillingAgreementTrait':
-					if ( ! $vault_enabled ) {
-						$supports[] = 'billing_agreement';
-					}
-					break;
-				case 'PaymentPlugins\PPCP\WooCommerceSubscriptions\Traits\SubscriptionTrait':
-					$supports = \array_merge(
-						$supports,
-						[
-							'subscriptions',
-							'subscription_cancellation',
-							'multiple_subscriptions',
-							'subscription_amount_changes',
-							'subscription_date_changes',
-							'subscription_payment_method_change_admin',
-							'subscription_reactivation',
-							'subscription_suspension',
-							'subscription_payment_method_change_customer',
-						]
-					);
-					break;
-				case 'PaymentPlugins\PPCP\WooCommercePreOrders\Traits\PreOrdersTrait':
-					$supports[] = 'pre-orders';
-					break;
+			$property_name = substr( $trait, strrpos( $trait, '\\' ) + 1 ) . 'Features';
+			if ( property_exists( $this, $property_name ) ) {
+				$features = $this::$$property_name;
+				if ( \is_array( $features ) ) {
+					$supports = array_merge( $supports, $features );
+				}
 			}
 		}
 
@@ -65,8 +44,11 @@ trait FeaturesTrait {
 			$supports = array_diff( $supports, [ 'subscription_payment_method_change_customer' ] );
 		}
 
-		if ( \in_array( 'billing_agreement', $supports ) ) {
+		if ( ! $vault_enabled && \in_array( 'billing_agreement', $supports ) ) {
 			unset( $supports[ array_search( 'vault', $supports ) ] );
+		}
+		if ( $vault_enabled && \in_array( 'billing_agreement', $supports ) ) {
+			unset( $supports[ array_search( 'billing_agreement', $supports ) ] );
 		}
 		// If vault is supported, then add tokenization and add_payment_method
 		if ( \in_array( 'vault', $supports ) ) {
@@ -77,7 +59,7 @@ trait FeaturesTrait {
 		/**
 		 * Allow external packages to add payment gateway features.
 		 *
-		 * @param array $supports Array of feature strings to add.
+		 * @param array  $supports Array of feature strings to add.
 		 * @param string $gateway_id The payment gateway ID.
 		 * @param object $gateway The payment gateway instance.
 		 *

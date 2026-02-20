@@ -654,11 +654,12 @@ class Shipping_Data extends Abstract_Class {
              * @since 13.3.9.
              *
              * @param array  $shipping The shipping data.
-             * @param object $shipping The shipping data.
+             * @param object $rate     The shipping rate object.
              * @param object $feed     The feed object.
+             * @param array  $package  The package data containing product information.
              * @return array
              */
-            $shipping_method_data[] = apply_filters( 'adt_product_feed_shipping_array', array_filter( $shipping ), $rate, $feed );
+            $shipping_method_data[] = apply_filters( 'adt_product_feed_shipping_array', array_filter( $shipping ), $rate, $feed, $package );
         }
 
         return $shipping_method_data;

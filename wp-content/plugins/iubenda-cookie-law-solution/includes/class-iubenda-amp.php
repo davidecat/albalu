@@ -141,59 +141,59 @@ class Iubenda_AMP {
 			return;
 		}
 
-		if ( ( function_exists( 'is_amp_endpoint' ) && is_amp_endpoint() ) || ( function_exists( 'ampforwp_is_amp_endpoint' ) && ampforwp_is_amp_endpoint() ) ) {
-
-			// get code.
-			if ( iubenda()->multilang && ! empty( iubenda()->lang_current ) ) {
-				$code = iub_array_get( iubenda()->options['cs'], 'code_' . iubenda()->lang_current );
-			} else {
-				$code = iub_array_get( iubenda()->options['cs'], 'code_default' );
-			}
-
-			$configuration = iubenda()->configuration_parser->extract_cs_config_from_code_amp( $code );
-
-			if ( empty( $configuration ) ) {
-				return;
-			}
-
-			// local file.
-			if ( 'local' === (string) iubenda()->options['cs']['amp_source'] ) {
-				// multi-language support.
-				if ( iubenda()->multilang && ! empty( iubenda()->lang_current ) ) {
-					$template_url = $this->get_amp_template_url( iubenda()->lang_current );
-				} else {
-					$template_url = $this->get_amp_template_url();
-				}
-				// remote file.
-			} elseif ( iubenda()->multilang && ! empty( iubenda()->lang_current ) ) {
-				$template_url = esc_url( isset( iubenda()->options['cs']['amp_template'][ iubenda()->lang_current ] ) ? iubenda()->options['cs']['amp_template'][ iubenda()->lang_current ] : '' );
-			} else {
-				$template_url = esc_url( iubenda()->options['cs']['amp_template'] );
-			}
-
-			if ( empty( $template_url ) ) {
-				return;
-			}
-
-			echo '
-			<amp-consent id="iubenda" layout="nodisplay" type="iubenda">
-				<script type="application/json">
-					{
-						"promptUISrc": "' . esc_url( $template_url ) . '",
-						"postPromptUI": "myConsentFlow"
-					}
-				</script>
-			</amp-consent>
-			<!-- This is the update preferences button, visible only when preferences are already expressed. -->
-			<div id="myConsentFlow">
-				<!-- You may change the position of the update preferences button. -->
-				<!-- Use the class "iubenda-tp-btn--bottom-left" for bottom left position, other positions:
-				"iubenda-tp-btn--bottom-right", "iubenda-tp-btn--top-left", "iubenda-tp-btn--top-right" -->
-				<button class="iubenda-tp-btn iubenda-tp-btn--bottom-right" on="tap:iubenda.prompt()"></button>
-			</div>
-			';
-
+		if ( ! iubenda()->is_amp_page() ) {
+			return;
 		}
+
+		// get code.
+		if ( iubenda()->multilang && ! empty( iubenda()->lang_current ) ) {
+			$code = iub_array_get( iubenda()->options['cs'], 'code_' . iubenda()->lang_current );
+		} else {
+			$code = iub_array_get( iubenda()->options['cs'], 'code_default' );
+		}
+
+		$configuration = iubenda()->configuration_parser->extract_cs_config_from_code_amp( $code );
+
+		if ( empty( $configuration ) ) {
+			return;
+		}
+
+		// local file.
+		if ( 'local' === (string) iubenda()->options['cs']['amp_source'] ) {
+			// multi-language support.
+			if ( iubenda()->multilang && ! empty( iubenda()->lang_current ) ) {
+				$template_url = $this->get_amp_template_url( iubenda()->lang_current );
+			} else {
+				$template_url = $this->get_amp_template_url();
+			}
+			// remote file.
+		} elseif ( iubenda()->multilang && ! empty( iubenda()->lang_current ) ) {
+			$template_url = esc_url( isset( iubenda()->options['cs']['amp_template'][ iubenda()->lang_current ] ) ? iubenda()->options['cs']['amp_template'][ iubenda()->lang_current ] : '' );
+		} else {
+			$template_url = esc_url( iubenda()->options['cs']['amp_template'] );
+		}
+
+		if ( empty( $template_url ) ) {
+			return;
+		}
+
+		echo '
+		<amp-consent id="iubenda" layout="nodisplay" type="iubenda">
+			<script type="application/json">
+				{
+					"promptUISrc": "' . esc_url( $template_url ) . '",
+					"postPromptUI": "myConsentFlow"
+				}
+			</script>
+		</amp-consent>
+		<!-- This is the update preferences button, visible only when preferences are already expressed. -->
+		<div id="myConsentFlow">
+			<!-- You may change the position of the update preferences button. -->
+			<!-- Use the class "iubenda-tp-btn--bottom-left" for bottom left position, other positions:
+			"iubenda-tp-btn--bottom-right", "iubenda-tp-btn--top-left", "iubenda-tp-btn--top-right" -->
+			<button class="iubenda-tp-btn iubenda-tp-btn--bottom-right" on="tap:iubenda.prompt()"></button>
+		</div>
+		';
 	}
 
 	/**

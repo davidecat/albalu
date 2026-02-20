@@ -519,7 +519,7 @@ include(plugin_dir_path(__FILE__) . '../include/step-list.php');
 <?php
 $advancedTab = '<a href="?page='.esc_attr($_page).'&tab=advanced#trustindex-admin">'.__('Advanced', 'wp-reviews-plugin-for-google').'</a>';
 /* translators: %s: Advanced tab link */
-echo esc_html(sprintf(__("You have connected your Trustindex account, so you can find premium functionality under the %s tab. You no longer need this tab unless you choose the limited but forever free mode.", 'wp-reviews-plugin-for-google'), $advancedTab));
+echo wp_kses_post(sprintf(__("You have connected your Trustindex account, so you can find premium functionality under the %s tab. You no longer need this tab unless you choose the limited but forever free mode.", 'wp-reviews-plugin-for-google'), $advancedTab));
 ?>
 </p>
 </div>

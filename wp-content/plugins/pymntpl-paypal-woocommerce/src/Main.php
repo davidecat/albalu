@@ -22,6 +22,7 @@ use PaymentPlugins\WooCommerce\PPCP\Factories\CoreFactories;
 use PaymentPlugins\WooCommerce\PPCP\Fastlane\FastlaneController;
 use PaymentPlugins\WooCommerce\PPCP\Integrations\PluginIntegrationsRegistry;
 use PaymentPlugins\WooCommerce\PPCP\Orders\OrderAttributionController;
+use PaymentPlugins\WooCommerce\PPCP\Orders\OrderStatusController;
 use PaymentPlugins\WooCommerce\PPCP\Package\PackageController;
 use PaymentPlugins\WooCommerce\PPCP\Package\PackageRegistry;
 use PaymentPlugins\WooCommerce\PPCP\Payments\Gateways\ApplePayGateway;

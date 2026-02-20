@@ -13,7 +13,7 @@ if( ! defined( 'ABSPATH' ) ) {
 /**
  * Get all the product extra fields for a product or group
  * Use this to populate the field parameter in conditionals
- * @param $group 			Group data
+ * @param $group 		Group data
  * @param $is_ajax		Are we loading add-ons via AJAX?
  * @param $product_id	Only passed from product page
  * @return Array

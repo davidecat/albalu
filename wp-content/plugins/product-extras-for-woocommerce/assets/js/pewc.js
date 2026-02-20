@@ -424,7 +424,10 @@
 			if( ! $( field_wrapper ).hasClass( 'pewc-variation-dependent' ) || ( $( field_wrapper ).hasClass( 'pewc-variation-dependent' ) && $( field_wrapper ).hasClass( 'active' ) ) ) {
 
 				var group_wrap = $( field_wrapper ).closest( '.pewc-group-wrap' );
-				if ( group_wrap.hasClass( 'pewc-group-hidden' ) ) {
+				if ( group_wrap.hasClass( 'pewc-group-hidden' ) && ! group_wrap.hasClass( 'pewc-group-always-include' ) ) {
+					// 3.27.9, added condition to check for class .pewc-group-always-include. If it exists, include it in the totals, 
+					// since when added to the cart, the hidden field's cost are included. This makes it consistent on both the product page and 
+					// the cart page.
 					return; // this field is inside a hidden group, so ignore and return
 				}
 
@@ -487,18 +490,22 @@
 						if( $(field_wrapper).hasClass('pewc-per-character-pricing') && ( $(field_wrapper).hasClass('pewc-item-text') || $(field_wrapper).hasClass('pewc-item-textarea') || $(field_wrapper).hasClass( 'pewc-item-advanced-preview' ) ) ) {
 							var str_len = pewc_get_text_str_len( $(this).val(), field_wrapper );
 							added_price = str_len * parseFloat( $(field_wrapper).attr('data-price') );
-						} else if( $(field_wrapper).hasClass('pewc-multiply-pricing') ) {
+						} else if( $(field_wrapper).hasClass( 'pewc-multiply-pricing' ) ) {
 							var num_value = $(this).val();
 							added_price = num_value * parseFloat( $(field_wrapper).attr('data-price') );
 						} else if( $(field_wrapper).hasClass('pewc-group-name_price') ) {
 							added_price = parseFloat( $(this).val() );
-						} else if( $(field_wrapper).hasClass('pewc-item-number' ) && $(field_wrapper).hasClass('pewc-per-unit-pricing') ) {
+						} else {
+							added_price = parseFloat( $(field_wrapper).attr('data-price') );
+						}
+
+						// 3.27.11, moved here so that Price per booking unit can be used with Multiply Price
+						if( $(field_wrapper).hasClass( 'pewc-item-number' ) && $(field_wrapper).hasClass( 'pewc-per-unit-pricing' ) ) {
 								// Bookings for WooCommerce
 								// Multiply option cost by number of booked units
 								// total_price += parseFloat( $('#num_units_int').val() ) * parseFloat( $(field_wrapper).attr('data-price') );
-								added_price = parseFloat( $('#num_units_int').val() ) * parseFloat( $(field_wrapper).attr('data-price') ) * parseFloat( $( this ).val() );
-						} else {
-							added_price = parseFloat( $(field_wrapper).attr('data-price') );
+								// added_price = parseFloat( $('#num_units_int').val() ) * parseFloat( $(field_wrapper).attr('data-price') ) * parseFloat( $( this ).val() );
+								added_price = parseFloat( added_price ) * parseFloat( $('#num_units_int').val() ); // 3.27.11, use added_price so that this can be used with Multiply Price setting
 						}
 
 						if( $(this).val() ) {
@@ -1333,11 +1340,26 @@
 	function update_product_price( grand_total, base_price, orig_grand_total ) {
 		var price_suffix_setting = pewc_vars.price_suffix_setting;
 		// We can rebuild him
-		var suffix = $( '.pewc-main-price' ).find( '.woocommerce-price-suffix' ).html();
-		var label = $( '.pewc-main-price' ).find( '.wcfad-rule-label' ).html();
-		var before = $( '.pewc-main-price' ).find( '.pewc-label-before' ).html();
-		var after = $( '.pewc-main-price' ).find( '.pewc-label-after' ).html();
-		var hide = $( '.pewc-main-price' ).find( '.pewc-label-hidden' );
+		// 3.27.5, Related Products could also have pewc-main-price, so we assume the first one to be the correct main one
+		// This fixes an issue where if a Related Product has a hidden price, that it affects all prices on the product page
+		// Let's also exclude main price from QuickView here instead of later in the function
+		var main_price = $( '.pewc-main-price' ).not( '.pewc-quickview-product-wrapper .pewc-main-price' );
+		if ( main_price.length > 1 ) {
+			// get only the first?
+			main_price.each(function( index, element){
+				// add a special class to the first main price, we assume that's the real main price
+				if ( index < 1 ) {
+					$( this ).addClass( 'pewc-main-main-price' );
+					return false;
+				};
+			});
+			main_price = $( '.pewc-main-price.pewc-main-main-price' );
+		}
+		var suffix = main_price.find( '.woocommerce-price-suffix' ).html();
+		var label = main_price.find( '.wcfad-rule-label' ).html();
+		var before = main_price.find( '.pewc-label-before' ).html();
+		var after = main_price.find( '.pewc-label-after' ).html();
+		var hide = main_price.find( '.pewc-label-hidden' );
 		var new_total = '';
 
 		if( hide.length > 0 ) {
@@ -1375,7 +1397,7 @@
 		}
 
 		// 3.22.1, retain DPDR label even if Update pricing label is enabled
-		var main_price = $( '.pewc-main-price').not( '.pewc-quickview-product-wrapper .pewc-main-price' );
+		//var main_price = $( '.pewc-main-price').not( '.pewc-quickview-product-wrapper .pewc-main-price' ); // 3.27.5, commented out, maybe no longer needed?
 		if ( main_price.find( '.wcfad-rule-label' ).length > 0 && new_total.indexOf( 'wcfad-rule-label' ) == -1 ) {
 			// this has a DPDR discount label, add it to the new_total
 			var dpdr_label = main_price.find( '.wcfad-rule-label' );
@@ -2842,9 +2864,15 @@
 
 					if (add_on_image_src != undefined) {
 						turn = 'on';
+						// 3.27.5
+						if ( $( field_wrapper ).hasClass( 'pewc-item-radio' ) ) {
+							$product_img.closest( '.' + pewc_vars.layer_parent ).removeClass(function(index, className) {
+								return (className.match(/(^|\s)pewc\-add\-on\-image\-\S+/g) || []).join(' ');
+							});
+						}
 						// 3.27.4
 						add_on_image_field = 'pewc-add-on-image-' + $( field_wrapper ).attr( 'data-field-id' );
-						add_on_image_option = 'pewc-add-on-image-' + $( field ).attr( 'id' );
+						add_on_image_option = add_on_image_field + '-' + $( field ).attr( 'id' ).replace( $( field_wrapper ).attr( 'data-id' ) + '_', '' );
 					}
 				}
 			} else if ( field_type == 'select-box' && add_on_images.replace_image( field_wrapper ) != 'replace_image_swatch_only' ) {
@@ -2867,7 +2895,7 @@
 					if ( add_on_image_src != undefined) {
 						turn = 'on';
 						// 3.27.4, always remove first for Select Box, so that the previous option selected is removed first
-						$product_img.closest( pewc_vars.product_img_wrap ).removeClass(function(index, className) {
+						$product_img.closest( '.' + pewc_vars.layer_parent ).removeClass(function(index, className) {
 							return (className.match(/(^|\s)pewc\-add\-on\-image\-\S+/g) || []).join(' ');
 						});
 						add_on_image_field = 'pewc-add-on-image-' + $( field_wrapper ).attr( 'data-field-id' );
@@ -2903,6 +2931,14 @@
 					$( '.' + layer_id ).remove();
 				}
 
+				// 3.27.8, add special classes
+				if ( add_on_image_field != '' && ! $( '.' + pewc_vars.layer_parent ).hasClass( add_on_image_field ) ) {
+					$product_img.closest( '.' + pewc_vars.layer_parent ).addClass( add_on_image_field );
+				}
+				if ( add_on_image_option != '' && ! $( '.' + pewc_vars.layer_parent ).hasClass( add_on_image_option ) ) {
+					$product_img.closest( '.' + pewc_vars.layer_parent ).addClass( add_on_image_option );
+				}
+
 			} else if ( add_on_image_src && turn == 'on' ) {
 				// maybe save original
 				add_on_images.save_original_src( $product_img );
@@ -2921,15 +2957,15 @@
 				}
 
 				// 3.27.4, add special classes
-				if ( add_on_image_field != '' && ! $( pewc_vars.product_img_wrap ).hasClass( add_on_image_field ) ) {
-					$product_img.closest( pewc_vars.product_img_wrap ).addClass( add_on_image_field );
+				if ( add_on_image_field != '' && ! $( '.' + pewc_vars.layer_parent ).hasClass( add_on_image_field ) ) {
+					$product_img.closest( '.' + pewc_vars.layer_parent ).addClass( add_on_image_field );
 				}
-				if ( add_on_image_option != '' && ! $( pewc_vars.product_img_wrap ).hasClass( add_on_image_option ) ) {
-					$product_img.closest( pewc_vars.product_img_wrap ).addClass( add_on_image_option );
+				if ( add_on_image_option != '' && ! $( '.' + pewc_vars.layer_parent ).hasClass( add_on_image_option ) ) {
+					$product_img.closest( '.' + pewc_vars.layer_parent ).addClass( add_on_image_option );
 				}
 			} else {
 				// 3.27.4, remove all our special classes, it will be added back if we still have a swatch selected
-				$product_img.closest( pewc_vars.product_img_wrap ).removeClass(function(index, className) {
+				$product_img.closest( '.' + pewc_vars.layer_parent ).removeClass(function(index, className) {
 					return (className.match (/(^|\s)pewc\-add\-on\-image\-\S+/g) || []).join(' ');
 				});
 				add_on_images.replace_main_with_default( $product_img, false ); // 3.24.7, let's try to find an active swatch first before resetting the main image
@@ -3272,7 +3308,7 @@ function pewc_get_quantity( qty=1, type='' ) {
 		qty = jQuery( 'form.cart .quantity .qty' ).val();
 	} else if ( pewc_is_booking_product() ) {
 		// for Booking products, where the quantity field is not available
-		qty = jQuery( '#num_units_int' ).val();
+		qty = 1; // 3.27.11, changed to 1 so that "Price per booking unit" setting is respected. Previously jQuery( '#num_units_int' ).val();
 		if ( jQuery( '#num_bookings' ).length > 0 && ! isNaN( jQuery( '#num_bookings' ).val() ) && 'linked' === type ) {
 			// also multiply by quantity?
 			qty = qty * jQuery( '#num_bookings' ).val();

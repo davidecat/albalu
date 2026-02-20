@@ -3,6 +3,8 @@
  * Functions for loading add-ons via AJAX
  * @since 3.3.0
  * @package WooCommerce Product Add-Ons Ultimate
+ * 
+ * @deprecated 4.0.0
  */
 
 // Exit if accessed directly

@@ -76,7 +76,7 @@ class Cartflows_Ca_Admin_Report_Emails {
 
 			if ( isset( $report_details['recovered_orders'] ) && 0 < intval( $report_details['recovered_orders'] ) ) {
 
-				$subject = $this->get_email_subject();
+				$subject = $this->get_email_subject( $report_details['recovered_revenue'] );
 
 				$headers  = 'From: ' . get_bloginfo( 'name' ) . ' <' . get_option( 'admin_email' ) . '>' . "\r\n";
 				$headers .= "Content-Type: text/html;\r\n";
@@ -97,10 +97,21 @@ class Cartflows_Ca_Admin_Report_Emails {
 
 	/**
 	 * Get admin report email subject.
+	 * 
+	 * @param string $recovered_revenue // Recovered revenue.
+	 * @return string
 	 */
-	public function get_email_subject() {
+	public function get_email_subject( $recovered_revenue = '' ) {
+		if ( empty( $recovered_revenue ) ) {
+			return __( 'Your weekly Cart Abandonment Recovery report', 'woo-cart-abandonment-recovery' );
+		}
 
-		return esc_html__( 'Your Weekly Cart Abandonment Summary is here - CartFlows', 'woo-cart-abandonment-recovery' );
+		$amount = html_entity_decode( get_woocommerce_currency_symbol() ) . number_format( $recovered_revenue, 2 );
+		return sprintf(
+			/* translators: %s: recovered revenue amount */
+			__( 'Your weekly Cart Abandonment Recovery report - %s recovered', 'woo-cart-abandonment-recovery' ),
+			$amount
+		);
 	}
 
 	/**
@@ -112,8 +123,9 @@ class Cartflows_Ca_Admin_Report_Emails {
 	 */
 	public function get_email_content( $report_details, $user_name, $admin_email ) {
 
-		$cf_logo          = CARTFLOWS_CA_URL . 'admin/assets/images/cartflows-email-logo.png';
-		$unsubscribe_link = add_query_arg(
+		$cf_logo                   = CARTFLOWS_CA_URL . 'admin/assets/images/cartflows-email-logo.png';
+		$car_logo                  = CARTFLOWS_CA_URL . 'admin/assets/images/car-logo.png';
+		$unsubscribe_link          = add_query_arg(
 			[
 				'page'                     => 'woo-cart-abandonment-recovery',
 				'unsubscribe_weekly_email' => true,
@@ -121,6 +133,10 @@ class Cartflows_Ca_Admin_Report_Emails {
 			],
 			admin_url( 'admin.php' )
 		);
+		$dashboard_link            = admin_url( 'admin.php?page=woo-cart-abandonment-recovery' );
+		$followup_report_page_link = admin_url( 'admin.php?page=woo-cart-abandonment-recovery&path=follow-up' );
+		$sms_recovery_link         = admin_url( 'admin.php?page=woo-cart-abandonment-recovery&path=integrations&tab=sms-integration' );
+
 
 		$facebook_icon = CARTFLOWS_CA_URL . 'admin/assets/images/facebook2x.png';
 		$twitter_icon  = CARTFLOWS_CA_URL . 'admin/assets/images/twitter2x.png';
@@ -181,21 +197,29 @@ class Cartflows_Ca_Admin_Report_Emails {
 		$recovered_report = $report_instance->get_report_by_type( $from_date, $to_date, WCF_CART_COMPLETED_ORDER );
 		$lost_report      = $report_instance->get_report_by_type( $from_date, $to_date, WCF_CART_LOST_ORDER );
 
-		$total_orders = $recovered_report['no_of_orders'] + $abandoned_report['no_of_orders'] + $lost_report['no_of_orders'];
-		if ( $total_orders ) {
-			$conversion_rate = $recovered_report['no_of_orders'] / $total_orders * 100;
+		$abandoned_report['no_of_orders'] = $recovered_report['no_of_orders'] + $abandoned_report['no_of_orders'] + $lost_report['no_of_orders'];
+		if ( $abandoned_report['no_of_orders'] ) {
+			$conversion_rate = $recovered_report['no_of_orders'] / $abandoned_report['no_of_orders'] * 100;
 		}
+
+		$helper_instance       = Cartflows_Ca_Helper::get_instance();
+		$top_recovered_product = $helper_instance->get_top_product_by_type( $from_date, $to_date, WCF_CART_COMPLETED_ORDER );
 
 		$from_date                   = gmdate( 'Y-m-d', strtotime( '-30 days' ) );
 		$last_month_recovered_report = $report_instance->get_report_by_type( $from_date, $to_date, WCF_CART_COMPLETED_ORDER );
 
-		return [
+		$report = [
 			'recovered_revenue'            => $recovered_report['revenue'],
 			'recovered_orders'             => $recovered_report['no_of_orders'],
 			'abandonded_orders'            => $abandoned_report['no_of_orders'],
 			'last_month_recovered_Revenue' => $last_month_recovered_report['revenue'],
 			'conversion_rate'              => number_format_i18n( $conversion_rate, 2 ),
+			'average_order_value'          => $recovered_report['revenue'] > 0 ? $recovered_report['revenue'] / $recovered_report['no_of_orders'] : 0,
+			'top_recovered_product'        => $top_recovered_product,
 		];
+
+		$report = apply_filters( 'cartflows_ca_weekly_report_data', $report, $from_date, $to_date );
+		return $report;
 	}
 
 }

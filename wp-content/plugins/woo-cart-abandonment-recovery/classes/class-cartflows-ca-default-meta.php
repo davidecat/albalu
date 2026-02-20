@@ -197,6 +197,10 @@ class Cartflows_Ca_Default_Meta {
 				'default'  => 20,
 				'sanitize' => 'FILTER_SANITIZE_NUMBER_INT',
 			],
+			'wcf_ca_cart_lost_time'                       => [
+				'default'  => WCF_DEFAULT_CART_LOST_TIME,
+				'sanitize' => 'FILTER_SANITIZE_NUMBER_INT',
+			],
 			'wcf_ca_ignore_users'                         => [
 				'default'  => [],
 				'sanitize' => 'FILTER_SANITIZE_STRING',
@@ -291,6 +295,10 @@ class Cartflows_Ca_Default_Meta {
 			],
 			// TODO: Remove this after new UI is enabled by default.
 			'cartflows_ca_use_new_ui'                     => [
+				'default'  => false,
+				'sanitize' => 'FILTER_SANITIZE_STRING',
+			],
+			'car_legacy_ui_notice_dismissed'              => [
 				'default'  => false,
 				'sanitize' => 'FILTER_SANITIZE_STRING',
 			],

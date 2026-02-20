@@ -162,7 +162,6 @@ if ( ! class_exists( 'BSF_Analytics' ) ) {
 		public function is_tracking_enabled() {
 
 			foreach ( $this->entities as $key => $data ) {
-
 				$is_enabled = get_site_option( $key . '_analytics_optin' ) === 'yes' ? true : false;
 				$is_enabled = $this->is_white_label_enabled( $key ) ? false : $is_enabled;
 

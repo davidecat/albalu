@@ -3,20 +3,23 @@ Contributors: SS88_UK
 Donate link: https://paypal.me/SS88/
 Tags: file size, media library, image size, library size
 Requires at least: 4.1
-Tested up to: 6.8
-Stable tag: 1.6.7
+Tested up to: 6.9
+Stable tag: 1.7
 Requires PHP: 5.6
 License: GPL2
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Displays the Media Library file sizes, including collective variants, and adds the ability to view/download each variant image!
+New in 2026: 'Analyze' feature to find largest files by visual pie chart. Displays the Media Library file sizes, including collective variants, and adds the ability to view/download each variant image!
 
 == Description ==
 
-Improve your Media Library functionality by introducing a new column that showcases the sizes of files, including collective variants. This lightweight plugin empowers you to effortlessly sort files based on their respective file sizes and view variants.
+Improve your Media Library functionality by introducing new data that showcases the sizes of files, including collective variants.
 
 Primary Features:
 
+* View a pie chart to quicky visualize the most common attachment types, grouped
+* View largest file sizes with a click of a button
+* Support for List & Grid mode in the Media Library
 * Tested with meida libraries with over 50,000 attachments
 * View file size of primary file and their variants
 * Sort the media library by file size to find those pesky large file
@@ -69,6 +72,18 @@ Make sure you are looking at your Media Library, and you are in List view. Grid 
 This is a collective size of your thumbnails (and other sized images).
 
 == Changelog ==
+
+= 1.7 =
+* Security fixes
+* Performance improvements
+* NEW: 'Analyze' feature. View the pie chart or tables to see which different types of attachments are using the most space. Manage them from a simple table.
+* NEW: Grid view now has Media Library totals as well as index buttons
+* NEW: When you edit an attachment, you can view it's variants and see the total variant file size
+* NEW: When viewing an attachment in Grid mode, you can view it's variants and see the total variant file size
+
+= 1.6.8 =
+* Tested up-to 6.9
+* Administrator check for Indexes
 
 = 1.6.7 =
 * WordPress 'release' loop fix

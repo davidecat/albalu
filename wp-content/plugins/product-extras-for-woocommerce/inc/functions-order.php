@@ -1092,9 +1092,15 @@ add_filter( 'woocommerce_order_item_get_formatted_meta_data', 'pewc_order_item_r
  */
 function pewc_filter_replace_product_sku( $new_file_name, $order_id, $field, $product_id, $order_item, $file_index ) {
 
-	if ( false !== strpos( $new_file_name, 'xxproduct_skuxx' ) && $order_item && $order_item->is_type( 'line_item' ) ) {
-		$product = $order_item->get_product();
-		if ( $product ) {
+	if ( false !== strpos( $new_file_name, 'xxproduct_skuxx' ) ) {
+		if ( is_object( $order_item ) && $order_item->is_type( 'line_item' ) ) {
+			$product = $order_item->get_product();
+		} else if ( isset( $order_item['data'] ) ) {
+			// 3.27.7, this might be a $cart_value array, called from pewc_get_uploaded_files_per_field()
+			$product = $order_item['data'];
+		}
+
+		if ( ! empty( $product ) && is_a( $product, 'WC_Product' ) ) {
 			$sku = '';
 			if ( 'variation' === $product->get_type() ) {
 				if ( apply_filters( 'pewc_replace_with_variation_sku', true, $product, $field ) ) {

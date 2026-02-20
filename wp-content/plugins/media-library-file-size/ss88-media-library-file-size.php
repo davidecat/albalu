@@ -1,17 +1,22 @@
 <?php
 /*
 Plugin Name: Media Library File Size
-Plugin URI: https://ss88.us/plugins/media-library-file-size?utm_source=wordpress&utm_medium=link&utm_campaign=mlfs
+Plugin URI: https://neoboffin.com/plugins/media-library-file-size?utm_source=wordpress&utm_medium=link&utm_campaign=mlfs
 Description: Creates a new column in your Media Library to show you the file (and collective images) size of files plus more!
-Version: 1.6.7
-Author: SS88 LLC
-Author URI: https://ss88.us/?utm_source=wordpress&utm_medium=link&utm_campaign=author_mlfs
+Version: 1.7
+Author: Neoboffin LLC
+Author URI: https://neoboffin.com/?utm_source=wordpress&utm_medium=link&utm_campaign=author_mlfs
 Text Domain: media-library-file-size
+License: GPL2
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
 */
+
+if ( ! defined( 'ABSPATH' ) ) exit;
+require_once plugin_dir_path(__FILE__) . 'analyze.php';
 
 class SS88_MediaLibraryFileSize {
 
-    protected $version = '1.6.7';
+    protected $version = '1.7';
 	protected $variantJSON = [];
 
     public static function init() {
@@ -25,8 +30,6 @@ class SS88_MediaLibraryFileSize {
 
         global $pagenow;
 
-		register_uninstall_hook(__FILE__, ['SS88_MediaLibraryFileSize', 'register_uninstall_hook']);
-
         if($pagenow=='upload.php') {
 
             add_filter('manage_media_custom_column', [$this, 'manage_media_custom_column'], 10, 2);
@@ -37,11 +40,20 @@ class SS88_MediaLibraryFileSize {
 			add_action('admin_footer', [$this, 'admin_footer_view_variants_json']);
 
         }
+		else if($pagenow=='post.php') {
+
+			add_action('add_meta_boxes_attachment', [$this, 'add_meta_boxes_attachment']);
+			add_action('admin_enqueue_scripts', [$this, 'admin_enqueue_scripts_attachment']);
+			add_action('attachment_submitbox_misc_actions', [$this, 'post_submitbox_misc_actions']);
+			add_action('admin_footer', [$this, 'admin_footer_attachment_misc_reorder']);
+
+		}
 
         if(is_admin()) {
 
             add_action('wp_ajax_SS88MLFS_index', [$this, 'index']);
 			add_action('wp_ajax_SS88MLFS_indexCount', [$this, 'indexCount']);
+			add_action('wp_ajax_SS88MLFS_attachmentDetails', [$this, 'attachmentDetails']);
 
         }
 
@@ -91,14 +103,108 @@ class SS88_MediaLibraryFileSize {
 
         wp_enqueue_script('noty', plugin_dir_url( __FILE__ ) . 'assets/js/noty.js', false, $this->version, true);
         wp_enqueue_script('SS88_MLFS-media', plugin_dir_url( __FILE__ ) . 'assets/js/media.js', ['noty'], $this->version, true);
-        wp_localize_script('SS88_MLFS-media', 'ss88', array('ajax_url' => admin_url( 'admin-ajax.php' )));
+		$LocalizeData = array(
+			'ajax_url' => admin_url( 'admin-ajax.php' ),
+			'nonce' => wp_create_nonce('ss88_mlfs_nonce')
+		);
+        wp_localize_script('SS88_MLFS-media', 'ss88MLFS', $LocalizeData);
+        wp_localize_script('SS88_MLFS-media', 'ss88', $LocalizeData);
 
         wp_enqueue_style('noty', plugin_dir_url( __FILE__ ) . 'assets/css/noty.css', false, $this->version);
         wp_enqueue_style('SS88_MLFS-media', plugin_dir_url( __FILE__ ) . 'assets/css/media.css', false, $this->version);
 
     }
 
+	function admin_enqueue_scripts_attachment() {
+
+		$screen = get_current_screen();
+		if(empty($screen) || $screen->id!='attachment') return;
+
+		wp_enqueue_style('SS88_MLFS-media', plugin_dir_url( __FILE__ ) . 'assets/css/media.css', false, $this->version);
+
+	}
+
+	function add_meta_boxes_attachment($post) {
+
+		$variantData = $this->getVariantData($post->ID);
+		if(empty($variantData)) return;
+
+		add_meta_box('ss88_mlfs_variants', __('Image Variants', 'media-library-file-size'), [$this, 'render_attachment_variants_metabox'], 'attachment', 'normal', 'default');
+
+	}
+
+	function post_submitbox_misc_actions($post) {
+
+		if(empty($post) || $post->post_type!='attachment') return;
+
+		$VariantSize = intval(get_post_meta($post->ID, 'SS88MLFSV', true));
+		if(empty($VariantSize)) $VariantSize = intval($this->getVariantSize($post->ID));
+		if(empty($VariantSize)) return;
+		$VariantSize = size_format($VariantSize);
+
+		echo '<div class="misc-pub-section misc-pub-ss88mlfsv">';
+			echo esc_html__('Variants size:', 'media-library-file-size') . ' <strong>' . esc_html($VariantSize) . '</strong>';
+		echo '</div>';
+
+	}
+
+	function admin_footer_attachment_misc_reorder() {
+
+		$screen = get_current_screen();
+		if(empty($screen) || $screen->id!='attachment') return;
+
+		echo "<script>
+			(function() {
+				var filesize = document.querySelector('.misc-pub-filesize');
+				var variants = document.querySelector('.misc-pub-ss88mlfsv');
+				if(!filesize || !variants) return;
+				if(filesize.nextElementSibling!==variants) filesize.insertAdjacentElement('afterend', variants);
+			})();
+		</script>";
+
+	}
+
+	function render_attachment_variants_metabox($post) {
+
+		$variantData = $this->getVariantData($post->ID);
+
+		if(empty($variantData)) {
+
+			echo '<p>' . esc_html__('No variants were found for this attachment.', 'media-library-file-size') . '</p>';
+			return;
+
+		}
+
+		usort($variantData, function($a, $b) {
+
+			return intval($a['width']) - intval($b['width']);
+
+		});
+
+		echo '<div class="ss88MLFS_VV_metabox">';
+
+			foreach($variantData as $data) {
+
+				echo '<div class="ss88MLFS_VV_box">';
+					echo '<span class="img">';
+						echo esc_html($data['width']) . '<br>x<br>' . esc_html($data['height']);
+						echo '<a href="' . esc_url($data['filename']) . '" target="_blank" rel="noopener noreferrer">' . esc_html__('Click to View Image', 'media-library-file-size') . '</a>';
+					echo '</span>';
+					echo '<span class="name">' . esc_html(wp_basename($data['filename'])) . '</span>';
+					echo '<span class="size">' . esc_html__('Filesize:', 'media-library-file-size') . ' ' . esc_html($data['filesize_hr']) . '</span>';
+					echo '<span class="name2">' . esc_html__('Name:', 'media-library-file-size') . ' ' . esc_html($data['size']) . '</span>';
+				echo '</div>';
+
+			}
+
+		echo '</div>';
+
+	}
+
     function index() {
+
+        if(!current_user_can('manage_options')) wp_send_json_error(['error' => 'You need to be an administrator.']);
+		if(!check_ajax_referer('ss88_mlfs_nonce', 'nonce', false)) wp_send_json_error(['error' => 'Security check failed.']);
 
         set_time_limit(600);
         ini_set('max_execution_time', 600);
@@ -176,6 +282,7 @@ class SS88_MediaLibraryFileSize {
             $attachmentProcessed = number_format($attachmentProcessed);
             $finalMessage = 'You just indexed '. $attachmentProcessed .' attachments. Your media library has been indexed.';
             if($reindexMedia) $finalMessage = 'You just reindexed '. $attachmentProcessed .' attachments.';
+			wp_cache_delete('ss88_mlfs_index_count', 'ss88_mlfs');
             
             wp_send_json_success([
                 'html' => $returnData,
@@ -189,16 +296,54 @@ class SS88_MediaLibraryFileSize {
 
 	function indexCount() {
 
+        if(!current_user_can('manage_options')) wp_send_json_error(['error' => 'You need to be an administrator.']);
+		if(!check_ajax_referer('ss88_mlfs_nonce', 'nonce', false)) wp_send_json_error(['error' => 'Security check failed.']);
+
+		$CachedData = wp_cache_get('ss88_mlfs_index_count', 'ss88_mlfs');
+		if($CachedData!==false) {
+
+			$HasData = !empty($CachedData['__has_data']);
+			unset($CachedData['__has_data']);
+			if($HasData) wp_send_json_success($CachedData);
+			return wp_send_json_error($CachedData);
+
+		}
+
 		global $wpdb;
 
 		$TotalMLSize = $wpdb->get_var("SELECT SUM(meta_value) FROM $wpdb->postmeta WHERE meta_key = 'SS88MLFS'");
 		$TotalMLSizeV = $wpdb->get_var("SELECT SUM(meta_value) FROM $wpdb->postmeta WHERE meta_key = 'SS88MLFSV'");
 		$SpanTitle = ($TotalMLSizeV) ? size_format($TotalMLSize, 2) . ' + ' . size_format($TotalMLSizeV, 2) . '<br>of variants' : '';
 
+		$HasData = ($TotalMLSize || $TotalMLSizeV) ? true : false;
 		$ReturnData = ['TotalMLSize' => size_format($TotalMLSize + $TotalMLSizeV), 'TotalMLSize_Title' => $SpanTitle];
+		$CacheData = $ReturnData;
+		$CacheData['__has_data'] = $HasData;
+		wp_cache_set('ss88_mlfs_index_count', $CacheData, 'ss88_mlfs', 60);
 
-		if($TotalMLSize || $TotalMLSizeV) wp_send_json_success($ReturnData);
+		if($HasData) wp_send_json_success($ReturnData);
 		else return wp_send_json_error($ReturnData);
+
+	}
+
+	function attachmentDetails() {
+
+		if(!current_user_can('upload_files')) wp_send_json_error(['error' => 'You need permission to access media details.']);
+		if(!check_ajax_referer('ss88_mlfs_nonce', 'nonce', false)) wp_send_json_error(['error' => 'Security check failed.']);
+
+		$attachment_id = (isset($_REQUEST['attachment_id'])) ? intval($_REQUEST['attachment_id']) : 0;
+		if(empty($attachment_id)) wp_send_json_error(['error' => 'Invalid attachment ID.']);
+		if(get_post_type($attachment_id)!='attachment') wp_send_json_error(['error' => 'Attachment not found.']);
+
+		$VariantSize = intval(get_post_meta($attachment_id, 'SS88MLFSV', true));
+		if(empty($VariantSize)) $VariantSize = $this->getVariantSize($attachment_id);
+
+		wp_send_json_success([
+			'attachment_id' => $attachment_id,
+			'variant_size' => size_format($VariantSize),
+			'variant_size_bytes' => $VariantSize,
+			'variants' => $this->getVariantData($attachment_id)
+		]);
 
 	}
 
@@ -295,23 +440,8 @@ class SS88_MediaLibraryFileSize {
 
 			if(isset($Variants['sizes'])) {
 
-				$AttachmentURL = wp_get_attachment_url($attachment_id);
-				
-				foreach($Variants['sizes'] as $v_size=>$v_data) {
-
-					$VSize = (!isset($v_data['filesize'])) ? filesize(pathinfo($file, PATHINFO_DIRNAME) . '/' . $v_data['file']) : $v_data['filesize'];
-					$VSize = (empty($VSize)) ? 'Unknown' : $VSize;
-
-					$this->variantJSON[$attachment_id][] = [
-						'size' => $v_size,
-						'width' => intval($v_data['width']),
-						'height' => intval($v_data['height']),
-						'filesize_hr' => size_format($VSize),
-						'filename' => pathinfo($AttachmentURL, PATHINFO_DIRNAME) . '/' . $v_data['file']
-					];
-
-				}
-	
+				$this->variantJSON[$attachment_id] = $this->getVariantData($attachment_id);
+		
 			}
 
         }
@@ -332,13 +462,67 @@ class SS88_MediaLibraryFileSize {
 
             foreach($Variants['sizes'] as $Variant) {
 
-                $VariantSize += isset($Variant['filesize']) ? $Variant['filesize'] : filesize( pathinfo($file, PATHINFO_DIRNAME) . '/' . $Variant['file'] );
+                if(isset($Variant['filesize'])) {
+
+					$VariantSize += intval($Variant['filesize']);
+
+				}
+				else {
+
+					$VariantFile = pathinfo($file, PATHINFO_DIRNAME) . '/' . $Variant['file'];
+					if(file_exists($VariantFile)) $VariantSize += filesize($VariantFile);
+
+				}
 
             }
 
         }
 
 		return intval($VariantSize);
+
+	}
+
+	function getVariantData($attachment_id) {
+
+		if(empty($attachment_id)) return [];
+
+		$file = get_attached_file($attachment_id);
+		$Variants = wp_get_attachment_metadata($attachment_id);
+		$AttachmentURL = wp_get_attachment_url($attachment_id);
+		$ReturnData = [];
+
+		if(isset($Variants['sizes']) && is_array($Variants['sizes'])) {
+
+			foreach($Variants['sizes'] as $v_size=>$v_data) {
+
+				if(!isset($v_data['file'])) continue;
+
+				$VSize = 0;
+				if(isset($v_data['filesize'])) {
+
+					$VSize = intval($v_data['filesize']);
+
+				}
+				else {
+
+					$VFile = pathinfo($file, PATHINFO_DIRNAME) . '/' . $v_data['file'];
+					if(file_exists($VFile)) $VSize = filesize($VFile);
+
+				}
+
+				$ReturnData[] = [
+					'size' => $v_size,
+					'width' => intval($v_data['width']),
+					'height' => intval($v_data['height']),
+					'filesize_hr' => ($VSize) ? size_format($VSize) : 'Unknown',
+					'filename' => pathinfo($AttachmentURL, PATHINFO_DIRNAME) . '/' . $v_data['file']
+				];
+
+			}
+
+		}
+
+		return $ReturnData;
 
 	}
 
@@ -363,5 +547,5 @@ class SS88_MediaLibraryFileSize {
 
 }
 
+register_uninstall_hook(__FILE__, ['SS88_MediaLibraryFileSize', 'register_uninstall_hook']);
 add_action('plugins_loaded', ['SS88_MediaLibraryFileSize', 'init']);
-add_action('activated_plugin', ['SS88_MediaLibraryFileSize', 'activated_plugin']);

@@ -87,6 +87,10 @@ if ( ! class_exists( 'Cartflows_Ca_Update' ) ) {
 				self::handle_ignore_users_option_on_upgrade();
 			}
 
+			if ( version_compare( $saved_version, '2.0.5', '<=' ) ) {
+				self::handle_analytics_optin_migration();
+			}
+
 			// Handle UI switching logic for version upgrades.
 			self::handle_ui_option_on_upgrade( $saved_version );
 
@@ -142,6 +146,24 @@ if ( ! class_exists( 'Cartflows_Ca_Update' ) ) {
 				}
 			}
 				update_option( 'wcf_ca_ignore_users', $new_roles );
+		}
+
+		/**
+		 * Handles the migration of the 'cf_analytics_optin' option during upgrade.
+		 *
+		 * This function updates the 'cf_analytics_optin' option value from 'on' to 'yes'
+		 * for older users who have enabled analytics tracking. This ensures compatibility
+		 * with the analytics library requirement.
+		 *
+		 * @since 2.0.5
+		 * @return void
+		 */
+		public static function handle_analytics_optin_migration(): void {
+			$analytics_optin = get_option( 'cf_analytics_optin', false );
+
+			if ( 'on' === $analytics_optin ) {
+				update_option( 'cf_analytics_optin', 'yes' );
+			}
 		}
 	}
 

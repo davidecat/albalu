@@ -126,7 +126,7 @@ function wpo_ips_edi_maybe_save_order_peppol_data( \WC_Abstract_Order $order, ar
 	if ( ! wpo_ips_edi_peppol_is_available() ) {
 		return; // only save for Peppol formats
 	}
-	
+
 	$identifier     = '';
 	$scheme         = '';
 	$save_meta_data = false;
@@ -148,15 +148,18 @@ function wpo_ips_edi_maybe_save_order_peppol_data( \WC_Abstract_Order $order, ar
 			$identifier = $raw;
 		}
 	}
-	
+
 	if ( empty( $identifier ) || empty( $scheme ) ) {
-		$user_id = $order->get_customer_id();
-		if ( empty( $user_id ) ) {
+		$customer_id = is_callable( array( $order, 'get_customer_id' ) )
+			? $order->get_customer_id()
+			: 0;
+
+		if ( $customer_id <= 0 ) {
 			return;
 		}
 
-		$identifier = get_user_meta( $user_id, 'peppol_endpoint_id', true );
-		$scheme     = get_user_meta( $user_id, 'peppol_endpoint_eas', true );
+		$identifier = get_user_meta( $customer_id, 'peppol_endpoint_id', true );
+		$scheme     = get_user_meta( $customer_id, 'peppol_endpoint_eas', true );
 	}
 
 	if ( ! empty( $identifier ) ) {
@@ -172,7 +175,7 @@ function wpo_ips_edi_maybe_save_order_peppol_data( \WC_Abstract_Order $order, ar
 	if ( ! $save_meta_data ) {
 		return;
 	}
-	
+
 	$order->save_meta_data();
 }
 
@@ -316,10 +319,9 @@ function wpo_ips_edi_file_headers( string $filename, $size ): void {
 	$charset = apply_filters( 'wpo_ips_edi_file_header_content_type_charset', 'UTF-8' );
 
 	header( 'Content-Description: File Transfer' );
-	header( 'Content-Type: text/xml; charset=' . $charset );
+	header( 'Content-Type: application/xml; charset=' . $charset );
 	header( 'Content-Disposition: attachment; filename=' . $filename );
 	header( 'Content-Transfer-Encoding: binary' );
-	header( 'Connection: Keep-Alive' );
 	header( 'Expires: 0' );
 	header( 'Cache-Control: must-revalidate, post-check=0, pre-check=0' );
 	header( 'Pragma: public' );
@@ -775,6 +777,10 @@ function wpo_ips_edi_peppol_identifier_input_mode(): string {
  * @param array $request $_POST / REST payload.
  */
 function wpo_ips_edi_peppol_save_customer_identifiers( int $user_id, array $request ): void {
+	if ( $user_id <= 0 ) {
+		return;
+	}
+
 	$mode = wpo_ips_edi_peppol_identifier_input_mode();
 
 	// [ text‑field , scheme‑field ]
@@ -871,13 +877,23 @@ function wpo_ips_edi_generate_action_button_html( string $url, string $class, st
 		return '';
 	}
 
+	$atts = apply_filters(
+		'wpo_ips_edi_generate_action_button_html_atts',
+		array(
+			'url'   => $url,
+			'class' => $class,
+			'label' => $label,
+			'icon'  => $icon,
+		)
+	);
+
 	return sprintf(
 		'<a href="%1$s" class="%2$s" alt="%3$s" title="%3$s">
 			<span class="dashicons %4$s"></span>
 		</a>',
-		esc_url( $url ),
-		esc_attr( $class ),
-		esc_attr( $label ),
-		esc_attr( $icon )
+		esc_url( $atts['url'] ),
+		esc_attr( $atts['class'] ),
+		esc_attr( $atts['label'] ),
+		esc_attr( $atts['icon'] )
 	);
 }

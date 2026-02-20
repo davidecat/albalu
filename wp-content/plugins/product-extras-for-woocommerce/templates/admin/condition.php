@@ -12,11 +12,11 @@ if( ! defined( 'ABSPATH' ) ) {
 
 <?php $style = 'style="display: none;"';
 if( ! empty( $item['condition_field'] ) ) {
-	$style = 'style="display: block;"';
+	$style = 'style="display: grid;"';
 } ?>
 <div class="product-extra-conditional-row product-extra-action-match-row" <?php echo $style; ?>>
 
-	<div class="product-extra-field-half">
+	<div>
 		<?php $actions = pewc_get_actions();
 		$action = '';
 		if( isset( $item['condition_action'] ) ) {
@@ -32,7 +32,7 @@ if( ! empty( $item['condition_field'] ) ) {
 		<?php } ?>
 	</div>
 
-	<div class="product-extra-field-half">
+	<div>
 		<?php $matches = pewc_get_matches();
 		$match = '';
 		if( isset( $item['condition_match'] ) ) {
@@ -61,9 +61,12 @@ if( ! empty( $item['condition_field'] ) ) {
 
 		<div class="product-extra-conditional-row product-extra-conditional-rule" data-condition-count="<?php echo esc_attr( $condition_count ); ?>">
 
-			<div class="product-extra-field-third">
+			<div>
 
 				<?php
+				if( ! isset( $group  ) ) {
+					$group = pewc_get_group_fields( $group_id );
+				}
 				$is_ajax = pewc_enable_ajax_load_addons();
 				$fields = pewc_get_all_fields( $group, $is_ajax, $post_id );
 
@@ -107,7 +110,7 @@ if( ! empty( $item['condition_field'] ) ) {
 				<?php } ?>
 			</div>
 
-			<div class="product-extra-field-sixth">
+			<div>
 				<?php $class = "pewc-condition-rule pewc-condition-select";
 				$rules = pewc_get_rules();
 				//$allow_multiple = get_post_meta( $cond_field_id, 'allow_multiple', true );
@@ -167,7 +170,7 @@ if( ! empty( $item['condition_field'] ) ) {
 				</select>
 			</div>
 
-			<div class="product-extra-field-half product-extra-field-last pewc-condition-value-field">
+			<div class="pewc-condition-value-field">
 				<?php $value = '';
 				if( isset( $item['condition_value'][$condition_count] ) ) {
 					$value = $item['condition_value'][$condition_count];
@@ -235,8 +238,9 @@ if( ! empty( $item['condition_field'] ) ) {
 					<input class="pewc-condition-value pewc-condition-set-value" type="hidden" name="_product_extra_groups_<?php echo esc_attr( $group_id ); ?>_<?php echo esc_attr( $item_key ); ?>[condition_value][<?php echo esc_attr( $condition_count ); ?>]" id="condition_value_<?php echo esc_attr( $group_id ); ?>_<?php echo esc_attr( $item_key ); ?>_<?php echo esc_attr( $condition_count ); ?>" data-group-id="<?php echo esc_attr( $group_id ); ?>" data-item-id="<?php echo esc_attr( $item_key ); ?>" data-condition-id="<?php echo esc_attr( $condition_count ); ?>" value="__checked__">
 				<?php } ?>
 
-				<span class="remove-condition pewc-action"><?php _e( 'Remove', 'pewc' ); ?></span>
-
+			</div>
+			<div class="remove-condition-wrapper">
+				<span class="remove-condition pewc-action"><span class="dashicons dashicons-trash"></span></span>
 			</div>
 
 		</div><!-- .product-extra-conditional-row -->

@@ -2,14 +2,14 @@
 # This file is distributed under the same license as the Payment Plugins for PayPal WooCommerce plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: Payment Plugins for PayPal WooCommerce 2.0.8\n"
+"Project-Id-Version: Payment Plugins for PayPal WooCommerce 2.0.10\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/pymntpl-paypal-woocommerce\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-01-08T02:02:38+00:00\n"
+"POT-Creation-Date: 2026-02-05T17:30:24+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.7.1\n"
 "X-Domain: pymntpl-paypal-woocommerce\n"
@@ -600,40 +600,40 @@ msgstr ""
 msgid "PayPal by Payment Plugins"
 msgstr ""
 
-#: src/Admin/MetaBoxes/Order.php:52
+#: src/Admin/MetaBoxes/Order.php:60
 msgid "PayPal Actions"
 msgstr ""
 
-#: src/Admin/MetaBoxes/Order.php:58
+#: src/Admin/MetaBoxes/Order.php:66
 msgid "PayPal Order"
 msgstr ""
 
-#: src/Admin/MetaBoxes/Order.php:68
+#: src/Admin/MetaBoxes/Order.php:76
 msgid "Transaction Actions"
 msgstr ""
 
-#: src/Admin/MetaBoxes/Order.php:72
+#: src/Admin/MetaBoxes/Order.php:80
 msgid "Shipping Actions"
 msgstr ""
 
-#: src/Admin/MetaBoxes/Order.php:82
+#: src/Admin/MetaBoxes/Order.php:90
 msgid "Capture Amount"
 msgstr ""
 
-#: src/Admin/MetaBoxes/Order.php:89
+#: src/Admin/MetaBoxes/Order.php:97
 msgid "There are no transaction actions available."
 msgstr ""
 
-#: src/Admin/MetaBoxes/Order.php:97
+#: src/Admin/MetaBoxes/Order.php:105
 #: src/Rest/Routes/Admin/AdminOrderTracking.php:60
 msgid "Tracking cannot be added until the payment is captured."
 msgstr ""
 
-#: src/Admin/MetaBoxes/Order.php:100
+#: src/Admin/MetaBoxes/Order.php:108
 msgid "In this section, you can add tracking info to the PayPal transaction."
 msgstr ""
 
-#: src/Admin/MetaBoxes/Order.php:103
+#: src/Admin/MetaBoxes/Order.php:111
 msgid "Tracking #"
 msgstr ""
 
@@ -645,22 +645,22 @@ msgstr ""
 msgid "Carrier"
 msgstr ""
 
-#: src/Admin/MetaBoxes/Order.php:137
+#: src/Admin/MetaBoxes/Order.php:140
 msgid "Carrier Name"
 msgstr ""
 
-#: src/Admin/MetaBoxes/Order.php:142
+#: src/Admin/MetaBoxes/Order.php:145
 msgid "Notify Buyer"
 msgstr ""
 
-#: src/Admin/MetaBoxes/Order.php:156
-#: src/Admin/MetaBoxes/Order.php:158
-#: src/Admin/MetaBoxes/Order.php:163
-#: src/Payments/Gateways/ApplePayGateway.php:367
+#: src/Admin/MetaBoxes/Order.php:159
+#: src/Admin/MetaBoxes/Order.php:161
+#: src/Admin/MetaBoxes/Order.php:166
+#: src/Payments/Gateways/ApplePayGateway.php:368
 msgid "Processing..."
 msgstr ""
 
-#: src/Admin/MetaBoxes/Order.php:156
+#: src/Admin/MetaBoxes/Order.php:159
 #: src/Payments/Gateways/ApplePayGateway.php:102
 #: src/Payments/Gateways/CreditCardGateway.php:74
 #: src/Payments/Gateways/GooglePayGateway.php:124
@@ -669,19 +669,19 @@ msgstr ""
 msgid "Capture"
 msgstr ""
 
-#: src/Admin/MetaBoxes/Order.php:158
+#: src/Admin/MetaBoxes/Order.php:161
 msgid "Void"
 msgstr ""
 
-#: src/Admin/MetaBoxes/Order.php:164
+#: src/Admin/MetaBoxes/Order.php:167
 msgid "Submit"
 msgstr ""
 
-#: src/Admin/MetaBoxes/Order.php:187
+#: src/Admin/MetaBoxes/Order.php:190
 msgid "PayPal Fee"
 msgstr ""
 
-#: src/Admin/MetaBoxes/Order.php:193
+#: src/Admin/MetaBoxes/Order.php:196
 msgid "Net payout"
 msgstr ""
 
@@ -1342,56 +1342,56 @@ msgstr ""
 msgid "PayPal capture status is pending. Reason: %1$s. Payment will complete when capture.completed webhook is received."
 msgstr ""
 
-#: src/Legacy/LegacyPaymentHandler.php:195
-#: src/Payments/Gateways/AbstractGateway.php:430
+#: src/Legacy/LegacyPaymentHandler.php:196
+#: src/Payments/Gateways/AbstractGateway.php:431
 msgid "PayPal order %s created. %s"
 msgstr ""
 
-#: src/Legacy/LegacyPaymentHandler.php:196
-#: src/Payments/Gateways/AbstractGateway.php:432
+#: src/Legacy/LegacyPaymentHandler.php:197
+#: src/Payments/Gateways/AbstractGateway.php:433
 #: src/Traits/CardPaymentNoteTrait.php:28
 msgid "Capture ID: %s"
 msgstr ""
 
-#: src/Legacy/LegacyPaymentHandler.php:196
-#: src/Payments/Gateways/AbstractGateway.php:432
+#: src/Legacy/LegacyPaymentHandler.php:197
+#: src/Payments/Gateways/AbstractGateway.php:433
 #: src/Traits/CardPaymentNoteTrait.php:30
 msgid "Authorization ID: %s"
 msgstr ""
 
-#: src/Legacy/LegacyPaymentHandler.php:287
+#: src/Legacy/LegacyPaymentHandler.php:288
 #: src/PaymentHandler.php:306
 msgid "To process a refund, there must be a transaction id associated with the order."
 msgstr ""
 
-#: src/Legacy/LegacyPaymentHandler.php:290
+#: src/Legacy/LegacyPaymentHandler.php:291
 #: src/PaymentHandler.php:309
 msgid "This payment has a status of Authorize. Only captured payments can be refunded."
 msgstr ""
 
-#: src/Legacy/LegacyPaymentHandler.php:324
+#: src/Legacy/LegacyPaymentHandler.php:325
 #: src/PaymentHandler.php:335
 msgid "Error capturing payment. Reason: %s"
 msgstr ""
 
-#: src/Legacy/LegacyPaymentHandler.php:328
+#: src/Legacy/LegacyPaymentHandler.php:329
 #: src/PaymentHandler.php:339
 msgid "Payment captured in PayPal. Capture ID: %s Amount: %s"
 msgstr ""
 
-#: src/Legacy/LegacyPaymentHandler.php:360
+#: src/Legacy/LegacyPaymentHandler.php:361
 #: src/PaymentHandler.php:371
 msgid "A valid authorization ID is required to perform a void."
 msgstr ""
 
-#: src/Legacy/LegacyPaymentHandler.php:374
-#: src/Legacy/LegacyPaymentHandler.php:404
+#: src/Legacy/LegacyPaymentHandler.php:375
+#: src/Legacy/LegacyPaymentHandler.php:405
 #: src/PaymentHandler.php:385
 #: src/PaymentHandler.php:415
 msgid "PayPal authorization cancelled. Authorization ID: %s"
 msgstr ""
 
-#: src/Legacy/LegacyPaymentHandler.php:398
+#: src/Legacy/LegacyPaymentHandler.php:399
 #: src/PaymentHandler.php:409
 msgid "Order cancellation"
 msgstr ""
@@ -1458,7 +1458,7 @@ msgid "3DS authentication status unknown. Please try again."
 msgstr ""
 
 #: src/Messages.php:37
-#: src/Payments/Gateways/ApplePayGateway.php:354
+#: src/Payments/Gateways/ApplePayGateway.php:355
 #: src/Payments/Gateways/GooglePayGateway.php:421
 msgid "Total"
 msgstr ""
@@ -1481,7 +1481,7 @@ msgid "There was an error processing your payment. Reason: %s"
 msgstr ""
 
 #: src/Payments/Gateways/AbstractGateway.php:253
-#: src/WebhookEventReceiver.php:131
+#: src/WebhookEventReceiver.php:134
 msgid "Order refunded in PayPal. Amount: %1$s. Refund ID: %2$s"
 msgstr ""
 
@@ -1763,11 +1763,11 @@ msgstr ""
 msgid "The border radius of the button in pixels. Must be a non-negative integer."
 msgstr ""
 
-#: src/Payments/Gateways/ApplePayGateway.php:366
+#: src/Payments/Gateways/ApplePayGateway.php:367
 msgid "There was an error adding your domain association file. Reason:"
 msgstr ""
 
-#: src/Payments/Gateways/ApplePayGateway.php:408
+#: src/Payments/Gateways/ApplePayGateway.php:409
 msgid "Apple Pay Enabled"
 msgstr ""
 
@@ -2281,11 +2281,11 @@ msgstr ""
 msgid "Tracking number is a required field."
 msgstr ""
 
-#: src/Rest/Routes/Admin/AdminOrderTracking.php:87
+#: src/Rest/Routes/Admin/AdminOrderTracking.php:89
 msgid "The tracking information has been updated."
 msgstr ""
 
-#: src/Rest/Routes/Admin/AdminOrderTracking.php:97
+#: src/Rest/Routes/Admin/AdminOrderTracking.php:99
 msgid "Carrier name is required when the selected carrier is \"Other\"."
 msgstr ""
 
@@ -2435,16 +2435,16 @@ msgstr ""
 msgid "Click to copy"
 msgstr ""
 
-#: src/Traits/ThreeDSecureTrait.php:79
+#: src/Traits/ThreeDSecureTrait.php:83
 msgid "3DS payment has been rejected."
 msgstr ""
 
-#: src/Traits/VaultTokenTrait.php:43
+#: src/Traits/VaultTokenTrait.php:47
 msgid "You do not have permission to use this payment method."
 msgstr ""
 
-#: src/Traits/VaultTokenTrait.php:46
-#: src/Traits/VaultTokenTrait.php:49
+#: src/Traits/VaultTokenTrait.php:50
+#: src/Traits/VaultTokenTrait.php:53
 msgid "Invalid payment method ID provided."
 msgstr ""
 
@@ -3052,191 +3052,43 @@ msgstr ""
 msgid "Virtual terminal not supported. Please try another payment method."
 msgstr ""
 
-#: src/Utilities/ShippingUtil.php:11
-msgid "Aramex"
-msgstr ""
-
-#: src/Utilities/ShippingUtil.php:12
-msgid "B2C Europe"
-msgstr ""
-
-#: src/Utilities/ShippingUtil.php:13
-msgid "CJ Logistics"
-msgstr ""
-
-#: src/Utilities/ShippingUtil.php:14
-msgid "Correos Express"
-msgstr ""
-
-#: src/Utilities/ShippingUtil.php:15
-msgid "DHL Active Tracing"
-msgstr ""
-
-#: src/Utilities/ShippingUtil.php:16
-msgid "DHL Benelux"
-msgstr ""
-
-#: src/Utilities/ShippingUtil.php:17
-msgid "DHL ecCommerce US"
-msgstr ""
-
-#: src/Utilities/ShippingUtil.php:18
-msgid "DHL eCommerce Asia"
-msgstr ""
-
-#: src/Utilities/ShippingUtil.php:19
-msgid "DHL Express"
-msgstr ""
-
-#: src/Utilities/ShippingUtil.php:20
-msgid "DHL Global eCommerce"
-msgstr ""
-
-#: src/Utilities/ShippingUtil.php:21
-msgid "DHL Packet"
-msgstr ""
-
-#: src/Utilities/ShippingUtil.php:22
-msgid "DPD Global"
-msgstr ""
-
-#: src/Utilities/ShippingUtil.php:23
-msgid "DPD Local"
-msgstr ""
-
-#: src/Utilities/ShippingUtil.php:24
-msgid "DPD Local Reference"
-msgstr ""
-
-#: src/Utilities/ShippingUtil.php:25
-msgid "DPE Express"
-msgstr ""
-
-#: src/Utilities/ShippingUtil.php:26
-msgid "DPEX Hong Kong"
-msgstr ""
-
-#: src/Utilities/ShippingUtil.php:27
-msgid "DTDC Express Global"
-msgstr ""
-
-#: src/Utilities/ShippingUtil.php:28
-msgid "EShopWorld"
-msgstr ""
-
-#: src/Utilities/ShippingUtil.php:29
-msgid "FedEx"
-msgstr ""
-
-#: src/Utilities/ShippingUtil.php:30
-msgid "FLYT Express"
-msgstr ""
-
-#: src/Utilities/ShippingUtil.php:31
-msgid "GLS"
-msgstr ""
-
-#: src/Utilities/ShippingUtil.php:32
-msgid "IMX France"
-msgstr ""
-
-#: src/Utilities/ShippingUtil.php:33
-msgid "International SEUR"
-msgstr ""
-
-#: src/Utilities/ShippingUtil.php:34
-msgid "Landmark Global"
-msgstr ""
-
-#: src/Utilities/ShippingUtil.php:35
-msgid "Matkahuoloto"
-msgstr ""
-
-#: src/Utilities/ShippingUtil.php:36
-msgid "Omni Parcel"
-msgstr ""
-
-#: src/Utilities/ShippingUtil.php:37
-msgid "One World"
-msgstr ""
-
-#: src/Utilities/ShippingUtil.php:38
-msgid "Other"
-msgstr ""
-
-#: src/Utilities/ShippingUtil.php:39
-msgid "Posti"
-msgstr ""
-
-#: src/Utilities/ShippingUtil.php:40
-msgid "Raben Group"
-msgstr ""
-
-#: src/Utilities/ShippingUtil.php:41
-msgid "SF EXPRESS"
-msgstr ""
-
-#: src/Utilities/ShippingUtil.php:42
-msgid "SkyNet Worldwide Express"
-msgstr ""
-
-#: src/Utilities/ShippingUtil.php:43
-msgid "Spreadel"
-msgstr ""
-
-#: src/Utilities/ShippingUtil.php:44
-msgid "TNT Global"
-msgstr ""
-
-#: src/Utilities/ShippingUtil.php:45
-msgid "UPS"
-msgstr ""
-
-#: src/Utilities/ShippingUtil.php:46
-msgid "UPS Mail Innovations"
-msgstr ""
-
-#: src/Utilities/ShippingUtil.php:47
-msgid "WebInterpret"
-msgstr ""
-
-#: src/Utilities/ShippingUtil.php:53
+#: src/Utilities/ShippingUtil.php:1404
 msgid "Shipped"
 msgstr ""
 
-#: src/Utilities/ShippingUtil.php:54
+#: src/Utilities/ShippingUtil.php:1405
 msgid "On Hold"
 msgstr ""
 
-#: src/Utilities/ShippingUtil.php:55
+#: src/Utilities/ShippingUtil.php:1406
 msgid "Delivered"
 msgstr ""
 
-#: src/Utilities/ShippingUtil.php:56
+#: src/Utilities/ShippingUtil.php:1407
 msgid "Canceled"
 msgstr ""
 
-#: src/Utilities/ShippingUtil.php:62
+#: src/Utilities/ShippingUtil.php:1413
 msgid "Carrier Provided"
 msgstr ""
 
-#: src/Utilities/ShippingUtil.php:63
+#: src/Utilities/ShippingUtil.php:1414
 msgid "Marketplace"
 msgstr ""
 
-#: src/WebhookEventReceiver.php:100
+#: src/WebhookEventReceiver.php:103
 msgid "PayPal transaction %s has been cancelled."
 msgstr ""
 
-#: src/WebhookEventReceiver.php:120
+#: src/WebhookEventReceiver.php:123
 msgid "Refund created within PayPal."
 msgstr ""
 
-#: src/WebhookEventReceiver.php:153
+#: src/WebhookEventReceiver.php:156
 msgid "Dispute %1$s created. Dispute reason: %2$s."
 msgstr ""
 
-#: src/WebhookEventReceiver.php:175
+#: src/WebhookEventReceiver.php:178
 msgid "Dispute %1$s resolved."
 msgstr ""
 

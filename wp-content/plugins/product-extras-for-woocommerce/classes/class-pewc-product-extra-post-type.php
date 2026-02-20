@@ -75,11 +75,12 @@ if( ! class_exists( 'PEWC_Product_Extra_Post_Type' ) ) {
 					'delete_field'				=> __( 'Delete this field? Deleting this field will also delete any conditions associated with it.', 'pewc' ),
 					'delete_option' 			=> __( 'Delete this option?', 'pewc' ),
 					'checked_label' 			=> __( 'Checked', 'pewc' ),
-					'condition_continue' 	=> __( 'This field is used in a condition. Changing its field type may affect the condition. Continue?', 'pewc' ),
-					'copy_label'					=> __( 'copy', 'pewc' ),
-					'select_text'					=> __( ' -- Select a field -- ', 'pewc' ),
-					'load_addons_ajax'		=> pewc_enable_ajax_load_addons(),
-					'enable_numeric_options'		=> apply_filters( 'pewc_enable_numeric_options', false )
+					'condition_continue' 		=> __( 'This field is used in a condition. Changing its field type may affect the condition. Continue?', 'pewc' ),
+					'copy_label'				=> __( 'copy', 'pewc' ),
+					'select_text'				=> __( ' -- Select a field -- ', 'pewc' ),
+					'load_addons_ajax'			=> pewc_enable_ajax_load_addons(),
+					'enable_numeric_options'	=> apply_filters( 'pewc_enable_numeric_options', false ),
+					'use_ajax'					=> pewc_use_ajax_sections()
 				);
 				if( class_exists( 'WC' ) ) {
 					$params['placeholder_src'] = wc_placeholder_img_src();
@@ -360,13 +361,27 @@ if( ! class_exists( 'PEWC_Product_Extra_Post_Type' ) ) {
 				$value = apply_filters( 'woocommerce_order_number', $value, wc_get_order( $value ) );
 			}
 
-			$value = apply_filters( 'pewc_metabox_text_output_value', $value, $post, $field ); ?>
+			$value = apply_filters( 'pewc_metabox_text_output_value', $value, $post, $field );
+			
+			$class = ! empty( $field['class'] ) ? $field['class'] : '';
+			if( strpos( $class, 'pewc-start-twos' ) !== false ) {
+				echo '<div class="pewc-metafield-wrapper-halves">';
+			} ?>
 
 			<div class="pewc-metafield <?php echo $field['class']; ?>">
-				<label for="<?php echo esc_attr( $field['name'] ); ?>"><?php echo esc_html( $field['title'] ); ?></label>
-				<input <?php echo $readonly; ?> class="widefat" type="text" id="<?php echo esc_attr( $field['name'] ); ?>" name="<?php echo esc_attr( $field['name'] ); ?>" value="<?php echo esc_attr( $value ); ?>" >
+				<div class="pewc-metafield-inner">
+					<label for="<?php echo esc_attr( $field['name'] ); ?>">
+						<?php echo esc_html( $field['title'] ); ?>
+					</label>
+				</div>
+				<div class="pewc-metafield-inner">
+					<input <?php echo $readonly; ?> class="widefat" type="text" id="<?php echo esc_attr( $field['name'] ); ?>" name="<?php echo esc_attr( $field['name'] ); ?>" value="<?php echo esc_attr( $value ); ?>" >
+				</div>
 			</div>
 			<?php
+			if( strpos( $class, 'pewc-end-twos' ) !== false ) {
+				echo '</div><!-- pewc-metafield-wrapper-halves -->';
+			}
 		}
 
 		/**
@@ -376,8 +391,14 @@ if( ! class_exists( 'PEWC_Product_Extra_Post_Type' ) ) {
 		public function metabox_textarea_output( $post, $field ) {
 			$value = get_post_meta( $post->ID, $field['ID'], true ); ?>
 			<div class="pewc-metafield <?php echo $field['class']; ?>">
-				<label for="<?php echo esc_attr( $field['name'] ); ?>"><?php echo esc_html( $field['title'] ); ?></label>
-				<textarea class="widefat" id="<?php echo esc_attr( $field['name'] ); ?>" name="<?php echo esc_attr( $field['name'] ); ?>"><?php echo esc_html( $value ); ?></textarea>
+				<div class="pewc-metafield-inner">
+					<label for="<?php echo esc_attr( $field['name'] ); ?>">
+						<?php echo esc_html( $field['title'] ); ?>
+					</label>
+				</div>
+				<div class="pewc-metafield-inner">
+					<textarea class="widefat" id="<?php echo esc_attr( $field['name'] ); ?>" name="<?php echo esc_attr( $field['name'] ); ?>"><?php echo esc_html( $value ); ?></textarea>
+				</div>
 			</div>
 			<?php
 		}
@@ -391,16 +412,26 @@ if( ! class_exists( 'PEWC_Product_Extra_Post_Type' ) ) {
 			// This is to ensure certain settings are set automatically
 			if( empty( $field_value ) && ! empty( $field['default'] ) ) {
 				$field_value = $field['default'];
+			}
+			$class = ! empty( $field['class'] ) ? $field['class'] : '';
+			if( strpos( $class, 'pewc-start-twos' ) !== false ) {
+				echo '<div class="pewc-metafield-wrapper-halves">';
 			} ?>
 			<div class="pewc-metafield <?php echo $field['class']; ?>">
-				<label for="<?php echo esc_attr( $field['name'] ); ?>"><?php echo esc_html( $field['title'] ); ?></label>
-				<select id="<?php echo esc_attr( $field['name'] ); ?>" name="<?php echo esc_attr( $field['name'] ); ?>">
-					<?php if( $field['options'] ) {
-						foreach( $field['options'] as $key => $value ) { ?>
-							<option value="<?php echo esc_attr( $key ); ?>" <?php selected( $field_value, $key ); ?>><?php echo esc_attr( $value ); ?></option>
-						<?php }
-					} ?>
-				</select>
+				<div class="pewc-metafield-inner">
+					<label for="<?php echo esc_attr( $field['name'] ); ?>">
+						<?php echo esc_html( $field['title'] ); ?>
+					</label>
+				</div>
+				<div class="pewc-metafield-inner">
+					<select id="<?php echo esc_attr( $field['name'] ); ?>" name="<?php echo esc_attr( $field['name'] ); ?>">
+						<?php if( $field['options'] ) {
+							foreach( $field['options'] as $key => $value ) { ?>
+								<option value="<?php echo esc_attr( $key ); ?>" <?php selected( $field_value, $key ); ?>><?php echo esc_attr( $value ); ?></option>
+							<?php }
+						} ?>
+					</select>
+				</div>
 			</div>
 			<?php
 		}
@@ -422,10 +453,20 @@ if( ! class_exists( 'PEWC_Product_Extra_Post_Type' ) ) {
 			}
 			$value = get_post_meta( $post->ID, $field['ID'], true );
 			$class = ! empty( $field['class'] ) ? $field['class'] : '';
-			$class = apply_filters( 'pewc_metabox_checkbox_output_class', $class, $post, $field ); ?>
+			$class = apply_filters( 'pewc_metabox_checkbox_output_class', $class, $post, $field );
+			if( strpos( $class, 'pewc-start-threes' ) !== false ) {
+				echo '<div class="pewc-metafield-wrapper-thirds">';
+			} ?>
 			<div class="pewc-metafield <?php echo $class; ?>">
-				<label for="<?php echo esc_attr( $field['name'] ); ?>"><?php echo esc_html( $field['title'] ); ?></label>
-				<input type="checkbox" class="<?php echo esc_attr( $field['input_class'] ); ?>" id="<?php echo esc_attr( $field['name'] ); ?>" name="<?php echo esc_attr( $field['name'] ); ?>" <?php echo ! empty( $value ) ? 'checked="checked"' : ''; ?> value="1" <?php echo $metabox_attributes; ?>>
+				<div class="pewc-metafield-inner">
+					<label for="<?php echo esc_attr( $field['name'] ); ?>">
+						<?php echo esc_html( $field['title'] ); ?>
+					</label>
+				</div>
+				<div class="pewc-metafield-inner">
+					<?php $checked = ! empty( $value ); ?>
+					<?php pewc_global_checkbox_toggle( $field['name'], $checked, $post->ID, $field['input_class'], $metabox_attributes ); ?>
+				</div>
 			</div>
 			<?php
 		}
@@ -439,10 +480,19 @@ if( ! class_exists( 'PEWC_Product_Extra_Post_Type' ) ) {
 			$class = ! empty( $field['class'] ) ? $field['class'] : '';
 			$class = apply_filters( 'pewc_metabox_number_output_class', $class, $post, $field ); ?>
 			<div class="pewc-metafield <?php echo $class; ?>">
-				<label for="<?php echo esc_attr( $field['name'] ); ?>"><?php echo esc_html( $field['title'] ); ?></label>
-				<input type="number" id="<?php echo esc_attr( $field['name'] ); ?>" name="<?php echo esc_attr( $field['name'] ); ?>" value="<?php echo esc_attr( $value ); ?>" >
+				<div class="pewc-metafield-inner">
+					<label for="<?php echo esc_attr( $field['name'] ); ?>">
+						<?php echo esc_html( $field['title'] ); ?>
+					</label>
+				</div>
+				<div class="pewc-metafield-inner">
+					<input type="number" id="<?php echo esc_attr( $field['name'] ); ?>" name="<?php echo esc_attr( $field['name'] ); ?>" value="<?php echo esc_attr( $value ); ?>" >
+				</div>
 			</div>
 			<?php
+			if( strpos( $class, 'pewc-end-threes' ) !== false ) {
+				echo '</div><!-- pewc-metafield-wrapper-thirds -->';
+			}
 		}
 
 		/**
@@ -531,112 +581,134 @@ if( ! class_exists( 'PEWC_Product_Extra_Post_Type' ) ) {
 
 			<div class="pewc-rule-instruction-wrapper pewc-metafield <?php echo $field['class']; ?>">
 
-				<label for="<?php echo esc_attr( $field['name'] ); ?>"><?php echo esc_html( $field['title'] ); ?></label>
+				<div class="pewc-metafield-inner">
+					<label for="<?php echo esc_attr( $field['name'] ); ?>">
+						<?php echo esc_html( $field['title'] ); ?>
+					</label>
+				</div>
 
-				<?php	// $operator = pewc_get_group_operator( $group_key, $group ); ?>
+				<div class="pewc-metafield-inner">
 
-				<select id="<?php echo esc_attr( $field['name'] ); ?>[operator]" name="<?php echo esc_attr( $field['name'] ); ?>[operator]">
-					<?php if( $field['options'] ) {
-						foreach( $field['options'] as $key => $value ) { ?>
-							<option value="<?php echo esc_attr( $key ); ?>" <?php selected( $operator, $key ); ?>><?php echo esc_attr( $value ); ?></option>
-						<?php }
-					} ?>
-				</select>
+					<?php	// $operator = pewc_get_group_operator( $group_key, $group ); ?>
+					<select id="<?php echo esc_attr( $field['name'] ); ?>[operator]" name="<?php echo esc_attr( $field['name'] ); ?>[operator]">
+						<?php if( $field['options'] ) {
+							foreach( $field['options'] as $key => $value ) { ?>
+								<option value="<?php echo esc_attr( $key ); ?>" <?php selected( $operator, $key ); ?>><?php echo esc_attr( $value ); ?></option>
+							<?php }
+						} ?>
+					</select>
+
+				</div>
 
 			</div>
 
-			<div class="pewc-metafield <?php echo $field['class']; ?>">
+			<div class="pewc-metafield pewc-metafield-applies-to <?php echo $field['class']; ?>">
 
-				<table class="widefat wp-list-table product-extra-global-rule-row">
-					<thead>
-						<tr>
-							<td id="cb"></td>
-							<th scope="col" id="name"><?php _e( 'Rule', 'pewc' ); ?></th>
-							<th scope="col" id="includes"><?php _e( 'With', 'pewc' ); ?></th>
-						</tr>
-					</thead>
-					<tbody id="the-list">
-						<?php
-						$checked = ( isset( $field_value["all"]['is_selected'] ) && $field_value["all"]['is_selected'] == 'on' ) ? 'checked="checked"' : ''; ?>
-						<tr>
-							<td>
-								<input class="pewc-rule-field" type="checkbox" <?php echo $checked; ?> name="<?php echo esc_attr( $field['name'] ); ?>[all][is_selected]" id="<?php echo esc_attr( $field['name'] ); ?>[all][is_selected]">
-							</td>
-							<td>
-								<label for="<?php echo esc_attr( $field['name'] ); ?>[all][is_selected]"><?php _e( 'On all products', 'pewc' ); ?></label>
-							</td>
-							<td></td>
-						</tr>
+				<div class="pewc-metafield-inner">
 
-						<?php
-						$checked = ( isset( $field_value["ids"]['is_selected'] ) && $field_value["ids"]['is_selected'] == 'on' ) ? 'checked="checked"' : ''; ?>
-						<tr>
-							<td>
-								<input class="pewc-rule-field" type="checkbox" <?php echo $checked; ?> name="<?php echo esc_attr( $field['name'] ); ?>[ids][is_selected]" id="<?php echo esc_attr( $field['name'] ); ?>[ids][is_selected]">
-							</td>
-							<td>
-								<label for="<?php echo esc_attr( $field['name'] ); ?>[ids][is_selected]"><?php _e( 'By product', 'pewc' ); ?></label>
-							</td>
-							<td>
-								<?php
-								$products = ! empty( $field_value['ids']['products'] ) ? $field_value['ids']['products'] : array(); ?>
-								<select multiple="multiple" class="pewc-rule-field wc-product-search" name="<?php echo esc_attr( $field['name'] ); ?>[ids][products][]" data-name="" id="<?php echo esc_attr( $field['name'] ); ?>[ids][products]">';
-									<?php if( $products ) {
-										foreach( $products as $id ) {
-											// $selected = ( isset( $field_value['ids']['products'] ) && is_array( $field_value['ids']['products'] ) && in_array( $id, $field_value['ids']['products'] ) ) ? 'selected="selected"' : ''; ?>
-											<option selected value="<?php echo $id; ?>"><?php echo get_the_title( $id ); ?></option>
-									<?php }
-									} ?>
-								</select>
-							</td>
-						</tr>
+					<label>
+						<?php _e( 'Applies To', 'pewc' ); ?>
+					</label>
 
-						<?php
-						$checked = ( isset( $field_value["categories"]['is_selected'] ) && $field_value["categories"]['is_selected'] == 'on' ) ? 'checked="checked"' : ''; ?>
-						<tr>
-							<td>
-								<input class="pewc-rule-field" type="checkbox" <?php echo $checked; ?> name="<?php echo esc_attr( $field['name'] ); ?>[categories][is_selected]" id="<?php echo esc_attr( $field['name'] ); ?>[categories][is_selected]">
-							</td>
-							<td>
-								<label for="<?php echo esc_attr( $field['name'] ); ?>[categories][is_selected]"><?php _e( 'By category', 'pewc' ); ?></label>
-							</td>
-							<td>
-								<?php 
-								// $categories = get_terms( $args );
-								$taxonomy = apply_filters(
-									'pewc_filter_global_categories_taxonomy',
-									'product_cat',
-									$post->ID,
-									false,
-									false
-								); ?>
-								<select multiple="multiple" class="pewc-rule-field wc-taxonomy-term-search" name="<?php echo esc_attr( $field['name'] ); ?>[categories][cats][]" data-name="" data-taxonomy="<?php echo esc_attr( $taxonomy ); ?>" data-return_id="true" id="<?php echo esc_attr( $field['name'] ); ?>[categories][cats]">
+				</div>
+
+				<div class="pewc-metafield-inner">
+
+					<table class="widefat wp-list-table product-extra-global-rule-row">
+						<thead>
+							<tr>
+								<td id="cb"></td>
+								<th scope="col" id="name"><?php _e( 'Rule', 'pewc' ); ?></th>
+								<th scope="col" id="includes"><?php _e( 'With', 'pewc' ); ?></th>
+							</tr>
+						</thead>
+						<tbody id="the-list">
+							<?php
+							$checked = ! empty( $field_value["all"]['is_selected'] ); ?>
+							<tr>
+								<td>
+									<?php $field_name = $field['name'] . '[all][is_selected]'; ?>
+									<?php pewc_global_checkbox_toggle( $field_name, $checked, $post->ID, 'pewc-rule-field', '' ); ?>
+								</td>
+								<td>
+									<label for="<?php echo esc_attr( $field_name ); ?>"><?php _e( 'On all products', 'pewc' ); ?></label>
+								</td>
+								<td></td>
+							</tr>
+
+							<?php
+							$checked = ! empty( $field_value["ids"]['is_selected'] ); ?>
+							<tr>
+								<td>
+									<?php $field_name = $field['name'] . '[ids][is_selected]'; ?>
+									<?php pewc_global_checkbox_toggle( $field_name, $checked, $post->ID, 'pewc-rule-field', '' ); ?>
+								</td>
+								<td>
+									<label for="<?php echo esc_attr( $field['name'] ); ?>[ids][is_selected]"><?php _e( 'By product', 'pewc' ); ?></label>
+								</td>
+								<td>
+									<?php
+									$products = ! empty( $field_value['ids']['products'] ) ? $field_value['ids']['products'] : array(); ?>
+									<select multiple="multiple" class="pewc-rule-field wc-product-search" name="<?php echo esc_attr( $field['name'] ); ?>[ids][products][]" data-name="" id="<?php echo esc_attr( $field['name'] ); ?>[ids][products]">';
+										<?php if( $products ) {
+											foreach( $products as $id ) {
+												// $selected = ( isset( $field_value['ids']['products'] ) && is_array( $field_value['ids']['products'] ) && in_array( $id, $field_value['ids']['products'] ) ) ? 'selected="selected"' : ''; ?>
+												<option selected value="<?php echo $id; ?>"><?php echo get_the_title( $id ); ?></option>
+										<?php }
+										} ?>
+									</select>
+								</td>
+							</tr>
+
+							<?php
+							$checked = ! empty( $field_value["categories"]['is_selected'] ); ?>
+							<tr>
+								<td>
+									<?php $field_name = $field['name'] . '[categories][is_selected]'; ?>
+									<?php pewc_global_checkbox_toggle( $field_name, $checked, $post->ID, 'pewc-rule-field', '' ); ?>
+								</td>
+								<td>
+									<label for="<?php echo esc_attr( $field['name'] ); ?>[categories][is_selected]"><?php _e( 'By category', 'pewc' ); ?></label>
+								</td>
+								<td>
 									<?php 
-									if( ! empty( $field_value['categories']['cats'] ) ) { 
-										// 3.21.4, changed slug to cat_id, to be consistent with Global Product Add-Ons
-										foreach( $field_value['categories']['cats'] as $cat_id ) {
-											// $selected = ( isset( $field_value['categories']['cats'] ) && is_array( $field_value['categories']['cats'] ) && in_array( $id, $field_value['categories']['cats'] ) ) ? 'selected="selected"' : '';
-											if ( is_numeric( $cat_id ) ) {
-												$term = get_term_by( 'id', $cat_id, $taxonomy );
-											} else {
-												// in 3.21.3 and earlier, we used $slug. Accommodate it for now
-												$term = get_term_by( 'slug', $cat_id, $taxonomy );
+									// $categories = get_terms( $args );
+									$taxonomy = apply_filters(
+										'pewc_filter_global_categories_taxonomy',
+										'product_cat',
+										$post->ID,
+										false,
+										false
+									); ?>
+									<select multiple="multiple" class="pewc-rule-field wc-taxonomy-term-search" name="<?php echo esc_attr( $field['name'] ); ?>[categories][cats][]" data-name="" data-taxonomy="<?php echo esc_attr( $taxonomy ); ?>" data-return_id="true" id="<?php echo esc_attr( $field['name'] ); ?>[categories][cats]">
+										<?php 
+										if( ! empty( $field_value['categories']['cats'] ) ) { 
+											// 3.21.4, changed slug to cat_id, to be consistent with Global Product Add-Ons
+											foreach( $field_value['categories']['cats'] as $cat_id ) {
+												// $selected = ( isset( $field_value['categories']['cats'] ) && is_array( $field_value['categories']['cats'] ) && in_array( $id, $field_value['categories']['cats'] ) ) ? 'selected="selected"' : '';
+												if ( is_numeric( $cat_id ) ) {
+													$term = get_term_by( 'id', $cat_id, $taxonomy );
+												} else {
+													// in 3.21.3 and earlier, we used $slug. Accommodate it for now
+													$term = get_term_by( 'slug', $cat_id, $taxonomy );
+												}
+												if ( isset( $term->term_id ) && isset( $term->name ) ) {
+													printf(
+														'<option %s value="%s">%s</option>',
+														"selected",
+														$term->term_id,
+														$term->name
+													);
+												}
 											}
-											if ( isset( $term->term_id ) && isset( $term->name ) ) {
-												printf(
-													'<option %s value="%s">%s</option>',
-													"selected",
-													$term->term_id,
-													$term->name
-												);
-											}
-										}
-									} ?>
-								</select>
-							</td>
-						</tr>
-					</tbody>
-				</table>
+										} ?>
+									</select>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+
+				</div>
 
 			</div>
 			<?php
@@ -662,7 +734,7 @@ if( ! class_exists( 'PEWC_Product_Extra_Post_Type' ) ) {
 				<div class="options_group">
 					<div class="options-group-inner">
 						<ul class="new-field-list">
-							<?php include( PEWC_DIRNAME . '/templates/admin/new-field-item.php' ); ?>
+							<?php include( PEWC_DIRNAME . '/templates/admin/field-item.php' ); ?>
 						</ul>
 						<table class="new-option">
 							<?php include( PEWC_DIRNAME . '/templates/admin/views/option-new.php' ); ?>

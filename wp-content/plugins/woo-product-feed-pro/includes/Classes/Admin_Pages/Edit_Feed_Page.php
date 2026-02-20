@@ -340,7 +340,7 @@ class Edit_Feed_Page extends Admin_Page {
      *
      * @since 13.4.4
      * @param string|array $json_data The JSON data to decode.
-     * @return array The decoded and sanitized data.
+     * @return array The decoded data.
      */
     private function decode_json_data( $json_data ) {
         // Handle JSON string input.
@@ -353,15 +353,10 @@ class Edit_Feed_Page extends Admin_Page {
 
             $decoded_data = json_decode( $json_data, true );
             if ( json_last_error() === JSON_ERROR_NONE && is_array( $decoded_data ) ) {
-                return Sanitization::sanitize_array( $decoded_data );
+                return $decoded_data;
             } else {
                 return array();
             }
-        }
-
-        // If it's already an array, just sanitize it.
-        if ( is_array( $json_data ) ) {
-            return Sanitization::sanitize_array( $json_data );
         }
 
         return array();
@@ -380,7 +375,10 @@ class Edit_Feed_Page extends Admin_Page {
         }
 
         // First, sanitize the entire array structure using Helper method.
-        $filters_data = Sanitization::sanitize_array( $filters_data );
+        $filters_data = Sanitization::sanitize_array(
+            $filters_data,
+            array( 'allow_html' => true )
+        );
 
         $cleaned_data     = array();
         $valid_conditions = Filters::instance()->get_conditions( true );
@@ -571,7 +569,10 @@ class Edit_Feed_Page extends Admin_Page {
         }
 
         // First, sanitize the entire array structure.
-        $rules_data = Sanitization::sanitize_array( $rules_data );
+        $rules_data = Sanitization::sanitize_array(
+            $rules_data,
+            array( 'allow_html' => true )
+        );
 
         $cleaned_rules    = array();
         $valid_conditions = Rules::instance()->get_conditions( true );
@@ -868,6 +869,9 @@ class Edit_Feed_Page extends Admin_Page {
         // Get the current feed.
         $feed_before = clone $feed;
 
+        // Process total_product_orders_lookback field - preserve empty strings.
+        $total_product_orders_lookback = isset( $_POST['total_product_orders_lookback'] ) ? sanitize_text_field( wp_unslash( $_POST['total_product_orders_lookback'] ) ) : '';
+        $total_product_orders_lookback = '' !== trim( $total_product_orders_lookback ) ? absint( $total_product_orders_lookback ) : '';
         // Process form data.
         $props_to_update = array(
             'title'                                  => isset( $_POST['projectname'] ) ? sanitize_text_field( wp_unslash( $_POST['projectname'] ) ) : '',
@@ -880,7 +884,7 @@ class Edit_Feed_Page extends Admin_Page {
             'include_all_shipping_countries'         => isset( $_POST['include_all_shipping_countries'] ) ? 'yes' : 'no',
             'create_preview'                         => isset( $_POST['preview_feed'] ) ? 'yes' : 'no',
             'refresh_only_when_product_changed'      => isset( $_POST['products_changed'] ) ? 'yes' : 'no',
-            'utm_total_product_orders_lookback'      => isset( $_POST['total_product_orders_lookback'] ) ? intval( $_POST['total_product_orders_lookback'] ) : '',
+            'utm_total_product_orders_lookback'      => $total_product_orders_lookback,
         );
 
         // Allow updating the countries for all feeds channel.

@@ -379,8 +379,16 @@ li.payment_method_stripe_payment_request {
   margin: 0;
 }
 
-.wc_stripe_product_payment_methods .disabled {
-  opacity: 0.45;
+.wc_stripe_product_payment_methods {
+  .disabled {
+    opacity: 0.45;
+  }
+
+  .payment_method_stripe_affirm,
+  .payment_method_stripe_klarna,
+  .payment_method_stripe_afterpay {
+    display: none;
+  }
 }
 
 .woocommerce-cart .stripe_cart_gateway_active .wc-proceed-to-checkout .checkout-button,
@@ -623,9 +631,11 @@ li.payment_method_stripe_promptpay label:first-of-type img {
   width: 100%;
 }
 
-.woocommerce-checkout #wc-stripe-payment-request-container.StripeElement {
+.woocommerce-checkout #wc-stripe-payment-request-container.StripeElement,
+.woocommerce-checkout .wc-stripe-applepay-button.StripeElement {
   width: 100%;
   padding: 0px;
+  clear: both;
 }
 
 .wc-stripe-checkout-banner-gateway #wc-stripe-payment-request-banner.StripeElement {
@@ -1279,14 +1289,24 @@ input.stripe-link-icon-container {
 }
 
 li.banner_payment_method_stripe_link_checkout,
-li.payment_method_stripe_link_checkout {
+li.payment_method_stripe_link_checkout,
+li.banner_payment_method_stripe_applepay,
+li.payment_method_stripe_applepay
+li.payment_method_stripe_payment_request,
+li.banner_payment_method_stripe_payment_request,
+a.wc-stripe-applepay-mini-cart,
+a.wc-stripe-payment-request-mini-cart,
+#wc-stripe-applepay-container,
+#wc-stripe-payment-request-container {
   iframe {
     max-width: calc(100% + 8px);
   }
 }
 
 li {
-  &.payment_method_stripe_link_checkout {
+  &.payment_method_stripe_link_checkout,
+  &.payment_method_stripe_applepay,
+  &.payment_method_stripe_payment_request {
 
     &.StripeElement {
       width: 100%;
@@ -1406,5 +1426,11 @@ div.product .wc-stripe-bnpl-product-message {
     background: rgb(230, 230, 230);
     height: 1px;
     width: 100%
+  }
+}
+
+a[class^="wc-stripe-"][class*="-mini-cart"] {
+  &:nth-child(n + 2) {
+    margin-top: 10px;
   }
 }

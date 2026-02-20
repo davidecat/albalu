@@ -1,3 +1,16 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-01-21T05:34:11+00:00\n"
+"PO-Revision-Date: 2026-01-21T05:34:11+00:00\n"
+"Language: \n"
+
 #: admin/inc/meta-options.php:204
 #: admin/inc/meta-options.php:528
 #: admin/inc/meta-options.php:793
@@ -298,8 +311,8 @@ msgstr "Remise en pourcentage"
 msgid "Coupon Amount"
 msgstr "Montant du coupon"
 
-#: classes/class-cartflows-ca-settings.php:150
 #. translators: %1$s: html start, %2$s: html end
+#: classes/class-cartflows-ca-settings.php:150
 #, php-format
 msgid "%1$sCoupons Settings%2$s"
 msgstr "%1$sParamètres des coupons%2$s"
@@ -799,31 +812,21 @@ msgid "The UTM parameters will be appended to the checkout page links which is a
 msgstr "Les paramètres UTM seront ajoutés aux liens de la page de paiement qui sont disponibles dans les emails de récupération."
 
 #: classes/class-cartflows-ca-settings.php:161
-msgid ""
-"Delete coupons automatically on weekly basis.<br><span class=\"description\"><br/><strong>Note:</strong> This option "
-"will set a weekly cron to delete all <strong>expired</strong> and <strong>used</strong> coupons automatically in the "
-"background.</p>"
-msgstr ""
-"Supprimer les coupons automatiquement chaque semaine.<br><span class=\"description\"><br/><strong>Remarque :</strong> "
-"Cette option configurera une tâche cron hebdomadaire pour supprimer automatiquement en arrière-plan tous les coupons "
-"<strong>expirés</strong> et <strong>utilisés</strong>.</p>"
+msgid "Delete coupons automatically on weekly basis.<br><span class=\"description\"><br/><strong>Note:</strong> This option will set a weekly cron to delete all <strong>expired</strong> and <strong>used</strong> coupons automatically in the background.</p>"
+msgstr "Supprimer les coupons automatiquement chaque semaine.<br><span class=\"description\"><br/><strong>Remarque :</strong> Cette option configurera une tâche cron hebdomadaire pour supprimer automatiquement en arrière-plan tous les coupons <strong>expirés</strong> et <strong>utilisés</strong>.</p>"
 
 #: classes/class-cartflows-ca-settings.php:175
-msgid ""
-"<br><strong>Note:</strong> This will delete all <strong>expired</strong> and <strong>used</strong> coupons that were "
-"created by Woo Cart Abandonment Recovery.</p>"
-msgstr ""
-"<br><strong>Remarque :</strong> Cela supprimera tous les coupons <strong>expirés</strong> et <strong>utilisés</strong> "
-"qui ont été créés par Woo Cart Abandonment Recovery.</p>"
+msgid "<br><strong>Note:</strong> This will delete all <strong>expired</strong> and <strong>used</strong> coupons that were created by Woo Cart Abandonment Recovery.</p>"
+msgstr "<br><strong>Remarque :</strong> Cela supprimera tous les coupons <strong>expirés</strong> et <strong>utilisés</strong> qui ont été créés par Woo Cart Abandonment Recovery.</p>"
 
-#: classes/class-cartflows-ca-settings.php:188
 #. translators: %1$s: html start, %2$s: html end
+#: classes/class-cartflows-ca-settings.php:188
 #, php-format
 msgid "%1$sEmail Settings%2$s"
 msgstr "%1$sParamètres de messagerie%2$s"
 
-#: classes/class-cartflows-ca-settings.php:241
 #. translators: %1$s: html start, %2$s: html end
+#: classes/class-cartflows-ca-settings.php:241
 #, php-format
 msgid "%1$sRecovery Report Emails%2$s"
 msgstr "%1$sEmails de rapport de récupération%2$s"
@@ -833,41 +836,34 @@ msgstr "%1$sEmails de rapport de récupération%2$s"
 msgid "Email address"
 msgstr "Adresse e-mail"
 
-#: classes/class-cartflows-ca-settings.php:307
 #. translators: %1$s: html start, %2$s: html end
+#: classes/class-cartflows-ca-settings.php:307
 #, php-format
 msgid "%1$sCoupon Code Settings%2$s"
 msgstr "%1$sParamètres du code promo%2$s"
 
-#: classes/class-cartflows-ca-settings.php:377
 #. translators: %1$s: html start, %2$s: html end
+#: classes/class-cartflows-ca-settings.php:377
 #, php-format
 msgid "%1$sWebhook Settings%2$s"
-msgstr "%1$sParamètres du Webhook%2$s"
-"<br/><br/> <span class=\"description\"><strong>Remarque : </strong>. Entrez zéro (0) pour empêcher le coupon "
-"d'expirer.</span>"
+msgstr "%1$sParamètres du Webhook%2$s<br/><br/> <span class=\"description\"><strong>Remarque : </strong>. Entrez zéro (0) pour empêcher le coupon d'expirer.</span>"
 
 #: classes/class-cartflows-ca-settings.php:345
 msgid "<br/><br/> <span class=\"description\"><strong>Note: </strong>. Enter zero (0) to restrict coupon from expiring.</span>"
 msgstr ""
 
-#: classes/class-cartflows-ca-settings.php:387
 #. translators: %1$s: html start, %2$s: html end
+#: classes/class-cartflows-ca-settings.php:387
 #, php-format
 msgid "%1$sGDPR Settings%2$s"
 msgstr "%1$sParamètres GDPR%2$s"
 
 #: classes/class-cartflows-ca-settings.php:398
-msgid ""
-"Ask confirmation from the user before tracking data. <br/><br/> <span class=\"description\"><strong>Note:</strong> By "
-"checking this, it will show up confirmation text below the email id on checkout page.</span>"
-msgstr ""
-"Demandez la confirmation de l'utilisateur avant de suivre les données. <br/><br/> <span "
-"class=\"description\"><strong>Remarque :</strong> En cochant cette option, un texte de confirmation apparaîtra sous "
-"l'identifiant de l'email sur la page de paiement.</span>"
+msgid "Ask confirmation from the user before tracking data. <br/><br/> <span class=\"description\"><strong>Note:</strong> By checking this, it will show up confirmation text below the email id on checkout page.</span>"
+msgstr "Demandez la confirmation de l'utilisateur avant de suivre les données. <br/><br/> <span class=\"description\"><strong>Remarque :</strong> En cochant cette option, un texte de confirmation apparaîtra sous l'identifiant de l'email sur la page de paiement.</span>"
 
-#: classes/class-cartflows-ca-settings.php:425
 #. translators: %1$s: html start, %2$s: html end
+#: classes/class-cartflows-ca-settings.php:425
 #, php-format
 msgid "%1$sPlugin Settings%2$s"
 msgstr "%1$sParamètres du plugin%2$s"
@@ -905,8 +901,8 @@ msgstr "Champ d'adresse \"Répondre\" invalide"
 msgid "Cart Abandonment"
 msgstr "Abandon de panier"
 
-#: classes/class-cartflows-ca-tabs.php:88
 #. translators: %d count
+#: classes/class-cartflows-ca-tabs.php:88
 #, php-format
 msgid "Items deleted: %d"
 msgstr "Éléments supprimés : %d"
@@ -977,8 +973,8 @@ msgstr "Expédition"
 msgid "Cart Total"
 msgstr "Total du panier"
 
-#: classes/class-cartflows-ca-tabs.php:555
 #. translators: %s: html tags
+#: classes/class-cartflows-ca-tabs.php:555
 #, php-format
 msgid "Looks like abandonment tracking is disabled! Please enable it from %1$s settings %2$s."
 msgstr "Il semble que le suivi de l'abandon soit désactivé ! Veuillez l'activer dans les paramètres %1$s %2$s."
@@ -1131,8 +1127,8 @@ msgstr "Le modèle d'email a été mis à jour avec succès."
 msgid "Default Email Templates has been restored successfully."
 msgstr "Les modèles d'e-mails par défaut ont été restaurés avec succès."
 
-#: modules/cart-abandonment/classes/class-cartflows-ca-email-templates.php:445
 #. translators: %s Message
+#: modules/cart-abandonment/classes/class-cartflows-ca-email-templates.php:445
 #, php-format
 msgid "%s Email Template:"
 msgstr "Modèle d'email %s :"
@@ -1154,12 +1150,8 @@ msgid "Email Body:"
 msgstr "Corps de l'email :"
 
 #: modules/cart-abandonment/classes/class-cartflows-ca-email-templates.php:543
-msgid ""
-"Email will be sent in WooCommerce email format. Also the sender name and sender email address will be replaced by the "
-"Woocommerce Email sender options."
-msgstr ""
-"L'e-mail sera envoyé au format d'e-mail WooCommerce. De plus, le nom de l'expéditeur et l'adresse e-mail de "
-"l'expéditeur seront remplacés par les options d'expéditeur d'e-mail WooCommerce."
+msgid "Email will be sent in WooCommerce email format. Also the sender name and sender email address will be replaced by the Woocommerce Email sender options."
+msgstr "L'e-mail sera envoyé au format d'e-mail WooCommerce. De plus, le nom de l'expéditeur et l'adresse e-mail de l'expéditeur seront remplacés par les options d'expéditeur d'e-mail WooCommerce."
 
 #: modules/cart-abandonment/classes/class-cartflows-ca-email-templates.php:551
 msgid "Create Coupon"
@@ -1178,12 +1170,8 @@ msgid "Enter zero (0) to restrict coupon from expiring"
 msgstr "Entrez zéro (0) pour empêcher le coupon d'expirer"
 
 #: modules/cart-abandonment/classes/class-cartflows-ca-email-templates.php:671
-msgid ""
-"Allows you to grant free shipping. A free shipping method must be enabled in your shipping zone and be set to require "
-"\"a valid free shipping coupon\". "
-msgstr ""
-"Vous permet d'accorder la livraison gratuite. Une méthode de livraison gratuite doit être activée dans votre zone de "
-"livraison et être configurée pour exiger \"un coupon de livraison gratuite valide\". "
+msgid "Allows you to grant free shipping. A free shipping method must be enabled in your shipping zone and be set to require \"a valid free shipping coupon\". "
+msgstr "Vous permet d'accorder la livraison gratuite. Une méthode de livraison gratuite doit être activée dans votre zone de livraison et être configurée pour exiger \"un coupon de livraison gratuite valide\". "
 
 #: modules/cart-abandonment/classes/class-cartflows-ca-email-templates.php:692
 msgid "Check this box if the coupon cannot be used in conjunction with other coupons."
@@ -1244,8 +1232,8 @@ msgstr "Statut de la commande"
 msgid "Time"
 msgstr "Temps"
 
-#: modules/cart-abandonment/classes/class-cartflows-ca-setting-functions.php:136
 #. translators: %1$s: Coupons Deleted, %2$s: Deleted coupons count'.
+#: modules/cart-abandonment/classes/class-cartflows-ca-setting-functions.php:136
 #, php-format
 msgid "%1$s: %2$d"
 msgstr "%1$s : %2$d"
@@ -1254,9 +1242,9 @@ msgstr "%1$s : %2$d"
 msgid "This coupon is for abandoned cart email templates."
 msgstr "Ce coupon est destiné aux modèles d'e-mails de panier abandonné."
 
+#. translators: %d order id
 #: modules/cart-abandonment/classes/class-cartflows-ca-tracking.php:127
 #: modules/cart-abandonment/classes/class-cartflows-ca-tracking.php:130
-#. translators: %d order id
 #, php-format
 msgid "New Customer Order - Recovered Order ID: %d"
 msgstr "Nouvelle commande client - ID de commande récupéré : %d"
@@ -1307,9 +1295,7 @@ msgstr "Passage en caisse plus rapide et optimisé"
 
 #: modules/cart-abandonment/includes/cartflows-ca-cf-promotion-page.php:22
 msgid "Increase AOV with One Click Upsells"
-msgstr "Augmentez le AOV avec des ventes incitatives en un clic"
-"Simplifiez votre processus de paiement avec les pages à haute conversion de CartFlows pour une expérience d'achat plus "
-"rapide et fluide."
+msgstr "Augmentez le AOV avec des ventes incitatives en un clicSimplifiez votre processus de paiement avec les pages à haute conversion de CartFlows pour une expérience d'achat plus rapide et fluide."
 
 #: modules/cart-abandonment/includes/cartflows-ca-cf-promotion-page.php:16
 msgid "Streamline your checkout process with CartFlows' high-converting pages for a faster, smoother purchase experience."
@@ -1317,21 +1303,15 @@ msgstr ""
 
 #: modules/cart-abandonment/includes/cartflows-ca-cf-promotion-page.php:29
 msgid "Increase Revenue with Order Bumps"
-msgstr "Augmentez les revenus avec des ventes additionnelles"
-"Augmentez votre VMC (Valeur Moyenne de Commande) en proposant des ventes incitatives en un clic sans ressaisir les "
-"détails de paiement."
+msgstr "Augmentez les revenus avec des ventes additionnellesAugmentez votre VMC (Valeur Moyenne de Commande) en proposant des ventes incitatives en un clic sans ressaisir les détails de paiement."
 
 #: modules/cart-abandonment/includes/cartflows-ca-cf-promotion-page.php:23
 msgid "Increase your AOV (Average Order Value) by offering one-click upsells without re-entering payment details."
 msgstr ""
 
 #: modules/cart-abandonment/includes/cartflows-ca-cf-promotion-page.php:30
-msgid ""
-"Let customers add complementary products to their order directly at checkout, increasing sales without disrupting the "
-"flow."
-msgstr ""
-"Permettez aux clients d'ajouter des produits complémentaires à leur commande directement lors du paiement, augmentant "
-"ainsi les ventes sans perturber le processus."
+msgid "Let customers add complementary products to their order directly at checkout, increasing sales without disrupting the flow."
+msgstr "Permettez aux clients d'ajouter des produits complémentaires à leur commande directement lors du paiement, augmentant ainsi les ventes sans perturber le processus."
 
 #: modules/cart-abandonment/includes/cartflows-ca-cf-promotion-page.php:36
 msgid "A/B Split Testing"
@@ -1339,9 +1319,7 @@ msgstr "Test A/B"
 
 #: modules/cart-abandonment/includes/cartflows-ca-cf-promotion-page.php:44
 msgid "Conversion Optimized Templates"
-msgstr "Modèles optimisés pour la conversion"
-"Essayez différentes variations de tunnel pour trouver les meilleures stratégies de paiement et de vente afin "
-"d'augmenter les conversions."
+msgstr "Modèles optimisés pour la conversionEssayez différentes variations de tunnel pour trouver les meilleures stratégies de paiement et de vente afin d'augmenter les conversions."
 
 #: modules/cart-abandonment/includes/cartflows-ca-cf-promotion-page.php:37
 msgid "Try different funnel variations to find the best checkout and sales strategies for higher conversions."
@@ -1349,9 +1327,7 @@ msgstr ""
 
 #: modules/cart-abandonment/includes/cartflows-ca-cf-promotion-page.php:51
 msgid "Cart Abandonment Recovery"
-msgstr "Récupération des paniers abandonnés"
-"Créez rapidement des tunnels de vente, des pages produits et des processus de paiement en utilisant des modèles prêts à "
-"l'emploi et à haute conversion."
+msgstr "Récupération des paniers abandonnésCréez rapidement des tunnels de vente, des pages produits et des processus de paiement en utilisant des modèles prêts à l'emploi et à haute conversion."
 
 #: modules/cart-abandonment/includes/cartflows-ca-cf-promotion-page.php:45
 msgid "Quickly build sales funnels, product pages, and checkout flows using ready-made, high-converting templates."
@@ -1359,9 +1335,7 @@ msgstr ""
 
 #: modules/cart-abandonment/includes/cartflows-ca-cf-promotion-page.php:65
 msgid "CartFlows Logo"
-msgstr "Logo CartFlows"
-"Récupérez les ventes perdues avec des rappels par e-mail et des offres personnalisées pour inciter les clients à "
-"revenir finaliser leurs achats."
+msgstr "Logo CartFlowsRécupérez les ventes perdues avec des rappels par e-mail et des offres personnalisées pour inciter les clients à revenir finaliser leurs achats."
 
 #: modules/cart-abandonment/includes/cartflows-ca-cf-promotion-page.php:52
 msgid "Recover lost sales with email reminders and personalized offers to bring customers back to complete their purchases."
@@ -1468,12 +1442,8 @@ msgid "Email Details:"
 msgstr "Détails de l'email :"
 
 #: modules/cart-abandonment/includes/cartflows-ca-single-report-details.php:52
-msgid ""
-"All new activated emails will be reschedule for this abandoned order. New emails will be sent to user according to "
-"schedule time."
-msgstr ""
-"Tous les nouveaux e-mails activés seront reprogrammés pour cette commande abandonnée. De nouveaux e-mails seront "
-"envoyés à l'utilisateur selon l'heure prévue."
+msgid "All new activated emails will be reschedule for this abandoned order. New emails will be sent to user according to schedule time."
+msgstr "Tous les nouveaux e-mails activés seront reprogrammés pour cette commande abandonnée. De nouveaux e-mails seront envoyés à l'utilisateur selon l'heure prévue."
 
 #: modules/cart-abandonment/includes/cartflows-ca-single-report-details.php:59
 msgid "Are your sure?"
@@ -1710,32 +1680,24 @@ msgid "CartFlows Pro can help you to increase conversion and maximize profits."
 msgstr "CartFlows Pro peut vous aider à augmenter les conversions et maximiser les profits."
 
 #: modules/weekly-email-report/templates/email-cf-block.php:43
-msgid ""
-"Want to earn 30% more store revenue on autopilot? CartFlows order bumps and upsells help you do just that. Try "
-"CartFlows Pro risk-free for 30 days!"
-msgstr ""
-"Vous souhaitez augmenter vos revenus de magasin de 30 % en pilote automatique ? Les options de commande et de vente "
-"incitative de CartFlows vous aident à y parvenir. Essayez CartFlows Pro sans risque pendant 30 jours !"
+msgid "Want to earn 30% more store revenue on autopilot? CartFlows order bumps and upsells help you do just that. Try CartFlows Pro risk-free for 30 days!"
+msgstr "Vous souhaitez augmenter vos revenus de magasin de 30 % en pilote automatique ? Les options de commande et de vente incitative de CartFlows vous aident à y parvenir. Essayez CartFlows Pro sans risque pendant 30 jours !"
 
 #: modules/weekly-email-report/templates/email-cf-block.php:61
 msgid "GET CARTFLOWS NOW"
 msgstr "OBTENEZ CARTFLOWS MAINTENANT"
 
-#: modules/weekly-email-report/templates/email-content-section.php:27
 #. translators: %s admin name
+#: modules/weekly-email-report/templates/email-content-section.php:27
 #, php-format
 msgid "Hey %s!"
 msgstr "Salut %s !"
 
-#: modules/weekly-email-report/templates/email-content-section.php:42
 #. translators: %1$s: store name, %2$s: total revenue.  %3$s: total revenue
+#: modules/weekly-email-report/templates/email-content-section.php:42
 #, php-format
-msgid ""
-"%1$s has recovered a total %2$s revenue in last week by using Cart Abandonment Recover by CartFlows! And in last month, "
-"we recovered %3$s"
-msgstr ""
-"%1$s a récupéré un total de %2$s de revenus la semaine dernière en utilisant Cart Abandonment Recover par CartFlows ! "
-"Et le mois dernier, nous avons récupéré %3$s"
+msgid "%1$s has recovered a total %2$s revenue in last week by using Cart Abandonment Recover by CartFlows! And in last month, we recovered %3$s"
+msgstr "%1$s a récupéré un total de %2$s de revenus la semaine dernière en utilisant Cart Abandonment Recover par CartFlows ! Et le mois dernier, nous avons récupéré %3$s"
 
 #: modules/weekly-email-report/templates/email-content-section.php:79
 msgid "(Last 7 days)"
@@ -1745,8 +1707,8 @@ msgstr "(7 derniers jours)"
 msgid "(Last 30 days)"
 msgstr "(30 derniers jours)"
 
-#: modules/weekly-email-report/templates/email-footer.php:62
 #. translators: %1$s - link to a site;
+#: modules/weekly-email-report/templates/email-footer.php:62
 #, php-format
 msgid "This email was auto-generated and sent from %1$s."
 msgstr "Cet e-mail a été généré automatiquement et envoyé depuis %1$s."
@@ -1910,8 +1872,8 @@ msgstr "Nombre de fois récupéré"
 msgid "Product Report"
 msgstr "Rapport de produit"
 
-#: admin/build/settings.js:2
 #. translators: %%1$s: Link HTML Start and %2$sof: Link HTML End.
+#: admin/build/settings.js:2
 #, js-format
 msgid "Recovering sales already? Pro is coming soon to supercharge it. %1$sGet Notified%2$s"
 msgstr "Vous récupérez déjà des ventes ? Pro arrive bientôt pour les dynamiser. %1$sSoyez informé%2$s"
@@ -1927,9 +1889,7 @@ msgstr "Pas encore de données produit"
 
 #: admin/build/settings.js:2
 msgid "Failed to activate plugin"
-msgstr "Échec de l'activation du plugin"
-"Vous verrez ici les statistiques d'abandon de produit une fois que les clients commenceront à ajouter des articles à "
-"leurs paniers."
+msgstr "Échec de l'activation du pluginVous verrez ici les statistiques d'abandon de produit une fois que les clients commenceront à ajouter des articles à leurs paniers."
 
 #: admin/build/settings.js:2
 #: admin/build/settings.js:3
@@ -2064,8 +2024,8 @@ msgstr "Supprimer les enregistrements sélectionnés"
 msgid "Delete Record"
 msgstr "Supprimer l'enregistrement"
 
-#: admin/build/settings.js:3
 #. translators: %s: number of selected records
+#: admin/build/settings.js:3
 #, js-format
 msgid "Are you sure you want to delete %s selected record(s)? This action cannot be undone."
 msgstr "Êtes-vous sûr de vouloir supprimer %s enregistrement(s) sélectionné(s) ? Cette action ne peut pas être annulée."
@@ -2084,9 +2044,7 @@ msgstr "Récupération des paniers abandonnés Pro arrive bientôt 🔥"
 
 #: admin/build/settings.js:3
 msgid "Product Reports"
-msgstr "Rapports de produits"
-"Vous ramenez déjà les acheteurs avec des e-mails de récupération intelligents. Imaginez ce que vous pourriez faire avec "
-":"
+msgstr "Rapports de produitsVous ramenez déjà les acheteurs avec des e-mails de récupération intelligents. Imaginez ce que vous pourriez faire avec :"
 
 #: admin/build/settings.js:3
 msgid "You're already bringing shoppers back with smart recovery emails.  Imagine what you could do with:"
@@ -2120,8 +2078,8 @@ msgstr "Supprimer les produits sélectionnés"
 msgid "Delete Product"
 msgstr "Supprimer le produit"
 
-#: admin/build/settings.js:4
 #. translators: %s: number of selected products
+#: admin/build/settings.js:4
 #, js-format
 msgid "Are you sure you want to delete %s selected product(s)? This action cannot be undone."
 msgstr "Êtes-vous sûr de vouloir supprimer %s produit(s) sélectionné(s) ? Cette action ne peut pas être annulée."
@@ -2238,8 +2196,8 @@ msgstr "Supprimer les modèles sélectionnés"
 msgid "Delete Template"
 msgstr "Supprimer le modèle"
 
-#: admin/build/settings.js:5
 #. translators: %s: number of selected templates
+#: admin/build/settings.js:5
 #, js-format
 msgid "Are you sure you want to delete %s selected template(s)? This action cannot be undone."
 msgstr "Êtes-vous sûr de vouloir supprimer %s modèle(s) sélectionné(s) ? Cette action ne peut pas être annulée."

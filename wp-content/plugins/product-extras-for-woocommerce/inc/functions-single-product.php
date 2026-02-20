@@ -1041,6 +1041,12 @@ function pewc_get_group_wrapper_classes( $group_id, $group_index, $first_group_c
 		$wrapper_classes[] = $group_classes;
 	}
 
+	// 3.27.9, add class to be used when calculating totals on the product page
+	$always_include = pewc_get_group_include_in_order( $group_id );
+	if ( $always_include ) {
+		$wrapper_classes[] = 'pewc-group-always-include';
+	}
+
 	return apply_filters( 'pewc_group_wrapper_classes', $wrapper_classes, $group_id, $group_index, $first_group_class, $group, $post_id );
 
 }
@@ -1364,6 +1370,8 @@ function pewc_get_field_classes( $item, $id, $post_id, $product, $count_fields, 
 	if( ! empty( $item['layered_images'] ) ) {
 		$classes[] = 'pewc-layered-image';
 	}
+
+	$classes[] = ! empty( $item['field_class'] ) ? esc_attr( $item['field_class'] ) : '';
 	
 	$classes = apply_filters( 'pewc_filter_single_product_classes', $classes, $item );
 
@@ -1818,12 +1826,11 @@ function pewc_get_default_value( $id, $item, $posted, $location='' ) {
  */
 function pewc_add_on_price_separator( $sep=false, $item=false ) {
 
-	$separator = get_option( 'pewc_price_separator', false );
+	$separator = get_option( 'pewc_price_separator', '+' );
 	$sep = sprintf(
 		'<span class="pewc-separator"> %s </span>',
 		$separator
 	);
-	// $sep = ' ' . $separator . ' ';
 	return $sep;
 
 }
