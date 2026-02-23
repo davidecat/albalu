@@ -8,6 +8,7 @@ Template: bootscore
     --color-cta-scuro: #eae3e0;
     --color-cta-chiaro: #76A9B4;
     --color-sfondo-beige: #fbf9f6;
+    --color-cta-icon: ##A29893;
 }
 
 /* Custom Container 1440px */
@@ -136,7 +137,7 @@ Template: bootscore
     position: absolute;
     left: 0;
     top: 2px;
-    color: var(--color-cta-scuro); /* Or match the design color */
+    color: var(--color-cta-icon); /* Or match the design color */
 }
 
 .footer-social-icon {
@@ -182,4 +183,11 @@ Template: bootscore
 }
 .woocommerce .card .woocommerce-loop-product__title {
   font-size: 15px;
+}
+
+.footer-arrow-list li a {
+    color: var(--color-titoli) !important;
+}
+.footer-arrow-list li a:hover {
+    color: var(--color-cta-icon) !important;
 }
