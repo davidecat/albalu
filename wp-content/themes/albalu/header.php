@@ -234,56 +234,70 @@ defined('ABSPATH') || exit;
         ];
         */
 
-        // Override with ACF Data if available
-        if ( function_exists('have_rows') && have_rows('mega_menu_items', 'option') ) {
-            $acf_menus = [];
-            while( have_rows('mega_menu_items', 'option') ) : the_row();
-                $title = get_sub_field('title');
-                if( empty($title) ) continue;
-
-                $link = get_sub_field('link');
-                
-                $sub_items = [];
-                if( have_rows('items') ) {
-                    while( have_rows('items') ) : the_row();
-                        $sub_items[] = [
-                            'label' => get_sub_field('label'),
-                            'link'  => get_sub_field('link')
-                        ];
-                    endwhile;
+        $mega_menus = [];
+        $locations = get_nav_menu_locations();
+        $loc = isset($locations['main-menu']) ? 'main-menu' : (empty($locations) ? null : array_key_first($locations));
+        if ($loc) {
+            $menu = wp_get_nav_menu_object($locations[$loc]);
+            if ($menu) {
+                $items = wp_get_nav_menu_items($menu->term_id);
+                if (!$items) { $items = []; }
+                $children = [];
+                foreach ($items as $it) {
+                    $parent = (int)$it->menu_item_parent;
+                    if (!isset($children[$parent])) $children[$parent] = [];
+                    $children[$parent][] = $it;
                 }
-                
-                $img1 = get_sub_field('img1');
-                $img2 = get_sub_field('img2');
-                
-                $acf_menus[$title] = [
-                    'link'  => $link,
-                    'title' => $title,
-                    'items' => $sub_items,
-                    'img1'  => $img1,
-                    'img2'  => $img2
-                ];
-            endwhile;
-
-            if( !empty($acf_menus) ) {
-                $mega_menus = $acf_menus;
+                foreach ($items as $it) {
+                    if ((int)$it->menu_item_parent === 0) {
+                        $title = function_exists('get_field') ? get_field('mega_title', $it->ID) : '';
+                        $desc  = function_exists('get_field') ? get_field('mega_description', $it->ID) : '';
+                        $img1  = function_exists('get_field') ? get_field('mega_img1', $it->ID) : '';
+                        $img2  = function_exists('get_field') ? get_field('mega_img2', $it->ID) : '';
+                        $sub_items = [];
+                        if (function_exists('have_rows') && have_rows('items', $it->ID)) {
+                            while (have_rows('items', $it->ID)) {
+                                the_row();
+                                $sub_items[] = [
+                                    'label' => get_sub_field('label'),
+                                    'link'  => get_sub_field('link')
+                                ];
+                            }
+                        } else {
+                            foreach ($children[$it->ID] ?? [] as $child) {
+                                $sub_items[] = ['label' => $child->title, 'link' => $child->url];
+                            }
+                        }
+                        $mega_menus[$it->title] = [
+                            'link' => $it->url,
+                            'title' => $title ? $title : $it->title,
+                            'description' => $desc,
+                            'items' => $sub_items,
+                            'img1' => $img1,
+                            'img2' => $img2
+                        ];
+                    }
+                }
             }
         }
         ?>
         <ul class="navbar-nav justify-content-center w-100 gap-1">
             <?php foreach ($mega_menus as $name => $data) : ?>
             <li class="nav-item dropdown position-static">
-                <a class="nav-link text-dark py-3 dropdown-toggle" href="<?= esc_url(home_url($data['link'])); ?>" id="dropdown-<?= sanitize_title($name); ?>" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <a class="nav-link text-dark py-3 dropdown-toggle" href="<?= esc_url($data['link']); ?>" id="dropdown-<?= sanitize_title($name); ?>" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                     <?= esc_html($name); ?>
                 </a>
                 <div class="dropdown-menu w-100 mt-0 border-0 p-0 rounded-0" aria-labelledby="dropdown-<?= sanitize_title($name); ?>" style="background-color: #fbf9f6; border-top: 3px solid var(--color-cta-scuro) !important;">
                     <div class="container-custom py-5">
                         <div class="row">
                             <!-- Left Column: Text & Links -->
-                            <div class="col-lg-4">
+                            <div class="col-lg-6">
                                 <h6 class="text-uppercase fw-bold mb-3" style="letter-spacing: 1px; color: var(--color-titoli);"><?= esc_html($data['title']); ?></h6>
-                                <p class="mb-4 small text-muted">Puoi trovare qui tutti gli articoli dedicati al <strong><?= strtolower($data['title']); ?></strong>.</p>
+                                <?php if (!empty($data['description'])) : ?>
+                                <p class="mb-4 small text-muted"><?= esc_html($data['description']); ?></p>
+                                <?php endif; ?>
                                 
+                                <?php if (!empty($data['items'])) : ?>
                                 <ul class="list-unstyled mb-4">
                                     <?php foreach ($data['items'] as $item) : 
                                         $label = is_array($item) ? $item['label'] : $item;
@@ -296,6 +310,7 @@ defined('ABSPATH') || exit;
                                     </li>
                                     <?php endforeach; ?>
                                 </ul>
+                                <?php endif; ?>
                                 
                                 <a href="<?= esc_url($data['link']); ?>" class="text-decoration-none fw-bold small" style="color: var(--color-cta-chiaro);">
                                     Tutti i prodotti <i class="fas fa-arrow-right ms-1"></i>
@@ -303,18 +318,22 @@ defined('ABSPATH') || exit;
                             </div>
                             
                             <!-- Right Column: Images -->
-                            <div class="col-lg-8">
+                            <div class="col-lg-6">
                                 <div class="row g-3">
+                                    <?php if (!empty($data['img1'])) : ?>
                                     <div class="col-6">
                                         <div class="ratio ratio-1x1 bg-white">
                                             <img src="<?= esc_url($data['img1']); ?>" class="img-fluid object-fit-cover" alt="<?= esc_attr($name); ?> 1">
                                         </div>
                                     </div>
+                                    <?php endif; ?>
+                                    <?php if (!empty($data['img2'])) : ?>
                                     <div class="col-6">
                                         <div class="ratio ratio-1x1 bg-white">
                                             <img src="<?= esc_url($data['img2']); ?>" class="img-fluid object-fit-cover" alt="<?= esc_attr($name); ?> 2">
                                         </div>
                                     </div>
+                                    <?php endif; ?>
                                 </div>
                             </div>
                         </div>
