@@ -117,78 +117,158 @@ defined('ABSPATH') || exit;
   <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom border-top py-0 d-none d-lg-block position-relative menu-border">
     <div class="container-custom justify-content-center">
         <?php
-        $mega_menus = [
+        /*$mega_menus = [
             'Nascita e Battesimo' => [
                 'link' => '/categoria-prodotto/bomboniere-e-confettate-nascita-battesimo/',
                 'title' => 'Nascita e Battesimo',
-                'items' => ['Bomboniere Nascita', 'Bomboniere Battesimo', 'Confettate e Segnaposto'],
+                'items' => [
+                    ['label' => 'Bomboniere Nascita', 'link' => '/categoria-prodotto/bomboniere-e-confettate-nascita-battesimo/bomboniere-nascita/'],
+                    ['label' => 'Bomboniere Battesimo', 'link' => '/categoria-prodotto/bomboniere-e-confettate-nascita-battesimo/bomboniere-battesimo/'],
+                    ['label' => 'Confettate e Segnaposto', 'link' => '/categoria-prodotto/bomboniere-e-confettate-nascita-battesimo/confettate-e-segnaposto/']
+                ],
                 'img1' => 'https://albalu.displayer25.com/wp-content/uploads/2024/09/megamenu_nascita-01.webp',
                 'img2' => 'https://albalu.displayer25.com/wp-content/uploads/2024/09/megamenu_nascita-02.webp'
             ],
             'Comunione' => [
                 'link' => '/categoria-prodotto/bomboniere-comunione-e-confettate/',
                 'title' => 'Comunione',
-                'items' => ['Bomboniere Comunione', 'Bomboniere Comunione Bambino', 'Confettate e Segnaposto'],
+                'items' => [
+                    ['label' => 'Bomboniere Comunione', 'link' => '/categoria-prodotto/bomboniere-comunione-e-confettate/bomboniere-comunione/'],
+                    ['label' => 'Bomboniere Comunione Bambino', 'link' => '/categoria-prodotto/bomboniere-comunione-e-confettate/bomboniere-comunione-bambino/'],
+                    ['label' => 'Confettate e Segnaposto', 'link' => '/categoria-prodotto/bomboniere-comunione-e-confettate/confettate-e-segnaposto/']
+                ],
                 'img1' => 'https://albalu.displayer25.com/wp-content/uploads/2024/09/megamenu_comunione-01.webp',
                 'img2' => 'https://albalu.displayer25.com/wp-content/uploads/2024/09/megamenu_comunione-02.webp'
             ],
             'Cresima' => [
                 'link' => '/categoria-prodotto/bomboniere-e-confettate-cresima/',
                 'title' => 'Cresima',
-                'items' => ['Bomboniere Cresima', 'Confettate e Segnaposto'],
+                'items' => [
+                    ['label' => 'Bomboniere Cresima', 'link' => '/categoria-prodotto/bomboniere-e-confettate-cresima/bomboniere-cresima/'],
+                    ['label' => 'Confettate e Segnaposto', 'link' => '/categoria-prodotto/bomboniere-e-confettate-cresima/confettate-e-segnaposto/']
+                ],
                 'img1' => 'https://albalu.displayer25.com/wp-content/uploads/2024/09/megamenu_cresima-01.webp',
                 'img2' => 'https://albalu.displayer25.com/wp-content/uploads/2024/09/megamenu_cresima-02.webp'
             ],
             'Compleanno' => [
                 'link' => '/categoria-prodotto/compleanno/',
                 'title' => 'Compleanno',
-                'items' => ['Bomboniere Compleanno', 'Confettate e Segnaposto'],
+                'items' => [
+                    ['label' => 'Bomboniere Compleanno', 'link' => '/categoria-prodotto/compleanno/bomboniere-compleanno/'],
+                    ['label' => 'Confettate e Segnaposto', 'link' => '/categoria-prodotto/compleanno/confettate-e-segnaposto/']
+                ],
                 'img1' => 'https://albalu.displayer25.com/wp-content/uploads/2024/09/megamenu_compleanno-01.webp',
                 'img2' => 'https://albalu.displayer25.com/wp-content/uploads/2024/09/megamenu_compleanno-02.webp'
             ],
             'Laurea' => [
                 'link' => '/categoria-prodotto/bomboniere-e-confettate-laurea/',
                 'title' => 'Laurea',
-                'items' => ['Bomboniere Laurea', 'Confettate e Segnaposto'],
+                'items' => [
+                    ['label' => 'Bomboniere Laurea', 'link' => '/categoria-prodotto/bomboniere-e-confettate-laurea/bomboniere-laurea/'],
+                    ['label' => 'Confettate e Segnaposto', 'link' => '/categoria-prodotto/bomboniere-e-confettate-laurea/confettate-e-segnaposto/']
+                ],
                 'img1' => 'https://albalu.displayer25.com/wp-content/uploads/2024/09/megamenu_laurea-01.webp',
                 'img2' => 'https://albalu.displayer25.com/wp-content/uploads/2024/09/megamenu_laurea-02.webp'
             ],
             'Matrimonio' => [
                 'link' => '/categoria-prodotto/bomboniere-e-confettate-matrimonio/',
                 'title' => 'Matrimonio',
-                'items' => ['Bomboniere Matrimonio', 'Confettate e Segnaposto'],
+                'items' => [
+                    ['label' => 'Bomboniere Matrimonio', 'link' => '/categoria-prodotto/bomboniere-e-confettate-matrimonio/bomboniere-matrimonio/'],
+                    ['label' => 'Confettate e Segnaposto', 'link' => '/categoria-prodotto/bomboniere-e-confettate-matrimonio/confettate-e-segnaposto/']
+                ],
                 'img1' => 'https://albalu.displayer25.com/wp-content/uploads/2024/09/megamenu_matrimonio-01.webp',
                 'img2' => 'https://albalu.displayer25.com/wp-content/uploads/2024/09/megamenu_matrimonio-02.webp'
             ],
             'Anniversario' => [
                 'link' => '/categoria-prodotto/bomboniere-e-confettate-anniversario/',
                 'title' => 'Anniversario',
-                'items' => ['Bomboniere Anniversario', 'Confettate e Segnaposto'],
+                'items' => [
+                    ['label' => 'Bomboniere Anniversario', 'link' => '/categoria-prodotto/bomboniere-e-confettate-anniversario/bomboniere-anniversario/'],
+                    ['label' => 'Confettate e Segnaposto', 'link' => '/categoria-prodotto/bomboniere-e-confettate-anniversario/confettate-e-segnaposto/']
+                ],
                 'img1' => 'https://albalu.displayer25.com/wp-content/uploads/2024/09/megamenu_anniversario-01.webp',
                 'img2' => 'https://albalu.displayer25.com/wp-content/uploads/2024/09/megamenu_anniversario-02.webp'
             ],
             'Complementi D\'Arredo e Regali' => [
                 'link' => '/categoria-prodotto/complementi-d-arredo-regali/',
                 'title' => 'Complementi D\'Arredo e Regali',
-                'items' => ['Orologi da Parete', 'Quadri', 'Regali', 'Portafoto Argentati', 'Portafoto Regalo Infanzia', 'Prodotti Padre Pio'],
+                'items' => [
+                    ['label' => 'Orologi da Parete', 'link' => '/categoria-prodotto/complementi-d-arredo-regali/orologi-da-parete/'],
+                    ['label' => 'Quadri', 'link' => '/categoria-prodotto/complementi-d-arredo-regali/quadri/'],
+                    ['label' => 'Regali', 'link' => '/categoria-prodotto/complementi-d-arredo-regali/regali/'],
+                    ['label' => 'Portafoto Argentati', 'link' => '/categoria-prodotto/complementi-d-arredo-regali/portafoto-argentati/'],
+                    ['label' => 'Portafoto Regalo Infanzia', 'link' => '/categoria-prodotto/complementi-d-arredo-regali/portafoto-regalo-infanzia/'],
+                    ['label' => 'Prodotti Padre Pio', 'link' => '/categoria-prodotto/complementi-d-arredo-regali/prodotti-padre-pio/']
+                ],
                 'img1' => 'https://albalu.displayer25.com/wp-content/uploads/2024/09/megamenu_complementi-arredo-e-regali-01.webp',
                 'img2' => 'https://albalu.displayer25.com/wp-content/uploads/2024/09/megamenu_complementi-arredo-e-regali-02.webp'
             ],
             'Tema' => [
                 'link' => '/categoria-prodotto/bomboniere-per-tema/',
                 'title' => 'Bomboniere per tema',
-                'items' => ['Bomboniere tema amore', 'Bomboniere tema animali', 'Bomboniere tema calcio', 'Bomboniere tema fiori', 'Bomboniere tema musica', 'Bomboniere tema mare', 'Bomboniere tema viaggio', 'Bomboniere Albero della Vita'],
+                'items' => [
+                    ['label' => 'Bomboniere tema amore', 'link' => '/categoria-prodotto/bomboniere-per-tema/amore/'],
+                    ['label' => 'Bomboniere tema animali', 'link' => '/categoria-prodotto/bomboniere-per-tema/animali/'],
+                    ['label' => 'Bomboniere tema calcio', 'link' => '/categoria-prodotto/bomboniere-per-tema/calcio/'],
+                    ['label' => 'Bomboniere tema fiori', 'link' => '/categoria-prodotto/bomboniere-per-tema/fiori/'],
+                    ['label' => 'Bomboniere tema musica', 'link' => '/categoria-prodotto/bomboniere-per-tema/musica/'],
+                    ['label' => 'Bomboniere tema mare', 'link' => '/categoria-prodotto/bomboniere-per-tema/mare/'],
+                    ['label' => 'Bomboniere tema viaggio', 'link' => '/categoria-prodotto/bomboniere-per-tema/viaggio/'],
+                    ['label' => 'Bomboniere Albero della Vita', 'link' => '/categoria-prodotto/bomboniere-per-tema/albero-della-vita/']
+                ],
                 'img1' => 'https://albalu.displayer25.com/wp-content/uploads/2025/10/megamenu_bomboniere-per-tema-01.jpg',
                 'img2' => 'https://albalu.displayer25.com/wp-content/uploads/2025/10/megamenu_bomboniere-per-tema-02.jpg'
             ],
             'Tipologia' => [
                 'link' => '/categoria-prodotto/bomboniere-per-tipologia/',
                 'title' => 'Bomboniere per tipologia',
-                'items' => ['Bomboniere Segnalibri', 'Bomboniere Portafoto', 'Bomboniere Profumatori'],
+                'items' => [
+                    ['label' => 'Bomboniere Segnalibri', 'link' => '/categoria-prodotto/bomboniere-per-tipologia/segnalibri/'],
+                    ['label' => 'Bomboniere Portafoto', 'link' => '/categoria-prodotto/bomboniere-per-tipologia/portafoto/'],
+                    ['label' => 'Bomboniere Profumatori', 'link' => '/categoria-prodotto/bomboniere-per-tipologia/profumatori/']
+                ],
                 'img1' => 'https://albalu.displayer25.com/wp-content/uploads/2026/01/megamenu_bomboniere-per-tema-01.jpg', // Reused per dump
                 'img2' => 'https://albalu.displayer25.com/wp-content/uploads/2026/01/megamenu_bomboniere-per-tema-02.jpg'  // Reused per dump
             ],
         ];
+        */
+
+        // Override with ACF Data if available
+        if ( function_exists('have_rows') && have_rows('mega_menu_items', 'option') ) {
+            $acf_menus = [];
+            while( have_rows('mega_menu_items', 'option') ) : the_row();
+                $title = get_sub_field('title');
+                if( empty($title) ) continue;
+
+                $link = get_sub_field('link');
+                
+                $sub_items = [];
+                if( have_rows('items') ) {
+                    while( have_rows('items') ) : the_row();
+                        $sub_items[] = [
+                            'label' => get_sub_field('label'),
+                            'link'  => get_sub_field('link')
+                        ];
+                    endwhile;
+                }
+                
+                $img1 = get_sub_field('img1');
+                $img2 = get_sub_field('img2');
+                
+                $acf_menus[$title] = [
+                    'link'  => $link,
+                    'title' => $title,
+                    'items' => $sub_items,
+                    'img1'  => $img1,
+                    'img2'  => $img2
+                ];
+            endwhile;
+
+            if( !empty($acf_menus) ) {
+                $mega_menus = $acf_menus;
+            }
+        }
         ?>
         <ul class="navbar-nav justify-content-center w-100 gap-1">
             <?php foreach ($mega_menus as $name => $data) : ?>
@@ -205,10 +285,13 @@ defined('ABSPATH') || exit;
                                 <p class="mb-4 small text-muted">Puoi trovare qui tutti gli articoli dedicati al <strong><?= strtolower($data['title']); ?></strong>.</p>
                                 
                                 <ul class="list-unstyled mb-4">
-                                    <?php foreach ($data['items'] as $item) : ?>
+                                    <?php foreach ($data['items'] as $item) : 
+                                        $label = is_array($item) ? $item['label'] : $item;
+                                        $url   = is_array($item) ? $item['link'] : '#';
+                                    ?>
                                     <li class="mb-2">
-                                        <a href="#" class="text-decoration-none text-dark small">
-                                            <span class="me-2 text-muted">&raquo;</span> <?= esc_html($item); ?>
+                                        <a href="<?= esc_url($url); ?>" class="text-decoration-none text-dark small">
+                                            <span class="me-2 text-muted">&raquo;</span> <?= esc_html($label); ?>
                                         </a>
                                     </li>
                                     <?php endforeach; ?>

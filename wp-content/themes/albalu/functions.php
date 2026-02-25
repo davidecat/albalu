@@ -140,3 +140,104 @@ function albalu_custom_add_to_cart_link( $html, $product, $args ) {
         esc_url( $link )
     );
 }
+
+/**
+ * ACF Options Page Registration
+ */
+add_action('acf/init', 'albalu_acf_init');
+function albalu_acf_init() {
+    if( function_exists('acf_add_options_page') ) {
+        acf_add_options_page(array(
+            'page_title'    => 'Albalù Settings',
+            'menu_title'    => 'Albalù Settings',
+            'menu_slug'     => 'albalu-settings',
+            'capability'    => 'edit_posts',
+            'redirect'      => false
+        ));
+    }
+
+    /**
+     * Register Mega Menu ACF Fields Programmatically
+     */
+    if( function_exists('acf_add_local_field_group') ) {
+        acf_add_local_field_group(array(
+            'key' => 'group_albalu_mega_menu',
+            'title' => 'Mega Menu Settings',
+            'fields' => array(
+                array(
+                    'key' => 'field_mega_menu_items',
+                    'label' => 'Mega Menu Items',
+                    'name' => 'mega_menu_items',
+                    'type' => 'repeater',
+                    'layout' => 'row',
+                    'button_label' => 'Aggiungi Menu',
+                    'sub_fields' => array(
+                        // Tab 1: Info Principali
+                        array(
+                            'key' => 'field_menu_title',
+                            'label' => 'Titolo Menu',
+                            'name' => 'title',
+                            'type' => 'text',
+                            'required' => 1,
+                        ),
+                        array(
+                            'key' => 'field_menu_link',
+                            'label' => 'Link Principale',
+                            'name' => 'link',
+                            'type' => 'text', // Using text to allow relative paths easily, or url
+                            'instructions' => 'Inserisci il link della pagina di destinazione (es. /categoria/...)',
+                        ),
+                        // Tab 2: Sotto Elementi
+                        array(
+                            'key' => 'field_menu_sub_items',
+                            'label' => 'Sotto Elementi',
+                            'name' => 'items',
+                            'type' => 'repeater',
+                            'button_label' => 'Aggiungi Voce',
+                            'sub_fields' => array(
+                                array(
+                                    'key' => 'field_sub_item_label',
+                                    'label' => 'Etichetta',
+                                    'name' => 'label',
+                                    'type' => 'text',
+                                ),
+                                array(
+                                    'key' => 'field_sub_item_link',
+                                    'label' => 'Link',
+                                    'name' => 'link',
+                                    'type' => 'text',
+                                ),
+                            ),
+                        ),
+                        // Tab 3: Immagini
+                        array(
+                            'key' => 'field_menu_img1',
+                            'label' => 'Immagine 1',
+                            'name' => 'img1',
+                            'type' => 'image',
+                            'return_format' => 'url',
+                            'preview_size' => 'thumbnail',
+                        ),
+                        array(
+                            'key' => 'field_menu_img2',
+                            'label' => 'Immagine 2',
+                            'name' => 'img2',
+                            'type' => 'image',
+                            'return_format' => 'url',
+                            'preview_size' => 'thumbnail',
+                        ),
+                    ),
+                ),
+            ),
+            'location' => array(
+                array(
+                    array(
+                        'param' => 'options_page',
+                        'operator' => '==',
+                        'value' => 'albalu-settings',
+                    ),
+                ),
+            ),
+        ));
+    }
+}
