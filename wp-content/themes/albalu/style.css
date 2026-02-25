@@ -20,75 +20,18 @@ Template: bootscore
     padding-right: 0.75rem;
 }
 
-/* Navbar Tweaks */
-.navbar-nav .nav-link {
-    font-size: 0.85rem;
-    padding-left: 0.5rem !important;
-    padding-right: 0.5rem !important;
-    text-transform: uppercase;
-    font-weight: 500;
-}
-
-/* Navbar Justified & Hover & Mega Menu (Desktop) */
-@media (min-width: 992px) {
-    .navbar-nav {
-        width: 100%;
-        justify-content: space-between;
-    }
-    
-    .navbar-nav .nav-item {
-        flex-grow: 1;
-        text-align: center;
-    }
-    
-    /* Force Static Position for Mega Menu Container Hierarchy */
-    .navbar .container-custom,
-    .navbar .navbar-nav,
-    .navbar-nav .nav-item.dropdown {
-        position: static !important;
-    }
-
-    .navbar-nav .nav-item.dropdown {
-        border-top: 3px solid transparent;
-        transition: border-top-color 0.2s ease;
-    }
-
-    .navbar-nav .nav-item.dropdown:hover {
-        border-top-color: var(--color-cta-scuro);
-    }
-
-    /* Hover Dropdown & Mega Menu Styles */
-    .nav-item.dropdown:hover .dropdown-menu {
-        display: block;
-        margin-top: 0;
-        visibility: visible;
-        opacity: 1;
-    }
-    
-    .dropdown-menu {
-        border-top: 3px solid var(--color-cta-scuro) !important;
-        margin-top: 0 !important;
-        /* Mega Menu Full Width Overrides */
-        position: absolute !important;
-        top: 100% !important;
-        left: 0 !important;
-        width: 100% !important;
-        right: auto !important;
-        transform: none !important;
-        border-radius: 0 !important;
-        box-shadow: 0 10px 15px #eae3e0 !important;
-        background-color: var(--color-sfondo-beige) !important;
-        padding: 0 !important; /* Remove default padding */
+/* Mobile: Remove padding from container */
+@media (max-width: 767.98px) {
+    .container-custom, .container {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
     }
 }
 
-/* Product Card Overrides */
-.woocommerce ul.products li.product .card {
-    text-align: left !important;
-    border: none !important;
-}
-
-.woocommerce ul.products li.product .card-body {
+/* Fix Product Grid Padding */
+.staging-product-grid .col-6,
+.staging-product-grid .col-md-3,
+.staging-product-grid .col-lg-3 {
     padding-left: 0 !important;
     padding-right: 0 !important;
 }
@@ -111,83 +54,50 @@ Template: bootscore
     background: #fff;
     border-bottom: 1px solid #e0e0e0;
     border-right: 1px solid #e0e0e0;
-    transform: rotate(45deg);
+    transform: rotate(45deg); /* Create the triangle */
 }
 
-/* Features Icons Filter (Orange) */
-.features-icon-img {
-    filter: invert(65%) sepia(60%) saturate(500%) hue-rotate(350deg) brightness(95%) contrast(90%); /* Approximate orange filter */
-    transition: transform 0.3s ease;
-}
-
-.feature-item:hover .features-icon-img {
-    transform: translateY(-5px);
-}
-
-/* Footer Styles */
-.footer-arrow-list li {
+/* Hero Parallax Section */
+.hero-parallax {
+    background-image: url('https://www.albalu.it/wp-content/uploads/2025/09/albalu-background-home-01.webp');
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    min-height: 600px;
     position: relative;
-    padding-left: 1.5rem;
+    color: #fff;
 }
 
-.footer-arrow-list li::before {
-    content: "\f0da"; /* FontAwesome arrow-right */
-    font-family: "Font Awesome 5 Free";
-    font-weight: 900;
+/* Dark Overlay for better text readability */
+.hero-parallax::before {
+    content: '';
     position: absolute;
+    top: 0;
     left: 0;
-    top: 2px;
-    color: var(--color-cta-icon); /* Or match the design color */
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4); /* 40% opacity black overlay */
+    z-index: 1; /* Overlay z-index */
 }
 
-.footer-social-icon {
-    width: 32px;
-    height: 32px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    border: 1px solid rgba(255,255,255,0.2);
-    border-radius: 50%;
-    color: #fff;
-    transition: all 0.3s ease;
+/* Ensure content is above the overlay */
+.hero-parallax .container-fluid {
+    position: relative;
+    z-index: 2; /* Content z-index must be higher than overlay */
 }
 
-.footer-social-icon:hover {
-    background-color: var(--color-cta-scuro);
-    border-color: var(--color-cta-scuro);
-    color: #fff;
+.hero-parallax h1 {
+    font-weight: 700;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+    position: relative;
+    z-index: 2;
 }
 
-.btn-primary {
-  --bs-btn-color: #fff;
-  --bs-btn-bg: #76A9B4;
-  --bs-btn-border-color: #76A9B4;
-}
-
-.btn-primary:hover {
-  --bs-btn-color: #fff;
-  --bs-btn-bg: #578E99;
-  --bs-btn-border-color: #578E99;
-}
-
-.btn:hover {
-  background-color: #578E99;
-}
-
-.category-link {
-    color: #578E99;
-}
-
-.woocommerce div.product {
-    padding: 20px;
-}
-.woocommerce .card .woocommerce-loop-product__title {
-  font-size: 15px;
-}
-
-.footer-arrow-list li a {
-    color: var(--color-titoli) !important;
-}
-.footer-arrow-list li a:hover {
-    color: var(--color-cta-icon) !important;
+.hero-parallax p.lead, 
+.hero-parallax .btn,
+.hero-parallax img {
+    position: relative;
+    z-index: 2;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
 }

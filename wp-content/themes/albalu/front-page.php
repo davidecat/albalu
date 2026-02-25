@@ -46,38 +46,37 @@ get_header();
                 </div>
             </section>
 
-            <!-- 2. Hero Section -->
-            <section class="hero-section py-5 mb-5" style="background-color: #F9F9F9; display: none;">
-                <div class="container-custom">
-                    <div class="row align-items-center">
-                        <div class="col-lg-6 order-2 order-lg-1">
-                            <span class="badge bg-white text-dark shadow-sm px-3 py-2 rounded-0 mb-3 text-uppercase border" style="font-size: 0.8rem; letter-spacing: 1px; border-color: #eee;">
-                                <i class="fas fa-star text-warning me-1"></i> Bomboniere Artigianali
-                            </span>
-                            <h1 class="display-4 fw-bold mb-3" style="color: var(--color-titoli); font-family: 'Roboto', sans-serif;">
-                                Le tue cerimonie,<br>
-                                <span style="color: var(--color-cta-scuro);">i nostri dettagli unici.</span>
-                            </h1>
-                            <p class="lead text-secondary mb-4">
-                                Dal 1991 realizziamo bomboniere artigianali Made in Italy per rendere indimenticabile ogni tuo evento speciale.
-                            </p>
-                            <div class="d-flex gap-3">
-                                <a href="/shop/" class="btn btn-primary rounded-0 px-4 py-3 text-uppercase fw-bold shadow-sm" style="border: none; letter-spacing: 1px;">
-                                    Vai allo Shop
-                                </a>
-                                <a href="/contatti/" class="btn btn-outline-secondary rounded-0 px-4 py-3 text-uppercase fw-bold" style="border: 2px solid #ddd; color: var(--color-titoli);">
-                                    Richiedi Info
+            <!-- 2. Hero Section Parallax -->
+            <div class="container-custom mt-4">
+                <section class="hero-parallax d-flex align-items-center overflow-hidden">
+                    <div class="container-fluid px-4">
+                        <div class="row align-items-center">
+                            <div class="col-lg-6 py-5 text-white">
+                                <h1 class="display-4 fw-bold mb-3">
+                                    Bomboniere originali con kit<br>
+                                    confezione in omaggio
+                                </h1>
+                                <p class="lead mb-4">
+                                    Su Albalù puoi trovare bomboniere originali e utili, complete di kit confezione in omaggio!
+                                </p>
+                                
+                                <div class="mb-4">
+                                    <p class="mb-2 fw-bold">Iscriviti alla newsletter di Albalù!</p>
+                                    <p class="mb-3 small">Ottieni sconti esclusivi: iscriviti alla newsletter</p>
+                                </div>
+
+                                <a href="#newsletter" class="btn btn-info text-white rounded-0 px-4 py-3 text-uppercase fw-bold shadow-sm" style="background-color: var(--color-cta-chiaro); border: none;">
+                                    Clicca qui <i class="fas fa-arrow-right ms-2"></i>
                                 </a>
                             </div>
-                        </div>
-                        <div class="col-lg-6 order-1 order-lg-2 mb-4 mb-lg-0 text-center">
-                             <div class="position-relative">
-                                <img src="https://albalu.displayer25.com/wp-content/uploads/2026/01/albalu-background-home-01.webp" alt="Albalù Hero" class="img-fluid position-relative z-index-1">
-                             </div>
+                            <div class="col-lg-6 text-center">
+                                 <!-- Foreground Image -->
+                                 <img src="https://albalu.b-cdn.net/wp-content/uploads/elementor/thumbs/confezioni-rinj44ahw9j48paqp3mtpbyjedbhrd85lujzwhirjg.webp" alt="Kit Confezione Omaggio" class="img-fluid">
+                            </div>
                         </div>
                     </div>
-                </div>
-            </section>
+                </section>
+            </div>
 
             <!-- 2. Most Requested Products (WooCommerce Shortcode) -->
             <section class="products-section py-5 bg-white">
