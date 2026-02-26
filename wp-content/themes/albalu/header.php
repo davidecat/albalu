@@ -51,9 +51,14 @@ defined('ABSPATH') || exit;
     </div>
   </div>
 
+    <?php do_action( 'bootscore_before_masthead' ); ?>
+
   <!-- 2. Main Header (Logo, Search, Icons) -->
   <header id="masthead" class="site-header bg-white py-4">
-    <div class="container">
+    
+      <?php do_action( 'bootscore_after_masthead_open' ); ?>
+
+  <div class="container">
         <div class="row align-items-center">
             <!-- Left: Search -->
             <div class="col-4 d-none d-lg-block">
@@ -361,3 +366,10 @@ defined('ABSPATH') || exit;
         </ul>
       </div>
   </div>
+
+  <!-- Offcanvas User and Cart -->
+    <?php
+    if (class_exists('WooCommerce')) :
+      get_template_part('template-parts/header/offcanvas', 'woocommerce');
+    endif;
+    ?>
