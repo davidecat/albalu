@@ -6,25 +6,69 @@
 // Because this file is compiled after Bootstrap, you're also able to use Bootstrap mixins for better code.
 // Some examples can be found here: https://bootscore.me/documentation/bootstrap-css-sass
 
+:root {
+  --color-titoli: #0E1011;
+  --color-testo: #595959;
+}
+
 html {
   font-size: 14px;
 }
 
 body {
-    color: #0e1011;
-        letter-spacing: 1px;  
-
+  color: #0e1011;
+  letter-spacing: 1px;  
 }
 
 h1, h2, h3, h4, h5, h6, a {
-    color: #0e1011;
-        letter-spacing: 1px;  
-
+  color: #0e1011;
+  letter-spacing: 1px;  
 }
 
+/* Typography Utilities */
+.ls-1 {
+  letter-spacing: 1px;
+}
 
-h2.woocommerce-loop-product__title {
+/* Hero Section Fixes */
+.hero-parallax {
+  .container-fluid {
+    position: relative;
+    z-index: 2;
+  }
+  &::before {
+    z-index: 1;
+  }
+}
+
+/* Category Cards */
+.category-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
     
+    .category-link {
+      color: var(--bs-primary);
+      i {
+        transform: translateX(5px);
+      }
+    }
+  }
+
+  .category-link {
+    color: var(--color-titoli);
+    transition: color 0.3s ease;
+    
+    i {
+      transition: transform 0.3s ease;
+    }
+  }
+}
+
+/* WooCommerce Customizations */
+h2.woocommerce-loop-product__title {
     font-size: 1rem !important; 
     line-height: 1.5rem;
 }
