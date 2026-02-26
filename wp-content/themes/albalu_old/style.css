@@ -1,0 +1,103 @@
+/*
+Theme Name: Albalu Child old
+Template: bootscore
+*/
+
+:root {
+    --color-titoli: #0E1011;
+    --color-cta-scuro: #eae3e0;
+    --color-cta-chiaro: #76A9B4;
+    --color-sfondo-beige: #fbf9f6;
+    --color-cta-icon: ##A29893;
+}
+
+/* Custom Container 1440px */
+.container-custom, .container {
+    max-width: 1440px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+}
+
+/* Mobile: Remove padding from container */
+@media (max-width: 767.98px) {
+    .container-custom, .container {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
+}
+
+/* Fix Product Grid Padding */
+.staging-product-grid .col-6,
+.staging-product-grid .col-md-3,
+.staging-product-grid .col-lg-3 {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+.testimonial-box {
+    position: relative;
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 2rem;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+
+.testimonial-box::after {
+    content: '';
+    position: absolute;
+    bottom: -10px; /* Position below the box */
+    left: 2rem; /* Align with the user info */
+    width: 20px;
+    height: 20px;
+    background: #fff;
+    border-bottom: 1px solid #e0e0e0;
+    border-right: 1px solid #e0e0e0;
+    transform: rotate(45deg); /* Create the triangle */
+}
+
+/* Hero Parallax Section */
+.hero-parallax {
+    background-image: url('https://www.albalu.it/wp-content/uploads/2025/09/albalu-background-home-01.webp');
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    min-height: 600px;
+    position: relative;
+    color: #fff;
+}
+
+/* Dark Overlay for better text readability */
+.hero-parallax::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4); /* 40% opacity black overlay */
+    z-index: 1; /* Overlay z-index */
+}
+
+/* Ensure content is above the overlay */
+.hero-parallax .container-fluid {
+    position: relative;
+    z-index: 2; /* Content z-index must be higher than overlay */
+}
+
+.hero-parallax h1 {
+    font-weight: 700;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+    position: relative;
+    z-index: 2;
+}
+
+.hero-parallax p.lead, 
+.hero-parallax .btn,
+.hero-parallax img {
+    position: relative;
+    z-index: 2;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+}

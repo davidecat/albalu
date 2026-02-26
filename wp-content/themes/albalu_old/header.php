@@ -32,7 +32,7 @@ defined('ABSPATH') || exit;
 
   <!-- 1. Top Bar (Beige Color) -->
   <div class="top-bar py-2 small fw-bold" style="background-color: #eae3e0; color: var(--color-titoli);">
-    <div class="container">
+    <div class="container-custom">
         <div class="row align-items-center">
             <div class="col-md-4 text-center text-md-start">
                 Bomboniere 100% Made in Italy
@@ -53,7 +53,7 @@ defined('ABSPATH') || exit;
 
   <!-- 2. Main Header (Logo, Search, Icons) -->
   <header id="masthead" class="site-header bg-white py-4">
-    <div class="container">
+    <div class="container-custom">
         <div class="row align-items-center">
             <!-- Left: Search -->
             <div class="col-4 d-none d-lg-block">
@@ -115,7 +115,7 @@ defined('ABSPATH') || exit;
 
   <!-- 3. Navigation Bar (Mega Menu) -->
   <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom border-top py-0 d-none d-lg-block position-relative menu-border">
-    <div class="container justify-content-center">
+    <div class="container-custom justify-content-center">
         <?php
         /*$mega_menus = [
             'Nascita e Battesimo' => [
@@ -281,14 +281,14 @@ defined('ABSPATH') || exit;
             }
         }
         ?>
-        <ul class="navbar-nav justify-content-center w-100 gap-1 fw-medium">
+        <ul class="navbar-nav justify-content-center w-100 gap-1 fw-bolder">
             <?php foreach ($mega_menus as $name => $data) : ?>
             <li class="nav-item dropdown position-static">
                 <a class="nav-link text-dark py-3 dropdown-toggle" href="<?= esc_url($data['link']); ?>" id="dropdown-<?= sanitize_title($name); ?>" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                     <?= esc_html($name); ?>
                 </a>
                 <div class="dropdown-menu w-100 mt-0 border-0 p-0 rounded-0" aria-labelledby="dropdown-<?= sanitize_title($name); ?>" style="background-color: #fbf9f6; border-top: 3px solid var(--color-cta-scuro) !important;">
-                    <div class="container py-5">
+                    <div class="container-custom py-5">
                         <div class="row">
                             <!-- Left Column: Text & Links -->
                             <div class="col-lg-6">

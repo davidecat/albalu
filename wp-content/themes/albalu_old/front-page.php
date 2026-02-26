@@ -17,7 +17,7 @@ get_header();
 
             <!-- 1. Trust Strip (Template 37161) -->
             <section class="trust-strip py-2" style="background-color: #eae3e0;">
-                <div class="container">
+                <div class="container-custom">
                     <div class="row align-items-center">
                         <!-- Left: Text -->
                         <div class="col-lg-7 mb-2 mb-lg-0 text-center text-lg-start">
@@ -47,7 +47,7 @@ get_header();
             </section>
 
             <!-- 2. Hero Section Parallax -->
-            <div class="container mt-4">
+            <div class="container-custom mt-4">
                 <section class="hero-parallax d-flex align-items-center overflow-hidden">
                     <div class="container-fluid px-4">
                         <div class="row align-items-center">
@@ -80,7 +80,7 @@ get_header();
 
             <!-- 2. Most Requested Products (WooCommerce Shortcode) -->
             <section class="products-section py-5 bg-white">
-                <div class="container">
+                <div class="container-custom">
                     <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-5">
                         <h2 class="mb-3 mb-md-0" style="color: var(--color-titoli);">Le <strong>bomboniere</strong> più richieste per <strong>ogni tipo di evento</strong></h2>
                         <a href="/shop/" class="btn btn-primary px-4 py-2 text-uppercase fw-bold shadow-sm" style="border: none; letter-spacing: 1px;">Scopri il catalogo <i class="fas fa-arrow-right ms-2"></i></a>
@@ -93,7 +93,7 @@ get_header();
 
             <!-- 3. Categories Grid (Template 37159) -->
             <section class="categories-section py-5" style="background-color: #eae3e0">
-                <div class="container">
+                <div class="container-custom">
                     <div class="text-center mb-5">
                         <span class="text-uppercase small fw-bold ls-1" style="color: var(--color-titoli);">Il nostro catalogo</span>
                         <h2 class="h1 mt-2" style="color: var(--color-titoli);">Articoli per ogni <strong>occasione e cerimonia</strong></h2>
@@ -152,7 +152,7 @@ get_header();
 
             <!-- 4. Promo Section 1 (Albalù Store) -->
             <section class="promo-section-1 py-5">
-                <div class="container">
+                <div class="container-custom">
                     <div class="row align-items-center">
                         <div class="col-lg-7 order-2 order-lg-1">
                             <span class="text-uppercase text-muted small fw-bold ls-1">Albalù Store</span>
@@ -176,7 +176,7 @@ get_header();
 
             <!-- 5. Newsletter Section (Template 37163) -->
             <section class="newsletter-section py-5 text-white" style="background-color: #9EA6A9 !important;">
-                <div class="container">
+                <div class="container-custom">
                     <div class="row">
                         <div class="col-lg-8 text-start">
                             <span class="text-uppercase small fw-bold ls-1 text-white-50">Rendiamo memorabile il tuo evento</span>
@@ -194,7 +194,7 @@ get_header();
 
             <!-- 6. About Section (Chi siamo) -->
             <section class="promo-section-2 py-5">
-                <div class="container">
+                <div class="container-custom">
                     <div class="row align-items-center">
                         <div class="col-lg-5 mb-4 mb-lg-0">
                              <div class="ratio ratio-1x1 rounded-3 overflow-hidden">
@@ -219,7 +219,7 @@ get_header();
 
             <!-- 7. Testimonials Section (Template 37165) -->
             <section class="testimonials-section py-5" style="background-color: #eae3e0">
-                <div class="container">
+                <div class="container-custom">
                     <div class="text-center mb-5">
                         <span class="text-uppercase text-muted small fw-bold ls-1">Dicono di noi</span>
                         <h2 class="h1 fw-bold mt-2">Le <strong>testimonianze</strong> dei nostri clienti</h2>
@@ -328,7 +328,7 @@ get_header();
 
             <!-- 8. Features Icons Section (Template 37171) -->
             <section class="features-section py-5 bg-white">
-                <div class="container">
+                <div class="container-custom">
                     <div class="row g-4">
                         <div class="col-md-4">
                             <div class="h-100 ps-4 border-start" style="border-color: #EAE3E0 !important;">
@@ -363,7 +363,7 @@ get_header();
 
             <!-- 9. Creations / Instagram -->
             <section class="creations-section py-5 bg-light">
-                <div class="container">
+                <div class="container-custom">
                     <div class="d-flex justify-content-between align-items-center mb-4">
                         <h2 class="h3 fw-bold mb-0">Alcune delle <strong>nostre creazioni</strong></h2>
                         <a href="#" class="btn btn-primary text-white">Esplora il catalogo &rarr;</a>

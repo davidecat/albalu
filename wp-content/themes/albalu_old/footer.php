@@ -15,7 +15,7 @@
 <footer id="colophon" class="site-footer pt-5 pb-3" style="background-color: #EAE3E0;">
     
     <!-- Main Footer Widgets -->
-    <div class="container"> <!-- Used container-custom to match header width if needed, or just container -->
+    <div class="container-custom"> <!-- Used container-custom to match header width if needed, or just container -->
         <div class="row g-4">
             <!-- Col 1: Shop -->
             <div class="col-lg-3 col-md-6">
@@ -97,7 +97,7 @@
     </div>
 
     <!-- Bottom Footer -->
-    <div class="container mt-5">
+    <div class="container-custom mt-5">
         <!-- <hr class="mb-4" style="border-color: #d0c4c0; opacity: 1;"> -->
         <div class="row align-items-center">
              <!-- Payment Methods -->
