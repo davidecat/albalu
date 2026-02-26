@@ -102,7 +102,7 @@
         <div class="row align-items-center">
              <!-- Payment Methods -->
             <div class="col-12 text-center mb-3">
-                <img src="https://albalu.displayer25.com/wp-content/uploads/2024/06/pagamenti-placeholder-1.png" alt="Metodi di Pagamento" class="img-fluid" style="max-height: 30px;">
+                <img src="/wp-content/uploads/2024/06/pagamenti-placeholder-1.png" alt="Metodi di Pagamento" class="img-fluid" style="max-height: 30px;">
             </div>
             <!-- Copyright & Links -->
             <div class="col-12 text-center">

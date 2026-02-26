@@ -167,7 +167,7 @@ get_header();
                         </div>
                         <div class="col-lg-5 order-1 order-lg-2 mb-4 mb-lg-0">
                              <div class="ratio ratio-4x3 rounded-3 overflow-hidden">
-                                <img src="https://albalu.displayer25.com/wp-content/uploads/2026/01/08.webp" class="object-fit-cover" alt="Promo Image">
+                                <img src="/wp-content/uploads/2026/01/08.webp" class="object-fit-cover" alt="Promo Image">
                              </div>
                         </div>
                     </div>
@@ -198,7 +198,7 @@ get_header();
                     <div class="row align-items-center">
                         <div class="col-lg-5 mb-4 mb-lg-0">
                              <div class="ratio ratio-1x1 rounded-3 overflow-hidden">
-                                <img src="https://albalu.displayer25.com/wp-content/uploads/2026/01/Profumatore-in-Resina-effetto-Marmo-con-Diffusore-a-Tema-Albero-della-Vita-e-Applicazione-Centrale-in-Legno-Sagomato-Albalu-Bomboniere-745_610x610_crop_center.webp" class="object-fit-cover" alt="Chi Siamo">
+                                <img src="/wp-content/uploads/2026/01/Profumatore-in-Resina-effetto-Marmo-con-Diffusore-a-Tema-Albero-della-Vita-e-Applicazione-Centrale-in-Legno-Sagomato-Albalu-Bomboniere-745_610x610_crop_center.webp" class="object-fit-cover" alt="Chi Siamo">
                              </div>
                         </div>
                         <div class="col-lg-7">
@@ -238,7 +238,7 @@ get_header();
                                  'date' => '19 Ottobre 2025', 
                                  'text' => 'Ciao, ho aspettato arrivasse la Cresima di mia figlia prima di scrivere una recensione, ovviamente positiva! Ordinate bomboniere con confetti e...', 
                                  'initials' => 'CS',
-                                 'img' => 'https://albalu.displayer25.com/wp-content/uploads/2026/01/user-1.jpg' // Placeholder
+                                 'img' => '/wp-content/uploads/2026/01/user-1.jpg' // Placeholder
                              ],
                              [
                                  'name' => 'FM March', 
@@ -259,7 +259,7 @@ get_header();
                                  'date' => '13 Ottobre 2025', 
                                  'text' => 'Bomboniere bellissime e di ottima qualità, prezzo giusto. Consegna rapida e servizio clienti disponibile e attento a tutte le modifiche. Tutto...', 
                                  'initials' => 'EJ',
-                                 'img' => 'https://albalu.displayer25.com/wp-content/uploads/2026/01/user-4.jpg' // Placeholder
+                                 'img' => '/wp-content/uploads/2026/01/user-4.jpg' // Placeholder
                              ],
                              [
                                  'name' => 'Maria Rossi', 
@@ -307,7 +307,7 @@ get_header();
                                     <!-- Use an image placeholder if no image, or initials -->
                                     <div class="rounded-circle overflow-hidden me-3" style="width: 50px; height: 50px;">
                                          <!-- Using a generic user placeholder image to match design better than initials box -->
-                                         <img src="https://albalu.displayer25.com/wp-content/uploads/2026/01/user-placeholder.jpg" onerror="this.src='https://secure.gravatar.com/avatar/?s=50&d=mm&r=g'" alt="<?php echo $review['name']; ?>" class="img-fluid w-100 h-100 object-fit-cover">
+                                         <img src="/wp-content/uploads/2026/01/user-placeholder.jpg" onerror="this.src='https://secure.gravatar.com/avatar/?s=50&d=mm&r=g'" alt="<?php echo $review['name']; ?>" class="img-fluid w-100 h-100 object-fit-cover">
                                     </div>
                                 <?php } ?>
                                 <div>
@@ -333,7 +333,7 @@ get_header();
                         <div class="col-md-4">
                             <div class="h-100 ps-4 border-start" style="border-color: #EAE3E0 !important;">
                                 <div class="mb-3">
-                                    <img src="https://albalu.displayer25.com/wp-content/uploads/2026/01/albalu-customere-care-1.svg" alt="Assistenza Clienti" style="width: 70px; height: 70px;">
+                                    <img src="/wp-content/uploads/2026/01/albalu-customere-care-1.svg" alt="Assistenza Clienti" style="width: 70px; height: 70px;">
                                 </div>
                                 <h5 class="fw-bold h6 text-uppercase mb-2">Assistenza Clienti</h5>
                                 <p class="small text-secondary mb-0">Siamo sempre disponibili per aiutarti a scegliere la bomboniera perfetta. Contattaci per un supporto rapido e personalizzato.</p>
@@ -342,7 +342,7 @@ get_header();
                         <div class="col-md-4">
                             <div class="h-100 ps-4 border-start" style="border-color: #EAE3E0 !important;">
                                 <div class="mb-3">
-                                    <img src="https://albalu.displayer25.com/wp-content/uploads/2026/01/albalu-quality-1.svg" alt="100% Made in Italy" style="width: 70px; height: 70px;">
+                                    <img src="/wp-content/uploads/2026/01/albalu-quality-1.svg" alt="100% Made in Italy" style="width: 70px; height: 70px;">
                                 </div>
                                 <h5 class="fw-bold h6 text-uppercase mb-2">100% Made in Italy</h5>
                                 <p class="small text-secondary mb-0">Le nostre bomboniere sono autentici prodotti artigianali italiani, realizzati con materiali di alta qualità e cura per i dettagli.</p>
@@ -351,7 +351,7 @@ get_header();
                         <div class="col-md-4">
                             <div class="h-100 ps-4 border-start" style="border-color: #EAE3E0 !important;">
                                 <div class="mb-3">
-                                    <img src="https://albalu.displayer25.com/wp-content/uploads/2026/01/albalu-delivery-1.svg" alt="Spedizione Gratuita" style="width: 70px; height: 70px;">
+                                    <img src="/wp-content/uploads/2026/01/albalu-delivery-1.svg" alt="Spedizione Gratuita" style="width: 70px; height: 70px;">
                                 </div>
                                 <h5 class="fw-bold h6 text-uppercase mb-2">Spedizione Gratuita da 149€</h5>
                                 <p class="small text-secondary mb-0">Su ordini superiori a 149€, la spedizione è gratuita! Ricevi le tue bomboniere direttamente a casa, senza costi aggiuntivi.</p>
@@ -373,18 +373,18 @@ get_header();
                         <div class="swiper-wrapper">
                         <?php 
                         $gallery = [
-                            'https://albalu.displayer25.com/wp-content/uploads/2026/01/download_12_-PhotoRoom_610x610_crop_center.webp',
-                            'https://albalu.displayer25.com/wp-content/uploads/2026/01/NewTemplate-PhotoRoom_3_610x610_crop_center.webp',
-                            'https://albalu.displayer25.com/wp-content/uploads/2026/01/Profumatore-a-Forma-di-Cuore-in-Resina-Colorata-con-Applicazione-in-Legno-Ciuccio-Albalu-Bomboniere-906_610x610_crop_center.webp',
-                            'https://albalu.displayer25.com/wp-content/uploads/2026/01/rosa-PhotoRoom_610x610_crop_center.webp',
-                            'https://albalu.displayer25.com/wp-content/uploads/2026/01/Orologio-Quadrato-in-Legno-Colorato-a-Tema-Bimbi-con-Orsetto-Sole-e-Nuvolette-Celeste-Rosa-e-Panna-Albalu-Bomboniere-973_610x610_crop_center.webp',
-                            'https://albalu.displayer25.com/wp-content/uploads/2026/01/Profumatore-Base-in-Vetro-con-tappo-in-Sughero-e-Applicazione-in-Legno-a-Tema-Vita-Albalu-Bomboniere-719-PhotoRoom_610x610_crop_center.webp',
-                            'https://albalu.displayer25.com/wp-content/uploads/2026/01/Bomboniera-Quadretto-in-Legno-con-Piastrella-Sacra-in-Gres-Porcellanato-e-Cornice-Bianca-Rettangolare-Albalu-Bomboniere-606_40e81b2e-7681-4690-b118-4f5d948a0120_610x610_crop.webp',
-                            'https://albalu.displayer25.com/wp-content/uploads/2026/01/Sessione-studio-016-2-PhotoRoom-PhotoRoom_1_610x610_crop_center.webp',
-                            'https://albalu.displayer25.com/wp-content/uploads/2026/01/Bomboniera-Albero-della-Vita-con-Cuore-e-Applicazione-in-Porcellana-per-Battesimo-Albalu-Bomboniere-932_1_-PhotoRoom_610x610_crop_center.webp',
-                            'https://albalu.displayer25.com/wp-content/uploads/2026/01/08.webp',
-                            'https://albalu.displayer25.com/wp-content/uploads/2026/01/Bomboniera-Clip-portafoto-Base-a-Nuvoletta-e-Applicazione-in-Legno-Animaletti-Nascita-e-Battesimo-Albalu-Bomboniere-473_610x610_crop_center.webp',
-                            'https://albalu.displayer25.com/wp-content/uploads/2026/01/04.webp'
+                            '/wp-content/uploads/2026/01/download_12_-PhotoRoom_610x610_crop_center.webp',
+                            '/wp-content/uploads/2026/01/NewTemplate-PhotoRoom_3_610x610_crop_center.webp',
+                            '/wp-content/uploads/2026/01/Profumatore-a-Forma-di-Cuore-in-Resina-Colorata-con-Applicazione-in-Legno-Ciuccio-Albalu-Bomboniere-906_610x610_crop_center.webp',
+                            '/wp-content/uploads/2026/01/rosa-PhotoRoom_610x610_crop_center.webp',
+                            '/wp-content/uploads/2026/01/Orologio-Quadrato-in-Legno-Colorato-a-Tema-Bimbi-con-Orsetto-Sole-e-Nuvolette-Celeste-Rosa-e-Panna-Albalu-Bomboniere-973_610x610_crop_center.webp',
+                            '/wp-content/uploads/2026/01/Profumatore-Base-in-Vetro-con-tappo-in-Sughero-e-Applicazione-in-Legno-a-Tema-Vita-Albalu-Bomboniere-719-PhotoRoom_610x610_crop_center.webp',
+                            '/wp-content/uploads/2026/01/Bomboniera-Quadretto-in-Legno-con-Piastrella-Sacra-in-Gres-Porcellanato-e-Cornice-Bianca-Rettangolare-Albalu-Bomboniere-606_40e81b2e-7681-4690-b118-4f5d948a0120_610x610_crop.webp',
+                            '/wp-content/uploads/2026/01/Sessione-studio-016-2-PhotoRoom-PhotoRoom_1_610x610_crop_center.webp',
+                            '/wp-content/uploads/2026/01/Bomboniera-Albero-della-Vita-con-Cuore-e-Applicazione-in-Porcellana-per-Battesimo-Albalu-Bomboniere-932_1_-PhotoRoom_610x610_crop_center.webp',
+                            '/wp-content/uploads/2026/01/08.webp',
+                            '/wp-content/uploads/2026/01/Bomboniera-Clip-portafoto-Base-a-Nuvoletta-e-Applicazione-in-Legno-Animaletti-Nascita-e-Battesimo-Albalu-Bomboniere-473_610x610_crop_center.webp',
+                            '/wp-content/uploads/2026/01/04.webp'
                         ];
                         foreach($gallery as $img) { ?>
                         <div class="swiper-slide">

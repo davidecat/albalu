@@ -126,8 +126,8 @@ defined('ABSPATH') || exit;
                     ['label' => 'Bomboniere Battesimo', 'link' => '/categoria-prodotto/bomboniere-e-confettate-nascita-battesimo/bomboniere-battesimo/'],
                     ['label' => 'Confettate e Segnaposto', 'link' => '/categoria-prodotto/bomboniere-e-confettate-nascita-battesimo/confettate-e-segnaposto/']
                 ],
-                'img1' => 'https://albalu.displayer25.com/wp-content/uploads/2024/09/megamenu_nascita-01.webp',
-                'img2' => 'https://albalu.displayer25.com/wp-content/uploads/2024/09/megamenu_nascita-02.webp'
+                'img1' => '/wp-content/uploads/2024/09/megamenu_nascita-01.webp',
+                'img2' => '/wp-content/uploads/2024/09/megamenu_nascita-02.webp'
             ],
             'Comunione' => [
                 'link' => '/categoria-prodotto/bomboniere-comunione-e-confettate/',
@@ -137,8 +137,8 @@ defined('ABSPATH') || exit;
                     ['label' => 'Bomboniere Comunione Bambino', 'link' => '/categoria-prodotto/bomboniere-comunione-e-confettate/bomboniere-comunione-bambino/'],
                     ['label' => 'Confettate e Segnaposto', 'link' => '/categoria-prodotto/bomboniere-comunione-e-confettate/confettate-e-segnaposto/']
                 ],
-                'img1' => 'https://albalu.displayer25.com/wp-content/uploads/2024/09/megamenu_comunione-01.webp',
-                'img2' => 'https://albalu.displayer25.com/wp-content/uploads/2024/09/megamenu_comunione-02.webp'
+                'img1' => '/wp-content/uploads/2024/09/megamenu_comunione-01.webp',
+                'img2' => '/wp-content/uploads/2024/09/megamenu_comunione-02.webp'
             ],
             'Cresima' => [
                 'link' => '/categoria-prodotto/bomboniere-e-confettate-cresima/',
@@ -147,8 +147,8 @@ defined('ABSPATH') || exit;
                     ['label' => 'Bomboniere Cresima', 'link' => '/categoria-prodotto/bomboniere-e-confettate-cresima/bomboniere-cresima/'],
                     ['label' => 'Confettate e Segnaposto', 'link' => '/categoria-prodotto/bomboniere-e-confettate-cresima/confettate-e-segnaposto/']
                 ],
-                'img1' => 'https://albalu.displayer25.com/wp-content/uploads/2024/09/megamenu_cresima-01.webp',
-                'img2' => 'https://albalu.displayer25.com/wp-content/uploads/2024/09/megamenu_cresima-02.webp'
+                'img1' => '/wp-content/uploads/2024/09/megamenu_cresima-01.webp',
+                'img2' => '/wp-content/uploads/2024/09/megamenu_cresima-02.webp'
             ],
             'Compleanno' => [
                 'link' => '/categoria-prodotto/compleanno/',
@@ -157,8 +157,8 @@ defined('ABSPATH') || exit;
                     ['label' => 'Bomboniere Compleanno', 'link' => '/categoria-prodotto/compleanno/bomboniere-compleanno/'],
                     ['label' => 'Confettate e Segnaposto', 'link' => '/categoria-prodotto/compleanno/confettate-e-segnaposto/']
                 ],
-                'img1' => 'https://albalu.displayer25.com/wp-content/uploads/2024/09/megamenu_compleanno-01.webp',
-                'img2' => 'https://albalu.displayer25.com/wp-content/uploads/2024/09/megamenu_compleanno-02.webp'
+                'img1' => '/wp-content/uploads/2024/09/megamenu_compleanno-01.webp',
+                'img2' => '/wp-content/uploads/2024/09/megamenu_compleanno-02.webp'
             ],
             'Laurea' => [
                 'link' => '/categoria-prodotto/bomboniere-e-confettate-laurea/',
@@ -167,8 +167,8 @@ defined('ABSPATH') || exit;
                     ['label' => 'Bomboniere Laurea', 'link' => '/categoria-prodotto/bomboniere-e-confettate-laurea/bomboniere-laurea/'],
                     ['label' => 'Confettate e Segnaposto', 'link' => '/categoria-prodotto/bomboniere-e-confettate-laurea/confettate-e-segnaposto/']
                 ],
-                'img1' => 'https://albalu.displayer25.com/wp-content/uploads/2024/09/megamenu_laurea-01.webp',
-                'img2' => 'https://albalu.displayer25.com/wp-content/uploads/2024/09/megamenu_laurea-02.webp'
+                'img1' => '/wp-content/uploads/2024/09/megamenu_laurea-01.webp',
+                'img2' => '/wp-content/uploads/2024/09/megamenu_laurea-02.webp'
             ],
             'Matrimonio' => [
                 'link' => '/categoria-prodotto/bomboniere-e-confettate-matrimonio/',
@@ -177,8 +177,8 @@ defined('ABSPATH') || exit;
                     ['label' => 'Bomboniere Matrimonio', 'link' => '/categoria-prodotto/bomboniere-e-confettate-matrimonio/bomboniere-matrimonio/'],
                     ['label' => 'Confettate e Segnaposto', 'link' => '/categoria-prodotto/bomboniere-e-confettate-matrimonio/confettate-e-segnaposto/']
                 ],
-                'img1' => 'https://albalu.displayer25.com/wp-content/uploads/2024/09/megamenu_matrimonio-01.webp',
-                'img2' => 'https://albalu.displayer25.com/wp-content/uploads/2024/09/megamenu_matrimonio-02.webp'
+                'img1' => '/wp-content/uploads/2024/09/megamenu_matrimonio-01.webp',
+                'img2' => '/wp-content/uploads/2024/09/megamenu_matrimonio-02.webp'
             ],
             'Anniversario' => [
                 'link' => '/categoria-prodotto/bomboniere-e-confettate-anniversario/',
@@ -187,8 +187,8 @@ defined('ABSPATH') || exit;
                     ['label' => 'Bomboniere Anniversario', 'link' => '/categoria-prodotto/bomboniere-e-confettate-anniversario/bomboniere-anniversario/'],
                     ['label' => 'Confettate e Segnaposto', 'link' => '/categoria-prodotto/bomboniere-e-confettate-anniversario/confettate-e-segnaposto/']
                 ],
-                'img1' => 'https://albalu.displayer25.com/wp-content/uploads/2024/09/megamenu_anniversario-01.webp',
-                'img2' => 'https://albalu.displayer25.com/wp-content/uploads/2024/09/megamenu_anniversario-02.webp'
+                'img1' => '/wp-content/uploads/2024/09/megamenu_anniversario-01.webp',
+                'img2' => '/wp-content/uploads/2024/09/megamenu_anniversario-02.webp'
             ],
             'Complementi D\'Arredo e Regali' => [
                 'link' => '/categoria-prodotto/complementi-d-arredo-regali/',
@@ -201,8 +201,8 @@ defined('ABSPATH') || exit;
                     ['label' => 'Portafoto Regalo Infanzia', 'link' => '/categoria-prodotto/complementi-d-arredo-regali/portafoto-regalo-infanzia/'],
                     ['label' => 'Prodotti Padre Pio', 'link' => '/categoria-prodotto/complementi-d-arredo-regali/prodotti-padre-pio/']
                 ],
-                'img1' => 'https://albalu.displayer25.com/wp-content/uploads/2024/09/megamenu_complementi-arredo-e-regali-01.webp',
-                'img2' => 'https://albalu.displayer25.com/wp-content/uploads/2024/09/megamenu_complementi-arredo-e-regali-02.webp'
+                'img1' => '/wp-content/uploads/2024/09/megamenu_complementi-arredo-e-regali-01.webp',
+                'img2' => '/wp-content/uploads/2024/09/megamenu_complementi-arredo-e-regali-02.webp'
             ],
             'Tema' => [
                 'link' => '/categoria-prodotto/bomboniere-per-tema/',
@@ -217,8 +217,8 @@ defined('ABSPATH') || exit;
                     ['label' => 'Bomboniere tema viaggio', 'link' => '/categoria-prodotto/bomboniere-per-tema/viaggio/'],
                     ['label' => 'Bomboniere Albero della Vita', 'link' => '/categoria-prodotto/bomboniere-per-tema/albero-della-vita/']
                 ],
-                'img1' => 'https://albalu.displayer25.com/wp-content/uploads/2025/10/megamenu_bomboniere-per-tema-01.jpg',
-                'img2' => 'https://albalu.displayer25.com/wp-content/uploads/2025/10/megamenu_bomboniere-per-tema-02.jpg'
+                'img1' => '/wp-content/uploads/2025/10/megamenu_bomboniere-per-tema-01.jpg',
+                'img2' => '/wp-content/uploads/2025/10/megamenu_bomboniere-per-tema-02.jpg'
             ],
             'Tipologia' => [
                 'link' => '/categoria-prodotto/bomboniere-per-tipologia/',
@@ -228,8 +228,8 @@ defined('ABSPATH') || exit;
                     ['label' => 'Bomboniere Portafoto', 'link' => '/categoria-prodotto/bomboniere-per-tipologia/portafoto/'],
                     ['label' => 'Bomboniere Profumatori', 'link' => '/categoria-prodotto/bomboniere-per-tipologia/profumatori/']
                 ],
-                'img1' => 'https://albalu.displayer25.com/wp-content/uploads/2026/01/megamenu_bomboniere-per-tema-01.jpg', // Reused per dump
-                'img2' => 'https://albalu.displayer25.com/wp-content/uploads/2026/01/megamenu_bomboniere-per-tema-02.jpg'  // Reused per dump
+                'img1' => '/wp-content/uploads/2026/01/megamenu_bomboniere-per-tema-01.jpg', // Reused per dump
+                'img2' => '/wp-content/uploads/2026/01/megamenu_bomboniere-per-tema-02.jpg'  // Reused per dump
             ],
         ];
         */
