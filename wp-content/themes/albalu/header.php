@@ -30,6 +30,11 @@ defined('ABSPATH') || exit;
   <a class="skip-link visually-hidden-focusable" href="#primary"><?php esc_html_e( 'Skip to content', 'bootscore' ); ?></a>
   <a class="skip-link visually-hidden-focusable" href="#footer"><?php esc_html_e( 'Skip to footer', 'bootscore' ); ?></a>
 
+  <!-- Top Bar Widget -->
+  <?php if (is_active_sidebar('top-bar')) : ?>
+    <?php dynamic_sidebar('top-bar'); ?>
+  <?php endif; ?>
+
   <!-- 1. Top Bar (Beige Color) -->
   <div class="top-bar py-2 small fw-bold" style="background-color: #eae3e0; color: var(--color-titoli);">
     <div class="container">
@@ -54,7 +59,7 @@ defined('ABSPATH') || exit;
     <?php do_action( 'bootscore_before_masthead' ); ?>
 
   <!-- 2. Main Header (Logo, Search, Icons) -->
-  <header id="masthead" class="site-header bg-white py-4">
+  <header id="masthead" class="<?= esc_attr(apply_filters('bootscore/class/header', 'site-header bg-white py-4')); ?>">
     
       <?php do_action( 'bootscore_after_masthead_open' ); ?>
 
@@ -70,6 +75,8 @@ defined('ABSPATH') || exit;
                 </form>
             </div>
 
+            <?php do_action( 'bootscore_before_navbar_brand' ); ?>
+
             <!-- Center: Logo -->
             <div class="col-12 col-lg-4 text-center">
                  <a class="navbar-brand me-0" href="<?= esc_url(home_url()); ?>">
@@ -77,9 +84,17 @@ defined('ABSPATH') || exit;
                 </a> 
             </div>
 
+            <?php do_action( 'bootscore_after_navbar_brand' ); ?>
+
             <!-- Right: Icons (User, Cart) -->
             <div class="col-12 col-lg-4 text-center text-lg-end mt-3 mt-lg-0">
                 <div class="d-flex align-items-center justify-content-center justify-content-lg-end gap-3">
+                    
+                    <!-- Top Nav Widget -->
+                    <?php if (is_active_sidebar('top-nav')) : ?>
+                        <?php dynamic_sidebar('top-nav'); ?>
+                    <?php endif; ?>
+
                     <a href="<?= esc_url(get_permalink(get_option('woocommerce_myaccount_page_id'))); ?>" class="text-dark text-decoration-none" title="Account">
                         <i class="far fa-user fa-lg"></i>
                     </a>
@@ -100,6 +115,9 @@ defined('ABSPATH') || exit;
                      <button class="btn btn-link text-dark d-lg-none p-0 ms-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvas-navbar" aria-controls="offcanvas-navbar">
                         <i class="fas fa-bars fa-lg"></i>
                     </button>
+                    
+                    <?php do_action( 'bootscore_after_nav_toggler' ); ?>
+
                 </div>
             </div>
         </div>
@@ -116,129 +134,25 @@ defined('ABSPATH') || exit;
             </div>
         </div>
     </div>
+    
+    <?php
+    if (class_exists('WooCommerce')) :
+      get_template_part('template-parts/header/collapse-search', 'woocommerce');
+    else :
+      get_template_part('template-parts/header/collapse-search');
+    endif;
+    ?>
+
+    <?php do_action( 'bootscore_before_masthead_close' ); ?>
+
   </header>
+  
+  <?php do_action( 'bootscore_after_masthead' ); ?>
 
   <!-- 3. Navigation Bar (Mega Menu) -->
   <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom border-top py-0 d-none d-lg-block position-relative menu-border">
     <div class="container justify-content-center">
         <?php
-        /*$mega_menus = [
-            'Nascita e Battesimo' => [
-                'link' => '/categoria-prodotto/bomboniere-e-confettate-nascita-battesimo/',
-                'title' => 'Nascita e Battesimo',
-                'items' => [
-                    ['label' => 'Bomboniere Nascita', 'link' => '/categoria-prodotto/bomboniere-e-confettate-nascita-battesimo/bomboniere-nascita/'],
-                    ['label' => 'Bomboniere Battesimo', 'link' => '/categoria-prodotto/bomboniere-e-confettate-nascita-battesimo/bomboniere-battesimo/'],
-                    ['label' => 'Confettate e Segnaposto', 'link' => '/categoria-prodotto/bomboniere-e-confettate-nascita-battesimo/confettate-e-segnaposto/']
-                ],
-                'img1' => '/wp-content/uploads/2024/09/megamenu_nascita-01.webp',
-                'img2' => '/wp-content/uploads/2024/09/megamenu_nascita-02.webp'
-            ],
-            'Comunione' => [
-                'link' => '/categoria-prodotto/bomboniere-comunione-e-confettate/',
-                'title' => 'Comunione',
-                'items' => [
-                    ['label' => 'Bomboniere Comunione', 'link' => '/categoria-prodotto/bomboniere-comunione-e-confettate/bomboniere-comunione/'],
-                    ['label' => 'Bomboniere Comunione Bambino', 'link' => '/categoria-prodotto/bomboniere-comunione-e-confettate/bomboniere-comunione-bambino/'],
-                    ['label' => 'Confettate e Segnaposto', 'link' => '/categoria-prodotto/bomboniere-comunione-e-confettate/confettate-e-segnaposto/']
-                ],
-                'img1' => '/wp-content/uploads/2024/09/megamenu_comunione-01.webp',
-                'img2' => '/wp-content/uploads/2024/09/megamenu_comunione-02.webp'
-            ],
-            'Cresima' => [
-                'link' => '/categoria-prodotto/bomboniere-e-confettate-cresima/',
-                'title' => 'Cresima',
-                'items' => [
-                    ['label' => 'Bomboniere Cresima', 'link' => '/categoria-prodotto/bomboniere-e-confettate-cresima/bomboniere-cresima/'],
-                    ['label' => 'Confettate e Segnaposto', 'link' => '/categoria-prodotto/bomboniere-e-confettate-cresima/confettate-e-segnaposto/']
-                ],
-                'img1' => '/wp-content/uploads/2024/09/megamenu_cresima-01.webp',
-                'img2' => '/wp-content/uploads/2024/09/megamenu_cresima-02.webp'
-            ],
-            'Compleanno' => [
-                'link' => '/categoria-prodotto/compleanno/',
-                'title' => 'Compleanno',
-                'items' => [
-                    ['label' => 'Bomboniere Compleanno', 'link' => '/categoria-prodotto/compleanno/bomboniere-compleanno/'],
-                    ['label' => 'Confettate e Segnaposto', 'link' => '/categoria-prodotto/compleanno/confettate-e-segnaposto/']
-                ],
-                'img1' => '/wp-content/uploads/2024/09/megamenu_compleanno-01.webp',
-                'img2' => '/wp-content/uploads/2024/09/megamenu_compleanno-02.webp'
-            ],
-            'Laurea' => [
-                'link' => '/categoria-prodotto/bomboniere-e-confettate-laurea/',
-                'title' => 'Laurea',
-                'items' => [
-                    ['label' => 'Bomboniere Laurea', 'link' => '/categoria-prodotto/bomboniere-e-confettate-laurea/bomboniere-laurea/'],
-                    ['label' => 'Confettate e Segnaposto', 'link' => '/categoria-prodotto/bomboniere-e-confettate-laurea/confettate-e-segnaposto/']
-                ],
-                'img1' => '/wp-content/uploads/2024/09/megamenu_laurea-01.webp',
-                'img2' => '/wp-content/uploads/2024/09/megamenu_laurea-02.webp'
-            ],
-            'Matrimonio' => [
-                'link' => '/categoria-prodotto/bomboniere-e-confettate-matrimonio/',
-                'title' => 'Matrimonio',
-                'items' => [
-                    ['label' => 'Bomboniere Matrimonio', 'link' => '/categoria-prodotto/bomboniere-e-confettate-matrimonio/bomboniere-matrimonio/'],
-                    ['label' => 'Confettate e Segnaposto', 'link' => '/categoria-prodotto/bomboniere-e-confettate-matrimonio/confettate-e-segnaposto/']
-                ],
-                'img1' => '/wp-content/uploads/2024/09/megamenu_matrimonio-01.webp',
-                'img2' => '/wp-content/uploads/2024/09/megamenu_matrimonio-02.webp'
-            ],
-            'Anniversario' => [
-                'link' => '/categoria-prodotto/bomboniere-e-confettate-anniversario/',
-                'title' => 'Anniversario',
-                'items' => [
-                    ['label' => 'Bomboniere Anniversario', 'link' => '/categoria-prodotto/bomboniere-e-confettate-anniversario/bomboniere-anniversario/'],
-                    ['label' => 'Confettate e Segnaposto', 'link' => '/categoria-prodotto/bomboniere-e-confettate-anniversario/confettate-e-segnaposto/']
-                ],
-                'img1' => '/wp-content/uploads/2024/09/megamenu_anniversario-01.webp',
-                'img2' => '/wp-content/uploads/2024/09/megamenu_anniversario-02.webp'
-            ],
-            'Complementi D\'Arredo e Regali' => [
-                'link' => '/categoria-prodotto/complementi-d-arredo-regali/',
-                'title' => 'Complementi D\'Arredo e Regali',
-                'items' => [
-                    ['label' => 'Orologi da Parete', 'link' => '/categoria-prodotto/complementi-d-arredo-regali/orologi-da-parete/'],
-                    ['label' => 'Quadri', 'link' => '/categoria-prodotto/complementi-d-arredo-regali/quadri/'],
-                    ['label' => 'Regali', 'link' => '/categoria-prodotto/complementi-d-arredo-regali/regali/'],
-                    ['label' => 'Portafoto Argentati', 'link' => '/categoria-prodotto/complementi-d-arredo-regali/portafoto-argentati/'],
-                    ['label' => 'Portafoto Regalo Infanzia', 'link' => '/categoria-prodotto/complementi-d-arredo-regali/portafoto-regalo-infanzia/'],
-                    ['label' => 'Prodotti Padre Pio', 'link' => '/categoria-prodotto/complementi-d-arredo-regali/prodotti-padre-pio/']
-                ],
-                'img1' => '/wp-content/uploads/2024/09/megamenu_complementi-arredo-e-regali-01.webp',
-                'img2' => '/wp-content/uploads/2024/09/megamenu_complementi-arredo-e-regali-02.webp'
-            ],
-            'Tema' => [
-                'link' => '/categoria-prodotto/bomboniere-per-tema/',
-                'title' => 'Bomboniere per tema',
-                'items' => [
-                    ['label' => 'Bomboniere tema amore', 'link' => '/categoria-prodotto/bomboniere-per-tema/amore/'],
-                    ['label' => 'Bomboniere tema animali', 'link' => '/categoria-prodotto/bomboniere-per-tema/animali/'],
-                    ['label' => 'Bomboniere tema calcio', 'link' => '/categoria-prodotto/bomboniere-per-tema/calcio/'],
-                    ['label' => 'Bomboniere tema fiori', 'link' => '/categoria-prodotto/bomboniere-per-tema/fiori/'],
-                    ['label' => 'Bomboniere tema musica', 'link' => '/categoria-prodotto/bomboniere-per-tema/musica/'],
-                    ['label' => 'Bomboniere tema mare', 'link' => '/categoria-prodotto/bomboniere-per-tema/mare/'],
-                    ['label' => 'Bomboniere tema viaggio', 'link' => '/categoria-prodotto/bomboniere-per-tema/viaggio/'],
-                    ['label' => 'Bomboniere Albero della Vita', 'link' => '/categoria-prodotto/bomboniere-per-tema/albero-della-vita/']
-                ],
-                'img1' => '/wp-content/uploads/2025/10/megamenu_bomboniere-per-tema-01.jpg',
-                'img2' => '/wp-content/uploads/2025/10/megamenu_bomboniere-per-tema-02.jpg'
-            ],
-            'Tipologia' => [
-                'link' => '/categoria-prodotto/bomboniere-per-tipologia/',
-                'title' => 'Bomboniere per tipologia',
-                'items' => [
-                    ['label' => 'Bomboniere Segnalibri', 'link' => '/categoria-prodotto/bomboniere-per-tipologia/segnalibri/'],
-                    ['label' => 'Bomboniere Portafoto', 'link' => '/categoria-prodotto/bomboniere-per-tipologia/portafoto/'],
-                    ['label' => 'Bomboniere Profumatori', 'link' => '/categoria-prodotto/bomboniere-per-tipologia/profumatori/']
-                ],
-                'img1' => '/wp-content/uploads/2026/01/megamenu_bomboniere-per-tema-01.jpg', // Reused per dump
-                'img2' => '/wp-content/uploads/2026/01/megamenu_bomboniere-per-tema-02.jpg'  // Reused per dump
-            ],
-        ];
-        */
-
         $mega_menus = [];
         $locations = get_nav_menu_locations();
         $loc = isset($locations['main-menu']) ? 'main-menu' : (empty($locations) ? null : array_key_first($locations));
@@ -364,6 +278,12 @@ defined('ABSPATH') || exit;
             </li>
             <?php endforeach; ?>
         </ul>
+
+        <!-- Top Nav 2 Widget -->
+        <?php if (is_active_sidebar('top-nav-2')) : ?>
+          <?php dynamic_sidebar('top-nav-2'); ?>
+        <?php endif; ?>
+
       </div>
   </div>
 
