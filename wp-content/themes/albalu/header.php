@@ -42,7 +42,7 @@ defined('ABSPATH') || exit;
             <div class="col-md-4 text-center text-md-start">
                 Bomboniere 100% Made in Italy
             </div>
-            <div class="col-md-4 text-center">
+            <div class="col-md-4 text-center fw-medium">
                 SPEDIZIONE GRATUITA OLTRE 149€
             </div>
             <div class="col-md-4 text-center text-md-end">
@@ -203,10 +203,10 @@ defined('ABSPATH') || exit;
         <ul class="navbar-nav justify-content-center w-100 gap-1 fw-medium">
             <?php foreach ($mega_menus as $name => $data) : ?>
             <li class="nav-item dropdown position-static">
-                <a class="nav-link text-dark py-3 dropdown-toggle" href="<?= esc_url($data['link']); ?>" id="dropdown-<?= sanitize_title($name); ?>" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <a class="nav-link text-dark py-3 dropdown-toggle" href="<?= esc_url($data['link']); ?>" id="dropdown-<?= sanitize_title($name); ?>" role="button" aria-expanded="false">
                     <?= esc_html($name); ?>
                 </a>
-                <div class="dropdown-menu w-100 mt-0 border-0 p-0 rounded-0" aria-labelledby="dropdown-<?= sanitize_title($name); ?>" style="background-color: #fbf9f6; border-top: 3px solid var(--color-cta-scuro) !important;">
+                <div class="dropdown-menu w-100 mt-0 border-0 p-0 rounded-0" aria-labelledby="dropdown-<?= sanitize_title($name); ?>" style="background-color: #eae3e0; border-top: 3px solid var(--color-cta-scuro) !important;">
                     <div class="container py-5">
                         <div class="row">
                             <!-- Left Column: Text & Links -->

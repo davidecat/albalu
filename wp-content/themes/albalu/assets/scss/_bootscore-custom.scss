@@ -77,3 +77,24 @@ h2.woocommerce-loop-product__title {
     font-size: 1.3rem !important;
     font-weight: 500;
 }
+
+/* Mega menu: open on hover (desktop) */
+.navbar .nav-item.dropdown > .dropdown-menu {
+  left: 0;
+  right: 0;
+  display: block;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+.navbar .nav-item.dropdown:hover > .dropdown-menu {
+  opacity: 1;
+  visibility: visible;
+}
+.navbar .nav-item.dropdown:hover > .dropdown-toggle::after {
+  transform: rotate(180deg);
+  transition: transform 0.3s ease;
+}
+.navbar .nav-item.dropdown > .dropdown-toggle::after {
+  transition: transform 0.3s ease;
+}
