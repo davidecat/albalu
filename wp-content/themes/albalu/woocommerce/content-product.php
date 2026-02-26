@@ -31,7 +31,7 @@ if ($columns >= 6) $col_class = 'col-sm-4 col-lg-2';
 $col_class .= ' mb-4';
 ?>
 <div <?php wc_product_class( $col_class, $product ); ?>>
-	<div class="product-inner card h-100 shadow-sm border-0">
+	<div class="product-inner card h-100 border-1">
         <div class="card-body p-4 text-left">
             <?php
             /**
