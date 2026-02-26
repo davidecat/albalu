@@ -83,7 +83,7 @@ get_header();
                 <div class="container">
                     <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-5">
                         <h2 class="mb-3 mb-md-0" style="color: var(--color-titoli);">Le <strong>bomboniere</strong> più richieste per <strong>ogni tipo di evento</strong></h2>
-                        <a href="/shop/" class="btn btn-primary px-4 py-2 text-uppercase fw-bold shadow-sm" style="border: none; letter-spacing: 1px;">Scopri il catalogo <i class="fas fa-arrow-right ms-2"></i></a>
+                        <a href="/shop/" class="btn btn-primary px-4 py-2 shadow-sm" >Scopri il catalogo <i class="fas fa-arrow-right ms-2"></i></a>
                     </div>
                     <div class="staging-product-grid">
                         <?php echo do_shortcode('[products limit="4" columns="4" orderby="popularity"]'); ?>
