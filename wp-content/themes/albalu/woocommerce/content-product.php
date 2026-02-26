@@ -32,7 +32,7 @@ $col_class .= ' mb-4';
 ?>
 <div <?php wc_product_class( $col_class, $product ); ?>>
 	<div class="product-inner card h-100 shadow-sm border-0">
-        <div class="card-body p-3 text-center">
+        <div class="card-body p-4 text-left">
             <?php
             /**
              * Hook: woocommerce_before_shop_loop_item.

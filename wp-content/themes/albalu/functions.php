@@ -202,3 +202,22 @@ function albalu_acf_init() {
         ));
     }
 }
+
+add_filter( 'woocommerce_loop_add_to_cart_link', 'replace_add_to_cart_button_class', 10, 2 );
+
+function replace_add_to_cart_button_class( $button_html, $product ) {
+    // Check if the current button uses btn-primary class and replace it
+    if ( strpos( $button_html, 'btn-primary' ) !== false ) {
+        $button_html = str_replace( 'btn-primary', 'btn-link text-start px-0 text-decoration-none ', $button_html );
+    } 
+    // The default WooCommerce class for the button is 'button' and 'add_to_cart_button'
+    // If your theme uses the default 'button' class, you can replace that instead:
+    // $button_html = str_replace( 'button', 'btn-secondary', $button_html );
+
+    return $button_html;
+}
+// Change "Add to cart" text on shop archives
+add_filter( 'woocommerce_product_add_to_cart_text', 'custom_woocommerce_product_add_to_cart_text' );
+function custom_woocommerce_product_add_to_cart_text() {
+    return __( 'Vedi il prodotto', 'woocommerce' ); // Replace "Buy Now" with your desired text
+}

@@ -5,3 +5,31 @@
 // Add your own code here!
 // Because this file is compiled after Bootstrap, you're also able to use Bootstrap mixins for better code.
 // Some examples can be found here: https://bootscore.me/documentation/bootstrap-css-sass
+
+html {
+  font-size: 14px;
+}
+
+body {
+    color: #0e1011;
+        letter-spacing: 1px;  
+
+}
+
+h1, h2, h3, h4, h5, h6, a {
+    color: #0e1011;
+        letter-spacing: 1px;  
+
+}
+
+
+h2.woocommerce-loop-product__title {
+    
+    font-size: 1rem !important; 
+    line-height: 1.5rem;
+}
+
+.woocommerce-Price-amount {
+    font-size: 1.3rem !important;
+    font-weight: 500;
+}
