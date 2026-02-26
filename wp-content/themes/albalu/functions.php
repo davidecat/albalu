@@ -200,6 +200,58 @@ function albalu_acf_init() {
                 )
             )
         ));
+
+        // Homepage Categories Fields
+        acf_add_local_field_group(array(
+            'key' => 'group_homepage_categories',
+            'title' => 'Homepage Categories',
+            'fields' => array(
+                array(
+                    'key' => 'field_home_cats',
+                    'label' => 'Categorie Homepage',
+                    'name' => 'homepage_categories',
+                    'type' => 'repeater',
+                    'layout' => 'table',
+                    'button_label' => 'Aggiungi Categoria',
+                    'sub_fields' => array(
+                        array(
+                            'key' => 'field_home_cat_obj',
+                            'label' => 'Categoria',
+                            'name' => 'category',
+                            'type' => 'taxonomy',
+                            'taxonomy' => 'product_cat',
+                            'field_type' => 'select',
+                            'return_format' => 'object'
+                        ),
+                        array(
+                            'key' => 'field_home_cat_custom_title',
+                            'label' => 'Titolo Personalizzato (Opzionale)',
+                            'name' => 'custom_title',
+                            'type' => 'text',
+                            'instructions' => 'Lascia vuoto per usare il nome originale della categoria'
+                        ),
+                        array(
+                            'key' => 'field_home_cat_custom_img',
+                            'label' => 'Immagine Personalizzata (Opzionale)',
+                            'name' => 'custom_image',
+                            'type' => 'image',
+                            'return_format' => 'url',
+                            'preview_size' => 'thumbnail',
+                            'instructions' => 'Lascia vuoto per usare l\'immagine della categoria'
+                        )
+                    )
+                )
+            ),
+            'location' => array(
+                array(
+                    array(
+                        'param' => 'page_type',
+                        'operator' => '==',
+                        'value' => 'front_page'
+                    )
+                )
+            )
+        ));
     }
 }
 

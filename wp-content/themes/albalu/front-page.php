@@ -101,48 +101,90 @@ get_header();
                     
                     <div class="row g-4 row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 justify-content-center">
                         <?php
-                        // Fetch top-level product categories
-                        $args = array(
-                            'taxonomy'   => 'product_cat',
-                            'hide_empty' => true,
-                            'parent'     => 0,
-                            'orderby'    => 'menu_order', // Allow user to order via drag-n-drop in admin if needed, or 'name'
-                            'order'      => 'ASC',
-                            'number'     => 8,
-                        );
-                        $product_categories = get_terms($args);
+                        // Check if ACF Repeater has rows
+                        if ( have_rows('homepage_categories') ) {
+                            while ( have_rows('homepage_categories') ) {
+                                the_row();
+                                $category_obj = get_sub_field('category');
+                                $custom_title = get_sub_field('custom_title');
+                                $custom_image = get_sub_field('custom_image');
 
-                        if ( ! empty( $product_categories ) && ! is_wp_error( $product_categories ) ) {
-                            foreach ( $product_categories as $category ) {
-                                // Get category image
-                                $thumbnail_id = get_term_meta( $category->term_id, 'thumbnail_id', true );
-                                $image_url = wp_get_attachment_url( $thumbnail_id );
-                                
-                                // Fallback image if no category image is set
-                                if ( ! $image_url ) {
-                                    $image_url = wc_placeholder_img_src();
-                                }
-                                ?>
-                                <div class="col">
-                                    <div class="card border-0 h-100 category-card bg-white p-3">
-                                        <div class="ratio ratio-1x1 overflow-hidden mb-3">
-                                            <a href="<?php echo esc_url( get_term_link( $category ) ); ?>">
-                                                <img src="<?php echo esc_url( $image_url ); ?>" class="img-fluid object-fit-cover w-100 h-100" alt="<?php echo esc_attr( $category->name ); ?>">
-                                            </a>
-                                        </div>
-                                        <div class="category-content">
-                                            <h5 class="h6 fw-bold text-uppercase mb-2">
-                                                <a href="<?php echo esc_url( get_term_link( $category ) ); ?>" class="text-decoration-none text-dark">
-                                                    <?php echo esc_html( $category->name ); ?>
+                                if ( $category_obj ) {
+                                    // Use custom title if set, otherwise category name
+                                    $cat_name = !empty($custom_title) ? $custom_title : $category_obj->name;
+                                    
+                                    // Use custom image if set, otherwise category thumbnail
+                                    if ( !empty($custom_image) ) {
+                                        $image_url = $custom_image;
+                                    } else {
+                                        $thumbnail_id = get_term_meta( $category_obj->term_id, 'thumbnail_id', true );
+                                        $image_url = wp_get_attachment_url( $thumbnail_id );
+                                        if ( !$image_url ) {
+                                            $image_url = wc_placeholder_img_src();
+                                        }
+                                    }
+                                    ?>
+                                    <div class="col">
+                                        <div class="card border-0 h-100 category-card bg-white p-3">
+                                            <div class="ratio ratio-1x1 overflow-hidden mb-3">
+                                                <a href="<?php echo esc_url( get_term_link( $category_obj ) ); ?>">
+                                                    <img src="<?php echo esc_url( $image_url ); ?>" class="img-fluid object-fit-cover w-100 h-100" alt="<?php echo esc_attr( $cat_name ); ?>">
                                                 </a>
-                                            </h5>
-                                            <a href="<?php echo esc_url( get_term_link( $category ) ); ?>" class="category-link small text-uppercase fw-bold text-decoration-none">
-                                                Tutti i prodotti <i class="fas fa-arrow-right ms-1"></i>
-                                            </a>
+                                            </div>
+                                            <div class="category-content">
+                                                <h5 class="h6 fw-bold text-uppercase mb-2">
+                                                    <a href="<?php echo esc_url( get_term_link( $category_obj ) ); ?>" class="text-decoration-none text-dark">
+                                                        <?php echo esc_html( $cat_name ); ?>
+                                                    </a>
+                                                </h5>
+                                                <a href="<?php echo esc_url( get_term_link( $category_obj ) ); ?>" class="category-link small text-uppercase fw-bold text-decoration-none">
+                                                    Tutti i prodotti <i class="fas fa-arrow-right ms-1"></i>
+                                                </a>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <?php
+                                    <?php
+                                }
+                            }
+                        } else {
+                            // Fallback to default behavior if no ACF rows found
+                            $args = array(
+                                'taxonomy'   => 'product_cat',
+                                'hide_empty' => true,
+                                'parent'     => 0,
+                                'orderby'    => 'menu_order',
+                                'order'      => 'ASC',
+                                'number'     => 8,
+                            );
+                            $product_categories = get_terms($args);
+
+                            if ( ! empty( $product_categories ) && ! is_wp_error( $product_categories ) ) {
+                                foreach ( $product_categories as $category ) {
+                                    $thumbnail_id = get_term_meta( $category->term_id, 'thumbnail_id', true );
+                                    $image_url = wp_get_attachment_url( $thumbnail_id );
+                                    if ( ! $image_url ) $image_url = wc_placeholder_img_src();
+                                    ?>
+                                    <div class="col">
+                                        <div class="card border-0 h-100 category-card bg-white p-3">
+                                            <div class="ratio ratio-1x1 overflow-hidden mb-3">
+                                                <a href="<?php echo esc_url( get_term_link( $category ) ); ?>">
+                                                    <img src="<?php echo esc_url( $image_url ); ?>" class="img-fluid object-fit-cover w-100 h-100" alt="<?php echo esc_attr( $category->name ); ?>">
+                                                </a>
+                                            </div>
+                                            <div class="category-content">
+                                                <h5 class="h6 fw-bold text-uppercase mb-2">
+                                                    <a href="<?php echo esc_url( get_term_link( $category ) ); ?>" class="text-decoration-none text-dark">
+                                                        <?php echo esc_html( $category->name ); ?>
+                                                    </a>
+                                                </h5>
+                                                <a href="<?php echo esc_url( get_term_link( $category ) ); ?>" class="category-link small text-uppercase fw-bold text-decoration-none">
+                                                    Tutti i prodotti <i class="fas fa-arrow-right ms-1"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <?php
+                                }
                             }
                         }
                         ?>
