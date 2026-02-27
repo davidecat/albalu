@@ -228,45 +228,13 @@ get_header();
                 if ( function_exists('albalu_render_features_section') ) {
                     echo albalu_render_features_section();
                 }
+
+                // 9. Gallery Section
+                if ( function_exists('albalu_render_gallery_section') ) {
+                    echo albalu_render_gallery_section();
+                }
             }
             ?>
-
-            <!-- 9. Creations / Instagram -->
-            <section class="creations-section py-5 bg-light">
-                <div class="container">
-                    <div class="d-flex justify-content-between align-items-center mb-4">
-                        <h2 class="h3 fw-bold mb-0">Alcune delle <strong>nostre creazioni</strong></h2>
-                        <a href="#" class="btn btn-primary text-white">Esplora il catalogo &rarr;</a>
-                    </div>
-                    
-                    <div class="swiper creations-swiper">
-                        <div class="swiper-wrapper">
-                        <?php 
-                        $gallery = [
-                            '/wp-content/uploads/2026/01/download_12_-PhotoRoom_610x610_crop_center.webp',
-                            '/wp-content/uploads/2026/01/NewTemplate-PhotoRoom_3_610x610_crop_center.webp',
-                            '/wp-content/uploads/2026/01/Profumatore-a-Forma-di-Cuore-in-Resina-Colorata-con-Applicazione-in-Legno-Ciuccio-Albalu-Bomboniere-906_610x610_crop_center.webp',
-                            '/wp-content/uploads/2026/01/rosa-PhotoRoom_610x610_crop_center.webp',
-                            '/wp-content/uploads/2026/01/Orologio-Quadrato-in-Legno-Colorato-a-Tema-Bimbi-con-Orsetto-Sole-e-Nuvolette-Celeste-Rosa-e-Panna-Albalu-Bomboniere-973_610x610_crop_center.webp',
-                            '/wp-content/uploads/2026/01/Profumatore-Base-in-Vetro-con-tappo-in-Sughero-e-Applicazione-in-Legno-a-Tema-Vita-Albalu-Bomboniere-719-PhotoRoom_610x610_crop_center.webp',
-                            '/wp-content/uploads/2026/01/Bomboniera-Quadretto-in-Legno-con-Piastrella-Sacra-in-Gres-Porcellanato-e-Cornice-Bianca-Rettangolare-Albalu-Bomboniere-606_40e81b2e-7681-4690-b118-4f5d948a0120_610x610_crop.webp',
-                            '/wp-content/uploads/2026/01/Sessione-studio-016-2-PhotoRoom-PhotoRoom_1_610x610_crop_center.webp',
-                            '/wp-content/uploads/2026/01/Bomboniera-Albero-della-Vita-con-Cuore-e-Applicazione-in-Porcellana-per-Battesimo-Albalu-Bomboniere-932_1_-PhotoRoom_610x610_crop_center.webp',
-                            '/wp-content/uploads/2026/01/08.webp',
-                            '/wp-content/uploads/2026/01/Bomboniera-Clip-portafoto-Base-a-Nuvoletta-e-Applicazione-in-Legno-Animaletti-Nascita-e-Battesimo-Albalu-Bomboniere-473_610x610_crop_center.webp',
-                            '/wp-content/uploads/2026/01/04.webp'
-                        ];
-                        foreach($gallery as $img) { ?>
-                        <div class="swiper-slide">
-                            <div class="ratio ratio-1x1 bg-white rounded-3 shadow-sm overflow-hidden h-100">
-                                <img src="<?php echo $img; ?>" class="object-fit-contain w-100 h-100 p-2 transition-transform" alt="Creazione Albalù">
-                            </div>
-                        </div>
-                        <?php } ?>
-                        </div>
-                    </div>
-                </div>
-            </section>
 
         </main>
     </div>

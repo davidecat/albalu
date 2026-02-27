@@ -516,7 +516,7 @@ function albalu_acf_init() {
                         array(
                             'key' => 'layout_page_sections_gallery',
                             'name' => 'gallery',
-                            'label' => 'Gallery',
+                            'label' => 'Gallery / Creazioni',
                             'display' => 'block',
                             'sub_fields' => array(
                                 array(
@@ -532,13 +532,31 @@ function albalu_acf_init() {
                                     'label' => 'Titolo',
                                     'name' => 'title',
                                     'type' => 'text',
+                                    'default_value' => 'Alcune delle <strong>nostre creazioni</strong>',
                                 ),
                                 array(
-                                    'key' => 'field_page_sections_gallery_content',
-                                    'label' => 'Contenuto',
-                                    'name' => 'content',
-                                    'type' => 'wysiwyg',
-                                    'media_upload' => false,
+                                    'key' => 'field_page_sections_gallery_btn_text',
+                                    'label' => 'Testo Bottone',
+                                    'name' => 'btn_text',
+                                    'type' => 'text',
+                                    'default_value' => 'Esplora il catalogo',
+                                ),
+                                array(
+                                    'key' => 'field_page_sections_gallery_btn_url',
+                                    'label' => 'Link Bottone',
+                                    'name' => 'btn_url',
+                                    'type' => 'text',
+                                    'default_value' => '#',
+                                ),
+                                array(
+                                    'key' => 'field_page_sections_gallery_images',
+                                    'label' => 'Immagini',
+                                    'name' => 'images',
+                                    'type' => 'gallery',
+                                    'return_format' => 'url',
+                                    'preview_size' => 'medium',
+                                    'insert' => 'append',
+                                    'library' => 'all',
                                 ),
                             ),
                         ),
@@ -908,6 +926,65 @@ function albalu_render_features_section( $items = array() ) {
     return (string) ob_get_clean();
 }
 
+function albalu_render_gallery_section( $title = '', $btn_text = '', $btn_url = '', $images = array() ) {
+    if ( empty( $title ) ) {
+        $title = 'Alcune delle <strong>nostre creazioni</strong>';
+    }
+    
+    if ( empty( $btn_text ) ) {
+        $btn_text = 'Esplora il catalogo';
+    }
+    
+    if ( empty( $btn_url ) ) {
+        $btn_url = '#';
+    }
+
+    if ( empty( $images ) ) {
+        // Fallback images
+        $images = [
+            '/wp-content/uploads/2026/01/download_12_-PhotoRoom_610x610_crop_center.webp',
+            '/wp-content/uploads/2026/01/NewTemplate-PhotoRoom_3_610x610_crop_center.webp',
+            '/wp-content/uploads/2026/01/Profumatore-a-Forma-di-Cuore-in-Resina-Colorata-con-Applicazione-in-Legno-Ciuccio-Albalu-Bomboniere-906_610x610_crop_center.webp',
+            '/wp-content/uploads/2026/01/rosa-PhotoRoom_610x610_crop_center.webp',
+            '/wp-content/uploads/2026/01/Orologio-Quadrato-in-Legno-Colorato-a-Tema-Bimbi-con-Orsetto-Sole-e-Nuvolette-Celeste-Rosa-e-Panna-Albalu-Bomboniere-973_610x610_crop_center.webp',
+            '/wp-content/uploads/2026/01/Profumatore-Base-in-Vetro-con-tappo-in-Sughero-e-Applicazione-in-Legno-a-Tema-Vita-Albalu-Bomboniere-719-PhotoRoom_610x610_crop_center.webp',
+            '/wp-content/uploads/2026/01/Bomboniera-Quadretto-in-Legno-con-Piastrella-Sacra-in-Gres-Porcellanato-e-Cornice-Bianca-Rettangolare-Albalu-Bomboniere-606_40e81b2e-7681-4690-b118-4f5d948a0120_610x610_crop.webp',
+            '/wp-content/uploads/2026/01/Sessione-studio-016-2-PhotoRoom-PhotoRoom_1_610x610_crop_center.webp',
+            '/wp-content/uploads/2026/01/Bomboniera-Albero-della-Vita-con-Cuore-e-Applicazione-in-Porcellana-per-Battesimo-Albalu-Bomboniere-932_1_-PhotoRoom_610x610_crop_center.webp',
+            '/wp-content/uploads/2026/01/08.webp',
+            '/wp-content/uploads/2026/01/Bomboniera-Clip-portafoto-Base-a-Nuvoletta-e-Applicazione-in-Legno-Animaletti-Nascita-e-Battesimo-Albalu-Bomboniere-473_610x610_crop_center.webp',
+            '/wp-content/uploads/2026/01/04.webp'
+        ];
+    }
+
+    ob_start();
+    ?>
+    <section class="creations-section py-5 bg-light">
+        <div class="container-custom">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2 class="h3 fw-bold mb-0"><?php echo wp_kses_post( $title ); ?></h2>
+                <a href="<?php echo esc_url( $btn_url ); ?>" class="btn btn-primary text-white"><?php echo esc_html( $btn_text ); ?> &rarr;</a>
+            </div>
+            
+            <div class="swiper creations-swiper">
+                <div class="swiper-wrapper">
+                <?php foreach($images as $img) { 
+                    $img_url = is_array($img) ? ($img['url'] ?? '') : $img;
+                ?>
+                <div class="swiper-slide">
+                    <div class="ratio ratio-1x1 bg-white rounded-3 shadow-sm overflow-hidden h-100">
+                        <img src="<?php echo esc_url( $img_url ); ?>" class="object-fit-contain w-100 h-100 p-2 transition-transform" alt="Creazione Albalù">
+                    </div>
+                </div>
+                <?php } ?>
+                </div>
+            </div>
+        </div>
+    </section>
+    <?php
+    return (string) ob_get_clean();
+}
+
 function albalu_render_page_section_by_layout( $layout, $index = 1, $post_id = 0 ) {
     $layout = (string) $layout;
     $index = max( 1, (int) $index );
@@ -987,8 +1064,11 @@ function albalu_render_page_section_by_layout( $layout, $index = 1, $post_id = 0
 
     if ( $layout === 'gallery' ) {
         $title = isset( $selected['title'] ) ? (string) $selected['title'] : '';
-        $content = isset( $selected['content'] ) ? (string) $selected['content'] : '';
-        return albalu_render_simple_section( 'page-section-gallery', $title, $content );
+        $btn_text = isset( $selected['btn_text'] ) ? (string) $selected['btn_text'] : '';
+        $btn_url = isset( $selected['btn_url'] ) ? (string) $selected['btn_url'] : '';
+        $images = isset( $selected['images'] ) && is_array( $selected['images'] ) ? $selected['images'] : array();
+        
+        return albalu_render_gallery_section( $title, $btn_text, $btn_url, $images );
     }
 
     return '';
@@ -1000,6 +1080,7 @@ function albalu_page_section_shortcode( $atts = array() ) {
             'layout' => '',
             'index' => 1,
             'post_id' => 0,
+            'from_home' => false,
         ),
         $atts,
         'albalu_page_section'
@@ -1008,6 +1089,11 @@ function albalu_page_section_shortcode( $atts = array() ) {
     $layout = (string) $atts['layout'];
     $index = (int) $atts['index'];
     $post_id = (int) $atts['post_id'];
+    $from_home = filter_var( $atts['from_home'], FILTER_VALIDATE_BOOLEAN );
+
+    if ( $from_home ) {
+        $post_id = (int) get_option( 'page_on_front' );
+    }
 
     if ( $layout === '' ) {
         return '';
@@ -1116,21 +1202,15 @@ function albalu_render_page_sections( $post_id = 0 ) {
             }
 
             $title = (string) get_sub_field( 'title' );
-            $content = (string) get_sub_field( 'content' );
-            ?>
-            <section class="page-section-gallery py-5">
-                <div class="container">
-                    <?php if ( $title ) : ?>
-                        <h2 class="h2 mb-3"><?php echo esc_html( $title ); ?></h2>
-                    <?php endif; ?>
-                    <?php if ( $content ) : ?>
-                        <div class="text-secondary">
-                            <?php echo wp_kses_post( $content ); ?>
-                        </div>
-                    <?php endif; ?>
-                </div>
-            </section>
-            <?php
+            $btn_text = (string) get_sub_field( 'btn_text' );
+            $btn_url = (string) get_sub_field( 'btn_url' );
+            $images = get_sub_field( 'images' );
+            
+            if ( ! is_array( $images ) ) {
+                $images = array();
+            }
+
+            echo albalu_render_gallery_section( $title, $btn_text, $btn_url, $images );
             continue;
         }
     }
@@ -1142,12 +1222,19 @@ function albalu_page_sections_shortcode( $atts = array() ) {
     $atts = shortcode_atts(
         array(
             'post_id' => 0,
+            'from_home' => false,
         ),
         $atts,
         'albalu_page_sections'
     );
 
     $post_id = (int) $atts['post_id'];
+    $from_home = filter_var( $atts['from_home'], FILTER_VALIDATE_BOOLEAN );
+
+    if ( $from_home ) {
+        $post_id = (int) get_option( 'page_on_front' );
+    }
+
     if ( $post_id <= 0 ) {
         $post_id = (int) get_the_ID();
     }
@@ -1155,6 +1242,103 @@ function albalu_page_sections_shortcode( $atts = array() ) {
     return albalu_render_page_sections( $post_id );
 }
 add_shortcode( 'albalu_page_sections', 'albalu_page_sections_shortcode' );
+
+function albalu_render_homepage_categories( $post_id = 0 ) {
+    $post_id = (int) $post_id;
+    if ( $post_id <= 0 ) {
+        $post_id = (int) get_the_ID();
+    }
+
+    if ( ! function_exists( 'have_rows' ) || ! have_rows( 'homepage_categories', $post_id ) ) {
+        return '';
+    }
+
+    ob_start();
+    ?>
+    <section class="categories-section py-5" style="background-color: #eae3e0">
+        <div class="container-custom">
+            <div class="text-center mb-5">
+                <span class="text-uppercase small fw-bold ls-1" style="color: var(--color-titoli);">Il nostro catalogo</span>
+                <h2 class="h1 mt-2" style="color: var(--color-titoli);">Articoli per ogni <strong>occasione e cerimonia</strong></h2>
+            </div>
+            
+            <div class="row g-4 row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 justify-content-center">
+                <?php
+                while ( have_rows('homepage_categories', $post_id) ) {
+                    the_row();
+                    $category_obj = get_sub_field('category');
+                    $custom_title = get_sub_field('custom_title');
+                    $custom_image = get_sub_field('custom_image');
+
+                    if ( $category_obj ) {
+                        // Use custom title if set, otherwise category name
+                        $cat_name = !empty($custom_title) ? $custom_title : $category_obj->name;
+                        
+                        // Use custom image if set, otherwise category thumbnail
+                        if ( !empty($custom_image) ) {
+                            $image_url = $custom_image;
+                        } else {
+                            $thumbnail_id = get_term_meta( $category_obj->term_id, 'thumbnail_id', true );
+                            $image_url = wp_get_attachment_url( $thumbnail_id );
+                            if ( !$image_url ) {
+                                $image_url = wc_placeholder_img_src();
+                            }
+                        }
+                        ?>
+                        <div class="col">
+                            <div class="card border-0 h-100 category-card bg-white p-3">
+                                <div class="ratio ratio-1x1 overflow-hidden mb-3">
+                                    <a href="<?php echo esc_url( get_term_link( $category_obj ) ); ?>">
+                                        <img src="<?php echo esc_url( $image_url ); ?>" class="img-fluid object-fit-cover w-100 h-100" alt="<?php echo esc_attr( $cat_name ); ?>">
+                                    </a>
+                                </div>
+                                <div class="category-content">
+                                    <h5 class="h6 fw-bold text-uppercase mb-2">
+                                        <a href="<?php echo esc_url( get_term_link( $category_obj ) ); ?>" class="text-decoration-none text-dark">
+                                            <?php echo esc_html( $cat_name ); ?>
+                                        </a>
+                                    </h5>
+                                    <a href="<?php echo esc_url( get_term_link( $category_obj ) ); ?>" class="category-link small fw-bold text-decoration-none">
+                                        Tutti i prodotti <i class="fas fa-arrow-right ms-1"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <?php
+                    }
+                }
+                ?>
+            </div>
+        </div>
+    </section>
+    <?php
+    return ob_get_clean();
+}
+
+function albalu_homepage_categories_shortcode( $atts = array() ) {
+    $atts = shortcode_atts(
+        array(
+            'post_id' => 0,
+            'from_home' => false,
+        ),
+        $atts,
+        'albalu_homepage_categories'
+    );
+
+    $post_id = (int) $atts['post_id'];
+    $from_home = filter_var( $atts['from_home'], FILTER_VALIDATE_BOOLEAN );
+
+    if ( $from_home ) {
+        $post_id = (int) get_option( 'page_on_front' );
+    }
+
+    if ( $post_id <= 0 ) {
+        $post_id = (int) get_the_ID();
+    }
+
+    return albalu_render_homepage_categories( $post_id );
+}
+add_shortcode( 'albalu_homepage_categories', 'albalu_homepage_categories_shortcode' );
 
 function albalu_promo_section_shortcode( $atts = array() ) {
     $atts = shortcode_atts(
