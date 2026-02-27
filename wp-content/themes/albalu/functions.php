@@ -273,6 +273,81 @@ function albalu_acf_init() {
                     'button_label' => 'Aggiungi Sezione',
                     'layouts' => array(
                         array(
+                            'key' => 'layout_page_sections_hero',
+                            'name' => 'hero',
+                            'label' => 'Hero Section',
+                            'display' => 'block',
+                            'sub_fields' => array(
+                                array(
+                                    'key' => 'field_page_sections_hero_enabled',
+                                    'label' => 'Abilita',
+                                    'name' => 'enabled',
+                                    'type' => 'true_false',
+                                    'ui' => 1,
+                                    'default_value' => 1,
+                                ),
+                                array(
+                                    'key' => 'field_page_sections_hero_title',
+                                    'label' => 'Titolo',
+                                    'name' => 'title',
+                                    'type' => 'text',
+                                    'default_value' => 'Bomboniere originali con kit confezione in omaggio',
+                                ),
+                                array(
+                                    'key' => 'field_page_sections_hero_subtitle',
+                                    'label' => 'Sottotitolo',
+                                    'name' => 'subtitle',
+                                    'type' => 'textarea',
+                                    'rows' => 3,
+                                    'default_value' => 'Su Albalù puoi trovare bomboniere originali e utili, complete di kit confezione in omaggio!',
+                                ),
+                                array(
+                                    'key' => 'field_page_sections_hero_newsletter_text',
+                                    'label' => 'Testo Newsletter (Titolo)',
+                                    'name' => 'newsletter_title',
+                                    'type' => 'text',
+                                    'default_value' => 'Iscriviti alla newsletter di Albalù!',
+                                ),
+                                array(
+                                    'key' => 'field_page_sections_hero_newsletter_sub',
+                                    'label' => 'Testo Newsletter (Sottotitolo)',
+                                    'name' => 'newsletter_subtitle',
+                                    'type' => 'text',
+                                    'default_value' => 'Ottieni sconti esclusivi: iscriviti alla newsletter',
+                                ),
+                                array(
+                                    'key' => 'field_page_sections_hero_btn_text',
+                                    'label' => 'Testo Bottone',
+                                    'name' => 'btn_text',
+                                    'type' => 'text',
+                                    'default_value' => 'Clicca qui',
+                                ),
+                                array(
+                                    'key' => 'field_page_sections_hero_btn_url',
+                                    'label' => 'Link Bottone',
+                                    'name' => 'btn_url',
+                                    'type' => 'text',
+                                    'default_value' => '#newsletter',
+                                ),
+                                array(
+                                    'key' => 'field_page_sections_hero_fg_image',
+                                    'label' => 'Immagine Primo Piano',
+                                    'name' => 'foreground_image',
+                                    'type' => 'image',
+                                    'return_format' => 'url',
+                                    'preview_size' => 'medium',
+                                ),
+                                array(
+                                    'key' => 'field_page_sections_hero_bg_image',
+                                    'label' => 'Immagine Sfondo',
+                                    'name' => 'background_image',
+                                    'type' => 'image',
+                                    'return_format' => 'url',
+                                    'preview_size' => 'medium',
+                                ),
+                            ),
+                        ),
+                        array(
                             'key' => 'layout_page_sections_promo',
                             'name' => 'promo',
                             'label' => 'Promo',
@@ -926,6 +1001,62 @@ function albalu_render_features_section( $items = array() ) {
     return (string) ob_get_clean();
 }
 
+function albalu_render_hero_section( $data = array() ) {
+    // Defaults
+    $defaults = array(
+        'enabled' => true,
+        'title' => 'Bomboniere originali con kit<br>confezione in omaggio',
+        'subtitle' => 'Su Albalù puoi trovare bomboniere originali e utili, complete di kit confezione in omaggio!',
+        'newsletter_title' => 'Iscriviti alla newsletter di Albalù!',
+        'newsletter_subtitle' => 'Ottieni sconti esclusivi: iscriviti alla newsletter',
+        'btn_text' => 'Clicca qui',
+        'btn_url' => '#newsletter',
+        'foreground_image' => 'https://albalu.b-cdn.net/wp-content/uploads/elementor/thumbs/confezioni-rinj44ahw9j48paqp3mtpbyjedbhrd85lujzwhirjg.webp',
+        'background_image' => content_url('/uploads/2026/02/albalu-background-home-01.webp'),
+    );
+    
+    $data = wp_parse_args( $data, $defaults );
+    
+    if ( ! $data['enabled'] ) {
+        return '';
+    }
+    
+    ob_start();
+    ?>
+    <div class="container mt-4">
+        <section class="hero-parallax d-flex align-items-center overflow-hidden" style="background-image: url('<?php echo esc_url($data['background_image']); ?>');">
+            <div class="container-fluid px-4">
+                <div class="row align-items-center">
+                    <div class="col-lg-6 py-5 text-white">
+                        <h1 class="display-4 fw-bold mb-3">
+                            <?php echo wp_kses_post($data['title']); ?>
+                        </h1>
+                        <p class="lead mb-4">
+                            <?php echo wp_kses_post($data['subtitle']); ?>
+                        </p>
+                        
+                        <div class="mb-4">
+                            <p class="mb-2 fw-bold"><?php echo esc_html($data['newsletter_title']); ?></p>
+                            <p class="mb-3 small"><?php echo esc_html($data['newsletter_subtitle']); ?></p>
+                        </div>
+
+                        <a href="<?php echo esc_url($data['btn_url']); ?>" class="btn btn-info text-white rounded-0 px-4 py-3 text-uppercase fw-bold shadow-sm" style="background-color: var(--color-cta-chiaro); border: none;">
+                            <?php echo esc_html($data['btn_text']); ?> <i class="fas fa-arrow-right ms-2"></i>
+                        </a>
+                    </div>
+                    <div class="col-lg-6 text-center">
+                         <?php if ( ! empty( $data['foreground_image'] ) ) : ?>
+                         <img src="<?php echo esc_url($data['foreground_image']); ?>" alt="<?php echo esc_attr(strip_tags($data['title'])); ?>" class="img-fluid">
+                         <?php endif; ?>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <?php
+    return ob_get_clean();
+}
+
 function albalu_render_gallery_section( $title = '', $btn_text = '', $btn_url = '', $images = array() ) {
     if ( empty( $title ) ) {
         $title = 'Alcune delle <strong>nostre creazioni</strong>';
@@ -965,7 +1096,9 @@ function albalu_render_gallery_section( $title = '', $btn_text = '', $btn_url = 
                 <h2 class="h3 fw-bold mb-0"><?php echo wp_kses_post( $title ); ?></h2>
                 <a href="<?php echo esc_url( $btn_url ); ?>" class="btn btn-primary text-white"><?php echo esc_html( $btn_text ); ?> &rarr;</a>
             </div>
+        </div>
             
+        <div class="container-fluid px-0">
             <div class="swiper creations-swiper">
                 <div class="swiper-wrapper">
                 <?php foreach($images as $img) { 
@@ -1023,6 +1156,21 @@ function albalu_render_page_section_by_layout( $layout, $index = 1, $post_id = 0
     $selected = $matched[ $index - 1 ] ?? null;
     if ( ! is_array( $selected ) ) {
         return '';
+    }
+
+    if ( $layout === 'hero' ) {
+        $section = array(
+            'title' => isset( $selected['title'] ) ? (string) $selected['title'] : '',
+            'subtitle' => isset( $selected['subtitle'] ) ? (string) $selected['subtitle'] : '',
+            'newsletter_title' => isset( $selected['newsletter_title'] ) ? (string) $selected['newsletter_title'] : '',
+            'newsletter_subtitle' => isset( $selected['newsletter_subtitle'] ) ? (string) $selected['newsletter_subtitle'] : '',
+            'btn_text' => isset( $selected['btn_text'] ) ? (string) $selected['btn_text'] : '',
+            'btn_url' => isset( $selected['btn_url'] ) ? (string) $selected['btn_url'] : '',
+            'foreground_image' => isset( $selected['foreground_image'] ) ? (string) $selected['foreground_image'] : '',
+            'background_image' => isset( $selected['background_image'] ) ? (string) $selected['background_image'] : '',
+            'enabled' => isset( $selected['enabled'] ) ? (bool) $selected['enabled'] : true,
+        );
+        return albalu_render_hero_section( $section );
     }
 
     if ( $layout === 'promo' ) {
@@ -1122,6 +1270,27 @@ function albalu_render_page_sections( $post_id = 0 ) {
         the_row();
 
         $layout = get_row_layout();
+        if ( $layout === 'hero' ) {
+            $enabled = (bool) get_sub_field( 'enabled' );
+            if ( ! $enabled ) {
+                continue;
+            }
+
+            $section = array(
+                'title' => (string) get_sub_field( 'title' ),
+                'subtitle' => (string) get_sub_field( 'subtitle' ),
+                'newsletter_title' => (string) get_sub_field( 'newsletter_title' ),
+                'newsletter_subtitle' => (string) get_sub_field( 'newsletter_subtitle' ),
+                'btn_text' => (string) get_sub_field( 'btn_text' ),
+                'btn_url' => (string) get_sub_field( 'btn_url' ),
+                'foreground_image' => (string) get_sub_field( 'foreground_image' ),
+                'background_image' => (string) get_sub_field( 'background_image' ),
+            );
+
+            echo albalu_render_hero_section( $section );
+            continue;
+        }
+
         if ( $layout === 'promo' ) {
             $enabled = (bool) get_sub_field( 'enabled' );
             if ( ! $enabled ) {

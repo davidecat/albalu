@@ -46,37 +46,17 @@ get_header();
                 </div>
             </section>
 
-            <!-- 2. Hero Section Parallax -->
-            <div class="container mt-4">
-                <section class="hero-parallax d-flex align-items-center overflow-hidden">
-                    <div class="container-fluid px-4">
-                        <div class="row align-items-center">
-                            <div class="col-lg-6 py-5 text-white">
-                                <h1 class="display-4 fw-bold mb-3">
-                                    Bomboniere originali con kit<br>
-                                    confezione in omaggio
-                                </h1>
-                                <p class="lead mb-4">
-                                    Su Albalù puoi trovare bomboniere originali e utili, complete di kit confezione in omaggio!
-                                </p>
-                                
-                                <div class="mb-4">
-                                    <p class="mb-2 fw-bold">Iscriviti alla newsletter di Albalù!</p>
-                                    <p class="mb-3 small">Ottieni sconti esclusivi: iscriviti alla newsletter</p>
-                                </div>
-
-                                <a href="#newsletter" class="btn btn-info text-white rounded-0 px-4 py-3 text-uppercase fw-bold shadow-sm" style="background-color: var(--color-cta-chiaro); border: none;">
-                                    Clicca qui <i class="fas fa-arrow-right ms-2"></i>
-                                </a>
-                            </div>
-                            <div class="col-lg-6 text-center">
-                                 <!-- Foreground Image -->
-                                 <img src="https://albalu.b-cdn.net/wp-content/uploads/elementor/thumbs/confezioni-rinj44ahw9j48paqp3mtpbyjedbhrd85lujzwhirjg.webp" alt="Kit Confezione Omaggio" class="img-fluid">
-                            </div>
-                        </div>
-                    </div>
-                </section>
-            </div>
+            <!-- 2. Hero Section (Dynamic) -->
+            <?php 
+            // Try to render from ACF first
+            $hero_html = albalu_render_page_section_by_layout('hero');
+            if ( empty($hero_html) ) {
+                // Fallback to default if not in ACF
+                echo albalu_render_hero_section(); 
+            } else {
+                echo $hero_html;
+            }
+            ?>
 
             <!-- 2. Most Requested Products (WooCommerce Shortcode) -->
             <section class="products-section py-5 bg-white">
