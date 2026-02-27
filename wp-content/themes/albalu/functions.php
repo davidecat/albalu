@@ -413,6 +413,107 @@ function albalu_acf_init() {
                             ),
                         ),
                         array(
+                            'key' => 'layout_page_sections_newsletter',
+                            'name' => 'newsletter',
+                            'label' => 'Newsletter',
+                            'display' => 'block',
+                            'sub_fields' => array(
+                                array(
+                                    'key' => 'field_page_sections_newsletter_enabled',
+                                    'label' => 'Abilita',
+                                    'name' => 'enabled',
+                                    'type' => 'true_false',
+                                    'ui' => 1,
+                                    'default_value' => 1,
+                                ),
+                                array(
+                                    'key' => 'field_page_sections_newsletter_subtitle',
+                                    'label' => 'Sottotitolo (Small)',
+                                    'name' => 'subtitle',
+                                    'type' => 'text',
+                                ),
+                                array(
+                                    'key' => 'field_page_sections_newsletter_title',
+                                    'label' => 'Titolo',
+                                    'name' => 'title',
+                                    'type' => 'text',
+                                ),
+                                array(
+                                    'key' => 'field_page_sections_newsletter_content',
+                                    'label' => 'Contenuto',
+                                    'name' => 'content',
+                                    'type' => 'wysiwyg',
+                                    'media_upload' => false,
+                                ),
+                                array(
+                                    'key' => 'field_page_sections_newsletter_btn_text',
+                                    'label' => 'Testo Bottone',
+                                    'name' => 'btn_text',
+                                    'type' => 'text',
+                                ),
+                                array(
+                                    'key' => 'field_page_sections_newsletter_btn_url',
+                                    'label' => 'Link Bottone',
+                                    'name' => 'btn_url',
+                                    'type' => 'text',
+                                ),
+                                array(
+                                    'key' => 'field_page_sections_newsletter_bg_color',
+                                    'label' => 'Colore Sfondo',
+                                    'name' => 'bg_color',
+                                    'type' => 'color_picker',
+                                    'default_value' => '#9EA6A9',
+                                ),
+                            ),
+                        ),
+                        array(
+                            'key' => 'layout_page_sections_features',
+                            'name' => 'features',
+                            'label' => 'Features Icons',
+                            'display' => 'block',
+                            'sub_fields' => array(
+                                array(
+                                    'key' => 'field_page_sections_features_enabled',
+                                    'label' => 'Abilita',
+                                    'name' => 'enabled',
+                                    'type' => 'true_false',
+                                    'ui' => 1,
+                                    'default_value' => 1,
+                                ),
+                                array(
+                                    'key' => 'field_page_sections_features_items',
+                                    'label' => 'Elementi',
+                                    'name' => 'items',
+                                    'type' => 'repeater',
+                                    'layout' => 'block',
+                                    'button_label' => 'Aggiungi Elemento',
+                                    'sub_fields' => array(
+                                        array(
+                                            'key' => 'field_features_icon',
+                                            'label' => 'Icona',
+                                            'name' => 'icon',
+                                            'type' => 'image',
+                                            'return_format' => 'url',
+                                            'preview_size' => 'thumbnail',
+                                        ),
+                                        array(
+                                            'key' => 'field_features_title',
+                                            'label' => 'Titolo',
+                                            'name' => 'title',
+                                            'type' => 'text',
+                                        ),
+                                        array(
+                                            'key' => 'field_features_desc',
+                                            'label' => 'Descrizione',
+                                            'name' => 'description',
+                                            'type' => 'textarea',
+                                            'rows' => 3,
+                                        ),
+                                    ),
+                                ),
+                            ),
+                        ),
+                        array(
                             'key' => 'layout_page_sections_gallery',
                             'name' => 'gallery',
                             'label' => 'Gallery',
@@ -694,6 +795,119 @@ function albalu_render_testimonials_slider_section( $title, $description, $revie
     return (string) ob_get_clean();
 }
 
+function albalu_render_newsletter_section( $subtitle, $title, $content, $btn_text, $btn_url, $bg_color = '#9EA6A9' ) {
+    $subtitle = (string) $subtitle;
+    $title = (string) $title;
+    $content = (string) $content;
+    $btn_text = (string) $btn_text;
+    $btn_url = (string) $btn_url;
+    $bg_color = (string) $bg_color;
+
+    if ( $bg_color === '' ) {
+        $bg_color = '#9EA6A9';
+    }
+
+    if ( $subtitle === '' && $title === '' && $content === '' ) {
+        // Fallback content if empty
+        $subtitle = 'Rendiamo memorabile il tuo evento';
+        $title = 'Iscriviti alla newsletter di Albalù';
+        $content = 'Iscriviti alla nostra newsletter e ricevi in esclusiva idee originali per le tue bomboniere, sconti riservati fino al 20%, anteprime sulle nuove collezioni e consigli personalizzati per ogni evento speciale. Non perdere le offerte dedicate agli iscritti!';
+        $btn_text = 'Clicca qui';
+        $btn_url = '#';
+    }
+
+    ob_start();
+    ?>
+    <section class="newsletter-section py-5 text-white" style="background-color: <?php echo esc_attr( $bg_color ); ?> !important;">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 text-start">
+                    <?php if ( $subtitle ) : ?>
+                        <span class="text-uppercase small fw-bold ls-1 text-white-50"><?php echo esc_html( $subtitle ); ?></span>
+                    <?php endif; ?>
+                    
+                    <?php if ( $title ) : ?>
+                        <h2 class="h1 fw-normal my-3 text-white"><?php echo wp_kses_post( $title ); ?></h2>
+                    <?php endif; ?>
+                    
+                    <?php if ( $content ) : ?>
+                        <div class="mb-4 text-white">
+                            <?php echo wp_kses_post( $content ); ?>
+                        </div>
+                    <?php endif; ?>
+                    
+                    <?php if ( $btn_text ) : ?>
+                        <div class="d-flex justify-content-start">
+                            <a href="<?php echo esc_url( $btn_url ); ?>" class="btn btn-info px-4 py-2 text-white shadow-sm" style="background-color: #76A9B4; border: none; border-radius: 0;">
+                                <?php echo esc_html( $btn_text ); ?> <i class="fas fa-arrow-right ms-2"></i>
+                            </a>
+                        </div>
+                    <?php endif; ?>
+                </div>
+            </div>
+        </div>
+    </section>
+    <?php
+    return (string) ob_get_clean();
+}
+
+function albalu_render_features_section( $items = array() ) {
+    if ( empty( $items ) ) {
+        // Fallback items
+        $items = array(
+            array(
+                'icon' => '/wp-content/uploads/2026/01/albalu-customere-care-1.svg',
+                'title' => 'Assistenza Clienti',
+                'description' => 'Siamo sempre disponibili per aiutarti a scegliere la bomboniera perfetta. Contattaci per un supporto rapido e personalizzato.'
+            ),
+            array(
+                'icon' => '/wp-content/uploads/2026/01/albalu-quality-1.svg',
+                'title' => '100% Made in Italy',
+                'description' => 'Le nostre bomboniere sono autentici prodotti artigianali italiani, realizzati con materiali di alta qualità e cura per i dettagli.'
+            ),
+            array(
+                'icon' => '/wp-content/uploads/2026/01/albalu-delivery-1.svg',
+                'title' => 'Spedizione Gratuita da 149€',
+                'description' => 'Su ordini superiori a 149€, la spedizione è gratuita! Ricevi le tue bomboniere direttamente a casa, senza costi aggiuntivi.'
+            )
+        );
+    }
+
+    ob_start();
+    ?>
+    <section class="features-section py-5 bg-white">
+        <div class="container">
+            <div class="row g-4">
+                <?php foreach ( $items as $item ) : 
+                    $icon = isset( $item['icon'] ) ? $item['icon'] : '';
+                    $title = isset( $item['title'] ) ? $item['title'] : '';
+                    $description = isset( $item['description'] ) ? $item['description'] : '';
+                ?>
+                <div class="col-md-4">
+                    <div class="h-100 ps-4 border-start" style="border-color: #EAE3E0 !important;">
+                        <?php if ( $icon ) : ?>
+                        <div class="mb-3">
+                            <img src="<?php echo esc_url( $icon ); ?>" alt="<?php echo esc_attr( $title ); ?>" style="width: 70px; height: 70px;">
+                        </div>
+                        <?php endif; ?>
+                        
+                        <?php if ( $title ) : ?>
+                        <h5 class="fw-bold h6 text-uppercase mb-2"><?php echo esc_html( $title ); ?></h5>
+                        <?php endif; ?>
+                        
+                        <?php if ( $description ) : ?>
+                        <p class="small text-secondary mb-0"><?php echo wp_kses_post( $description ); ?></p>
+                        <?php endif; ?>
+                    </div>
+                </div>
+                <?php endforeach; ?>
+            </div>
+        </div>
+    </section>
+    <?php
+    return (string) ob_get_clean();
+}
+
 function albalu_render_page_section_by_layout( $layout, $index = 1, $post_id = 0 ) {
     $layout = (string) $layout;
     $index = max( 1, (int) $index );
@@ -746,6 +960,22 @@ function albalu_render_page_section_by_layout( $layout, $index = 1, $post_id = 0
         );
 
         return albalu_render_promo_section( $section );
+    }
+
+    if ( $layout === 'newsletter' ) {
+        $subtitle = isset( $selected['subtitle'] ) ? (string) $selected['subtitle'] : '';
+        $title = isset( $selected['title'] ) ? (string) $selected['title'] : '';
+        $content = isset( $selected['content'] ) ? (string) $selected['content'] : '';
+        $btn_text = isset( $selected['btn_text'] ) ? (string) $selected['btn_text'] : '';
+        $btn_url = isset( $selected['btn_url'] ) ? (string) $selected['btn_url'] : '';
+        $bg_color = isset( $selected['bg_color'] ) ? (string) $selected['bg_color'] : '#9EA6A9';
+        
+        return albalu_render_newsletter_section( $subtitle, $title, $content, $btn_text, $btn_url, $bg_color );
+    }
+
+    if ( $layout === 'features' ) {
+        $items = isset( $selected['items'] ) && is_array( $selected['items'] ) ? $selected['items'] : array();
+        return albalu_render_features_section( $items );
     }
 
     if ( $layout === 'testimonials' ) {
@@ -826,6 +1056,38 @@ function albalu_render_page_sections( $post_id = 0 ) {
             continue;
         }
 
+        if ( $layout === 'newsletter' ) {
+            $enabled = (bool) get_sub_field( 'enabled' );
+            if ( ! $enabled ) {
+                continue;
+            }
+
+            $subtitle = (string) get_sub_field( 'subtitle' );
+            $title = (string) get_sub_field( 'title' );
+            $content = (string) get_sub_field( 'content' );
+            $btn_text = (string) get_sub_field( 'btn_text' );
+            $btn_url = (string) get_sub_field( 'btn_url' );
+            $bg_color = (string) get_sub_field( 'bg_color' );
+
+            echo albalu_render_newsletter_section( $subtitle, $title, $content, $btn_text, $btn_url, $bg_color );
+            continue;
+        }
+
+        if ( $layout === 'features' ) {
+            $enabled = (bool) get_sub_field( 'enabled' );
+            if ( ! $enabled ) {
+                continue;
+            }
+
+            $items = get_sub_field( 'items' );
+            if ( ! is_array( $items ) ) {
+                $items = array();
+            }
+
+            echo albalu_render_features_section( $items );
+            continue;
+        }
+
         if ( $layout === 'testimonials' ) {
             $enabled = (bool) get_sub_field( 'enabled' );
             if ( ! $enabled ) {
@@ -834,20 +1096,16 @@ function albalu_render_page_sections( $post_id = 0 ) {
 
             $title = (string) get_sub_field( 'title' );
             $content = (string) get_sub_field( 'content' );
-            ?>
-            <section class="page-section-testimonials py-5">
-                <div class="container">
-                    <?php if ( $title ) : ?>
-                        <h2 class="h2 mb-3"><?php echo esc_html( $title ); ?></h2>
-                    <?php endif; ?>
-                    <?php if ( $content ) : ?>
-                        <div class="text-secondary">
-                            <?php echo wp_kses_post( $content ); ?>
-                        </div>
-                    <?php endif; ?>
-                </div>
-            </section>
-            <?php
+            $reviews = get_sub_field( 'reviews' );
+            
+            if ( ! is_array( $reviews ) ) {
+                $reviews = array();
+            }
+
+            // Strip tags from content for description parameter as expected by the function
+            $description = wp_strip_all_tags( $content );
+            
+            echo albalu_render_testimonials_slider_section( $title, $description, $reviews );
             continue;
         }
 

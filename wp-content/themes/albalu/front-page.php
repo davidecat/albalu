@@ -192,78 +192,44 @@ get_header();
                 </div>
             </section>
 
-            <!-- 4. Promo Section (1) -->
+            <!-- Dynamic Page Sections (Managed via ACF Flexible Content) -->
             <?php
-            $albalu_promo_1 = function_exists('albalu_render_page_section_by_layout') ? albalu_render_page_section_by_layout('promo', 1, get_the_ID()) : '';
-            if ( ! empty($albalu_promo_1) ) {
-                echo $albalu_promo_1;
+            // Try to render sections from ACF Flexible Content first
+            $page_sections_html = function_exists('albalu_render_page_sections') ? albalu_render_page_sections() : '';
+
+            if ( ! empty( $page_sections_html ) ) {
+                echo $page_sections_html;
             } else {
-                get_template_part('template-parts/sections/promo-section');
+                // FALLBACK: If no sections are defined in ACF, show the default layout
+                
+                // 4. Promo Section (1)
+                $albalu_promo_1 = function_exists('albalu_render_page_section_by_layout') ? albalu_render_page_section_by_layout('promo', 1, get_the_ID()) : '';
+                if ( ! empty($albalu_promo_1) ) {
+                    echo $albalu_promo_1;
+                } else {
+                    get_template_part('template-parts/sections/promo-section');
+                }
+
+                // 5. Newsletter Section
+                if ( function_exists('albalu_render_newsletter_section') ) {
+                    echo albalu_render_newsletter_section('', '', '', '', '', '#9EA6A9');
+                }
+
+                // 6. Promo Section (2)
+                $albalu_promo_2 = function_exists('albalu_render_page_section_by_layout') ? albalu_render_page_section_by_layout('promo', 2, get_the_ID()) : '';
+                if ( ! empty($albalu_promo_2) ) {
+                    echo $albalu_promo_2;
+                }
+
+                // 7. Testimonials
+                echo do_shortcode('[albalu_page_section layout="testimonials" index="1"]');
+
+                // 8. Features Icons Section
+                if ( function_exists('albalu_render_features_section') ) {
+                    echo albalu_render_features_section();
+                }
             }
             ?>
-
-            <!-- 5. Newsletter Section (Template 37163) -->
-            <section class="newsletter-section py-5 text-white" style="background-color: #9EA6A9 !important;">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-lg-8 text-start">
-                            <span class="text-uppercase small fw-bold ls-1 text-white-50">Rendiamo memorabile il tuo evento</span>
-                            <h2 class="h1 fw-normal my-3 text-white">Iscriviti alla newsletter di Albalù</h2>
-                            <p class="mb-4 text-white">
-                                Iscriviti alla nostra newsletter e ricevi in esclusiva idee originali per le tue bomboniere, sconti riservati fino al 20%, anteprime sulle nuove collezioni e consigli personalizzati per ogni evento speciale. Non perdere le offerte dedicate agli iscritti!
-                            </p>
-                            <div class="d-flex justify-content-start">
-                                <a href="#" class="btn btn-info px-4 py-2 text-white shadow-sm" style="background-color: #76A9B4; border: none; border-radius: 0;">Clicca qui <i class="fas fa-arrow-right ms-2"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            
-            <?php
-            $albalu_promo_2 = function_exists('albalu_render_page_section_by_layout') ? albalu_render_page_section_by_layout('promo', 2, get_the_ID()) : '';
-            if ( ! empty($albalu_promo_2) ) {
-                echo $albalu_promo_2;
-            }
-            ?>
-
-            <?php echo do_shortcode('[albalu_page_section layout="testimonials" index="1"]'); ?>
-
-            <!-- 8. Features Icons Section (Template 37171) -->
-            <section class="features-section py-5 bg-white">
-                <div class="container">
-                    <div class="row g-4">
-                        <div class="col-md-4">
-                            <div class="h-100 ps-4 border-start" style="border-color: #EAE3E0 !important;">
-                                <div class="mb-3">
-                                    <img src="/wp-content/uploads/2026/01/albalu-customere-care-1.svg" alt="Assistenza Clienti" style="width: 70px; height: 70px;">
-                                </div>
-                                <h5 class="fw-bold h6 text-uppercase mb-2">Assistenza Clienti</h5>
-                                <p class="small text-secondary mb-0">Siamo sempre disponibili per aiutarti a scegliere la bomboniera perfetta. Contattaci per un supporto rapido e personalizzato.</p>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="h-100 ps-4 border-start" style="border-color: #EAE3E0 !important;">
-                                <div class="mb-3">
-                                    <img src="/wp-content/uploads/2026/01/albalu-quality-1.svg" alt="100% Made in Italy" style="width: 70px; height: 70px;">
-                                </div>
-                                <h5 class="fw-bold h6 text-uppercase mb-2">100% Made in Italy</h5>
-                                <p class="small text-secondary mb-0">Le nostre bomboniere sono autentici prodotti artigianali italiani, realizzati con materiali di alta qualità e cura per i dettagli.</p>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="h-100 ps-4 border-start" style="border-color: #EAE3E0 !important;">
-                                <div class="mb-3">
-                                    <img src="/wp-content/uploads/2026/01/albalu-delivery-1.svg" alt="Spedizione Gratuita" style="width: 70px; height: 70px;">
-                                </div>
-                                <h5 class="fw-bold h6 text-uppercase mb-2">Spedizione Gratuita da 149€</h5>
-                                <p class="small text-secondary mb-0">Su ordini superiori a 149€, la spedizione è gratuita! Ricevi le tue bomboniere direttamente a casa, senza costi aggiuntivi.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
 
             <!-- 9. Creations / Instagram -->
             <section class="creations-section py-5 bg-light">
