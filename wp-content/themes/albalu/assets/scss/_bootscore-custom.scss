@@ -135,6 +135,50 @@ h2.woocommerce-loop-product__title {
   }
 }
 
+/* Mobile Search Overlay */
+.mobile-search-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.85);
+  z-index: 1060;
+  display: none;
+  align-items: flex-start;
+  padding-top: 30vh;
+
+  &.is-open {
+    display: flex;
+  }
+
+  &__inner {
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+  }
+
+  &__input {
+    width: 100%;
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.4);
+    color: #fff;
+    font-size: 1.25rem;
+    padding: 0.5rem 0;
+    outline: none;
+    letter-spacing: 1px;
+
+    &::placeholder {
+      color: rgba(255, 255, 255, 0.5);
+    }
+  }
+
+  #mobile-search-close {
+    color: #fff !important;
+  }
+}
+
 /* Mega menu: open on hover (desktop) */
 .navbar .nav-item.dropdown > .dropdown-menu {
   left: 0;

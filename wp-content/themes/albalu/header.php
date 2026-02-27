@@ -64,9 +64,52 @@ defined('ABSPATH') || exit;
       <?php do_action( 'bootscore_after_masthead_open' ); ?>
 
   <div class="container">
-        <div class="row align-items-center">
+
+        <!-- Mobile Header -->
+        <div class="row align-items-center d-lg-none">
+            <!-- Left: Hamburger + Search -->
+            <div class="col-4">
+                <div class="d-flex align-items-center gap-3">
+                    <button class="btn btn-link text-dark p-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvas-navbar" aria-controls="offcanvas-navbar">
+                        <i class="fas fa-bars fa-lg"></i>
+                    </button>
+                    <button class="btn btn-link text-dark p-0" type="button" id="mobile-search-toggle" aria-label="Cerca">
+                        <i class="fas fa-search fa-lg"></i>
+                    </button>
+                </div>
+            </div>
+            <!-- Center: Logo -->
+            <div class="col-4 text-center">
+                <a class="navbar-brand me-0" href="<?= esc_url(home_url()); ?>">
+                    <img src="<?= esc_url(home_url()); ?>/wp-content/uploads/2024/05/albalu-logo-web.png" alt="Albalù Bomboniere Logo" class="img-fluid" style="max-height: 60px;">
+                </a>
+            </div>
+            <!-- Right: Account + Cart -->
+            <div class="col-4">
+                <div class="d-flex align-items-center justify-content-end gap-3">
+                    <a href="<?= esc_url(get_permalink(get_option('woocommerce_myaccount_page_id'))); ?>" class="text-dark text-decoration-none" title="Account">
+                        <i class="far fa-user fa-lg"></i>
+                    </a>
+                    <?php if (class_exists('WooCommerce')) : ?>
+                        <a href="<?= esc_url(wc_get_cart_url()); ?>" class="position-relative d-flex align-items-center text-decoration-none" title="Cart">
+                            <div class="position-relative d-flex align-items-center justify-content-center text-white" style="width: 36px; height: 36px; background-color: var(--bs-primary);">
+                                <i class="fas fa-shopping-cart"></i>
+                                <?php if (WC()->cart->get_cart_contents_count() > 0) : ?>
+                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-circle bg-warning text-dark border border-light d-flex align-items-center justify-content-center" style="width: 18px; height: 18px; font-size: 0.65rem;">
+                                    <?= WC()->cart->get_cart_contents_count(); ?>
+                                </span>
+                                <?php endif; ?>
+                            </div>
+                        </a>
+                    <?php endif; ?>
+                </div>
+            </div>
+        </div>
+
+        <!-- Desktop Header -->
+        <div class="row align-items-center d-none d-lg-flex">
             <!-- Left: Search -->
-            <div class="col-4 d-none d-lg-block">
+            <div class="col-4">
                 <form role="search" method="get" class="search-form position-relative" action="<?= esc_url(home_url('/')); ?>">
                     <div class="input-group">
                         <input type="search" class="form-control border-end-0 border ps-3 rounded-0" placeholder="Cerca..." value="<?= get_search_query(); ?>" name="s" style="box-shadow: none; border-color: #ddd;" />
@@ -78,18 +121,18 @@ defined('ABSPATH') || exit;
             <?php do_action( 'bootscore_before_navbar_brand' ); ?>
 
             <!-- Center: Logo -->
-            <div class="col-12 col-lg-4 text-center">
+            <div class="col-4 text-center">
                  <a class="navbar-brand me-0" href="<?= esc_url(home_url()); ?>">
                     <img src="<?= esc_url(home_url()); ?>/wp-content/uploads/2024/05/albalu-logo-web.png" alt="Albalù Bomboniere Logo" class="img-fluid" style="max-height: 80px;">
-                </a> 
+                </a>
             </div>
 
             <?php do_action( 'bootscore_after_navbar_brand' ); ?>
 
             <!-- Right: Icons (User, Cart) -->
-            <div class="col-12 col-lg-4 text-center text-lg-end mt-3 mt-lg-0">
-                <div class="d-flex align-items-center justify-content-center justify-content-lg-end gap-3">
-                    
+            <div class="col-4 text-end">
+                <div class="d-flex align-items-center justify-content-end gap-3">
+
                     <!-- Top Nav Widget -->
                     <?php if (is_active_sidebar('top-nav')) : ?>
                         <?php dynamic_sidebar('top-nav'); ?>
@@ -100,7 +143,7 @@ defined('ABSPATH') || exit;
                     </a>
                     <?php if (class_exists('WooCommerce')) : ?>
                         <a href="<?= esc_url(wc_get_cart_url()); ?>" class="text-dark position-relative d-flex align-items-center gap-2 text-decoration-none" title="Cart">
-                            <div class="position-relative bg-white text-dark d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                            <div class="position-relative d-flex align-items-center justify-content-center text-white" style="width: 40px; height: 40px; background-color: var(--bs-primary);">
                                 <i class="fas fa-shopping-cart fa-lg"></i>
                                 <?php if (WC()->cart->get_cart_contents_count() > 0) : ?>
                                 <span class="position-absolute top-0 start-100 translate-middle badge rounded-circle bg-warning text-dark border border-light d-flex align-items-center justify-content-center" style="width: 20px; height: 20px; font-size: 0.7rem;">
@@ -110,29 +153,13 @@ defined('ABSPATH') || exit;
                             </div>
                         </a>
                     <?php endif; ?>
-                    
-                    <!-- Mobile Menu Toggler -->
-                     <button class="btn btn-link text-dark d-lg-none p-0 ms-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvas-navbar" aria-controls="offcanvas-navbar">
-                        <i class="fas fa-bars fa-lg"></i>
-                    </button>
-                    
+
                     <?php do_action( 'bootscore_after_nav_toggler' ); ?>
 
                 </div>
             </div>
         </div>
-        
-        <!-- Mobile Search -->
-        <div class="row d-lg-none mt-3">
-            <div class="col-12">
-                 <form role="search" method="get" class="search-form" action="<?= esc_url(home_url('/')); ?>">
-                    <div class="input-group">
-                         <input type="search" class="form-control rounded-pill" placeholder="Cerca prodotti..." value="<?= get_search_query(); ?>" name="s" />
-                         <button class="btn btn-outline-secondary rounded-pill ms-1 border-0" type="submit"><i class="fas fa-search"></i></button>
-                    </div>
-                </form>
-            </div>
-        </div>
+
     </div>
     
     <?php
@@ -288,6 +315,18 @@ defined('ABSPATH') || exit;
         <?php endif; ?>
 
       </div>
+  </div>
+
+  <!-- Mobile Search Overlay -->
+  <div id="mobile-search-overlay" class="mobile-search-overlay">
+    <div class="mobile-search-overlay__inner d-flex align-items-center px-3">
+      <form role="search" method="get" class="flex-grow-1" action="<?= esc_url(home_url('/')); ?>">
+        <input type="search" class="mobile-search-overlay__input" placeholder="Cerca..." value="<?= get_search_query(); ?>" name="s" autofocus />
+      </form>
+      <button type="button" class="btn btn-link text-dark p-0 ms-3" id="mobile-search-close" aria-label="Chiudi">
+        <i class="fas fa-times fa-lg"></i>
+      </button>
+    </div>
   </div>
 
   <!-- Offcanvas User and Cart -->
