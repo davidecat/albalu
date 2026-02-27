@@ -23,11 +23,17 @@ function bootscore_child_enqueue_styles() {
 
   // style.css
   wp_enqueue_style('parent-style', get_template_directory_uri() . '/style.css');
+
+  // Enqueue Swiper CSS
+  wp_enqueue_style('swiper-css', 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css', [], '11.0.0');
+
+  // Enqueue Swiper JS
+  wp_enqueue_script('swiper-js', 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js', [], '11.0.0', true);
   
   // custom.js
   // Get modification time. Enqueue file with modification date to prevent browser from loading cached scripts when file content changes. 
   $modificated_CustomJS = date('YmdHi', filemtime(get_stylesheet_directory() . '/assets/js/custom.js'));
-  wp_enqueue_script('custom-js', get_stylesheet_directory_uri() . '/assets/js/custom.js', array('jquery'), $modificated_CustomJS, false, true);
+  wp_enqueue_script('custom-js', get_stylesheet_directory_uri() . '/assets/js/custom.js', array('jquery', 'swiper-js'), $modificated_CustomJS, false, true);
 }
 
 function albalu_setup() {
@@ -253,8 +259,718 @@ function albalu_acf_init() {
                 )
             )
         ));
+
+        // Promo Section (Global/Reusable)
+        acf_add_local_field_group(array(
+            'key' => 'group_page_sections',
+            'title' => 'Page Sections (Flexible)',
+            'fields' => array(
+                array(
+                    'key' => 'field_page_sections',
+                    'label' => 'Sections',
+                    'name' => 'page_sections',
+                    'type' => 'flexible_content',
+                    'button_label' => 'Aggiungi Sezione',
+                    'layouts' => array(
+                        array(
+                            'key' => 'layout_page_sections_promo',
+                            'name' => 'promo',
+                            'label' => 'Promo',
+                            'display' => 'block',
+                            'sub_fields' => array(
+                                array(
+                                    'key' => 'field_page_sections_promo_enabled',
+                                    'label' => 'Abilita',
+                                    'name' => 'enabled',
+                                    'type' => 'true_false',
+                                    'ui' => 1,
+                                    'default_value' => 1,
+                                ),
+                                array(
+                                    'key' => 'field_page_sections_promo_image_position',
+                                    'label' => 'Posizione Immagine',
+                                    'name' => 'image_position',
+                                    'type' => 'select',
+                                    'choices' => array(
+                                        'right' => 'Immagine a Destra',
+                                        'left' => 'Immagine a Sinistra',
+                                    ),
+                                    'default_value' => 'right',
+                                ),
+                                array(
+                                    'key' => 'field_page_sections_promo_subtitle',
+                                    'label' => 'Sottotitolo (Small)',
+                                    'name' => 'subtitle',
+                                    'type' => 'text',
+                                ),
+                                array(
+                                    'key' => 'field_page_sections_promo_title',
+                                    'label' => 'Titolo Principale',
+                                    'name' => 'title',
+                                    'type' => 'text',
+                                ),
+                                array(
+                                    'key' => 'field_page_sections_promo_content',
+                                    'label' => 'Contenuto',
+                                    'name' => 'content',
+                                    'type' => 'wysiwyg',
+                                    'media_upload' => false,
+                                ),
+                                array(
+                                    'key' => 'field_page_sections_promo_btn_text',
+                                    'label' => 'Testo Bottone',
+                                    'name' => 'btn_text',
+                                    'type' => 'text',
+                                ),
+                                array(
+                                    'key' => 'field_page_sections_promo_btn_url',
+                                    'label' => 'Link Bottone',
+                                    'name' => 'btn_url',
+                                    'type' => 'text',
+                                ),
+                                array(
+                                    'key' => 'field_page_sections_promo_image',
+                                    'label' => 'Immagine',
+                                    'name' => 'image',
+                                    'type' => 'image',
+                                    'return_format' => 'url',
+                                    'preview_size' => 'medium',
+                                ),
+                            ),
+                        ),
+                        array(
+                            'key' => 'layout_page_sections_testimonials',
+                            'name' => 'testimonials',
+                            'label' => 'Testimonials',
+                            'display' => 'block',
+                            'sub_fields' => array(
+                                array(
+                                    'key' => 'field_page_sections_testimonials_enabled',
+                                    'label' => 'Abilita',
+                                    'name' => 'enabled',
+                                    'type' => 'true_false',
+                                    'ui' => 1,
+                                    'default_value' => 1,
+                                ),
+                                array(
+                                    'key' => 'field_page_sections_testimonials_title',
+                                    'label' => 'Titolo',
+                                    'name' => 'title',
+                                    'type' => 'text',
+                                ),
+                                array(
+                                    'key' => 'field_page_sections_testimonials_content',
+                                    'label' => 'Contenuto',
+                                    'name' => 'content',
+                                    'type' => 'wysiwyg',
+                                    'media_upload' => false,
+                                ),
+                                array(
+                                    'key' => 'field_page_sections_testimonials_reviews',
+                                    'label' => 'Recensioni',
+                                    'name' => 'reviews',
+                                    'type' => 'repeater',
+                                    'button_label' => 'Aggiungi Recensione',
+                                    'sub_fields' => array(
+                                        array(
+                                            'key' => 'field_testimonial_name',
+                                            'label' => 'Nome',
+                                            'name' => 'name',
+                                            'type' => 'text',
+                                        ),
+                                        array(
+                                            'key' => 'field_testimonial_date',
+                                            'label' => 'Data',
+                                            'name' => 'date',
+                                            'type' => 'text',
+                                            'placeholder' => 'es. 19 Ottobre 2025'
+                                        ),
+                                        array(
+                                            'key' => 'field_testimonial_text',
+                                            'label' => 'Testo Recensione',
+                                            'name' => 'text',
+                                            'type' => 'textarea',
+                                            'rows' => 3
+                                        ),
+                                        array(
+                                            'key' => 'field_testimonial_initials',
+                                            'label' => 'Iniziali',
+                                            'name' => 'initials',
+                                            'type' => 'text',
+                                            'maxlength' => 3,
+                                            'instructions' => 'es. CS'
+                                        ),
+                                        array(
+                                            'key' => 'field_testimonial_img',
+                                            'label' => 'Immagine Utente (Opzionale)',
+                                            'name' => 'img',
+                                            'type' => 'image',
+                                            'return_format' => 'array',
+                                            'preview_size' => 'thumbnail'
+                                        ),
+                                    ),
+                                ),
+                            ),
+                        ),
+                        array(
+                            'key' => 'layout_page_sections_gallery',
+                            'name' => 'gallery',
+                            'label' => 'Gallery',
+                            'display' => 'block',
+                            'sub_fields' => array(
+                                array(
+                                    'key' => 'field_page_sections_gallery_enabled',
+                                    'label' => 'Abilita',
+                                    'name' => 'enabled',
+                                    'type' => 'true_false',
+                                    'ui' => 1,
+                                    'default_value' => 1,
+                                ),
+                                array(
+                                    'key' => 'field_page_sections_gallery_title',
+                                    'label' => 'Titolo',
+                                    'name' => 'title',
+                                    'type' => 'text',
+                                ),
+                                array(
+                                    'key' => 'field_page_sections_gallery_content',
+                                    'label' => 'Contenuto',
+                                    'name' => 'content',
+                                    'type' => 'wysiwyg',
+                                    'media_upload' => false,
+                                ),
+                            ),
+                        ),
+                    ),
+                ),
+            ),
+            'location' => array(
+                array(
+                    array(
+                        'param' => 'post_type',
+                        'operator' => '==',
+                        'value' => 'page',
+                    ),
+                ),
+            ),
+        ));
     }
 }
+
+function albalu_render_promo_section( $section ) {
+    if ( ! is_array( $section ) ) {
+        return '';
+    }
+
+    $layout = isset( $section['layout'] ) ? (string) $section['layout'] : 'right';
+    $subtitle = isset( $section['subtitle'] ) ? (string) $section['subtitle'] : '';
+    $title = isset( $section['title'] ) ? (string) $section['title'] : '';
+    $content = isset( $section['content'] ) ? (string) $section['content'] : '';
+    $btn_text = isset( $section['btn_text'] ) ? (string) $section['btn_text'] : '';
+    $btn_url = isset( $section['btn_url'] ) ? (string) $section['btn_url'] : '';
+    $image = isset( $section['image'] ) ? (string) $section['image'] : '';
+
+    $btn_url = albalu_normalize_url( $btn_url );
+
+    if ( $layout === 'left' ) {
+        $text_classes = 'col-lg-7 order-2 order-lg-2';
+        $image_classes = 'col-lg-5 order-1 order-lg-1 mb-4 mb-lg-0';
+    } else {
+        $text_classes = 'col-lg-7 order-2 order-lg-1';
+        $image_classes = 'col-lg-5 order-1 order-lg-2 mb-4 mb-lg-0';
+    }
+
+    ob_start();
+    ?>
+    <section class="promo-section-dynamic py-5">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="<?php echo esc_attr( $text_classes ); ?>">
+                    <?php if ( $subtitle ) : ?>
+                        <span class="text-uppercase text-muted small fw-bold ls-1"><?php echo esc_html( $subtitle ); ?></span>
+                    <?php endif; ?>
+
+                    <?php if ( $title ) : ?>
+                        <h2 class="h1 fw-bold my-3"><?php echo wp_kses_post( $title ); ?></h2>
+                    <?php endif; ?>
+
+                    <?php if ( $content ) : ?>
+                        <div class="mb-4 text-secondary promo-content">
+                            <?php echo wp_kses_post( $content ); ?>
+                        </div>
+                    <?php endif; ?>
+
+                    <?php if ( $btn_text && $btn_url ) : ?>
+                        <a href="<?php echo esc_url( $btn_url ); ?>" class="btn btn-primary px-4 py-2 text-uppercase fw-bold shadow-sm">
+                            <?php echo esc_html( $btn_text ); ?>
+                        </a>
+                    <?php endif; ?>
+                </div>
+
+                <div class="<?php echo esc_attr( $image_classes ); ?>">
+                    <div class="ratio ratio-4x3 rounded-3 overflow-hidden">
+                        <?php if ( $image ) : ?>
+                            <img src="<?php echo esc_url( $image ); ?>" class="object-fit-cover" alt="<?php echo esc_attr( wp_strip_all_tags( $title ) ); ?>">
+                        <?php endif; ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <?php
+    return (string) ob_get_clean();
+}
+
+function albalu_normalize_url( $value ) {
+    $value = trim( (string) $value );
+    if ( $value === '' ) {
+        return '';
+    }
+
+    if ( preg_match( '#^(https?:)?//#i', $value ) ) {
+        return $value;
+    }
+
+    if ( preg_match( '#^(mailto:|tel:)#i', $value ) ) {
+        return $value;
+    }
+
+    if ( strpos( $value, '#' ) === 0 ) {
+        return $value;
+    }
+
+    if ( strpos( $value, '/' ) !== 0 ) {
+        $value = '/' . $value;
+    }
+
+    return home_url( $value );
+}
+
+function albalu_render_simple_section( $section_class, $title, $content ) {
+    $section_class = trim( (string) $section_class );
+    $title = (string) $title;
+    $content = (string) $content;
+
+    if ( $title === '' && $content === '' ) {
+        return '';
+    }
+
+    ob_start();
+    ?>
+    <section class="<?php echo esc_attr( $section_class ); ?> py-5">
+        <div class="container">
+            <?php if ( $title ) : ?>
+                <h2 class="h2 mb-3"><?php echo esc_html( $title ); ?></h2>
+            <?php endif; ?>
+            <?php if ( $content ) : ?>
+                <div class="text-secondary">
+                    <?php echo wp_kses_post( $content ); ?>
+                </div>
+            <?php endif; ?>
+        </div>
+    </section>
+    <?php
+    return (string) ob_get_clean();
+}
+
+function albalu_render_testimonials_slider_section( $title, $description, $reviews = array() ) {
+    $title = (string) $title;
+    $description = (string) $description;
+
+    if ( $title === '' ) {
+        $title = 'Le <strong>testimonianze</strong> dei nostri clienti';
+    }
+
+    if ( $description === '' ) {
+        $description = 'Crediamo nella forza dei dettagli, nella ricerca dei materiali, nella creazione della linea e siamo felici di accompagnare il cliente dalla scelta del prodotto fino all\'assistenza post vendita per soddisfare ogni sua esigenza.';
+    }
+
+    if ( empty( $reviews ) || ! is_array( $reviews ) ) {
+        $reviews = array(
+            array(
+                'name' => 'Chiara Spanevello',
+                'date' => '19 Ottobre 2025',
+                'text' => 'Ciao, ho aspettato arrivasse la Cresima di mia figlia prima di scrivere una recensione, ovviamente positiva! Ordinate bomboniere con confetti e...',
+                'initials' => 'CS',
+                'img' => '/wp-content/uploads/2026/01/user-1.jpg',
+            ),
+            array(
+                'name' => 'FM March',
+                'date' => '17 Ottobre 2025',
+                'text' => 'Ho ordinato delle bomboniere per la laurea e sono rimasta davvero soddisfatta! Il servizio offerto è stato rapidissimo, la comunicazione...',
+                'initials' => 'FM',
+                'img' => '',
+            ),
+            array(
+                'name' => 'Anna Di',
+                'date' => '15 Ottobre 2025',
+                'text' => 'Le bomboniere sono bellissime e di qualità. Vi ringrazio per la professionalità. A presto ❤️',
+                'initials' => 'AD',
+                'img' => '',
+            ),
+            array(
+                'name' => 'Eliane Jabbour',
+                'date' => '13 Ottobre 2025',
+                'text' => 'Bomboniere bellissime e di ottima qualità, prezzo giusto. Consegna rapida e servizio clienti disponibile e attento a tutte le modifiche. Tutto...',
+                'initials' => 'EJ',
+                'img' => '/wp-content/uploads/2026/01/user-4.jpg',
+            ),
+            array(
+                'name' => 'Maria Rossi',
+                'date' => '10 Ottobre 2025',
+                'text' => 'Esperienza fantastica! Prodotti di alta qualità e spedizione velocissima. Consiglio vivamente a tutti per le vostre occasioni speciali.',
+                'initials' => 'MR',
+                'img' => '',
+            ),
+            array(
+                'name' => 'Luca Bianchi',
+                'date' => '05 Ottobre 2025',
+                'text' => 'Gentilezza e professionalità. Le bomboniere sono arrivate perfette e confezionate con molta cura. Grazie mille!',
+                'initials' => 'LB',
+                'img' => '',
+            ),
+        );
+    }
+
+    ob_start();
+    ?>
+    <section class="testimonials-section py-5" style="background-color: #eae3e0">
+        <div class="container-custom">
+            <div class="text-center mb-5">
+                <span class="text-uppercase text-muted small fw-bold ls-1">Dicono di noi</span>
+                <h2 class="h1 fw-bold mt-2"><?php echo wp_kses_post( $title ); ?></h2>
+                <p class="text-secondary mx-auto" style="max-width: 800px;">
+                    <?php echo esc_html( $description ); ?>
+                </p>
+            </div>
+
+            <div class="swiper testimonial-swiper pb-5">
+                <div class="swiper-wrapper">
+                    <?php foreach ( $reviews as $review ) : 
+                        $img_url = isset($review['img']) ? $review['img'] : '';
+                        // If it's an ACF image array, get the URL
+                        if ( is_array( $img_url ) && isset( $img_url['url'] ) ) {
+                            $img_url = $img_url['url'];
+                        }
+                    ?>
+                        <div class="swiper-slide p-2">
+                            <div class="testimonial-box position-relative bg-white p-4 rounded-3 shadow-sm mb-4">
+                                <!-- Google G Logo -->
+                                <div class="position-absolute top-0 end-0 mt-3 me-3">
+                                    <div class="bg-white rounded-circle d-flex align-items-center justify-content-center shadow-sm" style="width: 40px; height: 40px;">
+                                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 48 48"><defs><path id="a" d="M44.5 20H24v8.5h11.8C34.7 33.9 30.1 37 24 37c-7.2 0-13-5.8-13-13s5.8-13 13-13c3.1 0 5.9 1.1 8.1 2.9l6.4-6.4C34.6 4.1 29.6 2 24 2 11.8 2 2 11.8 2 24s9.8 22 22 22c11 0 21-8 21-22 0-1.3-.2-2.7-.5-4z"></path></defs><clipPath id="b"><use xlink:href="#a"></use></clipPath><path clip-path="url(#b)" fill="#FBBC05" d="M0 37V11l17 13z"></path><path clip-path="url(#b)" fill="#EA4335" d="M0 11l17 13 7-6.1L48 14V0H0z"></path><path clip-path="url(#b)" fill="#34A853" d="M0 37l30-23 7.9 1L48 0v48H0z"></path><path clip-path="url(#b)" fill="#4285F4" d="M48 48L17 24l-4-3 35-10z"></path></svg>
+                                    </div>
+                                </div>
+
+                                <div class="text-warning mb-2"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                                <p class="text-dark mb-2 testimonial-text" style="font-size: 0.95rem; line-height: 1.5; min-height: 70px;">
+                                    <?php echo esc_html( $review['text'] ); ?>
+                                </p>
+                                <a href="#" class="text-secondary small text-decoration-none d-inline-block">Leggi di più</a>
+                            </div>
+
+                            <div class="d-flex align-items-center ms-3">
+                                <?php if ( ! empty( $img_url ) ) : ?>
+                                    <img src="<?php echo esc_url( $img_url ); ?>" class="rounded-circle me-3" style="width: 50px; height: 50px; object-fit: cover;" alt="<?php echo esc_attr( $review['name'] ); ?>">
+                                <?php else : ?>
+                                    <div class="rounded-circle overflow-hidden me-3" style="width: 50px; height: 50px;">
+                                        <img src="/wp-content/uploads/2026/01/user-placeholder.jpg" onerror="this.src='https://secure.gravatar.com/avatar/?s=50&d=mm&r=g'" alt="<?php echo esc_attr( $review['name'] ); ?>" class="img-fluid w-100 h-100 object-fit-cover">
+                                    </div>
+                                <?php endif; ?>
+                                <div>
+                                    <h6 class="mb-0 fw-bold text-dark" style="font-size: 1rem; color: #003057 !important;"><?php echo esc_html( $review['name'] ); ?></h6>
+                                    <small class="text-muted" style="font-size: 0.85rem;"><?php echo esc_html( $review['date'] ); ?></small>
+                                </div>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+                <div class="swiper-button-prev" style="color: #000; background: #fff; width: 40px; height: 40px; border-radius: 50%; box-shadow: 0 2px 5px rgba(0,0,0,0.1); left: 0;"></div>
+                <div class="swiper-button-next" style="color: #000; background: #fff; width: 40px; height: 40px; border-radius: 50%; box-shadow: 0 2px 5px rgba(0,0,0,0.1); right: 0;"></div>
+            </div>
+        </div>
+    </section>
+    <?php
+    return (string) ob_get_clean();
+}
+
+function albalu_render_page_section_by_layout( $layout, $index = 1, $post_id = 0 ) {
+    $layout = (string) $layout;
+    $index = max( 1, (int) $index );
+
+    $post_id = (int) $post_id;
+    if ( $post_id <= 0 ) {
+        $post_id = (int) get_the_ID();
+    }
+
+    if ( ! function_exists( 'get_field' ) ) {
+        return '';
+    }
+
+    $rows = get_field( 'page_sections', $post_id );
+    if ( ! is_array( $rows ) ) {
+        return '';
+    }
+
+    $matched = array();
+    foreach ( $rows as $row ) {
+        if ( ! is_array( $row ) ) {
+            continue;
+        }
+
+        if ( ( $row['acf_fc_layout'] ?? '' ) !== $layout ) {
+            continue;
+        }
+
+        if ( isset( $row['enabled'] ) && ! $row['enabled'] ) {
+            continue;
+        }
+
+        $matched[] = $row;
+    }
+
+    $selected = $matched[ $index - 1 ] ?? null;
+    if ( ! is_array( $selected ) ) {
+        return '';
+    }
+
+    if ( $layout === 'promo' ) {
+        $section = array(
+            'layout' => isset( $selected['image_position'] ) ? (string) $selected['image_position'] : 'right',
+            'subtitle' => isset( $selected['subtitle'] ) ? (string) $selected['subtitle'] : '',
+            'title' => isset( $selected['title'] ) ? (string) $selected['title'] : '',
+            'content' => isset( $selected['content'] ) ? (string) $selected['content'] : '',
+            'btn_text' => isset( $selected['btn_text'] ) ? (string) $selected['btn_text'] : '',
+            'btn_url' => isset( $selected['btn_url'] ) ? (string) $selected['btn_url'] : '',
+            'image' => isset( $selected['image'] ) ? (string) $selected['image'] : '',
+        );
+
+        return albalu_render_promo_section( $section );
+    }
+
+    if ( $layout === 'testimonials' ) {
+        $title = isset( $selected['title'] ) ? (string) $selected['title'] : '';
+        $description = isset( $selected['content'] ) ? wp_strip_all_tags( (string) $selected['content'] ) : '';
+        $reviews = isset( $selected['reviews'] ) && is_array( $selected['reviews'] ) ? $selected['reviews'] : array();
+        return albalu_render_testimonials_slider_section( $title, $description, $reviews );
+    }
+
+    if ( $layout === 'gallery' ) {
+        $title = isset( $selected['title'] ) ? (string) $selected['title'] : '';
+        $content = isset( $selected['content'] ) ? (string) $selected['content'] : '';
+        return albalu_render_simple_section( 'page-section-gallery', $title, $content );
+    }
+
+    return '';
+}
+
+function albalu_page_section_shortcode( $atts = array() ) {
+    $atts = shortcode_atts(
+        array(
+            'layout' => '',
+            'index' => 1,
+            'post_id' => 0,
+        ),
+        $atts,
+        'albalu_page_section'
+    );
+
+    $layout = (string) $atts['layout'];
+    $index = (int) $atts['index'];
+    $post_id = (int) $atts['post_id'];
+
+    if ( $layout === '' ) {
+        return '';
+    }
+
+    return albalu_render_page_section_by_layout( $layout, $index, $post_id );
+}
+add_shortcode( 'albalu_page_section', 'albalu_page_section_shortcode' );
+
+function albalu_render_page_sections( $post_id = 0 ) {
+    if ( ! function_exists( 'have_rows' ) ) {
+        return '';
+    }
+
+    $post_id = (int) $post_id;
+    if ( $post_id <= 0 ) {
+        $post_id = (int) get_the_ID();
+    }
+
+    if ( ! have_rows( 'page_sections', $post_id ) ) {
+        return '';
+    }
+
+    ob_start();
+    while ( have_rows( 'page_sections', $post_id ) ) {
+        the_row();
+
+        $layout = get_row_layout();
+        if ( $layout === 'promo' ) {
+            $enabled = (bool) get_sub_field( 'enabled' );
+            if ( ! $enabled ) {
+                continue;
+            }
+
+            $section = array(
+                'layout' => (string) get_sub_field( 'image_position' ),
+                'subtitle' => (string) get_sub_field( 'subtitle' ),
+                'title' => (string) get_sub_field( 'title' ),
+                'content' => (string) get_sub_field( 'content' ),
+                'btn_text' => (string) get_sub_field( 'btn_text' ),
+                'btn_url' => (string) get_sub_field( 'btn_url' ),
+                'image' => (string) get_sub_field( 'image' ),
+            );
+
+            echo albalu_render_promo_section( $section );
+            continue;
+        }
+
+        if ( $layout === 'testimonials' ) {
+            $enabled = (bool) get_sub_field( 'enabled' );
+            if ( ! $enabled ) {
+                continue;
+            }
+
+            $title = (string) get_sub_field( 'title' );
+            $content = (string) get_sub_field( 'content' );
+            ?>
+            <section class="page-section-testimonials py-5">
+                <div class="container">
+                    <?php if ( $title ) : ?>
+                        <h2 class="h2 mb-3"><?php echo esc_html( $title ); ?></h2>
+                    <?php endif; ?>
+                    <?php if ( $content ) : ?>
+                        <div class="text-secondary">
+                            <?php echo wp_kses_post( $content ); ?>
+                        </div>
+                    <?php endif; ?>
+                </div>
+            </section>
+            <?php
+            continue;
+        }
+
+        if ( $layout === 'gallery' ) {
+            $enabled = (bool) get_sub_field( 'enabled' );
+            if ( ! $enabled ) {
+                continue;
+            }
+
+            $title = (string) get_sub_field( 'title' );
+            $content = (string) get_sub_field( 'content' );
+            ?>
+            <section class="page-section-gallery py-5">
+                <div class="container">
+                    <?php if ( $title ) : ?>
+                        <h2 class="h2 mb-3"><?php echo esc_html( $title ); ?></h2>
+                    <?php endif; ?>
+                    <?php if ( $content ) : ?>
+                        <div class="text-secondary">
+                            <?php echo wp_kses_post( $content ); ?>
+                        </div>
+                    <?php endif; ?>
+                </div>
+            </section>
+            <?php
+            continue;
+        }
+    }
+
+    return (string) ob_get_clean();
+}
+
+function albalu_page_sections_shortcode( $atts = array() ) {
+    $atts = shortcode_atts(
+        array(
+            'post_id' => 0,
+        ),
+        $atts,
+        'albalu_page_sections'
+    );
+
+    $post_id = (int) $atts['post_id'];
+    if ( $post_id <= 0 ) {
+        $post_id = (int) get_the_ID();
+    }
+
+    return albalu_render_page_sections( $post_id );
+}
+add_shortcode( 'albalu_page_sections', 'albalu_page_sections_shortcode' );
+
+function albalu_promo_section_shortcode( $atts = array() ) {
+    $atts = shortcode_atts(
+        array(
+            'index' => 1,
+            'post_id' => 0,
+        ),
+        $atts,
+        'albalu_promo_section'
+    );
+
+    $post_id = (int) $atts['post_id'];
+    if ( $post_id <= 0 ) {
+        $post_id = get_the_ID();
+    }
+
+    $index = max( 1, (int) $atts['index'] );
+
+    if ( ! function_exists( 'get_field' ) ) {
+        return '';
+    }
+
+    $rows = get_field( 'page_sections', $post_id );
+    if ( is_array( $rows ) ) {
+        $promo_rows = array();
+        foreach ( $rows as $row ) {
+            if ( ! is_array( $row ) ) {
+                continue;
+            }
+
+            if ( ! isset( $row['acf_fc_layout'] ) || $row['acf_fc_layout'] !== 'promo' ) {
+                continue;
+            }
+
+            if ( isset( $row['enabled'] ) && ! $row['enabled'] ) {
+                continue;
+            }
+
+            $promo_rows[] = $row;
+        }
+
+        $selected = isset( $promo_rows[ $index - 1 ] ) ? $promo_rows[ $index - 1 ] : null;
+        if ( is_array( $selected ) ) {
+            $section = array(
+                'layout' => isset( $selected['image_position'] ) ? (string) $selected['image_position'] : 'right',
+                'subtitle' => isset( $selected['subtitle'] ) ? (string) $selected['subtitle'] : '',
+                'title' => isset( $selected['title'] ) ? (string) $selected['title'] : '',
+                'content' => isset( $selected['content'] ) ? (string) $selected['content'] : '',
+                'btn_text' => isset( $selected['btn_text'] ) ? (string) $selected['btn_text'] : '',
+                'btn_url' => isset( $selected['btn_url'] ) ? (string) $selected['btn_url'] : '',
+                'image' => isset( $selected['image'] ) ? (string) $selected['image'] : '',
+            );
+
+            return albalu_render_promo_section( $section );
+        }
+    }
+
+    $sections = get_field( 'promo_sections', $post_id );
+    if ( ! is_array( $sections ) ) {
+        return '';
+    }
+
+    $section = isset( $sections[ $index - 1 ] ) ? $sections[ $index - 1 ] : null;
+    if ( ! is_array( $section ) ) {
+        return '';
+    }
+
+    if ( isset( $section['enabled'] ) && ! $section['enabled'] ) {
+        return '';
+    }
+
+    return albalu_render_promo_section( $section );
+}
+add_shortcode('albalu_promo_section', 'albalu_promo_section_shortcode');
 
 add_filter( 'woocommerce_loop_add_to_cart_link', 'replace_add_to_cart_button_class', 10, 2 );
 

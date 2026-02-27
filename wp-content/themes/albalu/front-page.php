@@ -137,7 +137,7 @@ get_header();
                                                         <?php echo esc_html( $cat_name ); ?>
                                                     </a>
                                                 </h5>
-                                                <a href="<?php echo esc_url( get_term_link( $category_obj ) ); ?>" class="category-link small text-uppercase fw-bold text-decoration-none">
+                                                <a href="<?php echo esc_url( get_term_link( $category_obj ) ); ?>" class="category-link small fw-bold text-decoration-none">
                                                     Tutti i prodotti <i class="fas fa-arrow-right ms-1"></i>
                                                 </a>
                                             </div>
@@ -172,8 +172,8 @@ get_header();
                                                 </a>
                                             </div>
                                             <div class="category-content">
-                                                <h5 class="h6 fw-bold text-uppercase mb-2">
-                                                    <a href="<?php echo esc_url( get_term_link( $category ) ); ?>" class="text-decoration-none text-dark">
+                                                <h5 class="h6 fw-bold mb-2">
+                                                    <a href="<?php echo esc_url( get_term_link( $category ) ); ?>" class="text-decoration-none category-title-link">
                                                         <?php echo esc_html( $category->name ); ?>
                                                     </a>
                                                 </h5>
@@ -192,29 +192,15 @@ get_header();
                 </div>
             </section>
 
-            <!-- 4. Promo Section 1 (Albalù Store) -->
-            <section class="promo-section-1 py-5">
-                <div class="container">
-                    <div class="row align-items-center">
-                        <div class="col-lg-7 order-2 order-lg-1">
-                            <span class="text-uppercase text-muted small fw-bold ls-1">Albalù Store</span>
-                            <h2 class="h1 fw-bold my-3">Rendiamo memorabile il <strong>tuo evento</strong></h2>
-                            <p class="mb-4 text-secondary">
-                                Affidati alle mani di artigiani esperti che producono le bomboniere per le tue occasioni speciali rigorosamente in Italia.
-                            </p>
-                            <p class="mb-4 text-secondary small">
-                                Su Albalù puoi trovare bomboniere originali ed utili, oppure puoi scegliere i complementi d'arredo per la casa, regali per l'infanzia e articoli religiosi creati mescolando cura del artigianato con l'eleganza del design italiano.
-                            </p>
-                            <a href="/shop/" class="btn btn-primary px-4 py-2 text-uppercase fw-bold shadow-sm">Scopri i nostri prodotti</a>
-                        </div>
-                        <div class="col-lg-5 order-1 order-lg-2 mb-4 mb-lg-0">
-                             <div class="ratio ratio-4x3 rounded-3 overflow-hidden">
-                                <img src="/wp-content/uploads/2026/01/08.webp" class="object-fit-cover" alt="Promo Image">
-                             </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
+            <!-- 4. Promo Section (1) -->
+            <?php
+            $albalu_promo_1 = function_exists('albalu_render_page_section_by_layout') ? albalu_render_page_section_by_layout('promo', 1, get_the_ID()) : '';
+            if ( ! empty($albalu_promo_1) ) {
+                echo $albalu_promo_1;
+            } else {
+                get_template_part('template-parts/sections/promo-section');
+            }
+            ?>
 
             <!-- 5. Newsletter Section (Template 37163) -->
             <section class="newsletter-section py-5 text-white" style="background-color: #9EA6A9 !important;">
@@ -234,139 +220,15 @@ get_header();
                 </div>
             </section>
 
-            <!-- 6. About Section (Chi siamo) -->
-            <section class="promo-section-2 py-5">
-                <div class="container">
-                    <div class="row align-items-center">
-                        <div class="col-lg-5 mb-4 mb-lg-0">
-                             <div class="ratio ratio-1x1 rounded-3 overflow-hidden">
-                                <img src="/wp-content/uploads/2026/01/Profumatore-in-Resina-effetto-Marmo-con-Diffusore-a-Tema-Albero-della-Vita-e-Applicazione-Centrale-in-Legno-Sagomato-Albalu-Bomboniere-745_610x610_crop_center.webp" class="object-fit-cover" alt="Chi Siamo">
-                             </div>
-                        </div>
-                        <div class="col-lg-7">
-                            <span class="text-uppercase text-muted small fw-bold ls-1">Chi siamo</span>
-                            <h2 class="h1 fw-bold my-3">Siamo un gruppo di <strong>giovani pugliesi innamorati della vita</strong></h2>
-                            <h3 class="h4 fw-normal mb-3 text-secondary">e dei suoi piaceri più semplici!</h3>
-                            <p class="mb-4 text-secondary">
-                                "Tutto nasce da una nostra esperienza di vita quotidiana: la difficoltà nello scegliere il regalo giusto per l'anniversario di una coppia di nostri amici!"
-                            </p>
-                            <p class="mb-4 text-secondary small">
-                                La soluzione? Una sfera che in pochi click ti porta in un mondo dedicato alle ricorrenze: bomboniere, idee regalo, prima infanzia, arredamento e design e articoli religiosi! Un nome: Albalù!
-                            </p>
-                            <a href="/chi-siamo/" class="btn btn-primary px-4 py-2 text-uppercase fw-bold shadow-sm">Scopri di più</a>
-                        </div>
-                    </div>
-                </div>
-            </section>
+            
+            <?php
+            $albalu_promo_2 = function_exists('albalu_render_page_section_by_layout') ? albalu_render_page_section_by_layout('promo', 2, get_the_ID()) : '';
+            if ( ! empty($albalu_promo_2) ) {
+                echo $albalu_promo_2;
+            }
+            ?>
 
-            <!-- 7. Testimonials Section (Template 37165) -->
-            <section class="testimonials-section py-5" style="background-color: #eae3e0">
-                <div class="container">
-                    <div class="text-center mb-5">
-                        <span class="text-uppercase text-muted small fw-bold ls-1">Dicono di noi</span>
-                        <h2 class="h1 fw-bold mt-2">Le <strong>testimonianze</strong> dei nostri clienti</h2>
-                        <p class="text-secondary mx-auto" style="max-width: 800px;">
-                            Crediamo nella forza dei dettagli, nella ricerca dei materiali, nella creazione della linea e siamo felici di accompagnare il cliente dalla scelta del prodotto fino all'assistenza post vendita per soddisfare ogni sua esigenza.
-                        </p>
-                    </div>
-                    
-                    <div class="swiper testimonial-swiper pb-5">
-                        <div class="swiper-wrapper">
-                        <!-- Static Testimonials matching style -->
-                         <?php 
-                         $reviews = [
-                             [
-                                 'name' => 'Chiara Spanevello', 
-                                 'date' => '19 Ottobre 2025', 
-                                 'text' => 'Ciao, ho aspettato arrivasse la Cresima di mia figlia prima di scrivere una recensione, ovviamente positiva! Ordinate bomboniere con confetti e...', 
-                                 'initials' => 'CS',
-                                 'img' => '/wp-content/uploads/2026/01/user-1.jpg' // Placeholder
-                             ],
-                             [
-                                 'name' => 'FM March', 
-                                 'date' => '17 Ottobre 2025', 
-                                 'text' => 'Ho ordinato delle bomboniere per la laurea e sono rimasta davvero soddisfatta! Il servizio offerto è stato rapidissimo, la comunicazione...', 
-                                 'initials' => 'FM',
-                                 'img' => ''
-                             ],
-                             [
-                                 'name' => 'Anna Di', 
-                                 'date' => '15 Ottobre 2025', 
-                                 'text' => 'Le bomboniere sono bellissime e di qualità. Vi ringrazio per la professionalità. A presto ❤️', 
-                                 'initials' => 'AD',
-                                 'img' => ''
-                             ],
-                             [
-                                 'name' => 'Eliane Jabbour', 
-                                 'date' => '13 Ottobre 2025', 
-                                 'text' => 'Bomboniere bellissime e di ottima qualità, prezzo giusto. Consegna rapida e servizio clienti disponibile e attento a tutte le modifiche. Tutto...', 
-                                 'initials' => 'EJ',
-                                 'img' => '/wp-content/uploads/2026/01/user-4.jpg' // Placeholder
-                             ],
-                             [
-                                 'name' => 'Maria Rossi', 
-                                 'date' => '10 Ottobre 2025', 
-                                 'text' => 'Esperienza fantastica! Prodotti di alta qualità e spedizione velocissima. Consiglio vivamente a tutti per le vostre occasioni speciali.', 
-                                 'initials' => 'MR',
-                                 'img' => ''
-                             ],
-                             [
-                                 'name' => 'Luca Bianchi', 
-                                 'date' => '05 Ottobre 2025', 
-                                 'text' => 'Gentilezza e professionalità. Le bomboniere sono arrivate perfette e confezionate con molta cura. Grazie mille!', 
-                                 'initials' => 'LB',
-                                 'img' => ''
-                             ]
-                         ];
-                         foreach($reviews as $review) {
-                         ?>
-                        <div class="swiper-slide p-2">
-                            <div class="testimonial-box position-relative bg-white p-4 rounded-3 shadow-sm mb-4">
-                                <!-- Google G Logo -->
-                                <div class="position-absolute top-0 end-0 mt-3 me-3">
-                                    <div class="bg-white rounded-circle d-flex align-items-center justify-content-center shadow-sm" style="width: 40px; height: 40px;">
-                                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 48 48"><defs><path id="a" d="M44.5 20H24v8.5h11.8C34.7 33.9 30.1 37 24 37c-7.2 0-13-5.8-13-13s5.8-13 13-13c3.1 0 5.9 1.1 8.1 2.9l6.4-6.4C34.6 4.1 29.6 2 24 2 11.8 2 2 11.8 2 24s9.8 22 22 22c11 0 21-8 21-22 0-1.3-.2-2.7-.5-4z"></path></defs><clipPath id="b"><use xlink:href="#a"></use></clipPath><path clip-path="url(#b)" fill="#FBBC05" d="M0 37V11l17 13z"></path><path clip-path="url(#b)" fill="#EA4335" d="M0 11l17 13 7-6.1L48 14V0H0z"></path><path clip-path="url(#b)" fill="#34A853" d="M0 37l30-23 7.9 1L48 0v48H0z"></path><path clip-path="url(#b)" fill="#4285F4" d="M48 48L17 24l-4-3 35-10z"></path></svg>
-                                    </div>
-                                    <!-- <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12.48 10.92v3.28h7.84c-.24 1.84-.853 3.187-1.787 4.133-1.147 1.147-2.933 2.4-6.053 2.4-4.827 0-8.6-3.893-8.6-8.72s3.773-8.72 8.6-8.72c2.6 0 4.507 1.027 5.907 2.347l2.307-2.307C18.747 1.44 16.133 0 12.48 0 5.867 0 .307 5.387.307 12s5.56 12 12.173 12c3.573 0 6.267-1.173 8.373-3.36 2.16-2.16 2.84-5.213 2.84-7.667 0-.76-.053-1.467-.173-2.053H12.48z" fill="#4285F4"/><path d="M12.48 10.92v3.28h7.84c-.24 1.84-.853 3.187-1.787 4.133-1.147 1.147-2.933 2.4-6.053 2.4-4.827 0-8.6-3.893-8.6-8.72s3.773-8.72 8.6-8.72c2.6 0 4.507 1.027 5.907 2.347l2.307-2.307C18.747 1.44 16.133 0 12.48 0 5.867 0 .307 5.387.307 12s5.56 12 12.173 12c3.573 0 6.267-1.173 8.373-3.36 2.16-2.16 2.84-5.213 2.84-7.667 0-.76-.053-1.467-.173-2.053H12.48z" fill="none"/></svg> -->
-                                </div>
-
-                                <div class="text-warning mb-2"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
-                                <!-- <h5 class="fw-bold mb-2" style="font-size: 1rem;">Perfette e bellissime!!!</h5> -->
-                                <p class="text-dark mb-2 testimonial-text" style="font-size: 0.95rem; line-height: 1.5; min-height: 70px;">
-                                    <?php echo $review['text']; ?>
-                                </p>
-                                <a href="#" class="text-secondary small text-decoration-none d-inline-block">Leggi di più</a>
-                            </div>
-                            
-                            <div class="d-flex align-items-center ms-3">
-                                <?php if(!empty($review['img']) && false) { 
-                                ?>
-                                    <img src="<?php echo $review['img']; ?>" class="rounded-circle me-3" style="width: 50px; height: 50px; object-fit: cover;">
-                                <?php } else { 
-                                    $colors = ['#BCAAA4', '#90A4AE', '#009688', '#795548'];
-                                    $bg_color = $colors[array_rand($colors)];
-                                ?>
-                                    <!-- Use an image placeholder if no image, or initials -->
-                                    <div class="rounded-circle overflow-hidden me-3" style="width: 50px; height: 50px;">
-                                         <!-- Using a generic user placeholder image to match design better than initials box -->
-                                         <img src="/wp-content/uploads/2026/01/user-placeholder.jpg" onerror="this.src='https://secure.gravatar.com/avatar/?s=50&d=mm&r=g'" alt="<?php echo $review['name']; ?>" class="img-fluid w-100 h-100 object-fit-cover">
-                                    </div>
-                                <?php } ?>
-                                <div>
-                                    <h6 class="mb-0 fw-bold text-dark" style="font-size: 1rem; color: #003057 !important;"><?php echo $review['name']; ?></h6>
-                                    <small class="text-muted" style="font-size: 0.85rem;"><?php echo $review['date']; ?></small>
-                                </div>
-                            </div>
-                        </div>
-                        <?php } ?>
-                        </div>
-                        <!-- Swiper Pagination/Navigation -->
-                        <!-- <div class="swiper-pagination position-relative mt-4"></div> -->
-                        <div class="swiper-button-prev" style="color: #000; background: #fff; width: 40px; height: 40px; border-radius: 50%; box-shadow: 0 2px 5px rgba(0,0,0,0.1); left: 0;"></div>
-                        <div class="swiper-button-next" style="color: #000; background: #fff; width: 40px; height: 40px; border-radius: 50%; box-shadow: 0 2px 5px rgba(0,0,0,0.1); right: 0;"></div>
-                    </div>
-                </div>
-            </section>
+            <?php echo do_shortcode('[albalu_page_section layout="testimonials" index="1"]'); ?>
 
             <!-- 8. Features Icons Section (Template 37171) -->
             <section class="features-section py-5 bg-white">

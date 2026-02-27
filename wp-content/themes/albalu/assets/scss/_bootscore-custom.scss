@@ -65,6 +65,15 @@ h1, h2, h3, h4, h5, h6, a {
       transition: transform 0.3s ease;
     }
   }
+
+  .category-link {
+    color: #578E99;
+    transition: color 0.3s ease;
+
+    &:hover {
+      color: darken(#578E99, 10%);
+    }
+  }
 }
 
 /* WooCommerce Customizations */
@@ -198,4 +207,44 @@ h2.woocommerce-loop-product__title {
 }
 .navbar .nav-item.dropdown > .dropdown-toggle::after {
   transition: transform 0.5s ease;
+}
+
+/* Custom Container 1440px */
+.container-custom {
+    max-width: 1440px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+}
+
+/* Mobile: Remove padding from container */
+@media (max-width: 767.98px) {
+    .container-custom {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
+}
+
+/* Testimonial Box */
+.testimonial-box {
+    position: relative;
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 2rem;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+
+.testimonial-box::after {
+    content: '';
+    position: absolute;
+    bottom: -10px; /* Position below the box */
+    left: 2rem; /* Align with the user info */
+    width: 20px;
+    height: 20px;
+    background: #fff;
+    border-bottom: 1px solid #e0e0e0;
+    border-right: 1px solid #e0e0e0;
+    transform: rotate(45deg); /* Create the triangle */
 }
