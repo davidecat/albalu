@@ -266,18 +266,21 @@ defined('ABSPATH') || exit;
 
   <!-- Offcanvas Menu (Mobile) -->
   <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvas-navbar">
-      <div class="offcanvas-header bg-light border-bottom">
-        <span class="h5 offcanvas-title fw-bold">MENU</span>
+      <div class="offcanvas-header">
+        <span class="h5 offcanvas-title fw-bold"></span>
         <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
       </div>
       <div class="offcanvas-body p-0">
-        <ul class="list-group list-group-flush">
-             <?php foreach ($mega_menus as $name => $data) : ?>
-            <li class="list-group-item border-0 border-bottom">
-                <a class="text-decoration-none text-dark d-block py-2 fw-bold text-uppercase" href="<?= esc_url($data['link']); ?>"><?= esc_html($name); ?> <i class="fas fa-chevron-right float-end text-muted small mt-1"></i></a>
-            </li>
-            <?php endforeach; ?>
-        </ul>
+        <?php
+        wp_nav_menu(array(
+            'theme_location' => 'menu-mobile',
+            'container'      => false,
+            'menu_class'     => 'navbar-nav',
+            'fallback_cb'    => '__return_false',
+            'depth'          => 3,
+            'walker'         => new bootstrap_5_wp_nav_menu_walker(),
+        ));
+        ?>
 
         <!-- Top Nav 2 Widget -->
         <?php if (is_active_sidebar('top-nav-2')) : ?>

@@ -34,6 +34,7 @@ function albalu_setup() {
     add_theme_support( 'wc-product-gallery-zoom' );
     add_theme_support( 'wc-product-gallery-lightbox' );
     add_theme_support( 'wc-product-gallery-slider' );
+    register_nav_menu( 'menu-mobile', 'Menu Mobile' );
 }
 add_action( 'after_setup_theme', 'albalu_setup' );
 
