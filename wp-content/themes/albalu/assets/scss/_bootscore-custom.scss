@@ -317,3 +317,137 @@ h2.woocommerce-loop-product__title {
     font-weight: 400;
     background-color: #f3915c;
 }
+
+/* Footer Styles */
+.site-footer {
+  h5 {
+    font-size: 0.95rem !important;
+    letter-spacing: 2px;
+    color: #0E1011 !important;
+  }
+
+  .footer-arrow-list {
+    li {
+      margin-bottom: 0.4rem;
+
+      a {
+        color: var(--color-titoli);
+        font-size: 0.9rem;
+        text-decoration: none;
+        transition: color 0.3s ease;
+        font-weight: 500;
+
+        &::before {
+          content: '\00BB';
+          margin-right: 0.4rem;
+          font-weight: 700;
+          font-size: 1.1rem;
+          color: #A29893;
+        }
+
+        &:hover {
+          color: var(--bs-primary);
+        }
+      }
+    }
+  }
+
+  .footer-contact-list {
+    li {
+      margin-bottom: 0.5rem;
+      font-size: 0.9rem;
+
+      a {
+        color: var(--color-testo);
+        transition: color 0.3s ease;
+        font-weight: 500;
+
+        &:hover {
+          color: var(--bs-primary);
+        }
+      }
+
+      i {
+        color: var(--color-testo);
+        width: 20px;
+      }
+    }
+  }
+
+  .footer-social-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    
+    background-color: #A29893
+;
+    color: #fff;
+    text-decoration: none;
+    font-size: 1.3rem;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+      background-color: var(--bs-primary);
+      color: #fff;
+    }
+  }
+
+  .footer-newsletter-btn {
+    display: block;
+    width: 100%;
+    background-color: var(--color-cta-chiaro);
+    border: none;
+    color: #fff;
+    padding: 0.7rem 1.5rem;
+    font-weight: 600;
+    font-size: 0.95rem;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+      background-color: darken(#7AB8B9, 10%);
+    }
+  }
+
+  .footer-bottom {
+    border-top: 1px solid #d0c4c0;
+    padding-top: 1.5rem;
+    margin-top: 2rem;
+
+    .payment-icons img {
+      max-height: 28px;
+    }
+
+    .footer-copyright {
+      font-size: 0.8rem;
+      color: var(--color-testo);
+       font-weight: 500;
+
+      strong {
+        color: #0E1011;
+      }
+    }
+
+    .footer-legal-links {
+      a {
+        color: var(--color-testo);
+        text-decoration: none;
+        font-size: 0.8rem;
+         font-weight: 500;
+
+        &::before {
+          content: '\00BB';
+          margin-right: 0.25rem;
+          font-weight: 700;
+        }
+
+        &:hover {
+          color: var(--bs-primary);
+        }
+      }
+    }
+  }
+}

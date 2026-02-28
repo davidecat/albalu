@@ -152,9 +152,10 @@ function albalu_custom_add_to_cart_link( $html, $product, $args ) {
 
 /**
  * ACF Options Page Registration
+ * Field groups are now managed via ACF admin panel (imported from acf-json/acf-export.json)
  */
-add_action('acf/init', 'albalu_acf_init');
-function albalu_acf_init() {
+// add_action('acf/init', 'albalu_acf_init');
+/* function albalu_acf_init() {
     if( function_exists('acf_add_local_field_group') ) {
         acf_add_local_field_group(array(
             'key' => 'group_albalu_menu_item',
@@ -649,7 +650,7 @@ function albalu_acf_init() {
             ),
         ));
     }
-}
+} */
 
 function albalu_render_promo_section( $section ) {
     if ( ! is_array( $section ) ) {
