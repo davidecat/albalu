@@ -66,7 +66,10 @@ get_header();
                         <a href="/shop/" class="btn btn-primary px-4 py-2 shadow-sm" >Scopri il catalogo <i class="fas fa-arrow-right ms-2"></i></a>
                     </div>
                     <div class="staging-product-grid">
-                        <?php echo do_shortcode('[products limit="4" columns="4" orderby="popularity"]'); ?>
+                        <?php //echo do_shortcode('[products limit="4" columns="4" orderby="popularity"]'); ?>
+                         <?php echo do_shortcode('[bs-swiper-card-product order="ASC" orderby="popularity" posts="12"]
+'); ?>
+                        
                     </div>
                 </div>
             </section>

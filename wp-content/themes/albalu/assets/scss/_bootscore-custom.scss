@@ -139,8 +139,12 @@ h1, h2, h3, h4, h5, h6, a {
 
 /* WooCommerce Customizations */
 h2.woocommerce-loop-product__title {
-    font-size: 1rem !important; 
+    font-size: 1rem !important;
     line-height: 1.5rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 
 .woocommerce-Price-amount {
@@ -450,4 +454,9 @@ h2.woocommerce-loop-product__title {
       }
     }
   }
+}
+
+.swiper {
+  --swiper-navigation-size: 1.5rem;
+  
 }
