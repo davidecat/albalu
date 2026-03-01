@@ -36,6 +36,9 @@ function bootscore_child_enqueue_styles() {
   wp_enqueue_script('custom-js', get_stylesheet_directory_uri() . '/assets/js/custom.js', array('jquery', 'swiper-js'), $modificated_CustomJS, false, true);
 }
 
+add_filter('bootscore/skip_cart', '__return_false');
+
+
 function albalu_setup() {
     add_theme_support( 'wc-product-gallery-zoom' );
     add_theme_support( 'wc-product-gallery-lightbox' );
@@ -913,26 +916,26 @@ function albalu_render_newsletter_section( $subtitle, $title, $content, $btn_tex
     ob_start();
     ?>
     <section class="newsletter-section py-5 text-white" style="background-color: <?php echo esc_attr( $bg_color ); ?> !important;">
-        <div class="container">
+        <div class="container my-5">
             <div class="row">
                 <div class="col-lg-8 text-start">
                     <?php if ( $subtitle ) : ?>
-                        <span class="text-uppercase small fw-bold ls-1 text-white-50"><?php echo esc_html( $subtitle ); ?></span>
+                        <span class="h5 text-uppercase fw-medium ls-1 text-white"><?php echo esc_html( $subtitle ); ?></span>
                     <?php endif; ?>
                     
                     <?php if ( $title ) : ?>
-                        <h2 class="h1 fw-normal my-3 text-white"><?php echo wp_kses_post( $title ); ?></h2>
+                        <h2 class="h1 fw-medium my-3 text-white"><?php echo wp_kses_post( $title ); ?></h2>
                     <?php endif; ?>
                     
                     <?php if ( $content ) : ?>
-                        <div class="mb-4 text-white">
+                        <div class="h5 mb-4 text-white fw-medium">
                             <?php echo wp_kses_post( $content ); ?>
                         </div>
                     <?php endif; ?>
                     
                     <?php if ( $btn_text ) : ?>
                         <div class="d-flex justify-content-start">
-                            <a href="<?php echo esc_url( $btn_url ); ?>" class="btn btn-info px-4 py-2 text-white shadow-sm" style="background-color: #76A9B4; border: none; border-radius: 0;">
+                            <a href="<?php echo esc_url( $btn_url ); ?>" class="btn btn-primary px-4 py-2 text-white shadow-sm" >
                                 <?php echo esc_html( $btn_text ); ?> <i class="fas fa-arrow-right ms-2"></i>
                             </a>
                         </div>
@@ -986,11 +989,11 @@ function albalu_render_features_section( $items = array() ) {
                         <?php endif; ?>
                         
                         <?php if ( $title ) : ?>
-                        <h5 class="fw-bold h6 text-uppercase mb-2"><?php echo esc_html( $title ); ?></h5>
+                        <h4 class="fw-medium text-uppercase mb-2"><?php echo esc_html( $title ); ?></h4>
                         <?php endif; ?>
                         
                         <?php if ( $description ) : ?>
-                        <p class="small text-secondary mb-0"><?php echo wp_kses_post( $description ); ?></p>
+                        <p class="fw-medium mb-0"><?php echo wp_kses_post( $description ); ?></p>
                         <?php endif; ?>
                     </div>
                 </div>
@@ -1610,4 +1613,28 @@ function albalu_custom_sale_badge($html, $post, $product) {
         return $html;
     }
     return '<span class="badge position-absolute top-3 end-0 mt-3 ms-3 me-4 z-1 py-2 px-2">' . esc_html__('Sale!', 'woocommerce') . '</span>';
+}
+
+
+/**
+ * Cart page: cross-sell products beside cart totals in a Bootstrap row
+ */
+remove_action( 'woocommerce_cart_collaterals', 'woocommerce_cross_sell_display' );
+remove_action( 'woocommerce_cart_collaterals', 'woocommerce_cart_totals', 10 );
+
+add_action( 'woocommerce_cart_collaterals', 'albalu_cart_collaterals_layout', 10 );
+function albalu_cart_collaterals_layout() {
+    echo '<div class="row">';
+
+    // Left column: cross-sell products (columns=1 so each product is col-12)
+    echo '<div class="col-lg-6 mb-4 mb-lg-0">';
+    woocommerce_cross_sell_display( 2, 1 );
+    echo '</div>';
+
+    // Right column: cart totals
+    echo '<div class="col-lg-6">';
+    woocommerce_cart_totals();
+    echo '</div>';
+
+    echo '</div>';
 }

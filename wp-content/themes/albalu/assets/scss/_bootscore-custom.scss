@@ -458,5 +458,22 @@ h2.woocommerce-loop-product__title {
 
 .swiper {
   --swiper-navigation-size: 1.5rem;
-  
+}
+
+.features-section img {
+  filter: brightness(0) saturate(100%) invert(65%) sepia(60%) saturate(600%) hue-rotate(335deg) brightness(100%) contrast(92%);
+}
+
+// Cart page: cross-sells beside cart totals
+.cart-collaterals .cross-sells {
+  h2 {
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+  }
+}
+
+.cart-collaterals .cart_totals {
+  position: sticky;
+  top: 1rem;
+  width: 100% !important;
 }
