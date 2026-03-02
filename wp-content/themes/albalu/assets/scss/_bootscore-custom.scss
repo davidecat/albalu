@@ -520,6 +520,21 @@ h2.woocommerce-loop-product__title {
 }
 
 //Single Product Css
+// .wc-breadcrumb {
+//   display: none;
+// }
+
+
+.breadcrumb-item {
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+.breadcrumb-item a {
+  color: #A29893;
+  text-decoration: none;
+
+}
+
 .woocommerce-message {
   margin: 0 !important;
 }

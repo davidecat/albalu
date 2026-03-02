@@ -11,12 +11,16 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 get_header( 'shop' ); ?>
 
+	<div class="container-fluid">
+		<?php //woocommerce_breadcrumb(); ?>
+	</div>
+
 	<?php
 		/**
 		 * Hook: woocommerce_before_main_content.
 		 *
 		 * @hooked woocommerce_output_content_wrapper - 10
-		 * @hooked woocommerce_breadcrumb - 20
+		 * @hooked woocommerce_breadcrumb - 20 (removed, rendered above in container-fluid)
 		 */
 		do_action( 'woocommerce_before_main_content' );
 	?>

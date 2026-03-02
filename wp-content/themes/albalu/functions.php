@@ -38,6 +38,8 @@ function bootscore_child_enqueue_styles() {
 add_filter('bootscore/skip_cart', '__return_false');
 
 
+remove_action('woocommerce_before_main_content', 'woocommerce_breadcrumb', 20);
+
 function albalu_setup() {
     add_theme_support( 'wc-product-gallery-zoom' );
     add_theme_support( 'wc-product-gallery-lightbox' );
@@ -121,7 +123,7 @@ function albalu_customize_category_layout() {
     }
     if ( is_product_category() || is_shop() ) {
         // 1. Remove Breadcrumbs
-        remove_action('woocommerce_before_main_content', 'woocommerce_breadcrumb', 20);
+        
         
         // 2. Hide Default Title and Add Custom Header with "ALBALU STORE"
         add_filter('woocommerce_show_page_title', '__return_false');

@@ -60,10 +60,12 @@ function albalu_render_global_faq_section() {
 
     echo '<div class="albalu-global-faq container py-5">';
     echo '<div class="row">';
-    echo '<div class="col-12">';
+    echo '<div class="col-5">';
     
-    echo '<h3 class="mb-4">Domande frequenti</h3>';
-    echo '<p class="mb-4 text-uppercase text-muted small fw-bold">Se non trovi la risposta che cerchi contattaci.</p>';
+    echo '<h2 class="mb-4">Domande frequenti</h3>';
+    echo '<p class="h3 mb-4 text-uppercase text-muted small fw-medium">Se non trovi la risposta che cerchi contattaci.</p>';
+     echo '</div>';
+    echo '<div class="col-7">';
 
     echo '<div class="accordion accordion-flush" id="faqAccordion">';
     
@@ -84,7 +86,7 @@ function albalu_render_global_faq_section() {
             echo '</button>';
             echo '</h2>';
             echo '<div id="collapse-' . $id . '" class="accordion-collapse collapse" aria-labelledby="heading-' . $id . '" data-bs-parent="#faqAccordion">';
-            echo '<div class="accordion-body px-0 pb-3 text-muted small">';
+            echo '<div class="accordion-body px-0 pb-3 text-muted fw-medium">';
             echo wpautop( wp_kses_post( $a ) );
             echo '</div>';
             echo '</div>';
