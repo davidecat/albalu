@@ -1848,7 +1848,9 @@ add_filter('pre_get_posts','search_only_products');
 add_filter( 'pewc_get_group_description', function( $group_description, $group_id ) {
 	/* Confezione Bomboniera Completa o kit gratis (CONF1) */
     if ($group_id == 1272) {
-        $group_description = do_shortcode( '[elementor-template id="849"]' );
+        ob_start();
+        wc_get_template_part('content', 'kitconfezione');
+        $group_description = ob_get_clean();
     }
     return $group_description;
 }, 10, 2 );
