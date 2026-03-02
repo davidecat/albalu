@@ -33,7 +33,7 @@ function bootscore_child_enqueue_styles() {
   // custom.js
   // Get modification time. Enqueue file with modification date to prevent browser from loading cached scripts when file content changes. 
   $modificated_CustomJS = date('YmdHi', filemtime(get_stylesheet_directory() . '/assets/js/custom.js'));
-  wp_enqueue_script('custom-js', get_stylesheet_directory_uri() . '/assets/js/custom.js', array('jquery', 'swiper-js'), $modificated_CustomJS, false, true);
+  wp_enqueue_script('custom-js', get_stylesheet_directory_uri() . '/assets/js/custom.js', array('jquery', 'swiper-js'), $modificated_CustomJS, true);
 }
 
 add_filter('bootscore/skip_cart', '__return_false');
@@ -117,6 +117,9 @@ add_filter( 'wp_get_attachment_image_attributes', function( $attr, $attachment )
  */
 add_action('wp', 'albalu_customize_category_layout');
 function albalu_customize_category_layout() {
+    if ( ! function_exists( 'is_product_category' ) ) {
+        return;
+    }
     if ( is_product_category() || is_shop() ) {
         // 1. Remove Breadcrumbs
         remove_action('woocommerce_before_main_content', 'woocommerce_breadcrumb', 20);
