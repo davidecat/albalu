@@ -1671,3 +1671,398 @@ function albalu_acf_options_page_missing_notice() {
     }
 }
 
+// Snippet Start -----------
+
+//1. Product Add-ons: condizione per tag e modifiche visualizzazione
+//------------------- START ---------------------
+/* Field Group/Backend: imposta regole di visualizzazione per tag invece di categorie */
+function filtra_per_tag_invece_di_categorie($args, $group_id, $group, $rule) {
+	return 'product_tag';
+}
+add_filter('pewc_filter_global_categories_taxonomy','filtra_per_tag_invece_di_categorie', 10, 4);
+
+/* Field Group/Generale: aggiungi classe custom ai gruppi selezionati */
+function prefix_filter_single_product_classes( $classes, $item ) {
+	// Check if the field ID is 3358 and add a custom class
+	if ( isset( $item['field_id'] ) && $item['field_id'] == 3358 ) {
+		$classes[] = 'custom-class-for-3358';
+	}
+	return $classes;
+}
+add_filter( 'pewc_filter_single_product_classes', 'prefix_filter_single_product_classes', 10, 2 );
+
+/* Field Group/Titolo: non mostrare il titolo del gruppo */
+add_filter('pewc_filter_group_title', '__return_empty_string');
+
+/* Field Group/Descrizione: sostituisci "<p>" con "<div>" per correggere il markup quando si inserisce uno shortcode */
+add_filter( 'pewc_filter_group_description', function($description) {
+	$description = str_replace('<p', '<div', $description);
+	$description = str_replace('</p', '</div', $description);
+	return $description;
+}, 10, 2 );
+
+/* Field: imposta descrizione come placeholder per i campi di testo */
+add_filter( 'pewc_description_as_placeholder', function( $set, $item ) {
+	if ( $item['field_type'] == 'text' ) {
+		$set = true;
+	}
+	return $set;
+}, 10, 2 );
+
+/* Aggiungi al carrello l'immagine predefinita del prodotto, non quella generata dal plugin */
+remove_filter('pewc_after_add_cart_item_data', 'pewc_create_composite_image', 10, 2);
+//------------------- START ---------------------
+
+//2. WooCommerce/Dettaglio prodotto: mostra attributi prodotto (shortcode)
+//------------------- START ---------------------
+/* Shortcode: mostra attributi prodotto (label_personalizzata e misura_prodotto_reale) */
+function mostra_attributi_prodotto_shortcode( $atts ) {
+	global $product;
+	if (!is_a($product, 'WC_Product')) {
+		$product = wc_get_product( $id );
+	}
+	if (is_a($product, 'WC_Product')) {
+		/* Recupera i dati degli attributi */
+		$label_personalizzata = $product->get_attribute( 'label_personalizzata' );
+		$misura_prodotto_reale = $product->get_attribute( 'misura_prodotto_reale' );
+		/* Verifica se almeno uno dei due attributi è stato impostato */
+		if ($label_personalizzata || $misura_prodotto_reale) {
+			echo '<ul class="prodotto-attributi">';
+			/* Mostra "label_personalizzata" se presente */
+			if ($label_personalizzata) {
+				echo '<li><i aria-hidden="true" class="fas fa-box-open"></i> '.$label_personalizzata.'</li>';
+			}
+			/* Mostra "misura_prodotto_reale" se presente */
+			if ($misura_prodotto_reale) {
+				echo '<li><i aria-hidden="true" class="fas fa-fw fa-ruler-combined"></i> '.$misura_prodotto_reale.'</li>';
+			}
+			echo '</ul>';
+		}
+	}
+}
+add_shortcode('mostra-attributi-prodotto', 'mostra_attributi_prodotto_shortcode');
+//------------------- END ---------------------
+
+//3. Product Add-ons: controlli per "replace main image"
+//------------------- START ---------------------
+/* PEWC Swtches: Aggiungi controlli per la funzionalità "replace main image" */
+function fix_pewc_replace_main_image() {
+	/* Usare questa condizione per individuare prodotti con campi aggiuntivi
+	global $product;
+	if( pewc_has_product_extra_groups( $product->get_id() ) == 'yes' ) {
+		echo "prodotto con campi aggiuntivi";
+	}
+	*/
+	/* Aggiungi javascript */
+	wc_enqueue_js("
+
+		// Nascondi le thumbnails e mostra la prima immagine quando si clicca su un campo che fa il replace dell'immagine
+		$(document).on('click', '.pewc-replace-main-image .pewc-radio-checkbox-image-wrapper.pewc-radio-image-wrapper-1', function () {
+			$('.elementor-widget-woocommerce-product-images span.onsale').addClass('hide');
+			$('.woocommerce-product-gallery ol.flex-control-thumbs').addClass('hide');
+			$('.woocommerce-product-gallery a.woocommerce-product-gallery__trigger').addClass('hide');
+			$('.woocommerce-product-gallery ol.flex-control-thumbs li:first-child img').trigger('click');
+		});
+
+		// Mostra di nuovo le thumbnails
+		$(document).on('click', '.pewc-replace-main-image .pewc-radio-checkbox-image-wrapper.pewc-radio-image-wrapper-0', function () {
+			$('.woocommerce-product-gallery ol.flex-control-thumbs').removeClass('hide');
+			$('.woocommerce-product-gallery a.woocommerce-product-gallery__trigger').removeClass('hide');
+		});
+
+	");
+}
+add_action( 'woocommerce_after_add_to_cart_form', 'fix_pewc_replace_main_image' );
+//------------------- END ---------------------
+
+//4. WooCommerce/Checkout
+//------------------- START ---------------------
+/* WooCommerce/Checkout: disattiva il check di default al campo "Ship to different address" */
+add_filter( 'woocommerce_ship_to_different_address_checked', '__return_false' );
+//------------------- END ---------------------
+
+
+//5. WooCommerce/Dettaglio prodotto: wrap quantità + addToCart + modifica messaggio addToCart
+//------------------- START ---------------------
+/* Dettaglio prodotto: wrappa quantità e pulsante add to cart */
+function wrap_quantity_addtocart() {
+	wc_enqueue_js("
+		$('.elementor-widget-jet-single-add-to-cart .quantity, .elementor-widget-jet-single-add-to-cart .single_add_to_cart_button').wrapAll('<div class=\"quantity-addtocart-wrapper\"></div>');
+	");
+}
+add_action( 'woocommerce_after_add_to_cart_form', 'wrap_quantity_addtocart' );
+
+/* Dettaglio prodotto: modifica messaggio di aggiunta al carrello */
+function custom_add_to_cart_message() {
+	$message = 'Il prodotto è stato aggiunto al carrello! <a href="'.esc_url(wc_get_page_permalink('cart')).'" tabindex="1" class="button button-gotocart wc-forward"><i aria-hidden="true" class="fas fa-shopping-cart"></i>&nbsp;Vai al carrello</a>';
+	return $message;
+}
+add_filter('wc_add_to_cart_message_html', 'custom_add_to_cart_message');
+//------------------- END ---------------------
+
+//6. WooCommerce/Dettaglio prodotto: visualizzazione prezzi variazioni
+//------------------- START ---------------------
+/* Nascondi il prezzo della variazione e mostralo al posto del prezzo normale del prodotto */
+function update_price_with_variation_price() {
+	global $product;
+	$price = $product->get_price_html();
+	wc_enqueue_js("
+		$(document).on('found_variation', 'form.cart', function( event, variation ) {
+			if(variation.price_html) $('#dettaglio-prodotto-info .elementor-widget-woocommerce-product-price > div > .price').html(variation.price_html);
+			$('.woocommerce-variation-price').hide();
+		});	
+		$(document).on('hide_variation', 'form.cart', function( event, variation ) {
+			$('#dettaglio-prodotto-info .elementor-widget-woocommerce-product-price > div > .price').html('" . $price . "');
+		});
+	");
+}
+add_action( 'woocommerce_variable_add_to_cart', 'update_price_with_variation_price' );
+
+/* Mostra sempre il prezzo delle varianti, anche quando hanno tutte lo stesso prezzo */
+add_filter( 'woocommerce_show_variation_price', '__return_true' );
+
+/* WooCommerce/Dettaglio prodotto: nascondi pulsante "svuota" per le variazioni */
+add_filter( 'woocommerce_reset_variations_link', '__return_empty_string', 9999 );
+//------------------- END ---------------------
+
+//7. WooCommerce/Generale: mostra solo prodotti nei risultati di ricerca
+//------------------- START ---------------------
+/* Mostra solo i prodotti nei risultati di ricerca */
+function search_only_products($query) {
+	if (!is_admin() && $query->is_search()) {
+		$query->set('post_type', 'product');
+		$query->set('wc_query', 'product_query');
+	}
+	return $query;
+}
+add_filter('pre_get_posts','search_only_products');
+//------------------- END ---------------------
+
+//8. Product Add-ons: shortcode in descrizione gruppo
+//------------------- START ---------------------
+/* Forza lo shortcode al posto della descrizione in base al gruppo */
+add_filter( 'pewc_get_group_description', function( $group_description, $group_id ) {
+	/* Confezione Bomboniera Completa o kit gratis (CONF1) */
+    if ($group_id == 1272) {
+        $group_description = do_shortcode( '[elementor-template id="849"]' );
+    }
+    return $group_description;
+}, 10, 2 );
+
+/* Field Group/Descrizione: sostituisci "<p>" con "<div>" per correggere il markup quando si inserisce uno shortcode 
+add_filter( 'pewc_filter_group_description', function($group_description) {
+	$group_description = str_replace('<p', '<div', $group_description);
+	$group_description = str_replace('</p', '</div', $group_description);
+	return $group_description;
+}, 10, 2 );
+*/
+//------------------- END ---------------------
+
+//9. WooCommerce/Dettaglio prodotto: mostra SKU variazione
+//------------------- START ---------------------
+function display_variation_sku() {
+	global $product;
+	if (!$product->is_type('variable')) return;
+	wc_enqueue_js("
+		$(document).on('found_variation', 'form.cart', function( event, variation ) {
+	  		$('#product-sku span').html('SKU: '+variation.sku);       
+      	});
+   	");
+}
+add_action('woocommerce_after_add_to_cart_form', 'display_variation_sku');
+//------------------- END ---------------------
+
+//10. search
+//------------------- START ---------------------
+
+function tp_search_results_shortcode() {
+
+    if ( empty($_GET['keyword']) ) {
+        return '<p>No search keyword found.</p>';
+    }
+
+    $keyword = sanitize_text_field($_GET['keyword']);
+
+    // Split multiple words
+    $search_words = preg_split('/\s+/', $keyword);
+
+    // Build "AND" search conditions
+    $title_query = array('relation' => 'AND');
+
+    foreach ($search_words as $word) {
+        $title_query[] = array(
+            'key'     => '_none_',  // fake key to force meta_query usage
+            'compare' => 'EXISTS',
+        );
+    }
+
+    // WP_Query cannot directly do word-boundary title searches
+add_filter('posts_search', function($search, $wp_query) use ($search_words) {
+    global $wpdb;
+
+    if ( empty($search_words) ) {
+        return $search;
+    }
+
+    $conditions = [];
+
+    foreach ($search_words as $word) {
+        $word = esc_sql($word);
+
+        // Exact word match in TITLE only — punctuation safe
+        $conditions[] = "
+            ( {$wpdb->posts}.post_title REGEXP '(^|[^a-zA-Z0-9]){$word}($|[^a-zA-Z0-9])' )
+        ";
+    }
+
+    if (!empty($conditions)) {
+        $search = " AND " . implode(" AND ", $conditions);
+    }
+
+    return $search;
+}, 10, 2);
+
+    // Query products
+    $args = array(
+        'post_type'      => 'product',
+        'posts_per_page' => -1,
+        'post_status'    => 'publish',
+        's'              => $keyword, // needed so WP loads posts_search filter
+    );
+
+    $query = new WP_Query($args);
+
+    ob_start();
+
+    if ($query->have_posts()) {
+        echo '<div class="tp-search-results">';
+        while ($query->have_posts()) : $query->the_post();
+            wc_get_template_part('content', 'product');
+        endwhile;
+        echo '</div>';
+    } else {
+        echo '<p>No products found.</p>';
+    }
+
+    wp_reset_postdata();
+
+    return ob_get_clean();
+}
+// add_shortcode('tp_search_results', 'tp_search_results_shortcode');
+
+// [tp_search_form]
+function tp_search_form_shortcode() {
+    $action_url = site_url('/search-text/');
+
+    ob_start();
+    ?>
+    <form method="get" action="<?php echo esc_url($action_url); ?>">
+        <input type="text" name="keyword" placeholder="Search products..." required />
+        <button type="submit">Search</button>
+    </form>
+    <?php
+    return ob_get_clean();
+}
+// add_shortcode('tp_search_form', 'tp_search_form_shortcode');
+function tp_exact_title_search( $where, $query ) {
+    global $wpdb;
+
+    // Run only on search pages using ?s=
+    if ( ! $query->is_search() ) {
+        return $where;
+    }
+
+    // get the search string
+    $keyword = $query->get('s');
+
+    if ( empty($keyword) ) return $where;
+
+    // split by space
+    $words = preg_split('/\s+/', trim($keyword));
+
+    $conditions = [];
+
+    foreach ( $words as $word ) {
+        $word = esc_sql($word);
+
+        // exact word boundary match in title only
+        $conditions[] = "
+            {$wpdb->posts}.post_title REGEXP '(^|[^a-zA-Z0-9]){$word}($|[^a-zA-Z0-9])'
+        ";
+    }
+
+    if ( ! empty($conditions) ) {
+        // remove default WP search (very important)
+        $where = preg_replace("/\(\s*{$wpdb->posts}\.post_title\s+LIKE\s*'%.*?%'\s*\)/", "1=1", $where);
+
+        // add our exact title search
+        $where .= " AND (" . implode(" AND ", $conditions) . ")";
+    }
+
+    return $where;
+}
+
+// add_filter('posts_where', 'tp_exact_title_search', 9999, 2);
+
+function tp_custom_search_synonyms( $query ) {
+    if ( is_admin() || ! $query->is_search() || !$query->is_main_query() ) {
+        return;
+    }
+
+    $original_search = $query->get( 's' ); // save original for search box
+
+    if ( empty( $original_search ) ) {
+        return;
+    }
+
+    // Synonym groups
+    $synonyms = [
+        ['segnalibro', 'segnalibri'],
+        ['profumatore', 'profumatori', 'profumi'],
+        ['albero vita', 'albero della vita'],
+        ['portafoto', 'porta foto'],
+    ];
+
+    $matched_group = [];
+
+    foreach ( $synonyms as $group ) {
+        foreach ( $group as $word ) {
+            if ( mb_strtolower($original_search) === mb_strtolower($word) ) {
+                $matched_group = $group;
+                break 2;
+            }
+        }
+    }
+
+    if ( empty( $matched_group ) ) {
+        return;
+    }
+
+    // Prevent WordPress from applying its default search
+    $query->set( 's', null );
+
+    // Custom WHERE SQL
+    add_filter( 'posts_where', function( $where ) use ( $matched_group, $original_search ) {
+        global $wpdb;
+
+        $parts = [];
+        foreach ( $matched_group as $word ) {
+            $parts[] = $wpdb->prepare("{$wpdb->posts}.post_title LIKE %s", '%' . $wpdb->esc_like($word) . '%');
+        }
+
+        if ( ! empty( $parts ) ) {
+            $where .= " AND (" . implode(" OR ", $parts) . ")";
+        }
+
+        return $where;
+    });
+
+    // Keep original term visible in search box
+    add_filter( 'get_search_query', function() use ( $original_search ) {
+        return $original_search;
+    });
+}
+add_action( 'pre_get_posts', 'tp_custom_search_synonyms' );
+//------------------- END ---------------------
+
+// Snippet End -----------
