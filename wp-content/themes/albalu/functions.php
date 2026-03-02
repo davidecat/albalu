@@ -1641,3 +1641,5 @@ function albalu_cart_collaterals_layout() {
 
     echo '</div>';
 }
+
+require_once get_stylesheet_directory() . '/functions-product.php';
