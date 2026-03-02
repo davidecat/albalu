@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @package Bootscore Child
  *
@@ -357,7 +356,7 @@ function albalu_custom_add_to_cart_link( $html, $product, $args ) {
                         array(
                             'key' => 'layout_page_sections_promo',
                             'name' => 'promo',
-                            'label' => 'Promo',
+                            'label' => 'Promo Section',
                             'display' => 'block',
                             'sub_fields' => array(
                                 array(
@@ -369,25 +368,25 @@ function albalu_custom_add_to_cart_link( $html, $product, $args ) {
                                     'default_value' => 1,
                                 ),
                                 array(
-                                    'key' => 'field_page_sections_promo_image_position',
+                                    'key' => 'field_page_sections_promo_img_pos',
                                     'label' => 'Posizione Immagine',
                                     'name' => 'image_position',
                                     'type' => 'select',
                                     'choices' => array(
-                                        'right' => 'Immagine a Destra',
-                                        'left' => 'Immagine a Sinistra',
+                                        'left' => 'Sinistra',
+                                        'right' => 'Destra',
                                     ),
                                     'default_value' => 'right',
                                 ),
                                 array(
                                     'key' => 'field_page_sections_promo_subtitle',
-                                    'label' => 'Sottotitolo (Small)',
+                                    'label' => 'Sottotitolo',
                                     'name' => 'subtitle',
                                     'type' => 'text',
                                 ),
                                 array(
                                     'key' => 'field_page_sections_promo_title',
-                                    'label' => 'Titolo Principale',
+                                    'label' => 'Titolo',
                                     'name' => 'title',
                                     'type' => 'text',
                                 ),
@@ -1643,3 +1642,31 @@ function albalu_cart_collaterals_layout() {
 }
 
 require_once get_stylesheet_directory() . '/functions-product.php';
+
+// Register Options Page for Global FAQ
+add_action('acf/init', 'albalu_register_faq_options_page');
+function albalu_register_faq_options_page() {
+    if( function_exists('acf_add_options_sub_page') ) {
+        acf_add_options_sub_page(array(
+            'page_title'    => 'FAQ Prodotti',
+            'menu_title'    => 'FAQ Prodotti',
+            'parent_slug'   => 'edit.php?post_type=product',
+            'menu_slug'     => 'faq-prodotti',
+            'capability'    => 'edit_posts',
+            'redirect'      => false,
+        ));
+    }
+}
+
+// Admin notice if ACF Options Page is not available (Only for Admin)
+add_action('admin_notices', 'albalu_acf_options_page_missing_notice');
+function albalu_acf_options_page_missing_notice() {
+    // Check if ACF is active but Options Page function is missing (i.e. Free version)
+    if ( function_exists('acf_register_block_type') && ! function_exists('acf_add_options_page') && current_user_can('activate_plugins') ) {
+        ?>
+        <div class="notice notice-error is-dismissible">
+            <p><?php _e( 'Attenzione: "ACF Pro" è richiesto per le FAQ Globali (Pagina Opzioni). Sembra che tu stia usando la versione Free.', 'bootscore-child' ); ?></p>
+        </div>
+        <?php
+    }
+}
