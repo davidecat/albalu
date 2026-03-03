@@ -2076,3 +2076,19 @@ add_action( 'pre_get_posts', 'tp_custom_search_synonyms' );
 //------------------- END ---------------------
 
 // Snippet End -----------
+
+
+// Nav wrapper class
+add_filter('bootscore/class/breadcrumb/nav', function() {
+    return 'wc-breadcrumb overflow-x-auto text-nowrap mb-2 mt-2 py-4 px-3 rounded';
+});
+
+// // <ol> class
+// add_filter('bootscore/class/breadcrumb/ol', function() {
+//     return 'your-custom-classes';
+// });
+
+// // Link class inside each <li>
+// add_filter('bootscore/class/breadcrumb/item/link', function() {
+//     return 'your-custom-class';
+// });

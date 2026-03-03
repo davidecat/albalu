@@ -152,6 +152,11 @@ h2.woocommerce-loop-product__title {
     font-weight: 500;
 }
 
+.single-product .woocommerce-Price-amount {
+    font-size: 2rem !important;
+}
+
+
 /* Offcanvas Mobile Menu */
 #offcanvas-navbar {
   background-color: #eae3e0;
@@ -523,6 +528,7 @@ h2.woocommerce-loop-product__title {
 // .wc-breadcrumb {
 //   display: none;
 // }
+
 
 
 .breadcrumb-item {
