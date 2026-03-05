@@ -10,6 +10,11 @@
   --color-titoli: #0E1011;
   --color-testo: #595959;
   --color-cta-chiaro: #7AB8B9;
+  --bg-albalu-warm: #eae3e0;
+}
+
+.bg-albalu-warm {
+  background-color: var(--bg-albalu-warm);
 }
 
 html {
@@ -29,6 +34,39 @@ h1, h2, h3, h4, h5, h6, a {
 /* Typography Utilities */
 .ls-1 {
   letter-spacing: 1px;
+}
+
+/* Trust Strip */
+.trust-strip {
+  p {
+    color: #3F494F;
+    font-size: 1.05rem;
+  }
+
+  .trust-strip-brand {
+    color: #3F494F;
+  }
+
+  .trust-strip-stars {
+    font-size: 0.8rem;
+  }
+
+  .trust-strip-reviews {
+    font-size: 0.85rem;
+  }
+}
+
+/* Google Logo Circle (reusable) */
+.google-logo-circle {
+  width: 40px;
+  height: 40px;
+}
+
+/* Reviewer Avatar (reusable) */
+.reviewer-avatar {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
 }
 
 /* Hero Section Fixes */
@@ -81,20 +119,8 @@ h1, h2, h3, h4, h5, h6, a {
   .btn {
     position: relative;
     z-index: 2;
-    background-color: var(--color-cta-chiaro) !important;
-    border-color: var(--color-cta-chiaro) !important;
-    color: #fff !important;
-    text-transform: uppercase;
-    font-weight: bold;
-    border-radius: 0;
-    padding: 0.75rem 1.5rem;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  
     
-    &:hover {
-      background-color: darken(#7AB8B9, 10%) !important;
-      border-color: darken(#7AB8B9, 10%) !important;
-      color: #fff !important;
-    }
 
     i {
       color: #ffc107; /* Yellow arrow */
@@ -319,6 +345,49 @@ h2.woocommerce-loop-product__title {
     transform: rotate(45deg); /* Create the triangle */
 }
 
+/* Testimonials Section */
+.testimonials-section {
+  .testimonials-desc {
+    max-width: 800px;
+  }
+
+  .testimonial-text {
+    font-size: 0.95rem;
+    line-height: 1.5;
+    min-height: 70px;
+  }
+
+  .reviewer-name {
+    font-size: 1rem;
+    color: #003057 !important;
+  }
+
+  .reviewer-date {
+    font-size: 0.85rem;
+  }
+}
+
+/* Testimonial Swiper Nav Buttons */
+.testimonial-swiper {
+  .swiper-button-prev,
+  .swiper-button-next {
+    color: #000;
+    background: #fff;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+
+  .swiper-button-prev {
+    left: 0;
+  }
+
+  .swiper-button-next {
+    right: 0;
+  }
+}
+
 .badge {
 
     font-size: 0.9rem;
@@ -465,8 +534,16 @@ h2.woocommerce-loop-product__title {
   --swiper-navigation-size: 1.5rem;
 }
 
-.features-section img {
-  filter: brightness(0) saturate(100%) invert(65%) sepia(60%) saturate(600%) hue-rotate(335deg) brightness(100%) contrast(92%);
+.features-section {
+  .border-start {
+    border-color: var(--bg-albalu-warm) !important;
+  }
+
+  img {
+    width: 70px;
+    height: 70px;
+    filter: brightness(0) saturate(100%) invert(65%) sepia(60%) saturate(600%) hue-rotate(335deg) brightness(100%) contrast(92%);
+  }
 }
 
 // Cart page: cross-sells beside cart totals
