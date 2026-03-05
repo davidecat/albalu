@@ -659,6 +659,7 @@ function albalu_custom_add_to_cart_link( $html, $product, $args ) {
     }
 } */
 
+/* Moved to front-page.php
 function albalu_render_promo_section( $section ) {
     if ( ! is_array( $section ) ) {
         return '';
@@ -747,6 +748,7 @@ function albalu_normalize_url( $value ) {
 
     return home_url( $value );
 }
+*/
 
 function albalu_render_simple_section( $section_class, $title, $content ) {
     $section_class = trim( (string) $section_class );
@@ -775,6 +777,7 @@ function albalu_render_simple_section( $section_class, $title, $content ) {
     return (string) ob_get_clean();
 }
 
+/* Moved to front-page.php
 function albalu_render_testimonials_slider_section( $title, $description, $reviews = array() ) {
     $title = (string) $title;
     $description = (string) $description;
@@ -1419,6 +1422,7 @@ function albalu_page_sections_shortcode( $atts = array() ) {
     return albalu_render_page_sections( $post_id );
 }
 add_shortcode( 'albalu_page_sections', 'albalu_page_sections_shortcode' );
+*/
 
 function albalu_render_homepage_categories( $post_id = 0 ) {
     $post_id = (int) $post_id;
