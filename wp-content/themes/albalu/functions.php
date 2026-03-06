@@ -37,8 +37,84 @@ function bootscore_child_enqueue_styles() {
 
 add_filter('bootscore/skip_cart', '__return_false');
 
+/* PEWC: remove empty Customizer inline CSS (values not set) */
+remove_action( 'wp_head', 'pewc_customize_css' );
+
+/* PEWC: card-style radio/checkbox options (loads after PEWC inline styles) */
+add_action( 'wp_enqueue_scripts', 'albalu_pewc_card_styles', 10001 );
+function albalu_pewc_card_styles() {
+    if ( ! wp_style_is( 'pewc-style', 'enqueued' ) ) {
+        return;
+    }
+    $rmi = '.pewc-group-image_swatch.pewc-replace-main-image > .pewc-item-field-wrapper > .pewc-radio-images-wrapper';
+    $css = "
+    {$rmi} {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+    {$rmi} > .pewc-radio-image-wrapper {
+        padding: 14px 16px 14px 46px !important;
+        border-radius: 8px !important;
+        border: 2px solid #dee2e6 !important;
+        margin: 0 !important;
+        transition: border-color 0.2s, background-color 0.2s;
+    }
+    {$rmi} > .pewc-radio-image-wrapper:hover {
+        border-color: #adb5bd !important;
+    }
+    {$rmi} > .pewc-radio-image-wrapper.checked {
+        border-color: #578e99 !important;
+        background-color: #f5fafa;
+    }
+    {$rmi} > .pewc-radio-image-wrapper > label {
+        height: auto;
+        line-height: 1.4;
+        padding-left: 0 !important;
+    }
+    {$rmi} > .pewc-radio-image-wrapper > label > img {
+        display: none !important;
+    }
+    {$rmi} > .pewc-radio-image-wrapper > label > .pewc-theme-element {
+        display: block !important;
+        top: 50% !important;
+        left: -30px !important;
+        transform: translateY(-50%);
+        width: 22px !important;
+        height: 22px !important;
+        border: 2px solid #adb5bd;
+        border-radius: 4px;
+        background: #fff !important;
+    }
+    {$rmi} > .pewc-radio-image-wrapper.checked > label > .pewc-theme-element {
+        background: #578e99 !important;
+        border-color: #578e99;
+    }
+    {$rmi} > .pewc-radio-image-wrapper > label > .pewc-theme-element::after {
+        left: 6px !important;
+        top: 2px !important;
+        width: 5px !important;
+        height: 10px !important;
+        border: solid white !important;
+        border-width: 0 3px 3px 0 !important;
+        transform: rotate(45deg);
+    }
+    ";
+    wp_add_inline_style( 'pewc-style', $css );
+}
+
 
 remove_action('woocommerce_before_main_content', 'woocommerce_breadcrumb', 20);
+
+/* Related products: move after description (priority 10) and before FAQ (priority 20) */
+/* Hide product meta (categories, tags) from single product page */
+add_action( 'template_redirect', function() {
+    if ( is_product() ) {
+        remove_action( 'woocommerce_after_single_product_summary', 'woocommerce_output_related_products', 20 );
+        add_action( 'woocommerce_after_single_product', 'woocommerce_output_related_products', 15 );
+        remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_meta', 40 );
+    }
+} );
 
 function albalu_setup() {
     add_theme_support( 'wc-product-gallery-zoom' );
@@ -2096,3 +2172,36 @@ add_filter('bootscore/class/breadcrumb/nav', function() {
 // add_filter('bootscore/class/breadcrumb/item/link', function() {
 //     return 'your-custom-class';
 // });
+
+
+function albalu_static_benefits_below_addtocart() {
+	if ( ! is_product() ) return;
+	$base = esc_url( get_stylesheet_directory_uri() . '/assets/img' );
+	echo '<div class="albalu-purchase-benefits">';
+		echo '<div class="item"><img class="benefit-icon" src="'.$base.'/truck.svg" alt="Spedizione"><p>Realizziamo e spediamo il tuo ordine in <strong>7/13 giorni lavorativi</strong>.</p></div>';
+		echo '<div class="item"><img class="benefit-icon" src="'.$base.'/paypal.svg" alt="Pagamenti PayPal"><p>Pagamenti sicuri con <strong>PayPal e Carte di Credito</strong>.</p></div>';
+		echo '<div class="item"><img class="benefit-icon" src="'.$base.'/klarna.svg" alt="Klarna 3 rate"><p>Pagamento in <strong>3 rate senza interessi</strong> con Klarna.</p></div>';
+		echo '<div class="item"><img class="benefit-icon" src="'.$base.'/consegna.svg" alt="Contrassegno"><p>Pagamento in <strong>contrassegno</strong> alla consegna.</p></div>';
+		echo '<div class="item"><img class="benefit-icon" src="'.$base.'/bancario.svg" alt="Bonifico bancario"><p>Pagamento con <strong>bonifico bancario</strong>.</p></div>';
+	echo '</div>';
+}
+add_action( 'woocommerce_after_add_to_cart_form', 'albalu_static_benefits_below_addtocart', 20 );
+
+
+
+
+function albalu_add_inline_styles_single_product() {
+	if ( ! is_product() ) return;
+	$css = "
+	body.woocommerce.single-product form.cart { display: flex; flex-wrap: wrap; gap: 0; }
+	body.woocommerce.single-product .quantity-addtocart-wrapper { width: 100%; display: flex; gap: 10px; align-items: stretch; }
+	body.woocommerce.single-product .quantity-addtocart-wrapper .quantity { flex: 0 0 auto; display: flex; align-items: center; }
+	body.woocommerce.single-product .quantity-addtocart-wrapper .single_add_to_cart_button { flex: 1 1 auto; height: 52px; }
+	.albalu-purchase-benefits { margin-top: 10px; border-top: 1px solid rgba(0,0,0,0.1); }
+	.albalu-purchase-benefits .item { display: flex; align-items: flex-start; gap: 12px; padding: 12px 0; border-bottom: 1px solid rgba(0,0,0,0.1); }
+	.albalu-purchase-benefits .item img.benefit-icon { width: 28px; height: 28px; object-fit: contain; display: inline-block; }
+	.albalu-purchase-benefits .item p { margin: 0; }
+	";
+	wp_add_inline_style('main', $css);
+}
+add_action('wp_enqueue_scripts', 'albalu_add_inline_styles_single_product', 30);

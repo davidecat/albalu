@@ -35,7 +35,7 @@ function albalu_render_product_description() {
         return;
     }
 
-    echo '<div class="albalu-product-description container py-5">';
+    echo '<div class="albalu-product-description container py-5" style="clear:both;">';
     echo '<h2 class="h3 mb-4">Descrizione</h2>';
     echo apply_filters( 'the_content', $content );
     echo '</div>';
