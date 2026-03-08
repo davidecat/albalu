@@ -116,6 +116,11 @@ add_action( 'template_redirect', function() {
     }
 } );
 
+/* Override Bootscore sale flash badge classes */
+add_filter( 'woocommerce_sale_flash', function( $html, $post, $product ) {
+    return '<span class="badge position-absolute top-3 end-0 mt-3 ms-3 me-4 z-1 py-2 px-2">' . esc_html__( 'Sale!', 'woocommerce' ) . '</span>';
+}, 20, 3 );
+
 function albalu_setup() {
     add_theme_support( 'wc-product-gallery-zoom' );
     add_theme_support( 'wc-product-gallery-lightbox' );
@@ -1867,21 +1872,21 @@ add_filter( 'woocommerce_ship_to_different_address_checked', '__return_false' );
 //5. WooCommerce/Dettaglio prodotto: wrap quantità + addToCart + modifica messaggio addToCart
 //------------------- START ---------------------
 /* Dettaglio prodotto: wrappa quantità e pulsante add to cart */
-function wrap_quantity_addtocart() {
-	wp_add_inline_script('wc-single-product', "
-		jQuery(function($) {
-			$('.elementor-widget-jet-single-add-to-cart .quantity, .elementor-widget-jet-single-add-to-cart .single_add_to_cart_button').wrapAll('<div class=\"quantity-addtocart-wrapper\"></div>');
-		});
-	");
-}
-add_action( 'woocommerce_after_add_to_cart_form', 'wrap_quantity_addtocart' );
+// function wrap_quantity_addtocart() {
+// 	wp_add_inline_script('wc-single-product', "
+// 		jQuery(function($) {
+// 			$('.elementor-widget-jet-single-add-to-cart .quantity, .elementor-widget-jet-single-add-to-cart .single_add_to_cart_button').wrapAll('<div class=\"quantity-addtocart-wrapper\"></div>');
+// 		});
+// 	");
+// }
+// add_action( 'woocommerce_after_add_to_cart_form', 'wrap_quantity_addtocart' );
 
 /* Dettaglio prodotto: modifica messaggio di aggiunta al carrello */
-function custom_add_to_cart_message() {
-	$message = 'Il prodotto è stato aggiunto al carrello! <a href="'.esc_url(wc_get_page_permalink('cart')).'" tabindex="1" class="button button-gotocart wc-forward"><i aria-hidden="true" class="fas fa-shopping-cart"></i>&nbsp;Vai al carrello</a>';
-	return $message;
-}
-add_filter('wc_add_to_cart_message_html', 'custom_add_to_cart_message');
+// function custom_add_to_cart_message() {
+// 	$message = 'Il prodotto è stato aggiunto al carrello! <a href="'.esc_url(wc_get_page_permalink('cart')).'" tabindex="1" class="button button-gotocart wc-forward"><i aria-hidden="true" class="fas fa-shopping-cart"></i>&nbsp;Vai al carrello</a>';
+// 	return $message;
+// }
+// add_filter('wc_add_to_cart_message_html', 'custom_add_to_cart_message');
 //------------------- END ---------------------
 
 //6. WooCommerce/Dettaglio prodotto: visualizzazione prezzi variazioni
@@ -2174,34 +2179,34 @@ add_filter('bootscore/class/breadcrumb/nav', function() {
 // });
 
 
-function albalu_static_benefits_below_addtocart() {
-	if ( ! is_product() ) return;
-	$base = esc_url( get_stylesheet_directory_uri() . '/assets/img' );
-	echo '<div class="albalu-purchase-benefits">';
-		echo '<div class="item"><img class="benefit-icon" src="'.$base.'/truck.svg" alt="Spedizione"><p>Realizziamo e spediamo il tuo ordine in <strong>7/13 giorni lavorativi</strong>.</p></div>';
-		echo '<div class="item"><img class="benefit-icon" src="'.$base.'/paypal.svg" alt="Pagamenti PayPal"><p>Pagamenti sicuri con <strong>PayPal e Carte di Credito</strong>.</p></div>';
-		echo '<div class="item"><img class="benefit-icon" src="'.$base.'/klarna.svg" alt="Klarna 3 rate"><p>Pagamento in <strong>3 rate senza interessi</strong> con Klarna.</p></div>';
-		echo '<div class="item"><img class="benefit-icon" src="'.$base.'/consegna.svg" alt="Contrassegno"><p>Pagamento in <strong>contrassegno</strong> alla consegna.</p></div>';
-		echo '<div class="item"><img class="benefit-icon" src="'.$base.'/bancario.svg" alt="Bonifico bancario"><p>Pagamento con <strong>bonifico bancario</strong>.</p></div>';
-	echo '</div>';
-}
-add_action( 'woocommerce_after_add_to_cart_form', 'albalu_static_benefits_below_addtocart', 20 );
+// function albalu_static_benefits_below_addtocart() {
+// 	if ( ! is_product() ) return;
+// 	$base = esc_url( get_stylesheet_directory_uri() . '/assets/img' );
+// 	echo '<div class="albalu-purchase-benefits">';
+// 		echo '<div class="item"><img class="benefit-icon" src="'.$base.'/truck.svg" alt="Spedizione"><p>Realizziamo e spediamo il tuo ordine in <strong>7/13 giorni lavorativi</strong>.</p></div>';
+// 		echo '<div class="item"><img class="benefit-icon" src="'.$base.'/paypal.svg" alt="Pagamenti PayPal"><p>Pagamenti sicuri con <strong>PayPal e Carte di Credito</strong>.</p></div>';
+// 		echo '<div class="item"><img class="benefit-icon" src="'.$base.'/klarna.svg" alt="Klarna 3 rate"><p>Pagamento in <strong>3 rate senza interessi</strong> con Klarna.</p></div>';
+// 		echo '<div class="item"><img class="benefit-icon" src="'.$base.'/consegna.svg" alt="Contrassegno"><p>Pagamento in <strong>contrassegno</strong> alla consegna.</p></div>';
+// 		echo '<div class="item"><img class="benefit-icon" src="'.$base.'/bancario.svg" alt="Bonifico bancario"><p>Pagamento con <strong>bonifico bancario</strong>.</p></div>';
+// 	echo '</div>';
+// }
+// add_action( 'woocommerce_after_add_to_cart_form', 'albalu_static_benefits_below_addtocart', 20 );
 
 
 
 
-function albalu_add_inline_styles_single_product() {
-	if ( ! is_product() ) return;
-	$css = "
-	body.woocommerce.single-product form.cart { display: flex; flex-wrap: wrap; gap: 0; }
-	body.woocommerce.single-product .quantity-addtocart-wrapper { width: 100%; display: flex; gap: 10px; align-items: stretch; }
-	body.woocommerce.single-product .quantity-addtocart-wrapper .quantity { flex: 0 0 auto; display: flex; align-items: center; }
-	body.woocommerce.single-product .quantity-addtocart-wrapper .single_add_to_cart_button { flex: 1 1 auto; height: 52px; }
-	.albalu-purchase-benefits { margin-top: 10px; border-top: 1px solid rgba(0,0,0,0.1); }
-	.albalu-purchase-benefits .item { display: flex; align-items: flex-start; gap: 12px; padding: 12px 0; border-bottom: 1px solid rgba(0,0,0,0.1); }
-	.albalu-purchase-benefits .item img.benefit-icon { width: 28px; height: 28px; object-fit: contain; display: inline-block; }
-	.albalu-purchase-benefits .item p { margin: 0; }
-	";
-	wp_add_inline_style('main', $css);
-}
-add_action('wp_enqueue_scripts', 'albalu_add_inline_styles_single_product', 30);
+// function albalu_add_inline_styles_single_product() {
+// 	if ( ! is_product() ) return;
+// 	$css = "
+// 	body.woocommerce.single-product form.cart { display: flex; flex-wrap: wrap; gap: 0; }
+// 	body.woocommerce.single-product .quantity-addtocart-wrapper { width: 100%; display: flex; gap: 10px; align-items: stretch; }
+// 	body.woocommerce.single-product .quantity-addtocart-wrapper .quantity { flex: 0 0 auto; display: flex; align-items: center; }
+// 	body.woocommerce.single-product .quantity-addtocart-wrapper .single_add_to_cart_button { flex: 1 1 auto; height: 52px; }
+// 	.albalu-purchase-benefits { margin-top: 10px; border-top: 1px solid rgba(0,0,0,0.1); }
+// 	.albalu-purchase-benefits .item { display: flex; align-items: flex-start; gap: 12px; padding: 12px 0; border-bottom: 1px solid rgba(0,0,0,0.1); }
+// 	.albalu-purchase-benefits .item img.benefit-icon { width: 28px; height: 28px; object-fit: contain; display: inline-block; }
+// 	.albalu-purchase-benefits .item p { margin: 0; }
+// 	";
+// 	wp_add_inline_style('main', $css);
+// }
+// add_action('wp_enqueue_scripts', 'albalu_add_inline_styles_single_product', 30);

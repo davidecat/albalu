@@ -17,12 +17,13 @@ jQuery(function ($) {
     });
 
     // Initialize Testimonial Swiper
+    var testimonialSlideCount = $('.testimonial-swiper .swiper-slide').length;
     var testimonialSwiper = new Swiper('.testimonial-swiper', {
         slidesPerView: 1,
         spaceBetween: 20,
-        loop: true,
+        loop: testimonialSlideCount > 4,
         autoplay: {
-            delay: 3000,
+            delay: 8000,
             disableOnInteraction: false,
         },
         pagination: {
@@ -30,8 +31,8 @@ jQuery(function ($) {
             clickable: true,
         },
         navigation: {
-            nextEl: '.swiper-button-next',
-            prevEl: '.swiper-button-prev',
+            nextEl: '.testimonial-swiper-wrap .swiper-button-next',
+            prevEl: '.testimonial-swiper-wrap .swiper-button-prev',
         },
         breakpoints: {
             640: {
@@ -54,10 +55,11 @@ jQuery(function ($) {
     });
 
     // Initialize Creations Swiper
+    var creationsSlideCount = $('.creations-swiper .swiper-slide').length;
     var creationsSwiper = new Swiper('.creations-swiper', {
         slidesPerView: 1,
         spaceBetween: 20,
-        loop: true,
+        loop: creationsSlideCount > 4,
         autoplay: {
             delay: 4000,
             disableOnInteraction: false,
@@ -76,6 +78,23 @@ jQuery(function ($) {
                 spaceBetween: 30,
             }
         }
+    });
+
+    // Testimonial read more / read less
+    $('.testimonial-read-more').on('click', function (e) {
+        e.preventDefault();
+        var $wrap = $(this).closest('.testimonial-text-wrap');
+        $wrap.find('.testimonial-text').addClass('expanded');
+        $(this).addClass('d-none');
+        $wrap.find('.testimonial-read-less').removeClass('d-none');
+    });
+
+    $('.testimonial-read-less').on('click', function (e) {
+        e.preventDefault();
+        var $wrap = $(this).closest('.testimonial-text-wrap');
+        $wrap.find('.testimonial-text').removeClass('expanded');
+        $(this).addClass('d-none');
+        $wrap.find('.testimonial-read-more').removeClass('d-none');
     });
 
 }); // jQuery End
