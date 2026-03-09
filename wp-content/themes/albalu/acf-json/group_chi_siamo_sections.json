@@ -1066,6 +1066,32 @@
                                     "placeholder": "",
                                     "prepend": "",
                                     "append": ""
+                                },
+                                {
+                                    "key": "field_chi_cat_item_image",
+                                    "label": "Immagine personalizzata",
+                                    "name": "custom_image",
+                                    "aria-label": "",
+                                    "type": "image",
+                                    "instructions": "Lascia vuoto per usare l'immagine della categoria WooCommerce",
+                                    "required": 0,
+                                    "conditional_logic": false,
+                                    "wrapper": {
+                                        "width": "",
+                                        "class": "",
+                                        "id": ""
+                                    },
+                                    "parent_repeater": "field_chi_cat_items",
+                                    "return_format": "url",
+                                    "library": "all",
+                                    "preview_size": "medium",
+                                    "min_width": 0,
+                                    "min_height": 0,
+                                    "min_size": 0,
+                                    "max_width": 0,
+                                    "max_height": 0,
+                                    "max_size": 0,
+                                    "mime_types": ""
                                 }
                             ]
                         },
@@ -1775,5 +1801,5 @@
     "description": "Sezioni flessibili per la pagina Chi Siamo",
     "show_in_rest": 0,
     "display_title": "",
-    "modified": 1772993985
+    "modified": 1773044217
 }

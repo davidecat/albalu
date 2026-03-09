@@ -768,6 +768,22 @@ h2.woocommerce-loop-product__title {
   --swiper-navigation-size: 1.5rem;
 }
 
+.gallery-lightbox-modal {
+  .modal-backdrop {
+    background-color: rgba(0, 0, 0, 0.9);
+  }
+
+  .carousel-control-prev,
+  .carousel-control-next {
+    width: 5%;
+  }
+}
+
+.creations-swiper .swiper-slide a {
+  cursor: pointer;
+  text-decoration: none;
+}
+
 .features-section {
   .border-start {
     border-color: var(--bg-albalu-warm) !important;

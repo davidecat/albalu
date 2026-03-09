@@ -97,4 +97,17 @@ jQuery(function ($) {
         $wrap.find('.testimonial-read-more').removeClass('d-none');
     });
 
+    // Gallery lightbox: open carousel at clicked slide
+    $('.gallery-lightbox-modal').on('show.bs.modal', function (e) {
+        var trigger = $(e.relatedTarget);
+        var slideTo = trigger.data('bs-slide-to');
+        if (typeof slideTo !== 'undefined') {
+            var carouselEl = $(this).find('.carousel')[0];
+            if (carouselEl) {
+                var carousel = bootstrap.Carousel.getOrCreateInstance(carouselEl);
+                carousel.to(slideTo);
+            }
+        }
+    });
+
 }); // jQuery End
