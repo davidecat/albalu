@@ -1,6 +1,6 @@
 {
     "key": "group_chi_siamo_sections",
-    "title": "Chi Siamo - Sezioni Pagina",
+    "title": "Sezioni Pagina Generica",
     "fields": [
         {
             "key": "field_chi_siamo_sections",
@@ -965,7 +965,7 @@
                             "label": "Titolo",
                             "name": "title",
                             "aria-label": "",
-                            "type": "text",
+                            "type": "wysiwyg",
                             "instructions": "",
                             "required": 0,
                             "conditional_logic": false,
@@ -975,17 +975,17 @@
                                 "id": ""
                             },
                             "default_value": "Il nostro catalogo",
-                            "maxlength": "",
-                            "placeholder": "",
-                            "prepend": "",
-                            "append": ""
+                            "tabs": "all",
+                            "toolbar": "basic",
+                            "media_upload": 0,
+                            "delay": 0
                         },
                         {
                             "key": "field_chi_cat_subtitle",
                             "label": "Sottotitolo",
                             "name": "subtitle",
                             "aria-label": "",
-                            "type": "text",
+                            "type": "wysiwyg",
                             "instructions": "",
                             "required": 0,
                             "conditional_logic": false,
@@ -995,10 +995,10 @@
                                 "id": ""
                             },
                             "default_value": "",
-                            "maxlength": "",
-                            "placeholder": "",
-                            "prepend": "",
-                            "append": ""
+                            "tabs": "all",
+                            "toolbar": "basic",
+                            "media_upload": 0,
+                            "delay": 0
                         },
                         {
                             "key": "field_chi_cat_items",
@@ -1068,6 +1068,27 @@
                                     "append": ""
                                 }
                             ]
+                        },
+                        {
+                            "key": "field_chi_cat_bg_color",
+                            "label": "Colore di sfondo",
+                            "name": "bg_color",
+                            "aria-label": "",
+                            "type": "color_picker",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": false,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "#ffffff",
+                            "enable_opacity": false,
+                            "custom_palette_source": "",
+                            "palette_colors": "",
+                            "show_color_wheel": true,
+                            "return_format": "string"
                         }
                     ],
                     "min": "",
@@ -1194,6 +1215,540 @@
                     ],
                     "min": "",
                     "max": "1"
+                },
+                "layout_chi_gallery": {
+                    "key": "layout_chi_gallery",
+                    "name": "gallery",
+                    "label": "Gallery \/ Creazioni",
+                    "display": "block",
+                    "sub_fields": [
+                        {
+                            "key": "field_chi_gal_title",
+                            "label": "Titolo",
+                            "name": "title",
+                            "aria-label": "",
+                            "type": "text",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": false,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "",
+                            "maxlength": "",
+                            "placeholder": "",
+                            "prepend": "",
+                            "append": ""
+                        },
+                        {
+                            "key": "field_chi_gal_btn_text",
+                            "label": "Testo Bottone",
+                            "name": "btn_text",
+                            "aria-label": "",
+                            "type": "text",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": false,
+                            "wrapper": {
+                                "width": "50",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "",
+                            "maxlength": "",
+                            "placeholder": "",
+                            "prepend": "",
+                            "append": ""
+                        },
+                        {
+                            "key": "field_chi_gal_btn_url",
+                            "label": "Link Bottone",
+                            "name": "btn_url",
+                            "aria-label": "",
+                            "type": "url",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": false,
+                            "wrapper": {
+                                "width": "50",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "",
+                            "placeholder": ""
+                        },
+                        {
+                            "key": "field_chi_gal_images",
+                            "label": "Immagini",
+                            "name": "images",
+                            "aria-label": "",
+                            "type": "gallery",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": false,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "return_format": "url",
+                            "library": "all",
+                            "min": "",
+                            "max": "",
+                            "min_width": "",
+                            "min_height": "",
+                            "min_size": "",
+                            "max_width": "",
+                            "max_height": "",
+                            "max_size": "",
+                            "mime_types": "",
+                            "insert": "append",
+                            "preview_size": "medium"
+                        }
+                    ],
+                    "min": "",
+                    "max": "1"
+                },
+                "layout_chi_text_content": {
+                    "key": "layout_chi_text_content",
+                    "name": "text_content",
+                    "label": "Contenuto Testuale",
+                    "display": "block",
+                    "sub_fields": [
+                        {
+                            "key": "field_chi_tc_content",
+                            "label": "Contenuto",
+                            "name": "content",
+                            "aria-label": "",
+                            "type": "wysiwyg",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": false,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "",
+                            "tabs": "all",
+                            "toolbar": "full",
+                            "media_upload": 1,
+                            "delay": 0
+                        },
+                        {
+                            "key": "field_chi_tc_bg_color",
+                            "label": "Colore di sfondo",
+                            "name": "bg_color",
+                            "aria-label": "",
+                            "type": "color_picker",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": false,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "#ffffff",
+                            "enable_opacity": false,
+                            "custom_palette_source": "",
+                            "palette_colors": "",
+                            "show_color_wheel": true,
+                            "return_format": "string"
+                        }
+                    ],
+                    "min": "",
+                    "max": ""
+                },
+                "layout_chi_newsletter": {
+                    "key": "layout_chi_newsletter",
+                    "name": "newsletter",
+                    "label": "Newsletter",
+                    "display": "block",
+                    "sub_fields": [
+                        {
+                            "key": "field_chi_nl_subtitle",
+                            "label": "Sottotitolo",
+                            "name": "subtitle",
+                            "aria-label": "",
+                            "type": "text",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": false,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "",
+                            "maxlength": "",
+                            "placeholder": "",
+                            "prepend": "",
+                            "append": ""
+                        },
+                        {
+                            "key": "field_chi_nl_title",
+                            "label": "Titolo",
+                            "name": "title",
+                            "aria-label": "",
+                            "type": "text",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": false,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "",
+                            "maxlength": "",
+                            "placeholder": "",
+                            "prepend": "",
+                            "append": ""
+                        },
+                        {
+                            "key": "field_chi_nl_content",
+                            "label": "Contenuto",
+                            "name": "content",
+                            "aria-label": "",
+                            "type": "wysiwyg",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": false,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "",
+                            "tabs": "all",
+                            "toolbar": "basic",
+                            "media_upload": 0,
+                            "delay": 0
+                        },
+                        {
+                            "key": "field_chi_nl_btn_text",
+                            "label": "Testo Bottone",
+                            "name": "btn_text",
+                            "aria-label": "",
+                            "type": "text",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": false,
+                            "wrapper": {
+                                "width": "50",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "",
+                            "maxlength": "",
+                            "placeholder": "",
+                            "prepend": "",
+                            "append": ""
+                        },
+                        {
+                            "key": "field_chi_nl_btn_url",
+                            "label": "Link Bottone",
+                            "name": "btn_url",
+                            "aria-label": "",
+                            "type": "url",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": false,
+                            "wrapper": {
+                                "width": "50",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "",
+                            "placeholder": ""
+                        },
+                        {
+                            "key": "field_chi_nl_bg_color",
+                            "label": "Colore Sfondo",
+                            "name": "bg_color",
+                            "aria-label": "",
+                            "type": "color_picker",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": false,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "#9EA6A9",
+                            "enable_opacity": false,
+                            "custom_palette_source": "",
+                            "palette_colors": "",
+                            "show_color_wheel": true,
+                            "return_format": "string"
+                        }
+                    ],
+                    "min": "",
+                    "max": ""
+                },
+                "layout_chi_hero_home_page": {
+                    "key": "layout_chi_hero_home_page",
+                    "name": "hero_home_page",
+                    "label": "Hero Home Page",
+                    "display": "block",
+                    "sub_fields": [
+                        {
+                            "key": "field_chi_hero_hp_enabled",
+                            "label": "Abilita",
+                            "name": "enabled",
+                            "aria-label": "",
+                            "type": "true_false",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "message": "",
+                            "default_value": 1,
+                            "ui": 1,
+                            "ui_on_text": "",
+                            "ui_off_text": ""
+                        },
+                        {
+                            "key": "field_chi_hero_hp_title",
+                            "label": "Titolo",
+                            "name": "title",
+                            "aria-label": "",
+                            "type": "text",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "",
+                            "maxlength": "",
+                            "placeholder": "",
+                            "prepend": "",
+                            "append": ""
+                        },
+                        {
+                            "key": "field_chi_hero_hp_subtitle",
+                            "label": "Sottotitolo",
+                            "name": "subtitle",
+                            "aria-label": "",
+                            "type": "textarea",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "",
+                            "maxlength": "",
+                            "rows": 3,
+                            "placeholder": "",
+                            "new_lines": ""
+                        },
+                        {
+                            "key": "field_chi_hero_hp_newsletter_title",
+                            "label": "Testo Newsletter (Titolo)",
+                            "name": "newsletter_title",
+                            "aria-label": "",
+                            "type": "text",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "",
+                            "maxlength": "",
+                            "placeholder": "",
+                            "prepend": "",
+                            "append": ""
+                        },
+                        {
+                            "key": "field_chi_hero_hp_newsletter_subtitle",
+                            "label": "Testo Newsletter (Sottotitolo)",
+                            "name": "newsletter_subtitle",
+                            "aria-label": "",
+                            "type": "text",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "",
+                            "maxlength": "",
+                            "placeholder": "",
+                            "prepend": "",
+                            "append": ""
+                        },
+                        {
+                            "key": "field_chi_hero_hp_btn_text",
+                            "label": "Testo Bottone",
+                            "name": "btn_text",
+                            "aria-label": "",
+                            "type": "text",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "",
+                            "maxlength": "",
+                            "placeholder": "",
+                            "prepend": "",
+                            "append": ""
+                        },
+                        {
+                            "key": "field_chi_hero_hp_btn_url",
+                            "label": "Link Bottone",
+                            "name": "btn_url",
+                            "aria-label": "",
+                            "type": "text",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "",
+                            "maxlength": "",
+                            "placeholder": "",
+                            "prepend": "",
+                            "append": ""
+                        },
+                        {
+                            "key": "field_chi_hero_hp_fg_image",
+                            "label": "Immagine Primo Piano",
+                            "name": "foreground_image",
+                            "aria-label": "",
+                            "type": "image",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "return_format": "url",
+                            "library": "all",
+                            "min_width": "",
+                            "min_height": "",
+                            "min_size": "",
+                            "max_width": "",
+                            "max_height": "",
+                            "max_size": "",
+                            "mime_types": "",
+                            "preview_size": "medium"
+                        },
+                        {
+                            "key": "field_chi_hero_hp_bg_image",
+                            "label": "Immagine Sfondo",
+                            "name": "background_image",
+                            "aria-label": "",
+                            "type": "image",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "return_format": "url",
+                            "library": "all",
+                            "min_width": "",
+                            "min_height": "",
+                            "min_size": "",
+                            "max_width": "",
+                            "max_height": "",
+                            "max_size": "",
+                            "mime_types": "",
+                            "preview_size": "medium"
+                        }
+                    ],
+                    "min": "",
+                    "max": ""
+                },
+                "layout_chi_trust_strip": {
+                    "key": "layout_chi_trust_strip",
+                    "name": "trust_strip",
+                    "label": "Trust Strip",
+                    "display": "block",
+                    "sub_fields": [
+                        {
+                            "key": "field_chi_ts_enabled",
+                            "label": "Enable Trust Strip",
+                            "name": "enabled",
+                            "aria-label": "",
+                            "type": "true_false",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "message": "",
+                            "default_value": 1,
+                            "ui": 1,
+                            "ui_on_text": "",
+                            "ui_off_text": ""
+                        }
+                    ],
+                    "min": "",
+                    "max": "1"
+                },
+                "layout_chi_most_requested_products": {
+                    "key": "layout_chi_most_requested_products",
+                    "name": "most_requested_products",
+                    "label": "Prodotti Più Richiesti",
+                    "display": "block",
+                    "sub_fields": [
+                        {
+                            "key": "field_chi_mrp_enabled",
+                            "label": "Enable Most Requested Products",
+                            "name": "enabled",
+                            "aria-label": "",
+                            "type": "true_false",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "message": "",
+                            "default_value": 1,
+                            "ui": 1,
+                            "ui_on_text": "",
+                            "ui_off_text": ""
+                        }
+                    ],
+                    "min": "",
+                    "max": "1"
                 }
             },
             "button_label": "Aggiungi Sezione",
@@ -1206,7 +1761,7 @@
             {
                 "param": "page_template",
                 "operator": "==",
-                "value": "page-chi-siamo.php"
+                "value": "page-albalu.php"
             }
         ]
     ],
@@ -1220,5 +1775,5 @@
     "description": "Sezioni flessibili per la pagina Chi Siamo",
     "show_in_rest": 0,
     "display_title": "",
-    "modified": 1772974454
+    "modified": 1772993985
 }

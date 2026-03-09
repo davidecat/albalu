@@ -58,3 +58,4 @@ wp-config.php
 *.zip
 *.tar.gz
 *.rar
+db_dumps/
