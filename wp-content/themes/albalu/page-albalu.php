@@ -7,11 +7,13 @@ get_header();
 
 <div id="content" class="site-content p-0">
 
+    <?php if ( ! is_front_page() ) : ?>
     <section class="page-title-bar bg-albalu-warm py-4 mb-4">
         <div class="container">
             <?php the_title('<h1 class="fs-2 fw-normal mb-0">', '</h1>'); ?>
         </div>
     </section>
+    <?php endif; ?>
 
     <div id="primary" class="content-area">
         <main id="main" class="site-main">
@@ -560,9 +562,10 @@ get_header();
 
                     <?php endif; ?>
 
+
                 <?php endwhile; ?>
             <?php endif; ?>
-
+<?php echo do_shortcode('[trustindex no-registration=google] '); ?>
         </main>
     </div>
 </div>
