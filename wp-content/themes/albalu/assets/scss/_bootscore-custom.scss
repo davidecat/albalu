@@ -402,7 +402,7 @@ h2.woocommerce-loop-product__title {
     font-weight: 500;
 }
 
-.single-product .woocommerce-Price-amount {
+.single-product .pewc-main-price .woocommerce-Price-amount {
     font-size: 2rem !important;
 }
 
@@ -874,6 +874,47 @@ h2.woocommerce-loop-product__title {
 
 .woocommerce-product-gallery {
   margin-bottom: 0 !important;
+  position: relative;
+}
+
+// Hide gallery magnifier/zoom trigger
+.woocommerce-product-gallery__trigger {
+  display: none !important;
+}
+
+// Toggle button: customization vs original product image
+.pewc-image-toggle {
+  position: absolute;
+  top: 30px;
+  right: 10px;
+  z-index: 10;
+  font-size: 0.8rem;
+  white-space: nowrap;
+}
+@media (max-width: 991.98px) {
+  .pewc-image-toggle {
+    top: auto;
+    bottom: 10px;
+    right: 10px;
+  }
+}
+
+// Hide PEWC layers when toggled to original product image
+.pewc-image-layer.pewc-layer-hidden {
+  display: none !important;
+}
+
+// Mobile: sticky product gallery
+@media (max-width: 991.98px) {
+  .woocommerce-product-gallery ol.flex-control-thumbs {
+    display: none !important;
+  }
+}
+
+@media (min-width: 992px) {
+  .single-product div.product {
+    position: relative;
+  }
 }
 
 .woocommerce-product-gallery ol.flex-control-thumbs {
@@ -882,6 +923,8 @@ h2.woocommerce-loop-product__title {
   display: flex;
   flex-wrap: nowrap;
   gap: 10px;
+  list-style: none;
+  padding-left: 0;
 }
 
 .woocommerce-product-gallery ol.flex-control-thumbs > li {
@@ -1227,5 +1270,30 @@ ul.pewc-product-extra-groups > li > .pewc-item-field-wrapper > .pewc-description
 
 .woocommerce-variation-add-to-cart.variations_button {
   display: block;
+}
+
+// Related products swiper: add inner padding so slide borders aren't clipped
+.related.products .product-slider .swiper {
+  padding: 0 1px;
+}
+
+// Swiper: square bullets with orange active state
+.product-slider .swiper-pagination-bullet {
+  border-radius: 0;
+}
+
+.product-slider .swiper-pagination-bullet-active {
+  background: #F3915C;
+}
+
+.product-slider .swiper-slide .card-body {
+  padding: 0;
+}
+
+.albalu-product-description, .term-description  {
+    color: #3f494f;
+    font-size: 15px;
+    margin-bottom: 1.5rem;
+    line-height: 1.8rem;
 }
 

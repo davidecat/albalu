@@ -80,6 +80,108 @@ jQuery(function ($) {
         }
     });
 
+    // Re-initialize product swipers with custom breakpoints (2/3/4)
+    $('.product-slider .cards').each(function (i) {
+        var el = $(this);
+        var slideCount = el.find('.swiper-slide').length;
+        var container = el.closest('.product-slider');
+        new Swiper(this, {
+            slidesPerView: 2,
+            spaceBetween: 20,
+            loop: slideCount > 4,
+            grabCursor: true,
+            pagination: {
+                el: container.find('.swiper-pagination')[0],
+                clickable: true,
+            },
+            navigation: {
+                nextEl: container.find('.swiper-button-next')[0],
+                prevEl: container.find('.swiper-button-prev')[0],
+            },
+            breakpoints: {
+                768: {
+                    slidesPerView: 3,
+                },
+                992: {
+                    slidesPerView: 4,
+                },
+            }
+        });
+    });
+
+    // Sticky product gallery on desktop
+    if (window.innerWidth >= 992 && $('body').hasClass('single-product')) {
+        var $gallery = $('.woocommerce-product-gallery');
+        var $summary = $('.summary.entry-summary');
+
+        if ($gallery.length && $summary.length) {
+            var galleryWidth = $gallery.outerWidth();
+            var galleryLeft = $gallery.offset().left;
+            var galleryTop = $gallery.offset().top;
+            var summaryBottom = $summary.offset().top + $summary.outerHeight();
+            var galleryHeight = $gallery.outerHeight();
+            var topOffset = 20;
+
+            $(window).on('scroll resize', function () {
+                var scrollTop = $(window).scrollTop();
+                summaryBottom = $summary.offset().top + $summary.outerHeight();
+                galleryHeight = $gallery.outerHeight();
+
+                if (scrollTop + topOffset > galleryTop && scrollTop + topOffset + galleryHeight < summaryBottom) {
+                    $gallery.css({
+                        position: 'fixed',
+                        top: topOffset + 'px',
+                        width: galleryWidth + 'px',
+                        left: galleryLeft + 'px'
+                    });
+                } else if (scrollTop + topOffset + galleryHeight >= summaryBottom) {
+                    $gallery.css({
+                        position: 'absolute',
+                        top: (summaryBottom - galleryHeight - $gallery.parent().offset().top) + 'px',
+                        width: galleryWidth + 'px',
+                        left: ''
+                    });
+                } else {
+                    $gallery.css({
+                        position: '',
+                        top: '',
+                        width: '',
+                        left: ''
+                    });
+                }
+            });
+        }
+    }
+
+    // Mobile sticky product gallery – use position:sticky + fix ancestors
+    if (window.innerWidth < 992 && $('body').hasClass('single-product')) {
+        var $mGallery = $('.woocommerce-product-gallery');
+        if ($mGallery.length) {
+            // Force all ancestors to have overflow:visible so sticky works
+            $mGallery.parents().each(function () {
+                var el = $(this);
+                var tag = this.tagName.toLowerCase();
+                if (tag === 'html' || tag === 'body') return;
+                var ov = el.css('overflow');
+                var ovX = el.css('overflow-x');
+                var ovY = el.css('overflow-y');
+                if (ov !== 'visible' || ovX !== 'visible' || ovY !== 'visible') {
+                    el.css({
+                        'overflow': 'visible',
+                        'overflow-x': 'visible',
+                        'overflow-y': 'visible'
+                    });
+                }
+            });
+            $mGallery.css({
+                'position': 'sticky',
+                'top': '0',
+                'z-index': '1000',
+                'background': '#fff'
+            });
+        }
+    }
+
     // Testimonial read more / read less
     $('.testimonial-read-more').on('click', function (e) {
         e.preventDefault();

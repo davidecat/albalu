@@ -17,7 +17,7 @@
                 "id": ""
             },
             "layouts": {
-                "layout_hero": {
+                "layout_chi_hero": {
                     "key": "layout_chi_hero",
                     "name": "hero",
                     "label": "Hero",
@@ -153,7 +153,7 @@
                     "min": "",
                     "max": "1"
                 },
-                "layout_text_block": {
+                "layout_chi_text_block": {
                     "key": "layout_chi_text_block",
                     "name": "text_block",
                     "label": "Blocco Testo",
@@ -334,7 +334,7 @@
                     "min": "",
                     "max": ""
                 },
-                "layout_text_with_image": {
+                "layout_chi_text_image": {
                     "key": "layout_chi_text_image",
                     "name": "text_with_image",
                     "label": "Testo con Immagine",
@@ -563,7 +563,7 @@
                     "min": "",
                     "max": ""
                 },
-                "layout_contact_info": {
+                "layout_chi_contact": {
                     "key": "layout_chi_contact",
                     "name": "contact_info",
                     "label": "Informazioni di Contatto",
@@ -751,7 +751,7 @@
                     "min": "",
                     "max": "1"
                 },
-                "layout_testimonials": {
+                "layout_chi_testimonials": {
                     "key": "layout_chi_testimonials",
                     "name": "testimonials",
                     "label": "Testimonianze",
@@ -818,118 +818,6 @@
                             "delay": 0
                         },
                         {
-                            "key": "field_chi_test_reviews",
-                            "label": "Recensioni",
-                            "name": "reviews",
-                            "aria-label": "",
-                            "type": "repeater",
-                            "instructions": "",
-                            "required": 0,
-                            "conditional_logic": false,
-                            "wrapper": {
-                                "width": "",
-                                "class": "",
-                                "id": ""
-                            },
-                            "layout": "block",
-                            "button_label": "Aggiungi recensione",
-                            "min": 0,
-                            "max": 0,
-                            "rows_per_page": 20,
-                            "collapsed": "",
-                            "sub_fields": [
-                                {
-                                    "key": "field_chi_test_rev_text",
-                                    "label": "Testo",
-                                    "name": "text",
-                                    "aria-label": "",
-                                    "type": "textarea",
-                                    "instructions": "",
-                                    "required": 0,
-                                    "conditional_logic": false,
-                                    "wrapper": {
-                                        "width": "",
-                                        "class": "",
-                                        "id": ""
-                                    },
-                                    "rows": 3,
-                                    "parent_repeater": "field_chi_test_reviews",
-                                    "default_value": "",
-                                    "new_lines": "",
-                                    "maxlength": "",
-                                    "placeholder": ""
-                                },
-                                {
-                                    "key": "field_chi_test_rev_name",
-                                    "label": "Nome",
-                                    "name": "name",
-                                    "aria-label": "",
-                                    "type": "text",
-                                    "instructions": "",
-                                    "required": 0,
-                                    "conditional_logic": false,
-                                    "wrapper": {
-                                        "width": "33",
-                                        "class": "",
-                                        "id": ""
-                                    },
-                                    "parent_repeater": "field_chi_test_reviews",
-                                    "default_value": "",
-                                    "maxlength": "",
-                                    "placeholder": "",
-                                    "prepend": "",
-                                    "append": ""
-                                },
-                                {
-                                    "key": "field_chi_test_rev_date",
-                                    "label": "Data",
-                                    "name": "date",
-                                    "aria-label": "",
-                                    "type": "text",
-                                    "instructions": "",
-                                    "required": 0,
-                                    "conditional_logic": false,
-                                    "wrapper": {
-                                        "width": "33",
-                                        "class": "",
-                                        "id": ""
-                                    },
-                                    "parent_repeater": "field_chi_test_reviews",
-                                    "default_value": "",
-                                    "maxlength": "",
-                                    "placeholder": "",
-                                    "prepend": "",
-                                    "append": ""
-                                },
-                                {
-                                    "key": "field_chi_test_rev_avatar",
-                                    "label": "Avatar",
-                                    "name": "avatar",
-                                    "aria-label": "",
-                                    "type": "image",
-                                    "instructions": "",
-                                    "required": 0,
-                                    "conditional_logic": false,
-                                    "wrapper": {
-                                        "width": "33",
-                                        "class": "",
-                                        "id": ""
-                                    },
-                                    "return_format": "url",
-                                    "library": "all",
-                                    "preview_size": "thumbnail",
-                                    "parent_repeater": "field_chi_test_reviews",
-                                    "min_width": 0,
-                                    "min_height": 0,
-                                    "min_size": 0,
-                                    "max_width": 0,
-                                    "max_height": 0,
-                                    "max_size": 0,
-                                    "mime_types": ""
-                                }
-                            ]
-                        },
-                        {
                             "key": "field_chi_test_bg_color",
                             "label": "Colore di sfondo",
                             "name": "bg_color",
@@ -954,7 +842,7 @@
                     "min": "",
                     "max": "1"
                 },
-                "layout_categories_grid": {
+                "layout_chi_categories": {
                     "key": "layout_chi_categories",
                     "name": "categories_grid",
                     "label": "Griglia Categorie",
@@ -1120,7 +1008,7 @@
                     "min": "",
                     "max": "1"
                 },
-                "layout_features": {
+                "layout_chi_features": {
                     "key": "layout_chi_features",
                     "name": "features",
                     "label": "Caratteristiche",
@@ -1132,9 +1020,9 @@
                             "name": "items",
                             "aria-label": "",
                             "type": "repeater",
-                            "instructions": "",
+                            "instructions": "Se il blocco e' salvato vuoto prende i 3 box predefiniti dalla pagina Chi Siamo",
                             "required": 0,
-                            "conditional_logic": false,
+                            "conditional_logic": 0,
                             "wrapper": {
                                 "width": "",
                                 "class": "",
@@ -1143,9 +1031,9 @@
                             "layout": "block",
                             "min": 0,
                             "max": 4,
+                            "collapsed": "",
                             "button_label": "Aggiungi caratteristica",
                             "rows_per_page": 20,
-                            "collapsed": "",
                             "sub_fields": [
                                 {
                                     "key": "field_chi_feat_icon",
@@ -1741,6 +1629,26 @@
                             "ui": 1,
                             "ui_on_text": "",
                             "ui_off_text": ""
+                        },
+                        {
+                            "key": "field_chi_ts_reviews_text",
+                            "label": "Testo recensioni",
+                            "name": "reviews_text",
+                            "aria-label": "",
+                            "type": "text",
+                            "instructions": "Es: +800 recensioni",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "50",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "+800 recensioni",
+                            "maxlength": "",
+                            "placeholder": "+800 recensioni",
+                            "prepend": "",
+                            "append": ""
                         }
                     ],
                     "min": "",
@@ -1752,6 +1660,63 @@
                     "label": "Prodotti Più Richiesti",
                     "display": "block",
                     "sub_fields": [
+                        {
+                            "key": "field_chi_mrp_title",
+                            "label": "Titolo",
+                            "name": "title",
+                            "aria-label": "",
+                            "type": "wysiwyg",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "",
+                            "tabs": "all",
+                            "toolbar": "basic",
+                            "media_upload": 0,
+                            "delay": 0
+                        },
+                        {
+                            "key": "field_chi_mrp_btn_text",
+                            "label": "Testo Bottone",
+                            "name": "btn_text",
+                            "aria-label": "",
+                            "type": "text",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "50",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "",
+                            "maxlength": "",
+                            "placeholder": "",
+                            "prepend": "",
+                            "append": ""
+                        },
+                        {
+                            "key": "field_chi_mrp_btn_url",
+                            "label": "Link Bottone",
+                            "name": "btn_url",
+                            "aria-label": "",
+                            "type": "url",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "50",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "",
+                            "placeholder": ""
+                        },
                         {
                             "key": "field_chi_mrp_enabled",
                             "label": "Enable Most Requested Products",
@@ -1771,15 +1736,111 @@
                             "ui": 1,
                             "ui_on_text": "",
                             "ui_off_text": ""
+                        },
+                        {
+                            "key": "field_chi_mrp_source",
+                            "label": "Sorgente prodotti",
+                            "name": "source",
+                            "aria-label": "",
+                            "type": "radio",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "choices": {
+                                "categoria": "Categoria",
+                                "scelta_libera": "Scelta libera"
+                            },
+                            "default_value": "categoria",
+                            "return_format": "value",
+                            "allow_null": 0,
+                            "other_choice": 0,
+                            "layout": "horizontal",
+                            "save_other_choice": 0
+                        },
+                        {
+                            "key": "field_chi_mrp_category",
+                            "label": "Categoria",
+                            "name": "category",
+                            "aria-label": "",
+                            "type": "taxonomy",
+                            "instructions": "Seleziona la categoria di prodotti da mostrare",
+                            "required": 0,
+                            "conditional_logic": [
+                                [
+                                    {
+                                        "field": "field_chi_mrp_source",
+                                        "operator": "==",
+                                        "value": "categoria"
+                                    }
+                                ]
+                            ],
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "taxonomy": "product_cat",
+                            "add_term": 0,
+                            "save_terms": 0,
+                            "load_terms": 0,
+                            "return_format": "id",
+                            "field_type": "select",
+                            "allow_null": 1,
+                            "multiple": 0,
+                            "bidirectional_target": []
+                        },
+                        {
+                            "key": "field_chi_mrp_products",
+                            "label": "Prodotti",
+                            "name": "products",
+                            "aria-label": "",
+                            "type": "relationship",
+                            "instructions": "Seleziona i prodotti da mostrare",
+                            "required": 0,
+                            "conditional_logic": [
+                                [
+                                    {
+                                        "field": "field_chi_mrp_source",
+                                        "operator": "==",
+                                        "value": "scelta_libera"
+                                    }
+                                ]
+                            ],
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "post_type": [
+                                "product"
+                            ],
+                            "post_status": [
+                                "publish"
+                            ],
+                            "taxonomy": [],
+                            "filters": [
+                                "search",
+                                "taxonomy"
+                            ],
+                            "return_format": "id",
+                            "min": "",
+                            "max": "",
+                            "elements": "",
+                            "bidirectional_target": []
                         }
                     ],
                     "min": "",
                     "max": "1"
                 }
             },
-            "button_label": "Aggiungi Sezione",
             "min": "",
-            "max": ""
+            "max": "",
+            "button_label": "Aggiungi Sezione"
         }
     ],
     "location": [
@@ -1801,5 +1862,5 @@
     "description": "Sezioni flessibili per la pagina Chi Siamo",
     "show_in_rest": 0,
     "display_title": "",
-    "modified": 1773044217
+    "modified": 1773167861
 }

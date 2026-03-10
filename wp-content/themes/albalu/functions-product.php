@@ -9,6 +9,12 @@
 // Exit if accessed directly
 defined('ABSPATH') || exit;
 
+// Show 12 related products
+add_filter( 'woocommerce_output_related_products_args', function( $args ) {
+	$args['posts_per_page'] = 12;
+	return $args;
+} );
+
 
 /**
  * 1. Remove All Tabs & Render Separately
@@ -68,7 +74,7 @@ HTML;
     echo <<<HTML
 <section class="albalu-product-description-section py-4" style="width: 100vw; max-width: 100vw; margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); clear: both;">
   <div class="container">
-    <h2 class="h2 mb-4">Descrizione</h2>
+    <h2 class="h2 mb-4 border-bottom py-2">Descrizione</h2>
     <div class="albalu-product-description">
       {$GLOBALS['wp_embed']->autoembed( apply_filters( 'the_content', $content ) )}
     </div>
@@ -135,7 +141,7 @@ add_filter('wc_add_to_cart_message_html', 'custom_add_to_cart_message');
 
 
 // Render Global FAQ Section (Outside Tabs)
-add_action( 'woocommerce_after_single_product', 'albalu_render_global_faq_section', 20 );
+//add_action( 'woocommerce_after_single_product', 'albalu_render_global_faq_section', 20 );
 
 function albalu_render_global_faq_section() {    
     // SAFETY CHECK: If ACF function is missing, stop immediately to prevent crash

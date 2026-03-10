@@ -1,14 +1,6 @@
 <?php
 /**
- * Related Products
- *
- * This template can be overridden by copying it to yourtheme/woocommerce/single-product/related.php.
- *
- * HOWEVER, on occasion WooCommerce will need to update template files and you
- * (the theme developer) will need to copy the new files to your theme to
- * maintain compatibility. We try to do this as little as possible, but it does
- * happen. When this occurs the version of the template file will be bumped and
- * the readme will list any important changes.
+ * Related Products - Swiper layout (matching "Prodotti più richiesti")
  *
  * @see         https://woocommerce.com/document/template-structure/
  * @package     WooCommerce\Templates
@@ -20,12 +12,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 if ( $related_products ) :
-	/**
-	 * Ensure all images of related products are lazy loaded by increasing the
-	 * current media count to WordPress's lazy loading threshold if needed.
-	 * Because wp_increase_content_media_count() is a private function, we
-	 * check for its existence before use.
-	 */
 	if ( function_exists( 'wp_increase_content_media_count' ) ) {
 		$content_media_count = wp_increase_content_media_count( 0 );
 		if ( $content_media_count < wp_omit_loading_attr_threshold() ) {
@@ -36,28 +22,50 @@ if ( $related_products ) :
 
 	<section class="related products">
 
-		<?php
-		$heading = apply_filters( 'woocommerce_product_related_products_heading', __( 'Related products', 'woocommerce' ) );
+		<h2>Potrebbe interessarti anche: </h2>
 
-		if ( $heading ) :
-			?>
-			<h2><?php echo esc_html( $heading ); ?></h2>
-		<?php endif; ?>
-		<?php woocommerce_product_loop_start(); ?>
+		<!-- Swiper -->
+		<div class="px-2 position-relative product-slider woocommerce">
 
-			<?php foreach ( $related_products as $related_product ) : ?>
+			<div class="cards swiper-container swiper position-static">
 
-					<?php
-					$post_object = get_post( $related_product->get_id() );
+				<div class="swiper-wrapper">
 
-					setup_postdata( $GLOBALS['post'] = $post_object ); // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited, Squiz.PHP.DisallowMultipleAssignments.Found
+					<?php foreach ( $related_products as $related_product ) : ?>
 
-					wc_get_template_part( 'content', 'product' );
-					?>
+						<?php
+						$post_object = get_post( $related_product->get_id() );
+						setup_postdata( $GLOBALS['post'] = $post_object ); // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited, Squiz.PHP.DisallowMultipleAssignments.Found
+						?>
 
-			<?php endforeach; ?>
+						<div <?php wc_product_class( 'swiper-slide card h-auto mb-5 d-flex px-4 text-left product-card' ); ?>>
+							<?php
+							do_action( 'woocommerce_before_shop_loop_item' );
+							do_action( 'woocommerce_before_shop_loop_item_title' );
+							?>
+							<div class="card-body d-flex flex-column">
+								<?php
+								do_action( 'woocommerce_shop_loop_item_title' );
+								do_action( 'woocommerce_after_shop_loop_item_title' );
+								do_action( 'woocommerce_after_shop_loop_item' );
+								?>
+							</div>
+						</div>
 
-		<?php woocommerce_product_loop_end(); ?>
+					<?php endforeach; ?>
+
+				</div> <!-- .swiper-wrapper -->
+
+				<!-- Add Pagination -->
+				<div class="swiper-pagination"></div>
+				<!-- Add Arrows -->
+				<div class="swiper-button-next fw-bold end-0" style="color: #F3915C"></div>
+				<div class="swiper-button-prev fw-bold start-0" style="color: #F3915C"></div>
+
+			</div><!-- swiper-container -->
+
+		</div><!-- px-5 position-relative -->
+		<!-- Swiper End -->
 
 	</section>
 	<?php

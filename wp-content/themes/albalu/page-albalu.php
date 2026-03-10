@@ -194,7 +194,6 @@ get_header();
                         $top_title   = get_sub_field( 'top_title' );
                         $title       = get_sub_field( 'title' );
                         $subtitle    = get_sub_field( 'subtitle' );
-                        $reviews     = get_sub_field( 'reviews' );
                         $bg_color    = get_sub_field( 'bg_color' ) ?: '#eae3e0';
                     ?>
                         <section class="testimonials-section py-5" style="background-color:<?php echo esc_attr( $bg_color ); ?>;">
@@ -209,46 +208,7 @@ get_header();
                                     <div class="lead mb-5 border-bottom fw-medium fs-5 text-center"><?php echo wp_kses_post( $subtitle ); ?></div>
                                 <?php endif; ?>
 
-                                <?php if ( ! empty( $reviews ) ) : ?>
-                                    <div class="testimonial-swiper-wrap position-relative mt-4">
-                                        <div class="swiper testimonial-swiper">
-                                            <div class="swiper-wrapper">
-                                                <?php foreach ( $reviews as $review ) : ?>
-                                                    <div class="swiper-slide">
-                                                        <div class="bg-white rounded-3 p-4 shadow-sm h-100 position-relative">
-                                                            <img src="https://cdn.trustindex.io/assets/platform/Google/icon.svg" alt="Google" width="20" height="20" class="position-absolute" style="top:12px;right:12px;">
-                                                            <div class="mb-2 text-warning">
-                                                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-                                                            </div>
-                                                            <?php if ( ! empty( $review['text'] ) ) : ?>
-                                                                <div class="testimonial-text-wrap">
-                                                                    <p class="testimonial-text testimonial-clamped"><?php echo esc_html( $review['text'] ); ?></p>
-                                                                    <a href="#" class="testimonial-read-more small fw-medium">Leggi di più</a>
-                                                                    <a href="#" class="testimonial-read-less small fw-medium d-none">Nascondi</a>
-                                                                </div>
-                                                            <?php endif; ?>
-                                                            <div class="d-flex align-items-center mt-3">
-                                                                <?php if ( ! empty( $review['avatar'] ) ) : ?>
-                                                                    <img src="<?php echo esc_url( $review['avatar'] ); ?>" alt="<?php echo esc_attr( $review['name'] ?? '' ); ?>" class="rounded-circle reviewer-avatar me-3">
-                                                                <?php endif; ?>
-                                                                <div>
-                                                                    <?php if ( ! empty( $review['name'] ) ) : ?>
-                                                                        <h6 class="reviewer-name mb-0"><?php echo esc_html( $review['name'] ); ?></h6>
-                                                                    <?php endif; ?>
-                                                                    <?php if ( ! empty( $review['date'] ) ) : ?>
-                                                                        <small class="reviewer-date text-muted"><?php echo esc_html( $review['date'] ); ?></small>
-                                                                    <?php endif; ?>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                <?php endforeach; ?>
-                                            </div>
-                                        </div>
-                                        <div class="swiper-button-prev"></div>
-                                        <div class="swiper-button-next"></div>
-                                    </div>
-                                <?php endif; ?>
+                                  <?php echo do_shortcode('[trustindex no-registration=google] '); ?>
                             </div>
                         </section>
 
@@ -259,6 +219,17 @@ get_header();
                         $subtitle = get_sub_field( 'subtitle' );
                         $items    = get_sub_field( 'items' );
                         $bg_color = get_sub_field( 'bg_color' ) ?: '#ffffff';
+
+                        // Fallback to Chi Siamo data if empty
+                        if ( empty( $title ) && empty( $items ) ) {
+                            $defaults = albalu_get_default_categories_grid();
+                            if ( ! empty( $defaults ) ) {
+                                $title    = $defaults['title'] ?? '';
+                                $subtitle = $defaults['subtitle'] ?? '';
+                                $items    = $defaults['items'] ?? array();
+                                $bg_color = $defaults['bg_color'] ?: '#ffffff';
+                            }
+                        }
                     ?>
                         <section class="chi-categories py-5" style="background-color:<?php echo esc_attr( $bg_color ); ?>;">
                             <div class="container">
@@ -309,6 +280,9 @@ get_header();
                     // --- FEATURES ---
                     elseif ( $layout === 'features' ) :
                         $items    = get_sub_field( 'items' );
+                        if ( empty( $items ) ) {
+                            $items = albalu_get_default_features();
+                        }
                         $bg_color = get_sub_field( 'bg_color' ) ?: '#f8f9fa';
                     ?>
                         <section class="features-section py-5" style="background-color:<?php echo esc_attr( $bg_color ); ?>;">
@@ -509,13 +483,35 @@ get_header();
                     <?php
                     // --- TRUST STRIP ---
                     elseif ( $layout === 'trust_strip' ) :
-                        $ts_enabled = get_sub_field( 'enabled' );
+                        $ts_enabled      = get_sub_field( 'enabled' );
+                        $ts_reviews_text = get_sub_field( 'reviews_text' ) ?: '+800 recensioni';
                     ?>
                         <?php if ( $ts_enabled ) : ?>
-                        <section class="bg-albalu-warm">
+                        <section class="trust-strip mt-3 py-2 bg-albalu-warm">
                             <div class="container">
-                                <?php echo do_shortcode('[trustindex no-registration=google] '); ?>
-                            </div>
+                                <div class="row align-items-center">
+                                    <div class="col-lg-7 mb-2 mb-lg-0 text-center text-lg-start">
+                                         <p class="mb-0">
+                                            Produciamo <strong>Bomboniere ed Articoli da regalo</strong> 100% artigianali e Made in Italy dal 1991
+                                         </p>
+                                    </div>
+                                    <div class="col-lg-5 text-center text-lg-end">
+                                        <div class="d-inline-flex align-items-center justify-content-lg-end justify-content-center">
+                                            <div class="bg-white rounded-circle d-flex align-items-center justify-content-center shadow-sm me-3 google-logo-circle">
+                                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 48 48"><defs><path id="a" d="M44.5 20H24v8.5h11.8C34.7 33.9 30.1 37 24 37c-7.2 0-13-5.8-13-13s5.8-13 13-13c3.1 0 5.9 1.1 8.1 2.9l6.4-6.4C34.6 4.1 29.6 2 24 2 11.8 2 2 11.8 2 24s9.8 22 22 22c11 0 21-8 21-22 0-1.3-.2-2.7-.5-4z"></path></defs><clipPath id="b"><use xlink:href="#a"></use></clipPath><path clip-path="url(#b)" fill="#FBBC05" d="M0 37V11l17 13z"></path><path clip-path="url(#b)" fill="#EA4335" d="M0 11l17 13 7-6.1L48 14V0H0z"></path><path clip-path="url(#b)" fill="#34A853" d="M0 37l30-23 7.9 1L48 0v48H0z"></path><path clip-path="url(#b)" fill="#4285F4" d="M48 48L17 24l-4-3 35-10z"></path></svg>
+                                            </div>
+                                            <div class="text-start lh-1">
+                                                <div class="mb-1">
+                                                    <span class="fw-bold trust-strip-brand">Albalù Bomboniere</span>
+                                                </div>
+                                                <div class="small text-muted fw-bold trust-strip-reviews my-2"><?php echo esc_html( $ts_reviews_text ); ?></div>
+                                                <div class="text-warning small trust-strip-stars">
+                                                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </section>
                         <?php endif; ?>
@@ -523,17 +519,39 @@ get_header();
                     <?php
                     // --- MOST REQUESTED PRODUCTS ---
                     elseif ( $layout === 'most_requested_products' ) :
-                        $mrp_enabled = get_sub_field( 'enabled' );
+                        $mrp_title    = get_sub_field( 'title' );
+                        $mrp_btn_text = get_sub_field( 'btn_text' );
+                        $mrp_btn_url  = get_sub_field( 'btn_url' );
+                        $mrp_enabled  = get_sub_field( 'enabled' );
+                        $mrp_source   = get_sub_field( 'source' ) ?: 'categoria';
+                        $mrp_category = get_sub_field( 'category' );
+                        $mrp_products = get_sub_field( 'products' );
                     ?>
                         <?php if ( $mrp_enabled ) : ?>
                         <section class="products-section py-5 bg-white">
                             <div class="container">
                                 <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-5">
-                                    <h2 class="mb-3 mb-md-0">Le <strong>bomboniere</strong> più richieste per <strong>ogni tipo di evento</strong></h2>
-                                    <a href="/shop/" class="btn btn-primary px-4 py-2 shadow-sm">Scopri il catalogo <i class="fas fa-arrow-right ms-2"></i></a>
+                                    <?php if ( $mrp_title ) : ?>
+                                        <h2 class="mb-3 mb-md-0"><?php echo wp_kses_post( $mrp_title ); ?></h2>
+                                    <?php endif; ?>
+                                    <?php if ( $mrp_btn_text && $mrp_btn_url ) : ?>
+                                        <a href="<?php echo esc_url( $mrp_btn_url ); ?>" class="btn btn-primary px-4 py-2 shadow-sm"><?php echo esc_html( $mrp_btn_text ); ?> <i class="fas fa-arrow-right ms-2"></i></a>
+                                    <?php endif; ?>
                                 </div>
                                 <div class="staging-product-grid">
-                                    <?php echo do_shortcode('[bs-swiper-card-product order="ASC" orderby="popularity" posts="12"]'); ?>
+                                    <?php
+                                    if ( $mrp_source === 'scelta_libera' && ! empty( $mrp_products ) ) :
+                                        $product_ids = implode( ',', array_map( 'intval', $mrp_products ) );
+                                        echo do_shortcode( '[bs-swiper-card-product id="' . $product_ids . '"]' );
+                                    elseif ( $mrp_source === 'categoria' && $mrp_category ) :
+                                        $term = get_term( $mrp_category, 'product_cat' );
+                                        if ( $term && ! is_wp_error( $term ) ) :
+                                            echo do_shortcode( '[bs-swiper-card-product category="' . esc_attr( $term->slug ) . '" orderby="date" order="DESC" posts="12"]' );
+                                        endif;
+                                    else :
+                                        echo do_shortcode( '[bs-swiper-card-product order="ASC" orderby="popularity" posts="12"]' );
+                                    endif;
+                                    ?>
                                 </div>
                             </div>
                         </section>

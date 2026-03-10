@@ -113,7 +113,7 @@ function bootscore_product_slider($atts) {
 
 
     <!-- Swiper -->
-    <div class="px-5 position-relative product-slider woocommerce">
+    <div class="px-2 position-relative product-slider woocommerce">
 
       <div class="cards swiper-container swiper position-static">
 
@@ -121,7 +121,7 @@ function bootscore_product_slider($atts) {
 
           <?php while ($query->have_posts()) : $query->the_post(); ?>
 
-            <div <?php wc_product_class('swiper-slide card h-auto mb-5 d-flex p-4 text-left product-card'); ?>>
+            <div <?php wc_product_class('swiper-slide card h-auto mb-5 d-flex px-4 text-left product-card'); ?>>
               <?php
               /**
                * Hook: woocommerce_before_shop_loop_item.
