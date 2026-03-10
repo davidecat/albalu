@@ -526,7 +526,7 @@ get_header();
                     ?>
                         <?php if ( $mrp_enabled ) : ?>
                         <section class="products-section py-5 bg-white">
-                            <div class="container">
+                            <div class="container-fluid">
                                 <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-5">
                                     <h2 class="mb-3 mb-md-0">Le <strong>bomboniere</strong> più richieste per <strong>ogni tipo di evento</strong></h2>
                                     <a href="/shop/" class="btn btn-primary px-4 py-2 shadow-sm">Scopri il catalogo <i class="fas fa-arrow-right ms-2"></i></a>
