@@ -512,10 +512,12 @@ get_header();
                         $ts_enabled = get_sub_field( 'enabled' );
                     ?>
                         <?php if ( $ts_enabled ) : ?>
-                                                 
+                        <section class="bg-albalu-warm">
+                            <div class="container">
                                 <?php echo do_shortcode('[trustindex no-registration=google] '); ?>
-                        
-                        
+                            </div>
+                            </div>
+                        </section>
                         <?php endif; ?>
 
                     <?php
