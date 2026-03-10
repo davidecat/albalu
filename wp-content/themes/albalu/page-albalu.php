@@ -514,29 +514,7 @@ get_header();
                         <?php if ( $ts_enabled ) : ?>
                         <section class="trust-strip mt-3 py-2 bg-albalu-warm">
                             <div class="container">
-                                <div class="row align-items-center">
-                                    <div class="col-lg-7 mb-2 mb-lg-0 text-center text-lg-start">
-                                         <p class="mb-0">
-                                            Produciamo <strong>Bomboniere ed Articoli da regalo</strong> 100% artigianali e Made in Italy dal 1991
-                                         </p>
-                                    </div>
-                                    <div class="col-lg-5 text-center text-lg-end">
-                                        <div class="d-inline-flex align-items-center justify-content-lg-end justify-content-center">
-                                            <div class="bg-white rounded-circle d-flex align-items-center justify-content-center shadow-sm me-3 google-logo-circle">
-                                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 48 48"><defs><path id="a" d="M44.5 20H24v8.5h11.8C34.7 33.9 30.1 37 24 37c-7.2 0-13-5.8-13-13s5.8-13 13-13c3.1 0 5.9 1.1 8.1 2.9l6.4-6.4C34.6 4.1 29.6 2 24 2 11.8 2 2 11.8 2 24s9.8 22 22 22c11 0 21-8 21-22 0-1.3-.2-2.7-.5-4z"></path></defs><clipPath id="b"><use xlink:href="#a"></use></clipPath><path clip-path="url(#b)" fill="#FBBC05" d="M0 37V11l17 13z"></path><path clip-path="url(#b)" fill="#EA4335" d="M0 11l17 13 7-6.1L48 14V0H0z"></path><path clip-path="url(#b)" fill="#34A853" d="M0 37l30-23 7.9 1L48 0v48H0z"></path><path clip-path="url(#b)" fill="#4285F4" d="M48 48L17 24l-4-3 35-10z"></path></svg>
-                                            </div>
-                                            <div class="text-start lh-1">
-                                                <div class="mb-1">
-                                                    <span class="fw-bold trust-strip-brand">Albalù Bomboniere</span>
-                                                </div>
-                                                <div class="small text-muted fw-bold trust-strip-reviews my-2">+800 recensioni</div>
-                                                <div class="text-warning small trust-strip-stars">
-                                                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                <?php echo do_shortcode('[trustindex no-registration=google] '); ?>
                             </div>
                         </section>
                         <?php endif; ?>
@@ -565,7 +543,7 @@ get_header();
 
                 <?php endwhile; ?>
             <?php endif; ?>
-<?php echo do_shortcode('[trustindex no-registration=google] '); ?>
+
         </main>
     </div>
 </div>
