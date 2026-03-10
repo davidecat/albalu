@@ -512,10 +512,10 @@ get_header();
                         $ts_enabled = get_sub_field( 'enabled' );
                     ?>
                         <?php if ( $ts_enabled ) : ?>
-                        <section class="trust-strip mt-3 py-2 bg-albalu-warm">
-                            <div class="container-fluid">
+                        <section class="bg-albalu-warm">
+                           
                                 <?php echo do_shortcode('[trustindex no-registration=google] '); ?>
-                            </div>
+                        
                         </section>
                         <?php endif; ?>
 
