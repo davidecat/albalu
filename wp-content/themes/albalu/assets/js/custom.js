@@ -182,6 +182,25 @@ jQuery(function ($) {
         }
     }
 
+    // Cart: collapsible variations
+    $('.woocommerce-cart-form .product-name dl.variation').each(function () {
+        var $dl = $(this);
+        var $showBtn = $('<span class="cart-variation-toggle cart-variation-show">Vedi Dettaglio</span>');
+        var $hideBtn = $('<span class="cart-variation-toggle cart-variation-hide" style="display:none;">Nascondi Dettaglio</span>');
+        $dl.after($hideBtn).after($showBtn);
+
+        $showBtn.on('click', function () {
+            $dl.slideDown(200);
+            $(this).hide();
+            $hideBtn.show();
+        });
+        $hideBtn.on('click', function () {
+            $dl.slideUp(200);
+            $(this).hide();
+            $showBtn.show();
+        });
+    });
+
     // Testimonial read more / read less
     $('.testimonial-read-more').on('click', function (e) {
         e.preventDefault();

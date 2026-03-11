@@ -804,6 +804,51 @@ h2.woocommerce-loop-product__title {
   }
 }
 
+// Cart page title
+.woocommerce-cart .entry-title {
+  margin-bottom: 1.5rem;
+}
+
+// Cart page: larger thumbnails, narrower product name, collapsible variations
+.woocommerce-cart-form .shop_table {
+  thead th {
+    font-size: 1.3rem !important;
+    font-weight: 500 !important;
+    text-transform: uppercase !important;
+  }
+  .product-thumbnail img {
+    width: 200px;
+    max-width: 200px;
+    height: auto;
+    border: 1px solid #dee2e6;
+  }
+  .product-name {
+    max-width: 250px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    dl.variation {
+      display: none;
+      margin-top: 0.5rem;
+      dt, dd, dd p, .woocommerce-Price-amount {
+        font-size: 0.85rem !important;
+      }
+    }
+    .cart-variation-toggle {
+      font-size: 0.75rem;
+      cursor: pointer;
+      color: var(--bs-primary);
+      text-decoration: underline;
+      display: inline-block;
+      margin-top: 4px;
+    }
+  }
+}
+
 .cart-collaterals .cart_totals {
   position: sticky;
   top: 1rem;
@@ -995,10 +1040,38 @@ body.woocommerce.single-product .single_variation_wrap > .woocommerce-variation 
   margin-bottom: 20px;
 }
 
-body.woocommerce.single-product .single_variation_wrap > .woocommerce-variation > .woocommerce-variation-price > .price {
-  font-size: 20px;
-  font-weight: 600;
-  color: var(--color-cta-chiaro);
+// Hide variation price and PEWC subtotals – .pewc-main-price shows the total
+body.woocommerce.single-product .woocommerce-variation-price,
+body.woocommerce.single-product .pewc-total-field-wrapper,
+body.woocommerce.single-product .pewc-total-field,
+body.woocommerce.single-product .pewc-total-only {
+  display: none !important;
+}
+
+
+// Mini cart: stack PEWC add-on details vertically
+.widget_shopping_cart_content dl.variation,
+.mini_cart_item dl.variation,
+.woocommerce-mini-cart-item dl.variation {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  dt, dd {
+    display: block;
+    margin: 0;
+    padding: 0;
+    float: none;
+    font-size: 0.8rem;
+    .woocommerce-Price-amount {
+      font-size: 0.8rem !important;
+    }
+  }
+  dd {
+    margin-bottom: 4px;
+  }
+  dd p {
+    margin: 0;
+  }
 }
 
 body.woocommerce.single-product .single_variation_wrap > .woocommerce-variation > .woocommerce-variation-availability > p.stock {

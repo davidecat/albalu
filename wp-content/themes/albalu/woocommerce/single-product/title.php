@@ -23,5 +23,9 @@ the_title( '<h1 class="product_title entry-title">', '</h1>' );
 
 global $product;
 if ( $product && wc_product_sku_enabled() && $product->get_sku() ) : ?>
-	<p class="product-sku my-4 pb-4 border-bottom"><?php esc_html_e( 'SKU:', 'woocommerce' ); ?> <?php echo esc_html( $product->get_sku() ); ?></p>
+	<p class="product-sku my-1 pb-2 border-bottom"><?php esc_html_e( 'SKU:', 'woocommerce' ); ?> <?php echo esc_html( $product->get_sku() ); ?></p>
 <?php endif;
+
+if ( shortcode_exists( 'mostra-attributi-prodotto' ) ) {
+	echo do_shortcode( '[mostra-attributi-prodotto]' );
+}

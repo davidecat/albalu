@@ -484,7 +484,46 @@ function fix_pewc_replace_main_image() {
 }
 add_action( 'woocommerce_after_add_to_cart_form', 'fix_pewc_replace_main_image' );
 
+/* Sync PEWC grand total into .pewc-main-price and hide subtotals */
+function albalu_pewc_sync_price() {
+	if ( ! is_product() ) return;
+	?>
+	<script>
+	jQuery(function($) {
+		// Hide the PEWC subtotals breakdown
+		$('.pewc-total-field-wrapper').hide();
+
+		// Watch #pewc-grand-total for changes and sync to .pewc-main-price
+		var $grandTotal = $('#pewc-grand-total');
+		var $mainPrice = $('.pewc-main-price').not('.pewc-quickview-product-wrapper .pewc-main-price').first();
+
+		if ($grandTotal.length && $mainPrice.length) {
+			var priceObserver = new MutationObserver(function() {
+				var html = $grandTotal.html();
+				if (html && html.trim() !== '') {
+					$mainPrice.html(html);
+				}
+			});
+			priceObserver.observe($grandTotal[0], { childList: true, subtree: true, characterData: true });
+		}
+	});
+	</script>
+	<?php
+}
+add_action( 'wp_footer', 'albalu_pewc_sync_price' );
+
 //------------------- END ---------------------
+
+/* Force cart/checkout to use page.php (classic) with our header/footer instead of WooCommerce block templates */
+add_filter( 'template_include', function( $template ) {
+	if ( is_cart() || is_checkout() ) {
+		$page_template = locate_template( 'page.php' );
+		if ( $page_template ) {
+			return $page_template;
+		}
+	}
+	return $template;
+}, 999 );
 
 //4. WooCommerce/Checkout
 //------------------- START ---------------------
