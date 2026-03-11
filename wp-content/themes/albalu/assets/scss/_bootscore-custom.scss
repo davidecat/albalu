@@ -630,10 +630,9 @@ h2.woocommerce-loop-product__title {
 }
 
 .woocommerce-product-gallery .badge.onsale {
-    position: sticky !important;
+    position: absolute !important;
     top: 0;
     z-index: 10;
-    float: left;
 }
 
 /* Footer Styles */

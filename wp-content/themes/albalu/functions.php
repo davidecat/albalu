@@ -118,7 +118,7 @@ add_action( 'template_redirect', function() {
 
 /* Override Bootscore sale flash badge classes */
 add_filter( 'woocommerce_sale_flash', function( $html, $post, $product ) {
-    return '<span class="badge position-absolute mt-3 ms-3 me-4 z-1 py-2 px-2">' . esc_html__( 'Sale!', 'woocommerce' ) . '</span>';
+    return '<span class="badge position-absolute top-3 end-0 mt-3 ms-3 me-4 z-1 py-2 px-2">' . esc_html__( 'Sale!', 'woocommerce' ) . '</span>';
 }, 20, 3 );
 
 function albalu_setup() {
@@ -264,7 +264,7 @@ function albalu_custom_sale_badge($html, $post, $product) {
     if ( is_product() ) {
         return $html;
     }
-    return '<span class="badge position-absolute mt-3 ms-3 me-4 z-1 py-2 px-2">' . esc_html__('Sale!', 'woocommerce') . '</span>';
+    return '<span class="badge position-absolute top-3 end-0 mt-3 ms-3 me-4 z-1 py-2 px-2">' . esc_html__('Sale!', 'woocommerce') . '</span>';
 }
 
 
@@ -513,6 +513,32 @@ function albalu_pewc_sync_price() {
 add_action( 'wp_footer', 'albalu_pewc_sync_price' );
 
 //------------------- END ---------------------
+
+/* Force cart/checkout to use page.php (classic) with our header/footer instead of WooCommerce block templates */
+add_filter( 'template_include', function( $template ) {
+	if ( is_cart() || is_checkout() ) {
+		$page_template = locate_template( 'page.php' );
+		if ( $page_template ) {
+			return $page_template;
+		}
+	}
+	return $template;
+}, 999 );
+
+/* Add Albalu-style title bar to cart/checkout pages and hide the default entry-title */
+add_action( 'bootscore_before_title', function( $context ) {
+	if ( $context !== 'page' ) return;
+	if ( ! ( is_cart() || is_checkout() ) ) return;
+	?>
+	</div></div></div></main></div></div><!-- close page.php wrappers temporarily -->
+	<section class="page-title-bar bg-albalu-warm py-4 mb-4">
+		<div class="container">
+			<?php the_title( '<h1 class="fs-2 fw-normal mb-0">', '</h1>' ); ?>
+		</div>
+	</section>
+	<div class="site-content container pt-3 pb-5"><div class="content-area"><div class="row"><div class="col"><main class="site-main"><div class="entry-header" style="display:none;">
+	<?php
+} );
 
 //4. WooCommerce/Checkout
 //------------------- START ---------------------
