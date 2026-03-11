@@ -520,17 +520,6 @@ add_action( 'wp_footer', 'albalu_pewc_sync_price' );
 
 //------------------- END ---------------------
 
-/* Force cart/checkout to use page.php (classic) with our header/footer instead of WooCommerce block templates */
-add_filter( 'template_include', function( $template ) {
-	if ( is_cart() || is_checkout() ) {
-		$page_template = locate_template( 'page.php' );
-		if ( $page_template ) {
-			return $page_template;
-		}
-	}
-	return $template;
-}, 999 );
-
 /* Add Albalu-style title bar to cart/checkout pages and hide the default entry-title */
 add_action( 'bootscore_before_title', function( $context ) {
 	if ( $context !== 'page' ) return;
