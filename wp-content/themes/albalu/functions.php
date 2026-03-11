@@ -402,6 +402,12 @@ function fix_pewc_replace_main_image() {
 			var savedOriginalSrc = '';
 			var savedCustomSrc = '';
 
+			// Save original image src before PEWC replaces it
+			var \$mainImg = $('.woocommerce-product-gallery .woocommerce-product-gallery__image img').first();
+			if (\$mainImg.length) {
+				savedOriginalSrc = \$mainImg.attr('src');
+			}
+
 			// Inject toggle button inside the gallery
 			$('.woocommerce-product-gallery').append('<button id=\"pewc-image-toggle\" type=\"button\" class=\"btn btn-sm btn-outline-secondary pewc-image-toggle\" style=\"display:none;\">Vedi foto prodotto</button>');
 
@@ -428,7 +434,7 @@ function fix_pewc_replace_main_image() {
 				var \$img = $('.woocommerce-product-gallery .woocommerce-product-gallery__image img').first();
 				if (!\$img.length) return;
 
-				var oldSrc = \$img.attr('data-pewc-old-src');
+				var oldSrc = \$img.attr('data-pewc-old-src') || savedOriginalSrc;
 				var currentSrc = \$img.attr('src');
 
 				if (!oldSrc) return;
