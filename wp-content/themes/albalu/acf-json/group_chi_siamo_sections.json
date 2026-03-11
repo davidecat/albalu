@@ -1276,6 +1276,77 @@
                     "min": "",
                     "max": ""
                 },
+                "layout_shortcode": {
+                    "key": "layout_shortcode",
+                    "name": "shortcode",
+                    "label": "Shortcode",
+                    "display": "block",
+                    "sub_fields": [
+                        {
+                            "key": "field_shortcode_code",
+                            "label": "Shortcode",
+                            "name": "shortcode",
+                            "aria-label": "",
+                            "type": "text",
+                            "instructions": "Inserisci lo shortcode (es. [woocommerce_cart])",
+                            "required": 1,
+                            "conditional_logic": false,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "",
+                            "maxlength": "",
+                            "placeholder": "[woocommerce_cart]",
+                            "prepend": "",
+                            "append": ""
+                        },
+                        {
+                            "key": "field_shortcode_container",
+                            "label": "Container",
+                            "name": "container",
+                            "aria-label": "",
+                            "type": "true_false",
+                            "instructions": "Avvolgi in un container Bootstrap",
+                            "required": 0,
+                            "conditional_logic": false,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": 1,
+                            "message": "",
+                            "ui": 1,
+                            "ui_on_text": "",
+                            "ui_off_text": ""
+                        },
+                        {
+                            "key": "field_shortcode_bg_color",
+                            "label": "Colore di sfondo",
+                            "name": "bg_color",
+                            "aria-label": "",
+                            "type": "color_picker",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": false,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "#ffffff",
+                            "enable_opacity": false,
+                            "custom_palette_source": "",
+                            "palette_colors": "",
+                            "show_color_wheel": true,
+                            "return_format": "string"
+                        }
+                    ],
+                    "min": "",
+                    "max": ""
+                },
                 "layout_chi_newsletter": {
                     "key": "layout_chi_newsletter",
                     "name": "newsletter",
@@ -1846,9 +1917,9 @@
     "location": [
         [
             {
-                "param": "page_template",
+                "param": "post_type",
                 "operator": "==",
-                "value": "page-albalu.php"
+                "value": "page"
             }
         ]
     ],
@@ -1862,5 +1933,5 @@
     "description": "Sezioni flessibili per la pagina Chi Siamo",
     "show_in_rest": 0,
     "display_title": "",
-    "modified": 1773167861
+    "modified": 1773202897
 }

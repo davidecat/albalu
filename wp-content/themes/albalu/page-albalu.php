@@ -382,6 +382,19 @@ get_header();
                         </div>
 
                     <?php
+                    // --- SHORTCODE ---
+                    elseif ( $layout === 'shortcode' ) :
+                        $sc_code      = get_sub_field( 'shortcode' );
+                        $sc_container = get_sub_field( 'container' );
+                        $sc_bg_color  = get_sub_field( 'bg_color' ) ?: '#ffffff';
+                    ?>
+                        <section class="shortcode-section pt-3 pb-5" style="background-color:<?php echo esc_attr( $sc_bg_color ); ?>;">
+                            <?php if ( $sc_container ) : ?><div class="container"><?php endif; ?>
+                                <?php echo do_shortcode( $sc_code ); ?>
+                            <?php if ( $sc_container ) : ?></div><?php endif; ?>
+                        </section>
+
+                    <?php
                     // --- CONTENUTO TESTUALE ---
                     elseif ( $layout === 'text_content' ) :
                         $content  = get_sub_field( 'content' );

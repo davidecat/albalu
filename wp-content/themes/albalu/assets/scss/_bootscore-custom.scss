@@ -804,9 +804,24 @@ h2.woocommerce-loop-product__title {
   }
 }
 
-// Cart page title
-.woocommerce-cart .entry-title {
-  margin-bottom: 1.5rem;
+// Cart/checkout title bar (matching page-albalu style)
+.woocommerce-cart,
+.woocommerce-checkout {
+  .page-title-bar {
+    margin-left: calc(-50vw + 50%);
+    margin-right: calc(-50vw + 50%);
+    padding-left: calc(50vw - 50%);
+    padding-right: calc(50vw - 50%);
+  }
+}
+
+// Reset chi-section-content styles when it wraps WooCommerce content
+.chi-section-content .woocommerce {
+  text-align: left;
+  p {
+    color: inherit;
+    font-size: inherit;
+  }
 }
 
 // Cart page: larger thumbnails, narrower product name, collapsible variations
@@ -913,9 +928,162 @@ h2.woocommerce-loop-product__title {
 
 }
 
+.alert-icon,
+.woocommerce-error,
+.woocommerce-info,
+.woocommerce-noreviews,
+.woocommerce-message,
+.woocommerce-thankyou-order-details,
+.wc-stripe-error {
+  background-color:#fff !important;
+  border-color: var(--bs-primary) !important;
+  color: var(--bs-primary) !important;
+  a {
+    color: var(--bs-primary) !important;
+    text-decoration: underline;
+  }
+}
+
 .woocommerce-message {
   margin: 0 !important;
 }
+
+.woocommerce form .form-row label {
+  font-weight: 500;
+}
+
+// Checkout: grid layout — billing + order details left (66%), totals + payment + features right (34%)
+.albalu-checkout-grid {
+  @media (min-width: 992px) {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    grid-template-rows: auto auto;
+    gap: 0 2rem;
+
+    .checkout-left {
+      grid-column: 1;
+      grid-row: 1;
+    }
+
+    .checkout-order-details {
+      grid-column: 1;
+      grid-row: 2;
+      margin-top: 2rem;
+    }
+
+    .checkout-right {
+      grid-column: 2;
+      grid-row: 1 / -1;
+      align-self: start;
+      position: sticky;
+      top: 1rem;
+    }
+  }
+
+  @media (max-width: 991.98px) {
+    .checkout-left {
+      margin-bottom: 1.5rem;
+    }
+    .checkout-order-details {
+      margin-bottom: 1.5rem;
+    }
+    .checkout-right {
+      margin-bottom: 1.5rem;
+    }
+  }
+}
+
+// Checkout: order details styling (left column)
+.checkout-order-details {
+  h3 {
+    font-size: 1.3rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+  .woocommerce-checkout-review-order-table {
+    .product-name {
+      font-size: 0.85rem;
+      font-weight: 500;
+    }
+    .product-total {
+      text-align: right;
+      font-size: 0.85rem;
+      .woocommerce-Price-amount {
+        font-size: 0.85rem !important;
+      }
+    }
+    dl.variation {
+      margin-top: 0.5rem;
+      dt, dd, dd p, .woocommerce-Price-amount, .amount {
+        font-size: 0.85rem !important;
+      }
+    }
+  }
+}
+
+// Checkout: right column styling
+.checkout-right {
+  h3 {
+    font-size: 1.3rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+}
+
+// Checkout: features box in right column
+.checkout-features {
+  border-top: 1px solid #dee2e6;
+  padding-top: 1rem;
+}
+
+// Checkout: purchase benefits adapted for narrow right column
+.checkout-right .albalu-purchase-benefits {
+  .item {
+    gap: 8px !important;
+    padding: 8px 0 !important;
+    img.benefit-icon {
+      width: 40px !important;
+      height: 30px !important;
+    }
+    p {
+      font-size: 0.8rem;
+      margin: 0;
+    }
+  }
+}
+
+.woocommerce table.shop_table {
+  border-left: none;
+  border-right: none;
+  td, th {
+    border-left: none;
+    border-right: none;
+  }
+  .product-name {
+    text-align: left;
+  }
+}
+
+.woocommerce table.shop_table .cart-subtotal td, .woocommerce table.shop_table .cart-subtotal th {
+  text-align: right;
+}
+
+.woocommerce table.shop_table .order-total td, .woocommerce table.shop_table .order-total th {
+  text-align: right;
+}
+
+.woocommerce-checkout #payment {
+  border-left: none;
+  border-right: none;
+}
+
+.woocommerce-checkout #payment ul.payment_methods li {
+        font-weight: 500 !important;
+}
+
+
 
 .woocommerce-product-gallery {
   margin-bottom: 0 !important;
