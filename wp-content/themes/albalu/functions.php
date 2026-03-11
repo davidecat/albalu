@@ -118,7 +118,7 @@ add_action( 'template_redirect', function() {
 
 /* Override Bootscore sale flash badge classes */
 add_filter( 'woocommerce_sale_flash', function( $html, $post, $product ) {
-    return '<span class="badge position-absolute top-3 end-0 mt-3 ms-3 me-4 z-1 py-2 px-2">' . esc_html__( 'Sale!', 'woocommerce' ) . '</span>';
+    return '<span class="badge position-absolute mt-3 ms-3 me-4 z-1 py-2 px-2">' . esc_html__( 'Sale!', 'woocommerce' ) . '</span>';
 }, 20, 3 );
 
 function albalu_setup() {
@@ -264,7 +264,7 @@ function albalu_custom_sale_badge($html, $post, $product) {
     if ( is_product() ) {
         return $html;
     }
-    return '<span class="badge position-absolute top-3 end-0 mt-3 ms-3 me-4 z-1 py-2 px-2">' . esc_html__('Sale!', 'woocommerce') . '</span>';
+    return '<span class="badge position-absolute mt-3 ms-3 me-4 z-1 py-2 px-2">' . esc_html__('Sale!', 'woocommerce') . '</span>';
 }
 
 

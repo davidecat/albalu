@@ -623,11 +623,17 @@ h2.woocommerce-loop-product__title {
 }
 
 .badge {
-
     font-size: 0.9rem;
     letter-spacing: 0.5px;
     font-weight: 400;
     background-color: #f3915c;
+}
+
+.woocommerce-product-gallery .badge.onsale {
+    position: sticky !important;
+    top: 0;
+    z-index: 10;
+    float: left;
 }
 
 /* Footer Styles */
