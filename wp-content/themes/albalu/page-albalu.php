@@ -241,7 +241,7 @@ get_header();
                                 <?php endif; ?>
 
                                 <?php if ( ! empty( $items ) ) : ?>
-                                    <div class="row g-4">
+                                    <div class="row g-4 justify-content-center">
                                         <?php foreach ( $items as $item ) :
                                             $cat_id = $item['category'] ?? null;
                                             if ( ! $cat_id ) { continue; }

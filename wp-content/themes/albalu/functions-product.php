@@ -132,6 +132,12 @@ function albalu_static_benefits_below_addtocart() {
 }
 add_action( 'woocommerce_after_add_to_cart_form', 'albalu_static_benefits_below_addtocart', 20 );
 
+function albalu_faq_link_below_addtocart() {
+	if ( ! is_product() ) return;
+	echo '<p class="albalu-faq-link mt-3 text-end"><a href="/faq">Hai ancora dubbi? Vai alla sezione domande frequenti - FAQ!</a></p>';
+}
+add_action( 'woocommerce_after_add_to_cart_form', 'albalu_faq_link_below_addtocart', 19 );
+
 function custom_add_to_cart_message() {
 	$message = 'Il prodotto è stato aggiunto al carrello! <a href="'.esc_url(wc_get_page_permalink('cart')).'" tabindex="1" class="button button-gotocart wc-forward"><i aria-hidden="true" class="fas fa-shopping-cart"></i>&nbsp;Vai al carrello</a>';
 	return $message;
@@ -154,7 +160,7 @@ function albalu_render_global_faq_section() {
          return;
     }
 
-    echo '<div class="albalu-global-faq container py-5">';
+    echo '<div id="albalu-global-faq" class="albalu-global-faq container py-5">';
     echo '<div class="row">';
     echo '<div class="col-5">';
     
