@@ -48,8 +48,10 @@ get_header();
                 </section>
 
                 <?php
-                if ( function_exists( 'have_rows' ) && have_rows( 'chi_siamo_sections', get_the_ID() ) ) :
-                    get_template_part( 'template-parts/blog-sections', null, array( 'blog_sections_post_id' => get_the_ID() ) );
+                $posts_page_id = get_option( 'page_for_posts' );
+                if ( $posts_page_id && function_exists( 'have_rows' ) && have_rows( 'chi_siamo_sections', $posts_page_id ) ) :
+                    set_query_var( 'blog_sections_post_id', $posts_page_id );
+                    get_template_part( 'template-parts/blog-sections' );
                 endif;
                 ?>
 
