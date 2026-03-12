@@ -397,15 +397,19 @@ get_header();
                     <?php
                     // --- HEADING + CONTENT ---
                     elseif ( $layout === 'heading_content' ) :
-                        $title    = get_sub_field( 'title' );
-                        $content  = get_sub_field( 'content' );
-                        $bg_color = get_sub_field( 'bg_color' ) ?: '#ffffff';
+                        $title       = get_sub_field( 'title' );
+                        $sub_heading = get_sub_field( 'sub_heading' );
+                        $content     = get_sub_field( 'content' );
+                        $bg_color    = get_sub_field( 'bg_color' ) ?: '#ffffff';
                     ?>
                         <section class="chi-heading-content py-5" style="background-color:<?php echo esc_attr( $bg_color ); ?>;">
                             <div class="container">
                                 <?php if ( $title ) : ?>
                                     <h2 class="fw-normal mb-3"><?php echo wp_kses_post( $title ); ?></h2>
                                     <hr class="mt-0 mb-4" style="border-color:#dee2e6;opacity:1;">
+                                <?php endif; ?>
+                                <?php if ( $sub_heading ) : ?>
+                                    <h3 class="fw-normal fs-5 mb-3"><?php echo wp_kses_post( $sub_heading ); ?></h3>
                                 <?php endif; ?>
                                 <?php if ( $content ) : ?>
                                     <div class="chi-section-content"><?php echo wp_kses_post( $content ); ?></div>
