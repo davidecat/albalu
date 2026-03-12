@@ -884,3 +884,73 @@ function albalu_get_default_categories_grid() {
     return array();
 }
 
+//FAQ Section Start
+function albalu_faq_shortcode() {
+    if ( ! function_exists( 'have_rows' ) || ! have_rows( 'faq', 'option' ) ) {
+        return '';
+    }
+
+    ob_start();
+    ?>
+    <div class="albalu-faq-section bg-albalu-warm">
+        <div class="container">
+            <?php while ( have_rows( 'faq', 'option' ) ) : the_row();
+                $q = get_sub_field( 'faq-question' );
+                $a = get_sub_field( 'faq-answer' );
+                if ( ! $q ) continue;
+            ?>
+            <div class="albalu-faq-item">
+                <p class="albalu-faq-question"><?php echo esc_html( $q ); ?></p>
+                <hr class="albalu-faq-divider">
+                <?php if ( $a ) : ?>
+                <div class="albalu-faq-answer"><?php echo wp_kses_post( wpautop( $a ) ); ?></div>
+                <?php endif; ?>
+            </div>
+            <?php endwhile; ?>
+        </div>
+    </div>
+
+    <style>
+        .albalu-faq-section {
+            width: 100vw;
+            position: relative;
+            left: 50%;
+            margin-left: -50vw;
+            padding: 20px 0 10px;
+        }
+        .albalu-faq-item {
+            padding: 14px 0 18px;
+        }
+        .albalu-faq-question {
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--color-titoli);
+            margin: 0 0 12px;
+            line-height: 1.4;
+        }
+        .albalu-faq-divider {
+            border: 0;
+            border-top: 1px solid #c8c0ba;
+            margin: 0 0 12px;
+            opacity: 1;
+        }
+        .albalu-faq-answer {
+            font-size: 0.9375rem;
+            color: var(--color-testo);
+            line-height: 1.65;
+            margin: 0;
+        }
+        .albalu-faq-answer p {
+            margin: 0 0 4px;
+        }
+        .albalu-faq-answer p:last-child {
+            margin-bottom: 0;
+        }
+    </style>
+    <?php
+    return ob_get_clean();
+}
+add_shortcode( 'albalu_faq', 'albalu_faq_shortcode' );
+//FAQ Section End

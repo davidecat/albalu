@@ -201,3 +201,4 @@ function albalu_render_global_faq_section() {
     echo '</div>'; // .row
     echo '</div>'; // .container
 }
+
