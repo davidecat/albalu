@@ -845,23 +845,33 @@ add_filter('bootscore/class/breadcrumb/nav', function() {
 
 // Get default features from the "Chi Siamo" page (first 3 items)
 function albalu_get_default_features() {
+    $section = albalu_get_default_features_section();
+    return $section['items'] ?? array();
+}
+
+// Get full features section from Chi Siamo (items + bg_color) for blog pages
+function albalu_get_default_features_section() {
     $chi_siamo = get_page_by_path( 'chi-siamo' );
     if ( ! $chi_siamo ) {
-        return array();
+        return array( 'items' => array(), 'bg_color' => '#f8f9fa' );
     }
 
     $sections = get_field( 'chi_siamo_sections', $chi_siamo->ID );
     if ( empty( $sections ) ) {
-        return array();
+        return array( 'items' => array(), 'bg_color' => '#f8f9fa' );
     }
 
     foreach ( $sections as $s ) {
-        if ( $s['acf_fc_layout'] === 'features' && ! empty( $s['items'] ) ) {
-            return array_slice( $s['items'], 0, 3 );
+        if ( $s['acf_fc_layout'] === 'features' ) {
+            $items = ! empty( $s['items'] ) ? array_slice( $s['items'], 0, 4 ) : array();
+            return array(
+                'items'    => $items,
+                'bg_color' => $s['bg_color'] ?? '#f8f9fa',
+            );
         }
     }
 
-    return array();
+    return array( 'items' => array(), 'bg_color' => '#f8f9fa' );
 }
 
 // Get default categories grid data from the "Chi Siamo" page
