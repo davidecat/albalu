@@ -400,6 +400,10 @@ get_header();
                         $title       = get_sub_field( 'title' );
                         $sub_heading = get_sub_field( 'sub_heading' );
                         $content     = get_sub_field( 'content' );
+                        $btn_text    = get_sub_field( 'btn_text' );
+                        $btn_link    = get_sub_field( 'btn_link' );
+                        $btn_icon    = get_sub_field( 'btn_icon' );
+                        $btn_icon_pos = get_sub_field( 'btn_icon_position' ) ?: 'right';
                         $bg_color    = get_sub_field( 'bg_color' ) ?: '#ffffff';
                     ?>
                         <section class="chi-heading-content py-5" style="background-color:<?php echo esc_attr( $bg_color ); ?>;">
@@ -413,6 +417,17 @@ get_header();
                                 <?php endif; ?>
                                 <?php if ( $content ) : ?>
                                     <div class="chi-section-content"><?php echo wp_kses_post( $content ); ?></div>
+                                <?php endif; ?>
+                                <?php if ( $btn_text && $btn_link ) : ?>
+                                    <a href="<?php echo esc_url( $btn_link ); ?>" class="btn btn-primary px-4 py-2 text-uppercase fw-bold shadow-sm mt-3">
+                                        <?php if ( $btn_icon && $btn_icon_pos === 'left' ) : ?>
+                                            <i class="<?php echo esc_attr( $btn_icon ); ?> me-2"></i>
+                                        <?php endif; ?>
+                                        <?php echo esc_html( $btn_text ); ?>
+                                        <?php if ( $btn_icon && $btn_icon_pos === 'right' ) : ?>
+                                            <i class="<?php echo esc_attr( $btn_icon ); ?> ms-2"></i>
+                                        <?php endif; ?>
+                                    </a>
                                 <?php endif; ?>
                             </div>
                         </section>
