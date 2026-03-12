@@ -1029,6 +1029,45 @@ h2.woocommerce-loop-product__title {
   }
 }
 
+// Order received / Order complete: match checkout styling
+.woocommerce-order {
+  .woocommerce-table--order-details {
+    .product-name {
+      font-size: 0.85rem;
+      font-weight: 500;
+      a {
+        font-size: 0.85rem;
+        font-weight: 500;
+      }
+    }
+    .product-total {
+      text-align: right;
+      font-size: 0.85rem;
+      .woocommerce-Price-amount {
+        font-size: 0.85rem !important;
+      }
+    }
+    dl.variation {
+      margin-top: 0.5rem;
+      dt, dd, dd p, .woocommerce-Price-amount, .amount {
+        font-size: 0.85rem !important;
+      }
+    }
+    .pewc-order-item-item .woocommerce-Price-amount.amount,
+    .pewc-order-item-price .woocommerce-Price-amount.amount {
+      font-size: 0.85rem !important;
+      font-weight: 500;
+    }
+  }
+  .woocommerce-table__product-total.product-total .woocommerce-Price-amount {
+    font-size: 1.3rem !important;
+  }
+  .woocommerce-customer-details address {
+    border-left: none;
+    border-right: none;
+  }
+}
+
 // Checkout: right column styling
 .checkout-right {
   h3 {
