@@ -25,12 +25,16 @@ get_header();
 
                     // --- HERO ---
                     if ( $layout === 'hero' ) :
-                        $top_title = get_sub_field( 'top_title' );
-                        $title     = get_sub_field( 'title' );
-                        $subtitle  = get_sub_field( 'subtitle' );
-                        $content   = get_sub_field( 'content' );
-                        $bg_image  = get_sub_field( 'bg_image' );
-                        $bg_color  = get_sub_field( 'bg_color' ) ?: '#f8f9fa';
+                        $top_title    = get_sub_field( 'top_title' );
+                        $title        = get_sub_field( 'title' );
+                        $subtitle     = get_sub_field( 'subtitle' );
+                        $content      = get_sub_field( 'content' );
+                        $btn_text     = get_sub_field( 'btn_text' );
+                        $btn_link     = get_sub_field( 'btn_link' );
+                        $btn_icon     = get_sub_field( 'btn_icon' );
+                        $btn_icon_pos = get_sub_field( 'btn_icon_position' ) ?: 'right';
+                        $bg_image     = get_sub_field( 'bg_image' );
+                        $bg_color     = get_sub_field( 'bg_color' ) ?: '#f8f9fa';
                     ?>
                         <section class="chi-hero py-5" <?php if ( $bg_image ) : ?>style="--chi-hero-bg:url('<?php echo esc_url( $bg_image ); ?>');"<?php endif; ?>>
                             <div class="container py-5">
@@ -45,6 +49,17 @@ get_header();
                                 <?php endif; ?>
                                 <?php if ( $content ) : ?>
                                     <div class="chi-hero-content chi-section-content lead mb-5 fw-medium"><?php echo wp_kses_post( $content ); ?></div>
+                                <?php endif; ?>
+                                <?php if ( $btn_text && $btn_link ) : ?>
+                                    <a href="<?php echo esc_url( $btn_link ); ?>" class="btn btn-primary px-4 py-2 text-uppercase fw-bold shadow-sm mt-3">
+                                        <?php if ( $btn_icon && $btn_icon_pos === 'left' ) : ?>
+                                            <i class="<?php echo esc_attr( $btn_icon ); ?> me-2"></i>
+                                        <?php endif; ?>
+                                        <?php echo esc_html( $btn_text ); ?>
+                                        <?php if ( $btn_icon && $btn_icon_pos === 'right' ) : ?>
+                                            <i class="<?php echo esc_attr( $btn_icon ); ?> ms-2"></i>
+                                        <?php endif; ?>
+                                    </a>
                                 <?php endif; ?>
                             </div>
                         </section>
