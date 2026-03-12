@@ -150,73 +150,76 @@
                             "return_format": "string"
                         },
                         {
-                            "key": "field_chi_hero_btn_text",
+                            "key": "field_69b2b7b69768b",
                             "label": "Testo bottone",
                             "name": "btn_text",
                             "aria-label": "",
                             "type": "text",
                             "instructions": "",
                             "required": 0,
-                            "conditional_logic": false,
+                            "conditional_logic": 0,
                             "wrapper": {
-                                "width": "25",
+                                "width": "",
                                 "class": "",
                                 "id": ""
                             },
                             "default_value": "",
                             "maxlength": "",
+                            "allow_in_bindings": 0,
                             "placeholder": "",
                             "prepend": "",
                             "append": ""
                         },
                         {
-                            "key": "field_chi_hero_btn_link",
+                            "key": "field_69b2b7ca9768c",
                             "label": "Link bottone",
                             "name": "btn_link",
                             "aria-label": "",
                             "type": "url",
                             "instructions": "",
                             "required": 0,
-                            "conditional_logic": false,
+                            "conditional_logic": 0,
                             "wrapper": {
-                                "width": "25",
+                                "width": "",
                                 "class": "",
                                 "id": ""
                             },
                             "default_value": "",
+                            "allow_in_bindings": 0,
                             "placeholder": ""
                         },
                         {
-                            "key": "field_chi_hero_btn_icon",
+                            "key": "field_69b2b7dd9768d",
                             "label": "Icona bottone",
                             "name": "btn_icon",
                             "aria-label": "",
                             "type": "text",
-                            "instructions": "Classe Font Awesome (es. fas fa-long-arrow-alt-right)",
+                            "instructions": "",
                             "required": 0,
-                            "conditional_logic": false,
+                            "conditional_logic": 0,
                             "wrapper": {
-                                "width": "25",
+                                "width": "",
                                 "class": "",
                                 "id": ""
                             },
-                            "default_value": "fas fa-long-arrow-alt-right",
+                            "default_value": "",
                             "maxlength": "",
-                            "placeholder": "fas fa-arrow-right",
+                            "allow_in_bindings": 0,
+                            "placeholder": "",
                             "prepend": "",
                             "append": ""
                         },
                         {
-                            "key": "field_chi_hero_btn_icon_position",
+                            "key": "field_69b2b7ed9768e",
                             "label": "Posizione icona",
                             "name": "btn_icon_position",
                             "aria-label": "",
                             "type": "select",
                             "instructions": "",
                             "required": 0,
-                            "conditional_logic": false,
+                            "conditional_logic": 0,
                             "wrapper": {
-                                "width": "25",
+                                "width": "",
                                 "class": "",
                                 "id": ""
                             },
@@ -228,6 +231,7 @@
                             "return_format": "value",
                             "multiple": 0,
                             "allow_null": 0,
+                            "allow_in_bindings": 0,
                             "ui": 0,
                             "ajax": 0,
                             "placeholder": "",
@@ -1545,7 +1549,7 @@
                             "required": 0,
                             "conditional_logic": false,
                             "wrapper": {
-                                "width": "50",
+                                "width": "",
                                 "class": "",
                                 "id": ""
                             },
@@ -1557,27 +1561,28 @@
                             "return_format": "string"
                         },
                         {
-                            "key": "field_chi_nl_text_align",
+                            "key": "field_69b2bf377729b",
                             "label": "Allineamento contenuto",
                             "name": "text_align",
                             "aria-label": "",
                             "type": "select",
-                            "instructions": "Centro o sinistra per tutta la sezione",
+                            "instructions": "",
                             "required": 0,
-                            "conditional_logic": false,
+                            "conditional_logic": 0,
                             "wrapper": {
-                                "width": "25",
+                                "width": "",
                                 "class": "",
                                 "id": ""
                             },
                             "choices": {
-                                "center": "Centro",
+                                "center": "Centro,",
                                 "left": "Sinistra"
                             },
-                            "default_value": "center",
+                            "default_value": false,
                             "return_format": "value",
                             "multiple": 0,
                             "allow_null": 0,
+                            "allow_in_bindings": 0,
                             "ui": 0,
                             "ajax": 0,
                             "placeholder": "",
@@ -1585,25 +1590,27 @@
                             "save_options": 0
                         },
                         {
-                            "key": "field_chi_nl_text_color",
-                            "label": "Colore titolo, sottotitolo e contenuto",
+                            "key": "field_69b2bf737729c",
+                            "label": "Colore titolo",
                             "name": "text_color",
                             "aria-label": "",
                             "type": "color_picker",
-                            "instructions": "Un solo colore per titolo, sottotitolo e contenuto. Default: nero",
+                            "instructions": "",
                             "required": 0,
-                            "conditional_logic": false,
+                            "conditional_logic": 0,
                             "wrapper": {
-                                "width": "25",
+                                "width": "",
                                 "class": "",
                                 "id": ""
                             },
                             "default_value": "#000000",
-                            "enable_opacity": false,
+                            "enable_opacity": 0,
+                            "return_format": "string",
+                            "allow_in_bindings": 0,
+                            "show_custom_palette": 0,
+                            "show_color_wheel": 1,
                             "custom_palette_source": "",
-                            "palette_colors": "",
-                            "show_color_wheel": true,
-                            "return_format": "string"
+                            "palette_colors": ""
                         }
                     ],
                     "min": "",
@@ -2042,15 +2049,15 @@
                     "min": "",
                     "max": "1"
                 },
-                "layout_69b29b105004c": {
-                    "key": "layout_69b29b105004c",
+                "layout_69b2a088f49ff": {
+                    "key": "layout_69b2a088f49ff",
                     "name": "heading_content",
                     "label": "Heading + Content",
                     "display": "block",
                     "sub_fields": [
                         {
-                            "key": "field_69b29b525004f",
-                            "label": "Title",
+                            "key": "field_69b2a097f4a02",
+                            "label": "Titolo",
                             "name": "title",
                             "aria-label": "",
                             "type": "text",
@@ -2070,7 +2077,28 @@
                             "append": ""
                         },
                         {
-                            "key": "field_69b29b105004d",
+                            "key": "field_69b2a5b106194",
+                            "label": "Sotto-titolo",
+                            "name": "sub_heading",
+                            "aria-label": "",
+                            "type": "text",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "",
+                            "maxlength": "",
+                            "allow_in_bindings": 0,
+                            "placeholder": "",
+                            "prepend": "",
+                            "append": ""
+                        },
+                        {
+                            "key": "field_69b2a088f4a00",
                             "label": "Contenuto",
                             "name": "content",
                             "aria-label": "",
@@ -2091,7 +2119,7 @@
                             "delay": 0
                         },
                         {
-                            "key": "field_69b29b105004e",
+                            "key": "field_69b2a088f4a01",
                             "label": "Colore di sfondo",
                             "name": "bg_color",
                             "aria-label": "",
@@ -2112,6 +2140,95 @@
                             "show_color_wheel": 1,
                             "custom_palette_source": "",
                             "palette_colors": ""
+                        },
+                        {
+                            "key": "field_69b2b2d515ada",
+                            "label": "Testo bottone",
+                            "name": "btn_text",
+                            "aria-label": "",
+                            "type": "text",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "",
+                            "maxlength": "",
+                            "allow_in_bindings": 0,
+                            "placeholder": "",
+                            "prepend": "",
+                            "append": ""
+                        },
+                        {
+                            "key": "field_69b2b2e415adb",
+                            "label": "Link bottone",
+                            "name": "btn_link",
+                            "aria-label": "",
+                            "type": "url",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "",
+                            "allow_in_bindings": 0,
+                            "placeholder": ""
+                        },
+                        {
+                            "key": "field_69b2b2f515adc",
+                            "label": "Icona bottone",
+                            "name": "btn_icon",
+                            "aria-label": "",
+                            "type": "text",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "",
+                            "maxlength": "",
+                            "allow_in_bindings": 0,
+                            "placeholder": "",
+                            "prepend": "",
+                            "append": ""
+                        },
+                        {
+                            "key": "field_69b2b38f15ade",
+                            "label": "Posizione icona",
+                            "name": "btn_icon_position",
+                            "aria-label": "",
+                            "type": "select",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "choices": {
+                                "left": "Sinistra",
+                                "right": "Destra"
+                            },
+                            "default_value": "right",
+                            "return_format": "value",
+                            "multiple": 0,
+                            "allow_null": 0,
+                            "allow_in_bindings": 0,
+                            "ui": 0,
+                            "ajax": 0,
+                            "placeholder": "",
+                            "create_options": 0,
+                            "save_options": 0
                         }
                     ],
                     "min": "",
@@ -2133,6 +2250,13 @@
         ],
         [
             {
+                "param": "page",
+                "operator": "==",
+                "value": "1265"
+            }
+        ],
+        [
+            {
                 "param": "post_type",
                 "operator": "==",
                 "value": "post"
@@ -2149,5 +2273,5 @@
     "description": "Sezioni flessibili per la pagina Chi Siamo",
     "show_in_rest": 0,
     "display_title": "",
-    "modified": 1731369600
+    "modified": 1773328330
 }

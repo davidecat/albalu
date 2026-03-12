@@ -48,8 +48,8 @@ get_header();
                 </section>
 
                 <?php
-                if ( function_exists( 'have_rows' ) && have_rows( 'chi_siamo_sections' ) ) :
-                    get_template_part( 'template-parts/albalu-sections' );
+                if ( function_exists( 'have_rows' ) && have_rows( 'chi_siamo_sections', get_the_ID() ) ) :
+                    get_template_part( 'template-parts/blog-sections', null, array( 'blog_sections_post_id' => get_the_ID() ) );
                 endif;
                 ?>
 
