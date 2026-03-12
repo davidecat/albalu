@@ -42,11 +42,13 @@ if ( is_home() && $posts_page_id ) {
                             <?php while ( have_posts() ) : the_post(); ?>
                                 <article class="col-md-6 col-lg-4 blog-post-card">
                                     <div class="card h-100 border-0 shadow-sm bg-white overflow-hidden">
-                                        <?php if ( has_post_thumbnail() ) : ?>
-                                            <a href="<?php the_permalink(); ?>" class="d-block ratio ratio-16x10 overflow-hidden">
-                                                <?php the_post_thumbnail( 'medium_large', array( 'class' => 'card-img-top object-fit-cover' ) ); ?>
-                                            </a>
-                                        <?php endif; ?>
+                                        <a href="<?php the_permalink(); ?>" class="d-block ratio ratio-16x10 overflow-hidden bg-light">
+                                            <?php if ( has_post_thumbnail() ) : ?>
+                                                <?php the_post_thumbnail( 'medium_large', array( 'class' => 'card-img-top w-100 h-100 object-fit-cover' ) ); ?>
+                                            <?php else : ?>
+                                                <div class="d-flex align-items-center justify-content-center text-muted"><i class="fas fa-image fa-3x"></i></div>
+                                            <?php endif; ?>
+                                        </a>
                                         <div class="card-body text-start">
                                             <h3 class="h6 fw-bold mb-2">
                                                 <a href="<?php the_permalink(); ?>" class="text-body text-decoration-none"><?php the_title(); ?></a>
