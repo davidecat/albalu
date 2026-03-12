@@ -51,13 +51,22 @@ while ( have_rows( 'chi_siamo_sections', $section_post_id ) ) : the_row();
         </section>
 
     <?php
-    // --- CATEGORIES GRID (Chi Siamo page se - home page jaisa hi data) ---
+    // --- CATEGORIES GRID (Posts page ACF se - tum admin me add karoge) ---
     elseif ( $layout === 'categories_grid' ) :
-        $defaults = function_exists( 'albalu_get_default_categories_grid' ) ? albalu_get_default_categories_grid() : array();
-        $title    = $defaults['title'] ?? '';
-        $subtitle = $defaults['subtitle'] ?? '';
-        $items    = $defaults['items'] ?? array();
-        $bg_color = $defaults['bg_color'] ?? '#ffffff';
+        $title    = get_sub_field( 'title' );
+        $subtitle = get_sub_field( 'subtitle' );
+        $items    = get_sub_field( 'items' );
+        $bg_color = get_sub_field( 'bg_color' ) ?: '#ffffff';
+
+        if ( empty( $title ) && empty( $items ) && function_exists( 'albalu_get_default_categories_grid' ) ) {
+            $defaults = albalu_get_default_categories_grid();
+            if ( ! empty( $defaults ) ) {
+                $title    = $defaults['title'] ?? '';
+                $subtitle = $defaults['subtitle'] ?? '';
+                $items    = $defaults['items'] ?? array();
+                $bg_color = $defaults['bg_color'] ?: '#ffffff';
+            }
+        }
         ?>
         <section class="chi-categories py-5" style="background-color:<?php echo esc_attr( $bg_color ); ?>;">
             <div class="container">
@@ -105,7 +114,7 @@ while ( have_rows( 'chi_siamo_sections', $section_post_id ) ) : the_row();
         </section>
 
     <?php
-    // --- FEATURES (Caratteristiche - icon, title, description) ---
+    // --- FEATURES (Caratteristiche) ---
     elseif ( $layout === 'features' ) :
         $items = get_sub_field( 'items' );
         if ( empty( $items ) && function_exists( 'albalu_get_default_features' ) ) {
