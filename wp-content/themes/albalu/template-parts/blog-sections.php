@@ -51,22 +51,13 @@ while ( have_rows( 'chi_siamo_sections', $section_post_id ) ) : the_row();
         </section>
 
     <?php
-    // --- CATEGORIES GRID (Griglia Categorie - same as home page) ---
+    // --- CATEGORIES GRID (Chi Siamo page se - home page jaisa hi data) ---
     elseif ( $layout === 'categories_grid' ) :
-        $title    = get_sub_field( 'title' );
-        $subtitle = get_sub_field( 'subtitle' );
-        $items    = get_sub_field( 'items' );
-        $bg_color = get_sub_field( 'bg_color' ) ?: '#ffffff';
-
-        if ( empty( $title ) && empty( $items ) && function_exists( 'albalu_get_default_categories_grid' ) ) {
-            $defaults = albalu_get_default_categories_grid();
-            if ( ! empty( $defaults ) ) {
-                $title    = $defaults['title'] ?? '';
-                $subtitle = $defaults['subtitle'] ?? '';
-                $items    = $defaults['items'] ?? array();
-                $bg_color = $defaults['bg_color'] ?: '#ffffff';
-            }
-        }
+        $defaults = function_exists( 'albalu_get_default_categories_grid' ) ? albalu_get_default_categories_grid() : array();
+        $title    = $defaults['title'] ?? '';
+        $subtitle = $defaults['subtitle'] ?? '';
+        $items    = $defaults['items'] ?? array();
+        $bg_color = $defaults['bg_color'] ?? '#ffffff';
         ?>
         <section class="chi-categories py-5" style="background-color:<?php echo esc_attr( $bg_color ); ?>;">
             <div class="container">
