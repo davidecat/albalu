@@ -122,6 +122,7 @@ add_filter( 'woocommerce_sale_flash', function( $html, $post, $product ) {
 }, 20, 3 );
 
 function albalu_setup() {
+    add_theme_support( 'post-thumbnails' );
     add_theme_support( 'wc-product-gallery-zoom' );
     add_theme_support( 'wc-product-gallery-lightbox' );
     add_theme_support( 'wc-product-gallery-slider' );
