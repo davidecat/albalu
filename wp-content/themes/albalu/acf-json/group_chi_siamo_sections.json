@@ -148,6 +148,91 @@
                             "palette_colors": "",
                             "show_color_wheel": true,
                             "return_format": "string"
+                        },
+                        {
+                            "key": "field_chi_hero_btn_text",
+                            "label": "Testo bottone",
+                            "name": "btn_text",
+                            "aria-label": "",
+                            "type": "text",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": false,
+                            "wrapper": {
+                                "width": "25",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "",
+                            "maxlength": "",
+                            "placeholder": "",
+                            "prepend": "",
+                            "append": ""
+                        },
+                        {
+                            "key": "field_chi_hero_btn_link",
+                            "label": "Link bottone",
+                            "name": "btn_link",
+                            "aria-label": "",
+                            "type": "url",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": false,
+                            "wrapper": {
+                                "width": "25",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "",
+                            "placeholder": ""
+                        },
+                        {
+                            "key": "field_chi_hero_btn_icon",
+                            "label": "Icona bottone",
+                            "name": "btn_icon",
+                            "aria-label": "",
+                            "type": "text",
+                            "instructions": "Classe Font Awesome (es. fas fa-long-arrow-alt-right)",
+                            "required": 0,
+                            "conditional_logic": false,
+                            "wrapper": {
+                                "width": "25",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "fas fa-long-arrow-alt-right",
+                            "maxlength": "",
+                            "placeholder": "fas fa-arrow-right",
+                            "prepend": "",
+                            "append": ""
+                        },
+                        {
+                            "key": "field_chi_hero_btn_icon_position",
+                            "label": "Posizione icona",
+                            "name": "btn_icon_position",
+                            "aria-label": "",
+                            "type": "select",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": false,
+                            "wrapper": {
+                                "width": "25",
+                                "class": "",
+                                "id": ""
+                            },
+                            "choices": {
+                                "left": "Sinistra",
+                                "right": "Destra"
+                            },
+                            "default_value": "right",
+                            "return_format": "value",
+                            "multiple": 0,
+                            "allow_null": 0,
+                            "ui": 0,
+                            "ajax": 0,
+                            "placeholder": "",
+                            "create_options": 0,
+                            "save_options": 0
                         }
                     ],
                     "min": "",
@@ -1460,11 +1545,60 @@
                             "required": 0,
                             "conditional_logic": false,
                             "wrapper": {
-                                "width": "",
+                                "width": "50",
                                 "class": "",
                                 "id": ""
                             },
                             "default_value": "#9EA6A9",
+                            "enable_opacity": false,
+                            "custom_palette_source": "",
+                            "palette_colors": "",
+                            "show_color_wheel": true,
+                            "return_format": "string"
+                        },
+                        {
+                            "key": "field_chi_nl_text_align",
+                            "label": "Allineamento contenuto",
+                            "name": "text_align",
+                            "aria-label": "",
+                            "type": "select",
+                            "instructions": "Centro o sinistra per tutta la sezione",
+                            "required": 0,
+                            "conditional_logic": false,
+                            "wrapper": {
+                                "width": "25",
+                                "class": "",
+                                "id": ""
+                            },
+                            "choices": {
+                                "center": "Centro",
+                                "left": "Sinistra"
+                            },
+                            "default_value": "center",
+                            "return_format": "value",
+                            "multiple": 0,
+                            "allow_null": 0,
+                            "ui": 0,
+                            "ajax": 0,
+                            "placeholder": "",
+                            "create_options": 0,
+                            "save_options": 0
+                        },
+                        {
+                            "key": "field_chi_nl_text_color",
+                            "label": "Colore titolo, sottotitolo e contenuto",
+                            "name": "text_color",
+                            "aria-label": "",
+                            "type": "color_picker",
+                            "instructions": "Un solo colore per titolo, sottotitolo e contenuto. Default: nero",
+                            "required": 0,
+                            "conditional_logic": false,
+                            "wrapper": {
+                                "width": "25",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "#000000",
                             "enable_opacity": false,
                             "custom_palette_source": "",
                             "palette_colors": "",
@@ -2008,5 +2142,5 @@
     "description": "Sezioni flessibili per la pagina Chi Siamo",
     "show_in_rest": 0,
     "display_title": "",
-    "modified": 1773312882
+    "modified": 1731369600
 }

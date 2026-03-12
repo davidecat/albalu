@@ -464,28 +464,32 @@ get_header();
                     <?php
                     // --- NEWSLETTER ---
                     elseif ( $layout === 'newsletter' ) :
-                        $nl_subtitle = get_sub_field( 'subtitle' );
-                        $nl_title    = get_sub_field( 'title' );
-                        $nl_content  = get_sub_field( 'content' );
-                        $nl_btn_text = get_sub_field( 'btn_text' );
-                        $nl_btn_url  = get_sub_field( 'btn_url' );
-                        $nl_bg_color = get_sub_field( 'bg_color' ) ?: '#9EA6A9';
+                        $nl_subtitle   = get_sub_field( 'subtitle' );
+                        $nl_title      = get_sub_field( 'title' );
+                        $nl_content    = get_sub_field( 'content' );
+                        $nl_btn_text   = get_sub_field( 'btn_text' );
+                        $nl_btn_url    = get_sub_field( 'btn_url' );
+                        $nl_bg_color   = get_sub_field( 'bg_color' ) ?: '#9EA6A9';
+                        $nl_text_align = get_sub_field( 'text_align' ) ?: 'left';
+                        $nl_text_color = get_sub_field( 'text_color' ) ?: '#000000';
+                        $nl_align_class = ( $nl_text_align === 'left' ) ? 'text-start' : 'text-center';
+                        $nl_color_style = 'color:' . esc_attr( $nl_text_color ) . ';';
                     ?>
-                        <section class="newsletter-section py-5 text-white" style="background-color: <?php echo esc_attr( $nl_bg_color ); ?> !important;">
+                        <section class="newsletter-section py-5" style="background-color: <?php echo esc_attr( $nl_bg_color ); ?> !important;">
                             <div class="container my-5">
-                                <div class="row">
-                                    <div class="col-lg-8 text-start">
+                                <div class="row justify-content-<?php echo $nl_text_align === 'center' ? 'center' : 'start'; ?>">
+                                    <div class="col-lg-8 <?php echo esc_attr( $nl_align_class ); ?>" style="<?php echo $nl_color_style; ?>">
                                         <?php if ( $nl_subtitle ) : ?>
-                                            <span class="h5 text-uppercase fw-medium ls-1 text-white"><?php echo esc_html( $nl_subtitle ); ?></span>
+                                            <span class="h5 text-uppercase fw-medium ls-1"><?php echo esc_html( $nl_subtitle ); ?></span>
                                         <?php endif; ?>
                                         <?php if ( $nl_title ) : ?>
-                                            <h2 class="h1 fw-medium my-3 text-white"><?php echo wp_kses_post( $nl_title ); ?></h2>
+                                            <h2 class="h1 fw-medium my-3"><?php echo wp_kses_post( $nl_title ); ?></h2>
                                         <?php endif; ?>
                                         <?php if ( $nl_content ) : ?>
-                                            <div class="h5 mb-4 text-white fw-medium"><?php echo wp_kses_post( $nl_content ); ?></div>
+                                            <div class="h5 mb-4 fw-medium"><?php echo wp_kses_post( $nl_content ); ?></div>
                                         <?php endif; ?>
                                         <?php if ( $nl_btn_text && $nl_btn_url ) : ?>
-                                            <div class="d-flex justify-content-start">
+                                            <div class="d-flex justify-content-<?php echo $nl_text_align === 'center' ? 'center' : 'start'; ?>">
                                                 <a href="<?php echo esc_url( $nl_btn_url ); ?>" class="btn btn-primary px-4 py-2 text-white shadow-sm"><?php echo esc_html( $nl_btn_text ); ?> <i class="fas fa-arrow-right ms-2"></i></a>
                                             </div>
                                         <?php endif; ?>
