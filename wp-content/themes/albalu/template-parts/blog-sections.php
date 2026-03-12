@@ -1,6 +1,6 @@
 <?php
 /**
- * Blog sections: Newsletter, Categories Grid, Featured Products
+ * Blog sections: Newsletter, Categories Grid, Features, Featured Products
  * Used on archive (blog listing) and single post pages.
  * Data from ACF chi_siamo_sections of the Posts page (same sections on both pages).
  */
@@ -105,6 +105,39 @@ while ( have_rows( 'chi_siamo_sections', $section_post_id ) ) : the_row();
                                     </div>
                                     <h5 class="chi-cat-card__title text-start"><?php echo esc_html( $custom_label ); ?></h5>
                                     <a href="<?php echo esc_url( $cat_link ); ?>" class="chi-cat-card__link text-start">Tutti i prodotti <i class="fas fa-long-arrow-alt-right ms-1"></i></a>
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
+                <?php endif; ?>
+            </div>
+        </section>
+
+    <?php
+    // --- FEATURES (Caratteristiche - icon, title, description) ---
+    elseif ( $layout === 'features' ) :
+        $items = get_sub_field( 'items' );
+        if ( empty( $items ) && function_exists( 'albalu_get_default_features' ) ) {
+            $items = albalu_get_default_features();
+        }
+        $bg_color = get_sub_field( 'bg_color' ) ?: '#f8f9fa';
+        ?>
+        <section class="features-section py-5" style="background-color:<?php echo esc_attr( $bg_color ); ?>;">
+            <div class="container">
+                <?php if ( ! empty( $items ) ) : ?>
+                    <div class="row g-4">
+                        <?php foreach ( $items as $item ) : ?>
+                            <div class="col-md-4">
+                                <div class="text-start p-4 border-start">
+                                    <?php if ( ! empty( $item['icon'] ) ) : ?>
+                                        <img src="<?php echo esc_url( $item['icon'] ); ?>" alt="<?php echo esc_attr( $item['title'] ?? '' ); ?>" class="mb-3" width="70" height="70">
+                                    <?php endif; ?>
+                                    <?php if ( ! empty( $item['title'] ) ) : ?>
+                                        <h5 class="fw-bold mb-2 text-start"><?php echo esc_html( $item['title'] ); ?></h5>
+                                    <?php endif; ?>
+                                    <?php if ( ! empty( $item['description'] ) ) : ?>
+                                        <p class="text-secondary mb-0 text-start"><?php echo esc_html( $item['description'] ); ?></p>
+                                    <?php endif; ?>
                                 </div>
                             </div>
                         <?php endforeach; ?>
