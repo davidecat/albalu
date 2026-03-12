@@ -1917,9 +1917,9 @@
     "location": [
         [
             {
-                "param": "post_type",
+                "param": "page_template",
                 "operator": "==",
-                "value": "page"
+                "value": "page-albalu.php"
             }
         ]
     ],
@@ -1933,5 +1933,5 @@
     "description": "Sezioni flessibili per la pagina Chi Siamo",
     "show_in_rest": 0,
     "display_title": "",
-    "modified": 1773202897
+    "modified": 1773287620
 }
