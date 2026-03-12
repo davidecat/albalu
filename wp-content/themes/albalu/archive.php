@@ -38,20 +38,22 @@ if ( is_home() && $posts_page_id ) {
             <section class="blog-listing-posts py-4 pb-5">
                 <div class="container">
                     <?php if ( have_posts() ) : ?>
-                        <div class="row g-4 blog-posts-grid">
+                        <div class="row g-4 blog-posts-grid align-items-stretch">
                             <?php while ( have_posts() ) : the_post(); ?>
-                                <article class="col-md-6 col-lg-4 blog-post-card">
-                                    <div class="card h-100 border-0 shadow-sm bg-white overflow-hidden">
-                                        <?php if ( has_post_thumbnail() ) : ?>
-                                            <a href="<?php the_permalink(); ?>" class="d-block">
-                                                <?php the_post_thumbnail( 'medium_large', array( 'class' => 'card-img-top w-100' ) ); ?>
-                                            </a>
-                                        <?php endif; ?>
-                                        <div class="card-body text-start">
+                                <article class="col-md-6 col-lg-4 blog-post-card d-flex">
+                                    <div class="card h-100 border-0 shadow-sm bg-white overflow-hidden d-flex flex-column w-100">
+                                        <a href="<?php the_permalink(); ?>" class="ratio ratio-16x10 overflow-hidden flex-shrink-0 text-decoration-none">
+                                            <?php if ( has_post_thumbnail() ) : ?>
+                                                <?php the_post_thumbnail( 'medium_large', array( 'class' => 'object-fit-cover w-100 h-100' ) ); ?>
+                                            <?php else : ?>
+                                                <span class="position-absolute top-0 start-0 w-100 h-100 bg-light d-flex align-items-center justify-content-center text-muted"><i class="fas fa-image fa-2x"></i></span>
+                                            <?php endif; ?>
+                                        </a>
+                                        <div class="card-body text-start d-flex flex-column flex-grow-1">
                                             <h3 class="h6 fw-bold mb-2">
                                                 <a href="<?php the_permalink(); ?>" class="text-body text-decoration-none"><?php the_title(); ?></a>
                                             </h3>
-                                            <p class="card-text text-muted small mb-2"><?php echo esc_html( wp_trim_words( get_the_excerpt(), 25 ) ); ?></p>
+                                            <p class="card-text text-muted small mb-2 flex-grow-1" style="display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;"><?php echo esc_html( wp_trim_words( get_the_excerpt(), 25 ) ); ?></p>
                                             <a href="<?php the_permalink(); ?>" class="text-primary text-decoration-none fw-medium small"><?php esc_html_e( 'Leggi Tutto', 'albalu' ); ?> &rarr;</a>
                                             <p class="small text-muted mt-2 mb-0"><?php echo esc_html( date_i18n( 'j F Y', get_the_date( 'U' ) ) ); ?></p>
                                         </div>
