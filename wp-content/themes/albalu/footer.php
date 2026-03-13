@@ -75,8 +75,8 @@
 
             <!-- Col 4: Newsletter -->
             <div class="col-lg-3 col-md-6">
-                <h4 class="fw-medium mb-4 text-uppercase">Iscriviti alla newsletter</h4>
-                <form>
+                <h4 class="fw-medium mb-4 text-uppercase">Tieniti aggiornato!</h4>
+                <!-- <form>
                     <div class="mb-3">
                         <input type="email" class="form-control bg-white border-0 rounded-0 py-2 px-3" placeholder="Il tuo indirizzo email..." style="box-shadow: none;">
                     </div>
@@ -89,7 +89,15 @@
                     <button class="btn btn-primary text-white" type="submit">
                         Iscriviti
                     </button>
-                </form>
+                </form> -->
+                <a href="https://85f18f4f.sibforms.com/serve/MUIFAIYltb5x5Z7FR0AOy2HMcCL3SDU89lVZXRC29IRSot1g6Tzs4pmkKvNq84up1dK5RBMGmfmtZVSGy4lMhw0vf3GmDkVNALfCqLBTzGn5pliYkx16XYmtYRfr4EycF7YhU7sKD-4dfqubzOYWhiejuodx-LHFbsWVH4NmyffmpOSMBDUKlcig6QG3PuSDU8S1Rq9b768LRkyvCA==" target="blank" class="btn btn-primary px-4 py-2 text-uppercase fw-bold shadow-sm mt-1" >Iscriviti alla Newletter</a>
+                
+               
+               
+                <a href="https://chat.whatsapp.com/BPTmcuoyXstFKrJI9fBWuJ?mode=gi_t" target="blank" class="btn btn-primary px-4 py-2 text-uppercase fw-bold shadow-sm mt-4" ><i class="fab fa-whatsapp me-2"></i>Canale Whatsapp</a>
+
+
+
             </div>
         </div>
     </div>

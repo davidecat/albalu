@@ -1588,3 +1588,42 @@ ul.pewc-product-extra-groups > li > .pewc-item-field-wrapper > .pewc-description
     line-height: 1.8rem;
 }
 
+// Product subcategories listing
+.product-category .card {
+  border: none;
+  box-shadow: none;
+  background: transparent;
+  text-align: center;
+  position: relative;
+
+  .card-img-top {
+    border-radius: 50%;
+    aspect-ratio: 1;
+    object-fit: cover;
+  }
+
+  .card-body {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+  }
+
+  .woocommerce-loop-category__title {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 0;
+    color: #fff;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
+
+    .count {
+      display: none;
+    }
+  }
+}
+
