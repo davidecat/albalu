@@ -587,6 +587,55 @@ get_header();
                         <?php endif; ?>
 
                     <?php
+                    // --- PROCESS STEPS (What happens after purchase) ---
+                    elseif ( $layout === 'process_steps' ) :
+                        $ps_title    = get_sub_field( 'title' );
+                        $ps_subtitle = get_sub_field( 'subtitle' );
+                        $ps_steps    = get_sub_field( 'steps' );
+                        $ps_bg_color = get_sub_field( 'bg_color' ) ?: '#f5f5f5';
+                        if ( ! is_array( $ps_steps ) ) { $ps_steps = array(); }
+                    ?>
+                        <section class="process-steps-section py-5" style="background-color:<?php echo esc_attr( $ps_bg_color ); ?>;">
+                            <div class="container">
+                                <?php if ( $ps_title ) : ?>
+                                    <h2 class="fw-normal mb-2 text-center"><?php echo wp_kses_post( $ps_title ); ?></h2>
+                                <?php endif; ?>
+                                <?php if ( $ps_subtitle ) : ?>
+                                    <p class="lead text-center mb-5 fw-medium"><?php echo wp_kses_post( $ps_subtitle ); ?></p>
+                                <?php endif; ?>
+                                <?php if ( ! empty( $ps_steps ) ) : ?>
+                                    <div class="row g-4">
+                                        <?php foreach ( $ps_steps as $step ) :
+                                            $step_num   = $step['step_number'] ?? '';
+                                            $step_title = $step['step_title'] ?? '';
+                                            $step_img   = $step['step_image'] ?? '';
+                                            $step_desc  = $step['step_description'] ?? '';
+                                            $step_img_url = is_array( $step_img ) ? ( $step_img['url'] ?? '' ) : $step_img;
+                                        ?>
+                                            <div class="col-12 col-md-6 col-lg-3">
+                                                <div class="process-step-card bg-white rounded shadow-sm p-4 h-100">
+                                                    <?php if ( $step_num || $step_title ) : ?>
+                                                        <h5 class="fw-bold mb-3 text-uppercase">
+                                                            <?php if ( $step_num ) : ?>Step <?php echo esc_html( $step_num ); ?>. <?php endif; ?><?php echo esc_html( $step_title ); ?>
+                                                        </h5>
+                                                    <?php endif; ?>
+                                                    <?php if ( $step_img_url ) : ?>
+                                                        <div class="process-step-image mb-3 rounded overflow-hidden">
+                                                            <img src="<?php echo esc_url( $step_img_url ); ?>" alt="<?php echo esc_attr( $step_title ); ?>" class="img-fluid w-100">
+                                                        </div>
+                                                    <?php endif; ?>
+                                                    <?php if ( $step_desc ) : ?>
+                                                        <p class="mb-0 text-secondary small"><?php echo wp_kses_post( $step_desc ); ?></p>
+                                                    <?php endif; ?>
+                                                </div>
+                                            </div>
+                                        <?php endforeach; ?>
+                                    </div>
+                                <?php endif; ?>
+                            </div>
+                        </section>
+
+                    <?php
                     // --- MOST REQUESTED PRODUCTS ---
                     elseif ( $layout === 'most_requested_products' ) :
                         $mrp_title    = get_sub_field( 'title' );
