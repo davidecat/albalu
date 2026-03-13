@@ -606,18 +606,30 @@ get_header();
                                 <?php if ( ! empty( $ps_steps ) ) : ?>
                                     <div class="row g-4">
                                         <?php foreach ( $ps_steps as $step ) :
-                                            $step_num   = $step['step_number'] ?? '';
-                                            $step_title = $step['step_title'] ?? '';
-                                            $step_img   = $step['step_image'] ?? '';
-                                            $step_desc  = $step['step_description'] ?? '';
-                                            $step_img_url = is_array( $step_img ) ? ( $step_img['url'] ?? '' ) : $step_img;
+                                            $step_num   = isset( $step['step_number'] ) ? $step['step_number'] : '';
+                                            $step_title = isset( $step['step_title'] ) ? $step['step_title'] : '';
+                                            $step_img   = isset( $step['step_image'] ) ? $step['step_image'] : '';
+                                            $step_desc  = isset( $step['step_description'] ) ? $step['step_description'] : '';
+                                            $step_img_url = '';
+                                            if ( is_array( $step_img ) && ! empty( $step_img['url'] ) ) {
+                                                $step_img_url = $step_img['url'];
+                                            } elseif ( is_numeric( $step_img ) ) {
+                                                $step_img_url = wp_get_attachment_url( (int) $step_img ) ?: '';
+                                            } elseif ( is_string( $step_img ) ) {
+                                                $step_img_url = $step_img;
+                                            }
                                         ?>
                                             <div class="col-12 col-md-6 col-lg-3">
                                                 <div class="process-step-card bg-white rounded shadow-sm p-4 h-100">
                                                     <?php if ( $step_num || $step_title ) : ?>
-                                                        <h5 class="fw-bold mb-3 text-uppercase">
-                                                            <?php if ( $step_num ) : ?>Step <?php echo esc_html( $step_num ); ?>. <?php endif; ?><?php echo esc_html( $step_title ); ?>
-                                                        </h5>
+                                                        <div class="process-step-heading mb-3">
+                                                            <?php if ( $step_num ) : ?>
+                                                                <span class="process-step-number d-block fw-bold fs-4">Step <?php echo esc_html( $step_num ); ?>.</span>
+                                                            <?php endif; ?>
+                                                            <?php if ( $step_title ) : ?>
+                                                                <span class="process-step-title d-block text-uppercase fw-bold small"><?php echo esc_html( $step_title ); ?></span>
+                                                            <?php endif; ?>
+                                                        </div>
                                                     <?php endif; ?>
                                                     <?php if ( $step_img_url ) : ?>
                                                         <div class="process-step-image mb-3 rounded overflow-hidden">
