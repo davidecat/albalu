@@ -615,9 +615,14 @@ get_header();
                                             <div class="col-12 col-md-6 col-lg-3">
                                                 <div class="process-step-card bg-white rounded shadow-sm p-4 h-100">
                                                     <?php if ( $step_num || $step_title ) : ?>
-                                                        <h5 class="fw-bold mb-3 text-uppercase">
-                                                            <?php if ( $step_num ) : ?>Step <?php echo esc_html( $step_num ); ?>. <?php endif; ?><?php echo esc_html( $step_title ); ?>
-                                                        </h5>
+                                                        <div class="process-step-heading mb-3">
+                                                            <?php if ( $step_num ) : ?>
+                                                                <span class="process-step-number d-block fw-bold fs-4">Step <?php echo esc_html( $step_num ); ?>.</span>
+                                                            <?php endif; ?>
+                                                            <?php if ( $step_title ) : ?>
+                                                                <span class="process-step-title d-block text-uppercase fw-bold small"><?php echo esc_html( $step_title ); ?></span>
+                                                            <?php endif; ?>
+                                                        </div>
                                                     <?php endif; ?>
                                                     <?php if ( $step_img_url ) : ?>
                                                         <div class="process-step-image mb-3 rounded overflow-hidden">
