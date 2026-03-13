@@ -648,6 +648,52 @@ get_header();
                         </section>
 
                     <?php
+                    // --- CONTACT THREE COLUMNS ---
+                    elseif ( $layout === 'contact_three_columns' ) :
+                        $ctc_bg_image = get_sub_field( 'bg_image' );
+                        $ctc_overlay = get_sub_field( 'overlay_opacity' );
+                        $ctc_items   = get_sub_field( 'items' );
+                        if ( ! is_array( $ctc_items ) ) { $ctc_items = array(); }
+                        $ctc_overlay_css = is_numeric( $ctc_overlay ) ? ( $ctc_overlay / 100 ) : 0.35;
+                    ?>
+                        <section class="contact-three-columns py-5<?php echo ! $ctc_bg_image ? ' contact-three-columns--no-bg' : ''; ?>" style="<?php echo $ctc_bg_image ? "--ctc-bg:url('" . esc_url( $ctc_bg_image ) . "');" : ''; ?>--ctc-overlay:<?php echo esc_attr( $ctc_overlay_css ); ?>;">
+                            <div class="container position-relative py-5">
+                                <div class="row g-0">
+                                    <?php foreach ( $ctc_items as $idx => $item ) :
+                                        $icon_type = $item['icon_type'] ?? 'phone';
+                                        $title     = $item['title'] ?? '';
+                                        $content   = $item['content'] ?? '';
+                                        $link      = $item['link'] ?? '';
+                                        $icon_class = 'fas fa-phone';
+                                        if ( $icon_type === 'whatsapp' ) { $icon_class = 'fab fa-whatsapp'; }
+                                        elseif ( $icon_type === 'location' ) { $icon_class = 'fas fa-map-marker-alt'; }
+                                        $is_last = ( $idx === count( $ctc_items ) - 1 );
+                                    ?>
+                                        <div class="col-12 col-md-4 contact-three-col<?php echo ! $is_last ? ' contact-three-col--border' : ''; ?>">
+                                            <div class="contact-three-col__inner py-4 px-3 text-center">
+                                                <div class="contact-three-col__icon mb-3">
+                                                    <i class="<?php echo esc_attr( $icon_class ); ?>"></i>
+                                                </div>
+                                                <?php if ( $title ) : ?>
+                                                    <h6 class="contact-three-col__title text-uppercase fw-bold mb-3"><?php echo esc_html( $title ); ?></h6>
+                                                <?php endif; ?>
+                                                <?php if ( $content ) : ?>
+                                                    <div class="contact-three-col__content small">
+                                                        <?php if ( $link ) : ?>
+                                                            <a href="<?php echo esc_url( $link ); ?>" target="_blank" rel="noopener"><?php echo nl2br( esc_html( $content ) ); ?></a>
+                                                        <?php else : ?>
+                                                            <?php echo nl2br( esc_html( $content ) ); ?>
+                                                        <?php endif; ?>
+                                                    </div>
+                                                <?php endif; ?>
+                                            </div>
+                                        </div>
+                                    <?php endforeach; ?>
+                                </div>
+                            </div>
+                        </section>
+
+                    <?php
                     // --- MOST REQUESTED PRODUCTS ---
                     elseif ( $layout === 'most_requested_products' ) :
                         $mrp_title    = get_sub_field( 'title' );

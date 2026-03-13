@@ -136,6 +136,105 @@
   }
 }
 
+// Contact Three Columns section
+.contact-three-columns {
+  position: relative;
+  color: #fff;
+  overflow: hidden;
+
+  &--no-bg {
+    background-color: #5a5a5a;
+
+    &::before,
+    &::after {
+      display: none;
+    }
+  }
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-image: var(--ctc-bg);
+    filter: blur(4px);
+    transform: scale(1.05);
+    z-index: 0;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, var(--ctc-overlay, 0.35));
+    z-index: 0;
+  }
+
+  .container {
+    position: relative;
+    z-index: 1;
+  }
+
+  .contact-three-col__icon {
+    font-size: 2rem;
+    opacity: 0.95;
+
+    i {
+      color: #fff !important;
+    }
+  }
+
+  .contact-three-col__title {
+    color: #fff !important;
+    font-size: 0.9rem;
+    letter-spacing: 0.5px;
+  }
+
+  .contact-three-col__content {
+    color: rgba(255, 255, 255, 0.95) !important;
+    line-height: 1.6;
+
+    a {
+      color: rgba(255, 255, 255, 0.95) !important;
+      text-decoration: none;
+      transition: color 0.3s ease;
+
+      &:hover {
+        color: #fff !important;
+      }
+    }
+  }
+
+  .contact-three-col--border {
+    position: relative;
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      right: 0;
+      transform: translateY(-50%);
+      width: 1px;
+      height: 60%;
+      background-color: rgba(255, 255, 255, 0.4);
+    }
+  }
+
+  @media (max-width: 767.98px) {
+    .contact-three-col--border::after {
+      display: none;
+    }
+  }
+}
+
 // Chi Siamo - Category cards
 .chi-cat-card {
   background: #fff;
