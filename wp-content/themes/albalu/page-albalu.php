@@ -655,11 +655,13 @@ get_header();
                         $ctc_items   = get_sub_field( 'items' );
                         if ( ! is_array( $ctc_items ) ) { $ctc_items = array(); }
                         $ctc_overlay_css = is_numeric( $ctc_overlay ) ? ( $ctc_overlay / 100 ) : 0.35;
+                        if ( ! empty( $ctc_items ) ) :
                     ?>
                         <section class="contact-three-columns py-5<?php echo ! $ctc_bg_image ? ' contact-three-columns--no-bg' : ''; ?>" style="<?php echo $ctc_bg_image ? "--ctc-bg:url('" . esc_url( $ctc_bg_image ) . "');" : ''; ?>--ctc-overlay:<?php echo esc_attr( $ctc_overlay_css ); ?>;">
                             <div class="container position-relative py-5">
-                                <div class="row g-0">
+                                <div class="row">
                                     <?php foreach ( $ctc_items as $idx => $item ) :
+                                        if ( ! is_array( $item ) ) { continue; }
                                         $icon_type = $item['icon_type'] ?? 'phone';
                                         $title     = $item['title'] ?? '';
                                         $content   = $item['content'] ?? '';
@@ -692,6 +694,7 @@ get_header();
                                 </div>
                             </div>
                         </section>
+                        <?php endif; ?>
 
                     <?php
                     // --- MOST REQUESTED PRODUCTS ---
