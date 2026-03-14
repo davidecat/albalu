@@ -955,3 +955,28 @@ function albalu_faq_shortcode() {
 }
 add_shortcode( 'albalu_faq', 'albalu_faq_shortcode' );
 //FAQ Section End
+
+// Show base product price (before PEWC extras) in admin order details
+add_action( 'woocommerce_after_order_itemmeta', 'albalu_show_base_price_in_order', 20, 3 );
+function albalu_show_base_price_in_order( $item_id, $item, $product ) {
+	if ( ! is_admin() || ! ( $item instanceof WC_Order_Item_Product ) ) {
+		return;
+	}
+
+	$extras = $item->get_meta( 'product_extras' );
+	$base_price = null;
+
+	if ( is_array( $extras ) && isset( $extras['original_price'] ) ) {
+		$base_price = $extras['original_price'];
+	} elseif ( $product ) {
+		$base_price = $product->get_price();
+	}
+
+	if ( ! is_null( $base_price ) && $base_price !== '' ) {
+		printf(
+			'<div class="wc-order-item-sku" style="margin-top:4px;"><strong>%s</strong>: <strong>%s</strong></div>',
+			esc_html__( 'Prezzo base', 'albalu' ),
+			wp_kses_post( wc_price( $base_price ) )
+		);
+	}
+}
