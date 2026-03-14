@@ -239,7 +239,14 @@ class WooSEA_Get_Products {
         global $wpdb;
         $list = array();
 
-        $sql  = 'SELECT meta.meta_id, meta.meta_key as name, meta.meta_value as type FROM ' . $wpdb->prefix . 'postmeta' . ' AS meta, ' . $wpdb->prefix . 'posts' . ' AS posts WHERE meta.post_id=' . $productId . ' AND meta.post_id = posts.id GROUP BY meta.meta_key ORDER BY meta.meta_key ASC';
+        $sql = $wpdb->prepare(
+            "SELECT meta.meta_id, meta.meta_key as name, meta.meta_value as type 
+            FROM {$wpdb->prefix}postmeta AS meta, {$wpdb->prefix}posts AS posts 
+            WHERE meta.post_id = %d AND meta.post_id = posts.id 
+            GROUP BY meta.meta_key 
+            ORDER BY meta.meta_key ASC",
+            absint( $productId )
+        );
         $data = $wpdb->get_results( $sql );
 
         if ( count( $data ) ) {
@@ -305,8 +312,18 @@ class WooSEA_Get_Products {
 
     /**
      * Get category path (needed for Prisjakt)
+     *
+     * @since 13.5.2 Updated for PHP 8.5 compatibility
+     * 
+     * @param int $id The term ID
+     * @param string $taxonomy The taxonomy
+     * @param string $link The link
+     * @param string $project_taxonomy The project taxonomy
+     * @param bool $nicename The nicename
+     * @param array $visited The visited terms
+     * @return string The term parents
      */
-    public function woosea_get_term_parents( $id, $taxonomy, string $link = null, $project_taxonomy, $nicename = false, $visited = array() ) {
+    public function woosea_get_term_parents( $id, $taxonomy, $link = null, $project_taxonomy = null, $nicename = false, $visited = array() ) {
         // Only add Home to the beginning of the chain when we start buildin the chain
         if ( empty( $visited ) ) {
             $chain = 'Home';
@@ -705,6 +722,13 @@ class WooSEA_Get_Products {
 
     /**
      * Creates XML root and header for productfeed
+     *
+     * @since 13.5.2 Updated for PHP 8.5 compatibility
+     * 
+     * @param array $products The products array
+     * @param object $feed The feed object
+     * @param string $header The header string
+     * @throws \Exception If feed configuration not found or invalid channel name detected
      */
     public function woosea_create_xml_feed( $products, $feed, $header ) {
         $upload_dir = wp_upload_dir();
@@ -720,7 +744,7 @@ class WooSEA_Get_Products {
         // Get the feed configuration
         $feed_config = $feed->get_channel();
         if ( empty( $feed_config ) ) {
-            return;
+            throw new \Exception( 'Feed configuration not found: ' . $feed->id . ' - ' . $feed->title );
         }
 
         // Check if directory in uploads exists, if not create one
@@ -736,10 +760,23 @@ class WooSEA_Get_Products {
         // Check if there is a channel feed class that we need to use
         if ( $feed_config['fields'] != 'standard' ) {
             if ( ! class_exists( 'WooSEA_' . $feed_config['fields'] ) ) {
-                $channel_file_path = plugin_dir_path( __FILE__ ) . '/channels/class-' . $feed_config['fields'] . '.php';
-                if ( file_exists( $channel_file_path ) ) {
-                    require $channel_file_path;
-                    $channel_class      = 'WooSEA_' . $feed_config['fields'];
+                // Sanitize channel name to prevent path traversal attacks
+                $channel_name = sanitize_file_name( $feed_config['fields'] );
+                
+                // Additional validation: only allow alphanumeric characters and underscores
+                if ( ! preg_match( '/^[a-zA-Z0-9_]+$/', $channel_name ) ) {
+                    throw new \Exception( 'Invalid channel name detected: ' . $feed_config['fields'] );
+                }
+                
+                $channel_file_path = plugin_dir_path( __FILE__ ) . '/channels/class-' . $channel_name . '.php';
+                
+                // Verify the file is within the channels directory (prevent directory traversal)
+                $real_path = realpath( $channel_file_path );
+                $channels_dir = realpath( plugin_dir_path( __FILE__ ) . '/channels' );
+                
+                if ( $real_path && $channels_dir && strpos( $real_path, $channels_dir ) === 0 && file_exists( $real_path ) ) {
+                    require $real_path;
+                    $channel_class      = 'WooSEA_' . $channel_name;
                     $channel_attributes = $channel_class::get_channel_attributes();
                     update_option( 'channel_attributes', $channel_attributes, false );
                 }
@@ -810,6 +847,10 @@ class WooSEA_Get_Products {
                                                     $shipping->addChild( 'g:min_transit_time', trim( $piece_value[1] ), $namespace['g'] );
                                                 } elseif ( preg_match( '/WOOSEA_MAX_TRANSIT_TIME/', $ship_piece ) ) {
                                                     $shipping->addChild( 'g:max_transit_time', trim( $piece_value[1] ), $namespace['g'] );
+                                                } elseif ( preg_match( '/WOOSEA_MIN_HANDLING_TIME/', $ship_piece ) ) {
+                                                    $shipping->addChild( 'g:min_handling_time', trim( $piece_value[1] ), $namespace['g'] );
+                                                } elseif ( preg_match( '/WOOSEA_MAX_HANDLING_TIME/', $ship_piece ) ) {
+                                                    $shipping->addChild( 'g:max_handling_time', trim( $piece_value[1] ), $namespace['g'] );
                                                 } else {
                                                     // DO NOT ADD ANYTHING
                                                 }
@@ -950,12 +991,8 @@ class WooSEA_Get_Products {
                 }
 
                 if ( is_object( $xml ) ) {
-                    // Revert to DOM to preserve XML whitespaces and line-breaks
-                    $dom                     = dom_import_simplexml( $xml )->ownerDocument;
-                    $dom->formatOutput       = true;
-                    $dom->preserveWhiteSpace = false;
-                    $dom->save( $file );
-                    unset( $dom );
+                    // Use XMLWriter for reliable formatting on large feeds
+                    $this->woosea_save_xml_with_xmlwriter( $xml, $file );
                 }
                 unset( $products );
             }
@@ -1401,8 +1438,8 @@ class WooSEA_Get_Products {
                     }
 
                     if ( is_object( $xml ) ) {
-                        // $xml = html_entity_decode($xml->asXML());
-                        $xml->asXML( $file );
+                        // Use XMLWriter for reliable formatting on large feeds
+                        $this->woosea_save_xml_with_xmlwriter( $xml, $file );
                     }
                     unset( $product );
                 }
@@ -1410,6 +1447,396 @@ class WooSEA_Get_Products {
             }
             unset( $xml );
         }
+    }
+
+    /**
+     * Save XML during batch processing without formatting
+     * Formatting is done at the very end by woosea_format_xml_file()
+     * 
+     * @since 13.5.3
+     * 
+     * @param SimpleXMLElement $xml The SimpleXML object to save
+     * @param string $file The file path to save to
+     * @return void
+     */
+    private function woosea_save_xml_with_xmlwriter( $xml, $file ) {
+        // Save without formatting during batch processing to avoid indent accumulation
+        // The file will be formatted once at the very end in move_feed_file_to_final()
+        $dom = dom_import_simplexml( $xml )->ownerDocument;
+        $dom->save( $file );
+        unset( $dom );
+    }
+
+    /**
+     * Format an XML file using XMLWriter for proper indentation
+     * This is called after feed generation completes to format the final XML
+     * 
+     * Production-ready with error handling, backup/recovery, and validation
+     * 
+     * @since 13.5.3
+     * 
+     * @param string $file The file path to format
+     * @return bool True on success, false on failure
+     */
+    public function woosea_format_xml_file( $file ) {
+        // Early validation checks
+        if ( ! file_exists( $file ) ) {
+            $this->log_xml_error( 'File does not exist', $file );
+            return false;
+        }
+        
+        if ( ! is_readable( $file ) ) {
+            $this->log_xml_error( 'File is not readable', $file );
+            return false;
+        }
+        
+        if ( ! is_writable( $file ) ) {
+            $this->log_xml_error( 'File is not writable', $file );
+            return false;
+        }
+        
+        if ( ! $this->is_xml_file( $file ) ) {
+            $this->log_xml_error( 'File does not appear to be XML', $file );
+            return false;
+        }
+        
+        // Check file size for memory considerations
+        $file_size = filesize( $file );
+        if ( false === $file_size ) {
+            $this->log_xml_error( 'Cannot determine file size', $file );
+            return false;
+        }
+        
+        // Create backup file for safety
+        $backup_file = $file . '.backup';
+        if ( ! copy( $file, $backup_file ) ) {
+            $this->log_xml_error( 'Failed to create backup file', $file );
+            return false;
+        }
+        
+        // Use temp file for atomic write operation
+        $temp_file = $file . '.formatting';
+        
+        // Save current libxml error state to restore later
+        $previous_libxml_errors = libxml_use_internal_errors( true );
+        
+        try {
+            // Load and validate the XML
+            $dom = new DOMDocument();
+            $dom->preserveWhiteSpace = false;
+            $dom->formatOutput = false;
+            
+            // Clear any previous errors
+            libxml_clear_errors();
+            
+            $loaded = @$dom->load( $file, LIBXML_PARSEHUGE | LIBXML_COMPACT );
+            
+            if ( ! $loaded ) {
+                $errors = libxml_get_errors();
+                $error_msg = 'Failed to load XML';
+                if ( ! empty( $errors ) ) {
+                    $error_msg .= ': ' . $errors[0]->message;
+                }
+                libxml_clear_errors();
+                throw new Exception( $error_msg );
+            }
+            
+            libxml_clear_errors();
+            
+            // Validate root element exists
+            if ( ! $dom->documentElement ) {
+                throw new Exception( 'XML document has no root element' );
+            }
+            
+            // Create XMLWriter instance
+            $writer = new XMLWriter();
+            if ( ! $writer->openURI( $temp_file ) ) {
+                throw new Exception( 'Failed to open temp file for writing' );
+            }
+            
+            $writer->setIndent( true );
+            $writer->setIndentString( '  ' ); // 2 spaces for indentation
+            $writer->startDocument( '1.0', 'UTF-8' );
+            
+            // Create XPath once for performance (avoid creating per element)
+            $xpath = new DOMXPath( $dom );
+            
+            // Recursively write the DOM tree using XMLWriter
+            // Pass empty array so namespaces ARE written on root element
+            $this->woosea_write_dom_node_with_xmlwriter( $dom->documentElement, $writer, array(), $xpath );
+            
+            // End document and flush
+            $writer->endDocument();
+            $writer->flush();
+            
+            // Cleanup writer
+            unset( $writer );
+            
+            // Verify temp file was created and has content
+            if ( ! file_exists( $temp_file ) || filesize( $temp_file ) === 0 ) {
+                throw new Exception( 'Formatted file is empty or was not created' );
+            }
+            
+            // Validate the formatted XML is well-formed
+            $test_dom = new DOMDocument();
+            libxml_clear_errors();
+            $valid = @$test_dom->load( $temp_file );
+            $errors = libxml_get_errors();
+            libxml_clear_errors();
+            
+            if ( ! $valid || ! empty( $errors ) ) {
+                throw new Exception( 'Formatted XML is not valid' );
+            }
+            
+            unset( $test_dom );
+            
+            // Atomic rename: replace original with formatted file
+            if ( ! rename( $temp_file, $file ) ) {
+                throw new Exception( 'Failed to replace original file with formatted version' );
+            }
+            
+            // Success - remove backup
+            if ( file_exists( $backup_file ) ) {
+                if ( ! unlink( $backup_file ) ) {
+                    $this->log_xml_error( 'Warning: Failed to delete backup file', $backup_file );
+                }
+            }
+            
+            // Clear DOM from memory
+            unset( $dom );
+            
+            // Restore previous libxml error state
+            libxml_use_internal_errors( $previous_libxml_errors );
+            
+            return true;
+            
+        } catch ( Exception $e ) {
+            // Log the error
+            $this->log_xml_error( 'XML formatting failed: ' . $e->getMessage(), $file, array(
+                'file_size' => $file_size,
+                'trace' => $e->getTraceAsString(),
+            ) );
+            
+            // Cleanup temp file if it exists
+            if ( file_exists( $temp_file ) ) {
+                if ( ! unlink( $temp_file ) ) {
+                    $this->log_xml_error( 'Warning: Failed to delete temp file', $temp_file );
+                }
+            }
+            
+            // Restore from backup
+            if ( file_exists( $backup_file ) ) {
+                if ( @copy( $backup_file, $file ) ) {
+                    // Successfully restored, now delete backup
+                    if ( ! unlink( $backup_file ) ) {
+                        $this->log_xml_error( 'Warning: Failed to delete backup after restore', $backup_file );
+                    }
+                } else {
+                    $this->log_xml_error( 'CRITICAL: Failed to restore from backup', $file );
+                    // Keep backup file since restore failed
+                }
+            }
+            
+            // Cleanup
+            unset( $dom, $writer );
+            
+            // Restore previous libxml error state
+            libxml_use_internal_errors( $previous_libxml_errors );
+            
+            return false;
+        }
+    }
+    
+    /**
+     * Log XML formatting errors
+     * 
+     * @since 13.5.3
+     * 
+     * @param string $message Error message
+     * @param string $file File path
+     * @param array $context Additional context
+     * @return void
+     */
+    private function log_xml_error( $message, $file = '', $context = array() ) {
+        if ( function_exists( 'wc_get_logger' ) ) {
+            $logger = wc_get_logger();
+            $log_context = array_merge(
+                array(
+                    'source' => 'woo-product-feed-pro',
+                    'file' => $file,
+                ),
+                $context
+            );
+            $logger->error( 'XML Formatting: ' . $message, $log_context );
+        }
+        
+        // Also log to PHP error log if WP_DEBUG is enabled
+        if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+            error_log( 'WooSEA XML Formatting Error: ' . $message . ( $file ? ' [File: ' . $file . ']' : '' ) );
+        }
+    }
+
+    /**
+     * Recursively write a DOM node using XMLWriter
+     * 
+     * Production-ready with error handling and edge case management
+     * 
+     * @since 13.5.3
+     * 
+     * @param DOMNode $node The DOM node to write
+     * @param XMLWriter $writer The XMLWriter instance
+     * @param array $declared_namespaces Track namespaces already declared in parent elements
+     * @param DOMXPath $xpath DOMXPath instance (passed for performance, created once per document)
+     * @return void
+     * @throws Exception If critical writing error occurs
+     */
+    private function woosea_write_dom_node_with_xmlwriter( $node, $writer, $declared_namespaces = array(), $xpath = null ) {
+        // Validate inputs
+        if ( ! $node || ! $writer ) {
+            return;
+        }
+        
+        if ( $node->nodeType === XML_ELEMENT_NODE ) {
+            // Start element (without namespace declaration - we'll add xmlns manually)
+            try {
+                if ( ! empty( $node->prefix ) && ! empty( $node->localName ) ) {
+                    // Element with prefix (e.g., g:id)
+                    $element_name = $node->prefix . ':' . $node->localName;
+                    if ( ! $writer->startElement( $element_name ) ) {
+                        throw new Exception( 'Failed to start element: ' . $element_name );
+                    }
+                } elseif ( ! empty( $node->nodeName ) ) {
+                    // Element without prefix
+                    if ( ! $writer->startElement( $node->nodeName ) ) {
+                        throw new Exception( 'Failed to start element: ' . $node->nodeName );
+                    }
+                } else {
+                    // Invalid element name - skip
+                    return;
+                }
+            } catch ( Exception $e ) {
+                // Log but don't halt the entire process
+                $this->log_xml_error( 'Element write error: ' . $e->getMessage() );
+                return;
+            }
+            
+            // First, write namespace declarations if this is the root or a new namespace scope
+            try {
+                // Use passed XPath instance for performance (avoids creating one per element)
+                if ( ! $xpath ) {
+                    // Fallback: create XPath if not provided (shouldn't happen but safety check)
+                    $xpath = new DOMXPath( $node->ownerDocument );
+                }
+                
+                $xmlns_nodes = $xpath->query( 'namespace::*', $node );
+                
+                if ( $xmlns_nodes ) {
+                    foreach ( $xmlns_nodes as $xmlns_node ) {
+                        $prefix = $xmlns_node->localName;
+                        $uri = $xmlns_node->nodeValue;
+                        
+                        // Skip xml namespace (it's built-in)
+                        if ( $prefix === 'xml' ) {
+                            continue;
+                        }
+                        
+                        // Validate URI
+                        if ( empty( $uri ) ) {
+                            continue;
+                        }
+                        
+                        // Check if this namespace was declared by parent
+                        if ( ! isset( $declared_namespaces[ $prefix ] ) || $declared_namespaces[ $prefix ] !== $uri ) {
+                            // Write namespace declaration
+                            if ( $prefix === 'xmlns' || empty( $prefix ) ) {
+                                $writer->writeAttribute( 'xmlns', $uri );
+                            } else {
+                                $writer->writeAttribute( 'xmlns:' . $prefix, $uri );
+                            }
+                            $declared_namespaces[ $prefix ] = $uri;
+                        }
+                    }
+                }
+            } catch ( Exception $e ) {
+                // Log namespace error but continue
+                $this->log_xml_error( 'Namespace processing error: ' . $e->getMessage() );
+            }
+            
+            // Write regular attributes (skip xmlns ones as we handled them above)
+            if ( $node->hasAttributes() ) {
+                try {
+                    foreach ( $node->attributes as $attr ) {
+                        // Skip namespace declarations (already written)
+                        if ( strpos( $attr->name, 'xmlns' ) === 0 ) {
+                            continue;
+                        }
+                        
+                        // Validate attribute name and value
+                        if ( empty( $attr->name ) ) {
+                            continue;
+                        }
+                        
+                        // Write the attribute with proper encoding
+                        $attr_value = $attr->value !== null ? $attr->value : '';
+                        $writer->writeAttribute( $attr->name, $attr_value );
+                    }
+                } catch ( Exception $e ) {
+                    // Log attribute error but continue
+                    $this->log_xml_error( 'Attribute write error: ' . $e->getMessage() );
+                }
+            }
+            
+            // Write child nodes - pass down the declared namespaces and xpath
+            if ( $node->hasChildNodes() ) {
+                foreach ( $node->childNodes as $child ) {
+                    // Recursively process child nodes
+                    $this->woosea_write_dom_node_with_xmlwriter( $child, $writer, $declared_namespaces, $xpath );
+                }
+            }
+            
+            // End element
+            try {
+                $writer->endElement();
+            } catch ( Exception $e ) {
+                $this->log_xml_error( 'Failed to end element: ' . $e->getMessage() );
+            }
+            
+        } elseif ( $node->nodeType === XML_TEXT_NODE ) {
+            // Write text content only if not empty or whitespace-only between elements
+            if ( $node->nodeValue !== null && $node->nodeValue !== '' ) {
+                try {
+                    $writer->text( $node->nodeValue );
+                } catch ( Exception $e ) {
+                    $this->log_xml_error( 'Text node write error: ' . $e->getMessage() );
+                }
+            }
+            
+        } elseif ( $node->nodeType === XML_CDATA_SECTION_NODE ) {
+            // Write CDATA section with validation
+            if ( $node->nodeValue !== null ) {
+                try {
+                    $writer->writeCdata( $node->nodeValue );
+                } catch ( Exception $e ) {
+                    // If CDATA fails, try as regular text
+                    try {
+                        $writer->text( $node->nodeValue );
+                    } catch ( Exception $e2 ) {
+                        $this->log_xml_error( 'CDATA/text write error: ' . $e->getMessage() );
+                    }
+                }
+            }
+            
+        } elseif ( $node->nodeType === XML_COMMENT_NODE ) {
+            // Preserve comments
+            if ( $node->nodeValue !== null ) {
+                try {
+                    $writer->writeComment( $node->nodeValue );
+                } catch ( Exception $e ) {
+                    // Comments are not critical, just skip
+                }
+            }
+        }
+        // Other node types (processing instructions, etc.) are intentionally skipped
     }
 
     /**
@@ -1570,6 +1997,10 @@ class WooSEA_Get_Products {
                             $ship_zone->addChild( 'min_transit_time', htmlspecialchars( $piece_value[1] ) );
                         } elseif ( preg_match( '/WOOSEA_MAX_TRANSIT_TIME/', $ship_piece ) ) {
                             $ship_zone->addChild( 'max_transit_time', htmlspecialchars( $piece_value[1] ) );
+                        } elseif ( preg_match( '/WOOSEA_MIN_HANDLING_TIME/', $ship_piece ) ) {
+                            $ship_zone->addChild( 'min_handling_time', htmlspecialchars( $piece_value[1] ) );
+                        } elseif ( preg_match( '/WOOSEA_MAX_HANDLING_TIME/', $ship_piece ) ) {
+                            $ship_zone->addChild( 'max_handling_time', htmlspecialchars( $piece_value[1] ) );
                         } else {
                             // DO NOT ADD ANYTHING
                         }
@@ -2082,7 +2513,7 @@ class WooSEA_Get_Products {
                 
                 if ( empty( $pieces ) ) {
                     $pieces = array_map( 'trim', $pieces );
-                    fputcsv( $fp, $pieces, $csv_delimiter, '"' );
+                    fputcsv( $fp, $pieces, $csv_delimiter, '"', '\\' );
                     continue;
                 }
 
@@ -2094,7 +2525,7 @@ class WooSEA_Get_Products {
                 
                 // Process standard feed format
                 $csv_line = $this->prepare_csv_line($pieces, $fields, $channel_attributes, $header, $feed);
-                fputcsv( $fp, $csv_line, $csv_delimiter, '"' );
+                fputcsv( $fp, $csv_line, $csv_delimiter, '"', '\\' );
             }
         }
         
@@ -2109,6 +2540,7 @@ class WooSEA_Get_Products {
      * Load channel attributes for a specific feed type
      * 
      * @param string $fields The feed field type
+     * @throws \Exception If invalid channel name detected
      * @return array Channel attributes
      */
     private function load_channel_attributes($fields) {
@@ -2116,10 +2548,23 @@ class WooSEA_Get_Products {
         
         if ( $fields != 'standard' && $fields != 'customfeed' ) {
             if ( ! class_exists( 'WooSEA_' . $fields ) ) {
-                $channel_file_path = plugin_dir_path( __FILE__ ) . '/channels/class-' . $fields . '.php';
-                if ( file_exists( $channel_file_path ) ) {
-                    require $channel_file_path;
-                    $channel_class      = 'WooSEA_' . $fields;
+                // Sanitize channel name to prevent path traversal attacks
+                $channel_name = sanitize_file_name( $fields );
+                
+                // Additional validation: only allow alphanumeric characters and underscores
+                if ( ! preg_match( '/^[a-zA-Z0-9_]+$/', $channel_name ) ) {
+                    throw new \Exception( 'Invalid channel name detected: ' . $fields );
+                }
+                
+                $channel_file_path = plugin_dir_path( __FILE__ ) . '/channels/class-' . $channel_name . '.php';
+                
+                // Verify the file is within the channels directory (prevent directory traversal)
+                $real_path = realpath( $channel_file_path );
+                $channels_dir = realpath( plugin_dir_path( __FILE__ ) . '/channels' );
+                
+                if ( $real_path && $channels_dir && strpos( $real_path, $channels_dir ) === 0 && file_exists( $real_path ) ) {
+                    require $real_path;
+                    $channel_class      = 'WooSEA_' . $channel_name;
                     $channel_attributes = $channel_class::get_channel_attributes();
                 }
             }
@@ -2163,17 +2608,17 @@ class WooSEA_Get_Products {
                         $pieces_copy = $pieces;
                         $pieces_copy[1] = $store_value;
                         
-                        fputcsv( $fp, $pieces_copy, $csv_delimiter, '"' );
+                        fputcsv( $fp, $pieces_copy, $csv_delimiter, '"', '\\' );
                     }
                 }
             } else {
                 // Single store code case
                 $pieces[1] = trim($stores_local);
-                fputcsv( $fp, $pieces, $csv_delimiter, '"' );
+                fputcsv( $fp, $pieces, $csv_delimiter, '"', '\\' );
             }
         } else {
             // No store code specified
-            fputcsv( $fp, $pieces, $csv_delimiter, '"' );
+            fputcsv( $fp, $pieces, $csv_delimiter, '"', '\\' );
         }
     }
 
@@ -2331,7 +2776,7 @@ class WooSEA_Get_Products {
         }
 
         // Get Orders
-        if ( $feed->utm_total_product_orders_lookback > 0 ) {
+        if ( $feed->utm_total_product_orders_lookback && $feed->utm_total_product_orders_lookback > 0 ) {
             $allowed_product_orders = \AdTribes\PFP\Classes\Orders::get_orders( $feed );
         }
 
@@ -2362,6 +2807,9 @@ class WooSEA_Get_Products {
 
         // Check if total_product_orders is needed in the feed (attributes, filters, or rules)
         $is_total_product_orders_mapped = \AdTribes\PFP\Classes\Orders::is_total_product_orders_mapped( $feed );
+
+        // Tax class options.
+        $tax_class_options  = function_exists( 'wc_get_product_tax_class_options' ) ? wc_get_product_tax_class_options() : array();
 
         // Main product query loop - will iterate multiple times in preview mode if needed
         do {
@@ -2432,7 +2880,7 @@ class WooSEA_Get_Products {
             $country_code  = $feed->country ?? '';
 
             // Only products that have been sold are allowed to go through
-            if ( $feed->utm_total_product_orders_lookback > 0 ) {
+            if ( $feed->utm_total_product_orders_lookback && $feed->utm_total_product_orders_lookback > 0 ) {
                 if ( ! in_array( $product_data['id'], $allowed_product_orders ) ) {
                     continue;
                 }
@@ -2551,6 +2999,7 @@ class WooSEA_Get_Products {
             // Get product tax details
             $product_data['tax_status'] = $product->get_tax_status();
             $product_data['tax_class']  = $product->get_tax_class();
+            $product_data['tax_class_name']  = isset( $tax_class_options[ $product_data['tax_class'] ] ) ? $tax_class_options[ $product_data['tax_class'] ] : '';
 
             // End product visibility logic
             $product_data['item_group_id'] = $parent_id ?? '';
@@ -2753,12 +3202,12 @@ class WooSEA_Get_Products {
             }
 
             // Raw descriptions, unfiltered
-            $product_data['raw_description']       = Sanitization::sanitize_raw_html_content( $combined_description, $feed );
-            $product_data['raw_short_description'] = Sanitization::sanitize_raw_html_content( $combined_short_description, $feed );
-            $product_data['raw_parent_description'] = Sanitization::sanitize_raw_html_content( $parent_product_description, $feed );
-            $product_data['raw_parent_short_description'] = Sanitization::sanitize_raw_html_content( $parent_product_short_description, $feed );
-            $product_data['raw_variation_description'] = Sanitization::sanitize_raw_html_content( $product_description, $feed );
-            $product_data['raw_variation_short_description'] = Sanitization::sanitize_raw_html_content( $product_short_description, $feed );
+            $product_data['raw_description']       = Sanitization::sanitize_raw_html_content( $combined_description );
+            $product_data['raw_short_description'] = Sanitization::sanitize_raw_html_content( $combined_short_description );
+            $product_data['raw_parent_description'] = Sanitization::sanitize_raw_html_content( $parent_product_description );
+            $product_data['raw_parent_short_description'] = Sanitization::sanitize_raw_html_content( $parent_product_short_description );
+            $product_data['raw_variation_description'] = Sanitization::sanitize_raw_html_content( $product_description );
+            $product_data['raw_variation_short_description'] = Sanitization::sanitize_raw_html_content( $product_short_description );
 
             // Sanitize descriptions
             $product_data['description']              = Sanitization::sanitize_html_content( $combined_description, $feed );
@@ -3632,7 +4081,14 @@ class WooSEA_Get_Products {
                  * We need to check if this product has individual custom product attributes
                  */
                 global $wpdb;
-                $sql  = 'SELECT meta.meta_id, meta.meta_key as name, meta.meta_value as type FROM ' . $wpdb->prefix . 'postmeta' . ' AS meta, ' . $wpdb->prefix . 'posts' . ' AS posts WHERE meta.post_id=' . $product_data['id'] . ' AND meta.post_id = posts.id GROUP BY meta.meta_key ORDER BY meta.meta_key ASC';
+                $sql = $wpdb->prepare(
+                    "SELECT meta.meta_id, meta.meta_key as name, meta.meta_value as type 
+                    FROM {$wpdb->prefix}postmeta AS meta, {$wpdb->prefix}posts AS posts 
+                    WHERE meta.post_id = %d AND meta.post_id = posts.id 
+                    GROUP BY meta.meta_key 
+                    ORDER BY meta.meta_key ASC",
+                    absint( $product_data['id'] )
+                );
                 $data = $wpdb->get_results( $sql );
                 if ( count( $data ) ) {
                     foreach ( $data as $key => $value ) {
@@ -4023,7 +4479,14 @@ class WooSEA_Get_Products {
                  * We need to check if this product has individual custom product attributes
                  */
                 global $wpdb;
-                $sql  = 'SELECT meta.meta_id, meta.meta_key as name, meta.meta_value as type FROM ' . $wpdb->prefix . 'postmeta' . ' AS meta, ' . $wpdb->prefix . 'posts' . ' AS posts WHERE meta.post_id=' . $product_data['id'] . ' AND meta.post_id = posts.id GROUP BY meta.meta_key ORDER BY meta.meta_key ASC';
+                $sql = $wpdb->prepare(
+                    "SELECT meta.meta_id, meta.meta_key as name, meta.meta_value as type 
+                    FROM {$wpdb->prefix}postmeta AS meta, {$wpdb->prefix}posts AS posts 
+                    WHERE meta.post_id = %d AND meta.post_id = posts.id 
+                    GROUP BY meta.meta_key 
+                    ORDER BY meta.meta_key ASC",
+                    absint( $product_data['id'] )
+                );
                 $data = $wpdb->get_results( $sql );
                 if ( count( $data ) ) {
                     foreach ( $data as $key => $value ) {
@@ -4808,20 +5271,23 @@ class WooSEA_Get_Products {
 
                                                 foreach ( $value as $k => $v ) {
                                                     if ( $k == 'country' ) {
-                                                        $shipping_str .= ":WOOSEA_COUNTRY##$v";
+                                                        $shipping_str .= ':WOOSEA_COUNTRY##' . sanitize_text_field( $v );
                                                     } elseif ( $k == 'region' ) {
-                                                        $shipping_str .= ":WOOSEA_REGION##$v";
+                                                        $shipping_str .= ':WOOSEA_REGION##' . sanitize_text_field( $v );
                                                     } elseif ( $k == 'service' ) {
-                                                        $shipping_str .= ":WOOSEA_SERVICE##$v";
+                                                        $shipping_str .= ':WOOSEA_SERVICE##' . sanitize_text_field( $v );
                                                     } elseif ( $k == 'postal_code' ) {
-                                                        $shipping_str .= ":WOOSEA_POSTAL_CODE##$v";
+                                                        $shipping_str .= ':WOOSEA_POSTAL_CODE##' . sanitize_text_field( $v );
                                                     } elseif ( $k == 'price' ) {
-                                                        $shipping_str .= ":WOOSEA_PRICE##$attr_value[prefix]" . $v . "$attr_value[suffix]";
-                                                        // $shipping_str .= ":WOOSEA_PRICE##$v";
+                                                        $shipping_str .= ':WOOSEA_PRICE##' . sanitize_text_field( $attr_value['prefix'] ) . sanitize_text_field( $v ) . sanitize_text_field( $attr_value['suffix'] );
                                                     } elseif ( $k == 'min_transit_time' ) {
-                                                        $shipping_str .= ":WOOSEA_MIN_TRANSIT_TIME##$v";
+                                                        $shipping_str .= ':WOOSEA_MIN_TRANSIT_TIME##' . sanitize_text_field( $v );
                                                     } elseif ( $k == 'max_transit_time' ) {
-                                                        $shipping_str .= ":WOOSEA_MAX_TRANSIT_TIME##$v";
+                                                        $shipping_str .= ':WOOSEA_MAX_TRANSIT_TIME##' . sanitize_text_field( $v );
+                                                    } elseif ( $k == 'min_handling_time' ) {
+                                                        $shipping_str .= ':WOOSEA_MIN_HANDLING_TIME##' . sanitize_text_field( $v );
+                                                    } elseif ( $k == 'max_handling_time' ) {
+                                                        $shipping_str .= ':WOOSEA_MAX_HANDLING_TIME##' . sanitize_text_field( $v );
                                                     } else {
                                                         // UNKNOWN, DO NOT ADD
                                                     }

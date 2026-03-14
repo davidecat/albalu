@@ -646,24 +646,6 @@ function woosea_add_remarketing_tags( $product = null ) {
 add_action( 'wp_footer', 'woosea_add_remarketing_tags' );
 
 /**
- * Close the get Elite activation notification.
- **/
-function woosea_getelite_active_notification() {
-    if ( ! wp_verify_nonce( $_REQUEST['security'], 'woosea_ajax_nonce' ) ) {
-        wp_send_json_error( __( 'Invalid security token', 'woo-product-feed-pro' ) );
-    }
-
-    if ( Helper::is_current_user_allowed() ) {
-        $get_elite_notice = array(
-            'show'      => 'no',
-            'timestamp' => date( 'd-m-Y' ),
-        );
-        update_option( 'woosea_getelite_active_notification', $get_elite_notice, false );
-    }
-}
-add_action( 'wp_ajax_woosea_getelite_active_notification', 'woosea_getelite_active_notification' );
-
-/**
  * Add some JS and mark-up code on every front-end page in order to get the conversion tracking to work.
  */
 function woosea_hook_header() {
