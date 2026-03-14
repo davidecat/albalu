@@ -34,7 +34,7 @@ class Orders extends Abstract_Class {
         global $wpdb;
 
         $allowed_products              = array();
-        $total_product_orders_lookback = $feed->utm_total_product_orders_lookback ?? 0;
+        $total_product_orders_lookback = $feed->utm_total_product_orders_lookback && $feed->utm_total_product_orders_lookback > 0 ? intval( $feed->utm_total_product_orders_lookback ) : 0;
         if ( $total_product_orders_lookback > 0 ) {
             /**
              * Filter the today date.
