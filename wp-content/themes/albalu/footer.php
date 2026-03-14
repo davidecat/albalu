@@ -17,37 +17,28 @@
     <!-- Main Footer Widgets -->
     <div class="container"> <!-- Used container-custom to match header width if needed, or just container -->
         <div class="row g-4">
-            <!-- Col 1: Shop -->
             <div class="col-lg-3 col-md-6">
                 <h4 class="fw-medium mb-4 text-uppercase">Shop</h4>
-                <ul class="list-unstyled footer-arrow-list">
-                    <li><a href="/categoria-prodotto/nascita-e-battesimo/" class="text-decoration-none">Nascita e Battesimo</a></li>
-                    <li><a href="/categoria-prodotto/comunione/" class="text-decoration-none">Comunione</a></li>
-                    <li><a href="/categoria-prodotto/cresima/" class="text-decoration-none">Cresima</a></li>
-                    <li><a href="/categoria-prodotto/compleanno/" class="text-decoration-none">Compleanno</a></li>
-                    <li><a href="/categoria-prodotto/laurea/" class="text-decoration-none">Laurea</a></li>
-                    <li><a href="/categoria-prodotto/matrimonio/" class="text-decoration-none">Matrimonio</a></li>
-                    <li><a href="/categoria-prodotto/anniversario/" class="text-decoration-none">Anniversario</a></li>
-                    <li><a href="/categoria-prodotto/complementi-darredo-e-regali/" class="text-decoration-none">Complementi D'Arredo e Regali</a></li>
-                    <li><a href="/categoria-prodotto/bomboniere-per-tema/" class="text-decoration-none">Bomboniere per tema</a></li>
-                    <li><a href="/categoria-prodotto/bomboniere-per-tipologia/" class="text-decoration-none">Bomboniere per Tipologia: Portafoto, Profumatori, Orologi</a></li>
-                </ul>
+                <?php
+                wp_nav_menu( array(
+                    'theme_location' => 'footer_shop',
+                    'container'      => false,
+                    'menu_class'     => 'list-unstyled footer-arrow-list',
+                    'fallback_cb'    => false,
+                ) );
+                ?>
             </div>
 
-            <!-- Col 2: Guida all'acquisto -->
             <div class="col-lg-3 col-md-6">
                 <h4 class="fw-medium mb-4 text-uppercase">Guida all'acquisto</h4>
-                <ul class="list-unstyled footer-arrow-list">
-                    <li><a href="/chi-siamo/" class="text-decoration-none">Chi Siamo</a></li>
-                    <li><a href="/notizie/" class="text-decoration-none">Notizie</a></li>
-                    <li><a href="/assistenza-clienti/" class="text-decoration-none">Assistenza Clienti</a></li>
-                    <li><a href="/faq/" class="text-decoration-none">Domande Frequenti- FAQ</a></li>
-                    <li><a href="/pagamenti/" class="text-decoration-none">Pagamenti</a></li>
-                    <li><a href="/spedizioni/" class="text-decoration-none">Spedizioni</a></li>
-                    <li><a href="/resi-e-rimborsi/" class="text-decoration-none">Resi e rimborsi</a></li>
-                    <li><a href="/i-nostri-sconti/" class="text-decoration-none">I nostri sconti</a></li>
-                    <li><a href="/termini-e-condizioni/" class="text-decoration-none">Termini e condizioni</a></li>
-                </ul>
+                <?php
+                wp_nav_menu( array(
+                    'theme_location' => 'footer_guide',
+                    'container'      => false,
+                    'menu_class'     => 'list-unstyled footer-arrow-list',
+                    'fallback_cb'    => false,
+                ) );
+                ?>
             </div>
 
             <!-- Col 3: Contattaci & Social -->
