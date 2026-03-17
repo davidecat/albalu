@@ -8,6 +8,10 @@ use PaymentPlugins\WooCommerce\PPCP\Messages;
 
 trait ThreeDSecureTrait {
 
+	protected static array $ThreeDSecureTraitFeatures = [
+		'3ds'
+	];
+
 	/**
 	 * Returns true if 3DS is enabled.
 	 *
@@ -31,7 +35,7 @@ trait ThreeDSecureTrait {
 	}
 
 	/**
-	 * @param Order $paypal_order
+	 * @param Order     $paypal_order
 	 * @param \WC_Order $order
 	 *
 	 * @return void

@@ -84,6 +84,13 @@ function pewc_get_extra_fields( $post_id ) {
 			// This is the post-3.0.0 method using post types
 			// However, it still returns a big groups array like the old method for backwards compatibility
 			$product_extra_groups = pewc_get_pewc_groups( $post_id );
+
+			// Filter the groups
+			// Only filter on the front end, since 3.7.24
+			// if( ! is_admin() || wp_doing_ajax() ) {
+			// 	$product_extra_groups = apply_filters( 'pewc_filter_product_extra_groups', $product_extra_groups, $post_id );
+			// }
+
 		}
 
 		pewc_set_transient( 'pewc_extra_fields_' . $post_id, $product_extra_groups );
@@ -92,6 +99,10 @@ function pewc_get_extra_fields( $post_id ) {
 
 	// Filter the groups
 	// Only filter on the front end, since 3.7.24
+	/**
+	 * MOVE THIS ABOVE WHERE PEWC_SET_TRANSIENT IS FORMED
+	 * ENSURE IT RUNS ON BACK END AS WELL
+	 */
 	if( ! is_admin() || wp_doing_ajax() ) {
 		$product_extra_groups = apply_filters( 'pewc_filter_product_extra_groups', $product_extra_groups, $post_id );
 	}
@@ -370,6 +381,7 @@ function pewc_get_field_params( $field_id=null ) {
 		'id',
 		'group_id',
 		'field_label',
+		'field_admin_label',
 		'field_type',
 		'field_price',
 		'field_options',
@@ -448,6 +460,7 @@ function pewc_get_field_params( $field_id=null ) {
 		'layered_images',
 		'parent_swatch_id',
 		'field_swatchwidth',
+		'field_class',
 		'field_step',
 		'field_enable_range_slider'
 	);
@@ -1461,7 +1474,7 @@ function pewc_has_color_picker_field( $product_id ) {
  * Have we enabled DropZone.js uploads?
  */
 function pewc_enable_ajax_upload() {
-	$enable_js = get_option( 'pewc_enable_dropzonejs', 'no' );
+	$enable_js = get_option( 'pewc_enable_dropzonejs', 'yes' );
 	return apply_filters( 'pewc_enable_dropzonejs', $enable_js );
 }
 

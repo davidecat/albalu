@@ -17,7 +17,7 @@ if( ! defined( 'ABSPATH' ) ) {
 		<tr>
 
 			<th class="pewc-option-image">&nbsp;</th>
-			<th class="pewc-option-image">
+			<th class="pewc-option-image alt">
 				<?php printf( '<div class="pewc-label">%s</div>', __( 'Alt', 'pewc' ) ); ?>
 			</th>
 			<th class="pewc-option-hex">
@@ -32,7 +32,7 @@ if( ! defined( 'ABSPATH' ) ) {
 
 			<?php do_action( 'pewc_after_option_params_titles', false, false, array() ); ?>
 
-			<th class="product-extra-field-10 pewc-actions pewc-select-actions">&nbsp;</th>
+			<th class="pewc-actions pewc-select-actions">&nbsp;</th>
 
 		</tr>
 

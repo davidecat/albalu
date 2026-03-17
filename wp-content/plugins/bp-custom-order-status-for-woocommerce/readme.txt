@@ -3,10 +3,10 @@ Contributors: brightvesseldev, kleinmannbrightvessel
 Requires at least: 5.0
 Tags: custom order status,custom status,order status,statuses
 Requires PHP: 7.4
-WC tested up to: 10.3.4
-Tested up to: 6.8.3
+WC tested up to: 10.5.2
+Tested up to: 6.9.1
 WC requires at least: 4.0
-Stable tag: 1.3.1
+Stable tag: 2.0
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -27,6 +27,9 @@ Not all order pipelines are created equal. **Customer Order Status Manager for W
 * Enable email notifications for customers or administrators.
 * Adds a status column to the order list page.
 * Set order status for Default and Third-party Payment methods.
+* Automatic custom status transtitions (by time intervals) - **(PREMIUM)[https://brightplugins.com/product/custom-order-status-manager-for-woocommerce/?utm_source=freemium&utm_medium=wp_site&utm_campaign=upgrade_pro]**
+* Display in Woo Reports - **(PREMIUM)[https://brightplugins.com/product/custom-order-status-manager-for-woocommerce/?utm_source=freemium&utm_medium=wp_site&utm_campaign=upgrade_pro]**
+* Increase or decrease the stock level - **(PREMIUM)[https://brightplugins.com/product/custom-order-status-manager-for-woocommerce/?utm_source=freemium&utm_medium=wp_site&utm_campaign=upgrade_pro]**
 
 = How to create Custom Order Status? =
 
@@ -79,6 +82,14 @@ Unlock all 19 premium WooCommerce plugins with one club membership. [Join the Cl
 
 
 == Changelog ==
+
+= 2.0 -  17 Feb 25 =
+* Fixed: Duplicate “New Order” admin emails occurring with certain payment methods.
+* Fixed: Plugin breaks admin-ajax (400 / settings not saved) in specific cases.
+* Fixed: Custom status email – hooks to first status only.
+* Fixed: Load JS/CSS locally instead of jsDelivr.
+* Support for WooCommerce 10.5.x
+* Support for WordPress 6.9.1
 
 = 1.3.1 -  2 Dec 25 =
 * Support for WooCommerce 10.3.x

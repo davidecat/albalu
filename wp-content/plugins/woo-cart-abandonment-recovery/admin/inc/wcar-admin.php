@@ -33,6 +33,7 @@ class Wcar_Admin {
 		add_action( 'wp_ajax_cart_abandonment_install_plugin', 'wp_ajax_install_plugin' );
 		add_action( 'wp_ajax_cart_abandonment_activate_plugin', [ $this, 'cart_abandonment_activate_plugin' ] );
 		add_action( 'wp_ajax_wcar_complete_onboarding', [ $this, 'complete_onboarding' ] );
+		add_action( 'admin_post_wcar_rollback', [ $this, 'post_wcar_rollback' ] );
 	}
 
 	/**
@@ -108,25 +109,25 @@ class Wcar_Admin {
 		wp_enqueue_script( $handle . '-ottokit-integration', 'https://app.suretriggers.com/js/v2/embed.js', [], CARTFLOWS_CA_VER, true );
 
 		$data_vars = [
-			'ajax_url'                => admin_url( 'admin-ajax.php' ),
+			'ajax_url'                       => admin_url( 'admin-ajax.php' ),
 			
 			// Pro Plugin Status - Following CartFlows pattern.
-			'wcar_pro_status'         => $this->get_plugin_status( 'woo-cart-abandonment-recovery-pro/woo-cart-abandonment-recovery-pro.php' ),
-			'wcar_pro_type'           => $this->get_version_display(),
-			'is_pro'                  => _is_wcar_pro(),
-			'upgrade_to_pro_url'      => wcf_ca()->helper->get_upgrade_to_pro_url(),
-			'license_status'          => _is_wcar_pro_license_activated(),
-			'knowledge_base'          => $this->get_knowledge_base(),
-			'whats_new_rss_feed'      => $this->get_whats_new_rss_feeds_data(),
-			'settings'                => $this->get_cart_abandonment_settings(),
-			'supported_wp_roles'      => wcf_ca()->helper->get_wordpress_user_roles(),
-			'order_statuses'          => wcf_ca()->helper->get_order_statuses(),
-			'settings_fields'         => Meta_Options::get_meta_settings(),
-			'save_setting_nonce'      => wp_create_nonce( 'wcar_save_setting' ),
-			'plugin_installer_nonce'  => wp_create_nonce( 'updates' ),
-			'plugin_activation_nonce' => wp_create_nonce( 'cart_abandonment_activate_plugin_nonce' ),
-			'extend_plugins'          => $this->wcar_get_extend_plugins(),
-			'ottokit'                 => [
+			'wcar_pro_status'                => $this->get_plugin_status( 'woo-cart-abandonment-recovery-pro/woo-cart-abandonment-recovery-pro.php' ),
+			'wcar_pro_type'                  => $this->get_version_display(),
+			'is_pro'                         => _is_wcar_pro(),
+			'upgrade_to_pro_url'             => wcf_ca()->helper->get_upgrade_to_pro_url(),
+			'license_status'                 => _is_wcar_pro_license_activated(),
+			'knowledge_base'                 => $this->get_knowledge_base(),
+			'whats_new_rss_feed'             => $this->get_whats_new_rss_feeds_data(),
+			'settings'                       => $this->get_cart_abandonment_settings(),
+			'supported_wp_roles'             => wcf_ca()->helper->get_wordpress_user_roles(),
+			'order_statuses'                 => wcf_ca()->helper->get_order_statuses(),
+			'settings_fields'                => Meta_Options::get_meta_settings(),
+			'save_setting_nonce'             => wp_create_nonce( 'wcar_save_setting' ),
+			'plugin_installer_nonce'         => wp_create_nonce( 'updates' ),
+			'plugin_activation_nonce'        => wp_create_nonce( 'cart_abandonment_activate_plugin_nonce' ),
+			'extend_plugins'                 => $this->wcar_get_extend_plugins(),
+			'ottokit'                        => [
 				'status'               => $this->get_plugin_status( 'suretriggers/suretriggers.php' ),
 				'is_ottokit_connected' => apply_filters( 'suretriggers_is_user_connected', false ),
 				'ottokit_redirect_url' => esc_url( admin_url( 'admin.php?page=suretriggers' ) ),
@@ -148,9 +149,9 @@ class Wcar_Admin {
 					],
 				],
 			],
-			'admin_url'               => esc_url( admin_url( 'admin.php?page=woo-cart-abandonment-recovery' ) ),
-			'site_url'                => esc_url( site_url() ),
-			'onboarding'              => [
+			'admin_url'                      => esc_url( admin_url( 'admin.php?page=woo-cart-abandonment-recovery' ) ),
+			'site_url'                       => esc_url( site_url() ),
+			'onboarding'                     => [
 				'onboarding_completed' => Wcar_Onboarding::get_instance()->get_onboarding_status(),
 				'ajaxUrl'              => add_query_arg(
 					[
@@ -161,6 +162,8 @@ class Wcar_Admin {
 				),
 				'defaults'             => $this->get_onboarding_defaults(),
 			],
+			'rollback_url'                   => esc_url( add_query_arg( 'version', 'VERSION', wp_nonce_url( admin_url( 'admin-post.php?action=wcar_rollback' ), 'wcar_rollback' ) ) ),
+			'car_legacy_ui_notice_dismissed' => wcf_ca()->utils->wcar_get_option( 'car_legacy_ui_notice_dismissed', false ),
 		];
 		// Localize script with necessary data.
 		wp_localize_script(
@@ -438,7 +441,14 @@ class Wcar_Admin {
 			);
 		}
 		
-		wcf_ca()->helper->save_meta_fields( 'cf_analytics_optin', $onboarding_data['userDetails']['cf_analytics_optin'] );
+		// Convert analytics optin value to 'yes' if it's truthy, otherwise keep as is.
+		$analytics_optin_value = $onboarding_data['userDetails']['cf_analytics_optin'];
+		
+		if ( true === $analytics_optin_value ) {
+			$analytics_optin_value = 'yes';
+		}
+		
+		wcf_ca()->helper->save_meta_fields( 'cf_analytics_optin', $analytics_optin_value );
 
 		$installable_plugin_slugs = [];
 		if ( ! empty( $plugin_slugs ) && is_array( $plugin_slugs ) ) {
@@ -527,5 +537,57 @@ class Wcar_Admin {
 				activate_plugin( $installed_path );
 			}
 		}
+	}
+
+	/**
+	 * WCAR version rollback.
+	 *
+	 * Rollback to previous WCAR version.
+	 *
+	 * @since x.x.x
+	 * @access public
+	 * @return void
+	 */
+	public function post_wcar_rollback() {
+
+		if ( ! current_user_can( 'install_plugins' ) ) {
+			wp_die(
+				esc_html__( 'You do not have permission to access this page.', 'woo-cart-abandonment-recovery' ),
+				esc_html__( 'Rollback to Previous Version', 'woo-cart-abandonment-recovery' ),
+				array(
+					'response' => 200,
+				)
+			);
+		}
+
+		check_admin_referer( 'wcar_rollback' );
+
+		$rollback_versions = wcf_ca()->helper->get_rollback_versions();
+		$update_version    = isset( $_GET['version'] ) ? sanitize_text_field( $_GET['version'] ) : '';
+
+		if ( empty( $update_version ) || ! in_array( $update_version, $rollback_versions, true ) ) {
+			wp_die( esc_html__( 'Error occurred, The version selected is invalid. Try selecting different version.', 'woo-cart-abandonment-recovery' ) );
+		}
+
+		$plugin_slug = basename( CARTFLOWS_CA_FILE, '.php' );
+
+		$rollback = new \Cartflows_Ca_Rollback(
+			array(
+				'version'     => $update_version,
+				'plugin_name' => CARTFLOWS_CA_BASE,
+				'plugin_slug' => $plugin_slug,
+				'package_url' => sprintf( 'https://downloads.wordpress.org/plugin/%s.%s.zip', $plugin_slug, $update_version ),
+			)
+		);
+
+		$rollback->run();
+
+		wp_die(
+			'',
+			esc_html__( 'Rollback to Previous Version', 'woo-cart-abandonment-recovery' ),
+			array(
+				'response' => 200,
+			)
+		);
 	}
 }

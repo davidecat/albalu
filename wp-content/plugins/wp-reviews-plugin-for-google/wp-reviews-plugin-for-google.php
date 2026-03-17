@@ -9,7 +9,7 @@ Author: Trustindex.io <support@trustindex.io>
 Author URI: https://www.trustindex.io/
 Contributors: trustindex
 License: GPLv2 or later
-Version: 13.2.5
+Version: 13.2.7
 Requires at least: 6.2
 Requires PHP: 7.0
 Text Domain: wp-reviews-plugin-for-google
@@ -22,7 +22,7 @@ Copyright 2019 Trustindex Kft (email: support@trustindex.io)
 defined( 'ABSPATH' ) or die( 'No script kiddies please!' );
 require_once plugin_dir_path(__FILE__) . 'include' . DIRECTORY_SEPARATOR . 'cache-plugin-filters.php';
 require_once plugin_dir_path(__FILE__) . 'trustindex-plugin.class.php';
-$trustindex_pm_google = new TrustindexPlugin_google("google", __FILE__, "13.2.5", "Widgets for Google Reviews", "Google");
+$trustindex_pm_google = new TrustindexPlugin_google("google", __FILE__, "13.2.7", "Widgets for Google Reviews", "Google");
 $pluginManager = 'TrustindexPlugin_google';
 $pluginManagerInstance = $trustindex_pm_google;
 add_action('admin_init', function() { ob_start(); });
@@ -84,6 +84,12 @@ wp_register_script('trustindex-loader-js', 'https://cdn.trustindex.io/loader.js'
 ]);
 });
 add_action('init', [ $pluginManagerInstance, 'init_shortcode' ]);
+add_filter('script_loader_tag', function($tag, $handle) {
+if ('trustindex-loader-js' === $handle) {
+$tag = str_replace('<script ', '<script data-ccm-injected="1" ', $tag);
+}
+return $tag;
+}, 10, 2);
 add_action('elementor/controls/controls_registered', function($controlsManager) {
 require_once(__DIR__ . '/include/elementor-widgets.php');
 $controlsManager->register_control('choose', new \Elementor\Control_Choose2());

@@ -68,7 +68,7 @@ function pewc_tab_options() {
 		<div class="options_group">
 			<div class="options-group-inner">
 				<ul class="new-field-list">
-					<?php include( PEWC_DIRNAME . '/templates/admin/new-field-item.php' ); ?>
+					<?php include( PEWC_DIRNAME . '/templates/admin/field-item.php' ); ?>
 				</ul>
 				<table class="new-option">
 					<?php include( PEWC_DIRNAME . '/templates/admin/views/option-new.php' ); ?>
@@ -80,7 +80,10 @@ function pewc_tab_options() {
 				<div class="product-extra-group-data" id="product_extra_groups">
 
 					<!-- Start of the new-group-row element -->
-					<?php include( PEWC_DIRNAME . '/templates/admin/new-group.php' ); ?>
+					<?php $group_id = '';
+					$group_title = '';
+					$group = array();
+					include( PEWC_DIRNAME . '/templates/admin/new-group.php' ); ?>
 
 					<?php include( PEWC_DIRNAME . '/templates/admin/new-conditional-row.php' ); ?>
 
@@ -90,10 +93,8 @@ function pewc_tab_options() {
 					<input type="hidden" id="pewc_addons_loaded" name="pewc_addons_loaded" value="<?php echo ! pewc_enable_ajax_load_addons(); ?>">
 
 					<div id="pewc_group_wrapper">
-						<?php if( ! pewc_enable_ajax_load_addons( $post->ID ) ) {
-							$groups = pewc_get_extra_fields( $post->ID );
-							pewc_display_product_groups( $groups, $post->ID, false );
-						} ?>
+						<?php $groups = pewc_get_extra_fields( $post->ID );
+						pewc_display_product_groups( $groups, $post->ID, false ); ?>
 					</div>
 
 				</div><!-- #product_extra_groups -->
@@ -107,6 +108,7 @@ function pewc_tab_options() {
 		<?php include( PEWC_DIRNAME . '/templates/admin/group-settings.php' );
 		// Deprecated in 2.1.0
 		// include( PEWC_DIRNAME . '/templates/admin/import-groups.php' ); ?>
+		<?php wp_nonce_field( 'pewc_add_section_ajax', 'pewc_add_section_ajax' ); ?>
 		<?php wp_nonce_field( 'add_new_pewc_group_nonce', 'add_new_pewc_group_nonce' ); ?>
 		<?php do_action( 'pewc_end_tab_options', $groups, $post->ID ); ?>
 		<div class="pewc-loading"><span class="spinner"></span></div>
@@ -172,10 +174,10 @@ function pewc_display_product_groups( $groups, $post_id, $is_ajax=false, $global
 								'<h3 class="pewc-group-meta-heading">
 								<input type="checkbox" class="pewc-import-export-aou-group-checkbox" value="%s"> 
 								%s <span class="meta-item-id">%s</span>: <span class="pewc-display-title">%s</span></h3>',
-								$group_id,
-								__( 'Group', 'pewc' ),
-								'&#35;' . $group_id,
-								stripslashes( $group_title )
+									$group_id,
+									__( 'Group', 'pewc' ),
+									'&#35;' . $group_id,
+									stripslashes( $group_title )
 							); ?>
 
 							<?php include( PEWC_DIRNAME . '/templates/admin/group-meta-actions.php' ); ?>
@@ -189,24 +191,7 @@ function pewc_display_product_groups( $groups, $post_id, $is_ajax=false, $global
 					<div class="pewc-all-fields-wrapper">
 
 						<?php include( PEWC_DIRNAME . '/templates/admin/group.php' ); ?>
-
-						<?php printf(
-							'<h3 class="pewc-field-heading">%s</h3>',
-							__( 'Fields', 'pewc' )
-						); ?>
-						<ul class="field-list" data-pewc-field-list-group-id="<?php echo esc_attr( $group_id ); ?>"><?php
-							// 3.23.1, ul.field-list needs to be empty with no whitespaces, so that the CSS style ul.field-list.ui-sortable:empty works
-							if( isset( $group['items'] ) ) {
-								$item_count = 0;
-								foreach( $group['items'] as $item ) {
-									if( isset( $item['field_type'] ) ) {
-										include( PEWC_DIRNAME . '/templates/admin/field-item.php' );
-										$item_count++;
-									}
-								}
-							}
-						?></ul>
-						<p><a href="#" class="button add_new_field"><?php _e( 'Add Field', 'pewc' ); ?></a></p>
+						
 					</div><!-- .pewc-fields-wrapper -->
 				</div>
 
@@ -338,6 +323,9 @@ function pewc_save_product_extra_options( $post_id ) {
 						}
 
 						$all_params = array( 'field_id' => $field_id );
+						// @todo
+						// @since 4.0.0, get previous values for all_params to avoid any settings getting overwritten when using AJAX UI
+						// $all_params = get_post_meta( $field_id, 'all_params', true );
 
 						// Add this field ID to the group order
 						if( $field_id && $group_id ) {
@@ -370,7 +358,8 @@ function pewc_save_product_extra_options( $post_id ) {
 
 							} else {
 
-								delete_post_meta( $field_id, $param );
+								// @since 4.0.0, don't delete any missing settings to avoid any settings getting overwritten when using AJAX UI
+								// delete_post_meta( $field_id, $param );
 							}
 						}
 
@@ -445,10 +434,10 @@ function pewc_save_product_extra_options( $post_id ) {
 	}
 
 	// 3.26.11
-	if ( ! empty( $_POST['pewc_hide_quantity'] ) && 'yes' === $_POST['pewc_hide_quantity'] ) {
-		$product->update_meta_data( 'pewc_hide_quantity', 'yes' );
+	if ( ! empty( $_POST['pewc_hide_quantity'] ) ) {
+		$product->update_meta_data( 'pewc_hide_quantity', true );
 	} else {
-		$product->update_meta_data( 'pewc_hide_quantity', 'no' );
+		$product->update_meta_data( 'pewc_hide_quantity', false );
 	}
 
 	// 3.26.11, let's call this here

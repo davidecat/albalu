@@ -61,9 +61,9 @@ if ( ! class_exists( 'Cartflows_Ca_Bsf_Analytics' ) ) :
 			if ( apply_filters( 'cartflows_ca_enable_non_sensitive_data_tracking', get_option( 'cf_analytics_optin', false ) ) ) {
 
 				// Prepare default data to be tracked.
-				$stats_data['plugin_data']['cart-abandonment']                   = $this->get_default_stats();
-				$stats_data['plugin_data']['cart-abandonment']['numeric_values'] = $this->get_numeric_data_stats();
-				$stats_data['plugin_data']['cart-abandonment']['boolean_values'] = $this->get_boolean_data_stats();
+				$stats_data['plugin_data']['cart_abandonment']                   = $this->get_default_stats();
+				$stats_data['plugin_data']['cart_abandonment']['numeric_values'] = $this->get_numeric_data_stats();
+				$stats_data['plugin_data']['cart_abandonment']['boolean_values'] = $this->get_boolean_data_stats();
 
 				// Filter to add more options if any.
 				$stats_data = apply_filters( 'cartflows_ca_get_specific_stats', $stats_data );
@@ -131,6 +131,7 @@ if ( ! class_exists( 'Cartflows_Ca_Bsf_Analytics' ) ) :
 				'weekly_report_email'    => $this->get_weekly_report_email_status(),
 				'webhook_enabled'        => $this->get_webhook_enabled_status(),
 				'using_woo_template'     => $this->get_woo_template_usage_status(),
+				'using_new_ui' 			 => $this->get_ui_enabled_status(),
 			);
 		}
 
@@ -279,6 +280,20 @@ if ( ! class_exists( 'Cartflows_Ca_Bsf_Analytics' ) ) :
 			);
 
 			return intval( $woo_template_usage ) > 0;
+		}
+
+		/**
+		 * Get new UI enabled status.
+		 *
+		 * @since 2.0.6
+		 * @return bool True if new UI is enabled.
+		 */
+		public function get_ui_enabled_status() {
+			$ui_status = get_option( 'cartflows_ca_use_new_ui', '' );
+			$allowed = ['on', '1', 'yes'];
+			$value = (string) $ui_status;
+
+			return in_array($value, $allowed, true);
 		}
 
 	}

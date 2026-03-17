@@ -41,6 +41,10 @@ class Sync_Script_Appender {
 	 * Handle the script.
 	 */
 	public function handle() {
+		if ( $this->code_extractor->is_unified_embed_format() ) {
+			return;
+		}
+
 		if ( $this->is_able_to_append_script() ) {
 			// phpcs:disable WordPress.WP.EnqueuedResources.NonEnqueuedScript
 			?>

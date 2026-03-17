@@ -26,7 +26,8 @@ function pewc_variation_fields_wrapper( $group_key, $item_key, $item, $post_id )
 	<?php
 	}
 }
-add_action( 'pewc_end_product_extra_field', 'pewc_variation_fields_wrapper', 10, 4 );
+// @since 4.0 Moved to templates/admin/sections/conditions.php
+// add_action( 'pewc_end_product_extra_field', 'pewc_variation_fields_wrapper', 10, 4 );
 
 /**
  * Add data-variations attributes to field item

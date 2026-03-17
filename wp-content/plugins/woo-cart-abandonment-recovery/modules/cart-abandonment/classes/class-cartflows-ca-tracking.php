@@ -526,11 +526,12 @@ class Cartflows_Ca_Tracking {
         // phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 		$wpdb->query(
 			$wpdb->prepare(
-				"UPDATE {$cart_abandonment_table} as ca SET order_status = 'lost' WHERE ca.order_status = %s AND DATE(ca.time) <= DATE_SUB( %s , INTERVAL 30 DAY)
+				"UPDATE {$cart_abandonment_table} as ca SET order_status = 'lost' WHERE ca.order_status = %s AND DATE(ca.time) <= DATE_SUB( %s , INTERVAL %s DAY)
               AND ( (SELECT count(*) FROM {$email_history_table} WHERE ca_session_id = ca.session_id ) =
               (SELECT count(*) FROM {$email_history_table} WHERE ca_session_id = ca.session_id AND email_sent = 1) )",
 				WCF_CART_ABANDONED_ORDER,
-				$wp_current_datetime
+				$wp_current_datetime,
+				wcf_ca()->utils->wcar_get_option( 'wcf_ca_cart_lost_time', WCF_DEFAULT_CART_LOST_TIME )
 			)
 		); // db call ok; no cache ok.
         // phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
@@ -823,6 +824,7 @@ class Cartflows_Ca_Tracking {
 				'wcf_first_name'          => $post_data['wcf_name'],
 				'wcf_last_name'           => $post_data['wcf_surname'],
 				'wcf_phone_number'        => $post_data['wcf_phone'],
+				'wcf_country'             => $post_data['wcf_country'],
 				'wcf_location'            => $post_data['wcf_country'] . ', ' . $post_data['wcf_city'],
 				'wcf_gdpr_phone_consent'  => $post_data['wcf_gdpr_phone_consent'],
 			];

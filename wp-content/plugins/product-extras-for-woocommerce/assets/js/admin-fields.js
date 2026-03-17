@@ -146,20 +146,20 @@ jQuery( function( $ ) {
 	 * Add new group
 	 */
 	add_new_group: function( e ) {
-      e.preventDefault();
-      var panel, security;
-      if( $( '.panel' )[0] ) {
-        panel = $( this ).closest( '.panel' );
-      } else {
-        // Global page
-        panel = $( '#pewc_global_settings_form' );
-      }
-      var last_row = $( panel ).find( '.product-extra-group-data .group-row' ).last();
-  		var count = $(last_row).attr( 'data-group-count' );
-  		count = parseFloat( count ) + 1;
-  		if( isNaN( count ) ) {
-  			count = 0;
-  		}
+		e.preventDefault();
+		var panel, security;
+		if( $( '.panel' )[0] ) {
+			panel = $( this ).closest( '.panel' );
+		} else {
+			// Global page
+			panel = $( '#pewc_global_settings_form' );
+		}
+		var last_row = $( panel ).find( '.product-extra-group-data .group-row' ).last();
+		var count = $(last_row).attr( 'data-group-count' );
+		count = parseFloat( count ) + 1;
+		if( isNaN( count ) ) {
+			count = 0;
+		}
 
       $( panel ).find( '.pewc-loading' ).show();
       $.ajax({
@@ -168,8 +168,8 @@ jQuery( function( $ ) {
   			data: {
   				action: 'pewc_get_new_group_id',
   				security: $( '#add_new_pewc_group_nonce' ).val(),
-          parent_id: $( '#post_ID' ).val(),
-          group_order: $( '#pewc_group_order' ).val()
+				parent_id: $( '#post_ID' ).val(),
+				group_order: $( '#pewc_group_order' ).val()
   			},
 			success: function( response ) {
 				var new_group_id = response.data.group_id;
@@ -179,11 +179,20 @@ jQuery( function( $ ) {
 				$( clone_row ).attr( 'data-group-count', new_group_id );
 				$( clone_row ).attr( 'data-group-id', new_group_id );
 				$( clone_row ).attr( 'id', 'group-' + new_group_id );
-				$( clone_row ).find( '.pewc-group-meta-heading .meta-item-id' ).html( "&#35;" + new_group_id );
-				$( clone_row ).find( '.pewc-group-title' ).attr( 'name', '_product_extra_groups_'+ new_group_id +'[meta][group_title]' );
-				$( clone_row ).find( '.pewc-group-required' ).attr( 'name', '_product_extra_groups_'+ new_group_id +'[meta][group_required]' );
-				$( clone_row ).find( '.pewc-group-description' ).attr( 'name', '_product_extra_groups_'+ new_group_id +'[meta][group_description]' );
-				$( clone_row ).find( '.pewc-group-layout' ).attr( 'name', '_product_extra_groups_'+ new_group_id +'[meta][group_layout]' );
+				var name = '_product_extra_groups_'+ new_group_id +'[meta]';
+				$( clone_row ).find( '.pewc-group-meta-heading .meta-item-id' ).html( "#" + new_group_id );
+				$( clone_row ).find( '.pewc-group-title' ).attr( 'name', name + '[group_title]' );
+				$( clone_row ).find( '.pewc-group-required' ).attr( 'name', name + '[group_required]' );
+				$( clone_row ).find( '.pewc-group-description' ).attr( 'name', name + '[group_description]' );
+				$( clone_row ).find( '.pewc-group-layout' ).attr( 'name', name + '[group_layout]' );
+
+				// Update checkbox toggle label
+				$( clone_row ).find( '.pewc-switch-checkbox' ).each( function( i,v ) {
+					var field_name = $( this ).attr( 'data-field-name' );
+					$( this ).attr( 'name', name + '[' + field_name + ']' );
+					$( this ).attr( 'id', '_product_extra_groups_'+ new_group_id + '_' + field_name );
+					$( this ).closest( 'label' ).attr( 'for', '_product_extra_groups_'+ new_group_id + '_' + field_name );
+				});
 
 				// 3.22.0
 				pewc_repeatable.update_cloned_repeatable( clone_row, new_group_id );
@@ -198,9 +207,9 @@ jQuery( function( $ ) {
 		},
 
     /**
-		 * Duplicate a group
-		 */
-		duplicate_group: function( e ) {
+	 * Duplicate a group
+	 */
+	duplicate_group: function( e ) {
       e.preventDefault();
       var panel, security, group_order_field;
       if( $( '.panel' )[0] ) {
@@ -241,9 +250,10 @@ jQuery( function( $ ) {
 
 				var group_title = $( clone_group ).find( '.pewc-group-title' ).val();
 				$( clone_group ).find( '.pewc-group-title' ).val( group_title + ' [' + pewc_obj.copy_label + ']');
+				$( clone_group ).find( '.pewc-display-title' ).text( group_title + ' [' + pewc_obj.copy_label + ']');
 
 				pewc_update_duplicated_ids( clone_group, old_group_id, new_group_id );
-				$( clone_group ).find( '.pewc-group-meta-heading .meta-item-id' ).html( "&#35;" + new_group_id );
+				$( clone_group ).find( '.pewc-group-meta-heading .meta-item-id' ).html( "#" + new_group_id );
 
 				// Conditions
 				$(clone_group).find('.pewc-condition-field, .pewc-condition-rule, .pewc-condition-value').each(function(){
@@ -259,7 +269,8 @@ jQuery( function( $ ) {
 					new_field_id = fields[old_field_id];
 					pewc_update_duplicated_ids( clone_group, old_field_id, new_field_id );
 					var duplicate_field = $( 'body' ).find( '#pewc_group_' + new_group_id + '_' + new_field_id );
-					$( duplicate_field ).find( '.pewc-field-meta-heading .meta-item-id' ).html( "&#35;" + new_field_id );
+					$( duplicate_field ).find( '.pewc-field-meta-heading .meta-item-id' ).html( "#" + new_field_id );
+					$( duplicate_field ).find( '.pewc-field-navigation' ).addClass( 'pewc-field-navigation-' + new_field_id ).attr( 'data-field-id', new_field_id ).removeClass( 'pewc-field-navigation-' + old_field_id );
 				}
 
 				// Repopulate condition field values
@@ -373,16 +384,16 @@ jQuery( function( $ ) {
 	 * Add new field
 	 */
 	add_new_field: function( e ) {
-      e.preventDefault();
+		e.preventDefault();
 
-      // Panel exists on individual product pages
-      var panel, security;
-      if( $( '.panel' )[0] ) {
-        panel = $( this ).closest( '.panel' );
-      } else {
-        // Global page
-        panel = $( '#pewc_global_settings_form' );
-      }
+		// Panel exists on individual product pages
+		var panel, security;
+		if( $( '.panel' )[0] ) {
+			panel = $( this ).closest( '.panel' );
+		} else {
+			// Global page
+			panel = $( '#pewc_global_settings_form' );
+		}
 
   		var group_id = $( this ).closest( '.group-row' ).attr( 'data-group-id' );
   		var last_item = $( '#group-' + group_id + ' ul.field-list' ).find( 'li.field-item' ).last();
@@ -398,209 +409,160 @@ jQuery( function( $ ) {
   		}
 
   		var clone_item = $( panel ).find( '.new-field-item' ).clone().appendTo( '#group-' + group_id + ' ul.field-list' );
-      $( panel ).find( '.pewc-loading' ).show();
+     	$( panel ).find( '.pewc-loading' ).show();
 
-      $.ajax({
-  			type: 'POST',
-  			url: ajaxurl,
-  			data: {
-  				action: 'pewc_get_new_field_id',
-  				security: $( '#add_new_pewc_group_nonce' ).val(),
-          group_id: group_id
-  			},
-  			success: function( response ) {
-          if( response.success ) {
-            var new_item_id = response.data;
+		$.ajax({
+			type: 'POST',
+			url: ajaxurl,
+			data: {
+				action: 'pewc_get_new_field_id',
+				security: $( '#add_new_pewc_group_nonce' ).val(),
+				group_id: group_id
+			},
+			success: function( response ) {
+				if( response.success ) {
+					var new_item_id = response.data;
 
-            // var new_item_id = pewc_get_id_code();
-        		$( clone_item ).removeClass( 'new-field-item' );
-        		$( clone_item ).attr( 'id','pewc_group_' + group_id + '_' + new_item_id);
+					// var new_item_id = pewc_get_id_code();
+					$( clone_item ).removeClass( 'new-field-item' );
+					$( clone_item ).attr( 'id','pewc_group_' + group_id + '_' + new_item_id);
 
-            $( clone_item ).find( '.meta-item-id' ).text( new_item_id );
-        		$( clone_item ).attr( 'data-size-count', new_item_id );
-        		$( clone_item ).attr( 'data-item-id', new_item_id );
-        		$( clone_item )
-        			.find( '.pewc-id' )
-        			.attr( 'name', '_product_extra_groups_' + group_id + '_' + new_item_id + '[id]' )
-        			.val( 'pewc_group_' + group_id + '_' + new_item_id );
+					$( clone_item ).find( '.meta-item-id' ).text(  "#" + new_item_id );
+					$( clone_item ).attr( 'data-size-count', new_item_id );
+					$( clone_item ).attr( 'data-item-id', new_item_id );
+					$( clone_item )
+						.find( '.pewc-id' )
+						.attr( 'name', '_product_extra_groups_' + group_id + '_' + new_item_id + '[id]' )
+						.val( 'pewc_group_' + group_id + '_' + new_item_id );
 
-        		$( clone_item )
-        			.find( '.pewc-group-id' )
-        			.attr( 'name', '_product_extra_groups_' + group_id + '_' + new_item_id + '[group_id]' )
-        			.val( group_id );
+					$( clone_item )
+						.find( '.pewc-group-id' )
+						.attr( 'name', '_product_extra_groups_' + group_id + '_' + new_item_id + '[group_id]' )
+						.val( group_id );
 
-        		$( clone_item )
-        			.find( '.pewc-field-id' )
-        			.attr( 'name', '_product_extra_groups_' + group_id + '_' + new_item_id + '[field_id]' )
-        			.val( new_item_id );
+					$( clone_item )
+						.find( '.pewc-field-id' )
+						.attr( 'name', '_product_extra_groups_' + group_id + '_' + new_item_id + '[field_id]' )
+						.val( new_item_id );
 
-        		$( clone_item )
-        			.find( '.pewc-field-type' )
-        			.attr( 'id', 'field_type_' + group_id + '_' + new_item_id );
+					$( clone_item )
+						.find( '.pewc-field-type' )
+						.attr( 'id', 'field_type_' + group_id + '_' + new_item_id );
 
-			$( clone_item )
-			  .find( '.pewc-field-visibility' )
-			  .attr( 'name', '_product_extra_groups_' + group_id + '_' + new_item_id + '[field_visibility]' )
-			  .attr( 'id', 'field_visibility_' + group_id + '_' + new_item_id );
-			$( clone_item )
-              .find( '.pewc-field-price-visibility' )
-              .attr( 'name', '_product_extra_groups_' + group_id + '_' + new_item_id + '[price_visibility]' )
-              .attr( 'id', 'price_visibility_' + group_id + '_' + new_item_id );
-            $( clone_item )
-              .find( '.pewc-option-price-visibility' )
-              .attr( 'name', '_product_extra_groups_' + group_id + '_' + new_item_id + '[option_price_visibility]' )
-              .attr( 'id', 'option_price_visibility_' + group_id + '_' + new_item_id );
+					$( clone_item )
+						.find( '.pewc-field-visibility' )
+						// .attr( 'name', '_product_extra_groups_' + group_id + '_' + new_item_id + '[field_visibility]' )
+						.attr( 'id', 'field_visibility_' + group_id + '_' + new_item_id );
+					$( clone_item )
+						.find( '.pewc-field-price-visibility' )
+						// .attr( 'name', '_product_extra_groups_' + group_id + '_' + new_item_id + '[price_visibility]' )
+						.attr( 'id', 'price_visibility_' + group_id + '_' + new_item_id );
+					$( clone_item )
+						.find( '.pewc-option-price-visibility' )
+						// .attr( 'name', '_product_extra_groups_' + group_id + '_' + new_item_id + '[option_price_visibility]' )
+						.attr( 'id', 'option_price_visibility_' + group_id + '_' + new_item_id );
 
-        		$( clone_item )
-        			.find( '.pewc-option-fields' )
-        			.attr( 'id', 'pewc_option_' + group_id + '_' + new_item_id );
+					$( clone_item )
+						.find( '.pewc-option-fields' )
+						.attr( 'id', 'pewc_option_' + group_id + '_' + new_item_id );
 
-        		$( clone_item )
-        			.find( '.pewc-upload-button' )
-        			.attr( 'data-item-id', new_item_id );
+					$( clone_item )
+						.find( '.pewc-upload-button' )
+						.attr( 'data-item-id', new_item_id );
 
-        		$( clone_item )
-        			.find( '.pewc-image-attachment-id' )
-        			.attr( 'name', '_product_extra_groups_' + group_id + '_' + new_item_id + '[field_image]' );
+					$( clone_item )
+						.find( '.pewc-field-image' )
+						.addClass( 'pewc-field-image-' + new_item_id );
 
-        		$( clone_item )
-        			.find( '.pewc-field-image' )
-        			.addClass( 'pewc-field-image-' + new_item_id );
+					$( clone_item )
+						.addClass( 'field-type-checkbox' );
 
-        		$( clone_item )
-        			.addClass( 'field-type-checkbox' );
+					$( clone_item )
+						.find( '.pewc-field-color' )
+						.wpColorPicker();
 
-            $( clone_item )
-              .find( '.pewc-calculation-field' )
-        			.attr( 'name', '_product_extra_groups_' + group_id + '_' + new_item_id + '[formula]' );
+					$( clone_item ).find( '.pewc-field-item' ).each( function( i, v ) {
+						var field_name = $( this ).attr( 'data-field-name' );
+						if( field_name && ! $( this ).hasClass( 'pewc-switch-checkbox' ) ) {
+							$( this ).attr( 'name', '_product_extra_groups_' + group_id + '_' + new_item_id + '[' + field_name + ']' );
+						}
+					});
 
-            $( clone_item )
-              .find( '.pewc-field-round' )
-        			.attr( 'name', '_product_extra_groups_' + group_id + '_' + new_item_id + '[formula_round]' );
+					// Set default field to checkbox
+					$( clone_item ).find( '.pewc-field-type' ).val( 'checkbox' );
 
-            $( clone_item )
-              .find( '.pewc-decimal-places' )
-        			.attr( 'name', '_product_extra_groups_' + group_id + '_' + new_item_id + '[decimal_places]' );
+					// Update role based price fields
+					$( clone_item ).find( '.pewc-field-role-price-new' ).each( function() {
+						var role = $( this).attr( 'data-role' );
+						$( this ).attr( 'name', '_product_extra_groups_' + group_id + '_' + new_item_id + '[field_price_' + role + ']' ).removeClass( 'pewc-field-role-price-new' );
+					});
 
-            $( clone_item )
-              .find( '.pewc-field-action' )
-        			.attr( 'name', '_product_extra_groups_' + group_id + '_' + new_item_id + '[formula_action]' );
+					var replace_fields = [ 'child_products', 'child_categories', 'products_layout', 'products_quantities', 'select_placeholder', 'allow_none', 'min_date_today' ];
+					$(replace_fields).each( function( i, v ) {
+						var new_name = '_product_extra_groups_' + group_id + '_' + new_item_id + '[' + v + ']';
+						// 3.24.2, this needs to be an array so that the selections get saved
+						if ( v === 'child_products' || v === 'child_categories' ) {
+							new_name += '[]';
+						}
+						$( clone_item ).find( '.pewc-field-' + v).attr( 'name', new_name );
+					});
 
-            $( clone_item )
-              .find( '.pewc-multiple-uploads' )
-        			.attr( 'name', '_product_extra_groups_' + group_id + '_' + new_item_id + '[multiple_uploads]' );
+					var fields = [ 'label', 'admin_label', 'type', 'price', 'required', 'per_unit', 'flatrate', 'display_as_swatch', 'enable_range_slider', 'percentage', 'description', 'minchars', 'maxchars', 'minchecks', 'maxchecks', 'swatchwidth', 'class', 'minval', 'maxval', 'step', 'freechars', 'alphanumeric', 'mindate', 'maxdate', 'maxdate_ymd', 'default' ];
+					$(fields).each( function( i, v ) {
+						$( clone_item ).find( '.pewc-field-' + v).not( '.pewc-field-default-hidden' ).attr( 'name','_product_extra_groups_' + group_id + '_' + new_item_id + '[field_' + v + ']' ).attr( 'id','_product_extra_groups_' + group_id + '_' + new_item_id + '_field_' + v );
+						$( clone_item ).find( '.pewc-field-' + v).closest( 'div' ).find( 'label' ).attr( 'for','_product_extra_groups_' + group_id + '_' + new_item_id + '_field_' + v );
+					});
 
-            $( clone_item )
-              	.find( '.pewc-field-multiply' )
-        		.attr( 'name', '_product_extra_groups_' + group_id + '_' + new_item_id + '[multiply]' );
+					// Check action and match names are populated
+					var condition_fields = $( clone_item ).closest( '.pewc-fields-conditionals' );
+					$( clone_item ).find( '.pewc-condition-action' ).attr( 'name', '_product_extra_groups_' + group_id + '_' + new_item_id + '[condition_action]' );
+					$( clone_item ).find( '.pewc-condition-condition' ).attr( 'name', '_product_extra_groups_' + group_id + '_' + new_item_id + '[condition_match]' );
 
-            $( clone_item )
-              .	find( '.pewc-field-max-files' )
-        		.attr( 'name', '_product_extra_groups_' + group_id + '_' + new_item_id + '[max_files]' );
+					$( clone_item ).find( '.pewc-date-field' ).each( function() {
+						$( this ).removeClass('hasDatepicker').datepicker();
+					});
 
-            $( clone_item )
-				.find ( '.pewc-field-color' )
-					.attr( 'name', '_product_extra_groups_' + group_id + '_' + new_item_id + '[field_color]' );
+					// Update list of fields
+					$( document.body ).trigger( 'update_field_names_object' );
+					$( document.body ).trigger( 'pewc_added_new_field', [ clone_item, group_id, new_item_id ] ); // DWS
 
-		  	$( clone_item )
-			  	.find ( '.pewc-field-palettes' )
-			  	.attr( 'name', '_product_extra_groups_' + group_id + '_' + new_item_id + '[field_palettes]' );
+					// 3.24.2, reinitialize enhanced select2
+					pewc_actions.reinitialize_select2( clone_item );
 
-		  	$( clone_item )
-			  	.find ( '.pewc-field-width' )
-			  	.attr( 'name', '_product_extra_groups_' + group_id + '_' + new_item_id + '[field_width]' );
+					// 3.27.3, regenerate the tooltips for the cloned item
+					$( clone_item ).find( '[pewc-data-tip]' ).each(function(){
+						if ( $( this ).attr( 'data-tip' ) == undefined ) {
+							// data-tip is required by the tooltip, but it is removed on page load, when the tooltip is generated, add it back for the cloned field
+							$( this ).attr( 'data-tip', $( this ).attr( 'pewc-data-tip' ) );
+						}
+					});
+					$( document.body ).trigger( 'init_tooltips' ); // trigger again so tooltips work for the cloned field
 
-		  	$( clone_item )
-			  	.find ( '.pewc-field-show' )
-			  	.attr( 'name', '_product_extra_groups_' + group_id + '_' + new_item_id + '[field_show]' );
+					// @since 4.0.0, update navigation menu for fields
+					$( clone_item ).find( '.pewc-field-navigation' ).removeClass( 'pewc-field-navigation-' ).addClass( 'pewc-field-navigation-' + new_item_id ).attr( 'data-field-id', new_item_id );
+					$( clone_item ).find( '.pewc-section' ).each( function() {
+						$( this ).attr( 'id', $( this ).attr( 'id' ) + new_item_id );
+					});
 
-			$( clone_item )
-				.find ( '.pewc-products-field-id' )
-				.attr( 'name', '_product_extra_groups_' + group_id + '_' + new_item_id + '[products_field_id]' );
+					// Update checkbox toggle label
+					$( clone_item ).find( '.pewc-switch-checkbox' ).each( function( i,v ) {
+						var field_name = $( this ).attr( 'data-field-name' );
+						$( this ).attr( 'id', '_product_extra_groups_' + group_id + '_' + new_item_id + '_' + field_name );
+						$( this ).attr( 'name', '_product_extra_groups_' + group_id + '_' + new_item_id + '[' + field_name + ']' );
+						$( this ).closest( 'label' ).attr( 'for', '_product_extra_groups_' + group_id + '_' + new_item_id + '_' + field_name );
+					});
 
-			$( clone_item )
-				.find ( '.pewc-child-qty-product-id' )
-				.attr( 'name', '_product_extra_groups_' + group_id + '_' + new_item_id + '[child_qty_product_id]' );
+					} else {
+						alert( 'Failed to add field' );
+					}
 
-			$( clone_item )
-				.find ( '.pewc-reverse-formula' )
-				.attr( 'name', '_product_extra_groups_' + group_id + '_' + new_item_id + '[reverse_formula_field]' );
-		
-			$( clone_item )
-				.find ( '.pewc-reverse-input' )
-				.attr( 'name', '_product_extra_groups_' + group_id + '_' + new_item_id + '[reverse_input_field]' );
+					$( panel ).find( '.pewc-loading' ).hide();
 
-			$( clone_item )
-				.find ( '.pewc-quantity-override' )
-				.attr( 'name', '_product_extra_groups_' + group_id + '_' + new_item_id + '[quantity_override]' );						  
-
-            $( clone_item )
-				.find( '.pewc-field-color' )
-					.wpColorPicker();
-
-            // Set default field to checkbox
-            $( clone_item ).find( '.pewc-field-type' ).val( 'checkbox' );
-
-            // Update role based price fields
-            $( clone_item ).find( '.pewc-field-role-price-new' ).each( function() {
-              var role = $( this).attr( 'data-role' );
-              $( this ).attr( 'name', '_product_extra_groups_' + group_id + '_' + new_item_id + '[field_price_' + role + ']' ).removeClass( 'pewc-field-role-price-new' );
-            });
-
-            var fields_object = { 'pewc-number-columns': 'number_columns', 'pewc-min-child-products': 'min_products', 'pewc-max-child-products' : 'max_products', 'pewc-default-quantity' : 'default_quantity', 'pewc-force-quantity' : 'force_quantity', 'pewc-allow-multiple-components' : 'allow_multiple_components', 'pewc-hide-labels': 'hide_labels', 'pewc-allow-multiple': 'allow_multiple', 'pewc-field-per-character': 'per_character', 'pewc-field-show-char-counter': 'show_char_counter', 'pewc-field-alphanumeric-charge': 'field_alphanumeric_charge', 'pewc-first-field-empty': 'first_field_empty', 'pewc-field-default-hidden': 'field_default_hidden', 'pewc-replace-main-image': 'replace_main_image', 'pewc-layered-images': 'layered_images', 'pewc-field-field-user-field-id' : 'field_user_field_id', 'pewc-parent-swatch-id' : 'parent_swatch_id' };
-            for( var k in fields_object ) {
-              $( clone_item )
-          			.find( '.' + k )
-					.attr( 'name' , '_product_extra_groups_' + group_id + '_' + new_item_id + '[' + fields_object[k] + ']' );
-            }
-
-			var replace_fields = [ 'child_products', 'child_categories', 'products_layout', 'products_quantities', 'select_placeholder', 'allow_none', 'min_date_today' ];
-			$(replace_fields).each( function( i, v ) {
-				var new_name = '_product_extra_groups_' + group_id + '_' + new_item_id + '[' + v + ']';
-				// 3.24.2, this needs to be an array so that the selections get saved
-				if ( v === 'child_products' || v === 'child_categories' ) {
-					new_name += '[]';
 				}
-				$( clone_item ).find( '.pewc-field-' + v).attr( 'name', new_name );
-			});
+			}
+		);
 
-			var fields = [ 'label', 'type', 'price', 'required', 'per_unit', 'flatrate', 'display_as_swatch', 'enable_range_slider', 'percentage', 'description', 'minchars', 'maxchars', 'minchecks', 'maxchecks', 'swatchwidth', 'minval', 'maxval', 'step', 'freechars', 'alphanumeric', 'mindate', 'maxdate', 'maxdate_ymd', 'default' ];
-			$(fields).each( function( i, v ) {
-				$( clone_item ).find( '.pewc-field-' + v).not( '.pewc-field-default-hidden' ).attr( 'name','_product_extra_groups_' + group_id + '_' + new_item_id + '[field_' + v + ']' ).attr( 'id','_product_extra_groups_' + group_id + '_' + new_item_id + '_field_' + v );
-				$( clone_item ).find( '.pewc-field-' + v).closest( 'div' ).find( 'label' ).attr( 'for','_product_extra_groups_' + group_id + '_' + new_item_id + '_field_' + v );
-			});
-
-			// Check action and match names are populated
-			var condition_fields = $( clone_item ).closest( '.pewc-fields-conditionals' );
-			$( clone_item ).find( '.pewc-condition-action' ).attr( 'name', '_product_extra_groups_' + group_id + '_' + new_item_id + '[condition_action]' );
-			$( clone_item ).find( '.pewc-condition-condition' ).attr( 'name', '_product_extra_groups_' + group_id + '_' + new_item_id + '[condition_match]' );
-
-            // Update list of fields
-            $( document.body ).trigger( 'update_field_names_object' );
-            $( document.body ).trigger( 'pewc_added_new_field', [ clone_item, group_id, new_item_id ] ); // DWS
-
-			// 3.24.2, reinitialize enhanced select2
-			pewc_actions.reinitialize_select2( clone_item );
-
-			// 3.27.3, regenerate the tooltips for the cloned item
-			$( clone_item ).find( '[pewc-data-tip]' ).each(function(){
-				if ( $( this ).attr( 'data-tip' ) == undefined ) {
-					// data-tip is required by the tooltip, but it is removed on page load, when the tooltip is generated, add it back for the cloned field
-					$( this ).attr( 'data-tip', $( this ).attr( 'pewc-data-tip' ) );
-				}
-			});
-			$( document.body ).trigger( 'init_tooltips' ); // trigger again so tooltips work for the cloned field
-
-          } else {
-            alert( 'Failed to add field' );
-          }
-
-          $( panel ).find( '.pewc-loading' ).hide();
-
-  			}
-  		});
-
-		},
+	},
 
     /**
 	 * Duplicate a single field
@@ -637,7 +599,8 @@ jQuery( function( $ ) {
 				var field_title = $(clone_field).find('.pewc-field-label').val();
 				$( clone_field ).find( '.pewc-field-label' ).val( field_title + ' [' + pewc_obj.copy_label + ']');
 
-				$( clone_field ).find( '.pewc-field-meta-heading .meta-item-id' ).html( "&#35;" + new_field_id );
+				$( clone_field ).find( '.pewc-field-meta-heading .meta-item-id' ).html( "#" + new_field_id );
+				$( clone_field ).find( '.pewc-display-field-title' ).text( field_title + ' [' + pewc_obj.copy_label + ']' );
 
 				pewc_update_duplicated_ids( clone_field, old_field_id, new_field_id );
 
@@ -662,6 +625,12 @@ jQuery( function( $ ) {
 					$( this ).val( $val );
 				});
 
+				// @since 4.0.0, update navigation menu for fields
+				$( clone_field ).find( '.pewc-field-navigation' ).removeClass( 'pewc-field-navigation-' ).addClass( 'pewc-field-navigation-' + new_field_id ).attr( 'data-field-id', new_field_id );
+				// $( clone_field ).find( '.pewc-section' ).each( function() {
+				// 	$( this ).attr( 'id', $( this ).attr( 'id' ) + new_field_id );
+				// });
+
 				// 3.24.2
 				pewc_actions.reinitialize_select2( clone_field );
 
@@ -672,8 +641,8 @@ jQuery( function( $ ) {
     },
 
     /**
-		 * Remove a field
-		 */
+	 * Remove a field
+	 */
     remove_field: function( e ) {
 
     		e.preventDefault;
@@ -743,7 +712,7 @@ jQuery( function( $ ) {
 				$(clone_row).attr('data-group-count',count);
 				$(clone_row).attr('data-group-id',new_group_id);
 				$(clone_row).attr('id','group-' + new_group_id);
-				$( clone_row ).find( '.pewc-group-meta-heading .meta-item-id' ).html( "&#35;" + new_group_id );
+				$( clone_row ).find( '.pewc-group-meta-heading .meta-item-id' ).html( "#" + new_group_id );
 				$(clone_row).find('.pewc-group-title').attr('name','_product_extra_groups_'+ new_group_id +'[meta][group_title]');
 				$(clone_row).find('.pewc-group-description').attr('name','_product_extra_groups_'+ new_group_id +'[meta][group_description]');
 				// $(clone_row).find('.pewc-group-required').attr('name','_product_extra_groups_'+ new_group_id +'[meta][group_required]');
@@ -758,6 +727,9 @@ jQuery( function( $ ) {
 
 				// 3.22.0
 				pewc_repeatable.update_cloned_repeatable( clone_row, new_group_id );
+
+				// 3.27.9, reinitialize enhanced select2
+				pewc_actions.reinitialize_select2( clone_row );
 
 				// Update the group order
 				$( '#pewc_global_group_order' ).val( group_order );
@@ -901,7 +873,7 @@ jQuery( function( $ ) {
       e.preventDefault();
   		var group_id = $( this ).closest( '.group-row' ).attr( 'data-group-id' );
   		var item_id = $( this ).closest( '.field-item' ).attr( 'data-item-id' );
-  		var information_fields = $( this ).closest( '.pewc-information-fields' );
+  		var information_fields = $( this ).closest( '.pewc-information-fields' ).find( '.pewc-information-wrapper' );
   		var last_row = $( information_fields ).find( '.product-extra-row-wrapper' ).last();
   		var row_count = 0;
   		if( last_row ) {
@@ -912,9 +884,9 @@ jQuery( function( $ ) {
   			row_count = 0;
   		}
 
-  		var clone_row = $( '.new-information-row .product-extra-row-wrapper' ).clone().appendTo( $( information_fields ).find( '.pewc-field-information-wrapper') );
+  		var clone_row = $( '.new-information-row .product-extra-row-wrapper' ).clone().appendTo( $( information_fields ) );
 
-      $( clone_row ).attr( 'data-row-count', row_count );
+      	$( clone_row ).attr( 'data-row-count', row_count );
   		$( clone_row )
   			.find( '.pewc-field-row-label' )
   			.attr( 'name','_product_extra_groups_' + group_id + '_' + item_id + '[field_rows][' + row_count + '][label]' )
@@ -960,9 +932,9 @@ jQuery( function( $ ) {
     },
 
     /**
-		 * Add a new condition
-		 */
-		add_new_condition: function( e ) {
+	 * Add a new condition
+	 */
+	add_new_condition: function( e ) {
 
       e.preventDefault();
   		var group_id = $(this).closest('.group-row').attr('data-group-id');
@@ -976,7 +948,7 @@ jQuery( function( $ ) {
   		}
   		if( isNaN( condition_count ) ) {
   			condition_count = 0;
-  			$(this).closest('.pewc-fields-conditionals').find('.product-extra-action-match-row').fadeIn();
+  			$(this).closest('.pewc-fields-conditionals').find('.product-extra-action-match-row').css( 'display', 'grid' );
   		}
 
   		var clone_condition = $('.new-conditional-row').clone().insertBefore( $(this).parent() );
@@ -1018,23 +990,23 @@ jQuery( function( $ ) {
 	 */
 	change_condition_field: function( e ) {
 
-      // Set the value as data to make duplicating easier
-      $( this ).attr( 'data-value', $( this ).val() );
+		// Set the value as data to make duplicating easier
+		$( this ).attr( 'data-value', $( this ).val() );
 
-      // Display a value field if both selects have a legitimate value, i.e not 'not-selected'
+		// Display a value field if both selects have a legitimate value, i.e not 'not-selected'
   		var select = $(this);
   		var group_id = $(this).attr( 'data-group-id' );
-      var is_group, condition_field, condition_rule;
-      var condition_id = $(this).attr( 'data-condition-id' );
-      if( $( this ).hasClass( 'pewc-group-condition-field' ) ) {
-        is_group = true;
-        condition_field = $( '#condition_field_' + group_id + '_' + condition_id ).val();
-    		condition_rule = $( '#condition_rule_' + group_id + '_' + condition_id ).val();
-      } else {
-        var item_id = $(this).attr( 'data-item-id' );
-        condition_field = $( '#condition_field_' + group_id + '_' + item_id + '_' + condition_id ).val();
-    		condition_rule = $( '#condition_rule_' + group_id + '_' + item_id + '_' + condition_id ).val();
-      }
+		var is_group, condition_field, condition_rule;
+		var condition_id = $(this).attr( 'data-condition-id' );
+		if( $( this ).hasClass( 'pewc-group-condition-field' ) ) {
+			is_group = true;
+			condition_field = $( '#condition_field_' + group_id + '_' + condition_id ).val();
+				condition_rule = $( '#condition_rule_' + group_id + '_' + condition_id ).val();
+		} else {
+			var item_id = $(this).attr( 'data-item-id' );
+			condition_field = $( '#condition_field_' + group_id + '_' + item_id + '_' + condition_id ).val();
+				condition_rule = $( '#condition_rule_' + group_id + '_' + item_id + '_' + condition_id ).val();
+		}
 
   		// var condition_field = $( '#condition_field_' + group_id + '_' + item_id + '_' + condition_id ).val();
   		// var condition_rule = $( '#condition_rule_' + group_id + '_' + item_id + '_' + condition_id ).val();
@@ -1050,7 +1022,7 @@ jQuery( function( $ ) {
   			}
   			var value_field = pewc_get_value_field_type( field_type );
 
-			$( this ).closest( '.product-extra-field-third' ).find( '.pewc-hidden-field-type' ).val( field_type );
+			$( this ).closest( '.product-extra-field' ).find( '.pewc-hidden-field-type' ).val( field_type );
 
 			// since 3.11.9, pewc_set_rule_field is called first, so that we can use the selected rule in pewc_add_value_field, where the attribute depends on the rule selected
 			pewc_set_rule_field( select, field_type );
@@ -1067,9 +1039,9 @@ jQuery( function( $ ) {
     },
 
     /**
-		 * Delete a condition field
-		 */
-		remove_condition: function( e ) {
+	 * Delete a condition field
+	 */
+	remove_condition: function( e ) {
 
       e.preventDefault;
       var wrapper = $( this ).closest( '.pewc-fields-conditionals' );
@@ -1150,8 +1122,8 @@ jQuery( function( $ ) {
 	 */
 	add_new_group_condition: function( e ) {
 
-      e.preventDefault();
-      var group = $( this ).closest( '.pewc-group-meta-table' );
+    	e.preventDefault();
+      	var group = $( this ).closest( '.pewc-group-meta-table' );
   		var group_id = $( group ).attr( 'data-group-id' );
 
   		var condition_fields = $( group ).closest( '.pewc-fields-conditionals' );
@@ -1163,7 +1135,7 @@ jQuery( function( $ ) {
   		}
   		if( isNaN( condition_count ) ) {
   			condition_count = 0;
-  			$( group ).find('.product-extra-action-match-row').fadeIn();
+  			$( group ).find('.product-extra-action-match-row').css( 'display', 'grid' );
   		}
 
   		var clone_condition = $( '.new-conditional-row' ).clone().insertBefore( $(this).parent() );
@@ -1181,24 +1153,24 @@ jQuery( function( $ ) {
 
   		// If we're in global, just get fields from current group
 
-      // Remove group's own fields from group condition
-      var select = $( clone_condition ).find( '.pewc-condition-field option' ).each( function() {
-        var option_value = $( this ).attr( 'value' );
-        if( option_value.indexOf( 'pewc_group_' + group_id ) > -1 ) {
-          $( this ).closest( 'optgroup' ).remove();
-        }
-      });
-      // Remove cost and quantity optgroup
-      $( clone_condition ).find( ".pewc-condition-field optgroup[label='Product Cost']" ).remove();
+		// Remove group's own fields from group condition
+		var select = $( clone_condition ).find( '.pewc-condition-field option' ).each( function() {
+			var option_value = $( this ).attr( 'value' );
+			if( option_value.indexOf( 'pewc_group_' + group_id ) > -1 ) {
+			$( this ).closest( 'optgroup' ).remove();
+			}
+		});
+		// Remove cost and quantity optgroup
+		$( clone_condition ).find( ".pewc-condition-field optgroup[label='Product Cost']" ).remove();
 
-      $(clone_condition)
+		$(clone_condition)
   			.find('.pewc-condition-rule')
   			.attr('name','_product_extra_groups_' + group_id + '[condition_rule][' + condition_count + ']')
   			.attr('id','condition_rule_' + group_id + '_' + condition_count )
   			.attr('data-group-id', group_id)
   			.attr('data-condition-id', condition_count);
 
-      $(clone_condition)
+     	 $(clone_condition)
   			.find('.pewc-hidden-field-type')
   			.attr('name','_product_extra_groups_' + group_id + '[condition_field_type][' + condition_count + ']')
   			.attr('id','condition_field_type_' + group_id + '_' + condition_count );
@@ -1206,8 +1178,8 @@ jQuery( function( $ ) {
     },
 
     /**
-		 * Update the products_layout field
-		 */
+	 * Update the products_layout field
+	 */
     update_products_layout: function( e ) {
       e.preventDefault;
       var layout = $(this).val();
@@ -1257,8 +1229,8 @@ jQuery( function( $ ) {
 	},
 
     /**
-		 * Update the rules in conditions
-		 */
+	 * Update the rules in conditions
+	 */
     update_condition_rules: function( field_id, allow_multiple, new_val ) {
       $( 'body' ).find( '.pewc-condition-field' ).each( function() {
         if( $( this ).val() == field_id ) {
@@ -1272,8 +1244,8 @@ jQuery( function( $ ) {
     },
 
     /**
-		 * Update the products_quantities field
-		 */
+	 * Update the products_quantities field
+	 */
     update_products_quantities: function( e ) {
       e.preventDefault;
   		var quantities = $(this).val();
@@ -1285,17 +1257,17 @@ jQuery( function( $ ) {
     },
 
     /**
-		 * Toggle the per character checkbox
-		 */
-		toggle_per_char: function( e ) {
+	 * Toggle the per character checkbox
+	 */
+	toggle_per_char: function( e ) {
       e.preventDefault;
       var wrapper = $( this ).closest( '.field-item' ).toggleClass( 'per-char-selected' );
     },
 
     /**
-		 * Update the default fields(s) value
-		 */
-		set_default_field: function( e ) {
+	 * Update the default fields(s) value
+	 */
+	set_default_field: function( e ) {
       e.preventDefault;
       // If the field is a checkbox, set the default value depending on whether it's checked or not
       if( $( this ).hasClass( 'pewc-field-default-field-checkbox' ) ) {
@@ -1359,7 +1331,7 @@ jQuery( function( $ ) {
 
     update_field_names_object: function() {
 
-      if( $( 'body' ).hasClass( 'post-type-product' ) || $( 'body' ).hasClass( 'post-type-pewc_group' ) || $( 'body' ).hasClass( 'pewc_product_extra_page_global' ) || $( 'body' ).hasClass( 'product-add-ons_page_global' ) || $( 'body' ).attr( 'class' ).indexOf('_page_global') > -1 ) {
+     	if( $( 'body' ).hasClass( 'post-type-product' ) || $( 'body' ).hasClass( 'post-type-pewc_group' ) || $( 'body' ).hasClass( 'pewc_product_extra_page_global' ) || $( 'body' ).hasClass( 'product-add-ons_page_global' ) || $( 'body' ).attr( 'class' ).indexOf('_page_global') > -1 ) {
   			var all_fields = {};
   			$( 'body' ).find( '.field-item' ).not( '.new-field-item' ).find( '.pewc-field-label' ).each(function(){
   				var group_id = $( this ).closest( '.group-row' ).attr( 'data-group-id' );
@@ -1507,21 +1479,24 @@ jQuery( function( $ ) {
 
   pewc_actions.init();
 
-  $( 'body' ).on( 'click', '.pewc-group-meta-heading, .pewc-global-set-wrap .pewc-actions .collapse', function( e ) {
+  	$( 'body' ).on( 'click', '.pewc-group-meta-heading, .pewc-global-set-wrap, .pewc-actions .collapse', function( e ) {
 		e.preventDefault;
 		$( this ).closest( '.field-table' ).toggleClass( 'collapse-panel' );
 	});
-	$( 'body' ).on( 'click', '.pewc-field-meta-heading', function( e ) {
+	$( 'body' ).on( 'click', '.pewc-field-meta-heading, .pewc-field-actions .collapse-field', function( e ) {
 		e.preventDefault;
 		$( this ).closest( '.field-item' ).toggleClass( 'collapsed-field' );
 	});
-  $( 'body' ).on( 'keyup','.pewc-group-title', function() {
+  	$( 'body' ).on( 'keyup','.pewc-group-title', function() {
 		var title = $( this ).val();
 		var heading = $( this ).closest( '.group-row' ).find( '.pewc-display-title' ).text(title);
 	});
-	$( 'body' ).on( 'keyup','.pewc-field-label',function(){
-		var title = $( this ).val();
-		var heading = $( this ).closest( '.field-item' ).find( '.pewc-display-field-title' ).text(title);
+	$( 'body' ).on( 'keyup','.pewc-field-label, .pewc-field-admin_label', function() {
+		var field = $( this ).closest( '.field-item' );
+		var field_label = $( field ).find( '.pewc-field-label' ).val();
+		var admin_label = $( field ).find( '.pewc-field-admin_label' ).val();
+		var display_label = admin_label ? admin_label : field_label;
+		$( field ).find( '.pewc-display-field-title' ).text( display_label );
 	});
 
   function pewc_check_field_has_conditions( id, field_type ) {
@@ -2048,8 +2023,8 @@ jQuery( function( $ ) {
 		return options;
 	}
 
-  // Replace old IDs with new ones
-  function pewc_update_duplicated_ids( item, old_id, new_id ) {
+	// Replace old IDs with new ones
+	function pewc_update_duplicated_ids( item, old_id, new_id ) {
 
 		// Update form names to new ID
 		$( item ).find('[name]').each(function() {
@@ -2057,12 +2032,12 @@ jQuery( function( $ ) {
 			var new_name = old_name.replace( old_id, new_id );
 			$(this).attr('name',new_name);
 		});
-    $( item ).find('[data-size-count]').each(function(){
+		$( item ).find('[data-size-count]').each(function(){
 			var old_name = $(this).attr('data-size-count');
 			var new_name = old_name.replace( old_id, new_id );
 			$(this).attr('data-size-count',new_name);
 		});
-    $( item ).find('[data-item-id]').each(function(){
+		$( item ).find('[data-item-id]').each(function(){
 			var old_name = $(this).attr('data-item-id');
 			var new_name = old_name.replace( old_id, new_id );
 			$(this).attr('data-item-id',new_name);
@@ -2075,13 +2050,13 @@ jQuery( function( $ ) {
 				$(this).attr('id',new_field_id);
 			}
 		});
-    $( item ).find('.field-item').each(function(){
-      if( $(this).attr('id') != undefined ) {
-        var old_field_id = $(this).attr('id');
-        var new_field_id = old_field_id.replace( old_id, new_id );
-        $(this).attr('id',new_field_id);
-      }
-    });
+		$( item ).find('.field-item').each(function(){
+			if( $(this).attr('id') != undefined ) {
+				var old_field_id = $(this).attr('id');
+				var new_field_id = old_field_id.replace( old_id, new_id );
+				$(this).attr('id',new_field_id);
+			}
+		});
 		$( item ).find('.pewc-hidden-id-field').each(function(){
 			if( $(this).val() ) {
 				var old_field_val = $(this).val();
@@ -2096,25 +2071,37 @@ jQuery( function( $ ) {
 				$( this ).attr( 'id', new_field_id );
 			}
 		});
-    $( item ).find( '.pewc-condition-field' ).each( function() {
+		$( item ).find( '.pewc-condition-field' ).each( function() {
 			if( $( this ).attr( 'data-value' ) != undefined ) {
 				var old_field_val = $( this ).attr( 'data-value' );
 				var new_field_val = old_field_val.replace( old_id, new_id );
 				$( this ).attr( 'data-value', new_field_val );
 			}
 		});
-    $( item ).find( '.pewc-calculation-field' ).each( function() {
-      if( $(this).val() ) {
+		$( item ).find( '.pewc-calculation-field' ).each( function() {
+			if( $(this).val() ) {
 				var old_field_val = $(this).val();
 				var new_field_val = old_field_val.replace( old_id, new_id );
 				$(this).val(new_field_val);
 			}
-    });
+		});
 		// Update options
 		$( item ).find('option').each(function(i,v){
 			var old_field_val = $(this).val();
 			var new_field_val = old_field_val.replace( old_id, new_id );
 			$(this).val(new_field_val);
+		});
+
+		// Update nav menu
+		$( item ).find( '.pewc-section' ).each( function( i,v ) {
+			var old_field_id = $ (this ).attr( 'id' );
+			var new_field_id = old_field_id.replace( old_id, new_id );
+			$( this ).attr( 'id' , new_field_id) ;
+		});
+
+		// Update checkbox toggle label
+		$( item ).find( '.pewc-switch-checkbox' ).each( function( i,v ) {
+			$( this ).closest( 'label' ).attr( 'for', $( this ).attr( 'id' ) );
 		});
 
 		// 3.25.4, allow other plugins to hook into this (e.g. Advanced Calculations)
@@ -2212,6 +2199,111 @@ jQuery( function( $ ) {
 
   assign_groups.init();
 
+  var field_nav = {
+	init: function() {
+		$( document.body ).on( 'click', '.pewc-field-navigation a', this.change_tab );
+		$( '.pewc-field-type' ).on( 'change', this.update_field_type );
+		$( document.body ).on( 'click', '.pewc-clickable-heading', this.update_field_type );
+	},
+	change_tab: function( e ) {
+		e.preventDefault();
+		var field = $( this ).closest( '.field-item' );
+		var field_id = $( this ).closest( '.field-item' ).attr( 'data-item-id' );
+		console.log( field_id );
+		$( 'body' ).find( '.pewc-field-navigation-' + field_id + ' li' ).removeClass( 'active' );
+		$( this ).parent().addClass( 'active' );
+		$( field ).find(  '.pewc-section' ).removeClass( 'active' );
+		$( '#' + $( this ).parent().attr( 'data-id' ) + '-section-' + field_id ).addClass( 'active' );
+		field_nav.find_last_visible( $( this ).parent().attr( 'data-id' ), field_id );
+	},
+	find_last_visible: function( section, field_id ) {
+		$( '.pewc-fields-wrapper' ).removeClass( 'last-one' );
+		$( '.product-extra-field' ).removeClass( 'last-one' );
+		$( '#' + section + '-section-' + field_id ).find(' .pewc-fields-wrapper:visible').last().addClass( 'last-one' );
+		$( '#' + section + '-section-' + field_id ).find( '.pewc-fields-wrapper' ).each( function() {
+			$( this ).find(' .product-extra-field:visible').last().addClass( 'last-one' );
+		});
+	},
+	update_field_type: function( e ) {
+		var field_id = $( this ).closest( '.field-item' ).attr( 'data-item-id' );
+		setTimeout(
+			function() {
+				field_nav.find_last_visible( 'general', field_id )
+			},
+			50
+		);
+	},
+  }
+
+  field_nav.init();
+
+  var group_settings = {
+	init: function() {
+		$( document.body ).on( 'click', '.pewc-group-settings-heading', this.toggle );
+	},
+	toggle: function( e ) {
+		$( this ).closest( '.pewc-all-fields-wrapper' ).toggleClass( 'collapse' );
+	}
+  }
+
+  group_settings.init();
+
+  // Load field settings through AJAX
+  // @since 4.0
+  var field_settings = {
+	init: function() {
+		$( document.body ).on( 'click', '.pewc-clickable-heading, .pewc-field-navigation li a', this.load_settings );
+	},
+	load_settings: function( e ) {
+      e.preventDefault();
+	  if( $( this ).hasClass( 'loaded' ) ) {
+		return;
+	  }
+
+	  $( this ).addClass( 'loaded' );
+	  if( $( this ).hasClass( 'pewc-clickable-heading' ) ) {
+		var section = 'general';
+		$( this ).closest( '.field-item ' ).find( '.pewc-field-navigation-general a' ).addClass( 'loaded' );
+	  } else {
+		var section = $( this ).parent().attr( 'data-id' );
+	  }
+	  
+      $( '.pewc-loading' ).show();
+	  var group_id = $( this ).closest( '.field-list').attr( 'data-pewc-field-list-group-id' );
+	  var item_key = $( this ).closest( '.field-item ').attr( 'data-item-id' );
+	  var base_name = $( this ).closest( '.field-list').find( '.pewc-field-content-wrapper').attr( 'data-base-name' );
+	  var field_type = $( this ).closest( '.field-list').find( '.pewc-field-content-wrapper').attr( 'data-field-type' );
+	  var field_label = $( this ).closest( '.field-list').find( '.pewc-field-content-wrapper').attr( 'data-field-label' );
+	  var admin_label = $( this ).closest( '.field-list').find( '.pewc-field-content-wrapper').attr( 'data-admin-label' );
+
+      $.ajax({
+        type: 'POST',
+        url: ajaxurl,
+        data: {
+			action: 'pewc_do_section_ajax',
+			post_id: $( '#post_ID' ).val(),
+			group_id: group_id,
+			item_key: item_key,
+			base_name: base_name,
+			field_type: field_type,
+			field_label: field_label,
+			admin_label: admin_label,
+			section: section,
+			post_id: $( '#post_ID' ).val(),
+         	security: $( '#pewc_add_section_ajax' ).val()
+        },
+        success: function( response ) {
+			$( '#' + section + '-section-' + item_key ).html( response.content );
+          	$( '.pewc-loading' ).hide();
+        },
+      });
+    },
+  }
+
+  if( pewc_obj.use_ajax ) {
+	field_settings.init();
+  }
+  
   var export_groups = {
 
     init: function() {
@@ -2275,7 +2367,6 @@ jQuery( function( $ ) {
                   groups: event.target.result
                 },
                 success: function( response ) {
-                  console.log( response );
                   $( '#pewc_group_order' ).val( response.groups );
                   $( '.pewc-loading' ).hide();
                 },
@@ -2314,12 +2405,13 @@ jQuery( function( $ ) {
 
 	attach_click: function( element ) {
 		element.on( 'click', function(){
-			var group_id = $( this ).data( 'group-id' );
+			var group_id = $( this ).closest( '.pewc-group-meta-table' ).data( 'group-id' );
 			if ( $( '.pewc-repeatable-options-' + group_id ).hasClass( 'hidden' ) ) {
-				$( '.pewc-repeatable-options-' + group_id ).removeClass( 'hidden' )
+				$( '.pewc-repeatable-options-' + group_id ).removeClass( 'hidden' );
 			} else {
-				$( '.pewc-repeatable-options-' + group_id ).addClass( 'hidden' )
+				$( '.pewc-repeatable-options-' + group_id ).addClass( 'hidden' );
 			}
+			$( this ).closest( '.pewc-fields-wrapper' ).toggleClass( 'not-repeatable' );
 		});
 	},
 

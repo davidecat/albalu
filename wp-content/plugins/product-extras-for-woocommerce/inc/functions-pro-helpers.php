@@ -28,6 +28,7 @@ function pewc_filter_field_types_pro( $field_types ) {
 // add_filter( 'pewc_filter_field_types', 'pewc_filter_field_types_pro' );
 
 function pewc_field_item_pro_message( $item ) {
+
 	if( ! pewc_is_pro() ) {
 		$upgrade = sprintf(
 			'<a target="_blank" href="%s">%s</a><span style="font-size: 14px;" class="dashicons dashicons-external"></span>',
@@ -57,8 +58,9 @@ function pewc_field_item_pro_message( $item ) {
 			)
 		);
 	}
+	
 }
-add_action( 'pewc_end_fields_heading', 'pewc_field_item_pro_message' );
+// add_action( 'pewc_end_fields_heading', 'pewc_field_item_pro_message' );
 
 /**
  * Add group display class
@@ -169,48 +171,16 @@ function pewc_get_group_display( $product_id ) {
 
 function pewc_get_upgrade_url() {
 	$url = 'https://pluginrepublic.com/my-account/';
-	$licence_id = '';
-	$payment_id = get_option( 'pewc_payment_id', false );
-	$license_id = get_option( 'pewc_license_id', false );
-	if( false === $payment_id && false === $license_id ) {
-		return $url;
-	}
-
-	// Check what kind of licence they have
-	$expires = get_option( 'pewc_licence_expires', false );
-
-	if( false == $license_id || false === $expires ) {
-		// If we don't have the license ID we can send the user to the correct part of the account page
-		$url = add_query_arg(
-			array(
-				'action'		=> 'manage_licenses',
-				// 'payment_id'	=> $payment_id, // Removed this because it was throwing an empty screen on the My Account page
-				'view'			=> 'upgrades',
-				'utm_source'	=> 'AOU-Upgrade',
-				'utm_medium'	=> 'referral',
-				'utm_campaign'	=> 'account-upgrade'
-			),
-			$url
-		);
-	} else {
-		// Send users direct to the checkout for their upgrade
-		$upgrade_id = 1;
-		if( $expires == 'lifetime' ) {
-			$upgrade_id = 3;
-		}
-		$url = 'https://pluginrepublic.com/checkout/';
-		$url = add_query_arg(
-			array(
-				'edd_action'	=> 'sl_license_upgrade',
-				'license_id'	=> $license_id,
-				// 'payment_id'	=> $payment_id,
-				'upgrade_id'	=> $upgrade_id,
-				'utm_source'	=> 'AOU-Upgrade',
-				'utm_medium'	=> 'referral',
-				'utm_campaign'	=> 'direct-upgrade'
-			),
-			$url
-		);
-	}
+	$url = add_query_arg(
+		array(
+			'action'		=> 'manage_licenses',
+			// 'payment_id'	=> $payment_id, // Removed this because it was throwing an empty screen on the My Account page
+			'view'			=> 'upgrades',
+			'utm_source'	=> 'AOU-Upgrade',
+			'utm_medium'	=> 'referral',
+			'utm_campaign'	=> 'account-upgrade'
+		),
+		$url
+	);
 	return $url;
 }

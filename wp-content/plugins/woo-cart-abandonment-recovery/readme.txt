@@ -3,7 +3,7 @@ Contributors: sujaypawar, wpcrafter
 Tags: woocommerce, cart abandonment, cart recovery
 Requires at least: 5.4
 Tested up to: 6.9
-Stable tag: 2.0.5
+Stable tag: 2.0.7
 Requires PHP: 7.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -71,27 +71,27 @@ Use smart shortcodes in email subject lines for personalized, dynamic messaging.
 ### 9. Option to Show Tax/VAT in Emails
 Display tax or VAT details in recovery emails, based on plugin settings. Helps reduce confusion and builds purchase confidence.
 
-### 10. Product-Specific Reports (Coming Soon)
+### 10. Product-Specific Reports (Pro)
 Track abandoned/recovered stats for each product individually. View product name, number of times abandoned, and recovered—to see which products need attention.
 
-### 11. Advanced Email Tracking (Coming Soon)
+### 11. Advanced Email Tracking (Pro)
 Gain insights into how each email performs with metrics like sent, open rate, click rate, and unsubscribe rate. Perfect for testing and optimizing your recovery strategy.
 
-### 12. Rule Engine for Email Logic (Coming Soon)
+### 12. Rule Engine for Email Logic (Pro)
 Set up smart conditions for when and how emails are sent. Exclude certain products, send product-specific sequences, skip certain emails, or trigger offers based on cart subtotal.
 
-### 13. Real-Time Admin Notifications (Coming Soon)
-Get instant alerts when a cart is abandoned or recovered. Stay informed and take action quickly if needed.
-
-### 14. WhatsApp Integration (Coming Soon)
-Send cart recovery messages via WhatsApp to connect with customers where they're most active. Boost engagement with a personal touch.
-
-### 15. SMS Recovery Messages (Coming Soon)
+### 13. SMS Recovery Messages (Pro)
 Reach users via SMS for higher visibility and faster conversions. A great addition to your multi-channel recovery strategy.
 
-### OttoKit Integration (Coming Soon)
+### 14. OttoKit Integration
 Connect with OttoKit to create powerful automations and sequences beyond email.
 Perfect for advanced marketers and power users.
+
+### 15. Real-Time Admin Notifications (Coming Soon)
+Get instant alerts when a cart is abandoned or recovered. Stay informed and take action quickly if needed.
+
+### 16. WhatsApp Integration (Coming Soon)
+Send cart recovery messages via WhatsApp to connect with customers where they're most active. Boost engagement with a personal touch.
 
 ## 🔍 How It Works – Just 3 Simple Steps
 
@@ -163,6 +163,15 @@ You can report the issue through our [Bug Bounty Program](https://brainstormforc
 4. General settings for Email, Webhook (Coupon Code), GDPR
 
 == Changelog ==
+
+= Version 2.0.7 - Monday, 2nd February 2026 =
+- Fix: Resolved an issue where some address fields were not captured for abandoned carts in block-based checkout.
+- Fix: Improved responsiveness of the date range selector.
+
+= Version 2.0.6 - Monday, 26th January 2026 =
+- New: Added plugin rollback functionality.
+- New: Introduced a lost-time setting for abandoned carts.
+- Improvement: Improved structure and processing logic of weekly email reports.
 
 = Version 2.0.5 - Tuesday, 30th December 2025 =
 - New: Added onboarding screens for a smoother initial setup.

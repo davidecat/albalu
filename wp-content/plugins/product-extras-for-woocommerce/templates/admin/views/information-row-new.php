@@ -11,9 +11,9 @@ if( ! defined( 'ABSPATH' ) ) {
 } ?>
 
 
-<div class="product-extra-row-wrapper" data-row-count="<?php echo esc_attr( $row_count ); ?>">
+<div class="product-extra-row-wrapper pewc-field-information-wrapper" data-row-count="<?php echo esc_attr( isset( $row_count ) ? $row_count : '' ); ?>">
 
-	<div class="pewc-row-image">
+	<div>
 		<div class="pewc-field-image">
 			<div class='image-preview-wrapper'>
 				<a href="#" class="pewc-upload-button pewc-upload-option-image" data-item-id="">
@@ -26,15 +26,15 @@ if( ! defined( 'ABSPATH' ) ) {
 
 	</div>
 
-	<div class="product-extra-field-quarter">
+	<div>
 		<input type="text" class="pewc-field-row-label" name="" value="">
 	</div>
-	<div class="product-extra-field-half">
+	<div>
 		<input type="text" class="pewc-field-row-data" name="" value="">
 	</div>
-	<div class="product-extra-field-10 pewc-actions pewc-select-actions">
+	<div>
 		<span class="sort-row pewc-action"><span class="dashicons dashicons-menu"></span></span>
-		<span class="remove-row pewc-action"><?php _e( 'Remove', 'pewc' ); ?></span>
+		<span class="remove-row pewc-action"><span class="dashicons dashicons-trash"></span></span>
 	</div>
 
 </div>

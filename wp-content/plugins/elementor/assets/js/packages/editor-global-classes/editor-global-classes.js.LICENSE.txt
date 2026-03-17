@@ -1,6 +1,10 @@
 /*! ../../../../hooks/use-filtered-css-class-usage */
 
+/*! ../../../../utils/tracking */
+
 /*! ../../../hooks/use-css-class-usage-by-id */
+
+/*! ../../../utils/tracking */
 
 /*! ../../context */
 
@@ -24,6 +28,8 @@
 
 /*! ../../store */
 
+/*! ../../utils/tracking */
+
 /*! ../api */
 
 /*! ../components/css-class-usage/types */
@@ -32,7 +38,11 @@
 
 /*! ../css-class-usage/components */
 
+/*! ../errors */
+
 /*! ../global-classes-styles-provider */
+
+/*! ../save-global-classes */
 
 /*! ../search-and-filter/components/filter/active-filters */
 
@@ -48,6 +58,8 @@
 
 /*! ../store */
 
+/*! ../utils/tracking */
+
 /*! ./api */
 
 /*! ./capabilities */
@@ -57,6 +69,8 @@
 /*! ./class-manager-introduction */
 
 /*! ./class-manager-panel */
+
+/*! ./classes-resource */
 
 /*! ./clear-icon-button */
 
@@ -88,6 +102,8 @@
 
 /*! ./global-classes-styles-provider */
 
+/*! ./hooks/use-prefetch-css-class-usage */
+
 /*! ./init */
 
 /*! ./mcp-apply-unapply-global-classes */
@@ -95,6 +111,10 @@
 /*! ./mcp-get-global-class-usages */
 
 /*! ./mcp-integration */
+
+/*! ./mcp-integration/classes-resource */
+
+/*! ./mcp-manage-global-classes */
 
 /*! ./not-found */
 
@@ -118,7 +138,11 @@
 
 /*! ./utils/snapshot-history */
 
+/*! ./utils/tracking */
+
 /*! @elementor/editor */
+
+/*! @elementor/editor-canvas */
 
 /*! @elementor/editor-current-user */
 
@@ -139,6 +163,8 @@
 /*! @elementor/editor-ui */
 
 /*! @elementor/editor-v1-adapters */
+
+/*! @elementor/events */
 
 /*! @elementor/http-client */
 
@@ -191,6 +217,10 @@
   \*****************************************/
 
 /*!*****************************************!*\
+  !*** external ["elementorV2","events"] ***!
+  \*****************************************/
+
+/*!*****************************************!*\
   !*** external ["elementorV2","schema"] ***!
   \*****************************************/
 
@@ -209,6 +239,10 @@
 /*!**********************************************!*\
   !*** external ["elementorV2","editorProps"] ***!
   \**********************************************/
+
+/*!***********************************************!*\
+  !*** external ["elementorV2","editorCanvas"] ***!
+  \***********************************************/
 
 /*!***********************************************!*\
   !*** external ["elementorV2","editorPanels"] ***!
@@ -261,6 +295,10 @@
 /*!**************************************************************************!*\
   !*** ./packages/packages/core/editor-global-classes/src/capabilities.ts ***!
   \**************************************************************************/
+
+/*!****************************************************************************!*\
+  !*** ./packages/packages/core/editor-global-classes/src/utils/tracking.ts ***!
+  \****************************************************************************/
 
 /*!*******************************************************************************!*\
   !*** ./packages/packages/core/editor-global-classes/src/hooks/use-filters.ts ***!
@@ -330,6 +368,10 @@
   !*** ./packages/packages/core/editor-global-classes/src/components/css-class-usage/utils.ts ***!
   \**********************************************************************************************/
 
+/*!**********************************************************************************************!*\
+  !*** ./packages/packages/core/editor-global-classes/src/mcp-integration/classes-resource.ts ***!
+  \**********************************************************************************************/
+
 /*!************************************************************************************************!*\
   !*** ./packages/packages/core/editor-global-classes/src/components/class-manager/sortable.tsx ***!
   \************************************************************************************************/
@@ -357,6 +399,10 @@
 /*!***************************************************************************************************!*\
   !*** ./packages/packages/core/editor-global-classes/src/components/search-and-filter/context.tsx ***!
   \***************************************************************************************************/
+
+/*!*******************************************************************************************************!*\
+  !*** ./packages/packages/core/editor-global-classes/src/mcp-integration/mcp-manage-global-classes.ts ***!
+  \*******************************************************************************************************/
 
 /*!*********************************************************************************************************!*\
   !*** ./packages/packages/core/editor-global-classes/src/components/class-manager/panel-interactions.ts ***!

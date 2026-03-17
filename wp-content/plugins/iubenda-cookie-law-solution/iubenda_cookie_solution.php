@@ -3,7 +3,7 @@
  * Plugin Name: iubenda | All-in-one Compliance for GDPR / CCPA Cookie Consent + more
  * Plugin URI: https://www.iubenda.com
  * Description: The iubenda plugin is an <strong>all-in-one</strong>, extremely easy to use 360° compliance solution, with text crafted by actual lawyers, that quickly <strong>scans your site and auto-configures to match your specific setup</strong>.  It supports the GDPR (DSGVO, RGPD), UK-GDPR, ePrivacy, LGPD, USPR, CalOPPA, PECR and more.
- * Version: 3.12.5
+ * Version: 3.13.0
  * Author: iubenda
  * Author URI: https://www.iubenda.com
  * License: MIT License
@@ -45,7 +45,7 @@ define( 'IUB_DEBUG', false );
  * @property Iubenda_Legal_Widget       $widget
  *
  * @class   iubenda
- * @version 3.12.5
+ * @version 3.13.0
  */
 class iubenda {
 // phpcs:enable
@@ -139,7 +139,7 @@ class iubenda {
 	 *
 	 * @var string
 	 */
-	public $version = '3.12.5';
+	public $version = '3.13.0';
 
 	/**
 	 * Plugin activation info.
@@ -423,6 +423,13 @@ class iubenda {
 	public function enqueue_scripts() {
 		// Getting embed code.
 		if ( ! $this->is_cs_service_enabled_and_configured() ) {
+			return;
+		}
+
+		// Always skip regular script output on AMP pages.
+		// - If AMP support is enabled: amp-consent component is handled by wp_footer_amp().
+		// - If AMP support is disabled: AMP pages cannot run regular JavaScript anyway.
+		if ( $this->is_amp_page() ) {
 			return;
 		}
 
@@ -1420,6 +1427,27 @@ class iubenda {
 		$product_helper = new Product_Helper();
 
 		return ( $product_helper->is_cs_service_enabled() && $product_helper->is_cs_service_configured() );
+	}
+
+	/**
+	 * Check if the current page is an AMP endpoint.
+	 *
+	 * Supports both official AMP plugin and AMP for WP plugin.
+	 *
+	 * @return bool True if current page is an AMP endpoint, false otherwise.
+	 */
+	public function is_amp_page(): bool {
+		// Check for official AMP plugin.
+		if ( function_exists( 'is_amp_endpoint' ) && is_amp_endpoint() ) {
+			return true;
+		}
+
+		// Check for AMP for WP plugin.
+		if ( function_exists( 'ampforwp_is_amp_endpoint' ) && ampforwp_is_amp_endpoint() ) {
+			return true;
+		}
+
+		return false;
 	}
 
 	/**

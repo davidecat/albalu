@@ -6,6 +6,10 @@ use PaymentPlugins\PayPalSDK\Order;
 
 trait VaultTokenTrait {
 
+	protected static array $VaultTokenTraitFeatures = [
+		'vault'
+	];
+
 	/**
 	 * @var string
 	 */

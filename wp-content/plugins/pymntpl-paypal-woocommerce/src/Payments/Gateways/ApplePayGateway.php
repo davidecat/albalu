@@ -345,6 +345,7 @@ class ApplePayGateway extends AbstractGateway {
 				'radius' => $this->get_option( 'button_radius', '4' ) . 'px',
 				'height' => $this->get_option( 'button_height', '40' ) . 'px',
 			],
+			'sections'             => $this->get_option( 'sections', [] ),
 			'display_name'         => $this->get_option( 'display_name', get_bloginfo( 'name' ) ),
 			'html'                 => [
 				'button' => $this->template_loader->load_template_html( 'applepay/button.php' )

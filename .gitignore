@@ -58,10 +58,4 @@ wp-config.php
 *.zip
 *.tar.gz
 *.rar
-
-wp-content/w3tc-config/master.php
-/conf
-nginx.conf
-/wp-content/mu-plugins/
-/wp-content/object-cache.php
-
+db_dumps/

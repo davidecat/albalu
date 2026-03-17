@@ -2,9 +2,9 @@
 Contributors: WPbeginner, smub, gripgrip, wpcodeteam
 Tags: code, css, php, header, code snippets
 Requires at least: 5.0
-Tested up to: 6.8
+Tested up to: 6.9
 Requires PHP: 7.0
-Stable tag: 2.3.1
+Stable tag: 2.3.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -231,6 +231,18 @@ WPCode comes with a ready-made code snippets library that allows you to replace 
 ... and basically any plugin that adds a functionality which can be added via custom code snippets.
 
 == Changelog ==
+
+= 2.3.4 =
+* New: Integration with the WordPress Abilities API (requires WordPress 6.9+).
+
+= 2.3.3 =
+* Tweak: Improved PHP 8.5 compatibility.
+
+= 2.3.2.1 =
+* Fix: Fixed an issue where users who can't edit snippets saw an error message.
+
+= 2.3.2 =
+* New: Live CSS preview, you can now see the changes you make to a CSS snippet in real-time on the frontend of your website.
 
 = 2.3.1 =
 * Fix: We changed the way labels are loaded in conditional logic classes to avoid notices when used with "Run Everywhere" snippets.

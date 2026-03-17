@@ -49,6 +49,12 @@
 							pewc_vars.conditions_timer
 						);
 					}
+
+					// 3.27.9, trigger on page load if we have fields dependent on quantity
+					if( typeof pewc_quantity_triggers !== 'undefined' ) {
+						$( 'form.cart .qty' ).trigger( 'change' );
+					}
+
 				}
 
 			},
@@ -329,6 +335,18 @@
 						var field_value = this.get_field_value( $( '.' + condition.field ).attr( 'data-field-id' ), condition.field_type, loop_parent );
 					}
 					var meets_condition = this.field_meets_condition( field_value, condition.rule, condition.value );
+
+					// 3.27.9, if we have a condition based on attributes, and rule is Is Not (e.g. Color Is Not Blue), if attribute Color does not exist, then meets_condition is still false, but it should be true?
+					// we do this hear so as not to affect other functions that use field_meets_condition()
+					if ( typeof attribute_field !== 'undefined' ) {
+						// this is a condition based on an attribute
+						var not_rules = [ 'is-not', 'does-not-contain' ];
+						if ( typeof field_value == 'undefined' && not_rules.includes( condition.rule ) && ! meets_condition ) {
+							// the attribute does not exist, but if the rule is using Is Not or Does Not Contain, the it meets the condition, yes?
+							meets_condition = true;
+						}
+					}
+
 					if( meets_condition && match == 'any' ) {
 						return true;
 					} else if( ! meets_condition && match =='all' ) {
@@ -412,7 +430,7 @@
 			},
 
 			field_meets_condition: function( value, rule, required_value ) {
-				if (value == undefined ) {
+				if ( value == undefined ) {
 					return false;
 				} else if( rule == 'is') {
 					return value == required_value;
@@ -672,12 +690,21 @@
 						$( '#' + $( field ).attr( 'data-id' ) + '_' + default_value2 ).closest( '.pewc-radio-image-wrapper, .pewc-checkbox-image-wrapper' ).addClass( 'checked' );
 					}
 				} else if( checks.includes( field_type ) ) {
+					// checkbox, checkbox_group, radio
+					// uncheck all
 					$( field ).find( 'input' ).prop( 'checked', false );
 					// 3.23.1
 					if ( $( field ).hasClass( 'pewc-text-swatch' ) ) {
 						$( field ).find( '.active-swatch' ).removeClass( 'active-swatch' );
 					}
-					default_value = $( field ).hasClass( 'pewc-hidden-field' ) ? '' : $( field ).attr( 'data-default-value' ); // 3.21.7, if checkbox is hidden, nullify the value, so that conditions based on this does not match in the backend
+					// 3.27.11, added conditions below so that Radio field's default value is selected when it is shown via condition
+					if ( field_type == 'checkbox' ) {
+						default_value = $( field ).hasClass( 'pewc-hidden-field' ) ? '' : $( field ).attr( 'data-default-value' ); // 3.21.7, if checkbox is hidden, nullify the value, so that conditions based on this does not match in the backend
+					} else {
+						// Radio group goes here. Checkbox group does not have the Default field?
+						default_value = $( field ).attr( 'data-default-value' );
+					}
+
 					if ( default_value ) {
 						if ( field_type === 'checkbox' ) {
 							$( field ).find( 'input' ).prop( 'checked', true ); // 3.17.2

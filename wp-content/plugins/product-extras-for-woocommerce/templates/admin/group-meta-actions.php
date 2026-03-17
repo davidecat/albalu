@@ -11,9 +11,11 @@ if( ! defined( 'ABSPATH' ) ) {
 } ?>
 
 <div class="pewc-actions pewc-group-meta-actions">
-	<span class="table-panel collapse" title="<?php _e( 'Collapse / Expand', 'pewc' ); ?>"><span class="collapse-text"><?php _e( 'Collapse', 'pewc' ); ?></span><span class="expand-text"><?php _e( 'Expand', 'pewc' ); ?></span></span>
-	<!--<span class="table-panel import" title="<?php _e( 'Import Fields', 'pewc' ); ?>"><?php _e( 'Import Fields', 'pewc' ); ?></span>
-	<span class="table-panel export" title="<?php _e( 'Export Group', 'pewc' ); ?>"><?php _e( 'Export Group', 'pewc' ); ?></span>-->
-	<span class="table-panel duplicate" title="<?php _e( 'Duplicate', 'pewc' ); ?>"><?php _e( 'Copy', 'pewc' ); ?></span>
-	<span class="table-panel remove" title="<?php _e( 'Delete', 'pewc' ); ?>"><?php _e( 'Remove', 'pewc' ); ?></span>
+	<span class="table-panel sort-handle" title="<?php _e( 'Sort', 'pewc' ); ?>"><span class="dashicons dashicons-menu"></span></span>
+	<span class="table-panel collapse toggle" title="<?php _e( 'Collapse / Expand', 'pewc' ); ?>">
+		<span class="dashicons dashicons-arrow-up"></span>
+		<span class="dashicons dashicons-arrow-down"></span>
+	</span>
+	<span class="table-panel duplicate" title="<?php _e( 'Duplicate', 'pewc' ); ?>"><span class="dashicons dashicons-admin-page"></span></span>
+	<span class="table-panel remove" title="<?php _e( 'Delete', 'pewc' ); ?>"><span class="dashicons dashicons-trash"></span></span>
 </div>

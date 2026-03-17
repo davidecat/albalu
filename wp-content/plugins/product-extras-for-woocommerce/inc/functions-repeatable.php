@@ -411,7 +411,7 @@ function pewc_metabox_repeatable_fields( $pewc_groups ) {
 		'name'		=> 'repeatable',
 		'title'		=> __( 'Repeatable', 'pewc' ),
 		'type'		=> 'checkbox',
-		'class'		=> '',
+		'class'		=> 'pewc-start-threes',
 		'input_class' => 'pewc-group-repeatable',
 	);
 	$pewc_groups[] = array(
@@ -427,7 +427,7 @@ function pewc_metabox_repeatable_fields( $pewc_groups ) {
 		'name'		=> 'repeatable_limit',
 		'title'		=> __( 'Repeatable Limit', 'pewc' ),
 		'type'		=> 'number',
-		'class'		=> '',
+		'class'		=> 'pewc-end-threes',
 	);
 	return $pewc_groups;
 }

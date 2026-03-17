@@ -11,7 +11,11 @@ if( ! defined( 'ABSPATH' ) ) {
 }
 
 function pewc_enable_user_fields() {
-	return get_option( 'pewc_enable_user_fields', 'no' ) == 'yes' ? true : false;
+	if( function_exists( 'wcmo_load_plugin_textdomain' ) ) {
+		add_filter( 'pewc_enable_additional_tab', '__return_true' );
+		return get_option( 'pewc_enable_user_fields', 'no' ) == 'yes' ? true : false;
+	}
+	return false;
 }
 
 /**

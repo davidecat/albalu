@@ -72,18 +72,20 @@ if( ! empty( $item['products_quantities'] ) ) {
 				$quantity_field_values = array( 1 );
 			}
 
-			$name = apply_filters( 'pewc_child_product_title', get_the_title( $child_product_id ), $child_product );
+			$name = apply_filters( 'pewc_child_product_title', get_the_title( $child_product_id ), $child_product, $option_cost, $item );
 
 			// Include prices in option labels
-			if( pewc_display_option_prices_product_page( $item ) ) {
-				$name .= apply_filters( 'pewc_option_price_separator', '+', $item ) . pewc_get_semi_formatted_raw_price( $option_cost );
-			}
+			/**
+			 * @since 3.2.5 Handled by pewc_add_child_product_price
+			 */
+			// if( pewc_display_option_prices_product_page( $item ) ) {
+			// 	$name .= apply_filters( 'pewc_option_price_separator', '+', $item ) . pewc_get_semi_formatted_raw_price( $option_cost );
+			// }
 
 			// 3.27.3
 			$option_class = apply_filters( 'pewc_child_product_option_class', array(), $child_product_id, $item );
 			$option_class_str = ! empty( $option_class ) ? implode( ' ', $option_class ) : '';
 
-			// $option_cost = pewc_maybe_include_tax( $child_product, $child_product->get_price() );
 			printf(
 				'<option data-option-cost="%s" %s %s data-field-value="%s" value="%s" data-stock="%s" class="%s">%s</option>',
 				apply_filters( 'pewc_option_price', esc_attr( $option_cost ), $item ),

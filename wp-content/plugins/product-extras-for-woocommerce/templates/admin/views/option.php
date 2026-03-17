@@ -42,7 +42,7 @@ if( ! defined( 'ABSPATH' ) ) {
 		</div>
 	</td>
 
-	<td class="pewc-option-image">
+	<td class="pewc-option-image alt">
 
 		<?php $image_wrapper_classes = array(
 			'pewc-field-image-swatch-' . $item_key . '_' . $option_count
@@ -100,10 +100,10 @@ if( ! defined( 'ABSPATH' ) ) {
 
 	<?php do_action( 'pewc_after_option_params', $option_count, $group_id, $item_key, $item, $key ); ?>
 
-	<td class="product-extra-field-10 pewc-actions pewc-select-actions">
+	<td class="pewc-actions pewc-select-actions">
 
 		<span class="sort-option pewc-action"><span class="dashicons dashicons-menu"></span></span>
-		<span class="remove-option pewc-action"><?php _e( 'Remove', 'pewc' ); ?></span>
+		<span class="remove-option pewc-action"><span class="dashicons dashicons-trash"></span></span>
 
 	</td>
 

@@ -4475,6 +4475,9 @@ a:focus-visible {
 	:is(#wcar-admin-app) .lg\:w-\[47\.5rem\] {
 		width: 47.5rem;
 	}
+	:is(#wcar-admin-app) .lg\:w-auto {
+		width: auto;
+	}
 	:is(#wcar-admin-app) .lg\:w-full {
 		width: 100%;
 	}

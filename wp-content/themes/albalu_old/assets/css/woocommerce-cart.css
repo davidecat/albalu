@@ -1,0 +1,26 @@
+/* Elementor Side Cart */
+.elementor-menu-cart__product-image > a {border:1px solid #d5d8dc;}
+/* Elementor Side Cart: layout */
+.elementor-menu-cart__product .elementor-menu-cart__product-name,
+.elementor-menu-cart__product .elementor-menu-cart__product-price {padding-left:10px!important;}
+/* Elementor Side Cart: nome e dettagli */
+.elementor-menu-cart__product .elementor-menu-cart__product-name {}
+.elementor-menu-cart__product .elementor-menu-cart__product-name > a {display:block; font-size:11px!important; line-height:16px!important;}
+.elementor-menu-cart__product .elementor-menu-cart__product-name > dl.variation {display:block; margin-top:5px; margin-bottom:5px; font-size:11px; line-height:17px;}
+.elementor-menu-cart__product .elementor-menu-cart__product-name > dl.variation > dt {font-weight:bold; font-style:italic;}
+.elementor-menu-cart__product .elementor-menu-cart__product-name > dl.variation > dd {margin-bottom:5px!important; margin-left:0!important;}
+.elementor-menu-cart__product .elementor-menu-cart__product-name > dl.variation > dd:last-child {margin-bottom:0!important;}
+/* Elementor Side Cart: prezzo */
+.elementor-menu-cart__product .elementor-menu-cart__product-name .pewc-cart-item-price {font-weight:bold;}
+
+/* Pagina carrello */
+body.woocommerce-cart .elementor-widget-jet-cart-table table.shop_table td.product-name dl.variation {font-size:11px; line-height:17px;}
+body.woocommerce-cart .elementor-widget-jet-cart-table table.shop_table td.product-name dl.variation > dt {font-weight:bold; font-style:italic;}
+body.woocommerce-cart .elementor-widget-jet-cart-table table.shop_table td.product-name dl.variation > dd {margin-bottom:5px!important; margin-left:0!important;}
+body.woocommerce-cart .elementor-widget-jet-cart-table table.shop_table td.product-name dl.variation > dd:last-child {margin-bottom:0!important;}
+body.woocommerce-cart .elementor-widget-jet-cart-table table.shop_table td.product-name dl.variation > dd .pewc-cart-item-price {font-weight:bold;}
+/* Coupon */
+body.woocommerce-cart .elementor-widget-jet-cart-table .coupon {gap:10px;}
+/* Cart totals */
+body.woocommerce-cart .elementor-widget-jet-cart-totals table.shop_table {border:none!important;}
+body.woocommerce-cart .elementor-widget-jet-cart-totals table.shop_table tr.cart-subtotal > * {border-top:none!important;}

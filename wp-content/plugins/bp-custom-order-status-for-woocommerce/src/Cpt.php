@@ -65,129 +65,132 @@ class Cpt {
 				'maxlength' => 17,
 			);
 		}
-		\CSF::createSection( $prefix, array(
-			'fields' => array(
 
-				array(
-					'id'         => 'status_slug',
-					'type'       => 'text',
-					'title'      => 'Slug',
-					'subtitle'   => __( '* Without wc- prefix', 'bp-custom-order-status' ),
-					'desc'       => __( 'Do not use more than 17 characters, do not begin with numbers, and do not use a name that is solely numbered(ex: 3456).<br>Avoid using accents or special characters. Otherwise, until you modify the order status, your orders may be concealed on the orders list.', 'bp-custom-order-status' ),
-					'sanitize'   => 'sanitize_title',
-					'attributes' => $attributes,
-				),
-				array(
-					'id'    => 'status_icon',
-					'type'  => 'icon',
-					'title' => __( 'Status Icon', 'bp-custom-order-status' ),
-				),
+		$fields = apply_filters( 'cosmbp_order_status_settings_fields', array(
 
-				array(
-					'id'      => 'what_to_show',
-					'type'    => 'select',
-					'title'   => __( 'Status View', 'bp-custom-order-status' ),
-					'desc'    => __( 'Choose where the icon should be placed. If icon is not set this option is ignored.<p> Show Name: Icon will be used only on actions area<br>Show Icon: Icon will replace the status name on Orders page', 'bp-custom-order-status' ),
-					'default' => 'text',
-					'options' => array(
-						'icon' => __( 'Status Icon', 'bp-custom-order-status' ),
-						'text' => __( 'Status Name', 'bp-custom-order-status' ),
-					),
-				),
+			array(
+				'id'         => 'status_slug',
+				'type'       => 'text',
+				'title'      => 'Slug',
+				'subtitle'   => __( '* Without wc- prefix', 'bp-custom-order-status' ),
+				'desc'       => __( 'Do not use more than 17 characters, do not begin with numbers, and do not use a name that is solely numbered(ex: 3456).<br>Avoid using accents or special characters. Otherwise, until you modify the order status, your orders may be concealed on the orders list.', 'bp-custom-order-status' ),
+				'sanitize'   => 'sanitize_title',
+				'attributes' => $attributes,
+			),
+			array(
+				'id'    => 'status_icon',
+				'type'  => 'icon',
+				'title' => __( 'Status Icon', 'bp-custom-order-status' ),
+			),
 
-				array(
-					'id'      => 'text_color',
-					'default' => '#000000',
-					'type'    => 'color',
-					'title'   => __( 'Color', 'bp-custom-order-status' ),
-					'desc'    => __( 'This color is applied to the Text and to the Icon', 'bp-custom-order-status' ),
-				),
-				array(
-					'id'         => 'background_color',
-					'default'    => '#ffffff',
-					'type'       => 'color',
-					'title'      => __( 'Text Background Color', 'bp-custom-order-status' ),
-					'dependency' => array( 'what_to_show', '==', 'text' ),
-				),
-				array(
-					'id'      => 'is_status_paid',
-					'type'    => 'switcher',
-					'title'   => __( 'Paid Status', 'bp-custom-order-status' ),
-					'desc'    => __( 'Enable if order on this status has been paid', 'bp-custom-order-status' ),
-					'default' => '0',
-				),
-				array(
-					'id'      => 'downloadable_grant',
-					'type'    => 'switcher',
-					'title'   => __( 'Download Access', 'bp-custom-order-status' ),
-					'desc'    => __( 'Enable this option to grant access to downloads when orders are on this status', 'bp-custom-order-status' ),
-					'default' => '0',
-				),
-				array(
-					'id'      => '_enable_action_status',
-					'type'    => 'switcher',
-					'title'   => __( 'Add to actions on orders page', 'bp-custom-order-status' ),
-					'default' => '1',
-				),
-				array(
-					'id'      => '_enable_bulk',
-					'type'    => 'switcher',
-					'title'   => __( 'Add to bulk actions list', 'bp-custom-order-status' ),
-					'desc'    => __( 'Enable to add this order status in the Bulk Actions list.', 'bp-custom-order-status' ),
-					'default' => '1',
-				),
-				array(
-					'id'      => '_enable_order_edit',
-					'type'    => 'switcher',
-					'title'   => __( 'Edit Mode', 'bp-custom-order-status' ),
-					'desc'    => __( 'Enable this to edit order data at this status.', 'bp-custom-order-status' ),
-					'default' => '0',
-				),
-				array(
-					'id'    => '_enable_email',
-					'type'  => 'switcher',
-					'title' => __( 'Email Notification', 'bp-custom-order-status' ),
-					'desc'  => __( 'Enable this if you want notify by email when order status change to this status', 'bp-custom-order-status' ),
-
-				),
-				array(
-					'id'         => '_email_type',
-					'type'       => 'select',
-					'title'      => __( 'Email Recipient', 'bp-custom-order-status' ),
-					'default'    => 'admin',
-					'options'    => array(
-						'admin'    => 'Admin',
-						'customer' => 'Customer',
-					),
-					'dependency' => array( '_enable_email', '==', 'true' ),
-				),
-				array(
-					'id'         => '_recipient_cc',
-					'type'       => 'group',
-					'title'      => 'Email Copy',
-					'dependency' => array( '_enable_email', '==', 'true' ),
-					'subtitle'   => __( 'Send a copy to these emails', 'bp-custom-order-status' ),
-					'fields'     => array(
-						array(
-							'id'    => '_recipient_cc_email',
-							'type'  => 'text',
-							'title' => 'Email',
-						),
-					),
-				),
-				array(
-					'id'    => 'icon_code',
-					//'subtitle' => __( 'For the chosen Status Icon', 'bp-custom-order-status' ),
-					'type'  => 'text',
-					'class' => 'hidden',
-					//'title' => __( 'Icon Code', 'bp-custom-order-status' ),
-				),
-				array(
-					'type'     => 'callback',
-					'function' => 'bpos_cb_strtolower_status_slug',
-					'class'    => 'hidden',
+			array(
+				'id'      => 'what_to_show',
+				'type'    => 'select',
+				'title'   => __( 'Status View', 'bp-custom-order-status' ),
+				'desc'    => __( 'Choose where the icon should be placed. If icon is not set this option is ignored.<p> Show Name: Icon will be used only on actions area<br>Show Icon: Icon will replace the status name on Orders page', 'bp-custom-order-status' ),
+				'default' => 'text',
+				'options' => array(
+					'icon' => __( 'Status Icon', 'bp-custom-order-status' ),
+					'text' => __( 'Status Name', 'bp-custom-order-status' ),
 				),
 			),
+
+			array(
+				'id'      => 'text_color',
+				'default' => '#000000',
+				'type'    => 'color',
+				'title'   => __( 'Color', 'bp-custom-order-status' ),
+				'desc'    => __( 'This color is applied to the Text and to the Icon', 'bp-custom-order-status' ),
+			),
+			array(
+				'id'         => 'background_color',
+				'default'    => '#ffffff',
+				'type'       => 'color',
+				'title'      => __( 'Text Background Color', 'bp-custom-order-status' ),
+				'dependency' => array( 'what_to_show', '==', 'text' ),
+			),
+			array(
+				'id'      => 'is_status_paid',
+				'type'    => 'switcher',
+				'title'   => __( 'Paid Status', 'bp-custom-order-status' ),
+				'desc'    => __( 'Enable if order on this status has been paid', 'bp-custom-order-status' ),
+				'default' => '0',
+			),
+			array(
+				'id'      => 'downloadable_grant',
+				'type'    => 'switcher',
+				'title'   => __( 'Download Access', 'bp-custom-order-status' ),
+				'desc'    => __( 'Enable this option to grant access to downloads when orders are on this status', 'bp-custom-order-status' ),
+				'default' => '0',
+			),
+			array(
+				'id'      => '_enable_action_status',
+				'type'    => 'switcher',
+				'title'   => __( 'Add to actions on orders page', 'bp-custom-order-status' ),
+				'default' => '1',
+			),
+			array(
+				'id'      => '_enable_bulk',
+				'type'    => 'switcher',
+				'title'   => __( 'Add to bulk actions list', 'bp-custom-order-status' ),
+				'desc'    => __( 'Enable to add this order status in the Bulk Actions list.', 'bp-custom-order-status' ),
+				'default' => '1',
+			),
+			array(
+				'id'      => '_enable_order_edit',
+				'type'    => 'switcher',
+				'title'   => __( 'Edit Mode', 'bp-custom-order-status' ),
+				'desc'    => __( 'Enable this to edit order data at this status.', 'bp-custom-order-status' ),
+				'default' => '0',
+			),
+			array(
+				'id'    => '_enable_email',
+				'type'  => 'switcher',
+				'title' => __( 'Email Notification', 'bp-custom-order-status' ),
+				'desc'  => __( 'Enable this if you want notify by email when order status change to this status', 'bp-custom-order-status' ),
+
+			),
+			array(
+				'id'         => '_email_type',
+				'type'       => 'select',
+				'title'      => __( 'Email Recipient', 'bp-custom-order-status' ),
+				'default'    => 'admin',
+				'options'    => array(
+					'admin'    => 'Admin',
+					'customer' => 'Customer',
+				),
+				'dependency' => array( '_enable_email', '==', 'true' ),
+			),
+			array(
+				'id'         => '_recipient_cc',
+				'type'       => 'group',
+				'title'      => 'Email Copy',
+				'dependency' => array( '_enable_email', '==', 'true' ),
+				'subtitle'   => __( 'Send a copy to these emails', 'bp-custom-order-status' ),
+				'fields'     => array(
+					array(
+						'id'    => '_recipient_cc_email',
+						'type'  => 'text',
+						'title' => 'Email',
+					),
+				),
+			),
+			array(
+				'id'    => 'icon_code',
+				//'subtitle' => __( 'For the chosen Status Icon', 'bp-custom-order-status' ),
+				'type'  => 'text',
+				'class' => 'hidden',
+				//'title' => __( 'Icon Code', 'bp-custom-order-status' ),
+			),
+			array(
+				'type'     => 'callback',
+				'function' => 'bpos_cb_strtolower_status_slug',
+				'class'    => 'hidden',
+			),
+		) );
+
+		\CSF::createSection( $prefix, array(
+			'fields' => $fields,
 		) );
 
 	}

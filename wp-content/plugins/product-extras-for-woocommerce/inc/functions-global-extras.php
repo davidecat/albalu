@@ -103,7 +103,7 @@ function pewc_do_global_settings_page() {
 		<form name="pewc_global_settings_form" id="pewc_global_settings_form" class="<?php echo $class; ?>" method="post">
 
 			<ul class="new-field-list">
-				<?php include( PEWC_DIRNAME . '/templates/admin/new-field-item.php' ); ?>
+				<?php include( PEWC_DIRNAME . '/templates/admin/field-item.php' ); ?>
 			</ul>
 			<table class="new-option">
 				<?php include( PEWC_DIRNAME . '/templates/admin/views/option-new.php' ); ?>
@@ -706,7 +706,7 @@ function pewc_filter_product_extra_groups( $product_extra_groups, $product_id ) 
 			foreach( $rules as $rule ) {
 
 				// Verify the rule if it's set
-				if( isset( $global['global_rules'][$rule['id']]['is_selected'] ) && $global['global_rules'][$rule['id']]['is_selected'] == 'on' && isset( $rule['verification'] ) && function_exists( $rule['verification'] ) ) {
+				if( ! empty( $global['global_rules'][$rule['id']]['is_selected'] ) && isset( $rule['verification'] ) && function_exists( $rule['verification'] ) ) {
 
 					$rule_verified = call_user_func( $rule['verification'], $product_id, $global, $rule, $global_id );
 					$rule_set = true;
@@ -901,7 +901,8 @@ function pewc_show_categories_rule( $group_key, $group, $rule ) {
 function pewc_verify_all_products( $product_id, $global, $rule ) {
 
 	$verified = false;
-	if( isset( $global['global_rules']['all']['is_selected'] ) && $global['global_rules']['all']['is_selected'] == 'on' ) {
+	if( ! empty( $global['global_rules']['all']['is_selected'] ) ) {
+	// if( isset( $global['global_rules']['all']['is_selected'] ) && $global['global_rules']['all']['is_selected'] == 'on' ) {
 		$verified = true;
 	}
 	return apply_filters( 'pewc_after_verify_all_products', $verified, $product_id, $global, $rule );

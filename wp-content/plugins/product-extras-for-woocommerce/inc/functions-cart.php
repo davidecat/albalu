@@ -197,11 +197,15 @@ function pewc_cart_calculate_fees() {
 					if( ! empty( $item['flat_rate'] ) ) {
 						foreach( $item['flat_rate'] as $id=>$flat_rate ) {
 							// Do it like this so we overwrite any duplicates
-							if( ! empty( $all_flat_rates[$cart_key . '_' . $id] ) ) {
+							// 3.27.7, the array key used to be $cart_key . '_' . $id, but that means it couldn't detect global add-on fields that are flat rate
+							// global add-on fields that are flat rate should only be added once in the cart
+							$flat_rate_key = $id; 
+							if( ! empty( $all_flat_rates[$flat_rate_key] ) ) {
 								// If we already have this ID, it's a global flat rate so only added once
 								$flat_rate['label'] = apply_filters( 'pewc_filter_flat_rate_cart_global_label', $flat_rate['label'], $item );
 							} else {
 								// Include the product name in the label for clarity if it is not a global flat rate
+								// 3.27.7 note: if this is the first time that a global flat rate is added, it will go here. But if this global flat rate is detected again, the label is overwritten above in the other condition
 								$product = wc_get_product( $value['product_id'] );
 								// Include the variation
 								$name = $product->get_name();
@@ -212,7 +216,7 @@ function pewc_cart_calculate_fees() {
 								$flat_rate['label'] = apply_filters( 'pewc_filter_flat_rate_cart_label', $name . ': ' . $flat_rate['label'], $item );
 
 							}
-							$all_flat_rates[$cart_key . '_' . $id] = $flat_rate;
+							$all_flat_rates[$flat_rate_key] = $flat_rate;
 						}
 					}
 				}

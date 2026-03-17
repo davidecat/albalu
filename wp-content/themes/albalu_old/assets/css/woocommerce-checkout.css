@@ -1,0 +1,142 @@
+/* Larghezza campi del form */
+@media (max-width:767px){
+	body.woocommerce-checkout .billing-shipping-wrapper .form-row-first,
+	body.woocommerce-checkout .billing-shipping-wrapper .form-row-last {width:100%!important;}
+	body.woocommerce-checkout .billing-shipping-wrapper .form-row-wide {width:100%!important; float:left;}
+}
+@media (min-width:768px){
+	body.woocommerce-checkout .billing-shipping-wrapper .form-row-first,
+	body.woocommerce-checkout .billing-shipping-wrapper .form-row-last {width:50%!important;}
+	body.woocommerce-checkout .billing-shipping-wrapper .form-row-wide {width:100%!important; float:left;}
+}
+
+/* Spaziature campi del form */
+body.woocommerce-checkout .woocommerce-billing-fields__field-wrapper,
+body.woocommerce-checkout .woocommerce-shipping-fields__field-wrapper {margin-left:calc(-20px / 2); margin-right:calc(-20px / 2);}
+body.woocommerce-checkout .billing-shipping-wrapper .form-row {
+	height:50px;
+	padding-left: calc(20px / 2);
+	padding-right: calc(20px / 2);
+	margin-left: 0!important;
+	margin-right: 0!important;
+	margin-top: calc(20px / 2);
+	margin-bottom: calc(20px / 2);
+}
+
+/* Titoli */
+body.woocommerce-checkout h3.elementor-heading-title {margin-top:0!important margin-bottom:0!important;}
+
+/* Floating labels */
+body.woocommerce-checkout .billing-shipping-wrapper .form-row {position:relative;}
+body.woocommerce-checkout .billing-shipping-wrapper .form-row > .woocommerce-input-wrapper {display:block;}
+/* Floating labels: stili input */
+body.woocommerce-checkout .billing-shipping-wrapper .form-row > .woocommerce-input-wrapper > input.input-text {height:50px; padding-top:1em!important;}
+/* Floating labels: nasconde placeholder */
+body.woocommerce-checkout .billing-shipping-wrapper .form-row > .woocommerce-input-wrapper > input::placeholder {opacity:0!important;}
+/* Floating labels: label in posizionamento assoluto */
+body.woocommerce-checkout .billing-shipping-wrapper .form-row > label {position:absolute; top:15px; left:20px; transition:.125s all ease-out;}
+/* Floating labels: stili label */
+body.woocommerce-checkout .billing-shipping-wrapper .form-row > label {background-color:#FFF; padding:0 5px;}
+body.woocommerce-checkout .billing-shipping-wrapper .form-row > label {font-size:16px; line-height:20px!important; pointer-events:none;}
+/* Floating labels: sposta label quando il campo è in focus o quando il placeholder non viene mostrato (cioè il campo è compilato) */
+body.woocommerce-checkout .billing-shipping-wrapper .form-row:has(input:focus) > label {position:absolute; top:-8px; left:20px; font-size:13px;}
+body.woocommerce-checkout .billing-shipping-wrapper .form-row:has(input:not(:placeholder-shown)) > label {position:absolute; top:-8px; left:20px; font-size:13px;}
+/* Floating labels: stila a parte i campi a tendina */
+body.woocommerce-checkout #billing_country_field > label,
+body.woocommerce-checkout #billing_state_field > label,
+body.woocommerce-checkout #shipping_country_field  > label,
+body.woocommerce-checkout #shipping_state_field > label {position:absolute; top:-8px; left:20px; font-size:13px; z-index:1; pointer-events:none;}
+
+/* Stili per Select2 */
+body.woocommerce-checkout .select2-container {display:block;}
+/* Aumenta l'altezza di Select2 */
+body.woocommerce-checkout .select2-container .select2-selection--single {height:50px;}
+body.woocommerce-checkout .select2-container .select2-selection--single .select2-selection__rendered {line-height:50px; padding-left:15px;}
+body.woocommerce-checkout .select2-container .select2-selection--single .select2-selection__arrow {height:48px;}
+/* Forza l'icona per evitare problemi di visualizzazione */
+body.woocommerce-checkout .select2-container--default .select2-selection--single .select2-selection__arrow b {border-color:#888 transparent transparent transparent!important;}
+
+
+
+
+.elementor-jet-checkout-order-review > h3 {display:none;}
+
+/* Note ordine */
+body.woocommerce-checkout .elementor-widget-jet-checkout-additional-form #order_comments {padding-top:1em!important;}
+body.woocommerce-checkout .elementor-widget-jet-checkout-additional-form #order_comments_field > label {position:absolute; top:-8px; left:20px; z-index:1; pointer-events:none;}
+body.woocommerce-checkout .elementor-widget-jet-checkout-additional-form #order_comments_field > label {background-color:#FFF; padding:0 5px;}
+body.woocommerce-checkout .elementor-widget-jet-checkout-additional-form #order_comments_field > label {font-size:13px; line-height:20px;}
+
+/* Codice promozionale */
+body.woocommerce-checkout .elementor-widget-jet-checkout-coupon-form .woocommerce-form-coupon-toggle {display:none!important;}
+body.woocommerce-checkout .elementor-widget-jet-checkout-coupon-form .elementor-jet-checkout-coupon-form {display:grid; grid-template-columns:1fr 1fr; gap:10px;}
+@media (max-width:767px){
+	body.woocommerce-checkout .elementor-widget-jet-checkout-coupon-form .elementor-jet-checkout-coupon-form {grid-template-columns:1fr;}
+}
+@media (min-width:768px){
+	body.woocommerce-checkout .elementor-widget-jet-checkout-coupon-form .elementor-jet-checkout-coupon-form > p:not(.form-row) {grid-column-start:1; grid-column-end:3;}
+}
+body.woocommerce-checkout .elementor-widget-jet-checkout-coupon-form .elementor-jet-checkout-coupon-form > p {margin-bottom:0;}
+body.woocommerce-checkout .elementor-widget-jet-checkout-coupon-form .elementor-jet-checkout-coupon-form > p.form-row {padding:0!important; width:100%; float:none;}
+body.woocommerce-checkout .elementor-widget-jet-checkout-coupon-form .elementor-jet-checkout-coupon-form > p.form-row > .input-text,
+body.woocommerce-checkout .elementor-widget-jet-checkout-coupon-form .elementor-jet-checkout-coupon-form > p.form-row > .button {height:40px; width:100%;}
+
+
+/* Riepilogo ordine e spedizione */
+body.woocommerce-checkout .elementor-widget-jet-checkout-order-review table.woocommerce-checkout-review-order-table th,
+body.woocommerce-checkout .elementor-widget-jet-checkout-order-review table.woocommerce-checkout-review-order-table td {border:none!important; background:none!important; border-top:1px solid rgba(0,0,0,0.25)!important;}
+body.woocommerce-checkout .elementor-widget-jet-checkout-order-review table.woocommerce-checkout-review-order-table thead {display:none;}
+body.woocommerce-checkout .elementor-widget-jet-checkout-order-review table.woocommerce-checkout-review-order-table tbody tr:first-child td {border-top:none!important;}
+body.woocommerce-checkout .elementor-widget-jet-checkout-order-review table.woocommerce-checkout-review-order-table tr td:last-child {text-align:right;}
+body.woocommerce-checkout .elementor-widget-jet-checkout-order-review table.woocommerce-checkout-review-order-table tr td .includes_tax {display:block;}
+
+/* Pagamento */
+body.woocommerce-checkout .elementor-widget-jet-checkout-payment #payment {background:none!important; border-radius:5px;}
+/* Pagamento: metodi di pagamento */
+body.woocommerce-checkout .elementor-widget-jet-checkout-payment #payment > ul.payment_methods {padding:0; border:none;}
+body.woocommerce-checkout .elementor-widget-jet-checkout-payment #payment > ul.payment_methods > li {padding:15px 0;}
+body.woocommerce-checkout .elementor-widget-jet-checkout-payment #payment > ul.payment_methods > li > .payment_box {margin-bottom:0;}
+body.woocommerce-checkout .elementor-widget-jet-checkout-payment #payment > ul.payment_methods > li > .payment_box > p {margin-bottom:0;}
+body.woocommerce-checkout .elementor-widget-jet-checkout-payment #payment > ul.payment_methods > li + li {border-top:1px solid rgba(0,0,0,0.125);}
+/* Pagamento: concludi ordine */
+body.woocommerce-checkout .elementor-widget-jet-checkout-payment #payment > .place-order {padding:0;}
+body.woocommerce-checkout .elementor-widget-jet-checkout-payment #payment > .place-order .woocommerce-privacy-policy-text > p {margin-bottom:0;}
+
+/* Sidebar */
+body.woocommerce-checkout .checkout-sidebar .elementor-widget-jet-checkout-order-review .woocommerce-checkout-review-order-table > tfoot > tr.woocommerce-shipping-totals,
+body.woocommerce-checkout .checkout-sidebar .elementor-widget-jet-checkout-order-review .woocommerce-checkout-review-order-table > tfoot > tr.order-total {display:none!important;}
+
+/* Messaggi in alto */
+.jet-woo-builder-woocommerce-checkout > form > .woocommerce-NoticeGroup-checkout {max-width:1040px!important; margin:0 auto;}
+.jet-woo-builder-woocommerce-checkout > form > .woocommerce-NoticeGroup-checkout > ul.woocommerce-error {margin-top:2em; margin-bottom:2em;}
+
+.elementor-jet-checkout-login-form > .woocommerce-form-login-toggle {margin-top:2em;}
+.elementor-jet-checkout-login-form > .woocommerce-form-login {margin-bottom:2em;}
+
+/*
+body.woocommerce-checkout .form-row label {
+  position: absolute;
+  margin: 15px 0 0 12px;
+  transition: all 0.2s ease;
+}
+
+body.woocommerce-checkout .form-row .display-floating-label label {
+  position: absolute;
+  margin: 5px 0 0 12px;
+  color: #606060;
+  font-size: 12px;
+}
+
+body.woocommerce-checkout .form-row input {
+  display: block;
+  padding: 15px 12px;
+  border: 1px solid #bbb;
+  border-radius: 5px;
+  width: 300px;
+  transition: all 0.2s ease;
+}
+
+body.woocommerce-checkout .form-row .display-floating-label input {
+  padding: 22px 12px 8px;
+}
+*/

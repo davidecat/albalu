@@ -1,0 +1,79 @@
+.elementor-widget-woocommerce-notices .woocommerce-message {margin:0!important;}
+
+/* Woocommerce/Dettaglio prodotto: immagini */
+.elementor-widget-woocommerce-product-images .woocommerce-product-gallery {margin-bottom:0!important;}
+.elementor-widget-woocommerce-product-images .woocommerce-product-gallery ol.flex-control-thumbs {margin-right:0!important; margin-left:0!important; display:flex; flex-wrap:nowrap; gap:10px;}
+.elementor-widget-woocommerce-product-images .woocommerce-product-gallery ol.flex-control-thumbs > li {padding:0!important;}
+
+body.woocommerce.single-product .elementor-widget-heading h1.elementor-heading-title {margin:0!important;}
+
+/* prezzo a partire da */
+body.woocommerce.single-product .price > .price-starting-from {font-size:20px; font-weight:normal;}
+body.woocommerce.single-product .price > .price-starting-from > span.amount {font-weight:600!important;}
+
+/* Woocommerce/Dettaglio prodotto: attributi (misura e label) */
+body.woocommerce.single-product ul.prodotto-attributi {margin:0; padding:10px 0; list-style-type:none;}
+body.woocommerce.single-product ul.prodotto-attributi {border-bottom:1px solid var(--e-global-color-5a6a3a6);}
+body.woocommerce.single-product ul.prodotto-attributi > li {font-size:15px;}
+body.woocommerce.single-product ul.prodotto-attributi > li > i {color:var(--e-global-color-secondary); margin-right:5px; font-size:18px;}
+
+/* Woocommerce/Dettaglio prodotto: tabella variazioni */
+body.woocommerce.single-product table.variations {margin-bottom:10px!important;}
+body.woocommerce.single-product table.variations > tbody > tr > th,
+body.woocommerce.single-product table.variations > tbody > tr > td {padding:0!important; background:none!important;}
+body.woocommerce.single-product table.variations > tbody > tr:not(:first-child) > th {padding-top:20px!important;}
+body.woocommerce.single-product table.variations > tbody > tr > th > label {margin-bottom:10px; text-transform:capitalize!important;}
+body.woocommerce.single-product table.variations .cfvsw-label-option {padding:10px 15px; border-width:2px;}
+body.woocommerce.single-product table.variations .cfvsw-selected-label::before {content: ": ";}
+
+/* Woocommerce/Dettaglio prodotto: dettaglio singola variazione (nota: il prezzo della variazione è nascosto dallo snippet) */
+body.woocommerce.single-product .single_variation_wrap > .woocommerce-variation {margin-bottom:20px;}
+body.woocommerce.single-product .single_variation_wrap > .woocommerce-variation > .woocommerce-variation-price > .price {font-size:20px; font-weight:600; color:var(--e-global-color-219b603);}
+body.woocommerce.single-product .single_variation_wrap > .woocommerce-variation > .woocommerce-variation-availability > p.stock {margin-bottom:0!important; color:var(--e-global-color-text);}
+body.woocommerce.single-product .single_variation_wrap > .woocommerce-variation > .woocommerce-variation-availability > p.stock.in-stock:before {font-family:'Font Awesome 5 Free'; font-weight:900; content:'\f058'; margin-right:5px;}
+
+/* Woocommerce/Dettaglio prodotto: widget "Aggiungi al carrello" (nota: la classe quantity-addtocart-wrapper è stata aggiunta con jquery) */
+body.woocommerce.single-product .elementor-widget-jet-single-add-to-cart form.cart {flex-wrap:wrap!important;}
+body.woocommerce.single-product .elementor-widget-jet-single-add-to-cart .quantity-addtocart-wrapper {width:100%; display:flex; flex-direction:row; flex-wrap:nowrap; gap:10px;}
+
+/* Questa roba ora non serve più */
+/* .woocommerce .product .elementor-widget-jet-single-add-to-cart .jet-woo-quantity-button-added.position-horizontal {margin-right:10px;} */
+/* .woocommerce .product .elementor-widget-jet-single-add-to-cart button.single_add_to_cart_button {flex:1;} */
+/* Woocommerce/Dettaglio prodotto: widget "Aggiungi al carrello" specifico per prodotto con variazioni e configuratore */
+/*.woocommerce .product .elementor-widget-jet-single-add-to-cart .woocommerce-variation-add-to-cart {display:flex!important; flex-direction:row!important; flex-wrap:wrap;} */
+/* .woocommerce .product .elementor-widget-jet-single-add-to-cart .woocommerce-variation-add-to-cart .pewc-product-extra-groups-wrap {flex-basis:100%;} */
+/* Woocommerce/Dettaglio prodotto: widget "Aggiungi al carrello" specifico per prodotto senza variazioni */
+/*.woocommerce .product .elementor-widget-jet-single-add-to-cart .jet-woo-builder-single-ajax-add-to-cart > form {display:flex!important; flex-direction:row!important; flex-wrap:wrap!important;}*/
+/*.woocommerce .product .elementor-widget-jet-single-add-to-cart .jet-woo-builder-single-ajax-add-to-cart > form > .pewc-product-extra-groups-wrap {flex-basis:100%;}*/
+
+/* Descrizione prodotto */
+.elementor-widget-woocommerce-product-content > div > ul {}
+
+/* Immagine prodotto sticky mobile */
+@media (max-width:768px){
+	/* Aggiungi bordo inferiore */
+	#dettaglio-prodotto-immagini.elementor-sticky.elementor-sticky--active {border-bottom:1px solid rgba(0,0,0,0.25);}
+	/* Nascondi "Offerta", zoom e altre immagini */
+	#dettaglio-prodotto-immagini.elementor-sticky.elementor-sticky--active .elementor-widget-woocommerce-product-images span.onsale {display:none;}
+	#dettaglio-prodotto-immagini.elementor-sticky.elementor-sticky--active .elementor-widget-woocommerce-product-images .woocommerce-product-gallery > ol.flex-control-thumbs {display:none;}
+	#dettaglio-prodotto-immagini.elementor-sticky.elementor-sticky--active .elementor-widget-woocommerce-product-images .woocommerce-product-gallery > a.woocommerce-product-gallery__trigger {display:none;}
+	#dettaglio-prodotto-immagini.elementor-sticky.elementor-sticky--active .elementor-widget-woocommerce-product-images .woocommerce-product-gallery img.zoomImg {display:none!important;}
+	/* Elimina margini inferiori */
+	#dettaglio-prodotto-immagini.elementor-sticky.elementor-sticky--active .elementor-widget-woocommerce-product-images .woocommerce-product-gallery {margin-bottom:0!important;}
+	#dettaglio-prodotto-immagini.elementor-sticky.elementor-sticky--active .elementor-widget-woocommerce-product-images .woocommerce-product-gallery > .flex-viewport {margin-bottom:0!important;}}
+
+/* Ridimensiona immagine prodotto (non funziona)
+@media (max-width:768px){
+	#dettaglio-prodotto-immagini.elementor-sticky.elementor-sticky--active {padding-right:25%; padding-left:25%;}
+	#dettaglio-prodotto-immagini.elementor-sticky.elementor-sticky--active .elementor-widget-woocommerce-product-images .flex-viewport,
+	#dettaglio-prodotto-immagini.elementor-sticky.elementor-sticky--active .elementor-widget-woocommerce-product-images .flex-viewport > .woocommerce-product-gallery__wrapper,
+	#dettaglio-prodotto-immagini.elementor-sticky.elementor-sticky--active .elementor-widget-woocommerce-product-images .flex-viewport > .woocommerce-product-gallery__wrapper .woocommerce-product-gallery__image {aspect-ratio:1; height:auto!important; max-width:100%;}
+	/*
+	#dettaglio-prodotto-immagini.elementor-sticky.elementor-sticky--active .elementor-widget-woocommerce-product-images .flex-viewport {aspect-ratio:1; height:auto!important;}
+	#dettaglio-prodotto-immagini.elementor-sticky.elementor-sticky--active .elementor-widget-woocommerce-product-images .flex-viewport > div > .woocommerce-product-gallery__image {aspect-ratio:1; height:auto!important;}
+	#dettaglio-prodotto-immagini.elementor-sticky.elementor-sticky--active .elementor-widget-woocommerce-product-images .flex-viewport > div > .woocommerce-product-gallery__image > a {pointer-events:none;}
+	/*
+	#dettaglio-prodotto-immagini.elementor-sticky.elementor-sticky--active .elementor-widget-woocommerce-product-images .woocommerce-product-gallery > .flex-viewport > .woocommerce-product-gallery__wrapper,
+	#dettaglio-prodotto-immagini.elementor-sticky.elementor-sticky--active .elementor-widget-woocommerce-product-images .woocommerce-product-gallery > .flex-viewport > .woocommerce-product-gallery__wrapper > div {width:100%!important;}
+}
+*/

@@ -18,12 +18,12 @@ $conditions = pewc_get_group_conditions( $group_id );
 $style = 'style="display: none;"';
 
 if( ! empty( $conditions ) ) {
-	$style = 'style="display: block;"';
+	$style = 'style="display: grid;"';
 } ?>
 
 <div class="product-extra-conditional-row product-extra-action-match-row" <?php echo $style; ?>>
 
-	<div class="product-extra-field-half">
+	<div>
 		<?php $actions = pewc_get_actions();
 		if( ! empty( $actions ) ) { ?>
 			<select class="pewc-condition-action" name="_product_extra_groups_<?php echo esc_attr( $group_id ); ?>[condition_action]">
@@ -35,7 +35,7 @@ if( ! empty( $conditions ) ) {
 		<?php } ?>
 	</div>
 
-	<div class="product-extra-field-half">
+	<div>
 		<?php $matches = pewc_get_matches();
 		if( ! empty( $matches ) ) { ?>
 			<select class="pewc-condition-condition" name="_product_extra_groups_<?php echo esc_attr( $group_id ); ?>[condition_match]">
@@ -57,7 +57,7 @@ if( ! empty( $conditions ) ) {
 
 		<div class="product-extra-conditional-row product-extra-conditional-rule" data-condition-count="<?php echo esc_attr( $condition_count ); ?>">
 
-			<div class="product-extra-field-third">
+			<div>
 
 				<?php
 				$is_ajax = pewc_enable_ajax_load_addons();
@@ -104,7 +104,7 @@ if( ! empty( $conditions ) ) {
 				<?php } ?>
 			</div>
 
-			<div class="product-extra-field-sixth">
+			<div>
 				<?php $class = "pewc-condition-rule pewc-condition-select";
 				$rules = pewc_get_rules();			
 				$allow_multiple = get_post_meta( $cond_field_id, 'allow_multiple', true );
@@ -125,7 +125,7 @@ if( ! empty( $conditions ) ) {
 				</select>
 			</div>
 
-			<div class="product-extra-field-half product-extra-field-last pewc-condition-value-field">
+			<div class="pewc-condition-value-field">
 				<?php
 				$value = isset( $condition['value'] ) ? $condition['value'] : '';
 
@@ -197,8 +197,10 @@ if( ! empty( $conditions ) ) {
 					<input class="pewc-condition-value pewc-condition-set-value" type="hidden" name="_product_extra_groups_<?php echo esc_attr( $group_id ); ?>[condition_value][<?php echo esc_attr( $condition_count ); ?>]" id="condition_value_<?php echo esc_attr( $group_id ); ?>_<?php echo esc_attr( $condition_count ); ?>" data-group-id="<?php echo esc_attr( $group_id ); ?>" data-condition-id="<?php echo esc_attr( $condition_count ); ?>" value="__checked__">
 				<?php } ?>
 
-				<span class="remove-condition pewc-action"><?php _e( 'Remove', 'pewc' ); ?></span>
+			</div>
 
+			<div class="remove-condition-wrapper">
+				<span class="remove-condition pewc-action"><span class="dashicons dashicons-trash"></span></span>
 			</div>
 
 		</div><!-- .product-extra-conditional-row -->

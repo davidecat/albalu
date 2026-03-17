@@ -91,7 +91,7 @@ class WPCode_Admin_Page_Duplicator extends WPCode_Admin_Page {
 			<section class="wpcode-plugin-screenshot">
 				<div class="wpcode-plugin-screenshot-image">
 					<img src="<?php echo esc_url( WPCODE_PLUGIN_URL ); // phpcs:ignore PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage ?>admin/images/duplicator.png" alt="<?php esc_attr_e( 'Duplicator Screenshot', 'insert-headers-and-footers' ); ?>"/>
-					<a href="<?php echo esc_url( WPCODE_PLUGIN_URL ); ?>admin/images/duplicator.jpg" data-lity>
+					<a href="<?php echo esc_url( WPCODE_PLUGIN_URL ); ?>admin/images/duplicator.png" data-lity>
 						<?php wpcode_icon( 'search', 16, 16 ); ?>
 					</a>
 				</div>

@@ -35,40 +35,18 @@ if( isset( $group_id ) && isset( $item_key ) ) {
 
 } ?>
 
-<div class="pewc-fields-wrapper">
-
-	<div class="product-extra-field-third">
-
-		<label>
-			<?php _e( 'Field Visibility', 'pewc' ); ?>
-			<?php echo wc_help_tip( 'Decide on what pages to show the field', 'pewc' ); ?>
-		</label>
-
-		<select class="pewc-field-item pewc-field-visibility" name="<?php echo esc_attr( $field_name ); ?>" id="<?php echo esc_attr( $field_id ); ?>">
-			<?php
-			$options = array(
-				'visible'			=> __( 'Display everywhere', 'pewc' ),
-				'display_product'	=> __( 'Display on product page only', 'pewc' ),
-				'hide_product'		=> __( 'Hide on product page only', 'pewc' ),
-				'hide_customer'		=> __( 'Hide from customer', 'pewc' ),
-			);
-			$field_visibility = isset( $item['field_visibility'] ) ? $item['field_visibility'] : 'visible';
-			foreach( $options as $key=>$value ) {
-				$selected = selected( $field_visibility, $key, false );
-				echo '<option ' . $selected . ' value="' . esc_attr( $key ) . '">' . esc_html( $value ) . '</option>';
-			} ?>
-		</select>
-
-	</div>
-
-	<div class="product-extra-field-third pewc-visibility-fields">
+<div class="product-extra-field pewc-visibility-fields">
+	<div class="product-extra-field-inner">
 
 		<label>
 			<?php _e( 'Field Price Visibility', 'pewc' ); ?>
 			<?php echo wc_help_tip( 'Decide on what pages to show the price', 'pewc' ); ?>
 		</label>
+		
+	</div>
+	<div class="product-extra-field-inner">
 
-		<select class="pewc-field-item pewc-field-price-visibility" name="<?php echo esc_attr( $price_field_name ); ?>" id="<?php echo esc_attr( $price_field_id ); ?>">
+		<select class="pewc-field-item pewc-field-price-visibility" name="<?php echo esc_attr( $price_field_name ); ?>" id="<?php echo esc_attr( $price_field_id ); ?>" data-field-name="price_visibility">
 			<?php
 			$options = array(
 				'visible'		=> __( 'Visible', 'pewc' ),
@@ -81,17 +59,22 @@ if( isset( $group_id ) && isset( $item_key ) ) {
 				echo '<option ' . $selected . ' value="' . esc_attr( $key ) . '">' . esc_html( $value ) . '</option>';
 			} ?>
 		</select>
-
+		
 	</div>
+</div>
 
-	<div class="product-extra-field-third pewc-visibility-fields pewc-option-price-visibility-field">
+<div class="product-extra-field pewc-visibility-fields pewc-option-price-visibility-field">
+	<div class="product-extra-field-inner">
 
 		<label>
 			<?php _e( 'Option Price Visibility', 'pewc' ); ?>
 			<?php echo wc_help_tip( 'Decide on what pages to show option prices. Choose Value Only if you only want to use the option price in a calculation.', 'pewc' ); ?>
 		</label>
+		
+	</div>
+	<div class="product-extra-field-inner">
 
-		<select class="pewc-field-item pewc-option-price-visibility" name="<?php echo esc_attr( $option_field_name ); ?>" id="<?php echo esc_attr( $option_field_id ); ?>">
+		<select class="pewc-field-item pewc-option-price-visibility" name="<?php echo esc_attr( $option_field_name ); ?>" id="<?php echo esc_attr( $option_field_id ); ?>" data-field-name="option_price_visibility">
 			<?php
 			$options = array(
 				'visible'		=> __( 'Visible', 'pewc' ),
@@ -109,13 +92,12 @@ if( isset( $group_id ) && isset( $item_key ) ) {
 				$selected = selected( $option_price_visibility, $key, false );
 				echo '<option ' . $selected . ' value="' . esc_attr( $key ) . '"';
 				// 3.26.16, added ! empty( $item['allow_multiple'] ) to the condition to allow Value Only on Swatch fields if allow_multiple is unchecked
-				if ( isset( $item ) && ( ( 'image_swatch' == $item['field_type'] && ! empty( $item['allow_multiple'] ) ) || 'checkbox_group' == $item['field_type'] ) && 'value' == $key ) {
+				if ( isset( $item ) && ( ( 'image_swatch' == $field_type && ! empty( $item['allow_multiple'] ) ) || 'checkbox_group' == $field_type ) && 'value' == $key ) {
 					echo ' disabled="disabled"';
 				}
 				echo '>' . esc_html( $value ) . '</option>';
 			} ?>
 		</select>
-
+		
 	</div>
-
-</div><!-- .pewc-fields-wrapper -->
+</div>

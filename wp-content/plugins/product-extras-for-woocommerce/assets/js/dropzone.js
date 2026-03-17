@@ -2327,7 +2327,8 @@ Dropzone.forElement = function (element) {
 
 
 // Set to false if you don't want Dropzone to automatically find and attach to .dropzone elements.
-Dropzone.autoDiscover = true;
+// 3.27.12, set to false to avoid potential issues with deferred JS executions
+Dropzone.autoDiscover = false;
 
 // Looks for all .dropzone elements and creates a dropzone for them
 Dropzone.discover = function () {

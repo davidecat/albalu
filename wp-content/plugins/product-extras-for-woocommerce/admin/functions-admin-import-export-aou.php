@@ -32,10 +32,10 @@ add_action( 'admin_enqueue_scripts', 'pewc_enqueue_import_export_aou_script', 10
 function pewc_add_import_export_aou_buttons( $groups, $post_id ) {
 
 	wp_nonce_field( 'pewc_import_export', 'pewc_import_export' );
-	echo '<div class="options_group">';
+	echo '<div class="options_group pewc-group-settings">';
 	printf(
 		'<h2><strong>%s</strong></h2>
-		<p>
+		<p class="pewc-import-export-wrapper">
 			<a href="#" class="button pewc-import-aou-groups">%s</a> 
 			<a href="#" class="button pewc-export-aou-groups">%s</a>
 			<a href="#" class="button pewc-export-aou-selected-group">%s</a>
