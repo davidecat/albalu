@@ -14,6 +14,8 @@ get_header( 'shop' );
 do_action( 'woocommerce_before_main_content' );
 ?>
 
+<div class="container pt-4 pb-5">
+
 <header class="woocommerce-products-header">
 	<h1 class="woocommerce-products-header__title page-title">
 		<?php
@@ -69,7 +71,11 @@ if ( woocommerce_product_loop() ) {
 	 */
 	do_action( 'woocommerce_no_products_found' );
 }
+?>
 
+</div><!-- .container -->
+
+<?php
 /**
  * Hook: woocommerce_after_main_content.
  */
