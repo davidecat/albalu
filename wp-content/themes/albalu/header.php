@@ -48,7 +48,7 @@ defined('ABSPATH') || exit;
             <div class="col-md-4 text-center text-md-end">
                 <ul class="list-inline mb-0">
                     <li class="list-inline-item">
-                        <i class="fas fa-phone-alt me-1 text-secondary"></i> Hai bisogno di aiuto? <a href="/contatti/" class="text-decoration-underline text-dark">Contattaci</a>!
+                        <i class="fas fa-phone-alt me-1 text-secondary"></i> Hai bisogno di aiuto? <a href="#colophon" class="text-decoration-underline text-dark">Contattaci</a>!
                     </li>
                 </ul>
             </div>
