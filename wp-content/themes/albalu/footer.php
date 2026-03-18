@@ -56,11 +56,11 @@
                 </ul>
                 <h4 class="fw-medium mb-3 text-uppercase">Seguici su</h4>
                 <div class="d-flex gap-2">
-                    <a href="#" class="footer-social-icon"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#" class="footer-social-icon"><i class="fab fa-instagram"></i></a>
-                    <a href="#" class="footer-social-icon"><i class="fab fa-youtube"></i></a>
-                    <a href="#" class="footer-social-icon"><i class="fab fa-pinterest-p"></i></a>
-                    <a href="#" class="footer-social-icon"><i class="fab fa-vimeo-v"></i></a>
+                    <a href="https://www.facebook.com/albalu.shop/" target="blank" class="footer-social-icon"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://www.instagram.com/albalu_shop/" target="blank" class="footer-social-icon"><i class="fab fa-instagram"></i></a>
+                    <a href="https://www.youtube.com/channel/UCqhEobP55vcPzc9Vt5we_zw" target="blank" class="footer-social-icon"><i class="fab fa-youtube"></i></a>
+                    <a href="https://it.pinterest.com/albalushop/" target="blank" class="footer-social-icon"><i class="fab fa-pinterest-p"></i></a>
+                    <a href="https://vimeo.com/user135308061" target="blank" class="footer-social-icon"><i class="fab fa-vimeo-v"></i></a>
                 </div>
             </div>
 
