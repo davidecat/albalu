@@ -82,7 +82,7 @@ defined('ABSPATH') || exit;
             <!-- Center: Logo -->
             <div class="col-4 text-center">
                 <a class="navbar-brand me-0" href="<?= esc_url(home_url()); ?>">
-                    <img src="<?= esc_url(home_url()); ?>/wp-content/uploads/2024/05/albalu-logo-web.png" alt="Albalù Bomboniere Logo" class="img-fluid" style="max-height: 60px;" width="600" height="288" fetchpriority="high" loading="eager">
+                    <img src="<?= esc_url(home_url()); ?>/wp-content/uploads/2024/05/albalu-logo-web.png" alt="Albalù Bomboniere Logo" class="img-fluid" style="max-height: 60px;" width="125" height="60" fetchpriority="high" loading="eager">
                 </a>
             </div>
             <!-- Right: Account + Cart -->
@@ -124,7 +124,7 @@ defined('ABSPATH') || exit;
             <!-- Center: Logo -->
             <div class="col-4 text-center">
                  <a class="navbar-brand me-0" href="<?= esc_url(home_url()); ?>">
-                    <img src="<?= esc_url(home_url()); ?>/wp-content/uploads/2024/05/albalu-logo-web.png" alt="Albalù Bomboniere Logo" class="img-fluid" style="max-height: 80px;" width="600" height="288" fetchpriority="high" loading="eager">
+                    <img src="<?= esc_url(home_url()); ?>/wp-content/uploads/2024/05/albalu-logo-web.png" alt="Albalù Bomboniere Logo" class="img-fluid" style="max-height: 80px;" width="167" height="80" fetchpriority="high" loading="eager">
                 </a>
             </div>
 
