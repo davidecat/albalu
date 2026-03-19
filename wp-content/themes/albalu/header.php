@@ -17,6 +17,7 @@ defined('ABSPATH') || exit;
   <meta charset="<?= esc_attr(get_bloginfo('charset')); ?>">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="profile" href="https://gmpg.org/xfn/11">
+  <link rel="preload" as="image" href="<?= esc_url(home_url('/wp-content/uploads/2024/05/albalu-logo-web.png')); ?>" fetchpriority="high">
   <?php wp_head(); ?>
 </head>
 
@@ -81,7 +82,7 @@ defined('ABSPATH') || exit;
             <!-- Center: Logo -->
             <div class="col-4 text-center">
                 <a class="navbar-brand me-0" href="<?= esc_url(home_url()); ?>">
-                    <img src="<?= esc_url(home_url()); ?>/wp-content/uploads/2024/05/albalu-logo-web.png" alt="Albalù Bomboniere Logo" class="img-fluid" style="max-height: 60px;">
+                    <img src="<?= esc_url(home_url()); ?>/wp-content/uploads/2024/05/albalu-logo-web.png" alt="Albalù Bomboniere Logo" class="img-fluid" style="max-height: 60px;" width="600" height="288" fetchpriority="high" loading="eager">
                 </a>
             </div>
             <!-- Right: Account + Cart -->
@@ -123,7 +124,7 @@ defined('ABSPATH') || exit;
             <!-- Center: Logo -->
             <div class="col-4 text-center">
                  <a class="navbar-brand me-0" href="<?= esc_url(home_url()); ?>">
-                    <img src="<?= esc_url(home_url()); ?>/wp-content/uploads/2024/05/albalu-logo-web.png" alt="Albalù Bomboniere Logo" class="img-fluid" style="max-height: 80px;">
+                    <img src="<?= esc_url(home_url()); ?>/wp-content/uploads/2024/05/albalu-logo-web.png" alt="Albalù Bomboniere Logo" class="img-fluid" style="max-height: 80px;" width="600" height="288" fetchpriority="high" loading="eager">
                 </a>
             </div>
 
