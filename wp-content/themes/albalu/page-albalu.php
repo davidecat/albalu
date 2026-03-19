@@ -541,7 +541,7 @@ get_header();
                                         </div>
                                         <div class="col-lg-6 text-center">
                                             <?php if ( $hp_fg_image ) : ?>
-                                                <img src="<?php echo esc_url( $hp_fg_image ); ?>" alt="<?php echo esc_attr( wp_strip_all_tags( $hp_title ) ); ?>" class="img-fluid">
+                                                <img src="<?php echo esc_url( $hp_fg_image ); ?>" alt="<?php echo esc_attr( wp_strip_all_tags( $hp_title ) ); ?>" class="img-fluid" fetchpriority="high" loading="eager">
                                             <?php endif; ?>
                                         </div>
                                     </div>
