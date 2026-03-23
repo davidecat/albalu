@@ -1,8 +1,6 @@
 <?php
 /**
  * Product archive (shop & categories) template override for Albalu child theme
- *
- * Copia del template WooCommerce di base, pronta per personalizzazioni.
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -37,6 +35,32 @@ if ( woocommerce_product_loop() ) {
 	 * @hooked woocommerce_catalog_ordering - 30
 	 */
 	do_action( 'woocommerce_before_shop_loop' );
+
+	// Display subcategories in their own section, separated from products
+	if ( is_product_category() ) {
+		$parent_id = get_queried_object_id();
+	} else {
+		$parent_id = 0;
+	}
+	$subcategories = get_terms( array(
+		'taxonomy'   => 'product_cat',
+		'parent'     => $parent_id,
+		'hide_empty' => true,
+	) );
+
+	if ( ! empty( $subcategories ) && ! is_wp_error( $subcategories ) ) {
+		?>
+		<div class="row g-4 mb-5 products subcategories-section">
+			<?php
+			foreach ( $subcategories as $subcategory ) {
+				wc_get_template( 'content-product_cat.php', array(
+					'category' => $subcategory,
+				) );
+			}
+			?>
+		</div>
+		<?php
+	}
 
 	woocommerce_product_loop_start();
 
@@ -85,4 +109,3 @@ do_action( 'woocommerce_after_main_content' );
 do_action( 'woocommerce_sidebar' );
 
 get_footer( 'shop' );
-
