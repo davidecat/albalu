@@ -230,7 +230,6 @@ function albalu_custom_category_header() {
     ?>
     <header class="woocommerce-products-header mb-4">
         <div class="small fw-bold text-uppercase mb-1" style="letter-spacing: 1px;">ALBALU STORE</div>
-        <h1 class="woocommerce-products-header__title page-title"><?php echo single_term_title( '', false ); ?></h1>
     </header>
     <?php
 }
@@ -605,6 +604,15 @@ function search_only_products($query) {
 	return $query;
 }
 add_filter('pre_get_posts','search_only_products');
+//------------------- END ---------------------
+
+//7b. Separa sottocategorie dai prodotti nelle pagine categoria
+//------------------- START ---------------------
+/* Rimuove l'inserimento automatico delle sottocategorie nel loop prodotti.
+   Le sottocategorie vengono renderizzate separatamente in archive-product.php */
+add_action( 'wp_loaded', function() {
+	remove_filter( 'woocommerce_product_loop_start', 'woocommerce_maybe_show_product_subcategories' );
+} );
 //------------------- END ---------------------
 
 //8. Product Add-ons: shortcode in descrizione gruppo
