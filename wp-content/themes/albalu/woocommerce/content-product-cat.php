@@ -20,7 +20,7 @@ if (!defined('ABSPATH')) {
   exit;
 }
 ?>
-<div <?php wc_product_cat_class(esc_attr(apply_filters('bootscore/class/woocommerce/col', 'col-md-6 col-lg-4 col-xxl-3')), $category); ?>>
+<div <?php wc_product_cat_class(esc_attr(apply_filters('bootscore/class/woocommerce/col', 'col-6 col-lg-4 col-xxl-3')), $category); ?>>
   <a href="<?php echo esc_url( get_term_link( $category, 'product_cat' ) ); ?>" class="<?= esc_attr(apply_filters('bootscore/class/woocommerce/product/card', 'card h-100 text-center')); ?> text-decoration-none">
     <?php
     /**

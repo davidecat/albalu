@@ -20,13 +20,13 @@ if ( empty( $columns ) ) {
 }
 
 // Map columns to Bootstrap classes
-$col_class = 'col-sm-6 col-lg-3'; // Default for 4 columns
+$col_class = 'col-6 col-lg-3'; // Default for 4 columns
 if ($columns == 1) $col_class = 'col-12';
-if ($columns == 2) $col_class = 'col-sm-6';
-if ($columns == 3) $col_class = 'col-sm-6 col-lg-4';
-if ($columns == 4) $col_class = 'col-sm-6 col-lg-3';
-if ($columns == 5) $col_class = 'col-sm-6 col-lg-2'; // 5 cols (approx)
-if ($columns >= 6) $col_class = 'col-sm-4 col-lg-2';
+if ($columns == 2) $col_class = 'col-6';
+if ($columns == 3) $col_class = 'col-6 col-lg-4';
+if ($columns == 4) $col_class = 'col-6 col-lg-3';
+if ($columns == 5) $col_class = 'col-6 col-lg-2'; // 5 cols (approx)
+if ($columns >= 6) $col_class = 'col-6 col-lg-2';
 
 $col_class .= ' mb-4';
 ?>
