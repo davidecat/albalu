@@ -992,3 +992,12 @@ function albalu_show_base_price_in_order( $item_id, $item, $product ) {
 		);
 	}
 }
+
+
+// Force canonical URL on product pages with variation parameters (strips query strings)
+add_filter('wpseo_canonical', function( $canonical ) {
+    if ( is_product() && ! empty( $_GET ) ) {
+        return get_permalink();
+    }
+    return $canonical;
+});
