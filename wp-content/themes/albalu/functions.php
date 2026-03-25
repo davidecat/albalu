@@ -613,6 +613,9 @@ add_action( 'bootscore_before_title', function( $context ) {
 add_filter( 'woocommerce_ship_to_different_address_checked', '__return_false' );
 //------------------- END ---------------------
 
+//4b. WooCommerce: 24 prodotti per pagina negli archivi
+add_filter( 'loop_shop_per_page', function() { return 24; } );
+
 
 //5. WooCommerce/Dettaglio prodotto: wrap quantità + addToCart + modifica messaggio addToCart
 //------------------- START ---------------------
