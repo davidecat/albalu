@@ -494,28 +494,96 @@ function fix_pewc_replace_main_image() {
 }
 add_action( 'woocommerce_after_add_to_cart_form', 'fix_pewc_replace_main_image' );
 
-/* Sync PEWC grand total into .pewc-main-price and hide subtotals */
+/* Sync PEWC grand total into .pewc-main-price and hide subtotals.
+   For sale products: show strikethrough regular price + add-ons and sale price + add-ons.
+   Works with both simple and variable products. */
 function albalu_pewc_sync_price() {
 	if ( ! is_product() ) return;
+
+	global $product;
+
+	// For simple products, get prices directly
+	// For variable products, build a map of variation_id => regular_price
+	$variation_regular_prices = array();
+	$simple_regular = 0;
+	$simple_sale    = 0;
+	$is_simple_sale = false;
+
+	if ( $product->is_type( 'variable' ) ) {
+		$variations = $product->get_available_variations();
+		foreach ( $variations as $variation ) {
+			$var_obj = wc_get_product( $variation['variation_id'] );
+			if ( $var_obj ) {
+				$reg = (float) $var_obj->get_regular_price();
+				$variation_regular_prices[ $variation['variation_id'] ] = (float) wc_get_price_including_tax( $var_obj, array( 'price' => $reg ) );
+			}
+		}
+	} elseif ( $product->is_on_sale() ) {
+		$is_simple_sale = true;
+		$simple_regular = (float) wc_get_price_including_tax( $product, array( 'price' => $product->get_regular_price() ) );
+		$simple_sale    = (float) wc_get_price_including_tax( $product, array( 'price' => $product->get_sale_price() ) );
+	}
 	?>
 	<script>
 	jQuery(function($) {
-		// Hide the PEWC subtotals breakdown
 		$('.pewc-total-field-wrapper').hide();
 
-		// Watch #pewc-grand-total for changes and sync to .pewc-main-price
-		var $grandTotal = $('#pewc-grand-total');
-		var $mainPrice = $('.pewc-main-price').not('.pewc-quickview-product-wrapper .pewc-main-price').first();
+		var isVariable = <?php echo $product->is_type( 'variable' ) ? 'true' : 'false'; ?>;
+		var isSimpleSale = <?php echo $is_simple_sale ? 'true' : 'false'; ?>;
+		var simpleRegularBase = <?php echo $simple_regular; ?>;
+		var simpleSaleBase = <?php echo $simple_sale; ?>;
+		var variationRegularPrices = <?php echo wp_json_encode( $variation_regular_prices ); ?>;
 
-		if ($grandTotal.length && $mainPrice.length) {
-			var priceObserver = new MutationObserver(function() {
-				var html = $grandTotal.html();
-				if (html && html.trim() !== '') {
-					$mainPrice.html(html);
-				}
-			});
-			priceObserver.observe($grandTotal[0], { childList: true, subtree: true, characterData: true });
+		var currentRegularBase = 0;
+		var currentSaleBase = 0;
+		var isOnSale = false;
+
+		var $mainPrice = $('.pewc-main-price').not('.pewc-quickview-product-wrapper .pewc-main-price').first();
+		if (!$mainPrice.length) return;
+
+		if (!isVariable && isSimpleSale) {
+			isOnSale = true;
+			currentRegularBase = simpleRegularBase;
+			currentSaleBase = simpleSaleBase;
 		}
+
+		// For variable products, update prices when a variation is selected
+		if (isVariable) {
+			$('form.cart').on('found_variation', function(e, variation) {
+				var varId = variation.variation_id;
+				currentSaleBase = parseFloat(variation.display_price) || 0;
+				currentRegularBase = variationRegularPrices[varId] || currentSaleBase;
+				isOnSale = (currentRegularBase > currentSaleBase);
+			});
+			$('form.cart').on('hide_variation', function() {
+				isOnSale = false;
+				currentRegularBase = 0;
+				currentSaleBase = 0;
+			});
+		}
+
+		function updatePrice(saleGrandTotalRaw) {
+			var qty = parseFloat($('form.cart .quantity .qty').val()) || 1;
+
+			if (isOnSale && currentRegularBase > 0) {
+				var addonsWithQty = saleGrandTotalRaw - (currentSaleBase * qty);
+				var regularGrandTotal = (currentRegularBase * qty) + addonsWithQty;
+
+				var regFmt  = pewc_wc_price(regularGrandTotal.toFixed(pewc_vars.decimals));
+				var saleFmt = pewc_wc_price(saleGrandTotalRaw.toFixed(pewc_vars.decimals));
+				$mainPrice.html('<del>' + regFmt + '</del> <ins>' + saleFmt + '</ins>');
+			} else {
+				var fmt = pewc_wc_price(saleGrandTotalRaw.toFixed(pewc_vars.decimals));
+				$mainPrice.html(fmt);
+			}
+		}
+
+		// PEWC event: args are [base_total_price, base_price, grand_total]
+		$('body').on('pewc_after_update_total_js', function(e, addonsOnly, rawGrandTotal) {
+			if (typeof rawGrandTotal === 'number' && !isNaN(rawGrandTotal)) {
+				updatePrice(rawGrandTotal);
+			}
+		});
 	});
 	</script>
 	<?php
