@@ -1601,6 +1601,7 @@ ul.pewc-product-extra-groups > li > .pewc-item-field-wrapper > .pewc-description
   background: transparent;
   text-align: center;
   position: relative;
+  overflow: hidden;
 
   .card-img-top {
     border-radius: 50%;
@@ -1610,14 +1611,14 @@ ul.pewc-product-extra-groups > li > .pewc-item-field-wrapper > .pewc-description
 
   .card-body {
     position: absolute;
-    top: 0;
+    bottom: 0;
     left: 0;
     width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: flex-end;
-    justify-content: center;
     padding: 1rem;
+    display: flex;
+    justify-content: center;
+    // Account for the circular image: position within the bottom visible area
+    padding-bottom: 12%;
   }
 
   .woocommerce-loop-category__title {
