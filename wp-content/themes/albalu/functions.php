@@ -592,6 +592,130 @@ add_action( 'wp_footer', 'albalu_pewc_sync_price' );
 
 //------------------- END ---------------------
 
+//6b. Show WooCommerce error notices in a modal that fades out after 5 seconds
+//------------------- START ---------------------
+add_action( 'wp_footer', 'albalu_error_notices_modal' );
+function albalu_error_notices_modal() {
+	if ( ! is_product() ) return;
+	?>
+	<!-- Error notices modal -->
+	<div id="albalu-error-modal" class="albalu-error-modal" style="display:none;">
+		<div class="albalu-error-modal-content">
+			<div class="albalu-error-modal-body"></div>
+		</div>
+	</div>
+	<style>
+		.albalu-error-modal {
+			position: fixed;
+			top: 0; left: 0; width: 100%; height: 100%;
+			background: rgba(0,0,0,0.4);
+			z-index: 99999;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			opacity: 1;
+			transition: opacity 0.4s ease;
+		}
+		.albalu-error-modal.fade-out {
+			opacity: 0;
+		}
+		.albalu-error-modal-content {
+			background: #c0392b;
+			color: #fff;
+			border-radius: 8px;
+			padding: 1.5rem;
+			max-width: 500px;
+			width: 90%;
+			box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+			font-size: 0.875rem;
+			font-weight: 500;
+		}
+		.albalu-error-modal-body ul {
+			list-style: none;
+			padding: 0;
+			margin: 0;
+		}
+		.albalu-error-modal-body ul li {
+			padding: 0.4rem 0;
+			color: #fff;
+			border-bottom: 1px solid rgba(255,255,255,0.2);
+		}
+		.albalu-error-modal-body ul li:last-child {
+			border-bottom: none;
+		}
+		.albalu-error-modal-body ul li::before {
+			display: none;
+		}
+		.albalu-error-modal-body .woocommerce-error {
+			background: #c0392b !important;
+			border: none !important;
+			padding: 0 !important;
+			margin: 0 !important;
+			color: #fff !important;
+		}
+		.albalu-error-modal-body .woocommerce-error::before {
+			display: none !important;
+		}
+	</style>
+	<script>
+	jQuery(function($) {
+		var $modal = $('#albalu-error-modal');
+		var $modalBody = $modal.find('.albalu-error-modal-body');
+		var fadeTimer = null;
+
+		function showErrorModal($errors) {
+			// Clear any previous timer and reset modal state
+			if (fadeTimer) clearTimeout(fadeTimer);
+			$modalBody.empty();
+
+			$modalBody.html($errors.clone());
+			$errors.remove();
+
+			// Close the mini-cart offcanvas if open
+			var offcanvasCart = document.getElementById('offcanvas-cart');
+			if (offcanvasCart) {
+				var bsOffcanvas = bootstrap.Offcanvas.getInstance(offcanvasCart);
+				if (bsOffcanvas) bsOffcanvas.hide();
+			}
+
+			$modal.removeClass('fade-out').show();
+			fadeTimer = setTimeout(function() {
+				$modal.addClass('fade-out');
+				setTimeout(function() { $modal.hide(); }, 400);
+			}, 5000);
+		}
+
+		// Check for error notices after page load (form validation triggers page reload)
+		var $existing = $('.woocommerce-error');
+		if ($existing.length) {
+			showErrorModal($existing);
+		}
+
+		// Intercept AJAX-injected notices only from add-to-cart requests
+		$(document).ajaxComplete(function(event, xhr, settings) {
+			if (!settings.url || settings.url.indexOf('wc-ajax') === -1) return;
+			setTimeout(function() {
+				var $errors = $('.woocommerce-error').not('#albalu-error-modal .woocommerce-error');
+				if ($errors.length) {
+					showErrorModal($errors);
+				}
+			}, 100);
+		});
+
+		// Close modal on background click
+		$modal.on('click', function(e) {
+			if ($(e.target).is($modal)) {
+				if (fadeTimer) clearTimeout(fadeTimer);
+				$modal.addClass('fade-out');
+				setTimeout(function() { $modal.hide(); }, 400);
+			}
+		});
+	});
+	</script>
+	<?php
+}
+//------------------- END ---------------------
+
 /* Add Albalu-style title bar to cart/checkout pages and hide the default entry-title */
 add_action( 'bootscore_before_title', function( $context ) {
 	if ( $context !== 'page' ) return;
