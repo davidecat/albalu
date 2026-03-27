@@ -7,6 +7,9 @@ Disallow: /*?attribute_*
 Disallow: /*?add-to-cart=*
 Disallow: /*?variant=*
 Disallow: /*?currency=*
+Disallow: /*?e-page-*
+Disallow: /*/feed/
+Disallow: /feed/
 Allow: /wp-admin/admin-ajax.php
 
 Sitemap: https://www.albalu.it/sitemap_index.xml
