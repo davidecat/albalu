@@ -47,7 +47,7 @@
                 <ul class="list-unstyled footer-contact-list mb-4">
                     <li class="d-flex align-items-center">
                         <i class="fas fa-envelope me-2"></i>
-                        <a href="mailto:info@albalu.it" class="text-decoration-none">info@albalu.it</a>
+                        <a href="mailto:info@albalu.it" class="text-decoration-none"><!--email_off-->info@albalu.it<!--/email_off--></a>
                     </li>
                     <li class="d-flex align-items-center">
                         <i class="fas fa-phone-alt me-2"></i>
@@ -99,7 +99,7 @@
             <img src="/wp-content/uploads/2024/06/pagamenti-placeholder-1.png" alt="Metodi di Pagamento" class="img-fluid">
         </div>
         <div class="text-center footer-copyright mb-2">
-            Copyright &copy; <?= date('Y'); ?> – <strong>Alba Solving Srl</strong> – Contrada Parco snc, 70038 Terlizzi (BA) | Tel. 353 382 1875 – E-mail: info@albalu.it | P. IVA 08393440725 – N. REA 623746
+            Copyright &copy; <?= date('Y'); ?> – <strong>Alba Solving Srl</strong> – Contrada Parco snc, 70038 Terlizzi (BA) | Tel. 353 382 1875 – E-mail: <!--email_off-->info@albalu.it<!--/email_off--> | P. IVA 08393440725 – N. REA 623746
         </div>
         <div class="text-center footer-legal-links">
             <a href="/privacy-policy/" class="me-2">Privacy Policy</a>
