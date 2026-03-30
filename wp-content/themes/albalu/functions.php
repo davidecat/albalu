@@ -1189,6 +1189,54 @@ function albalu_show_base_price_in_order( $item_id, $item, $product ) {
 }
 
 
+// Add shippingDetails and hasMerchantReturnPolicy to product structured data
+add_filter( 'woocommerce_structured_data_product_offer', function( $markup, $product ) {
+	$price = (float) $product->get_price();
+
+	// Shipping details — free over 149€, otherwise 6.90€
+	$shipping_cost = ( $price >= 149 ) ? '0' : '6.90';
+
+	$markup['shippingDetails'] = array(
+		'@type'               => 'OfferShippingDetails',
+		'shippingRate'        => array(
+			'@type'    => 'MonetaryAmount',
+			'value'    => $shipping_cost,
+			'currency' => 'EUR',
+		),
+		'shippingDestination' => array(
+			'@type'          => 'DefinedRegion',
+			'addressCountry' => 'IT',
+		),
+		'deliveryTime'        => array(
+			'@type'        => 'ShippingDeliveryTime',
+			'handlingTime' => array(
+				'@type'    => 'QuantitativeValue',
+				'minValue' => 1,
+				'maxValue' => 6,
+				'unitCode' => 'DAY',
+			),
+			'transitTime'  => array(
+				'@type'    => 'QuantitativeValue',
+				'minValue' => 1,
+				'maxValue' => 7,
+				'unitCode' => 'DAY',
+			),
+		),
+	);
+
+	// Return policy — 14 days, free return
+	$markup['hasMerchantReturnPolicy'] = array(
+		'@type'                => 'MerchantReturnPolicy',
+		'applicableCountry'    => 'IT',
+		'returnPolicyCategory' => 'https://schema.org/MerchantReturnFiniteReturnWindow',
+		'merchantReturnDays'   => 14,
+		'returnMethod'         => 'https://schema.org/ReturnByMail',
+		'returnFees'           => 'https://schema.org/FreeReturn',
+	);
+
+	return $markup;
+}, 10, 2 );
+
 // Force canonical URL on product pages with variation parameters (strips query strings)
 add_filter('wpseo_canonical', function( $canonical ) {
     if ( is_product() && ! empty( $_GET ) ) {
