@@ -1234,6 +1234,12 @@ add_filter( 'woocommerce_structured_data_product_offer', function( $markup, $pro
 		'returnFees'           => 'https://schema.org/FreeReturn',
 	);
 
+	// GTIN from barcode plugin field
+	$barcode = get_post_meta( $product->get_id(), 'usbs_barcode_field', true );
+	if ( ! empty( $barcode ) ) {
+		$markup['gtin'] = $barcode;
+	}
+
 	return $markup;
 }, 10, 2 );
 
