@@ -23,7 +23,7 @@ the_title( '<h1 class="product_title entry-title">', '</h1>' );
 
 global $product;
 if ( $product && wc_product_sku_enabled() && $product->get_sku() ) : ?>
-	<p class="product-sku my-1 pb-2 border-bottom"><?php esc_html_e( 'SKU:', 'woocommerce' ); ?> <?php echo esc_html( $product->get_sku() ); ?></p>
+	<p class="product-sku my-1 pb-2 border-bottom" id="product-sku"><?php esc_html_e( 'SKU:', 'woocommerce' ); ?> <span><?php echo esc_html( $product->get_sku() ); ?></span></p>
 <?php endif;
 
 if ( shortcode_exists( 'mostra-attributi-prodotto' ) ) {

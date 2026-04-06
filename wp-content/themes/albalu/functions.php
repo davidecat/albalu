@@ -837,10 +837,15 @@ add_filter( 'pewc_filter_group_description', function($group_description) {
 function display_variation_sku() {
 	global $product;
 	if (!$product->is_type('variable')) return;
+	$parent_sku = $product->get_sku();
 	wp_add_inline_script('wc-add-to-cart-variation', "
 		jQuery(function($) {
+			var parentSku = '" . esc_js( $parent_sku ) . "';
 			$(document).on('found_variation', 'form.cart', function( event, variation ) {
-				$('#product-sku span').html('SKU: '+variation.sku);
+				$('#product-sku span').text(variation.sku || parentSku);
+			});
+			$(document).on('hide_variation', 'form.cart', function() {
+				$('#product-sku span').text(parentSku);
 			});
 		});
 	");
