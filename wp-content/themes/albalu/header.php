@@ -71,7 +71,7 @@ defined('ABSPATH') || exit;
             <!-- Left: Hamburger + Search -->
             <div class="col-4">
                 <div class="d-flex align-items-center gap-3">
-                    <button class="btn btn-link text-dark p-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvas-navbar" aria-controls="offcanvas-navbar">
+                    <button class="btn btn-link text-dark p-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvas-navbar" aria-controls="offcanvas-navbar" aria-label="Menu">
                         <i class="fas fa-bars fa-lg"></i>
                     </button>
                     <button class="btn btn-link text-dark p-0" type="button" id="mobile-search-toggle" aria-label="Cerca">
@@ -114,7 +114,7 @@ defined('ABSPATH') || exit;
                 <form role="search" method="get" class="search-form position-relative" action="<?= esc_url(home_url('/')); ?>">
                     <div class="input-group">
                         <input type="search" class="form-control border-end-0 border ps-3 rounded-0" placeholder="Cerca..." value="<?= get_search_query(); ?>" name="s" style="box-shadow: none; border-color: #ddd;" />
-                        <button class="btn btn-outline-secondary border-start-0 border bg-white text-dark rounded-0" type="submit" style="border-color: #ddd;"><i class="fas fa-search"></i></button>
+                        <button class="btn btn-outline-secondary border-start-0 border bg-white text-dark rounded-0" type="submit" style="border-color: #ddd;" aria-label="Cerca"><i class="fas fa-search"></i></button>
                     </div>
                 </form>
             </div>
