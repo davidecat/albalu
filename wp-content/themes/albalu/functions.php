@@ -13,6 +13,11 @@ defined('ABSPATH') || exit;
 /**
  * Enqueue scripts and styles
  */
+// Force font-display: swap on all font-face declarations
+add_action( 'wp_head', function() {
+	echo '<style>@font-face { font-display: swap !important; }</style>' . "\n";
+}, 1 );
+
 add_action('wp_enqueue_scripts', 'bootscore_child_enqueue_styles');
 function bootscore_child_enqueue_styles() {
 
