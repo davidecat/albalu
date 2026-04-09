@@ -1,0 +1,12 @@
+*** Yoast SEO: WooCommerce Changelog ***
+
+
+2026-03-31 - version 16.8
+* add -  Updates the logic to determine which page `@type` to output in the schema for a Product page.
+* fix -  Fixes a bug where screen reader text was rendered in the search appearance preview.
+* update -  Bumps the minimum required version of Yoast SEO to 27.3.
+* update -  Sets the minimum supported WordPress version to 6.8.
+* update -  Confirmed compatibility with PHP 8.5. Please report any issues you may still see.
+* update -  Modernizes how translations of the plugin work by removing the unneeded `load_plugin_textdomain()` calls.
+* update -  Sets the WordPress tested up to version to 6.9.
+
