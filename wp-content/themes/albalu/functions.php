@@ -13,13 +13,42 @@ defined('ABSPATH') || exit;
 /**
  * Enqueue scripts and styles
  */
-// Force font-display: swap on all font-face declarations
+// Force font-display: swap on Font Awesome and preload critical font
 add_action( 'wp_head', function() {
-	echo '<style>@font-face { font-display: swap !important; }</style>' . "\n";
-
-	// Preload only the critical Font Awesome font (solid is used most)
 	$fa_path = get_template_directory_uri() . '/assets/fontawesome/webfonts/';
+
+	// Preload critical solid font
 	echo '<link rel="preload" href="' . esc_url( $fa_path . 'fa-solid-900.woff2' ) . '" as="font" type="font/woff2" crossorigin>' . "\n";
+
+	// Override Font Awesome @font-face with font-display: swap
+	?>
+	<style>
+	@font-face {
+		font-family: "Font Awesome 6 Free";
+		font-style: normal;
+		font-weight: 900;
+		font-display: swap;
+		src: url("<?php echo esc_url( $fa_path ); ?>fa-solid-900.woff2") format("woff2"),
+			 url("<?php echo esc_url( $fa_path ); ?>fa-solid-900.ttf") format("truetype");
+	}
+	@font-face {
+		font-family: "Font Awesome 6 Free";
+		font-style: normal;
+		font-weight: 400;
+		font-display: swap;
+		src: url("<?php echo esc_url( $fa_path ); ?>fa-regular-400.woff2") format("woff2"),
+			 url("<?php echo esc_url( $fa_path ); ?>fa-regular-400.ttf") format("truetype");
+	}
+	@font-face {
+		font-family: "Font Awesome 6 Brands";
+		font-style: normal;
+		font-weight: 400;
+		font-display: swap;
+		src: url("<?php echo esc_url( $fa_path ); ?>fa-brands-400.woff2") format("woff2"),
+			 url("<?php echo esc_url( $fa_path ); ?>fa-brands-400.ttf") format("truetype");
+	}
+	</style>
+	<?php
 }, 1 );
 
 
