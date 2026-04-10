@@ -16,7 +16,12 @@ defined('ABSPATH') || exit;
 // Force font-display: swap on all font-face declarations
 add_action( 'wp_head', function() {
 	echo '<style>@font-face { font-display: swap !important; }</style>' . "\n";
+
+	// Preload only the critical Font Awesome font (solid is used most)
+	$fa_path = get_template_directory_uri() . '/assets/fontawesome/webfonts/';
+	echo '<link rel="preload" href="' . esc_url( $fa_path . 'fa-solid-900.woff2' ) . '" as="font" type="font/woff2" crossorigin>' . "\n";
 }, 1 );
+
 
 add_action('wp_enqueue_scripts', 'bootscore_child_enqueue_styles');
 function bootscore_child_enqueue_styles() {

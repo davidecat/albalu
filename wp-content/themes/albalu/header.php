@@ -89,7 +89,7 @@ defined('ABSPATH') || exit;
             <div class="col-4">
                 <div class="d-flex align-items-center justify-content-end gap-3">
                     <a href="<?= esc_url(get_permalink(get_option('woocommerce_myaccount_page_id'))); ?>" class="text-dark text-decoration-none" title="Account">
-                        <i class="far fa-user fa-lg"></i>
+                        <i class="fas fa-user fa-lg"></i>
                     </a>
                     <?php if (class_exists('WooCommerce')) : ?>
                         <a href="<?= esc_url(wc_get_cart_url()); ?>" class="position-relative d-flex align-items-center text-decoration-none" title="Cart">
@@ -140,7 +140,7 @@ defined('ABSPATH') || exit;
                     <?php endif; ?>
 
                     <a href="<?= esc_url(get_permalink(get_option('woocommerce_myaccount_page_id'))); ?>" class="text-dark text-decoration-none" title="Account">
-                        <i class="far fa-user fa-lg"></i>
+                        <i class="fas fa-user fa-lg"></i>
                     </a>
                     <?php if (class_exists('WooCommerce')) : ?>
                         <a href="<?= esc_url(wc_get_cart_url()); ?>" class="text-dark position-relative d-flex align-items-center gap-2 text-decoration-none" title="Cart">
