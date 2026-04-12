@@ -1238,6 +1238,7 @@ add_action( 'init', function() {
 	$sd = WC()->structured_data;
 	if ( $sd ) {
 		remove_action( 'woocommerce_single_product_summary', array( $sd, 'generate_product_data' ), 60 );
+		remove_action( 'wp_footer', array( $sd, 'output_structured_data' ), 10 );
 	}
 } );
 
