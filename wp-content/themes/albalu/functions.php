@@ -1234,7 +1234,7 @@ function albalu_show_base_price_in_order( $item_id, $item, $product ) {
 
 
 // Disable WooCommerce Product structured data (let Yoast handle it)
-add_action( 'init', function() {
+add_action( 'wp_loaded', function() {
 	$sd = WC()->structured_data;
 	if ( $sd ) {
 		remove_action( 'woocommerce_single_product_summary', array( $sd, 'generate_product_data' ), 60 );
