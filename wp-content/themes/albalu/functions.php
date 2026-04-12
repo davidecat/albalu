@@ -1234,7 +1234,12 @@ function albalu_show_base_price_in_order( $item_id, $item, $product ) {
 
 
 // Disable WooCommerce Product structured data (let Yoast handle it)
-add_filter( 'woocommerce_structured_data_product', '__return_empty_array' );
+add_action( 'init', function() {
+	$sd = WC()->structured_data;
+	if ( $sd ) {
+		remove_action( 'woocommerce_single_product_summary', array( $sd, 'generate_product_data' ), 60 );
+	}
+} );
 
 // Add shippingDetails, returnPolicy, GTIN and hasVariant to Yoast Product schema
 add_filter( 'wpseo_schema_product', function( $data ) {
