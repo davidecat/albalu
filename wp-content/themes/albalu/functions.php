@@ -1233,14 +1233,21 @@ function albalu_show_base_price_in_order( $item_id, $item, $product ) {
 }
 
 
-// Add shippingDetails and hasMerchantReturnPolicy to product structured data
-add_filter( 'woocommerce_structured_data_product_offer', function( $markup, $product ) {
-	$price = (float) $product->get_price();
+// Disable WooCommerce Product structured data (let Yoast handle it)
+add_filter( 'woocommerce_structured_data_product', '__return_empty_array' );
 
-	// Shipping details — free over 149€, otherwise 6.90€
+// Add shippingDetails, returnPolicy, GTIN and hasVariant to Yoast Product schema
+add_filter( 'wpseo_schema_product', function( $data ) {
+	global $product;
+	if ( ! $product || ! is_a( $product, 'WC_Product' ) ) {
+		$product = wc_get_product( get_the_ID() );
+	}
+	if ( ! $product ) return $data;
+
+	$price = (float) $product->get_price();
 	$shipping_cost = ( $price >= 149 ) ? '0' : '6.90';
 
-	$markup['shippingDetails'] = array(
+	$shipping = array(
 		'@type'               => 'OfferShippingDetails',
 		'shippingRate'        => array(
 			'@type'    => 'MonetaryAmount',
@@ -1268,8 +1275,7 @@ add_filter( 'woocommerce_structured_data_product_offer', function( $markup, $pro
 		),
 	);
 
-	// Return policy — 14 days, free return
-	$markup['hasMerchantReturnPolicy'] = array(
+	$return_policy = array(
 		'@type'                => 'MerchantReturnPolicy',
 		'applicableCountry'    => 'IT',
 		'returnPolicyCategory' => 'https://schema.org/MerchantReturnFiniteReturnWindow',
@@ -1281,11 +1287,79 @@ add_filter( 'woocommerce_structured_data_product_offer', function( $markup, $pro
 	// GTIN from barcode plugin field
 	$barcode = get_post_meta( $product->get_id(), 'usbs_barcode_field', true );
 	if ( ! empty( $barcode ) ) {
-		$markup['gtin'] = $barcode;
+		$data['gtin'] = $barcode;
 	}
 
-	return $markup;
-}, 10, 2 );
+	// Add shipping/return to existing offers
+	if ( isset( $data['offers'] ) ) {
+		$offers = isset( $data['offers'][0] ) ? $data['offers'] : array( $data['offers'] );
+		foreach ( $offers as &$offer ) {
+			$offer['shippingDetails']          = $shipping;
+			$offer['hasMerchantReturnPolicy']   = $return_policy;
+		}
+		$data['offers'] = $offers;
+	}
+
+	// Add hasVariant for variable products
+	if ( $product->is_type( 'variable' ) ) {
+		$variations = $product->get_available_variations();
+		$variants = array();
+		foreach ( $variations as $variation ) {
+			$var_product = wc_get_product( $variation['variation_id'] );
+			if ( ! $var_product ) continue;
+
+			$variant = array(
+				'@type' => 'Product',
+				'name'  => $var_product->get_name(),
+				'sku'   => $var_product->get_sku(),
+				'offers' => array(
+					'@type'         => 'Offer',
+					'url'           => $var_product->get_permalink(),
+					'price'         => $var_product->get_price(),
+					'priceCurrency' => get_woocommerce_currency(),
+					'availability'  => $var_product->is_in_stock()
+						? 'https://schema.org/InStock'
+						: 'https://schema.org/OutOfStock',
+					'priceValidUntil'          => date( 'Y-12-31', strtotime( '+1 year' ) ),
+					'shippingDetails'          => $shipping,
+					'hasMerchantReturnPolicy'  => $return_policy,
+				),
+			);
+
+			// Variation GTIN
+			$var_barcode = get_post_meta( $variation['variation_id'], 'usbs_barcode_field', true );
+			if ( ! empty( $var_barcode ) ) {
+				$variant['gtin'] = $var_barcode;
+			}
+
+			// Variation image
+			$image_id = $var_product->get_image_id();
+			if ( $image_id ) {
+				$variant['image'] = wp_get_attachment_url( $image_id );
+			}
+
+			// Variation attributes
+			$attributes = $var_product->get_attributes();
+			foreach ( $attributes as $attr_name => $attr_value ) {
+				if ( ! empty( $attr_value ) ) {
+					$variant['additionalProperty'][] = array(
+						'@type' => 'PropertyValue',
+						'name'  => wc_attribute_label( $attr_name ),
+						'value' => $attr_value,
+					);
+				}
+			}
+
+			$variants[] = $variant;
+		}
+
+		if ( ! empty( $variants ) ) {
+			$data['hasVariant'] = $variants;
+		}
+	}
+
+	return $data;
+} );
 
 // Force canonical URL on product pages with variation parameters (strips query strings)
 add_filter('wpseo_canonical', function( $canonical ) {
