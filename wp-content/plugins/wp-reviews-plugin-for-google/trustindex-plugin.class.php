@@ -11,7 +11,7 @@ public static $allowedAttributesForWidget = [
 'template' => ['id' => true, 'class' => true, 'style' => true],
 'pre' => ['id' => true, 'style' => true, 'class' => true],
 'div' => [
-'id' => true, 'class' => true, 'style' => true, 'aria-label' => true, 'role' => true,
+'id' => true, 'class' => true, 'style' => true, 'aria-label' => true, 'role' => true, 'tabindex' => true,
 'data-template-id' => true,
 'data-css-url' => true,
 'data-no-translation' => true,
@@ -46,6 +46,8 @@ public static $allowedAttributesForWidget = [
 'data-style' => true,
 'data-src' => true,
 'data-type' => true,
+'data-plugin-version' => true,
+'data-only-rating-locale' => true,
 ],
 'a' => [
 'class' => true, 'style' => true, 'href' => true, 'role' => true, 'target' => true, 'rel' => true, 'aria-label' => true,
@@ -290,7 +292,7 @@ $this->loadI18N();
 include $this->get_plugin_dir() . 'include' . DIRECTORY_SEPARATOR . 'update.php';
 if (get_option($this->get_option_name('activation-redirect'))) {
 delete_option($this->get_option_name('activation-redirect'));
-wp_redirect(admin_url('admin.php?page=' . $this->get_plugin_slug() . '/settings.php'));
+wp_safe_redirect(admin_url('admin.php?page=' . $this->get_plugin_slug() . '/settings.php'));
 exit;
 }
 if (
@@ -922,7 +924,7 @@ $className = 'TrustindexPlugin_' . $forcePlatform;
 if (!class_exists($className)) {
 return wp_kses_post($this->frontEndErrorForAdmins(ucfirst($forcePlatform) . ' plugin is not active or not found!'));
 }
-$chosedPlatform = new $className($forcePlatform, $filePath, "do-not-care-13.2.5", "do-not-care-Widgets for Google Reviews", "do-not-care-Google");
+$chosedPlatform = new $className($forcePlatform, $filePath, "do-not-care-13.2.9", "do-not-care-Widgets for Google Reviews", "do-not-care-Google");
 $chosedPlatform->setNotificationParam('not-using-no-widget', 'active', false);
 if (!$chosedPlatform->is_noreg_linked()) {
 /* translators: %s: Platform name */
@@ -1170,7 +1172,7 @@ public static $widget_templates = array (
  array (
  'name' => 'Slider I. - with header',
  'type' => 'slider',
- 'is-active' => false,
+ 'is-active' => true,
  'is-popular' => false,
  'is-top-rated-badge' => false,
  'params' => 
@@ -1359,7 +1361,7 @@ public static $widget_templates = array (
  ),
  79 => 
  array (
- 'name' => 'Mansonry grid - with header',
+ 'name' => 'Masonry grid - with header',
  'type' => 'grid',
  'is-active' => false,
  'is-popular' => true,
@@ -1370,7 +1372,7 @@ public static $widget_templates = array (
  ),
  31 => 
  array (
- 'name' => 'Mansonry grid',
+ 'name' => 'Masonry grid',
  'type' => 'grid',
  'is-active' => true,
  'is-popular' => false,
@@ -5321,7 +5323,7 @@ public static $widget_date_format_locales = array (
  'cy' => '%d %s yn ôl|heddiw|diwrnod|diwrnod|wythnos|wythnosau|mis|mis|flwyddyn|flynyddoedd',
  'da' => '%d %s siden|i dag|dag|dage|uge|uger|måned|måneder|år|år',
  'de' => 'vor %d %s|Heute|Tag|Tagen|Woche|Wochen|Monat|Monaten|Jahr|Jahren',
- 'el' => 'πριν από %d ημέρα|σήμερα|ημέρα|ημέρες|εβδομάδα|εβδομάδες|μήνα|μήνες|χρόνο|χρόνια',
+ 'el' => 'πριν από %d %s|σήμερα|ημέρα|ημέρες|εβδομάδα|εβδομάδες|μήνα|μήνες|χρόνο|χρόνια',
  'es' => 'hace %d %s|hoy|día|días|semana|semanas|mes|meses|año|años',
  'et' => '%d %s tagasi|täna|päev|päeva|nädal|nädalat|kuu|kuud|aasta|aastat',
  'fa' => '%d %s قبل|امروز|روز|روز|هفته|هفته|ماه|ماه|سال|سال',
@@ -6234,6 +6236,7 @@ $styleText .= 'left: '.$this->getWidgetOption('fomo-margin', false, $isPreview).
 $hideCount = $this->getWidgetOption('fomo-hide-count', false, $isPreview);
 $content = str_replace('" data-layout-id=', '" style="'.$styleText.'" data-hide-count='.$hideCount.' data-layout-id=', $content);
 }
+$content = str_replace('" data-layout-id=', '" data-plugin-version="'.str_replace('do-not-care-', '', $this->getVersion()).'" data-layout-id=', $content);
 return $content;
 }
 private function getReviewsForWidgetHtml($isDemoReviews = false, $isForceDemoReviews = false, $isPreview = false)
@@ -6244,28 +6247,36 @@ $onlyRatings = isset($filter['only-ratings']) && $filter['only-ratings'] ? 1 : 0
 if (isset($filter['stars']) && count($filter['stars']) === 1 && (int)$filter['stars'][0] === 5) {
 if ($this->is_ten_scale_rating_platform()) {
 // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
-$reviews = $wpdb->get_results($wpdb->prepare('SELECT *, rating AS original_rating, ROUND(rating / 2, 0) AS rating FROM %i WHERE hidden = 0 AND ROUND(rating / 2, 0) = 5 AND (%d = 0 OR (text != "")) ORDER BY date DESC', $this->get_tablename('reviews'), $onlyRatings));
+$reviews = $wpdb->get_results($wpdb->prepare('SELECT *, rating AS original_rating, ROUND(rating / 2, 0) AS rating FROM %i WHERE hidden = 0 AND ROUND(rating / 2, 0) = 5 ORDER BY date DESC', $this->get_tablename('reviews')));
 } else {
 // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
-$reviews = $wpdb->get_results($wpdb->prepare('SELECT *, rating AS original_rating FROM %i WHERE hidden = 0 AND (rating IS NULL OR rating = 5) AND (%d = 0 OR (text != "")) ORDER BY date DESC', $this->get_tablename('reviews'), $onlyRatings));
+$reviews = $wpdb->get_results($wpdb->prepare('SELECT *, rating AS original_rating FROM %i WHERE hidden = 0 AND (rating IS NULL OR rating = 5) ORDER BY date DESC', $this->get_tablename('reviews')));
 }
 }
 else if (isset($filter['stars']) && count($filter['stars']) === 2) {
 if ($this->is_ten_scale_rating_platform()) {
 // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
-$reviews = $wpdb->get_results($wpdb->prepare('SELECT *, rating AS original_rating, ROUND(rating / 2, 0) AS rating FROM %i WHERE hidden = 0 AND ROUND(rating / 2, 0) IN (4,5) AND (%d = 0 OR (text != "")) ORDER BY date DESC', $this->get_tablename('reviews'), $onlyRatings));
+$reviews = $wpdb->get_results($wpdb->prepare('SELECT *, rating AS original_rating, ROUND(rating / 2, 0) AS rating FROM %i WHERE hidden = 0 AND ROUND(rating / 2, 0) IN (4,5) ORDER BY date DESC', $this->get_tablename('reviews')));
 } else {
 // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
-$reviews = $wpdb->get_results($wpdb->prepare('SELECT *, rating AS original_rating FROM %i WHERE hidden = 0 AND (rating IS NULL OR rating IN (4,5)) AND (%d = 0 OR (text != "")) ORDER BY date DESC', $this->get_tablename('reviews'), $onlyRatings));
+$reviews = $wpdb->get_results($wpdb->prepare('SELECT *, rating AS original_rating FROM %i WHERE hidden = 0 AND (rating IS NULL OR rating IN (4,5)) ORDER BY date DESC', $this->get_tablename('reviews')));
 }
 }
 else {
 if ($this->is_ten_scale_rating_platform()) {
 // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
-$reviews = $wpdb->get_results($wpdb->prepare('SELECT *, rating AS original_rating, ROUND(rating / 2, 0) AS rating FROM %i WHERE hidden = 0 AND (%d = 0 OR (text != "")) ORDER BY date DESC', $this->get_tablename('reviews'), $onlyRatings));
+$reviews = $wpdb->get_results($wpdb->prepare('SELECT *, rating AS original_rating, ROUND(rating / 2, 0) AS rating FROM %i WHERE hidden = 0 ORDER BY date DESC', $this->get_tablename('reviews')));
 } else {
 // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
-$reviews = $wpdb->get_results($wpdb->prepare('SELECT *, rating AS original_rating FROM %i WHERE hidden = 0 AND (%d = 0 OR (text != "")) ORDER BY date DESC', $this->get_tablename('reviews'), $onlyRatings));
+$reviews = $wpdb->get_results($wpdb->prepare('SELECT *, rating AS original_rating FROM %i WHERE hidden = 0 ORDER BY date DESC', $this->get_tablename('reviews')));
+}
+}
+if ($onlyRatings) {
+for ($i = 0; $i < count($reviews); $i++) {
+if (!$reviews[$i]->text || !trim($reviews[$i]->text)) {
+array_splice($reviews, $i, 1);
+$i--;
+}
 }
 }
 if ($isDemoReviews && ($isForceDemoReviews || !$reviews)) {
@@ -6372,7 +6383,7 @@ $matches[1] = preg_replace('/<div class="ti-profile-img">.+<\/div>/U', '', $matc
 }
 $text = $this->getReviewHtml($r);
 if ($r->reply && $this->getWidgetOption('show-review-replies', false, $isPreview)) {
-$text .= '<br /><br /><strong class="ti-reply-by-owner-title">'.self::$widget_reply_by_texts[$language].'</strong><br />'.$this->parseReviewText($r->reply);
+$text .= '<br /><br /><span class="ti-reply-by-owner-title">'.self::$widget_reply_by_texts[$language].'</span><br />'.$this->parseReviewText($r->reply);
 }
 $reviewContent .= str_replace([
 '%platform%',
@@ -6816,27 +6827,27 @@ return $text;
 $platform = ucfirst($this->getShortName());
 $altPlatform = $platform;
 if (!$platformStars) {
-$platform = 'Trustindex';
+$platform = 'Default';
 }
-$fullStarUrl = '<img class="ti-star" src="https://cdn.trustindex.io/assets/platform/'.$platform.'/star/f.svg" alt="'.$altPlatform.'" width="17" height="17" loading="lazy" />';
+$fullStarUrl = '<img class="ti-star" src="https://cdn.trustindex.io/assets/platform/'.$platform.'/star/f.svg" alt="'.$altPlatform.' star %star-number%" width="17" height="17" loading="lazy" />';
 if ('custom' === $platformStars) {
 $fullStarUrl = '<span class="ti-star f"></span>';
 }
 for ($si = 1; $si <= $ratingScore; $si++) {
-$text .= $fullStarUrl;
+$text .= str_replace('%star-number%', $si, $fullStarUrl);
 }
 $fractional = $ratingScore - floor($ratingScore);
 if(0.25 <= $fractional) {
 if ($fractional < 0.75) {
-$text .= preg_replace('/f(\.svg)?"/', 'h$1"', $fullStarUrl);
+$text .= preg_replace('/f(\.svg)?"/', 'h$1"', str_replace('%star-number%', $si.'.'.$fractional, $fullStarUrl));
 }
 else {
-$text .= $fullStarUrl;
+$text .= str_replace('%star-number%', $si, $fullStarUrl);
 }
 $si++;
 }
 for (; $si <= 5; $si++) {
-$text .= preg_replace('/f(\.svg)?"/', 'e$1"', $fullStarUrl);
+$text .= preg_replace('/f(\.svg)?"/', 'e$1"', str_replace('%star-number%', $si, $fullStarUrl));
 }
 return $text;
 }

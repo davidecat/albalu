@@ -576,12 +576,15 @@ if ( ! class_exists( 'CSF_Setup' ) ) {
       wp_enqueue_style( 'wp-color-picker' );
       wp_enqueue_script( 'wp-color-picker' );
 
+      // Get plugin root URL: from classes/ -> codestar/ -> include/ -> plugin root (3 levels up)
+      $plugin_root_url = plugins_url( '', BVOS_PLUGIN_FILE );
+
       // Font awesome 4 and 5 loader
       if ( apply_filters( 'csf_fa4', false ) ) {
-        wp_enqueue_style( 'csf-fa', 'https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css', array(), '4.7.0', 'all' );
+        wp_enqueue_style( 'csf-fa', $plugin_root_url . '/include/codestar/assets/css/fontawesome-4/font-awesome.min.css', array(), '4.7.0', 'all' );
       } else {
-        wp_enqueue_style( 'csf-fa5', 'https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css', array(), '5.15.5', 'all' );
-        wp_enqueue_style( 'csf-fa5-v4-shims', 'https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/v4-shims.min.css', array(), '5.15.5', 'all' );
+        wp_enqueue_style( 'csf-fa5', $plugin_root_url . '/include/codestar/assets/css/fontawesome-5/all.min.css', array(), '5.15.5', 'all' );
+        wp_enqueue_style( 'csf-fa5-v4-shims', $plugin_root_url . '/include/codestar/assets/css/fontawesome-5/v4-shims.min.css', array(), '5.15.5', 'all' );
       }
 
       // Check for developer mode

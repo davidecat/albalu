@@ -1,10 +1,10 @@
 === Payment Plugins for Stripe WooCommerce ===
-Contributors: mr.clayton
+Contributors: paymentplugins, mrclayton
 Tags: stripe, klarna, credit card, apple pay, google pay
 Requires at least: 3.0.1
-Tested up to: 6.9
+Tested up to: 7.0
 Requires PHP: 5.6
-Stable tag: 3.3.97
+Stable tag: 3.3.106
 Copyright: Payment Plugins
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -63,6 +63,40 @@ If your site is not loading over https, then Stripe won't render the Payment Req
 9. Stripe Link for high conversion
 
 == Changelog ==
+= 3.3.106 - 04/08/26 =
+* Fixed - [MBWay Javascript error when payment cancelled](https://wordpress.org/support/topic/mb-way-via-upm-throws-javascript-error-when-customer-cancels-payment/)
+* Fixed - PHP notice triggered when iDEAL used for a free trial subscription
+= 3.3.105 - 03/24/26 =
+* Fixed - Issue on variation pages where variations were reset for "Any" attribute. [https://wordpress.org/support/topic/bug-variation-dropdowns-for-any-attributes-are-being-reset/](https://wordpress.org/support/topic/bug-variation-dropdowns-for-any-attributes-are-being-reset/)
+= 3.3.104 - 03/13/26 =
+* Added - WC Tested to 10.6
+* Fixed - On the Edit Product page > Stripe Settings panel, if payment method is disabled globally, ensure settings reflect that
+* Updated - Improved express checkout integration with Funnelkit checkout page
+= 3.3.103 - 03/03/26 =
+* Fixed - Improved handling of Apple Pay redacted postal code for "GB" and "CA" country codes. [https://wordpress.org/support/topic/uk-postcode-wildcard-shipping-zones-to-fail-with-apple-pay/](https://wordpress.org/support/topic/uk-postcode-wildcard-shipping-zones-to-fail-with-apple-pay/)
+* Added - The statement descriptor option in the Advanced Settings page now supports dynamic variables like order_id, order_number. [Documentation](https://paymentplugins.com/documentation/stripe/advanced-settings/#statement-descriptor)
+* Added - For card payments, a new "statement descriptor suffix" option has been added to the Advanced Settings page. This option also supports dynamic variables. [Documentation](https://paymentplugins.com/documentation/stripe/advanced-settings/#statement-descriptor-suffix)
+* Updated - If a local payment method return url is revisited, ensure the order notes are not duplicated
+= 3.3.102 - 02/18/26 =
+* Fixed - Syntax errors in the Admin option setting descriptions
+* Fixed - JS error for Apple Pay and GPay via Payment Request Gateway when side cart button clicked on product page
+= 3.3.101 - 02/02/26 =
+* Fixed - Apple Pay was showing on some unsupported devices combined with plugins like Funnelkit
+* Fixed - Checkout block express section appeared disabled due to a bug in WooCommerce. We have added a resolution in this plugin so merchants don't have to wait.
+[https://wordpress.org/support/topic/js-error-for-logged-in-customers-with-a-saved-payment-method/](https://wordpress.org/support/topic/js-error-for-logged-in-customers-with-a-saved-payment-method/)
+= 3.3.100 - 01/28/26 =
+* Added - Option for Payment Request Gateway where you can specify Google Pay availability on all browsers or just Chrome.
+* Fixed - When Germanized for WooCommerce installed, Apple Pay and Google Pay were not re-displaying on the checkout shortcode after the order_update_review request was triggered. This made it
+appear as if they were not available.
+= 3.3.99 - 01/17/26 =
+* Added - Terms Enabled option on Advanced Settings page. This option allows merchants to enable/disable mandate and legal agreement text rendered by Stripe in the payment element. [Terms Enabled](https://paymentplugins.com/documentation/stripe/advanced-settings/#terms-enabled)
+* Updated - Some themes add the "float" property to the place order button on the checkout page. To prevent the Apple Pay button from conflicting with the float property, additional CSS was added to the button.
+* Updated - The Payment Request Gateway now uses the Express Checkout Element. It will render Google Pay on more browsers like Safari, Firefox, and Edge. Be sure and clear any cache plugins
+so the new scripts load.
+* Updated - Increased Afterpay limits for Australia and New Zealand to 4000 AUD and 4000 NZD
+= 3.3.98 - 01/15/26 =
+* Added - Apple Pay is now available on all supported browsers when using product page, cart shortcode, and checkout shortcode.
+* Added - Option where you can specify if you want Apple Pay available only on Safari or all supported browsers.
 = 3.3.97 - 12/29/25 =
 * Added - Checkout page upsell support for new CheckoutWC feature coming out in January
 * Added - Apple Pay button height option. The minimum height is 40px and the maximum height is 55px.

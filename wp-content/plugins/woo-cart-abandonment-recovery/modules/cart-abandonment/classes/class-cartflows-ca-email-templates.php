@@ -876,6 +876,9 @@ class Cartflows_Ca_Email_Templates {
 		$sanitized_post['wcf_free_shipping_coupon']   = isset( $_POST['wcf_free_shipping_coupon'] ) ? true : false;
 		$sanitized_post['wcf_individual_use_only']    = isset( $_POST['wcf_individual_use_only'] ) ? true : false;
 		$sanitized_post['wcf_email_body']             = html_entity_decode( $sanitized_post['wcf_email_body'], ENT_COMPAT, 'UTF-8' );
+		$sanitized_post['wcf_email_body']             = preg_replace( '#<script\b[^>]*>[\s\S]*?<\/script>#i', '', $sanitized_post['wcf_email_body'] );
+		$sanitized_post['wcf_email_body']             = preg_replace( '#\s+on[a-z]+\s*=\s*(?:"[^"]*"|\'[^\']*\'|[^\s>]*)#i', '', $sanitized_post['wcf_email_body'] );
+		$sanitized_post['wcf_email_body']             = preg_replace( '#(href|src)\s*=\s*(["\'])\s*javascript:[^"\']*\2#i', '$1=$2$2', $sanitized_post['wcf_email_body'] );
 		$sanitized_post['wcf_use_woo_email_style']    = isset( $_POST['wcf_use_woo_email_style'] ) ? true : false;
 
 		return $sanitized_post;

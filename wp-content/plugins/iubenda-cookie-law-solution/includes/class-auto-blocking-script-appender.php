@@ -41,6 +41,10 @@ class Auto_Blocking_Script_Appender {
 	 * Handle the script for auto-blocking functionality.
 	 */
 	public function handle() {
+		if ( $this->code_extractor->is_unified_embed_format() ) {
+			return;
+		}
+
 		if ( $this->code_extractor->is_auto_blocking_enabled() ) {
 			// phpcs:disable WordPress.WP.EnqueuedResources.NonEnqueuedScript
 			?>

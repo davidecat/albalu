@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Name is deprecated, but allowed in strict doctypes, so onl
+ * Name is deprecated, but allowed in strict doctypes, so only
  */
 class WOE_HTMLPurifier_HTMLModule_Tidy_Name extends WOE_HTMLPurifier_HTMLModule_Tidy
 {

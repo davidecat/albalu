@@ -178,7 +178,7 @@ const DateRange = ( {
 			{ isOpen && (
 				<div
 					ref={ popoverRef }
-					className="absolute z-10 rounded-lg shadow-lg top-10 right-0"
+					className="absolute z-10 rounded-lg shadow-lg top-10 right-0 w-full lg:w-auto overflow-x-auto"
 				>
 					<DatePicker
 						key="range"
@@ -199,3 +199,4 @@ const DateRange = ( {
 };
 
 export default DateRange;
+

@@ -7,7 +7,7 @@
 
 require_once dirname(__FILE__) . '/WOE_HTMLPurifier.auto.php';
 
-function woe_kses($string, $allowed_html, $allowed_protocols = null)
+function kses($string, $allowed_html, $allowed_protocols = null)
 {
     $config = WOE_HTMLPurifier_Config::createDefault();
     $allowed_elements = array();

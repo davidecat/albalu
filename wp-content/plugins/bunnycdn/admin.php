@@ -151,7 +151,8 @@ add_action('admin_notices', function () {
         );
     }
 
-    if (bunnycdn_container()->getOffloaderUtils()->shouldShowSyncDelayedMessage()) {
+    $syncDelayedWarning = get_option('_bunnycdn_sync_delayed_warning');
+    if (!empty($syncDelayedWarning)) {
         wp_admin_notice(
             sprintf(
                 /* translators: 1: <a href=...> 2: </a> */

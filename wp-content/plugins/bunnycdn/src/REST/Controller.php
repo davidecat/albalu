@@ -71,6 +71,8 @@ class Controller
 
             return new \WP_REST_Response(['success' => false, 'message' => 'Invalid authentication token'], 401);
         }
+        // clear warning
+        delete_option('_bunnycdn_sync_delayed_warning');
         // check if there are files left to sync
         $count = $this->attachmentCounter->count();
         if (0 === $count[AttachmentCounter::LOCAL]) {

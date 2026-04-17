@@ -52,7 +52,7 @@ class SettingsGeneral {
 		$requires_pro           = function_exists( 'WPO_WCPDF_Pro' ) ? '' : sprintf( /* translators: 1. open anchor tag, 2. close anchor tag */ __( 'Requires the %1$sProfessional extension%2$s.', 'woocommerce-pdf-invoices-packing-slips' ), '<a href="' . esc_url( admin_url( 'admin.php?page=wpo_wcpdf_options_page&tab=upgrade' ) ) . '">', '</a>' );
 		$states                 = wpo_wcpdf_get_country_states( $this->get_setting( 'shop_address_country' ) );
 		$missing_template_files = $this->get_missing_template_files();
-		$has_vat_plugin_active  = \wpo_ips_has_vat_plugin_active();
+		$has_vat_plugin_active  = \WPO_WCPDF()->vat_plugins->has_active();
 		$vat_plugin_notice      = '';
 
 		if ( $has_vat_plugin_active ) {
@@ -401,7 +401,12 @@ class SettingsGeneral {
 					'width'        => '72',
 					'height'       => '8',
 					'translatable' => true,
-					'description'  => __( 'Any additional info about your business location.', 'woocommerce-pdf-invoices-packing-slips' ),
+					'description'  => sprintf(
+						'%s<br><strong>%s</strong>: %s',
+						__( 'Any additional info about your business location.', 'woocommerce-pdf-invoices-packing-slips' ),
+						__( 'Note', 'woocommerce-pdf-invoices-packing-slips' ),
+						__( 'You may use plain text and basic formatting such as line breaks, bold, italic, and links. Advanced formatting and styling may not be supported.', 'woocommerce-pdf-invoices-packing-slips' ),
+					),
 				)
 			),
 			array(
@@ -416,6 +421,11 @@ class SettingsGeneral {
 					'width'        => '72',
 					'height'       => '4',
 					'translatable' => true,
+					'description'  => sprintf(
+						'<strong>%s</strong>: %s',
+						__( 'Note', 'woocommerce-pdf-invoices-packing-slips' ),
+						__( 'You may use plain text and basic formatting such as line breaks, bold, italic, and links. Advanced formatting and styling may not be supported.', 'woocommerce-pdf-invoices-packing-slips' ),
+					),
 				)
 			),
 			array(
@@ -435,9 +445,18 @@ class SettingsGeneral {
 					'id'           => 'extra_1',
 					'width'        => '72',
 					'height'       => '8',
-					'description'  => __( 'This is footer column 1 in the <i>Modern (Premium)</i> template', 'woocommerce-pdf-invoices-packing-slips' ),
 					'translatable' => true,
-				)
+					'description'  => sprintf(
+						'%s<br><strong>%s</strong>: %s',
+						sprintf(
+							/* translators: %d: footer column number */
+							__( 'This is footer column %d in the Modern (Premium) template.', 'woocommerce-pdf-invoices-packing-slips' ),
+							1
+						),
+						__( 'Note', 'woocommerce-pdf-invoices-packing-slips' ),
+						__( 'You may use plain text and basic formatting such as line breaks, bold, italic, and links. Advanced formatting and styling may not be supported.', 'woocommerce-pdf-invoices-packing-slips' ),
+					),
+				),
 			),
 			array(
 				'type'     => 'setting',
@@ -450,9 +469,18 @@ class SettingsGeneral {
 					'id'           => 'extra_2',
 					'width'        => '72',
 					'height'       => '8',
-					'description'  => __( 'This is footer column 2 in the <i>Modern (Premium)</i> template', 'woocommerce-pdf-invoices-packing-slips' ),
 					'translatable' => true,
-				)
+					'description'  => sprintf(
+						'%s<br><strong>%s</strong>: %s',
+						sprintf(
+							/* translators: %d: footer column number */
+							__( 'This is footer column %d in the Modern (Premium) template.', 'woocommerce-pdf-invoices-packing-slips' ),
+							2
+						),
+						__( 'Note', 'woocommerce-pdf-invoices-packing-slips' ),
+						__( 'You may use plain text and basic formatting such as line breaks, bold, italic, and links. Advanced formatting and styling may not be supported.', 'woocommerce-pdf-invoices-packing-slips' ),
+					),
+				),
 			),
 			array(
 				'type'     => 'setting',
@@ -465,9 +493,18 @@ class SettingsGeneral {
 					'id'           => 'extra_3',
 					'width'        => '72',
 					'height'       => '8',
-					'description'  => __( 'This is footer column 3 in the <i>Modern (Premium)</i> template', 'woocommerce-pdf-invoices-packing-slips' ),
 					'translatable' => true,
-				)
+					'description'  => sprintf(
+						'%s<br><strong>%s</strong>: %s',
+						sprintf(
+							/* translators: %d: footer column number */
+							__( 'This is footer column %d in the Modern (Premium) template.', 'woocommerce-pdf-invoices-packing-slips' ),
+							3
+						),
+						__( 'Note', 'woocommerce-pdf-invoices-packing-slips' ),
+						__( 'You may use plain text and basic formatting such as line breaks, bold, italic, and links. Advanced formatting and styling may not be supported.', 'woocommerce-pdf-invoices-packing-slips' ),
+					),
+				),
 			),
 			array(
 				'type'     => 'setting',
@@ -501,11 +538,12 @@ class SettingsGeneral {
 				'callback' => 'checkbox',
 				'section'  => 'general_settings',
 				'args'     => array(
-					'option_name' => $option_name,
-					'id'          => 'checkout_field_as_vat_number',
-					'disabled'    => $has_vat_plugin_active,
-					'value'       => $has_vat_plugin_active ? false : $this->get_setting( 'checkout_field_as_vat_number' ),
-					'description' => sprintf(
+					'option_name'     => $option_name,
+					'id'              => 'checkout_field_as_vat_number',
+					'disabled'        => $has_vat_plugin_active,
+					'value'           => '1',
+					'store_unchecked' => true,
+					'description'     => sprintf(
 						/* translators: %s: WooCommerce EU VAT Compliance plugin link */
 						__( 'When enabled, the checkout field is treated as a VAT number and may be used for basic VAT-related logic. Avoid enabling this option if you are already using a third-party VAT plugin, as it may result in duplicate or conflicting VAT fields. For advanced VAT validation, reporting, and full compliance with EU VAT rules, we recommend using %s.', 'woocommerce-pdf-invoices-packing-slips' ),
 						'<a href="https://wpovernight.com/downloads/woocommerce-eu-vat-compliance/?utm_medium=plugin&utm_source=ips&utm_campaign=general-tab&utm_content=woocommerce-eu-vat-compliance-cross" target="_blank" rel="noopener noreferrer">WooCommerce EU VAT Compliance</a>',
@@ -821,7 +859,7 @@ class SettingsGeneral {
 		if ( ! $valid ) {
 			wp_send_json_error( array( 'message' => __( 'Invalid nonce.', 'woocommerce-pdf-invoices-packing-slips' ) ), 403 );
 		}
-		
+
 		$request = stripslashes_deep( $_POST );
 
 		if ( empty( $request['country'] ) ) {
@@ -879,7 +917,7 @@ class SettingsGeneral {
 			$general_settings
 		);
 	}
-	
+
 	/**
 	 * Collect documents whose template files are missing.
 	 *

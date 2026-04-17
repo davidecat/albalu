@@ -2,9 +2,9 @@
 Contributors: mr.clayton
 Tags: paypal, paylater, venmo, credit cards
 Requires at least: 4.7
-Tested up to: 6.9
-Requires PHP: 7.1
-Stable tag: 2.0.8
+Tested up to: 7.0
+Requires PHP: 7.4
+Stable tag: 2.0.14
 Copyright: Payment Plugins
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -51,6 +51,30 @@ Our documentation has a step-by-step guide on how to connect the plugin to your 
 Payment Plugins is the team behind several of the highest reviewed and installed Payment integrations for WooCommerce.
 
 == Changelog ==
+= 2.0.14 - 04/10/26 =
+* Updated - WP 7.0
+* Fixed - Added authorization check to the admin webhook registration REST endpoint per security best practices.
+* Fixed - If billing agreements are being used instead of Vault option, billing agreement ID was not being saved on Funnelkit upsell page if a subscription product was part of the upsell.
+= 2.0.13 - 03/30/26 =
+* Updated - Improved logic for handling 3DS authentication if required during Funnelkit upsell
+= 2.0.12 - 03/20/26 =
+* Updated - Improved handling of Apple Pay redacted postal code for “GB” and “CA” country codes when shipping zones contain wildcards. Example - NR34*, ME12*, etc
+* Updated - WooCommerce tested up to: 10.6
+* Fixed - Fastlane was not active on the checkout page in some scenarios due to a mismatched domain
+= 2.0.11 - 02/25/26 =
+* Added - New payment method format options for Apple Pay and Google Pay
+* Fixed - OR_BIBED_15 error triggered by Google Pay on Safari browser
+* Fixed - PHP exception in WebhookEventReceiver which could be triggered during webhook
+* Updated - Improved product add on integration when express payment methods enabled on the product page
+= 2.0.10 - 02/05/26 =
+* Updated - WooCommerce tested up to: 10.5
+* Updated - Account for exchange rate when adding the PayPal fee and net amount to the WooCommerce order during capture of authorized payment
+* Updated - Moved the OrderStatusController class into the PaymentPlugins\WooCommerce\PPCP\Orders namespace
+* Added - If an order is authorized, the transaction link will point to the authorization in the PayPal dashboard.
+* Added - Full list of shipping carriers supported by PayPal on the Add Tracking section.
+* Fixed - In some cases the incorrect payment_method ID was passed to the shipping calculation due to 3rd party plugins resulting in a notice that said the shop did not ship to the selected address.
+= 2.0.9 - 01/12/26 =
+* Fixed - Issue with WooCommerce Subscriptions and the PayPal gateway if the "Stripe Express Buttons" option is enabled. This bug was introduced in version 2.0.6. [https://wordpress.org/support/topic/issue-with-subscription-renewals/](https://wordpress.org/support/topic/issue-with-subscription-renewals/)
 = 2.0.8 - 01/08/26 =
 * Fixed - [https://wordpress.org/support/topic/funnelkit-upsells-on-credit-card-gateway-not-working-after-2-0-6/](https://wordpress.org/support/topic/funnelkit-upsells-on-credit-card-gateway-not-working-after-2-0-6/)
 * Added - Apple Pay and Google Pay support for Funnelkit's smart button express checkout section of checkout shortcode

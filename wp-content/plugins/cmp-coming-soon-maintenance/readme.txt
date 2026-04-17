@@ -4,8 +4,8 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=KV2JF
 Tags: coming soon, coming soon page, launch page, maintenance mode, under construction
 Requires at least: 3.0
 Requires PHP: 5.6
-Tested up to: 6.7
-Stable tag: 4.1.16
+Tested up to: 6.9
+Stable tag: 4.1.17
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 

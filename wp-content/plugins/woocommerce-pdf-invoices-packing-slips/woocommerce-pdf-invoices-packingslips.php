@@ -4,14 +4,14 @@
  * Requires Plugins:     woocommerce
  * Plugin URI:           https://wpovernight.com/downloads/woocommerce-pdf-invoices-packing-slips-bundle/
  * Description:          Create, print & email PDF or Electronic Invoices & PDF Packing Slips for WooCommerce orders.
- * Version:              5.6.0
+ * Version:              5.9.2
  * Author:               WP Overnight
  * Author URI:           https://www.wpovernight.com
  * License:              GPLv2 or later
  * License URI:          https://opensource.org/licenses/gpl-license.php
  * Text Domain:          woocommerce-pdf-invoices-packing-slips
  * WC requires at least: 3.3
- * WC tested up to:      10.4
+ * WC tested up to:      10.7
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -22,13 +22,14 @@ if ( ! class_exists( 'WPO_WCPDF' ) ) :
 
 class WPO_WCPDF {
 
-	public $version              = '5.6.0';
+	public $version              = '5.9.2';
 	public $version_php          = '7.4';
 	public $version_woo          = '3.3';
 	public $version_wp           = '4.4';
 	public $plugin_basename;
 	public $legacy_addons;
 	public $third_party_plugins;
+	public $vat_plugins;
 	public $order_util;
 	public $file_system;
 	public $settings;
@@ -163,6 +164,7 @@ class WPO_WCPDF {
 
 		// Compatibility classes
 		$this->third_party_plugins = \WPO\IPS\Compatibility\ThirdPartyPlugins::instance();
+		$this->vat_plugins         = \WPO\IPS\Compatibility\VatPlugins::instance();
 		$this->order_util          = \WPO\IPS\Compatibility\OrderUtil::instance();
 		$this->file_system         = \WPO\IPS\Compatibility\FileSystem::instance();
 
@@ -223,7 +225,7 @@ class WPO_WCPDF {
 	 *
 	 * @return void
 	 */
-	public function need_woocommerce() {
+	public function need_woocommerce(): void {
 		$error_message = sprintf(
 			/* translators: 1. open anchor tag, 2. close anchor tag, 3. Woo version */
 			esc_html__( 'PDF Invoices & Packing Slips for WooCommerce requires %1$sWooCommerce%2$s version %3$s or higher to be installed & activated!' , 'woocommerce-pdf-invoices-packing-slips' ),
@@ -241,16 +243,18 @@ class WPO_WCPDF {
 
 	/**
 	 * Check if woocommerce is activated
+	 *
+	 * @return bool
 	 */
-	public function is_woocommerce_activated() {
-		$blog_plugins = get_option( 'active_plugins', array() );
-		$site_plugins = is_multisite() ? (array) maybe_unserialize( get_site_option('active_sitewide_plugins' ) ) : array();
+	public function is_woocommerce_activated(): bool {
+		$blog_plugins    = (array) get_option( 'active_plugins', array() );
+		$site_plugins    = is_multisite() ? (array) get_site_option( 'active_sitewide_plugins', array() ) : array();
+		$is_wc_activated = false;
 
-		if ( in_array( 'woocommerce/woocommerce.php', $blog_plugins ) || isset( $site_plugins['woocommerce/woocommerce.php'] ) ) {
+		if ( in_array( 'woocommerce/woocommerce.php', $blog_plugins, true ) || isset( $site_plugins['woocommerce/woocommerce.php'] ) ) {
 			$is_wc_activated = true;
-		} else {
-			$is_wc_activated = false;
 		}
+
 		return apply_filters( 'wpo_wcpdf_is_woocommerce_activated', $is_wc_activated );
 	}
 
@@ -259,7 +263,7 @@ class WPO_WCPDF {
 	 *
 	 * @return void
 	 */
-	public function woocommerce_hpos_compatible() {
+	public function woocommerce_hpos_compatible(): void {
 		if ( class_exists( '\Automattic\WooCommerce\Utilities\FeaturesUtil' ) ) {
 			\Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility( 'custom_order_tables', __FILE__, true );
 		}

@@ -2,6 +2,7 @@ import { Title, Container, Label, Button, toast } from '@bsf/force-ui';
 import { __ } from '@wordpress/i18n';
 
 import SectionWrapper from '@Components/common/SectionWrapper';
+import FeatureBadge from '@Components/common/FeatureBadge';
 import { doApiFetch } from '@Store';
 
 const AddonsPlugins = () => {
@@ -147,7 +148,7 @@ const AddonsPlugins = () => {
 									containerType="flex"
 									direction="column"
 								>
-									<Container.Item>
+									<Container.Item className="flex justify-between">
 										<Container
 											align="start"
 											className="gap-1.5"
@@ -165,6 +166,14 @@ const AddonsPlugins = () => {
 												</Label>
 											</Container.Item>
 										</Container>
+										{
+											plugin?.feature && (
+												<FeatureBadge
+													feature={ plugin?.feature }
+													size="xs"
+												/>
+											)
+										}
 									</Container.Item>
 									<Container.Item className="gap-0.5 p-1">
 										<Label

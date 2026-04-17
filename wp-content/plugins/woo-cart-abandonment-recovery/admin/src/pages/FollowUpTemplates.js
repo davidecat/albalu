@@ -5,6 +5,7 @@ import { __ } from '@wordpress/i18n';
 import SectionWrapper from '@Components/common/SectionWrapper';
 import EmailTemplates from '@Components/followUpTemplates/emailTemplates/EmailTemplates';
 import SmsTemplates from '@Components/followUpTemplates/smsTemplates/SmsTemplates';
+import WhatsappTemplates from '@Components/followUpTemplates/whatsappTemplates/WhatsappTemplates';
 
 const FollowUpTemplates = () => {
 	const urlParams = new URLSearchParams( useLocation().search );
@@ -30,6 +31,9 @@ const FollowUpTemplates = () => {
 							<Tabs.Panel slug="sms">
 								<SmsTemplates />
 							</Tabs.Panel>
+							<Tabs.Panel slug="whatsapp">
+								<WhatsappTemplates />
+							</Tabs.Panel>
 						</Tabs>
 					</div>
 				</SectionWrapper>
@@ -39,3 +43,4 @@ const FollowUpTemplates = () => {
 };
 
 export default FollowUpTemplates;
+

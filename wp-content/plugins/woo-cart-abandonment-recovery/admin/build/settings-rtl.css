@@ -294,9 +294,6 @@
 :is(#wcar-admin-app) .z-\[9\] {
 	z-index: 9;
 }
-:is(#wcar-admin-app) .z-auto {
-	z-index: auto;
-}
 :is(#wcar-admin-app) .order-1 {
 	order: 1;
 }
@@ -660,9 +657,6 @@
 :is(#wcar-admin-app) .\!h-full {
 	height: 100% !important;
 }
-:is(#wcar-admin-app) .h-0 {
-	height: 0px;
-}
 :is(#wcar-admin-app) .h-1 {
 	height: 0.25rem;
 }
@@ -741,6 +735,9 @@
 }
 :is(#wcar-admin-app) .max-h-10 {
 	max-height: 2.5rem;
+}
+:is(#wcar-admin-app) .max-h-72 {
+	max-height: 18rem;
 }
 :is(#wcar-admin-app) .max-h-\[10\.75rem\] {
 	max-height: 10.75rem;
@@ -1384,9 +1381,6 @@
 }
 :is(#wcar-admin-app) .overflow-hidden {
 	overflow: hidden;
-}
-:is(#wcar-admin-app) .overflow-visible {
-	overflow: visible;
 }
 :is(#wcar-admin-app) .overflow-x-auto {
 	overflow-x: auto;
@@ -2897,6 +2891,28 @@ a:focus-visible {
 	border-radius: 0;
 }
 
+#wcar-admin-app .wp-editor-tabs {
+	display: none;
+}
+
+#wcar-admin-app .mce-toolbar-grp {
+	background: transparent;
+}
+
+#wcar-admin-app .mce-ico,
+#wcar-admin-app .mce-txt {
+	color: #111827 !important;
+}
+
+#wcar-admin-app .mce-toolbar .mce-btn-group .mce-btn:hover,
+#wcar-admin-app .mce-toolbar .mce-btn-group .mce-btn:focus {
+	box-shadow: 0 0 0 2px #f06434;
+}
+
+#wcar-admin-app .mce-top-part::before {
+	box-shadow: none;
+}
+
 #wcar-admin-app .recharts-tooltip-wrapper {
 	text-transform: capitalize;
 }
@@ -3489,6 +3505,11 @@ a:focus-visible {
 	border-color: rgb(240 100 52 / var(--tw-border-opacity, 1));
 }
 
+:is(#wcar-admin-app) .focus\:border-flamingo-400:focus {
+	--tw-border-opacity: 1;
+	border-color: rgb(240 100 52 / var(--tw-border-opacity, 1));
+}
+
 :is(#wcar-admin-app) .focus\:border-focus-border:focus {
 	--tw-border-opacity: 1;
 	border-color: rgb(191 219 254 / var(--tw-border-opacity, 1));
@@ -3525,6 +3546,17 @@ a:focus-visible {
 	box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
 }
 
+:is(#wcar-admin-app) .focus\:shadow-sm:focus {
+	--tw-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+	--tw-shadow-colored: 0 1px 2px 0 var(--tw-shadow-color);
+	box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+}
+
+:is(#wcar-admin-app) .focus\:shadow-flamingo-400:focus {
+	--tw-shadow-color: #F06434;
+	--tw-shadow: var(--tw-shadow-colored);
+}
+
 :is(#wcar-admin-app) .focus\:outline-none:focus {
 	outline: 2px solid transparent;
 	outline-offset: 2px;
@@ -3532,6 +3564,10 @@ a:focus-visible {
 
 :is(#wcar-admin-app) .focus\:outline:focus {
 	outline-style: solid;
+}
+
+:is(#wcar-admin-app) .focus\:outline-0:focus {
+	outline-width: 0px;
 }
 
 :is(#wcar-admin-app) .focus\:outline-1:focus {
@@ -4474,6 +4510,9 @@ a:focus-visible {
 	}
 	:is(#wcar-admin-app) .lg\:w-\[47\.5rem\] {
 		width: 47.5rem;
+	}
+	:is(#wcar-admin-app) .lg\:w-auto {
+		width: auto;
 	}
 	:is(#wcar-admin-app) .lg\:w-full {
 		width: 100%;

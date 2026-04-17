@@ -82,9 +82,11 @@ abstract class AbstractHandler implements HandlerInterface {
 	 * @return int
 	 */
 	protected function get_due_date_days(): int {
-		return is_callable( array( $this->document->order_document, 'get_setting' ) )
+		$due_date_days = is_callable( array( $this->document->order_document, 'get_setting' ) )
 			? absint( $this->document->order_document->get_setting( 'due_date_days' ) )
 			: 0;
+
+		return apply_filters( 'wpo_ips_edi_due_date_days', $due_date_days, $this->document->order_document, $this );
 	}
 
 	/**
@@ -107,6 +109,7 @@ abstract class AbstractHandler implements HandlerInterface {
 
 
 		$mapping = apply_filters( 'wpo_ips_edi_payment_means_code_mapping', array(
+			'cheque'  => '20', // Cheque
 			'bacs'    => '58', // SEPA Credit Transfer
 			'paypal'  => '68', // Online payment
 			'stripe'  => '54', // Credit card
@@ -141,9 +144,10 @@ abstract class AbstractHandler implements HandlerInterface {
 			case 'stripe':
 				$data['transaction_id'] = $order->get_meta( '_stripe_source_id', true );
 				break;
+
 		}
 
-		return $data;
+		return apply_filters( 'wpo_ips_edi_payment_means_data', $data, $method_id, $order, $this );
 	}
 
 	/**
@@ -162,7 +166,7 @@ abstract class AbstractHandler implements HandlerInterface {
 		if ( is_numeric( $raw ) && (int) $raw > 1000000000 ) {
 			try {
 				$datetime = new \DateTimeImmutable( '@' . (int) $raw );
-				$datetime = $datetime->setTimezone( function_exists( 'wc_timezone' ) ? \wc_timezone() : new \DateTimeZone( 'UTC' ) );
+				$datetime = $datetime->setTimezone( wp_timezone() );
 				return $datetime->format( $format );
 			} catch ( \Exception $e ) {
 				return '';
@@ -222,7 +226,7 @@ abstract class AbstractHandler implements HandlerInterface {
 		// Emit plain decimal string (no exponent).
 		return number_format( $value, $decimal_places, '.', '' );
 	}
-	
+
 	/**
 	 * Get normalized zero-tax meta (scheme/category/reason), with filter support.
 	 *
@@ -273,7 +277,7 @@ abstract class AbstractHandler implements HandlerInterface {
 		$order_category = wpo_ips_edi_get_tax_data_from_fallback( 'category', null, $order );
 		$order_reason   = wpo_ips_edi_get_tax_data_from_fallback( 'reason',   null, $order );
 		$order_scheme   = wpo_ips_edi_get_tax_data_from_fallback( 'scheme',   null, $order );
-		
+
 		$zero_meta     = $this->get_zero_tax_meta( $order );
 		$zero_category = $zero_meta['category'];
 		$zero_scheme   = $zero_meta['scheme'];
@@ -297,7 +301,7 @@ abstract class AbstractHandler implements HandlerInterface {
 			if ( '' === $scheme ) {
 				$scheme = 'VAT';
 			}
-			
+
 			if ( '' === $category ) {
 				$category = ( 0.0 === $percentage ) ? $zero_category : 'S';
 			}
@@ -320,7 +324,7 @@ abstract class AbstractHandler implements HandlerInterface {
 			// Item tax = sum of item tax rows (matching Woo's own storage).
 			$item_tax_rows = $this->get_item_tax_rows( $item );
 			$item_tax      = 0.0;
-			
+
 			foreach ( $item_tax_rows as $tax_amt ) {
 				if ( is_numeric( $tax_amt ) ) {
 					$item_tax += (float) $tax_amt;
@@ -526,7 +530,7 @@ abstract class AbstractHandler implements HandlerInterface {
 
 		// Threshold for treating rounding diff as significant.
 		$rounding_is_significant = ( abs( $rounding_diff ) >= 0.01 );
-		
+
 		if ( $rounding_is_significant ) {
 			wpo_ips_edi_log(
 				'Rounding difference detected for order #' . $order->get_id() . ': ' .
@@ -646,7 +650,7 @@ abstract class AbstractHandler implements HandlerInterface {
 			$percent  = (float) ( $row['percentage'] ?? 0     );
 			break;
 		}
-		
+
 		// Fallback: no non-zero rows -> use zero-tax meta (0%).
 		if ( null === $category ) {
 			$percent   = 0.0;

@@ -132,13 +132,13 @@ const DynamicSelectField = ( {
 		<FieldWrapper
 			title={ title }
 			description={ description }
-			type="inline"
+			type="block"
 			disableStyle={ disableStyle }
 			isPro={ isPro }
 			proUpgradeMessage={ proUpgradeMessage }
 		>
 			<div className="flex gap-2 items-center">
-				<div>
+				<div className="flex-1">
 					<Select
 						onChange={ handleOnChange }
 						size="md"

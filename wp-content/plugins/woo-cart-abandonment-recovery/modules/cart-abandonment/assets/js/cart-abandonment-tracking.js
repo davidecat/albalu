@@ -141,19 +141,19 @@
 					billing_last_name: 'billing-last_name',
 					billing_city: 'billing-city',
 					billing_company: 'billing-company',
-					billing_country: 'components-form-token-input-2',
+					billing_country: 'billing-country',
 					billing_address_1: 'billing-address_1',
 					billing_address_2: 'billing-address_2',
-					billing_state: 'components-form-token-input-3',
+					billing_state: 'billing-state',
 					billing_postcode: 'billing-postcode',
 					shipping_first_name: 'shipping-first_name',
 					shipping_last_name: 'shipping-last_name',
 					shipping_company: 'shipping-company',
-					shipping_country: 'components-form-token-input-0',
+					shipping_country: 'shipping-country',
 					shipping_address_1: 'shipping-address_1',
 					shipping_address_2: 'shipping-address_2',
 					shipping_city: 'shipping-city',
-					shipping_state: 'components-form-token-input-1',
+					shipping_state: 'shipping-state',
 					shipping_postcode: 'shipping-postcode',
 					order_comments: 'checkbox-control-0',
 					gdpr_phone_consent: 'gdpr_phone_consent:checked',
@@ -235,3 +235,4 @@
 
 	wcf_cart_abandonment.init();
 } )( jQuery );
+

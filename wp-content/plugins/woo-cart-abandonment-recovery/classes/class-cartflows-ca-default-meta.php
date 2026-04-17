@@ -197,6 +197,10 @@ class Cartflows_Ca_Default_Meta {
 				'default'  => 20,
 				'sanitize' => 'FILTER_SANITIZE_NUMBER_INT',
 			],
+			'wcf_ca_cart_lost_time'                       => [
+				'default'  => WCF_DEFAULT_CART_LOST_TIME,
+				'sanitize' => 'FILTER_SANITIZE_NUMBER_INT',
+			],
 			'wcf_ca_ignore_users'                         => [
 				'default'  => [],
 				'sanitize' => 'FILTER_SANITIZE_STRING',
@@ -289,8 +293,16 @@ class Cartflows_Ca_Default_Meta {
 				'default'  => 'off',
 				'sanitize' => 'FILTER_SANITIZE_STRING',
 			],
+			'wcar_usage_optin'                            => [
+				'default'  => 'off',
+				'sanitize' => 'FILTER_SANITIZE_STRING',
+			],
 			// TODO: Remove this after new UI is enabled by default.
 			'cartflows_ca_use_new_ui'                     => [
+				'default'  => false,
+				'sanitize' => 'FILTER_SANITIZE_STRING',
+			],
+			'car_legacy_ui_notice_dismissed'              => [
 				'default'  => false,
 				'sanitize' => 'FILTER_SANITIZE_STRING',
 			],
@@ -373,10 +385,14 @@ class Cartflows_Ca_Default_Meta {
 				break;
 
 			case 'FILTER_SANITIZE_FULL_SPECIAL_CHARS':
-				// For email body content - allows HTML but sanitizes it.
-				$sanitized = filter_var( wp_unslash( $value ), FILTER_SANITIZE_FULL_SPECIAL_CHARS );
-				// Decode HTML entities for email body.
+				// Preserve the original encode/decode pattern for email body HTML, then strip
+				// the three main stored-XSS vectors: <script> blocks, inline event-handler
+				// attributes (on*=), and javascript: protocol in href/src.
+				$sanitized  = filter_var( wp_unslash( $value ), FILTER_SANITIZE_FULL_SPECIAL_CHARS );
 				$meta_value = html_entity_decode( $sanitized, ENT_COMPAT, 'UTF-8' );
+				$meta_value = preg_replace( '#<script\b[^>]*>[\s\S]*?<\/script>#i', '', $meta_value );
+				$meta_value = preg_replace( '#\s+on[a-z]+\s*=\s*(?:"[^"]*"|\'[^\']*\'|[^\s>]*)#i', '', $meta_value );
+				$meta_value = preg_replace( '#(href|src)\s*=\s*(["\'])\s*javascript:[^"\']*\2#i', '$1=$2$2', $meta_value );
 				break;
 
 			case 'FILTER_SANITIZE_STRING':
@@ -585,6 +601,22 @@ class Cartflows_Ca_Default_Meta {
 		}
 
 		return __( 'Admin', 'woo-cart-abandonment-recovery' );
+	}
+
+	/**
+	 * Checks if plugin option exists
+	 *
+	 * @param string $setting_key Setting key to check.
+	 * @return bool
+	 * @since 2.0.8
+	 */
+	public function plugin_option_exist( $setting_key ) {
+		$plugin_options = $this->get_plugin_options();
+
+		if ( isset( $plugin_options[ $setting_key ] ) ) {
+			return true;
+		}
+		return false;
 	}
 }
 

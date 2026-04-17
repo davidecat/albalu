@@ -221,7 +221,7 @@ namespace {
         if (isset($options['align']) && in_array($options['align'], $alignOptions, true)) {
             $classNames[] = sprintf('align%s', $options['align']);
         }
-        $iframeUrl = 'https://iframe.mediadelivery.net/embed/'.$libraryId.'/'.$videoId.'?'.http_build_query($urlParams);
+        $iframeUrl = 'https://player.mediadelivery.net/embed/'.$libraryId.'/'.$videoId.'?'.http_build_query($urlParams);
         $html = '<div class="'.join(' ', $classNames).'">';
         $html .= '<div style="position:relative;padding-top:56.25%;" class="bunny-stream-video">';
         $html .= '<iframe src="'.$iframeUrl.'" loading="lazy" style="border:0;position:absolute;top:0;height:100%;width:100%;" allow="accelerometer;gyroscope;autoplay;encrypted-media;picture-in-picture;" allowfullscreen="true"></iframe>';
@@ -271,6 +271,8 @@ namespace {
         if (!$offloaderConfig->isConfigured() || !$offloaderConfig->isEnabled() || !$offloaderConfig->isSyncExisting() || !$offloaderConfig->isCronjob()) {
             return;
         }
+        // clear delay warning
+        delete_option('_bunnycdn_sync_delayed_warning');
         // check if there are files left to sync
         $attachmentCounter = $container->getAttachmentCounter();
         $count = $attachmentCounter->count();
@@ -282,6 +284,15 @@ namespace {
         $result = $attachmentMover->perform(1);
         if (true === $result['success']) {
             update_option('_bunnycdn_offloader_last_sync', time());
+        }
+    }
+    function bunnycdn_offloader_sync_delayed_warning(): void
+    {
+        $container = bunnycdn_container();
+        if ($container->getOffloaderUtils()->shouldShowSyncDelayedMessage()) {
+            update_option('_bunnycdn_sync_delayed_warning', '1');
+        } else {
+            delete_option('_bunnycdn_sync_delayed_warning');
         }
     }
 }

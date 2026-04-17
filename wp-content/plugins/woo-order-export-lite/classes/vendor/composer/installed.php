@@ -4,7 +4,7 @@
     'name' => '__root__',
     'pretty_version' => 'dev-master',
     'version' => 'dev-master',
-    'reference' => 'c3d4186fff1226d749d3233abb4773b9b43b8f6e',
+    'reference' => '63ec56166e5a33a06895d6e19c62ba899a5fc428',
     'type' => 'library',
     'install_path' => __DIR__ . '/../',
     'aliases' => 
@@ -20,7 +20,7 @@
       'version' => '3.3.2.0',
       'reference' => 'b2bed4734f0cc156ee1fe9c0da2550420d99a21e',
       'type' => 'library',
-      'install_path' => 'phar:///home/dev/www/wp-49/wp-content/plugins/woocommerce-order-export/classes/bin/strauss.phar/src/Pipeline/Autoload/./pcre',
+      'install_path' => 'phar:///home/dev/Downloads/34/strauss/bin/strauss.phar/src/Pipeline/Autoload/./pcre',
       'aliases' => 
       array (
       ),
@@ -28,9 +28,9 @@
     ),
     'ezyang/htmlpurifier' => 
     array (
-      'pretty_version' => 'v4.18.0',
-      'version' => '4.18.0.0',
-      'reference' => 'cb56001e54359df7ae76dc522d08845dc741621b',
+      'pretty_version' => 'v4.19.0',
+      'version' => '4.19.0.0',
+      'reference' => 'b287d2a16aceffbf6e0295559b39662612b77fcf',
       'type' => 'library',
       'install_path' => __DIR__ . '/../ezyang/htmlpurifier',
       'aliases' => 
@@ -88,35 +88,11 @@
     ),
     'phpoffice/phpspreadsheet' => 
     array (
-      'pretty_version' => '1.30.0',
-      'version' => '1.30.0.0',
-      'reference' => '2f39286e0136673778b7a142b3f0d141e43d1714',
+      'pretty_version' => '1.30.2',
+      'version' => '1.30.2.0',
+      'reference' => '09cdde5e2f078b9a3358dd217e2c8cb4dac84be2',
       'type' => 'library',
       'install_path' => __DIR__ . '/../phpoffice/phpspreadsheet',
-      'aliases' => 
-      array (
-      ),
-      'dev_requirement' => false,
-    ),
-    'psr/http-client' => 
-    array (
-      'pretty_version' => '1.0.3',
-      'version' => '1.0.3.0',
-      'reference' => 'bb5906edc1c324c9a05aa0873d40117941e5fa90',
-      'type' => 'library',
-      'install_path' => __DIR__ . '/../psr/http-client',
-      'aliases' => 
-      array (
-      ),
-      'dev_requirement' => false,
-    ),
-    'psr/http-factory' => 
-    array (
-      'pretty_version' => '1.1.0',
-      'version' => '1.1.0.0',
-      'reference' => '2b4765fddfe3b508ac62f829e852b1501d3f6e8a',
-      'type' => 'library',
-      'install_path' => __DIR__ . '/../psr/http-factory',
       'aliases' => 
       array (
       ),

@@ -17,6 +17,7 @@ const SmsDetails = ( {
 	isLoading,
 	handleRescheduleSms,
 	buttonLoading,
+	disabled,
 } ) => {
 	const { shouldBlockProFeatures } = useProAccess();
 	const isFeatureBlocked = shouldBlockProFeatures();
@@ -140,7 +141,12 @@ const SmsDetails = ( {
 					type="button"
 					variant="outline"
 					onClick={ handleRescheduleSms }
-					disabled={ isLoading || buttonLoading || isFeatureBlocked }
+					disabled={
+						isLoading ||
+						buttonLoading ||
+						isFeatureBlocked ||
+						disabled
+					}
 					icon={
 						buttonLoading && (
 							<Loader

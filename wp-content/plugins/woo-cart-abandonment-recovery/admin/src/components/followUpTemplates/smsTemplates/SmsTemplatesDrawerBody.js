@@ -3,13 +3,13 @@ import RenderFields from '@Components/RenderFields';
 import ConditionsHelper from '@Utils/conditions';
 
 const SmsTemplatesDrawerBody = ( { formState, handleChange, errors } ) => {
-	const emailFields = cart_abandonment_admin?.settings_fields?.sms_fields;
+	const smsFields = cart_abandonment_admin?.settings_fields?.sms_fields;
 	const conditions = new ConditionsHelper();
 
 	return (
 		<div className="p-1 flex flex-col gap-1 bg-light-background rounded-lg">
-			{ emailFields &&
-				Object.entries( emailFields )
+			{ smsFields &&
+				Object.entries( smsFields )
 					?.sort( ( a, b ) => a[ 1 ]?.priority - b[ 1 ]?.priority )
 					?.map( ( [ field, data ] ) => {
 						const isFieldActive = conditions.isActiveControl(
@@ -51,3 +51,4 @@ const SmsTemplatesDrawerBody = ( { formState, handleChange, errors } ) => {
 };
 
 export default SmsTemplatesDrawerBody;
+

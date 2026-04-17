@@ -78,6 +78,8 @@ class Meta_Options {
 			];
 		}
 
+		$rollback_options = wcf_ca()->helper->get_rollback_versions_options();
+
 		$settings = [
 			'general-settings'         => [
 				'title'    => __( 'General', 'woo-cart-abandonment-recovery' ),
@@ -98,6 +100,16 @@ class Meta_Options {
 						'value'        => wcf_ca()->utils->wcar_get_option( 'wcf_ca_cron_run_time', 20 ),
 						'desc'         => __( 'Consider cart abandoned after above entered minutes of item being added to cart and order not placed.', 'woo-cart-abandonment-recovery' ),
 						'after'        => __( 'minutes', 'woo-cart-abandonment-recovery' ),
+						'min'          => '10',
+						'is_fullwidth' => true,
+					],
+					'wcf-ca-cart-lost-time'        => [
+						'type'         => 'number',
+						'label'        => __( 'Abandoned cart lost time', 'woo-cart-abandonment-recovery' ),
+						'name'         => 'wcf_ca_cart_lost_time',
+						'value'        => wcf_ca()->utils->wcar_get_option( 'wcf_ca_cart_lost_time', WCF_DEFAULT_CART_LOST_TIME ),
+						'desc'         => __( 'Consider cart lost after above entered days of item being added to cart and order not placed.', 'woo-cart-abandonment-recovery' ),
+						'after'        => __( 'days', 'woo-cart-abandonment-recovery' ),
 						'min'          => '10',
 						'is_fullwidth' => true,
 					],
@@ -262,6 +274,14 @@ class Meta_Options {
 						'desc'         => __( 'The UTM parameters will be appended to the checkout page links which is available in the recovery emails. For multiple parameters, add each parameter per line.', 'woo-cart-abandonment-recovery' ),
 						'is_fullwidth' => true,
 					],
+					'wcf-ca-rollback'           => [
+						'type'         => 'rollback',
+						'label'        => __( 'Rollback to Previous Version', 'woo-cart-abandonment-recovery' ),
+						'name'         => 'wcf_ca_rollback',
+						'desc'         => __( 'Experiencing an issue with the current version of Cart Abandonment Recovery? Roll back to a previous version to help troubleshoot the problem.', 'woo-cart-abandonment-recovery' ),
+						'options'      => $rollback_options,
+						'is_fullwidth' => true,
+					],
 					// TODO: Remove this after new UI is enabled by default.
 					'cartflows_ca_use_new_ui'   => [
 						'type'         => 'ui_switch',
@@ -282,8 +302,8 @@ class Meta_Options {
 					'cf-analytics-optin'        => [
 						'type'         => 'toggle',
 						'label'        => __( 'Help Improve Cart Abandonment', 'woo-cart-abandonment-recovery' ),
-						'name'         => 'cf_analytics_optin',
-						'value'        => wcf_ca()->utils->wcar_get_option( 'cf_analytics_optin' ),
+						'name'         => 'wcar_usage_optin',
+						'value'        => wcf_ca()->utils->wcar_get_option( 'wcar_usage_optin' ),
 						'desc'         => sprintf(
 									/* translators: %1$s: Start Link Node and $2%s End Link Node. */
 							__( 'Collect non-sensitive information from your website, such as the PHP version and features used, to help us fix bugs faster, make smarter decisions, and build features that actually matter to you. %1$sLearn more%2$s', 'woo-cart-abandonment-recovery' ),
@@ -775,7 +795,7 @@ class Meta_Options {
 			'recovery-settings'  => [
 				'slug'     => 'recovery-settings',
 				'fields'   => [
-					'wcf-ca-status'       => [
+					'wcf-ca-status'         => [
 						'type'         => 'toggle',
 						'label'        => __( 'Enable Tracking', 'woo-cart-abandonment-recovery' ),
 						'name'         => 'wcf_ca_status',
@@ -783,7 +803,7 @@ class Meta_Options {
 						'desc'         => __( 'Cart will be considered abandoned if order is not completed in cut-off time.', 'woo-cart-abandonment-recovery' ),
 						'is_fullwidth' => true,
 					],
-					'wcf-ca-cut-off-time' => [
+					'wcf-ca-cut-off-time'   => [
 						'type'         => 'number',
 						'label'        => __( 'Cart abandoned cut-off time', 'woo-cart-abandonment-recovery' ),
 						'name'         => 'wcf_ca_cron_run_time',
@@ -793,7 +813,17 @@ class Meta_Options {
 						'min'          => '10',
 						'is_fullwidth' => true,
 					],
-					'wcf-ca-ignore-users' => [
+					'wcf-ca-cart-lost-time' => [
+						'type'         => 'number',
+						'label'        => __( 'Abandoned cart lost time', 'woo-cart-abandonment-recovery' ),
+						'name'         => 'wcf_ca_cart_lost_time',
+						'value'        => wcf_ca()->utils->wcar_get_option( 'wcf_ca_cart_lost_time', WCF_DEFAULT_CART_LOST_TIME ),
+						'desc'         => __( 'Consider cart lost after above entered days of item being added to cart and order not placed.', 'woo-cart-abandonment-recovery' ),
+						'after'        => __( 'days', 'woo-cart-abandonment-recovery' ),
+						'min'          => '10',
+						'is_fullwidth' => true,
+					],
+					'wcf-ca-ignore-users'   => [
 						'type'         => 'multi-select',
 						'label'        => __( 'Disable Tracking For', 'woo-cart-abandonment-recovery' ),
 						'name'         => 'wcf_ca_ignore_users',
@@ -809,7 +839,7 @@ class Meta_Options {
 		];
 
 		if ( ! _is_wcar_pro_license_activated() ) {
-			$fields['follow-up-channels']['fields']['wcf-ca-sms-tracking-status'] = [
+			$fields['follow-up-channels']['fields']['wcf-ca-sms-tracking-status']      = [
 				'type'                => 'toggle',
 				'label'               => __( 'Enable SMS Follow-ups', 'woo-cart-abandonment-recovery' ),
 				'name'                => 'wcf_ca_sms_tracking_status',
@@ -818,6 +848,16 @@ class Meta_Options {
 				'is_fullwidth'        => true,
 				'is_pro'              => true,
 				'pro_upgrade_message' => '<span style="font-weight: 600;">SMS Follow Up</span> lets you follow up and recover revenue via SMS.',
+			];
+			$fields['follow-up-channels']['fields']['wcf-ca-whatsapp-tracking-status'] = [
+				'type'                => 'toggle',
+				'label'               => __( 'Enable WhatsApp Follow-ups', 'woo-cart-abandonment-recovery' ),
+				'name'                => 'wcf_ca_whatsapp_tracking_status',
+				'value'               => false,
+				'desc'                => __( 'Automatically send WhatsApp reminders to customers when they abandon their cart.', 'woo-cart-abandonment-recovery' ),
+				'is_fullwidth'        => true,
+				'is_pro'              => true,
+				'pro_upgrade_message' => '<span style="font-weight: 600;">WhatsApp Follow Up</span> lets you follow up and recover revenue via WhatsApp.',
 			];
 		}
 
@@ -874,7 +914,7 @@ class Meta_Options {
 			return [];
 		}
 		$pro_fields = [
-			'sms-integration' => [
+			'sms-integration'      => [
 				'title'    => __( 'SMS', 'woo-cart-abandonment-recovery' ),
 				'slug'     => 'sms-integration',
 				'fields'   => [
@@ -885,10 +925,25 @@ class Meta_Options {
 						'is_fullwidth'        => true,
 						'is_pro'              => true,
 						'pro_upgrade_message' => __( 'Automatically send SMS reminders to customers when they abandon their cart.', 'woo-cart-abandonment-recovery' ),
-						'priority'            => 51,
 					],
 				],
 				'priority' => 20,
+				'is_pro'   => true,
+			],
+			'whatsapp-integration' => [
+				'title'    => __( 'WhatsApp', 'woo-cart-abandonment-recovery' ),
+				'slug'     => 'whatsapp-integration',
+				'fields'   => [
+					'wcf-ca-whatsapp-tracking-status' => [
+						'type'                => 'toggle',
+						'label'               => __( 'Enable WhatsApp Follow-ups', 'woo-cart-abandonment-recovery' ),
+						'name'                => 'wcf_ca_whatsapp_tracking_status',
+						'is_fullwidth'        => true,
+						'is_pro'              => true,
+						'pro_upgrade_message' => __( 'Automatically send WhatsApp reminders to customers when they abandon their cart.', 'woo-cart-abandonment-recovery' ),
+					],
+				],
+				'priority' => 30,
 				'is_pro'   => true,
 			],
 		];
@@ -915,6 +970,22 @@ class Meta_Options {
 			'is_fullwidth'        => true,
 			'is_pro'              => true,
 			'pro_upgrade_message' => __( 'Show a GDPR consent message below the phone number field on the checkout page.', 'woo-cart-abandonment-recovery' ),
+		];
+
+		$settings['blacklist-settings'] = [
+			'title'    => __( 'Blacklist', 'woo-cart-abandonment-recovery' ),
+			'slug'     => 'blacklist-settings',
+			'fields'   => [
+				'wcf-ca-email-blacklist-status' => [
+					'type'                => 'toggle',
+					'label'               => __( 'Enable Blacklist', 'woo-cart-abandonment-recovery' ),
+					'name'                => 'wcf_ca_phone_gdpr_status',
+					'is_fullwidth'        => true,
+					'is_pro'              => true,
+					'pro_upgrade_message' => __( 'Prevent recovery emails from being sent to specific email addresses or domains.', 'woo-cart-abandonment-recovery' ),
+				],
+			],
+			'priority' => 35,
 		];
 
 		return $settings;

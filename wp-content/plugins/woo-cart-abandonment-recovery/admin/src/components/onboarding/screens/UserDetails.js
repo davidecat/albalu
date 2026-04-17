@@ -67,9 +67,9 @@ const UserDetails = () => {
 			<div className="mt-6 mb-4">
 				<Checkbox
 					size="sm"
-					checked={ userDetails?.cf_analytics_optin ? true : false }
+					checked={ userDetails?.wcar_usage_optin ? true : false }
 					onChange={ ( value ) =>
-						handleData( 'cf_analytics_optin', value )
+						handleData( 'wcar_usage_optin', value )
 					}
 					label={ {
 						heading: (

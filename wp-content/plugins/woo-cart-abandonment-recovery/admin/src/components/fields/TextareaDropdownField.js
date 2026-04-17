@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { useStateValue } from '@Store';
 import useDebounceDispatch from '@Utils/debounceDispatch';
-import { TextArea, Button, DropdownMenu } from '@bsf/force-ui';
+import { TextArea, Button, DropdownMenu, SearchBox } from '@bsf/force-ui';
 import { EllipsisVerticalIcon } from '@heroicons/react/24/outline';
 import { __ } from '@wordpress/i18n';
 
@@ -15,6 +15,7 @@ const TextareaDropdownField = ( {
 	handleChange,
 	countLimit = null,
 	options = [],
+	search = false,
 	autoSave = true,
 	error,
 } ) => {
@@ -29,6 +30,8 @@ const TextareaDropdownField = ( {
 			? value ?? ''
 			: settingsValues[ name ] ?? value ?? '';
 	const [ textValue, setTextValue ] = useState( currentValue );
+	const [ searchText, setSearchText ] = useState( '' );
+
 	const debouncedUpdate = useDebounceDispatch(
 		dispatch,
 		name,
@@ -89,12 +92,24 @@ const TextareaDropdownField = ( {
 		}
 	};
 
+	const handleSearch = ( val ) => {
+		setSearchText( val );
+	};
+
+	// Filter options based on search text
+	const filteredOptions = searchText
+		? options.filter( ( option ) =>
+			option.value?.toLowerCase().includes( searchText.toLowerCase() )
+		)
+		: options;
+
 	return (
 		<FieldWrapper title={ title } description={ description } type="block">
 			<div className="flex gap-2">
 				<div className="grow">
 					<TextArea
 						className={ `w-full h-40 focus:[&>input]:ring-focus ${
+							countLimit !== null &&
 							textValue.length > countLimit &&
 							'border-red-500 focus:border-red-500 hover:border-red-500'
 						}` }
@@ -158,21 +173,40 @@ const TextareaDropdownField = ( {
 								iconPosition="left"
 							/>
 						</DropdownMenu.Trigger>
-						<DropdownMenu.ContentWrapper className="z-50">
-							<DropdownMenu.Content>
+						<DropdownMenu.ContentWrapper className="z-50 max-h-72 overflow-y-auto">
+							<DropdownMenu.Content className="w-72">
+								{ search && (
+									<SearchBox size="sm">
+										<SearchBox.Input
+											ref={ {
+												current: '[Circular]',
+											} }
+											className="mb-2 box-border"
+											onChange={ handleSearch }
+										/>
+									</SearchBox>
+								) }
 								<DropdownMenu.List>
-									{ options.map( ( option, index ) => (
-										<DropdownMenu.Item
-											key={ index }
-											onClick={ () =>
-												handleDropdownClick(
-													option.value
-												)
-											}
-										>
-											{ option.text }
-										</DropdownMenu.Item>
-									) ) }
+									{ filteredOptions.length > 0 ? (
+										filteredOptions.map(
+											( option, index ) => (
+												<DropdownMenu.Item
+													key={ index }
+													onClick={ () =>
+														handleDropdownClick(
+															option.value
+														)
+													}
+												>
+													{ option.text }
+												</DropdownMenu.Item>
+											)
+										)
+									) : (
+										<div className="text-center">
+											No options available
+										</div>
+									) }
 								</DropdownMenu.List>
 							</DropdownMenu.Content>
 						</DropdownMenu.ContentWrapper>

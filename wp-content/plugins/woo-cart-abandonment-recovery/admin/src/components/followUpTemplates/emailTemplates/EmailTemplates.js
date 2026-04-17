@@ -575,11 +575,11 @@ const EmailTemplates = () => {
 						<ExclamationTriangleIcon className="h-12 w-12 text-yellow-500" />
 					}
 					title={ __(
-						'No Follow Up Emails data available',
+						'No Templates available',
 						'woo-cart-abandonment-recovery'
 					) }
 					description={ __(
-						'Follow Up Emails data will appear here after emails are sent',
+						'Follow Up Email Templates data will appear here after templates are created',
 						'woo-cart-abandonment-recovery'
 					) }
 				/>

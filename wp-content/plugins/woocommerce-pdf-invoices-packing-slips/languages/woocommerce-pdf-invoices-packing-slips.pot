@@ -2,14 +2,14 @@
 # This file is distributed under the GPLv2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: PDF Invoices & Packing Slips for WooCommerce 5.6.0\n"
+"Project-Id-Version: PDF Invoices & Packing Slips for WooCommerce 5.9.2\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/woocommerce-pdf-invoices-packing-slips\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-01-21T11:54:25+00:00\n"
+"POT-Creation-Date: 2026-03-31T11:05:03+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: woocommerce-pdf-invoices-packing-slips\n"
@@ -17,8 +17,8 @@ msgstr ""
 #. Plugin Name of the plugin
 #: woocommerce-pdf-invoices-packingslips.php
 #: views/settings-page.php:25
-#: woocommerce-pdf-invoices-packingslips.php:679
-#: woocommerce-pdf-invoices-packingslips.php:753
+#: woocommerce-pdf-invoices-packingslips.php:683
+#: woocommerce-pdf-invoices-packingslips.php:757
 msgid "PDF Invoices & Packing Slips for WooCommerce"
 msgstr ""
 
@@ -42,145 +42,148 @@ msgstr ""
 msgid "https://www.wpovernight.com"
 msgstr ""
 
-#: edi/Peppol.php:80
+#: edi/Peppol.php:85
 msgid "Peppol is not available."
 msgstr ""
 
-#: edi/Peppol.php:106
+#: edi/Peppol.php:111
 msgid "Peppol Settings"
 msgstr ""
 
-#: edi/Peppol.php:108
+#: edi/Peppol.php:113
 #: includes/Settings/SettingsEDI.php:209
 msgid "Peppol Endpoint ID"
 msgstr ""
 
-#: edi/Peppol.php:112
+#: edi/Peppol.php:117
 msgid "Specify the Peppol Endpoint ID."
 msgstr ""
 
-#: edi/Peppol.php:116
+#: edi/Peppol.php:121
 msgid "Example: 0088:123456789"
 msgstr ""
 
 #. translators: %1$s: open link anchor, %2$s: close link anchor
-#: edi/Peppol.php:121
+#: edi/Peppol.php:126
 #: includes/Settings/SettingsEDI.php:217
 #, php-format
 msgid "If you don't know the ID, you can search for it in the %1$sPeppol Directory%2$s."
 msgstr ""
 
-#: edi/Peppol.php:133
-#: edi/Peppol.php:472
+#: edi/Peppol.php:138
+#: edi/Peppol.php:481
 #: includes/Settings/SettingsEDI.php:238
 msgid "Peppol Endpoint Scheme (EAS)"
 msgstr ""
 
-#: edi/Peppol.php:135
-#: edi/Peppol.php:476
+#: edi/Peppol.php:140
+#: edi/Peppol.php:485
 #: includes/Settings/SettingsEDI.php:242
-#: includes/Settings/SettingsEDI.php:278
-#: includes/Settings/SettingsEDI.php:312
-#: includes/Settings/SettingsEDI.php:1145
+#: includes/Settings/SettingsEDI.php:1144
 #: views/advanced-tools.php:273
 #: views/advanced-tools.php:321
 msgid "Select"
 msgstr ""
 
-#: edi/Peppol.php:146
+#: edi/Peppol.php:151
 msgid "Specify the Electronic Address Scheme (EAS) for the Endpoint above."
 msgstr ""
 
 #. translators: %1$s: open link anchor, %2$s: close link anchor
-#: edi/Peppol.php:149
+#: edi/Peppol.php:154
 #: includes/Settings/SettingsEDI.php:253
 #, php-format
 msgid "For more information on each Endpoint Address Scheme (EAS), refer to the %1$sofficial Peppol EAS list%2$s."
 msgstr ""
 
-#: edi/Peppol.php:161
-#: includes/Admin.php:1385
+#: edi/Peppol.php:166
+#: includes/Admin.php:1425
 msgid "Save changes"
 msgstr ""
 
-#: edi/Peppol.php:181
+#: edi/Peppol.php:186
 msgid "Peppol settings could not be saved. Please try again."
 msgstr ""
 
-#: edi/Peppol.php:202
+#: edi/Peppol.php:207
 msgid "Peppol settings saved."
 msgstr ""
 
-#: edi/Peppol.php:227
-#: edi/Peppol.php:447
+#: edi/Peppol.php:232
+#: edi/Peppol.php:456
 msgid "I need a Peppol invoice (business purchase)"
 msgstr ""
 
-#: edi/Peppol.php:245
-#: edi/Peppol.php:463
+#: edi/Peppol.php:250
+#: edi/Peppol.php:472
 msgid "Peppol identifier"
 msgstr ""
 
-#: edi/Peppol.php:269
+#: edi/Peppol.php:274
 msgid "Endpoint Scheme (EAS)"
 msgstr ""
 
-#: edi/Peppol.php:282
+#: edi/Peppol.php:287
 msgid "Invalid Endpoint Scheme."
 msgstr ""
 
-#: edi/Peppol.php:745
-#: includes/Admin.php:2132
+#: edi/Peppol.php:830
+#: edi/Peppol.php:898
+msgid "Override (edit manually)"
+msgstr ""
+
+#: edi/Peppol.php:997
+#: includes/Admin.php:2201
 msgid "The identifier must be in \"scheme:value\" format (for example 0088:123456789)."
 msgstr ""
 
-#: edi/Peppol.php:759
-#: edi/Peppol.php:857
+#: edi/Peppol.php:1011
+#: edi/Peppol.php:1109
 msgid "Peppol Endpoint ID is empty."
 msgstr ""
 
 #. translators: 1: entered identifier, 2: Peppol Directory URL
-#: edi/Peppol.php:781
+#: edi/Peppol.php:1033
 #, php-format
 msgid "The identifier \"%1$s\" was found without a scheme. Please enter it in \"scheme:value\" format. You can search for the correct scheme and identifier in the %2$s."
 msgstr ""
 
-#: edi/Peppol.php:786
-#: edi/Peppol.php:812
-#: edi/Peppol.php:835
+#: edi/Peppol.php:1038
+#: edi/Peppol.php:1064
+#: edi/Peppol.php:1087
 msgid "Peppol Directory"
 msgstr ""
 
 #. translators: 1: entered identifier, 2: Peppol Directory URL
-#: edi/Peppol.php:807
+#: edi/Peppol.php:1059
 #, php-format
 msgid "No Peppol participant was found for \"%1$s\". Please confirm the scheme and identifier in the %2$s."
 msgstr ""
 
 #. translators: 1: entered identifier, 2: Peppol Directory URL
-#: edi/Peppol.php:830
+#: edi/Peppol.php:1082
 #, php-format
 msgid "We could not find a Peppol participant with this scheme and identifier. Please check the scheme or search in the %2$s. Below are participants found for this identifier value:"
 msgstr ""
 
 #. translators: %s: error message
-#: edi/Peppol.php:972
+#: edi/Peppol.php:1224
 #, php-format
 msgid "Peppol Directory request failed: %s"
 msgstr ""
 
 #. translators: %d: HTTP status code
-#: edi/Peppol.php:986
+#: edi/Peppol.php:1238
 #, php-format
 msgid "Peppol Directory returned an unexpected status code: %d"
 msgstr ""
 
-#: edi/Peppol.php:997
+#: edi/Peppol.php:1249
 msgid "Peppol Directory returned an invalid JSON response."
 msgstr ""
 
 #. translators: %s: endpoint ID
-#: edi/Peppol.php:1023
+#: edi/Peppol.php:1275
 #, php-format
 msgid "We found the following participant(s) related to \"%s\":"
 msgstr ""
@@ -218,7 +221,7 @@ msgid "Services outside scope of tax"
 msgstr ""
 
 #: edi/Standards/EN16931.php:50
-#: includes/Settings/SettingsEDI.php:796
+#: includes/Settings/SettingsEDI.php:795
 msgid "Standard rate"
 msgstr ""
 
@@ -2167,15 +2170,15 @@ msgstr ""
 
 #: includes/Admin.php:134
 #: includes/Main.php:933
-#: includes/Settings/SettingsDebug.php:1415
-#: includes/Settings/SettingsGeneral.php:804
+#: includes/Settings/SettingsDebug.php:1428
+#: includes/Settings/SettingsGeneral.php:842
 #: views/attachment-settings-hint.php:12
 #: views/extensions.php:135
 #: views/promo.php:34
-#: woocommerce-pdf-invoices-packingslips.php:375
-#: woocommerce-pdf-invoices-packingslips.php:434
-#: woocommerce-pdf-invoices-packingslips.php:472
-#: woocommerce-pdf-invoices-packingslips.php:611
+#: woocommerce-pdf-invoices-packingslips.php:379
+#: woocommerce-pdf-invoices-packingslips.php:438
+#: woocommerce-pdf-invoices-packingslips.php:476
+#: woocommerce-pdf-invoices-packingslips.php:615
 msgid "Hide this message"
 msgstr ""
 
@@ -2206,7 +2209,7 @@ msgid "I am the wizard"
 msgstr ""
 
 #: includes/Admin.php:361
-#: includes/Admin.php:1932
+#: includes/Admin.php:1972
 #: includes/Assets.php:371
 #: includes/Documents/Invoice.php:359
 #: includes/Main.php:1352
@@ -2255,346 +2258,366 @@ msgstr ""
 msgid "Unmark"
 msgstr ""
 
-#: includes/Admin.php:741
+#: includes/Admin.php:740
 msgid "E-Documents require that the PDF version of the same document type is generated first."
 msgstr ""
 
-#: includes/Admin.php:754
+#. translators: settings link
+#: includes/Admin.php:750
+#, php-format
+msgid "Tax Classification for E-Documents is not set. Please configure it in %s."
+msgstr ""
+
+#: includes/Admin.php:751
+msgid "the settings"
+msgstr ""
+
+#: includes/Admin.php:766
 msgid "Actions"
 msgstr ""
 
 #. translators: document title
-#: includes/Admin.php:779
+#: includes/Admin.php:792
 #, php-format
 msgid "%s sent to Network"
 msgstr ""
 
 #. translators: document title
-#: includes/Admin.php:800
+#: includes/Admin.php:812
 #, php-format
 msgid "%s dispatch already scheduled"
 msgstr ""
 
 #. translators: document title
-#: includes/Admin.php:815
+#: includes/Admin.php:827
 #, php-format
 msgid "Send %s to Network"
 msgstr ""
 
 #. translators: document title
-#: includes/Admin.php:833
+#: includes/Admin.php:845
 #, php-format
 msgid "Resend %s to Network"
 msgstr ""
 
 #. translators: document title
-#: includes/Admin.php:846
+#: includes/Admin.php:858
 #, php-format
 msgid "Update %s"
 msgstr ""
 
 #. translators: document title
-#: includes/Admin.php:877
+#: includes/Admin.php:889
 #, php-format
 msgid "Download %s"
 msgstr ""
 
-#: includes/Admin.php:899
-#: includes/Admin.php:1750
+#: includes/Admin.php:913
+#: includes/Admin.php:1790
 msgid "Invalid security token."
 msgstr ""
 
-#: includes/Admin.php:909
+#: includes/Admin.php:922
+msgid "You do not have permission to perform this action."
+msgstr ""
+
+#: includes/Admin.php:935
 msgid "Invalid order ID or values."
 msgstr ""
 
-#: includes/Admin.php:917
+#: includes/Admin.php:946
 msgid "Order not found."
 msgstr ""
 
-#: includes/Admin.php:930
+#: includes/Admin.php:956
+msgid "You do not have permission to edit this order."
+msgstr ""
+
+#: includes/Admin.php:969
 msgid "Peppol identifiers saved successfully."
 msgstr ""
 
-#: includes/Admin.php:947
+#: includes/Admin.php:987
 msgid "Invoice number:"
 msgstr ""
 
-#: includes/Admin.php:950
+#: includes/Admin.php:990
 msgid "Invoice date:"
 msgstr ""
 
-#: includes/Admin.php:953
+#: includes/Admin.php:993
 msgid "Invoice display date:"
 msgstr ""
 
-#: includes/Admin.php:956
+#: includes/Admin.php:996
 msgid "Invoice created via:"
 msgstr ""
 
-#: includes/Admin.php:959
+#: includes/Admin.php:999
 msgid "Notes (displayed in the invoice):"
 msgstr ""
 
-#: includes/Admin.php:1188
+#: includes/Admin.php:1228
 msgid "View more details"
 msgstr ""
 
-#: includes/Admin.php:1189
+#: includes/Admin.php:1229
 msgid "Hide details"
 msgstr ""
 
 #. translators: document title
-#: includes/Admin.php:1200
+#: includes/Admin.php:1240
 #, php-format
 msgid "Set %s number & date"
 msgstr ""
 
-#: includes/Admin.php:1209
+#: includes/Admin.php:1249
 msgid "You do not have sufficient permissions to edit this document."
 msgstr ""
 
-#: includes/Admin.php:1222
+#: includes/Admin.php:1262
 msgid "Number prefix"
 msgstr ""
 
-#: includes/Admin.php:1226
+#: includes/Admin.php:1266
 #: includes/Documents/Invoice.php:395
 msgid "If set, this value will be used as number prefix."
 msgstr ""
 
 #. translators: 1. document slug, 2-3 placeholders
-#: includes/Admin.php:1229
-#: includes/Admin.php:1249
+#: includes/Admin.php:1269
+#: includes/Admin.php:1289
 #: includes/Documents/Invoice.php:397
 #: includes/Documents/Invoice.php:406
 #, php-format
 msgid "You can use the %1$s year and/or month with the %2$s or %3$s placeholders respectively."
 msgstr ""
 
-#: includes/Admin.php:1242
+#: includes/Admin.php:1282
 msgid "Number suffix"
 msgstr ""
 
-#: includes/Admin.php:1246
+#: includes/Admin.php:1286
 #: includes/Documents/Invoice.php:404
 msgid "If set, this value will be used as number suffix."
 msgstr ""
 
-#: includes/Admin.php:1262
+#: includes/Admin.php:1302
 msgid "Number padding"
 msgstr ""
 
 #. translators: %1$s: code, %2$s: document title, %3$s: number, %4$s: padded number
-#: includes/Admin.php:1266
+#: includes/Admin.php:1306
 #, php-format
 msgid "Enter the number of digits you want to use as padding. For instance, enter %1$s to display the %2$s number %3$s as %4$s, filling it with zeros until the number set as padding is reached."
 msgstr ""
 
 #. translators: %1$s: open anchor tag, %2$s: close anchor tag
-#: includes/Admin.php:1282
+#: includes/Admin.php:1322
 #: includes/Documents/Invoice.php:420
 #, php-format
 msgid "For more information about setting up the number format and see the available placeholders for the prefix and suffix, check this article: %1$sNumber format explained%2$s"
 msgstr ""
 
 #. translators: %s document title
-#: includes/Admin.php:1296
+#: includes/Admin.php:1336
 #, php-format
 msgid "%s number"
 msgstr ""
 
-#: includes/Admin.php:1304
+#: includes/Admin.php:1344
 msgid "Formatted number"
 msgstr ""
 
 #. translators: %1$s: open anchor tag, %2$s: close anchor tag
-#: includes/Admin.php:1311
+#: includes/Admin.php:1351
 #, php-format
 msgid "Manually changing the document's plain number also requires updating the next document number in the %1$sdocument settings%2$s."
 msgstr ""
 
-#: includes/Admin.php:1315
+#: includes/Admin.php:1355
 msgid "Please note that changing the document number may create gaps in the numbering sequence."
 msgstr ""
 
 #. translators: %s document title
-#: includes/Admin.php:1328
+#: includes/Admin.php:1368
 #, php-format
 msgid "%s date"
 msgstr ""
 
-#: includes/Admin.php:1336
+#: includes/Admin.php:1376
 msgid "Hour"
 msgstr ""
 
-#: includes/Admin.php:1337
+#: includes/Admin.php:1377
 msgid "h"
 msgstr ""
 
-#: includes/Admin.php:1340
+#: includes/Admin.php:1380
 msgid "Minute"
 msgstr ""
 
-#: includes/Admin.php:1341
+#: includes/Admin.php:1381
 msgid "m"
 msgstr ""
 
-#: includes/Admin.php:1367
+#: includes/Admin.php:1407
 msgid "Notes"
 msgstr ""
 
-#: includes/Admin.php:1372
+#: includes/Admin.php:1412
 msgid "Displayed in the document!"
 msgstr ""
 
-#: includes/Admin.php:1386
-#: includes/Admin.php:2136
+#: includes/Admin.php:1426
+#: includes/Admin.php:2205
 msgid "Cancel"
 msgstr ""
 
 #. translators: %s: email title
-#: includes/Admin.php:1526
+#: includes/Admin.php:1566
 #, php-format
 msgid "%s email notification manually sent."
 msgstr ""
 
-#: includes/Admin.php:1574
+#: includes/Admin.php:1614
 msgid "Nonce expired!"
 msgstr ""
 
-#: includes/Admin.php:1582
+#: includes/Admin.php:1622
 msgid "Bad action!"
 msgstr ""
 
-#: includes/Admin.php:1588
+#: includes/Admin.php:1628
 msgid "Incomplete request!"
 msgstr ""
 
-#: includes/Admin.php:1594
+#: includes/Admin.php:1634
 msgid "No permissions!"
 msgstr ""
 
-#: includes/Admin.php:1620
+#: includes/Admin.php:1660
 msgid "Document data saved!"
 msgstr ""
 
-#: includes/Admin.php:1621
+#: includes/Admin.php:1661
 msgid "An error occurred while saving the document data!"
 msgstr ""
 
-#: includes/Admin.php:1624
+#: includes/Admin.php:1664
 msgid "Document regenerated!"
 msgstr ""
 
-#: includes/Admin.php:1625
+#: includes/Admin.php:1665
 msgid "An error occurred while regenerating the document!"
 msgstr ""
 
-#: includes/Admin.php:1628
+#: includes/Admin.php:1668
 msgid "Document deleted!"
 msgstr ""
 
-#: includes/Admin.php:1629
+#: includes/Admin.php:1669
 msgid "An error occurred while deleting the document!"
 msgstr ""
 
-#: includes/Admin.php:1689
+#: includes/Admin.php:1729
 msgid "Document does not exist."
 msgstr ""
 
-#: includes/Admin.php:1703
+#: includes/Admin.php:1743
 msgid "Document is empty."
 msgstr ""
 
-#: includes/Admin.php:1734
+#: includes/Admin.php:1774
 msgid "DEBUG output enabled"
 msgstr ""
 
-#: includes/Admin.php:1762
+#: includes/Admin.php:1802
 msgid "Invalid order ID."
 msgstr ""
 
-#: includes/Admin.php:1768
+#: includes/Admin.php:1808
 msgid "Invalid order."
 msgstr ""
 
-#: includes/Admin.php:1772
+#: includes/Admin.php:1812
 msgid "Invalid document type."
 msgstr ""
 
-#: includes/Admin.php:1778
+#: includes/Admin.php:1818
 msgid "Invalid document."
 msgstr ""
 
-#: includes/Admin.php:2013
+#: includes/Admin.php:2053
 msgid "RFND"
 msgstr ""
 
-#: includes/Admin.php:2013
+#: includes/Admin.php:2053
 msgid "ORD"
 msgstr ""
 
 #. translators: document title
-#: includes/Admin.php:2021
+#: includes/Admin.php:2061
 #, php-format
 msgid "XML %s"
 msgstr ""
 
-#: includes/Admin.php:2056
+#: includes/Admin.php:2096
 msgid "Identifier"
 msgstr ""
 
-#: includes/Admin.php:2058
+#: includes/Admin.php:2098
 #: includes/Assets.php:97
 msgid "Show"
 msgstr ""
 
-#: includes/Admin.php:2073
-#: includes/Admin.php:2116
+#: includes/Admin.php:2117
+#: includes/Admin.php:2143
+#: includes/Admin.php:2185
 #: includes/Assets.php:342
-#: includes/Settings/SettingsEDI.php:715
+#: includes/Settings/SettingsEDI.php:714
 msgid "Missing"
 msgstr ""
 
-#: includes/Admin.php:2074
-#: includes/Admin.php:2117
+#: includes/Admin.php:2118
+#: includes/Admin.php:2144
+#: includes/Admin.php:2186
 #: includes/Assets.php:343
-#: includes/Settings/SettingsEDI.php:716
+#: includes/Settings/SettingsEDI.php:715
 msgid "Optional"
 msgstr ""
 
-#: includes/Admin.php:2084
-#: includes/Settings/SettingsEDI.php:724
+#: includes/Admin.php:2155
+#: includes/Settings/SettingsEDI.php:723
 msgid "VAT number is missing the country prefix"
 msgstr ""
 
-#: includes/Admin.php:2099
+#: includes/Admin.php:2168
 msgid "Peppol"
 msgstr ""
 
-#: includes/Admin.php:2101
+#: includes/Admin.php:2170
 msgid "Edit"
 msgstr ""
 
-#: includes/Admin.php:2135
+#: includes/Admin.php:2204
 #: includes/Settings/SettingsCallbacks.php:913
 msgid "Save"
 msgstr ""
 
 #. translators: %s document title
-#: includes/Admin.php:2175
+#: includes/Admin.php:2244
 #, php-format
 msgid "Editing of %s number and date is currently disabled."
 msgstr ""
 
 #. translators: %1$s: open anchor tag, %2$s: close anchor tag, %3$s: setting name
-#: includes/Admin.php:2180
+#: includes/Admin.php:2249
 #, php-format
 msgid "If you need to enable this feature, you can do so in the %1$sAdvanced Settings%2$s section under %3$s."
 msgstr ""
 
-#: includes/Admin.php:2183
+#: includes/Admin.php:2252
 #: includes/Settings/SettingsDebug.php:947
 msgid "Enable document data editing"
 msgstr ""
@@ -2637,7 +2660,7 @@ msgstr ""
 
 #: includes/Assets.php:131
 #: includes/Settings.php:117
-#: includes/Settings/SettingsDebug.php:1561
+#: includes/Settings/SettingsDebug.php:1574
 #: includes/Settings/SettingsEDI.php:34
 msgid "Settings"
 msgstr ""
@@ -2688,8 +2711,8 @@ msgstr ""
 #: includes/Assets.php:306
 #: includes/Settings/SettingsDebug.php:339
 #: includes/Settings/SettingsDebug.php:617
-#: includes/Settings/SettingsDebug.php:1723
-#: includes/Settings/SettingsDebug.php:1984
+#: includes/Settings/SettingsDebug.php:1736
+#: includes/Settings/SettingsDebug.php:1997
 msgid "You are not allowed to perform this action."
 msgstr ""
 
@@ -2704,12 +2727,12 @@ msgid "<strong>Enabled</strong>: %1$sclick here%2$s to start using the tools."
 msgstr ""
 
 #: includes/Assets.php:338
-#: includes/Settings/SettingsEDI.php:920
-#: includes/Settings/SettingsEDI.php:930
-#: includes/Settings/SettingsEDI.php:940
-#: includes/Settings/SettingsEDI.php:1038
-#: includes/Settings/SettingsEDI.php:1042
-#: includes/Settings/SettingsEDI.php:1046
+#: includes/Settings/SettingsEDI.php:919
+#: includes/Settings/SettingsEDI.php:929
+#: includes/Settings/SettingsEDI.php:939
+#: includes/Settings/SettingsEDI.php:1037
+#: includes/Settings/SettingsEDI.php:1041
+#: includes/Settings/SettingsEDI.php:1045
 msgid "Code"
 msgstr ""
 
@@ -2745,13 +2768,13 @@ msgstr ""
 msgid "No customer identifiers found."
 msgstr ""
 
-#: includes/Compatibility/ThirdPartyPlugins.php:391
+#: includes/Compatibility/ThirdPartyPlugins.php:417
 msgid "Invoice numbers"
 msgstr ""
 
 #: includes/Documents/Invoice.php:24
 #: includes/Documents/Invoice.php:75
-#: includes/Frontend.php:84
+#: includes/Frontend.php:89
 #: includes/Settings/SettingsDebug.php:957
 #: views/settings-page.php:175
 msgid "Invoice"
@@ -2783,7 +2806,7 @@ msgstr[1] ""
 
 #: includes/Documents/Invoice.php:227
 #: includes/Documents/PackingSlip.php:119
-#: includes/Settings/SettingsGeneral.php:475
+#: includes/Settings/SettingsGeneral.php:512
 msgid "Enable"
 msgstr ""
 
@@ -2832,7 +2855,7 @@ msgstr ""
 #: includes/Documents/Invoice.php:276
 #: includes/Documents/Invoice.php:453
 #: includes/Documents/PackingSlip.php:139
-#: includes/Settings/SettingsEDI.php:400
+#: includes/Settings/SettingsEDI.php:307
 #: views/setup-wizard/display-options.php:22
 msgid "Always"
 msgstr ""
@@ -2932,6 +2955,11 @@ msgstr ""
 #: includes/Documents/Invoice.php:423
 #: includes/Settings/SettingsDebug.php:918
 #: includes/Settings/SettingsDebug.php:954
+#: includes/Settings/SettingsGeneral.php:407
+#: includes/Settings/SettingsGeneral.php:426
+#: includes/Settings/SettingsGeneral.php:456
+#: includes/Settings/SettingsGeneral.php:480
+#: includes/Settings/SettingsGeneral.php:504
 msgid "Note"
 msgstr ""
 
@@ -3116,84 +3144,84 @@ msgid "Advanced"
 msgstr ""
 
 #. translators: 1. credit note title, 2. refund id
-#: includes/Documents/OrderDocument.php:541
+#: includes/Documents/OrderDocument.php:547
 #, php-format
 msgid "%1$s (refund #%2$s) was regenerated."
 msgstr ""
 
 #. translators: 1. document title
-#: includes/Documents/OrderDocument.php:546
+#: includes/Documents/OrderDocument.php:552
 #, php-format
 msgid "%s was regenerated"
 msgstr ""
 
 #. translators: %s: document name
-#: includes/Documents/OrderDocument.php:953
+#: includes/Documents/OrderDocument.php:959
 #, php-format
 msgid "%s Number:"
 msgstr ""
 
 #. translators: %s: document name
-#: includes/Documents/OrderDocument.php:961
+#: includes/Documents/OrderDocument.php:967
 #, php-format
 msgid "%s Date:"
 msgstr ""
 
-#: includes/Documents/OrderDocument.php:967
+#: includes/Documents/OrderDocument.php:973
 #: includes/Main.php:1907
 msgid "Due Date:"
 msgstr ""
 
-#: includes/Documents/OrderDocument.php:971
+#: includes/Documents/OrderDocument.php:977
 msgid "Billing Address:"
 msgstr ""
 
-#: includes/Documents/OrderDocument.php:974
+#: includes/Documents/OrderDocument.php:980
 msgid "Shipping Address:"
 msgstr ""
 
-#: includes/Documents/OrderDocument.php:977
+#: includes/Documents/OrderDocument.php:983
 msgid "Order Number:"
 msgstr ""
 
-#: includes/Documents/OrderDocument.php:980
+#: includes/Documents/OrderDocument.php:986
 msgid "Order Date:"
 msgstr ""
 
-#: includes/Documents/OrderDocument.php:983
+#: includes/Documents/OrderDocument.php:989
 msgid "Payment Method:"
 msgstr ""
 
-#: includes/Documents/OrderDocument.php:986
+#: includes/Documents/OrderDocument.php:992
 #: languages/strings.php:8
 msgid "Payment Date:"
 msgstr ""
 
-#: includes/Documents/OrderDocument.php:989
+#: includes/Documents/OrderDocument.php:995
 msgid "Shipping Method:"
 msgstr ""
 
-#: includes/Documents/OrderDocument.php:992
+#: includes/Documents/OrderDocument.php:998
 msgid "SKU:"
 msgstr ""
 
-#: includes/Documents/OrderDocument.php:995
+#: includes/Documents/OrderDocument.php:1001
 msgid "Weight:"
 msgstr ""
 
-#: includes/Documents/OrderDocument.php:998
+#: includes/Documents/OrderDocument.php:1004
 msgid "Notes:"
 msgstr ""
 
-#: includes/Documents/OrderDocument.php:1001
+#: includes/Documents/OrderDocument.php:1007
 msgid "Customer Notes:"
 msgstr ""
 
-#: includes/Documents/OrderDocument.php:1845
+#: includes/Documents/OrderDocument.php:1856
 msgid "Admin email"
 msgstr ""
 
-#: includes/Documents/OrderDocument.php:1848
+#: includes/Documents/OrderDocument.php:1859
 msgid "Manual email"
 msgstr ""
 
@@ -3271,21 +3299,21 @@ msgid "Upgrade to our Professional extension to attach packing slips to any emai
 msgstr ""
 
 #. translators: %s: Document type
-#: includes/Frontend.php:250
+#: includes/Frontend.php:255
 #, php-format
 msgid "Download %s (PDF)"
 msgstr ""
 
-#: includes/Frontend.php:656
+#: includes/Frontend.php:643
 msgid "Please include the country prefix (for example NL123456789)."
 msgstr ""
 
-#: includes/Frontend.php:774
-#: includes/Settings/SettingsGeneral.php:493
+#: includes/Frontend.php:780
+#: includes/Settings/SettingsGeneral.php:530
 msgid "Customer identification"
 msgstr ""
 
-#: includes/Frontend.php:832
+#: includes/Frontend.php:817
 msgid "Please enter a VAT number including a valid country prefix (for example PT123456789)."
 msgstr ""
 
@@ -3460,7 +3488,7 @@ msgid "Upgrade"
 msgstr ""
 
 #: includes/Settings.php:271
-#: includes/Settings/SettingsEDI.php:636
+#: includes/Settings/SettingsEDI.php:635
 msgid "Order not found!"
 msgstr ""
 
@@ -3517,19 +3545,19 @@ msgstr ""
 msgid "Only 1 scheduled action should exist for the yearly reset of the numbering system, but %s were found"
 msgstr ""
 
-#: includes/Settings.php:1266
+#: includes/Settings.php:1274
 msgid "Additional settings"
 msgstr ""
 
-#: includes/Settings.php:1425
+#: includes/Settings.php:1433
 msgid "Address field is required."
 msgstr ""
 
-#: includes/Settings.php:1441
+#: includes/Settings.php:1449
 msgid "Invalid address field."
 msgstr ""
 
-#: includes/Settings.php:1450
+#: includes/Settings.php:1458
 msgid "The field is empty."
 msgstr ""
 
@@ -3586,7 +3614,7 @@ msgid "Extensions' license cache cleared successfully!"
 msgstr ""
 
 #: includes/Settings/SettingsDebug.php:353
-#: includes/Settings/SettingsEDI.php:656
+#: includes/Settings/SettingsEDI.php:655
 msgid "Invalid request."
 msgstr ""
 
@@ -3785,6 +3813,7 @@ msgid "Plain"
 msgstr ""
 
 #: includes/Settings/SettingsDebug.php:924
+#: includes/Settings/SettingsEDI.php:358
 #: includes/Settings/SettingsUpgrade.php:91
 #: includes/Settings/SettingsUpgrade.php:101
 #: includes/Settings/SettingsUpgrade.php:111
@@ -3960,214 +3989,226 @@ msgstr ""
 msgid "Document can be accessed by everyone with the link."
 msgstr ""
 
+#: includes/Settings/SettingsDebug.php:1203
+msgid "Unknown"
+msgstr ""
+
 #. translators: %s dependency min version
-#: includes/Settings/SettingsDebug.php:1205
-#: includes/Settings/SettingsDebug.php:1214
-#: includes/Settings/SettingsDebug.php:1228
+#: includes/Settings/SettingsDebug.php:1212
+#: includes/Settings/SettingsDebug.php:1221
+#: includes/Settings/SettingsDebug.php:1235
 #, php-format
 msgid "%s or superior"
 msgstr ""
 
-#: includes/Settings/SettingsDebug.php:1221
+#: includes/Settings/SettingsDebug.php:1228
 msgid "Recommended"
 msgstr ""
 
-#: includes/Settings/SettingsDebug.php:1222
+#: includes/Settings/SettingsDebug.php:1229
 #: views/advanced-status.php:177
 msgid "Enabled"
 msgstr ""
 
-#: includes/Settings/SettingsDebug.php:1222
+#: includes/Settings/SettingsDebug.php:1229
 msgid "Disabled"
 msgstr ""
 
-#: includes/Settings/SettingsDebug.php:1243
+#: includes/Settings/SettingsDebug.php:1242
+msgid "MySQL, MariaDB, or SQLite"
+msgstr ""
+
+#: includes/Settings/SettingsDebug.php:1245
+msgid "Unable to detect the database server"
+msgstr ""
+
+#: includes/Settings/SettingsDebug.php:1256
 msgid "Recommended, will use fallback functions"
 msgstr ""
 
-#: includes/Settings/SettingsDebug.php:1249
+#: includes/Settings/SettingsDebug.php:1262
 msgid "Required if you have images in your documents"
 msgstr ""
 
-#: includes/Settings/SettingsDebug.php:1252
+#: includes/Settings/SettingsDebug.php:1265
 msgid "Required when using .webp images"
 msgstr ""
 
-#: includes/Settings/SettingsDebug.php:1255
+#: includes/Settings/SettingsDebug.php:1268
 msgid "Required if you have .webp images in your documents"
 msgstr ""
 
-#: includes/Settings/SettingsDebug.php:1258
+#: includes/Settings/SettingsDebug.php:1271
 msgid "To compress PDF documents"
 msgstr ""
 
-#: includes/Settings/SettingsDebug.php:1261
+#: includes/Settings/SettingsDebug.php:1274
 msgid "Recommended to compress PDF documents"
 msgstr ""
 
-#: includes/Settings/SettingsDebug.php:1264
+#: includes/Settings/SettingsDebug.php:1277
 msgid "For better performances"
 msgstr ""
 
-#: includes/Settings/SettingsDebug.php:1267
-#: includes/Settings/SettingsDebug.php:1273
+#: includes/Settings/SettingsDebug.php:1280
+#: includes/Settings/SettingsDebug.php:1286
 msgid "Recommended for better performances"
 msgstr ""
 
-#: includes/Settings/SettingsDebug.php:1270
+#: includes/Settings/SettingsDebug.php:1283
 msgid "Better with transparent PNG images"
 msgstr ""
 
-#: includes/Settings/SettingsDebug.php:1276
+#: includes/Settings/SettingsDebug.php:1289
 msgid "Required to detect custom templates and to clear the temp folder periodically"
 msgstr ""
 
-#: includes/Settings/SettingsDebug.php:1279
+#: includes/Settings/SettingsDebug.php:1292
 msgid "Check PHP disable_functions"
 msgstr ""
 
 #. translators: <a> tags
-#: includes/Settings/SettingsDebug.php:1283
+#: includes/Settings/SettingsDebug.php:1296
 msgid "Recommended: 128MB (especially for plugin-heavy setups)"
 msgstr ""
 
 #. translators: 1: opening anchor tag, 2: closing anchor tag
-#: includes/Settings/SettingsDebug.php:1285
+#: includes/Settings/SettingsDebug.php:1298
 #, php-format
 msgid "See: %1$sIncreasing the WordPress Memory Limit%2$s"
 msgstr ""
 
-#: includes/Settings/SettingsDebug.php:1293
+#: includes/Settings/SettingsDebug.php:1306
 msgid "Required to save documents to the server"
 msgstr ""
 
-#: includes/Settings/SettingsDebug.php:1296
+#: includes/Settings/SettingsDebug.php:1309
 msgid "Check your server configuration"
 msgstr ""
 
-#: includes/Settings/SettingsDebug.php:1299
+#: includes/Settings/SettingsDebug.php:1312
 msgid "Allow remote stylesheets and images"
 msgstr ""
 
-#: includes/Settings/SettingsDebug.php:1302
+#: includes/Settings/SettingsDebug.php:1315
 msgid "allow_url_fopen disabled"
 msgstr ""
 
-#: includes/Settings/SettingsDebug.php:1305
+#: includes/Settings/SettingsDebug.php:1318
 msgid "Necessary to verify the MIME type of local images."
 msgstr ""
 
-#: includes/Settings/SettingsDebug.php:1308
+#: includes/Settings/SettingsDebug.php:1321
 msgid "fileinfo disabled"
 msgstr ""
 
-#: includes/Settings/SettingsDebug.php:1311
+#: includes/Settings/SettingsDebug.php:1324
 msgid "To compress and decompress font and image data"
 msgstr ""
 
-#: includes/Settings/SettingsDebug.php:1314
+#: includes/Settings/SettingsDebug.php:1327
 msgid "base64_decode disabled"
 msgstr ""
 
-#: includes/Settings/SettingsDebug.php:1322
+#: includes/Settings/SettingsDebug.php:1335
 msgid "Required for IMagick"
 msgstr ""
 
-#: includes/Settings/SettingsDebug.php:1325
+#: includes/Settings/SettingsDebug.php:1338
 msgid "ImageMagick library, integrated via the IMagick PHP extension for advanced image processing capabilities"
 msgstr ""
 
 #. translators: 1: Plugin name, 2: Open anchor tag, 3: Close anchor tag
-#: includes/Settings/SettingsDebug.php:1405
+#: includes/Settings/SettingsDebug.php:1418
 #, php-format
 msgid "Your server does not meet the requirements for %1$s. Please check the %2$sStatus page%3$s for more information."
 msgstr ""
 
-#: includes/Settings/SettingsDebug.php:1458
+#: includes/Settings/SettingsDebug.php:1471
 msgid "Writable"
 msgstr ""
 
-#: includes/Settings/SettingsDebug.php:1459
+#: includes/Settings/SettingsDebug.php:1472
 msgid "Not writable"
 msgstr ""
 
-#: includes/Settings/SettingsDebug.php:1464
+#: includes/Settings/SettingsDebug.php:1477
 msgid "Central temporary plugin folder"
 msgstr ""
 
-#: includes/Settings/SettingsDebug.php:1470
+#: includes/Settings/SettingsDebug.php:1483
 msgid "Temporary attachments folder"
 msgstr ""
 
-#: includes/Settings/SettingsDebug.php:1476
+#: includes/Settings/SettingsDebug.php:1489
 msgid "Temporary DOMPDF folder"
 msgstr ""
 
-#: includes/Settings/SettingsDebug.php:1482
+#: includes/Settings/SettingsDebug.php:1495
 msgid "DOMPDF fonts folder (needs to be writable for custom/remote fonts)"
 msgstr ""
 
 #. translators: %s action date
-#: includes/Settings/SettingsDebug.php:1524
+#: includes/Settings/SettingsDebug.php:1537
 #, php-format
 msgid "Scheduled to: %s"
 msgstr ""
 
 #. translators: total scheduled actions
-#: includes/Settings/SettingsDebug.php:1533
+#: includes/Settings/SettingsDebug.php:1546
 #, php-format
 msgid "Only 1 scheduled action should exist, but %s were found"
 msgstr ""
 
 #. translators: 1. open anchor tag, 2. close anchor tag
-#: includes/Settings/SettingsDebug.php:1543
+#: includes/Settings/SettingsDebug.php:1556
 #, php-format
 msgid "Scheduled action not found. Please reschedule it %1$shere%2$s."
 msgstr ""
 
-#: includes/Settings/SettingsDebug.php:1562
+#: includes/Settings/SettingsDebug.php:1575
 #: views/advanced-status.php:52
 #: views/advanced-status.php:246
 msgid "Status"
 msgstr ""
 
-#: includes/Settings/SettingsDebug.php:1563
+#: includes/Settings/SettingsDebug.php:1576
 msgid "Tools"
 msgstr ""
 
-#: includes/Settings/SettingsDebug.php:1564
+#: includes/Settings/SettingsDebug.php:1577
 msgid "Numbers"
 msgstr ""
 
-#: includes/Settings/SettingsDebug.php:1576
+#: includes/Settings/SettingsDebug.php:1589
 msgid "File System & Access"
 msgstr ""
 
-#: includes/Settings/SettingsDebug.php:1586
+#: includes/Settings/SettingsDebug.php:1599
 msgid "Document Display & Interaction"
 msgstr ""
 
-#: includes/Settings/SettingsDebug.php:1595
+#: includes/Settings/SettingsDebug.php:1608
 msgid "Document Management & Behavior"
 msgstr ""
 
-#: includes/Settings/SettingsDebug.php:1604
+#: includes/Settings/SettingsDebug.php:1617
 msgid "Localization & Translation"
 msgstr ""
 
-#: includes/Settings/SettingsDebug.php:1611
+#: includes/Settings/SettingsDebug.php:1624
 msgid "Debugging & Logging"
 msgstr ""
 
-#: includes/Settings/SettingsDebug.php:1619
+#: includes/Settings/SettingsDebug.php:1632
 msgid "Versioning & Stability"
 msgstr ""
 
-#: includes/Settings/SettingsDebug.php:1625
+#: includes/Settings/SettingsDebug.php:1638
 msgid "Advanced / Experimental"
 msgstr ""
 
-#: includes/Settings/SettingsDebug.php:1742
+#: includes/Settings/SettingsDebug.php:1755
 msgid "Invalid request"
 msgstr ""
 
@@ -4241,283 +4282,285 @@ msgid "Specify the Electronic Address Scheme (EAS) for the supplier Endpoint abo
 msgstr ""
 
 #: includes/Settings/SettingsEDI.php:274
-msgid "Peppol Legal Identifier"
+msgid "Customer Peppol Endpoint ID field location"
 msgstr ""
 
 #: includes/Settings/SettingsEDI.php:279
-#: includes/Settings/SettingsGeneral.php:227
-msgid "Shop VAT Number"
+#: includes/Settings/SettingsEDI.php:1132
+msgid "None"
 msgstr ""
 
 #: includes/Settings/SettingsEDI.php:280
-msgid "Shop COC Number"
-msgstr ""
-
-#: includes/Settings/SettingsEDI.php:284
-msgid "Specify the Peppol Legal Identifier for the supplier."
-msgstr ""
-
-#. translators: %1$s: open link anchor, %2$s: close link anchor
-#: includes/Settings/SettingsEDI.php:287
-#, php-format
-msgid "Please make sure the field is filled out in the %1$sShop Information%2$s."
-msgstr ""
-
-#: includes/Settings/SettingsEDI.php:308
-msgid "Peppol Legal Identifier Scheme (ICD)"
-msgstr ""
-
-#: includes/Settings/SettingsEDI.php:320
-msgid "Specify the Peppol Legal Identifier Scheme (ICD) for the supplier."
-msgstr ""
-
-#. translators: %1$s: open link anchor, %2$s: close link anchor
-#: includes/Settings/SettingsEDI.php:323
-#, php-format
-msgid "For detailed information on each Identification Code (ICD), see the %1$sofficial Peppol ICD list%2$s."
-msgstr ""
-
-#: includes/Settings/SettingsEDI.php:368
-msgid "Customer Peppol Identifier Fields Location"
-msgstr ""
-
-#: includes/Settings/SettingsEDI.php:373
 msgid "Checkout only"
 msgstr ""
 
-#: includes/Settings/SettingsEDI.php:374
+#: includes/Settings/SettingsEDI.php:281
 msgid "My Account only"
 msgstr ""
 
-#: includes/Settings/SettingsEDI.php:375
+#: includes/Settings/SettingsEDI.php:282
 msgid "Both Checkout and My Account"
 msgstr ""
 
-#: includes/Settings/SettingsEDI.php:377
-msgid "The Legal Entity Identifier is shown in My Account only. The Endpoint Identifier follows the option selected above."
+#: includes/Settings/SettingsEDI.php:284
+msgid "Controls where the Customer Peppol Endpoint ID field is displayed."
 msgstr ""
 
-#: includes/Settings/SettingsEDI.php:395
-msgid "Endpoint ID field visibility at checkout"
+#: includes/Settings/SettingsEDI.php:302
+msgid "Customer Peppol Endpoint ID field visibility"
 msgstr ""
 
-#: includes/Settings/SettingsEDI.php:401
+#: includes/Settings/SettingsEDI.php:308
 msgid "On business purchase selection"
 msgstr ""
 
-#: includes/Settings/SettingsEDI.php:402
+#: includes/Settings/SettingsEDI.php:309
 msgid "When company name is present"
 msgstr ""
 
-#: includes/Settings/SettingsEDI.php:404
+#: includes/Settings/SettingsEDI.php:311
 msgid "Controls when the customer Peppol Endpoint ID field is shown at checkout."
 msgstr ""
 
-#: includes/Settings/SettingsEDI.php:422
-msgid "Validate customer Endpoint ID"
+#: includes/Settings/SettingsEDI.php:329
+msgid "Validate Customer Peppol Endpoint ID"
 msgstr ""
 
-#: includes/Settings/SettingsEDI.php:425
+#: includes/Settings/SettingsEDI.php:332
 msgid "When enabled, the customer Peppol Endpoint ID entered at checkout or in the My Account area is validated against the Peppol Directory. If no matching participant is found, an error is shown so the value can be corrected."
 msgstr ""
 
-#: includes/Settings/SettingsEDI.php:443
+#: includes/Settings/SettingsEDI.php:352
+msgid "Automatic Peppol Endpoint ID derivation"
+msgstr ""
+
+#. translators: %s: link to documentation
+#: includes/Settings/SettingsEDI.php:357
+#, php-format
+msgid "Automatically generate Peppol IDs from VAT numbers for supported countries. This can help ensure the correct format and reduce errors. %s"
+msgstr ""
+
+#: includes/Settings/SettingsEDI.php:391
+msgid "Select countries for deriving the Peppol Endpoint ID"
+msgstr ""
+
+#: includes/Settings/SettingsEDI.php:397
+msgid "Select one or more countries"
+msgstr ""
+
+#: includes/Settings/SettingsEDI.php:415
+msgid "Checkout Script Loading"
+msgstr ""
+
+#: includes/Settings/SettingsEDI.php:420
+msgid "Automatic detection"
+msgstr ""
+
+#: includes/Settings/SettingsEDI.php:421
+msgid "Force classic checkout scripts"
+msgstr ""
+
+#: includes/Settings/SettingsEDI.php:422
+msgid "Force block checkout scripts"
+msgstr ""
+
+#: includes/Settings/SettingsEDI.php:424
+msgid "Use this only if the Peppol Endpoint ID derivation scripts are not loading correctly on the checkout page. Leave it on Automatic detection unless you are experiencing issues."
+msgstr ""
+
+#: includes/Settings/SettingsEDI.php:442
 msgid "Supplier Identifiers Language"
 msgstr ""
 
 #. translators: %1$s: open link anchor, %2$s: close link anchor
-#: includes/Settings/SettingsEDI.php:452
+#: includes/Settings/SettingsEDI.php:451
 #, php-format
 msgid "Select the language for the supplier identifiers data. This option is available because multilingual support is enabled. You can check the currently available data %1$shere%2$s."
 msgstr ""
 
-#: includes/Settings/SettingsEDI.php:467
+#: includes/Settings/SettingsEDI.php:466
 msgid "Embed Encrypted PDF"
 msgstr ""
 
-#: includes/Settings/SettingsEDI.php:470
+#: includes/Settings/SettingsEDI.php:469
 msgid "Embed the encrypted PDF invoice file within the e-document."
 msgstr ""
 
-#: includes/Settings/SettingsEDI.php:481
+#: includes/Settings/SettingsEDI.php:480
 msgid "Send Attachments"
 msgstr ""
 
-#: includes/Settings/SettingsEDI.php:487
+#: includes/Settings/SettingsEDI.php:486
 msgid "When sending a document by e-mail, automatically include the electronic version attachment along with the PDF."
 msgstr ""
 
-#: includes/Settings/SettingsEDI.php:494
+#: includes/Settings/SettingsEDI.php:493
 msgid "Include Item Meta Data"
 msgstr ""
 
-#: includes/Settings/SettingsEDI.php:502
+#: includes/Settings/SettingsEDI.php:501
 msgid "Include item meta data in the e-document."
 msgstr ""
 
 #. translators: 1: opening link tag, 2: closing link tag
-#: includes/Settings/SettingsEDI.php:505
+#: includes/Settings/SettingsEDI.php:504
 #, php-format
 msgid "Advanced customization is possible, see the %1$sdocumentation page%2$s for details."
 msgstr ""
 
-#: includes/Settings/SettingsEDI.php:516
+#: includes/Settings/SettingsEDI.php:515
 msgid "Enable XML Preview"
 msgstr ""
 
-#: includes/Settings/SettingsEDI.php:522
+#: includes/Settings/SettingsEDI.php:521
 msgid "Enable the XML preview for electronic documents."
 msgstr ""
 
-#: includes/Settings/SettingsEDI.php:529
+#: includes/Settings/SettingsEDI.php:528
 msgid "Enable Debug Logs"
 msgstr ""
 
-#: includes/Settings/SettingsEDI.php:535
+#: includes/Settings/SettingsEDI.php:534
 msgid "Enable logging for debugging purposes."
 msgstr ""
 
-#: includes/Settings/SettingsEDI.php:623
-#: includes/Settings/SettingsEDI.php:674
-#: includes/Settings/SettingsGeneral.php:822
+#: includes/Settings/SettingsEDI.php:622
+#: includes/Settings/SettingsEDI.php:673
+#: includes/Settings/SettingsGeneral.php:860
 msgid "Invalid nonce."
 msgstr ""
 
-#: includes/Settings/SettingsEDI.php:630
+#: includes/Settings/SettingsEDI.php:629
 msgid "Order ID is required."
 msgstr ""
 
-#: includes/Settings/SettingsEDI.php:664
+#: includes/Settings/SettingsEDI.php:663
 msgid "Tax settings saved successfully."
 msgstr ""
 
-#: includes/Settings/SettingsEDI.php:701
+#: includes/Settings/SettingsEDI.php:700
 msgid "Supplier"
 msgstr ""
 
 #. translators: General settings link
-#: includes/Settings/SettingsEDI.php:737
+#: includes/Settings/SettingsEDI.php:736
 #, php-format
 msgid "Missing details can be completed in the %s."
 msgstr ""
 
-#: includes/Settings/SettingsEDI.php:738
-#: includes/Settings/SettingsGeneral.php:626
+#: includes/Settings/SettingsEDI.php:737
+#: includes/Settings/SettingsGeneral.php:664
 msgid "Shop Information"
 msgstr ""
 
-#: includes/Settings/SettingsEDI.php:758
+#: includes/Settings/SettingsEDI.php:757
 msgid "Customer"
 msgstr ""
 
-#: includes/Settings/SettingsEDI.php:763
+#: includes/Settings/SettingsEDI.php:762
 msgid "Order ID"
 msgstr ""
 
-#: includes/Settings/SettingsEDI.php:764
+#: includes/Settings/SettingsEDI.php:763
 msgid "Search"
 msgstr ""
 
-#: includes/Settings/SettingsEDI.php:771
+#: includes/Settings/SettingsEDI.php:770
 msgid "Retrieve customer identifiers by loading an order."
 msgstr ""
 
-#: includes/Settings/SettingsEDI.php:826
+#: includes/Settings/SettingsEDI.php:825
 msgid "To ensure compliance with e-invoicing requirements, please complete the Taxes Classification. This information is essential for accurately generating legally compliant invoices."
 msgstr ""
 
-#: includes/Settings/SettingsEDI.php:838
+#: includes/Settings/SettingsEDI.php:837
 msgid "Save Taxes"
 msgstr ""
 
-#: includes/Settings/SettingsEDI.php:895
+#: includes/Settings/SettingsEDI.php:894
 msgid "Configure default tax classifications"
 msgstr ""
 
-#: includes/Settings/SettingsEDI.php:898
+#: includes/Settings/SettingsEDI.php:897
 msgid "These defaults will be applied when \"Default\" is selected for individual tax rates."
 msgstr ""
 
 #. translators: %1$s: open link anchor, %2$s: close link anchor
-#: includes/Settings/SettingsEDI.php:908
+#: includes/Settings/SettingsEDI.php:907
 #, php-format
 msgid "For more information on setting up the tax table, please see our %1$sarticle%2$s."
 msgstr ""
 
-#: includes/Settings/SettingsEDI.php:916
+#: includes/Settings/SettingsEDI.php:915
 msgid "Tax Scheme"
 msgstr ""
 
-#: includes/Settings/SettingsEDI.php:926
+#: includes/Settings/SettingsEDI.php:925
 msgid "Tax Category"
 msgstr ""
 
-#: includes/Settings/SettingsEDI.php:936
-#: includes/Settings/SettingsEDI.php:986
+#: includes/Settings/SettingsEDI.php:935
+#: includes/Settings/SettingsEDI.php:985
 msgid "Reason"
 msgstr ""
 
-#: includes/Settings/SettingsEDI.php:979
+#: includes/Settings/SettingsEDI.php:978
 msgid "Country code"
 msgstr ""
 
-#: includes/Settings/SettingsEDI.php:980
+#: includes/Settings/SettingsEDI.php:979
 msgid "State code"
 msgstr ""
 
-#: includes/Settings/SettingsEDI.php:981
+#: includes/Settings/SettingsEDI.php:980
 msgid "Postcode / ZIP"
 msgstr ""
 
-#: includes/Settings/SettingsEDI.php:982
-#: wpo-ips-functions-edi.php:587
-#: wpo-ips-functions-edi.php:681
+#: includes/Settings/SettingsEDI.php:981
+#: wpo-ips-functions-edi.php:684
+#: wpo-ips-functions-edi.php:760
 msgid "City"
 msgstr ""
 
-#: includes/Settings/SettingsEDI.php:983
+#: includes/Settings/SettingsEDI.php:982
 msgid "Rate"
 msgstr ""
 
-#: includes/Settings/SettingsEDI.php:984
+#: includes/Settings/SettingsEDI.php:983
 msgid "Scheme"
 msgstr ""
 
-#: includes/Settings/SettingsEDI.php:985
+#: includes/Settings/SettingsEDI.php:984
 msgid "Category"
 msgstr ""
 
-#: includes/Settings/SettingsEDI.php:987
+#: includes/Settings/SettingsEDI.php:986
 msgid "Remarks"
 msgstr ""
 
-#: includes/Settings/SettingsEDI.php:1062
+#: includes/Settings/SettingsEDI.php:1061
 msgid "No taxes found for this class."
 msgstr ""
 
-#: includes/Settings/SettingsEDI.php:1078
+#: includes/Settings/SettingsEDI.php:1077
 msgid "Send your documents through supported delivery networks directly from the plugin."
 msgstr ""
 
-#: includes/Settings/SettingsEDI.php:1080
+#: includes/Settings/SettingsEDI.php:1079
 msgid "Network Products"
 msgstr ""
 
-#: includes/Settings/SettingsEDI.php:1086
+#: includes/Settings/SettingsEDI.php:1085
 msgid "Peppol is a network for electronic document exchange, enabling businesses to send and receive electronic invoices and other documents securely and efficiently."
 msgstr ""
 
-#: includes/Settings/SettingsEDI.php:1087
+#: includes/Settings/SettingsEDI.php:1086
 #: views/upgrade-table.php:159
 msgid "Buy now"
 msgstr ""
 
-#: includes/Settings/SettingsEDI.php:1122
+#: includes/Settings/SettingsEDI.php:1121
 msgid "Default"
-msgstr ""
-
-#: includes/Settings/SettingsEDI.php:1133
-msgid "None"
 msgstr ""
 
 #. translators: 1. open anchor tag, 2. close anchor tag
@@ -4648,6 +4691,10 @@ msgstr ""
 msgid "The name of your business or shop."
 msgstr ""
 
+#: includes/Settings/SettingsGeneral.php:227
+msgid "Shop VAT Number"
+msgstr ""
+
 #: includes/Settings/SettingsGeneral.php:233
 #: includes/Settings/SettingsGeneral.php:245
 msgid "You can display this number on the invoice from the document settings."
@@ -4739,156 +4786,160 @@ msgstr ""
 msgid "Shop Additional Info"
 msgstr ""
 
-#: includes/Settings/SettingsGeneral.php:404
+#: includes/Settings/SettingsGeneral.php:406
 msgid "Any additional info about your business location."
 msgstr ""
 
-#: includes/Settings/SettingsGeneral.php:410
+#: includes/Settings/SettingsGeneral.php:408
+#: includes/Settings/SettingsGeneral.php:427
+#: includes/Settings/SettingsGeneral.php:457
+#: includes/Settings/SettingsGeneral.php:481
+#: includes/Settings/SettingsGeneral.php:505
+msgid "You may use plain text and basic formatting such as line breaks, bold, italic, and links. Advanced formatting and styling may not be supported."
+msgstr ""
+
+#: includes/Settings/SettingsGeneral.php:415
 msgid "Footer: terms & conditions, policies, etc."
 msgstr ""
 
-#: includes/Settings/SettingsGeneral.php:424
+#: includes/Settings/SettingsGeneral.php:434
 msgid "Extra template fields"
 msgstr ""
 
-#: includes/Settings/SettingsGeneral.php:430
+#: includes/Settings/SettingsGeneral.php:440
 msgid "Extra field 1"
 msgstr ""
 
-#: includes/Settings/SettingsGeneral.php:438
-msgid "This is footer column 1 in the <i>Modern (Premium)</i> template"
+#. translators: %d: footer column number
+#: includes/Settings/SettingsGeneral.php:453
+#: includes/Settings/SettingsGeneral.php:477
+#: includes/Settings/SettingsGeneral.php:501
+#, php-format
+msgid "This is footer column %d in the Modern (Premium) template."
 msgstr ""
 
-#: includes/Settings/SettingsGeneral.php:445
+#: includes/Settings/SettingsGeneral.php:464
 msgid "Extra field 2"
 msgstr ""
 
-#: includes/Settings/SettingsGeneral.php:453
-msgid "This is footer column 2 in the <i>Modern (Premium)</i> template"
-msgstr ""
-
-#: includes/Settings/SettingsGeneral.php:460
+#: includes/Settings/SettingsGeneral.php:488
 msgid "Extra field 3"
 msgstr ""
 
-#: includes/Settings/SettingsGeneral.php:468
-msgid "This is footer column 3 in the <i>Modern (Premium)</i> template"
-msgstr ""
-
-#: includes/Settings/SettingsGeneral.php:481
+#: includes/Settings/SettingsGeneral.php:518
 msgid "Enable an optional custom field at checkout to collect customer identification data, such as tax IDs, company registration numbers, purchase order numbers, or internal customer references."
 msgstr ""
 
-#: includes/Settings/SettingsGeneral.php:487
+#: includes/Settings/SettingsGeneral.php:524
 msgid "Label"
 msgstr ""
 
-#: includes/Settings/SettingsGeneral.php:494
+#: includes/Settings/SettingsGeneral.php:531
 msgid "The label for the optional custom field displayed at checkout."
 msgstr ""
 
-#: includes/Settings/SettingsGeneral.php:500
+#: includes/Settings/SettingsGeneral.php:537
 msgid "Treat as VAT number"
 msgstr ""
 
 #. translators: %s: WooCommerce EU VAT Compliance plugin link
-#: includes/Settings/SettingsGeneral.php:510
+#: includes/Settings/SettingsGeneral.php:548
 #, php-format
 msgid "When enabled, the checkout field is treated as a VAT number and may be used for basic VAT-related logic. Avoid enabling this option if you are already using a third-party VAT plugin, as it may result in duplicate or conflicting VAT fields. For advanced VAT validation, reporting, and full compliance with EU VAT rules, we recommend using %s."
 msgstr ""
 
-#: includes/Settings/SettingsGeneral.php:518
+#: includes/Settings/SettingsGeneral.php:556
 msgid "Editable in My Account"
 msgstr ""
 
-#: includes/Settings/SettingsGeneral.php:524
+#: includes/Settings/SettingsGeneral.php:562
 msgid "Allow customers to edit the custom checkout field on their account details page. The value is saved to the customer profile and used for future checkouts only."
 msgstr ""
 
-#: includes/Settings/SettingsGeneral.php:540
+#: includes/Settings/SettingsGeneral.php:578
 msgid "Customize the formatting of shipping and billing addresses in PDF documents, and add custom fields as needed."
 msgstr ""
 
-#: includes/Settings/SettingsGeneral.php:541
-#: includes/Settings/SettingsGeneral.php:555
-#: includes/Settings/SettingsGeneral.php:569
+#: includes/Settings/SettingsGeneral.php:579
+#: includes/Settings/SettingsGeneral.php:593
+#: includes/Settings/SettingsGeneral.php:607
 msgid "Upgrade today!"
 msgstr ""
 
-#: includes/Settings/SettingsGeneral.php:554
+#: includes/Settings/SettingsGeneral.php:592
 msgid "Create PDF documents in multiple languages based on the customer's language or locale."
 msgstr ""
 
-#: includes/Settings/SettingsGeneral.php:568
+#: includes/Settings/SettingsGeneral.php:606
 msgid "Attach up to 3 static files (for example, a terms & conditions document) to the WooCommerce emails of your choice."
 msgstr ""
 
-#: includes/Settings/SettingsGeneral.php:616
+#: includes/Settings/SettingsGeneral.php:654
 msgid "Display Settings"
 msgstr ""
 
-#: includes/Settings/SettingsGeneral.php:646
+#: includes/Settings/SettingsGeneral.php:684
 msgid "Advanced Formatting"
 msgstr ""
 
-#: includes/Settings/SettingsGeneral.php:656
+#: includes/Settings/SettingsGeneral.php:694
 msgid "Checkout Field"
 msgstr ""
 
-#: includes/Settings/SettingsGeneral.php:668
+#: includes/Settings/SettingsGeneral.php:706
 msgid "Customer Address Customization"
 msgstr ""
 
-#: includes/Settings/SettingsGeneral.php:669
-#: includes/Settings/SettingsGeneral.php:677
-#: includes/Settings/SettingsGeneral.php:685
+#: includes/Settings/SettingsGeneral.php:707
+#: includes/Settings/SettingsGeneral.php:715
+#: includes/Settings/SettingsGeneral.php:723
 msgid "Pro"
 msgstr ""
 
-#: includes/Settings/SettingsGeneral.php:676
+#: includes/Settings/SettingsGeneral.php:714
 msgid "Multilingual"
 msgstr ""
 
-#: includes/Settings/SettingsGeneral.php:684
+#: includes/Settings/SettingsGeneral.php:722
 msgid "Static Files"
 msgstr ""
 
 #. translators: 1: Plugin name, 2: Open anchor tag, 3: Close anchor tag
-#: includes/Settings/SettingsGeneral.php:793
+#: includes/Settings/SettingsGeneral.php:831
 #, php-format
 msgid "%1$s: Your shop address is incomplete. Please fill in the missing fields in the %2$sGeneral settings%3$s."
 msgstr ""
 
-#: includes/Settings/SettingsGeneral.php:828
+#: includes/Settings/SettingsGeneral.php:866
 msgid "No country code provided."
 msgstr ""
 
-#: includes/Settings/SettingsGeneral.php:925
+#: includes/Settings/SettingsGeneral.php:963
 msgid "a file"
 msgid_plural "files"
 msgstr[0] ""
 msgstr[1] ""
 
 #. translators: 1: "file"/"files" label (singular/plural), 2: list of document titles
-#: includes/Settings/SettingsGeneral.php:930
+#: includes/Settings/SettingsGeneral.php:968
 #, php-format
 msgid "Your custom template folder does not contain %1$s for: %2$s."
 msgstr ""
 
 #. translators: 1: Opening <strong>, 2: Closing </strong>
-#: includes/Settings/SettingsGeneral.php:937
+#: includes/Settings/SettingsGeneral.php:975
 #, php-format
 msgid "Documents where files are missing will remain functional and will use the default %1$sSimple%2$s template."
 msgstr ""
 
 #. translators: %s: Template folder path
-#: includes/Settings/SettingsGeneral.php:953
+#: includes/Settings/SettingsGeneral.php:991
 #, php-format
 msgid "If you are not using the latest version of the Premium Templates extension, please update it. Otherwise, copy the template files from the newest version in %s and adapt them to your custom template."
 msgstr ""
 
 #. translators: 1: opening <a>, 2: closing </a>
-#: includes/Settings/SettingsGeneral.php:962
+#: includes/Settings/SettingsGeneral.php:1000
 #, php-format
 msgid "Please refer to the %1$sCreating a custom PDF template%2$s article to learn how to update your template."
 msgstr ""
@@ -5168,17 +5219,17 @@ msgid "SKU"
 msgstr ""
 
 #: languages/strings.php:14
-#: wpo-ips-functions.php:1002
+#: wpo-ips-functions.php:1018
 msgid "Product"
 msgstr ""
 
 #: languages/strings.php:15
-#: wpo-ips-functions.php:1003
+#: wpo-ips-functions.php:1019
 msgid "Quantity"
 msgstr ""
 
 #: languages/strings.php:16
-#: wpo-ips-functions.php:1004
+#: wpo-ips-functions.php:1020
 msgid "Price"
 msgstr ""
 
@@ -5922,146 +5973,142 @@ msgid "Visit shop"
 msgstr ""
 
 #. translators: 1. open anchor tag, 2. close anchor tag, 3. Woo version
-#: woocommerce-pdf-invoices-packingslips.php:229
+#: woocommerce-pdf-invoices-packingslips.php:231
 #, php-format
 msgid "PDF Invoices & Packing Slips for WooCommerce requires %1$sWooCommerce%2$s version %3$s or higher to be installed & activated!"
 msgstr ""
 
 #. translators: PHP version
-#: woocommerce-pdf-invoices-packingslips.php:274
+#: woocommerce-pdf-invoices-packingslips.php:278
 #, php-format
 msgid "PDF Invoices & Packing Slips for WooCommerce requires PHP %s or higher."
 msgstr ""
 
 #. translators: <a> tags
-#: woocommerce-pdf-invoices-packingslips.php:280
+#: woocommerce-pdf-invoices-packingslips.php:284
 #, php-format
 msgid "We strongly recommend to %1$supdate your PHP version%2$s."
 msgstr ""
 
 #. translators: directory path
-#: woocommerce-pdf-invoices-packingslips.php:372
+#: woocommerce-pdf-invoices-packingslips.php:376
 #, php-format
 msgid "The PDF files in %s are not currently protected due to your site running on <strong>NGINX</strong>."
 msgstr ""
 
-#: woocommerce-pdf-invoices-packingslips.php:373
+#: woocommerce-pdf-invoices-packingslips.php:377
 msgid "To protect them, you must click the button below."
 msgstr ""
 
-#: woocommerce-pdf-invoices-packingslips.php:374
+#: woocommerce-pdf-invoices-packingslips.php:378
 msgid "Generate random temporary folder name"
 msgstr ""
 
-#: woocommerce-pdf-invoices-packingslips.php:433
+#: woocommerce-pdf-invoices-packingslips.php:437
 msgid "Change MailPoet sending method to WordPress (default)"
 msgstr ""
 
-#: woocommerce-pdf-invoices-packingslips.php:470
+#: woocommerce-pdf-invoices-packingslips.php:474
 msgid "PDF Invoices & Packing Slips for WooCommerce detected that your current site locale is right-to-left (RTL) which the current PDF engine does not support it. Please consider installing our mPDF extension that is compatible."
 msgstr ""
 
-#: woocommerce-pdf-invoices-packingslips.php:471
+#: woocommerce-pdf-invoices-packingslips.php:475
 msgid "Download mPDF extension"
 msgstr ""
 
-#: woocommerce-pdf-invoices-packingslips.php:521
+#: woocommerce-pdf-invoices-packingslips.php:525
 msgid "The year-end is approaching, and we noticed that your PDF Invoices & Packing Slips for WooCommerce plugin doesn't have the scheduled action to reset invoice numbers annually, even though you've explicitly enabled this setting in the document options. Click the button below to schedule the action before the year ends."
 msgstr ""
 
-#: woocommerce-pdf-invoices-packingslips.php:522
+#: woocommerce-pdf-invoices-packingslips.php:526
 msgid "Schedule the action now"
 msgstr ""
 
 #. translators: legacy addon name
-#: woocommerce-pdf-invoices-packingslips.php:606
+#: woocommerce-pdf-invoices-packingslips.php:610
 #, php-format
 msgid "While updating the PDF Invoices & Packing Slips for WooCommerce plugin we've noticed our legacy %s add-on was active on your site. This functionality is now incorporated into the core plugin. We've deactivated the add-on for you, and you are free to uninstall it."
 msgstr ""
 
 #. translators: %s: Plugin name
-#: woocommerce-pdf-invoices-packingslips.php:678
+#: woocommerce-pdf-invoices-packingslips.php:682
 #, php-format
 msgid "We've added a new option to %s that lets you check for beta and pre-release versions."
 msgstr ""
 
-#: woocommerce-pdf-invoices-packingslips.php:684
+#: woocommerce-pdf-invoices-packingslips.php:688
 msgid "If you'd like to help improve the plugin by testing early releases on a staging site, you can enable this feature from the advanced settings."
 msgstr ""
 
-#: woocommerce-pdf-invoices-packingslips.php:688
+#: woocommerce-pdf-invoices-packingslips.php:692
 msgid "Go to settings"
 msgstr ""
 
-#: woocommerce-pdf-invoices-packingslips.php:691
+#: woocommerce-pdf-invoices-packingslips.php:695
 msgid "Dismiss this notice"
 msgstr ""
 
 #. translators: 1. new unstable version, 2. plugin name
-#: woocommerce-pdf-invoices-packingslips.php:751
+#: woocommerce-pdf-invoices-packingslips.php:755
 #, php-format
 msgid "A new unstable version (%1$s) of %2$s is available."
 msgstr ""
 
-#: woocommerce-pdf-invoices-packingslips.php:760
+#: woocommerce-pdf-invoices-packingslips.php:764
 msgid "Download from the status page"
 msgstr ""
 
-#: woocommerce-pdf-invoices-packingslips.php:765
+#: woocommerce-pdf-invoices-packingslips.php:769
 msgid "Hide this version"
 msgstr ""
 
-#: wpo-ips-functions-edi.php:572
-#: wpo-ips-functions-edi.php:666
+#: wpo-ips-functions-edi.php:669
+#: wpo-ips-functions-edi.php:745
 msgid "Name"
 msgstr ""
 
-#: wpo-ips-functions-edi.php:577
+#: wpo-ips-functions-edi.php:674
 msgid "Street address"
 msgstr ""
 
-#: wpo-ips-functions-edi.php:582
-#: wpo-ips-functions-edi.php:676
+#: wpo-ips-functions-edi.php:679
+#: wpo-ips-functions-edi.php:755
 msgid "Postcode"
 msgstr ""
 
-#: wpo-ips-functions-edi.php:592
-#: wpo-ips-functions-edi.php:686
+#: wpo-ips-functions-edi.php:689
+#: wpo-ips-functions-edi.php:765
 msgid "State"
 msgstr ""
 
-#: wpo-ips-functions-edi.php:597
-#: wpo-ips-functions-edi.php:691
+#: wpo-ips-functions-edi.php:694
+#: wpo-ips-functions-edi.php:770
 msgid "Country Code"
 msgstr ""
 
-#: wpo-ips-functions-edi.php:602
-#: wpo-ips-functions-edi.php:696
+#: wpo-ips-functions-edi.php:699
+#: wpo-ips-functions-edi.php:775
 msgid "VAT number"
 msgstr ""
 
-#: wpo-ips-functions-edi.php:607
+#: wpo-ips-functions-edi.php:704
 msgid "Registration number"
 msgstr ""
 
-#: wpo-ips-functions-edi.php:612
-#: wpo-ips-functions-edi.php:701
+#: wpo-ips-functions-edi.php:709
+#: wpo-ips-functions-edi.php:780
 msgid "Email"
 msgstr ""
 
-#: wpo-ips-functions-edi.php:633
+#: wpo-ips-functions-edi.php:720
 msgid "PEPPOL Endpoint ID"
 msgstr ""
 
-#: wpo-ips-functions-edi.php:641
-msgid "PEPPOL Legal Identifier"
-msgstr ""
-
-#: wpo-ips-functions-edi.php:671
+#: wpo-ips-functions-edi.php:750
 msgid "Address"
 msgstr ""
 
-#: wpo-ips-functions-edi.php:721
+#: wpo-ips-functions-edi.php:800
 msgid "Endpoint ID"
 msgstr ""
 

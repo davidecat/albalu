@@ -12,6 +12,7 @@ import {
 	AdjustmentsVerticalIcon,
 	LinkIcon,
 	KeyIcon,
+	NoSymbolIcon,
 } from '@heroicons/react/24/outline';
 import TabWrapper from '@Components/common/TabWrapper';
 import RenderFields from '@Components/RenderFields';
@@ -33,6 +34,7 @@ const iconMap = {
 	'advanced-settings': (
 		<AdjustmentsVerticalIcon className="h-6 w-6 text-gray-500" />
 	),
+	'blacklist-settings': <NoSymbolIcon className="h-6 w-6 text-gray-500" />,
 };
 
 const Settings = () => {

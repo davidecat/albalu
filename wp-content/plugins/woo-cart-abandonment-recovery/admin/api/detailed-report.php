@@ -124,6 +124,8 @@ class DetailedReport extends ApiBase {
 			case WCF_CART_LOST_ORDER:
 			case WCF_CART_FAILED_ORDER:
 				return 'Failed';
+			case WCF_CART_BLACKLISTED_ORDER:
+				return 'Blacklisted';
 			default:
 				return 'Normal';
 		}

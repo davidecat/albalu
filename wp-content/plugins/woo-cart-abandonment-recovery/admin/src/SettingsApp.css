@@ -87,6 +87,28 @@ a:focus-visible {
 	border-radius: 0;
 }
 
+#wcar-admin-app .wp-editor-tabs {
+	display: none;
+}
+
+#wcar-admin-app .mce-toolbar-grp {
+	background: transparent;
+}
+
+#wcar-admin-app .mce-ico,
+#wcar-admin-app .mce-txt {
+	color: #111827 !important;
+}
+
+#wcar-admin-app .mce-toolbar .mce-btn-group .mce-btn:hover,
+#wcar-admin-app .mce-toolbar .mce-btn-group .mce-btn:focus {
+	box-shadow: 0 0 0 2px #f06434;
+}
+
+#wcar-admin-app .mce-top-part::before {
+	box-shadow: none;
+}
+
 #wcar-admin-app .recharts-tooltip-wrapper {
 	text-transform: capitalize;
 }

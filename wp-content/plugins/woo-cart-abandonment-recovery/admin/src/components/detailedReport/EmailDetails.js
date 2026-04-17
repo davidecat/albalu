@@ -15,6 +15,7 @@ const EmailDetails = ( {
 	isLoading,
 	handleRescheduleEmails,
 	buttonLoading,
+	disabled,
 } ) => {
 	const emailStatus = ( status ) => {
 		const config = {
@@ -84,7 +85,7 @@ const EmailDetails = ( {
 					type="button"
 					variant="outline"
 					onClick={ handleRescheduleEmails }
-					disabled={ isLoading || buttonLoading }
+					disabled={ isLoading || buttonLoading || disabled }
 					icon={
 						buttonLoading && (
 							<Loader

@@ -126,11 +126,11 @@ class Cartflows_Ca_Utils {
 			} else {
 				$default_options = wcf_ca()->options->get_default_settings();
 				/**
-			 * Filter the options array for Cart Abandonment Settings.
-			 *
-			 * @since  2.0.0
-			 * @var Array
-			 */
+				 * Filter the options array for Cart Abandonment Settings.
+				 *
+				 * @since  2.0.0
+				 * @var Array
+				 */
 				$default_options = apply_filters( 'wcar_get_option_array', $default_options, $option, $default );
 				$value           = isset( $default_options[ $option ] ) ? $default_options[ $option ] : $default;
 			}

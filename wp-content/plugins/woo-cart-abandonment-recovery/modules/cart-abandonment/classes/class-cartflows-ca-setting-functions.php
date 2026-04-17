@@ -120,13 +120,19 @@ class Cartflows_Ca_Setting_Functions {
 			$coupon_count = count( $coupons );
 
 			if ( $coupon_count ) {
-				$coupons_post_ids = implode( ',', wp_list_pluck( $coupons, 'ID' ) );
-				// Can't use placeholders for table/column names, it will be wrapped by a single quote (') instead of a backquote (`).
+				$coupons_post_ids = array_map( 'absint', wp_list_pluck( $coupons, 'ID' ) );
+				$placeholders     = implode( ',', array_fill( 0, count( $coupons_post_ids ), '%d' ) );
 				$wpdb->query(
-					"DELETE FROM {$wpdb->prefix}postmeta WHERE post_id IN( {$coupons_post_ids} )" //phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+					$wpdb->prepare(
+						"DELETE FROM {$wpdb->prefix}postmeta WHERE post_id IN({$placeholders})", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare
+						...$coupons_post_ids
+					)
 				); // db call ok; no cache ok.
 				$wpdb->query(
-					"DELETE FROM {$wpdb->prefix}posts WHERE ID IN( {$coupons_post_ids} )" //phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+					$wpdb->prepare(
+						"DELETE FROM {$wpdb->prefix}posts WHERE ID IN({$placeholders})", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare
+						...$coupons_post_ids
+					)
 				); // db call ok; no cache ok.
 			}
 

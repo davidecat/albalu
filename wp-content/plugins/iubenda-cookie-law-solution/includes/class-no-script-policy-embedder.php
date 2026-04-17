@@ -68,7 +68,8 @@ class No_Script_Policy_Embedder {
 			} elseif ( is_bool( $status ) && ! $status ) {
 				// The transient with this name does not exist, add it to the cron job.
 				if ( ! wp_next_scheduled( 'iubenda_verify_cookie_policy_existence' ) ) {
-					wp_schedule_single_event( time(), 'iubenda_verify_cookie_policy_existence' );
+					$next_run_the_event = time() + ( WEEK_IN_SECONDS * 1 );
+					wp_schedule_single_event( $next_run_the_event, 'iubenda_verify_cookie_policy_existence' );
 				}
 			}
 		} catch ( Exception $e ) {

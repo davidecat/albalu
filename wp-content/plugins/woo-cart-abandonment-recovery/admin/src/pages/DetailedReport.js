@@ -10,10 +10,12 @@ import EmailDetails from '@Components/detailedReport/EmailDetails';
 import UserOrderDetails from '@Components/detailedReport/UserOrderDetails';
 import UserAddressDetails from '@Components/detailedReport/UserAddressDetails';
 import SmsDetails from '@Components/detailedReport/SmsDetails';
+import WhatsappDetails from '@Components/detailedReport/WhatsappDetails';
 
 const DetailedReport = () => {
 	const [ isLoading, setIsLoading ] = useState( true );
 	const [ scheduledEmails, setScheduledEmails ] = useState( [] );
+	const [ scheduledMessages, setScheduledMessages ] = useState( [] );
 	const [ scheduledSms, setScheduledSms ] = useState( [] );
 	const [ userDetails, setUserDetails ] = useState( {} );
 	const [ orderDetails, setOrderDetails ] = useState( {} );
@@ -24,6 +26,7 @@ const DetailedReport = () => {
 	const [ unsubscribed, setUnsubscribed ] = useState( '' );
 	const [ emailButtonLoading, setEmailButtonLoading ] = useState( false );
 	const [ smsButtonLoading, setSmsButtonLoading ] = useState( false );
+	const [ messageButtonLoading, setMessageButtonLoading ] = useState( false );
 	const navigate = useNavigate();
 	const urlParams = new URLSearchParams( useLocation().search );
 	const reportId = urlParams.get( 'id' );
@@ -39,6 +42,9 @@ const DetailedReport = () => {
 				( response ) => {
 					setScheduledEmails( response.scheduled_emails || [] );
 					setScheduledSms( response.scheduled_sms || [] );
+					setScheduledMessages(
+						response.scheduled_whatsapp_messages || []
+					);
 					setUserDetails( response.user_details || {} );
 					setOrderDetails( response.order_details || {} );
 					setOrderStatus( response.details?.order_status || '' );
@@ -174,6 +180,64 @@ const DetailedReport = () => {
 		);
 	};
 
+	const handleRescheduleMessages = () => {
+		if ( ! sessionId ) {
+			return;
+		}
+		setMessageButtonLoading( true );
+		const ajaxUrl = cart_abandonment_admin?.ajax_url;
+		const nonce =
+			cart_abandonment_admin?.reschedule_whatsapp_messages_nonce;
+
+		const formData = new window.FormData();
+		formData.append( 'action', 'wcar_pro_reschedule_whatsapp_messages' );
+		formData.append( 'session_id', sessionId );
+		formData.append( 'security', nonce );
+		doApiFetch(
+			ajaxUrl,
+			formData,
+			'POST',
+			( response ) => {
+				if ( response.success ) {
+					toast.success(
+						__(
+							'Messages Scheduled Successfully',
+							'woo-cart-abandonment-recovery'
+						)
+					);
+					setScheduledMessages(
+						response.data?.scheduled_messages || []
+					);
+				} else {
+					toast.error(
+						__(
+							'Message Scheduling failed',
+							'woo-cart-abandonment-recovery'
+						),
+						{
+							description: response.data?.message || '',
+						}
+					);
+				}
+				setMessageButtonLoading( false );
+			},
+			( error ) => {
+				toast.error(
+					__(
+						'Message Scheduling failed',
+						'woo-cart-abandonment-recovery'
+					),
+					{
+						description: error.data?.message || '',
+					}
+				);
+				setMessageButtonLoading( false );
+			},
+			true,
+			false
+		);
+	};
+
 	return (
 		<div className="p-4 md:p-8">
 			<SectionWrapper className="p-4 flex flex-col gap-5">
@@ -196,12 +260,21 @@ const DetailedReport = () => {
 						handleRescheduleEmails={ handleRescheduleEmails }
 						isLoading={ isLoading }
 						buttonLoading={ emailButtonLoading }
+						disabled={ 'Blacklisted' === orderStatus }
 					/>
 					<SmsDetails
 						scheduledSms={ scheduledSms }
 						handleRescheduleSms={ handleRescheduleSms }
 						isLoading={ isLoading }
 						buttonLoading={ smsButtonLoading }
+						disabled={ 'Blacklisted' === orderStatus }
+					/>
+					<WhatsappDetails
+						scheduledMessages={ scheduledMessages }
+						handleRescheduleMessage={ handleRescheduleMessages }
+						isLoading={ isLoading }
+						buttonLoading={ messageButtonLoading }
+						disabled={ 'Blacklisted' === orderStatus }
 					/>
 					{ /* User Address Details Section */ }
 					<UserAddressDetails
@@ -224,3 +297,4 @@ const DetailedReport = () => {
 };
 
 export default DetailedReport;
+

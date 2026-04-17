@@ -13,7 +13,6 @@ use PaymentPlugins\PayPalSDK\PaymentSource;
 use PaymentPlugins\PayPalSDK\Token;
 use PaymentPlugins\PayPalSDK\PurchaseUnit;
 use PaymentPlugins\PayPalSDK\Refund;
-use PaymentPlugins\PayPalSDK\Shipping;
 use PaymentPlugins\WooCommerce\PPCP\Assets\AssetsApi;
 use PaymentPlugins\WooCommerce\PPCP\Constants;
 use PaymentPlugins\WooCommerce\PPCP\Factories\CoreFactories;
@@ -62,6 +61,9 @@ class AbstractGateway extends \WFOCU_Gateway {
 
 	public function process_charge( $order ) {
 		$this->handle_client_error();
+		/**
+		 * @var \PaymentPlugins\WooCommerce\PPCP\Payments\Gateways\AbstractGateway $payment_method
+		 */
 		$payment_method = $this->get_wc_gateway();
 		$this->payment_handler->set_payment_method( $payment_method );
 		$client = $this->payment_handler->client;
@@ -71,15 +73,22 @@ class AbstractGateway extends \WFOCU_Gateway {
 			} else {
 				$paypal_order = $client->orders->create( $this->get_create_order_params( $order ) );
 				if ( is_wp_error( $paypal_order ) ) {
+					/**
+					 * @var \WP_Error $paypal_order
+					 */
 					throw new \Exception( $paypal_order->get_error_message() );
 				}
+				// Store a reference to the PayPal Order ID.
+				$order->update_meta_data( '_ppcp_funnelkit_order_id', $paypal_order->getId() );
 			}
 			if ( $paypal_order->isApproved() || $paypal_order->isCreated() ) {
-				if ( Order::CAPTURE == $paypal_order->intent ) {
-					OrderLock::set_order_lock( $order );
-					$paypal_order = $client->orders->capture( $paypal_order->id );
-				} else {
-					$paypal_order = $client->orders->authorize( $paypal_order->id );
+				if ( $paypal_order->getPaymentSource() ) {
+					if ( Order::CAPTURE == $paypal_order->intent ) {
+						OrderLock::set_order_lock( $order );
+						$paypal_order = $client->orders->capture( $paypal_order->id );
+					} else {
+						$paypal_order = $client->orders->authorize( $paypal_order->id );
+					}
 				}
 			}
 			$result = new PaymentResult( $paypal_order, $order, $payment_method );
@@ -89,6 +98,19 @@ class AbstractGateway extends \WFOCU_Gateway {
 
 				return $this->handle_result( true );
 			} else {
+				if ( $result->needs_approval() ) {
+					// Save the package to the order so that it's not lost during the redirect.
+					$package = WFOCU_Core()->data->get( '_upsell_package' );
+					$order->update_meta_data( '_upsell_package', $package );
+					$order->save();
+					$response = $result->get_approval_response();
+					\wp_send_json( [
+						'success' => true,
+						'data'    => [
+							'redirect_url' => $response['redirect']
+						]
+					] );
+				}
 				throw new \Exception( $result->get_error_message() );
 			}
 		} catch ( \Exception $e ) {
@@ -137,6 +159,22 @@ class AbstractGateway extends \WFOCU_Gateway {
 		}, [ 0, false ] );
 
 		$application_context = $factories->applicationContext->get( $needs_shipping, true );
+		$application_context->setReturnUrl(
+			add_query_arg( [
+				'wfocu-si'  => WFOCU_Core()->data->get_transient_key(),
+				'order_id'  => $order->get_id(),
+				'order_key' => $order->get_order_key()
+			], WC()->api_request_url( 'wc_ppcp_funnelkit_return' )
+			)
+		);
+		$application_context->setCancelUrl(
+			add_query_arg( [
+				'wfocu-si' => WFOCU_Core()->data->get_transient_key()
+			], WFOCU_Core()->public->get_the_upsell_url( WFOCU_Core()->data->get_current_offer() ) ) );
+
+		if ( ! $this->has_token( $order ) ) {
+			$application_context->setUserAction( OrderApplicationContext::PAY_NOW );
+		}
 
 		$result = ( new Order() )
 			->setIntent( $payment_method->get_option( 'intent' ) )

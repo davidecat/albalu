@@ -19,78 +19,130 @@ const SmsPreview = () => {
 			template_name: 'Welcome Back Reminder',
 			sms_frequency: 15,
 			sms_frequency_unit: 'MINUTE',
+			sent: 12000,
+			click_rate: 18.5,
+			conversion_rate: 6.2,
+			unsubscribe_rate: 0.8,
 		},
 		{
 			id: 'sms-2',
 			template_name: 'First Follow-up',
 			sms_frequency: 2,
 			sms_frequency_unit: 'HOUR',
+			sent: 9800,
+			click_rate: 15.1,
+			conversion_rate: 5.4,
+			unsubscribe_rate: 0.6,
 		},
 		{
 			id: 'sms-3',
 			template_name: '24h Nudge',
 			sms_frequency: 1,
 			sms_frequency_unit: 'DAY',
+			sent: 8700,
+			click_rate: 12.3,
+			conversion_rate: 4.1,
+			unsubscribe_rate: 0.5,
 		},
 		{
 			id: 'sms-4',
 			template_name: 'Last Chance Offer',
 			sms_frequency: 3,
 			sms_frequency_unit: 'DAY',
+			sent: 7600,
+			click_rate: 20.7,
+			conversion_rate: 8.9,
+			unsubscribe_rate: 1.2,
 		},
 		{
 			id: 'sms-5',
 			template_name: 'Cart Value Upsell',
 			sms_frequency: 6,
 			sms_frequency_unit: 'HOUR',
+			sent: 6400,
+			click_rate: 17.9,
+			conversion_rate: 7.3,
+			unsubscribe_rate: 0.9,
 		},
 		{
 			id: 'sms-6',
 			template_name: 'Free Shipping Push',
 			sms_frequency: 12,
 			sms_frequency_unit: 'HOUR',
+			sent: 7100,
+			click_rate: 22.4,
+			conversion_rate: 10.1,
+			unsubscribe_rate: 1.0,
 		},
 		{
 			id: 'sms-7',
 			template_name: 'Weekend Deal Teaser',
 			sms_frequency: 2,
 			sms_frequency_unit: 'DAY',
+			sent: 5800,
+			click_rate: 14.6,
+			conversion_rate: 5.0,
+			unsubscribe_rate: 0.7,
 		},
 		{
 			id: 'sms-8',
 			template_name: 'VIP Customer Ping',
 			sms_frequency: 30,
 			sms_frequency_unit: 'MINUTE',
+			sent: 3200,
+			click_rate: 28.9,
+			conversion_rate: 14.8,
+			unsubscribe_rate: 0.3,
 		},
 		{
 			id: 'sms-9',
 			template_name: 'Low Stock Alert',
 			sms_frequency: 45,
 			sms_frequency_unit: 'MINUTE',
+			sent: 4100,
+			click_rate: 31.2,
+			conversion_rate: 16.5,
+			unsubscribe_rate: 0.4,
 		},
 		{
 			id: 'sms-10',
 			template_name: 'Bundle Reminder',
 			sms_frequency: 4,
 			sms_frequency_unit: 'HOUR',
+			sent: 5300,
+			click_rate: 19.8,
+			conversion_rate: 9.2,
+			unsubscribe_rate: 0.8,
 		},
 		{
 			id: 'sms-11',
 			template_name: 'Seasonal Promo',
 			sms_frequency: 1,
 			sms_frequency_unit: 'DAY',
+			sent: 8900,
+			click_rate: 16.4,
+			conversion_rate: 6.7,
+			unsubscribe_rate: 1.1,
 		},
 		{
 			id: 'sms-12',
 			template_name: 'Review Request',
 			sms_frequency: 2,
 			sms_frequency_unit: 'DAY',
+			sent: 6700,
+			click_rate: 9.5,
+			conversion_rate: 3.2,
+			unsubscribe_rate: 0.6,
 		},
 		{
 			id: 'sms-13',
 			template_name: 'Win-Back Offer',
 			sms_frequency: 5,
 			sms_frequency_unit: 'DAY',
+			sent: 4500,
+			click_rate: 13.7,
+			conversion_rate: 4.9,
+			unsubscribe_rate: 1.4,
 		},
 	];
 
@@ -180,6 +232,38 @@ const SmsPreview = () => {
 							) }
 						</Table.HeadCell>
 						<Table.HeadCell>
+							<div className="flex items-center justify-center gap-1.5">
+								{ __(
+									'Sent',
+									'woo-cart-abandonment-recovery'
+								) }
+							</div>
+						</Table.HeadCell>
+						<Table.HeadCell>
+							<div className="flex items-center justify-center gap-1.5">
+								{ __(
+									'Click Rate',
+									'woo-cart-abandonment-recovery'
+								) }
+							</div>
+						</Table.HeadCell>
+						<Table.HeadCell>
+							<div className="flex items-center justify-center gap-1.5">
+								{ __(
+									'Conversion Rate',
+									'woo-cart-abandonment-recovery'
+								) }
+							</div>
+						</Table.HeadCell>
+						<Table.HeadCell>
+							<div className="flex items-center justify-center gap-1.5">
+								{ __(
+									'Unsubscribed',
+									'woo-cart-abandonment-recovery'
+								) }
+							</div>
+						</Table.HeadCell>
+						<Table.HeadCell>
 							{ __( 'Status', 'woo-cart-abandonment-recovery' ) }
 						</Table.HeadCell>
 						<Table.HeadCell className="text-right">
@@ -200,6 +284,24 @@ const SmsPreview = () => {
 										item.sms_frequency,
 										item.sms_frequency_unit
 									) }
+								</Table.Cell>
+								<Table.Cell className="text-center">
+									{ item?.sent || '-' }
+								</Table.Cell>
+								<Table.Cell className="text-center">
+									{ item?.click_rate
+										? `${ item.click_rate }%`
+										: '-' }
+								</Table.Cell>
+								<Table.Cell className="text-center">
+									{ item?.conversion_rate
+										? `${ item.conversion_rate }%`
+										: '-' }
+								</Table.Cell>
+								<Table.Cell className="text-center">
+									{ item?.unsubscribe_rate
+										? `${ item.unsubscribe_rate }%`
+										: '-' }
 								</Table.Cell>
 								<Table.Cell>
 									<Switch
@@ -291,3 +393,4 @@ const SmsPreview = () => {
 };
 
 export default SmsPreview;
+
