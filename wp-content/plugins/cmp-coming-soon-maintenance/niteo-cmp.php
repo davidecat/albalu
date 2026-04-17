@@ -3,7 +3,7 @@
  Plugin Name: 		CMP - Coming Soon & Maintenance Plugin
  Plugin URI: 		https://wordpress.org/plugins/cmp-coming-soon-maintenance/
  Description:       Display customizable landing page for Coming Soon, Maintenance & Under Construction page.
- Version:           4.1.16
+ Version:           4.1.17
  Author:            NiteoThemes
  Author URI:        https://www.niteothemes.com
  Text Domain:       cmp-coming-soon-maintenance
@@ -66,7 +66,7 @@ if (!class_exists('CMP_Coming_Soon_and_Maintenance')) :
 		// define constants
 		private function constants()
 		{
-			$this->define('CMP_VERSION', '4.1.16');
+			$this->define('CMP_VERSION', '4.1.17');
 			$this->define('CMP_DEBUG', FALSE);
 			$this->define('CMP_AUTHOR', 'NiteoThemes');
 			$this->define('CMP_AUTHOR_HOMEPAGE', 'https://niteothemes.com');
@@ -1242,7 +1242,7 @@ if (!class_exists('CMP_Coming_Soon_and_Maintenance')) :
 				// verify nonce
 				check_ajax_referer('cmp-coming-soon-ajax-secret', 'security');
 				// verify user rights
-				if (!current_user_can('publish_pages')) {
+				if (!current_user_can('manage_options')) {
 					die('Sorry, but this request is invalid');
 				}
 
@@ -1413,12 +1413,13 @@ if (!class_exists('CMP_Coming_Soon_and_Maintenance')) :
 		public function cmp_theme_update_install($file)
 		{
 			$ajax = false;
+			$theme_slug = '';
 			// check for ajax 
 			if (isset($_POST['file'])) {
 				// verify nonce
 				check_ajax_referer('cmp-coming-soon-ajax-secret', 'security');
 				// verify user rights
-				if (!current_user_can('publish_pages')) {
+				if (!current_user_can('manage_options')) {
 					die('Sorry, but this request is invalid');
 				}
 
@@ -1427,18 +1428,73 @@ if (!class_exists('CMP_Coming_Soon_and_Maintenance')) :
 
 				if (!empty($_POST['file'])) {
 					$file = $_POST['file'];
+					$theme_slug = isset($file['name']) ? sanitize_key($file['name']) : '';
 					$ajax   = true;
 				}
+			} else if (is_array($file) && isset($file['name'])) {
+				$theme_slug = sanitize_key($file['name']);
 			}
 
 			// load PHP WP FILE 
 			if (!empty($file)) {
+				if ($theme_slug === '' || !in_array($theme_slug, $this->cmp_premium_themes_installed(), true)) {
+					echo '<div class="notice notice-error is-dismissible"><p>' . __('Invalid theme update request.', 'cmp-coming-soon-maintenance') . '</p></div>';
+					if ($ajax === true) {
+						wp_die('error');
+						return;
+					}
+					return;
+				}
+
+				$allowed_hosts = array(wp_parse_url(CMP_UPDATE_URL, PHP_URL_HOST));
+				$file['url'] = add_query_arg(array('action' => 'download', 'slug' => $theme_slug), CMP_UPDATE_URL);
+				$parsed_url = wp_parse_url($file['url']);
+
+				if (empty($parsed_url['host']) || !in_array($parsed_url['host'], $allowed_hosts, true)) {
+					echo '<div class="notice notice-error is-dismissible"><p>' . __('Invalid update URL.', 'cmp-coming-soon-maintenance') . '</p></div>';
+					if ($ajax === true) {
+						wp_die('error');
+						return;
+					}
+					return;
+				}
+
+				$file['name'] = $theme_slug;
+
 				// Download file to temp location.
 				$file['tmp_name'] = download_url($file['url']);
 				//WARNING: The file is not automatically deleted, The script must unlink() the file.
 
 				// If error storing temporarily, return the error.
 				if (!is_wp_error($file['tmp_name'])) {
+					if (!class_exists('ZipArchive')) {
+						wp_delete_file($file['tmp_name']);
+						echo '<div class="notice notice-error is-dismissible"><p>' . __('ZIP validation is unavailable on this server.', 'cmp-coming-soon-maintenance') . '</p></div>';
+						if ($ajax === true) {
+							wp_die('error');
+							return;
+						}
+						return;
+					}
+
+					$zip = new ZipArchive();
+					if ($zip->open($file['tmp_name']) === TRUE) {
+						for ($i = 0; $i < $zip->numFiles; $i++) {
+							$entry = $zip->getNameIndex($i);
+							if (preg_match('/\.(php|phtml|phar)$/i', $entry)) {
+								$zip->close();
+								wp_delete_file($file['tmp_name']);
+								echo '<div class="notice notice-error is-dismissible"><p>' . __('ZIP contains forbidden file types.', 'cmp-coming-soon-maintenance') . '</p></div>';
+								if ($ajax === true) {
+									wp_die('error');
+									return;
+								}
+								return;
+							}
+						}
+						$zip->close();
+					}
+
 					WP_Filesystem();
 
 					// create new theme DIR
