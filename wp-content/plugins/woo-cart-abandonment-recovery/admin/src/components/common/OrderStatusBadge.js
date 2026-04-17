@@ -5,6 +5,7 @@ const OrderStatusBadge = ( { status } ) => {
 		Abandoned: 'yellow',
 		Failed: 'red',
 		Successful: 'green',
+		Blacklisted: 'inverse',
 	};
 	return (
 		<Badge

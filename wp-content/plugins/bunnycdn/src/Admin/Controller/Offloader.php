@@ -112,10 +112,19 @@ class Offloader implements ControllerInterface
                 $wasEnabled = $offloaderConfig->isEnabled() && $offloaderConfig->isSyncExisting();
                 $offloaderConfig->handlePost($_POST['offloader'] ?? []);
                 $offloaderConfig->saveToWpOptions();
+                // clear warning
+                delete_option('_bunnycdn_sync_delayed_warning');
                 if ($offloaderConfig->isSyncExisting() && $offloaderConfig->isCronjob()) {
                     $this->container->getOffloaderUtils()->cronEnable();
                 } else {
                     $this->container->getOffloaderUtils()->cronDisable();
+                }
+                if ($offloaderConfig->isSyncExisting()) {
+                    if (!$offloaderConfig->isCronjob()) {
+                        $this->container->getOffloaderUtils()->syncDelayedCronEnable();
+                    } else {
+                        $this->container->getOffloaderUtils()->syncDelayedCronDisable();
+                    }
                 }
                 if (!$wasEnabled && $offloaderConfig->isEnabled() && $offloaderConfig->isSyncExisting() && $attachmentCount[AttachmentCounter::LOCAL] > 0) {
                     try {

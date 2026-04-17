@@ -26,6 +26,11 @@ class WOE_HTMLPurifier_CSSDefinition extends WOE_HTMLPurifier_Definition
             false
         );
 
+        $this->info['direction'] = new WOE_HTMLPurifier_AttrDef_Enum(
+            ['ltr', 'rtl'],
+            false
+        );
+
         $border_style =
             $this->info['border-bottom-style'] =
             $this->info['border-right-style'] =

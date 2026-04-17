@@ -126,7 +126,7 @@ function wpo_ips_edi_maybe_save_order_peppol_data( \WC_Abstract_Order $order, ar
 	if ( ! wpo_ips_edi_peppol_is_available() ) {
 		return; // only save for Peppol formats
 	}
-	
+
 	$identifier     = '';
 	$scheme         = '';
 	$save_meta_data = false;
@@ -148,12 +148,12 @@ function wpo_ips_edi_maybe_save_order_peppol_data( \WC_Abstract_Order $order, ar
 			$identifier = $raw;
 		}
 	}
-	
+
 	if ( empty( $identifier ) || empty( $scheme ) ) {
 		$customer_id = is_callable( array( $order, 'get_customer_id' ) )
 			? $order->get_customer_id()
 			: 0;
-			
+
 		if ( $customer_id <= 0 ) {
 			return;
 		}
@@ -175,7 +175,7 @@ function wpo_ips_edi_maybe_save_order_peppol_data( \WC_Abstract_Order $order, ar
 	if ( ! $save_meta_data ) {
 		return;
 	}
-	
+
 	$order->save_meta_data();
 }
 
@@ -554,6 +554,103 @@ function wpo_ips_edi_vat_number_has_country_prefix( string $vat_number ): bool {
 }
 
 /**
+ * Build PEPPOL endpoint ID from VAT number.
+ *
+ * @param string $billing_country The billing country code (ISO 3166-1 alpha-2).
+ * @param string $vat_number      The VAT number.
+ * @return array Array with 'eas' and 'endpoint_id' keys, or empty array on failure.
+ */
+function wpo_ips_edi_build_peppol_endpoint_from_vat( string $billing_country, string $vat_number ): array {
+	$billing_country = strtoupper( trim( $billing_country ) );
+	$vat_number      = strtoupper( trim( $vat_number ) );
+
+	if ( '' === $billing_country || '' === $vat_number ) {
+		return array();
+	}
+
+	// If VAT looks like it has a prefix, ensure it's a plausible ISO prefix.
+	if (
+		strlen( $vat_number ) >= 2 &&
+		ctype_alpha( substr( $vat_number, 0, 2 ) ) &&
+		! wpo_ips_edi_vat_number_has_country_prefix( $vat_number )
+	) {
+		return array();
+	}
+
+	$mappings = wpo_ips_edi_get_peppol_vat_mappings();
+	if ( empty( $mappings[ $billing_country ] ) ) {
+		return array();
+	}
+
+	$cfg = $mappings[ $billing_country ];
+
+	// Normalize separators first.
+	$normalized = preg_replace( '/[\s\.\-]/', '', $vat_number ) ?? $vat_number;
+
+	// Strip configured prefixes.
+	if ( ! empty( $cfg['strip_prefixes'] ) && is_array( $cfg['strip_prefixes'] ) ) {
+		foreach ( $cfg['strip_prefixes'] as $prefix ) {
+			$prefix = strtoupper( (string) $prefix );
+			if ( '' !== $prefix && 0 === strpos( $normalized, $prefix ) ) {
+				$normalized = substr( $normalized, strlen( $prefix ) );
+				break;
+			}
+		}
+	}
+
+	// Keep only what the country expects.
+	$value = $normalized;
+	if ( ! empty( $cfg['keep_pattern'] ) && is_string( $cfg['keep_pattern'] ) ) {
+		if ( preg_match_all( $cfg['keep_pattern'], $value, $m ) ) {
+			$value = implode( '', $m[0] );
+		} else {
+			$value = '';
+		}
+	}
+
+	$value = trim( $value );
+	if ( '' === $value ) {
+		return array();
+	}
+
+	// Sanity constraints.
+	if ( ! empty( $cfg['length'] ) && is_int( $cfg['length'] ) && strlen( $value ) !== $cfg['length'] ) {
+		return array();
+	}
+
+	$eas = (string) ( $cfg['eas'] ?? '' );
+	if ( '' === $eas ) {
+		return array();
+	}
+
+	$endpointid = sprintf( '%s:%s', $eas, $value );
+
+	return array(
+		'eas'         => $eas,
+		'endpoint_id' => $endpointid,
+	);
+}
+
+/**
+ * Get PEPPOL VAT number mappings.
+ *
+ * @return array
+ */
+function wpo_ips_edi_get_peppol_vat_mappings(): array {
+	$mappings = array(
+		'BE' => array(
+			'name'           => 'Belgium',
+			'eas'            => '0208',
+			'strip_prefixes' => array( 'BE' ),
+			'keep_pattern'   => '/\d+/',
+			'length'         => 10,
+		),
+	);
+
+	return apply_filters( 'wpo_ips_edi_peppol_vat_mappings', $mappings );
+}
+
+/**
  * Get supplier identifiers data for EDI.
  *
  * @return array
@@ -616,31 +713,13 @@ function wpo_ips_edi_get_supplier_identifiers_data(): array {
 	);
 
 	if ( wpo_ips_edi_peppol_is_available() ) {
-		$endpoint_id             = wpo_ips_edi_get_settings( 'peppol_endpoint_id' );
-		$endpoint_scheme         = wpo_ips_edi_get_settings( 'peppol_endpoint_eas' );
-		$legal_identifier        = wpo_ips_edi_get_settings( 'peppol_legal_identifier' );
-		$legal_identifier_scheme = wpo_ips_edi_get_settings( 'peppol_legal_identifier_icd' );
-
-		$legal_identifier_value  = $legal_identifier && ! empty( $data[ $language ][ $legal_identifier ]['value'] )
-			? $data[ $language ][ $legal_identifier ]['value']
-			: '';
-
-		if ( 'vat_number' === $legal_identifier && wpo_ips_edi_vat_number_has_country_prefix( $legal_identifier_value ) ) {
-			$legal_identifier_value = substr( $legal_identifier_value, 2 );
-		}
+		$endpoint_id     = wpo_ips_edi_get_settings( 'peppol_endpoint_id' );
+		$endpoint_scheme = wpo_ips_edi_get_settings( 'peppol_endpoint_eas' );
 
 		$data[ $language ]['peppol_endpoint_id'] = array(
 			'label'    => __( 'PEPPOL Endpoint ID', 'woocommerce-pdf-invoices-packing-slips' ),
 			'value'    => ! empty( $endpoint_scheme ) && ! empty( $endpoint_id )
 				? sprintf( '%s:%s', $endpoint_scheme, $endpoint_id )
-				: '',
-			'required' => true,
-		);
-
-		$data[ $language ]['peppol_legal_identifier'] = array(
-			'label'    => __( 'PEPPOL Legal Identifier', 'woocommerce-pdf-invoices-packing-slips' ),
-			'value'    => ! empty( $legal_identifier_scheme ) && ! empty( $legal_identifier ) && ! empty( $legal_identifier_value )
-				? sprintf( '%s:%s', $legal_identifier_scheme, $legal_identifier_value )
 				: '',
 			'required' => true,
 		);
@@ -744,10 +823,18 @@ function wpo_ips_edi_peppol_enabled_for_location( string $location ): bool {
 		return false;
 	}
 
-	$location_setting = wpo_ips_edi_get_settings( 'peppol_customer_identifier_fields_location' );
+	$location_setting = wpo_ips_edi_get_settings( 'peppol_endpoint_id_field_location' );
+
+	// Valid options
+	$valid = array( 'checkout', 'my_account', 'both', 'none' );
 
 	// Always return false if the field is not properly set
-	if ( empty( $location_setting ) || ! in_array( $location_setting, array( 'checkout', 'my_account', 'both' ), true ) ) {
+	if ( empty( $location_setting ) || ! in_array( $location_setting, $valid, true ) ) {
+		return false;
+	}
+
+	// Explicitly disabled everywhere
+	if ( 'none' === $location_setting ) {
 		return false;
 	}
 
@@ -780,7 +867,7 @@ function wpo_ips_edi_peppol_save_customer_identifiers( int $user_id, array $requ
 	if ( $user_id <= 0 ) {
 		return;
 	}
-	
+
 	$mode = wpo_ips_edi_peppol_identifier_input_mode();
 
 	// [ text‑field , scheme‑field ]
@@ -877,13 +964,23 @@ function wpo_ips_edi_generate_action_button_html( string $url, string $class, st
 		return '';
 	}
 
+	$atts = apply_filters(
+		'wpo_ips_edi_generate_action_button_html_atts',
+		array(
+			'url'   => $url,
+			'class' => $class,
+			'label' => $label,
+			'icon'  => $icon,
+		)
+	);
+
 	return sprintf(
 		'<a href="%1$s" class="%2$s" alt="%3$s" title="%3$s">
 			<span class="dashicons %4$s"></span>
 		</a>',
-		esc_url( $url ),
-		esc_attr( $class ),
-		esc_attr( $label ),
-		esc_attr( $icon )
+		esc_url( $atts['url'] ),
+		esc_attr( $atts['class'] ),
+		esc_attr( $atts['label'] ),
+		esc_attr( $atts['icon'] )
 	);
 }

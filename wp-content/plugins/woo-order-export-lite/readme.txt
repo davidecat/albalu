@@ -5,7 +5,7 @@ Tags: order export,export orders,woocommerce,order,export
 Requires PHP: 7.4.0
 Requires at least: 4.7
 Tested up to: 6.9
-Stable tag: 4.0.6
+Stable tag: 4.0.7
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -54,6 +54,7 @@ Are you looking to have your WooCommerce products drop shipped from a third part
 For complete list of features -  please visit [Advanced Order Export For WooCommerce](https://algolplus.com/plugins/downloads/advanced-order-export-for-woocommerce-pro/)
 
 = Compatibility  =
+The plugin is fully compatible with HPOS.
 Our plugin correctly exports custom fields (added by 3rd-party plugins) in most cases. But for some complex plugins -  you should [use snippet](https://docs.algolplus.com/algol_order_export/developers-algol_order_export/codes-for-plugins-developers-algol_order_export/overview-17/).
 
 
@@ -67,6 +68,7 @@ Install and activate plugin, visit WooCommerce > Export Orders.
 [Please, visit the link and follow the instructions](https://wordpress.org/documentation/article/manage-plugins/#manual-plugin-installation-1)
 
 == Frequently Asked Questions ==
+The plugin is fully compatible with HPOS.
 
 Please, review [user guide](https://docs.algolplus.com/category/algol_order_export/) at first.
 
@@ -123,6 +125,12 @@ Yes, you can email a request to aprokaev@gmail.com. We intensively develop this 
 6. Select orders to export and use "bulk action".
 
 == Changelog ==
+
+= 4.0.7 - 2026-04-07 =
+* New field "Item cost before discount(inc tax)" (>Setup Fields>Product Order Items)
+* Autoscale supported for image height, PDF format
+* Fixed bug - impossible to sort orders by shipping/billing fields, in HPOS mode only
+* Updated external libraries (to fix PHP 8.5 errors) 
 
 = 4.0.6 - 2025-12-03 =
 * Added a "Setup Fields" button at the top of the form

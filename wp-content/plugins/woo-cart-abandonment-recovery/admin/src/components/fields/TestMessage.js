@@ -308,6 +308,20 @@ const TestMessage = ( {
 			);
 			return false;
 		}
+
+		if (
+			messageType === 'whatsapp' &&
+			value &&
+			value?.whatsapp_template === ''
+		) {
+			toast.error(
+				__(
+					'Please select a WhatsApp template',
+					'woo-cart-abandonment-recovery'
+				)
+			);
+			return false;
+		}
 		return true;
 	};
 
@@ -326,10 +340,22 @@ const TestMessage = ( {
 
 		if ( messageType === 'sms' && value ) {
 			formData.append( 'sms_body', value.sms_body );
-		} else {
+		} else if ( messageType === 'sms' && ! value ) {
 			formData.append(
 				'sms_body',
 				'Test SMS! Hi {{customer.firstname}}! You left {{cart.product.names}} in your cart.'
+			);
+		}
+
+		if ( messageType === 'whatsapp' && value ) {
+			formData.append( 'whatsapp_template', value?.whatsapp_template );
+			formData.append(
+				'whatsapp_template_header_variables',
+				value?.whatsapp_template_header_variables
+			);
+			formData.append(
+				'wcf_whatsapp_template_body_variables',
+				value?.whatsapp_template_body_variables
 			);
 		}
 
@@ -435,3 +461,4 @@ const TestMessage = ( {
 };
 
 export default TestMessage;
+

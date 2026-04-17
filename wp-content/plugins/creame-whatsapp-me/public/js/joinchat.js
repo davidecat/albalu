@@ -38,7 +38,7 @@
    */
   joinchat_obj.send_event = function (params) {
     params = {
-      event_category: 'JoinChat', // Name
+      event_category: this.settings.event_category || 'JoinChat', // Name
       event_label: '',            // Destination url
       event_action: '',           // "chanel: id"
       chat_channel: 'whatsapp',   // Channel name
@@ -52,7 +52,7 @@
     params.event_action = params.event_action || `${params.chat_channel}: ${params.chat_id}`;
     delete params.link;
 
-    // Trigger event (params can be edited by third party scripts or cancel if return false)
+    // Trigger event (params can be edited by third party scripts or cancel)
     if (!document.dispatchEvent(new CustomEvent('joinchat:event', { detail: params, cancelable: true }))) return;
 
     const data_layer = window[this.settings.data_layer] || window[window.gtm4wp_datalayer_name] || window.dataLayer;
@@ -148,18 +148,23 @@
   };
 
   // Open Chatbox and trigger event
-  joinchat_obj.chatbox_show = function () {
+  joinchat_obj.chatbox_show = function (trigger = 'unknown') {
     if (this.chatbox) return;
 
     this.chatbox = true;
     this.showed_at = Date.now(); // Avoid faux clicks
+
+    clearTimeout(this.open_text_anim_timeout);
     this.$div.classList.add('joinchat--chatbox');
+    // In two steps to trigger animation
+    this.$div.classList.add('joinchat--opening');
+    this.open_text_anim_timeout = setTimeout(() => this.$div.classList.remove('joinchat--opening'), 550);
 
     if (this.settings.message_badge) {
       this.$('.joinchat__badge').classList.replace('joinchat__badge--in', 'joinchat__badge--out');
     }
 
-    document.dispatchEvent(new Event('joinchat:show'));
+    document.dispatchEvent(new CustomEvent('joinchat:show', { detail: { trigger: trigger } }));
   };
 
   // Close Chatbox and trigger event
@@ -167,7 +172,8 @@
     if (!this.chatbox) return;
 
     this.chatbox = false;
-    this.$div.classList.remove('joinchat--chatbox', 'joinchat--tooltip');
+    clearTimeout(this.open_text_anim_timeout);
+    this.$div.classList.remove('joinchat--chatbox', 'joinchat--tooltip', 'joinchat--opening');
 
     if (this.settings.message_badge) {
       this.$('.joinchat__badge').classList.remove('joinchat__badge--out');
@@ -190,7 +196,7 @@
   };
 
   // Open WhatsApp link with supplied phone and message or with settings defaults
-  joinchat_obj.open_whatsapp = function (phone, message) {
+  joinchat_obj.open_whatsapp = function (phone, message, trigger = 'unknown') {
     phone = phone || this.settings.telephone;
     message = message !== undefined ? message : this.settings.message_send || '';
 
@@ -199,6 +205,7 @@
       chat_channel: 'whatsapp',
       chat_id: phone,
       chat_message: message,
+      trigger: trigger, // "button", "contact", "trigger", "url", "auto", "screen", "hover"
     };
 
     // Trigger event (params can be edited by third party scripts or cancel if return false)
@@ -221,13 +228,13 @@
   }
 
   // Show Chatbox or open WhatsApp
-  joinchat_obj.open = function (direct, phone, message) {
+  joinchat_obj.open = function (direct, phone, message, trigger = 'unknown') {
     if ((direct && !this.need_optin()) || !joinchat_obj.$('.joinchat__chatbox')) {
       if (Date.now() < joinchat_obj.showed_at + 600) return; // Avoid trigger WA on auto show chatbox
       this.save_hash();
-      this.open_whatsapp(phone, message);
+      this.open_whatsapp(phone, message, trigger);
     } else {
-      this.chatbox_show();
+      this.chatbox_show(trigger);
     }
   }
 
@@ -276,7 +283,7 @@
     const has_tooltip = !cta_viewed && (joinchat_obj.settings.message_badge || !has_cta || !chat_delay || !has_pageviews);
     setTimeout(() => joinchat_obj.show(has_tooltip), button_delay);
 
-    const joinchatOpen = () => joinchat_obj.open(); // shortcut
+    const joinchatOpen = (trigger, direct = false) => joinchat_obj.open(direct, undefined, undefined, trigger); // shortcut
 
     // Show badge or chatbox
     if (has_cta && !cta_viewed && chat_delay) {
@@ -285,7 +292,7 @@
       if (joinchat_obj.settings.message_badge) {
         timeout_auto_show = setTimeout(() => joinchat_obj.$('.joinchat__badge').classList.add('joinchat__badge--in'), button_delay + chat_delay);
       } else if (has_pageviews) {
-        timeout_auto_show = setTimeout(joinchatOpen, button_delay + chat_delay);
+        timeout_auto_show = setTimeout(() => joinchatOpen('auto'), button_delay + chat_delay);
       }
       document.addEventListener('joinchat:show', () => clearTimeout(timeout_auto_show), { once: true });
     }
@@ -295,23 +302,23 @@
     // Open Chatbox on mouse over
     if (!joinchat_obj.is_mobile) {
       let timeout_on_hover;
-      jc_button.addEventListener('mouseenter', () => { if (joinchat_obj.$('.joinchat__chatbox')) timeout_on_hover = setTimeout(joinchatOpen, 1500); });
+      jc_button.addEventListener('mouseenter', () => { if (joinchat_obj.$('.joinchat__chatbox')) timeout_on_hover = setTimeout(() => joinchatOpen('hover'), 1500); });
       jc_button.addEventListener('mouseleave', () => { clearTimeout(timeout_on_hover); });
     }
 
     // Open|close Chatbox on click
-    jc_button.addEventListener('click', joinchatOpen);
-    joinchat_obj.$('.joinchat__open')?.addEventListener('click', () => joinchat_obj.open(true));
+    jc_button.addEventListener('click', () => joinchatOpen('button'));
+    joinchat_obj.$('.joinchat__open')?.addEventListener('click', () => joinchatOpen('contact', true));
     joinchat_obj.$('.joinchat__close')?.addEventListener('click', () => joinchat_obj.close());
 
     // Opt-in toggle
-    joinchat_obj.$('#joinchat_optin')?.addEventListener('change', e => joinchat_obj.$div.classList.toggle('joinchat--optout', !e.target.checked));
+    joinchat_obj.$('#joinchat_optin')?.addEventListener('change', e => {
+      const is_checked = e.target.checked;
+      joinchat_obj.$div.classList.toggle('joinchat--optout', !is_checked);
 
-    // Only scroll Joinchat message box (no all body)
-    joinchat_obj.$('.joinchat__scroll')?.addEventListener('wheel', function (e) {
-      e.preventDefault();
-      this.scrollTop += e.deltaY;
-    }, { passive: false });
+      // Dispatch optin event
+      document.dispatchEvent(new CustomEvent('joinchat:optin', { detail: { optin: is_checked } }));
+    });
 
     // Mobile enhancements
     if (joinchat_obj.is_mobile) {
@@ -385,37 +392,70 @@
       // Random text
       if (has_cta) joinchat_obj.rand_text(jc_chat);
 
+      // Set data-src to src (for delayed loading)
+      joinchat_obj.$$('[data-src]').forEach(el => {
+        el.setAttribute('src', el.dataset.src);
+        el.removeAttribute('data-src');
+      });
+
+      // Animate height growth on any child/class mutation
+      if (!window.matchMedia('(prefers-reduced-motion)').matches) {
+        // Hide before observe
+        if (jc_bubbles.length > 1) {
+          jc_bubbles.forEach(bubble => bubble.classList.add('joinchat--hidden'));
+          joinchat_obj.$('.joinchat__optin')?.classList.add('joinchat--hidden');
+        }
+
+        let prev_height = jc_chat.offsetHeight;
+        let anim_timeout;
+
+        // Observe DOM mutations
+        const observer = new MutationObserver(() => {
+          if (jc_scroll.scrollHeight > jc_scroll.offsetHeight) observer.disconnect();
+
+          const new_height = jc_chat.offsetHeight;
+          clearTimeout(anim_timeout);
+          jc_chat.style.height = `${prev_height}px`;
+          jc_chat.offsetHeight; // force reflow
+          jc_chat.style.height = `${new_height}px`;
+          prev_height = new_height;
+          anim_timeout = setTimeout(() => {
+            jc_chat.style.height = '';
+            prev_height = jc_chat.offsetHeight; // Capture new height after animation (image, video)
+          }, 205);
+        });
+        observer.observe(jc_chat, { childList: true, attributes: true, attributeFilter: ['class'] });
+      }
+
       // Bubbles animated (show one by one)
       if (jc_bubbles.length <= 1 || window.matchMedia('(prefers-reduced-motion)').matches) {
         setTimeout(() => jc_chat.dispatchEvent(new Event('joinchat:bubbles')), 1); // Need delay (to trigger after joinchat:show)
         return;
       }
 
-      jc_bubbles.forEach(bubble => bubble.classList.add('joinchat--hidden'));
-      joinchat_obj.$('.joinchat__optin')?.classList.add('joinchat--hidden');
-
       let index = 0;
       const random = (min, max) => Math.round(Math.random() * (max - min) + min);
       const showBubble = (bubble, next_delay) => {
         joinchat_obj.$('.joinchat__bubble--loading')?.remove();
         bubble.classList.remove('joinchat--hidden');
-        jc_scroll.scrollTop = jc_scroll.scrollHeight;
+        jc_chat.parentNode.scrollIntoView({ behavior: 'smooth', block: 'end' });
         setTimeout(nextBubble, next_delay);
-      }
+      };
       const nextBubble = () => {
         if (index >= jc_bubbles.length) {
           joinchat_obj.$('.joinchat__optin')?.classList.remove('joinchat--hidden');
+          jc_chat.parentNode.scrollIntoView({ behavior: 'smooth', block: 'end' });
           jc_chat.dispatchEvent(new Event('joinchat:bubbles')); // All bubbles shown
           return;
         }
 
         const bubble = jc_bubbles[index++];
         if (bubble.classList.contains('joinchat__bubble--note')) {
-          showBubble(bubble, 100);
+          showBubble(bubble, 210);
         } else {
           jc_chat.insertAdjacentHTML('beforeend', '<div class="joinchat__bubble joinchat__bubble--loading"></div>');
-          jc_scroll.scrollTop = jc_scroll.scrollHeight;
-          setTimeout(() => showBubble(bubble, random(400, 600)), (bubble.textContent.split(/\s+/).length * 60) + random(100, 200)); // Delay (word count * time) + random delay
+          jc_chat.parentNode.scrollIntoView({ behavior: 'smooth', block: 'end' });
+          setTimeout(() => showBubble(bubble, random(400, 600)), Math.min((bubble.textContent.split(/\s+/).length * 60) + 210, 3000)); // Delay (word count * time) + animation delay
         }
       };
       nextBubble();
@@ -428,15 +468,16 @@
     if (location_url.hash === '#joinchat' || location_url.searchParams.has('joinchat')) {
       const query_delay = (parseInt(location_url.searchParams.get('joinchat')) || 0) * 1000;
       setTimeout(() => joinchat_obj.show(), query_delay);
-      setTimeout(() => joinchat_obj.chatbox_show(), query_delay + 700); // 500ms animation + 200ms extra delay
+      setTimeout(() => joinchat_obj.chatbox_show('url'), query_delay + 700); // 500ms animation + 200ms extra delay
     }
 
     // TRIGGERS: open chatbox or launch WhatsApp on click
     document.addEventListener('click', e => {
-      if (!e.target.closest('.joinchat_open, .joinchat_app, a[href="#joinchat"], a[href="#whatsapp"]')) return;
+      const trigger = e.target.closest('.joinchat_open, .joinchat_app, a[href="#joinchat"], a[href="#whatsapp"]');
+      if (!trigger) return;
       e.preventDefault();
-      const direct = !!e.target.closest('.joinchat_app, a[href="#whatsapp"]');
-      joinchat_obj.open(direct, e.target.dataset.phone, e.target.dataset.message);
+      const direct = trigger === trigger.closest('.joinchat_app, a[href="#whatsapp"]');
+      joinchat_obj.open(direct, trigger.dataset.phone, trigger.dataset.message, 'trigger');
     });
 
     // TRIGGERS: close chatbox when click on nodes with class "joinchat_close"
@@ -446,7 +487,7 @@
       joinchat_obj.close();
     });
 
-    // TRIGGERS: open chatbox on scroll (when node on viewport)
+    // TRIGGERS: open chatbox on scroll (when node on screen)
     const show_on_scroll = document.querySelectorAll('.joinchat_show, .joinchat_force_show');
     if (has_cta && show_on_scroll && 'IntersectionObserver' in window) {
       const observer = new IntersectionObserver(entries => {
@@ -455,7 +496,7 @@
           if (cta_viewed && !entry.target.classList.contains('joinchat_force_show')) return;
 
           observer.disconnect(); // Only one show per visit
-          joinchatOpen();
+          joinchatOpen('screen');
         });
       });
       show_on_scroll.forEach(element => observer.observe(element));
@@ -498,9 +539,10 @@
 
         // TRIGGERS: launch WhatsApp on click
         document.addEventListener('click', e => {
-          if (!e.target.closest('.joinchat_open, .joinchat_app, a[href="#joinchat"], a[href="#whatsapp"]')) return;
+          const trigger = e.target.closest('.joinchat_open, .joinchat_app, a[href="#joinchat"], a[href="#whatsapp"]');
+          if (!trigger) return;
           e.preventDefault();
-          joinchat_obj.open_whatsapp(e.target.dataset.phone, e.target.dataset.message);
+          joinchat_obj.open_whatsapp(trigger.dataset.phone, trigger.dataset.message, 'trigger');
         });
       }
 

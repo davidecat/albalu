@@ -630,6 +630,7 @@ $woe_order_post_type = isset($settings['post_type']) ? $settings['post_type'] : 
 
 	            <div class="pdf_two_col_block">
 		            <?php esc_html_e( 'Images height', 'woo-order-export-lite' ) ?>
+                    ( <?php esc_html_e( '0 - auto scale', 'woo-order-export-lite' ) ?> )
 		            <br>
 		            <input type="number" name="settings[format_pdf_row_images_height]"
 		                   value='<?php echo esc_attr($settings['format_pdf_row_images_height']) ?>' min="0">
@@ -1661,10 +1662,10 @@ $woe_order_post_type = isset($settings['post_type']) ? $settings['post_type'] : 
                     <ul class="subsubsub" style="float: none">
                         <?php $segments = WC_Order_Export_Data_Extractor_UI::get_unselected_fields_segments(); ?>
                         <?php $segment_hints = WC_Order_Export_Data_Extractor_UI::get_segment_hints(); ?>
-						<?php foreach ( $segments as $id => $segment_title ): ?>
-			<li class="block-segment-choice" data-segment="<?php echo esc_attr($id); ?>">
+						<?php foreach ( $segments as $segment_id => $segment_title ): ?>
+			<li class="block-segment-choice" data-segment="<?php echo esc_attr($segment_id); ?>">
                                 <a class="segment_choice"
-                                   data-segment="<?php echo esc_attr($id); ?>" href="#segment=<?php echo esc_attr($id); ?>">
+                                   data-segment="<?php echo esc_attr($segment_id); ?>" href="#segment=<?php echo esc_attr($segment_id); ?>">
 									<?php echo esc_html($segment_title); ?>
                                 </a>
 				    <span class="divider"><?php echo( end( $segments ) == $segment_title ? '' : ' | ' ); ?></span>

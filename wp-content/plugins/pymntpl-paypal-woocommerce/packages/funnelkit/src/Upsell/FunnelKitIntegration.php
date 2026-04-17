@@ -37,7 +37,10 @@ class FunnelKitIntegration implements PluginIntegrationType {
 		add_filter( 'woocommerce_ppcp_plugin_integration_registration', [ $this, 'register' ] );
 		add_filter( 'wc_ppcp_payment_method_save_required', [ $this, 'get_payment_save_required' ], 10, 2 );
 		add_filter( 'wc_ppcp_process_payment_result', [ $this, 'process_payment' ], 10, 3 );
-		add_filter( 'wc_ppcp_get_rest_routes', [ $this, 'add_rest_routes' ], 10, 2 );
+
+		// deprecated - 2.0.12
+		//add_filter( 'wc_ppcp_get_rest_routes', [ $this, 'add_rest_routes' ], 10, 2 );
+
 		add_action( 'woocommerce_api_wc_ppcp_funnelkit_return', [ $this, 'handle_return_request' ] );
 		add_action( 'admin_enqueue_scripts', [ $this, 'add_admin_scripts' ], 110 );
 	}
@@ -115,9 +118,13 @@ class FunnelKitIntegration implements PluginIntegrationType {
 			$order_id  = isset( $_GET['order_id'] ) ? absint( wc_clean( wp_unslash( $_GET['order_id'] ) ) ) : null;
 			$order_key = isset( $_GET['order_key'] ) ? wc_clean( wp_unslash( $_GET['order_key'] ) ) : null;
 			$token     = isset( $_GET['token'] ) ? wc_clean( wp_unslash( $_GET['token'] ) ) : null;
-			if ( $order_id && $order_key && $token ) {
+			if ( $order_id && $order_key ) {
 				$order = wc_get_order( $order_id );
 				if ( $order && $order->key_is_valid( $order_key ) ) {
+					// token wasn't included in the query parameters so check the WooCommerce order.
+					if ( ! $token ) {
+						$token = $order->get_meta( '_ppcp_funnelkit_order_id' );
+					}
 					$paypal_order = $this->client->orderMode( $order )->orders->retrieve( $token );
 					if ( ! is_wp_error( $paypal_order ) ) {
 						add_filter( 'wfocu_valid_state_for_data_setup', '__return_true' );

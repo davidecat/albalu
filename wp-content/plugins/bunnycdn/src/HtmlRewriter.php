@@ -86,9 +86,8 @@ class HtmlRewriter
             trigger_error('bunnycdn: failed to replace Fonts URLs', \E_USER_WARNING);
 
             return $html;
-        } else {
-            $html = $result;
         }
+        $html = $result;
         // fonts.gstatic.com
         $result = preg_replace('/(<link\\s+(?:[^>]*?\\s+)?href=(?:\'|"))(https?:|)(\\/\\/fonts\\.gstatic\\.com)((?:[^\'"]*)(?:\'|")(?:.*)+(?:\\/>|>))/i', '$1https://fonts.bunny.net$4', $html);
         if (null === $result) {

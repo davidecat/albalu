@@ -3,6 +3,13 @@ import { useNavigate } from 'react-router-dom';
 
 const TemplatesNav = ( { currentTab } ) => {
 	const navigate = useNavigate();
+
+	const tabs = [
+		{ slug: 'email', text: 'Email' },
+		{ slug: 'sms', text: 'SMS' },
+		{ slug: 'whatsapp', text: 'WhatsApp' },
+	];
+
 	return (
 		<Tabs activeItem={ currentTab }>
 			<Tabs.Group
@@ -18,25 +25,21 @@ const TemplatesNav = ( { currentTab } ) => {
 				width="auto"
 				className="p-0 w-fit bg-white"
 			>
-				<Tabs.Tab
-					slug="email"
-					text="Email"
-					className={ `${
-						currentTab === 'email' &&
-						'text-primary-600 bg-primary-25 outline outline-1 outline-primary-300 focus:outline-1'
-					} hover:text-primary-600` }
-				/>
-				<Tabs.Tab
-					slug="sms"
-					text="SMS"
-					className={ `${
-						currentTab === 'sms' &&
-						'text-primary-600 bg-primary-25 outline outline-1 outline-primary-300 focus:outline-1'
-					} hover:text-primary-600` }
-				/>
+				{ tabs.map( ( tab, index ) => (
+					<Tabs.Tab
+						key={ index }
+						slug={ tab.slug }
+						text={ tab.text }
+						className={ `${
+							currentTab === tab.slug &&
+							'text-primary-600 bg-primary-25 outline outline-1 outline-primary-300 focus:outline-1'
+						} hover:text-primary-600` }
+					/>
+				) ) }
 			</Tabs.Group>
 		</Tabs>
 	);
 };
 
 export default TemplatesNav;
+

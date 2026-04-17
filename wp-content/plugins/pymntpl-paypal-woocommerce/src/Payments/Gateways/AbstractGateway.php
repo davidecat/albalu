@@ -363,6 +363,7 @@ abstract class AbstractGateway extends \WC_Payment_Gateway {
 	}
 
 	public function get_transaction_url( $order ) {
+		//https://www.paypal.com/unifiedtransactions/details/payment/%s
 		$this->view_transaction_url = 'https://www.paypal.com/activity/payment/%s';
 		if ( $order->get_meta( Constants::PPCP_ENVIRONMENT ) === 'sandbox' ) {
 			$this->view_transaction_url = 'https://www.sandbox.paypal.com/activity/payment/%s';
@@ -377,7 +378,7 @@ abstract class AbstractGateway extends \WC_Payment_Gateway {
 
 	/**
 	 * @param \PaymentPlugins\PayPalSDK\Order $paypal_order
-	 * @param \WC_Order $order
+	 * @param \WC_Order                       $order
 	 *
 	 * @return void
 	 */

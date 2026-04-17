@@ -157,7 +157,7 @@ class PaymentHandler extends LegacyPaymentHandler {
 	}
 
 	/**
-	 * @param \WC_Order $order
+	 * @param \WC_Order     $order
 	 * @param PaymentResult $result
 	 */
 	public function payment_complete( \WC_Order $order, PaymentResult $result ) {
@@ -177,6 +177,7 @@ class PaymentHandler extends LegacyPaymentHandler {
 				$order->payment_complete( $result->get_capture_id() );
 			}
 		} else {
+			$order->set_transaction_id( $result->get_authorization_id() );
 			$order->update_meta_data( Constants::AUTHORIZATION_ID, $result->get_authorization_id() );
 			$order->update_status( apply_filters( 'wc_ppcp_authorized_order_status', $this->payment_method->get_option( 'authorize_status', 'on-hold' ), $order, $result->get_paypal_order(), $this ) );
 		}
@@ -280,9 +281,9 @@ class PaymentHandler extends LegacyPaymentHandler {
 		}
 
 		/**
-		 * @param array $patches
-		 * @param \WC_Order $order
-		 * @param Order $paypal_order
+		 * @param array                                           $patches
+		 * @param \WC_Order                                       $order
+		 * @param Order                                           $paypal_order
 		 * @param \PaymentPlugins\WooCommerce\PPCP\PaymentHandler $this
 		 */
 		return apply_filters( 'wc_ppcp_get_update_order_params', $patches, $order, $paypal_order, $this );
@@ -295,13 +296,12 @@ class PaymentHandler extends LegacyPaymentHandler {
 	/**
 	 * @param \WC_Order $order
 	 * @param           $amount
-	 * @param string $reason
+	 * @param string    $reason
 	 */
 	public function process_refund( \WC_Order $order, $amount, $reason = '' ) {
-		$id = $order->get_transaction_id();
-		if ( empty( $id ) ) {
-			// transaction is empty so check if there is an authorization ID.
-			$auth_id = $order->get_meta( Constants::AUTHORIZATION_ID );
+		$id      = $order->get_transaction_id();
+		$auth_id = $order->get_meta( Constants::AUTHORIZATION_ID );
+		if ( empty( $id ) || $id === $auth_id ) {
 			if ( ! $auth_id ) {
 				throw new \Exception( __( 'To process a refund, there must be a transaction id associated with the order.',
 					'pymntpl-paypal-woocommerce' ) );
@@ -359,7 +359,7 @@ class PaymentHandler extends LegacyPaymentHandler {
 	 * Void an authorized payment
 	 *
 	 * @param \WC_Order $order
-	 * @param bool $manual
+	 * @param bool      $manual
 	 */
 	public function process_void( \WC_Order $order, $manual = false ) {
 		try {
@@ -454,7 +454,7 @@ class PaymentHandler extends LegacyPaymentHandler {
 
 	/**
 	 * @param \WP_Error|Order $paypal_order
-	 * @param \WC_Order $order
+	 * @param \WC_Order       $order
 	 *
 	 * @return void
 	 * @throws \Exception

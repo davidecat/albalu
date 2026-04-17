@@ -4,7 +4,7 @@
 
 namespace WOE\Composer\Autoload;
 
-class ComposerStaticInit31e34bd41271d564484691672e957d80
+class ComposerStaticInit482e09a5bf8b47566caa84aea1f224d8
 {
     public static $files = array (
         'badf270e0e3ce89df3aac066581e7e5f' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
@@ -12,13 +12,12 @@ class ComposerStaticInit31e34bd41271d564484691672e957d80
     );
 
     public static $prefixLengthsPsr4 = array (
-        'W' => 
+        'W' =>
         array (
             'WOE\\ZipStream\\' => 14,
             'WOE\\Symfony\\Polyfill\\Mbstring\\' => 30,
             'WOE\\Psr\\SimpleCache\\' => 20,
             'WOE\\Psr\\Http\\Message\\' => 21,
-            'WOE\\Psr\\Http\\Client\\' => 20,
             'WOE\\PhpOffice\\PhpSpreadsheet\\' => 29,
             'WOE\\MyCLabs\\Enum\\' => 17,
             'WOE\\Matrix\\' => 11,
@@ -28,53 +27,48 @@ class ComposerStaticInit31e34bd41271d564484691672e957d80
     );
 
     public static $prefixDirsPsr4 = array (
-        'WOE\\ZipStream\\' => 
+        'WOE\\ZipStream\\' =>
         array (
             0 => __DIR__ . '/..' . '/maennchen/zipstream-php/src',
         ),
-        'WOE\\Symfony\\Polyfill\\Mbstring\\' => 
+        'WOE\\Symfony\\Polyfill\\Mbstring\\' =>
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-mbstring',
         ),
-        'WOE\\Psr\\SimpleCache\\' => 
+        'WOE\\Psr\\SimpleCache\\' =>
         array (
             0 => __DIR__ . '/..' . '/psr/simple-cache/src',
         ),
-        'WOE\\Psr\\Http\\Message\\' => 
+        'WOE\\Psr\\Http\\Message\\' =>
         array (
-            0 => __DIR__ . '/..' . '/psr/http-factory/src',
-            1 => __DIR__ . '/..' . '/psr/http-message/src',
+            0 => __DIR__ . '/..' . '/psr/http-message/src',
         ),
-        'WOE\\Psr\\Http\\Client\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/psr/http-client/src',
-        ),
-        'WOE\\PhpOffice\\PhpSpreadsheet\\' => 
+        'WOE\\PhpOffice\\PhpSpreadsheet\\' =>
         array (
             0 => __DIR__ . '/..' . '/phpoffice/phpspreadsheet/src/PhpSpreadsheet',
         ),
-        'WOE\\MyCLabs\\Enum\\' => 
+        'WOE\\MyCLabs\\Enum\\' =>
         array (
             0 => __DIR__ . '/..' . '/myclabs/php-enum/src',
         ),
-        'WOE\\Matrix\\' => 
+        'WOE\\Matrix\\' =>
         array (
             0 => __DIR__ . '/..' . '/markbaker/matrix/classes/src',
         ),
-        'WOE\\Composer\\Pcre\\' => 
+        'WOE\\Composer\\Pcre\\' =>
         array (
             0 => __DIR__ . '/..' . '/composer/pcre/src',
         ),
-        'WOE\\Complex\\' => 
+        'WOE\\Complex\\' =>
         array (
             0 => __DIR__ . '/..' . '/markbaker/complex/classes/src',
         ),
     );
 
     public static $prefixesPsr0 = array (
-        'H' => 
+        'H' =>
         array (
-            'HTMLPurifier' => 
+            'HTMLPurifier' =>
             array (
                 0 => __DIR__ . '/..' . '/ezyang/htmlpurifier/library',
             ),
@@ -628,22 +622,12 @@ class ComposerStaticInit31e34bd41271d564484691672e957d80
         'WOE\\PhpOffice\\PhpSpreadsheet\\Writer\\ZipStream0' => __DIR__ . '/..' . '/phpoffice/phpspreadsheet/src/PhpSpreadsheet/Writer/ZipStream0.php',
         'WOE\\PhpOffice\\PhpSpreadsheet\\Writer\\ZipStream2' => __DIR__ . '/..' . '/phpoffice/phpspreadsheet/src/PhpSpreadsheet/Writer/ZipStream2.php',
         'WOE\\PhpOffice\\PhpSpreadsheet\\Writer\\ZipStream3' => __DIR__ . '/..' . '/phpoffice/phpspreadsheet/src/PhpSpreadsheet/Writer/ZipStream3.php',
-        'WOE\\Psr\\Http\\Client\\ClientExceptionInterface' => __DIR__ . '/..' . '/psr/http-client/src/ClientExceptionInterface.php',
-        'WOE\\Psr\\Http\\Client\\ClientInterface' => __DIR__ . '/..' . '/psr/http-client/src/ClientInterface.php',
-        'WOE\\Psr\\Http\\Client\\NetworkExceptionInterface' => __DIR__ . '/..' . '/psr/http-client/src/NetworkExceptionInterface.php',
-        'WOE\\Psr\\Http\\Client\\RequestExceptionInterface' => __DIR__ . '/..' . '/psr/http-client/src/RequestExceptionInterface.php',
         'WOE\\Psr\\Http\\Message\\MessageInterface' => __DIR__ . '/..' . '/psr/http-message/src/MessageInterface.php',
-        'WOE\\Psr\\Http\\Message\\RequestFactoryInterface' => __DIR__ . '/..' . '/psr/http-factory/src/RequestFactoryInterface.php',
         'WOE\\Psr\\Http\\Message\\RequestInterface' => __DIR__ . '/..' . '/psr/http-message/src/RequestInterface.php',
-        'WOE\\Psr\\Http\\Message\\ResponseFactoryInterface' => __DIR__ . '/..' . '/psr/http-factory/src/ResponseFactoryInterface.php',
         'WOE\\Psr\\Http\\Message\\ResponseInterface' => __DIR__ . '/..' . '/psr/http-message/src/ResponseInterface.php',
-        'WOE\\Psr\\Http\\Message\\ServerRequestFactoryInterface' => __DIR__ . '/..' . '/psr/http-factory/src/ServerRequestFactoryInterface.php',
         'WOE\\Psr\\Http\\Message\\ServerRequestInterface' => __DIR__ . '/..' . '/psr/http-message/src/ServerRequestInterface.php',
-        'WOE\\Psr\\Http\\Message\\StreamFactoryInterface' => __DIR__ . '/..' . '/psr/http-factory/src/StreamFactoryInterface.php',
         'WOE\\Psr\\Http\\Message\\StreamInterface' => __DIR__ . '/..' . '/psr/http-message/src/StreamInterface.php',
-        'WOE\\Psr\\Http\\Message\\UploadedFileFactoryInterface' => __DIR__ . '/..' . '/psr/http-factory/src/UploadedFileFactoryInterface.php',
         'WOE\\Psr\\Http\\Message\\UploadedFileInterface' => __DIR__ . '/..' . '/psr/http-message/src/UploadedFileInterface.php',
-        'WOE\\Psr\\Http\\Message\\UriFactoryInterface' => __DIR__ . '/..' . '/psr/http-factory/src/UriFactoryInterface.php',
         'WOE\\Psr\\Http\\Message\\UriInterface' => __DIR__ . '/..' . '/psr/http-message/src/UriInterface.php',
         'WOE\\Psr\\SimpleCache\\CacheException' => __DIR__ . '/..' . '/psr/simple-cache/src/CacheException.php',
         'WOE\\Psr\\SimpleCache\\CacheInterface' => __DIR__ . '/..' . '/psr/simple-cache/src/CacheInterface.php',
@@ -670,10 +654,10 @@ class ComposerStaticInit31e34bd41271d564484691672e957d80
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit31e34bd41271d564484691672e957d80::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit31e34bd41271d564484691672e957d80::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInit31e34bd41271d564484691672e957d80::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInit31e34bd41271d564484691672e957d80::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit482e09a5bf8b47566caa84aea1f224d8::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit482e09a5bf8b47566caa84aea1f224d8::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInit482e09a5bf8b47566caa84aea1f224d8::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInit482e09a5bf8b47566caa84aea1f224d8::$classMap;
 
         }, null, ClassLoader::class);
     }

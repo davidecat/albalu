@@ -17,11 +17,13 @@ import {
 	XMarkIcon,
 	ExclamationTriangleIcon,
 	BookmarkSlashIcon,
+	NoSymbolIcon,
+	ShieldCheckIcon,
 } from '@heroicons/react/24/outline';
 import { __, sprintf } from '@wordpress/i18n';
 import { useNavigate } from 'react-router-dom';
 
-import { doApiFetch, useStateValue } from '@Store';
+import { doApiFetch, useStateValue, ActionTypes } from '@Store';
 
 import SectionWrapper from '@Components/common/SectionWrapper';
 import OrderStatusBadge from '@Components/common/OrderStatusBadge';
@@ -32,6 +34,7 @@ import ExportToExcel from '@Components/common/ExportToExcel';
 import AppTooltip from '@Components/common/AppTooltip';
 import ConfirmationModal from '@Components/common/ConfirmationModal';
 import { generatePaginationPages } from '@Admin/utils/helper';
+import { useProAccess } from '@Components/pro/useProAccess';
 
 const FollowUp = () => {
 	const [ selected, setSelected ] = useState( [] );
@@ -57,6 +60,8 @@ const FollowUp = () => {
 		id: null,
 	} );
 	const [ isDeleting, setIsDeleting ] = useState( false );
+	const { shouldBlockProFeatures } = useProAccess();
+	const isFeatureBlocked = shouldBlockProFeatures();
 	const notAvailableString = __(
 		'Not Available',
 		'woo-cart-abandonment-recovery'
@@ -130,6 +135,10 @@ const FollowUp = () => {
 			id: 'lost_orders',
 			title: __( 'Lost Orders', 'woo-cart-abandonment-recovery' ),
 		},
+		{
+			id: 'blacklisted',
+			title: __( 'Blacklisted', 'woo-cart-abandonment-recovery' ),
+		},
 	];
 
 	// Filter data based on search text and selected option
@@ -152,6 +161,9 @@ const FollowUp = () => {
 					break;
 				case 'lost_orders':
 					statusMatch = item.orderStatus === 'Failed';
+					break;
+				case 'blacklisted':
+					statusMatch = item.orderStatus === 'Blacklisted';
 					break;
 				default:
 					statusMatch = true;
@@ -403,6 +415,97 @@ const FollowUp = () => {
 			( error ) => {
 				toast.error(
 					__( 'Unsubscribe failed', 'woo-cart-abandonment-recovery' ),
+					{
+						description: error.data?.message || '',
+					}
+				);
+			},
+			true,
+			false
+		);
+	};
+
+	const handleBlacklist = ( id, action ) => {
+		const ajaxUrl = cart_abandonment_admin?.ajax_url;
+		const nonce =
+			'blacklist' === action
+				? cart_abandonment_admin?.blacklist_cart_nonce
+				: cart_abandonment_admin?.whitelist_cart_nonce;
+
+		const formData = new window.FormData();
+		formData.append( 'action', 'wcar_pro_' + action + '_cart' );
+		formData.append( 'id', id );
+		formData.append( 'security', nonce );
+
+		doApiFetch(
+			ajaxUrl,
+			formData,
+			'POST',
+			( response ) => {
+				if ( response.success ) {
+					const newStatus =
+						'blacklist' === action ? 'Blacklisted' : 'Abandoned';
+					const updated = data.map( ( record ) => {
+						if ( record.id === id ) {
+							return { ...record, orderStatus: newStatus };
+						}
+						return record;
+					} );
+					setData( updated );
+					dispatch( {
+						type: 'FETCH_FOLLOWUP_DATA_SUCCESS',
+						followUpData: updated,
+					} );
+					// Sync the blacklist setting in the store so the Settings
+					// page reflects the latest list without a page reload.
+					if ( response.data?.blacklist_list !== undefined ) {
+						dispatch( {
+							type: ActionTypes.UPDATE_SETTINGS_DATA,
+							payload: {
+								option: 'wcf_ca_email_blacklist_list',
+								value: response.data.blacklist_list,
+							},
+						} );
+					}
+					toast.success(
+						'blacklist' === action
+							? __(
+									'Cart blacklisted successfully',
+									'woo-cart-abandonment-recovery'
+							  )
+							: __(
+									'Cart whitelisted successfully',
+									'woo-cart-abandonment-recovery'
+							  )
+					);
+				} else {
+					toast.error(
+						'blacklist' === action
+							? __(
+									'Blacklist failed',
+									'woo-cart-abandonment-recovery'
+							  )
+							: __(
+									'Whitelist failed',
+									'woo-cart-abandonment-recovery'
+							  ),
+						{
+							description: response.data?.message || '',
+						}
+					);
+				}
+			},
+			( error ) => {
+				toast.error(
+					'blacklist' === action
+						? __(
+								'Blacklist failed',
+								'woo-cart-abandonment-recovery'
+						  )
+						: __(
+								'Whitelist failed',
+								'woo-cart-abandonment-recovery'
+						  ),
 					{
 						description: error.data?.message || '',
 					}
@@ -745,6 +848,48 @@ const FollowUp = () => {
 														/>
 													</AppTooltip>
 												) }
+												{ ! isFeatureBlocked && (
+													<AppTooltip
+														content={ __(
+															'Blacklisted' ===
+																item?.orderStatus
+																? 'Whitelist'
+																: 'Blacklist',
+															'woo-cart-abandonment-recovery'
+														) }
+														position="top"
+													>
+														<Button
+															variant="ghost"
+															icon={
+																'Blacklisted' ===
+																item?.orderStatus ? (
+																	<ShieldCheckIcon className="h-6 w-6" />
+																) : (
+																	<NoSymbolIcon className="h-6 w-6" />
+																)
+															}
+															size="xs"
+															className="text-gray-500 hover:text-flamingo-400"
+															aria-label={ __(
+																'Blacklisted' ===
+																	item?.orderStatus
+																	? 'Whitelist'
+																	: 'Blacklist',
+																'woo-cart-abandonment-recovery'
+															) }
+															onClick={ () =>
+																handleBlacklist(
+																	item.id,
+																	'Blacklisted' ===
+																		item?.orderStatus
+																		? 'whitelist'
+																		: 'blacklist'
+																)
+															}
+														/>
+													</AppTooltip>
+												) }
 												<AppTooltip
 													content="Delete"
 													position="top"
@@ -925,4 +1070,3 @@ const FollowUp = () => {
 };
 
 export default FollowUp;
-

@@ -5,7 +5,7 @@
 // $config or $context to the callback functions.
 
 /**
- * Handles referencing and derefencing character entities
+ * Handles referencing and dereferencing character entities
  */
 class WOE_HTMLPurifier_EntityParser
 {

@@ -615,7 +615,7 @@ class WC_Order_Export_Admin {
 		}
 
 		if ( $new_redirect_to ) {
-			wp_redirect( $new_redirect_to );
+			wp_safe_redirect( $new_redirect_to );
 			exit();
         }
 

@@ -151,7 +151,7 @@ class Iubenda_CS_Product_Service extends Iubenda_Abstract_Product_Service {
 
 					$site_id = iubenda()->configuration_parser->retrieve_info_from_script_by_key( $option, 'siteId' );
 					// getting site id to save it into Iubenda global option.
-					if ( ! empty( $site_id ) && empty( iub_array_get( $global_options, 'site_id' ) ) ) {
+					if ( ! empty( $site_id ) ) {
 						$global_options['site_id'] = sanitize_key( $site_id );
 					}
 

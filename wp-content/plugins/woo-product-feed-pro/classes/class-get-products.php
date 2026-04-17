@@ -3,6 +3,7 @@
 use AdTribes\PFP\Helpers\Helper;
 use AdTribes\PFP\Helpers\Product_Feed_Helper;
 use AdTribes\PFP\Classes\Shipping_Data;
+use AdTribes\PFP\Factories\Product_Feed;
 use AdTribes\PFP\Helpers\Formatting;
 use AdTribes\PFP\Helpers\Sanitization;
 
@@ -66,6 +67,28 @@ class WooSEA_Get_Products {
             $string = str_replace( array( "\r", "\n", '&#xa0;' ), '', $string );
         }
         return $string;
+    }
+
+    /**
+     * Escape XML entities and add child element to XML product.
+     * Helper method to avoid code duplication when adding XML child elements
+     * that require ampersand escaping.
+     *
+     * @access private
+     * @since 13.3.5
+     *
+     * @param SimpleXMLElement $product   The XML product element to add the child to.
+     * @param string           $name      The name of the child element to add.
+     * @param string           $value     The value to escape and add.
+     * @param string           $namespace Optional XML namespace for the element.
+     * @return SimpleXMLElement|false The created child element.
+     */
+    private function add_xml_child_with_escaped_entities( $product, $name, $value, $namespace = '' ) {
+        $escaped = htmlspecialchars( $value, ENT_XML1, 'UTF-8' );
+        if ( ! empty( $namespace ) ) {
+            return $product->addChild( $name, $escaped, $namespace );
+        }
+        return $product->addChild( $name, $escaped );
     }
 
     /**
@@ -429,7 +452,7 @@ class WooSEA_Get_Products {
         $content = ltrim( $content, "\xEF\xBB\xBF" );
         
         // Check if content starts with XML declaration or opening XML tag
-        return ( strpos( trim( $content ), '<?xml' ) === 0 || strpos( trim( $content ), '<' ) === 0 );
+        return ( str_starts_with( trim( $content ), '<?xml' ) || str_starts_with( trim( $content ), '<' ) );
     }
 
     /**
@@ -731,15 +754,9 @@ class WooSEA_Get_Products {
      * @throws \Exception If feed configuration not found or invalid channel name detected
      */
     public function woosea_create_xml_feed( $products, $feed, $header ) {
-        $upload_dir = wp_upload_dir();
-        $base       = $upload_dir['basedir'];
-        $path       = $base . '/woo-product-feed-pro/' . $feed->file_format;
-        $file       = $path . '/' . sanitize_file_name( $feed->file_name ) . '_tmp.' . $feed->file_format;
-
-        // External location for downloading the file
-        $external_base = $upload_dir['baseurl'];
-        $external_path = $external_base . '/woo-product-feed-pro/' . $feed->file_format;
-        $external_file = $external_path . '/' . sanitize_file_name( $feed->file_name ) . '.' . $feed->file_format;
+        $path          = $feed->get_file_dir_path();
+        $file          = $feed->get_temp_file_path();
+        $external_file = $feed->get_file_url();
 
         // Get the feed configuration
         $feed_config = $feed->get_channel();
@@ -774,7 +791,7 @@ class WooSEA_Get_Products {
                 $real_path = realpath( $channel_file_path );
                 $channels_dir = realpath( plugin_dir_path( __FILE__ ) . '/channels' );
                 
-                if ( $real_path && $channels_dir && strpos( $real_path, $channels_dir ) === 0 && file_exists( $real_path ) ) {
+                if ( $real_path && $channels_dir && str_starts_with( $real_path, $channels_dir ) && file_exists( $real_path ) ) {
                     require $real_path;
                     $channel_class      = 'WooSEA_' . $channel_name;
                     $channel_attributes = $channel_class::get_channel_attributes();
@@ -802,21 +819,28 @@ class WooSEA_Get_Products {
                 // End Facebook ID's
 
                 $xml->channel->addChild( 'title', htmlspecialchars( $feed->title ) );
-                $xml->channel->addChild( 'link', apply_filters( 'adt_pfp_google_shopping_feed_channel_link', home_url(), $feed ) );
+                $this->add_xml_child_with_escaped_entities( $xml->channel, 'link', apply_filters( 'adt_pfp_google_shopping_feed_channel_link', home_url(), $feed ) );
                 $xml->channel->addChild( 'description', 'WooCommerce Product Feed PRO - This product feed is created with the Product Feed PRO for WooCommerce plugin from AdTribes.io. For all your support questions check out our FAQ on https://www.adtribes.io or e-mail to: support@adtribes.io ' );
                 $xml->asXML( $file );
             } else {
-                // Guard against parsing CSV files as XML - only parse if it's actually an XML file
-                if ( $this->is_xml_file( $file ) ) {
-                    // Load XML without LIBXML_NOCDATA to preserve CDATA sections during batch processing
-                    $xml = simplexml_load_file( $file, 'SimpleXMLElement' );
-                } else {
-                    // Skip XML processing for CSV files to prevent simplexml_load_file warnings
-                    $xml = false;
+                // Validate tmp file exists and is valid XML before loading.
+                if ( ! file_exists( $file ) ) {
+                    throw new \Exception( 'Temporary XML feed file missing during batch processing: ' . basename( $file ) );
                 }
+
+                if ( ! $this->is_xml_file( $file ) ) {
+                    throw new \Exception( 'Temporary feed file is not valid XML: ' . basename( $file ) );
+                }
+
+                // Load XML without LIBXML_NOCDATA to preserve CDATA sections during batch processing.
+                $xml = simplexml_load_file( $file, 'SimpleXMLElement' );
+                if ( false === $xml ) {
+                    throw new \Exception( 'Failed to parse temporary XML feed file: ' . basename( $file ) );
+                }
+
                 $aantal = count( $products );
 
-                if ( ( $xml !== false ) && ( $aantal > 0 ) ) {
+                if ( $aantal > 0 ) {
                     foreach ( $products as $key => $value ) {
 
                         if ( is_array( $value ) ) {
@@ -834,23 +858,23 @@ class WooSEA_Get_Products {
 
                                                 $piece_value = explode( '##', $ship_piece );
                                                 if ( preg_match( '/WOOSEA_COUNTRY/', $ship_piece ) ) {
-                                                    $shipping_country = $shipping->addChild( 'g:country', $piece_value[1], $namespace['g'] );
+                                                    $shipping_country = $this->add_xml_child_with_escaped_entities( $shipping, 'g:country', $piece_value[1], $namespace['g'] );
                                                 } elseif ( preg_match( '/WOOSEA_REGION/', $ship_piece ) ) {
-                                                    $shipping_region = $shipping->addChild( 'g:region', $piece_value[1], $namespace['g'] );
+                                                    $shipping_region = $this->add_xml_child_with_escaped_entities( $shipping, 'g:region', $piece_value[1], $namespace['g'] );
                                                 } elseif ( preg_match( '/WOOSEA_POSTAL_CODE/', $ship_piece ) ) {
-                                                    $shipping_price = $shipping->addChild( 'g:postal_code', $piece_value[1], $namespace['g'] );
+                                                    $shipping_price = $this->add_xml_child_with_escaped_entities( $shipping, 'g:postal_code', $piece_value[1], $namespace['g'] );
                                                 } elseif ( preg_match( '/WOOSEA_SERVICE/', $ship_piece ) ) {
-                                                    $shipping_service = $shipping->addChild( 'g:service', $piece_value[1], $namespace['g'] );
+                                                    $shipping_service = $this->add_xml_child_with_escaped_entities( $shipping, 'g:service', $piece_value[1], $namespace['g'] );
                                                 } elseif ( preg_match( '/WOOSEA_PRICE/', $ship_piece ) ) {
-                                                    $shipping_price = $shipping->addChild( 'g:price', trim( $piece_value[1] ), $namespace['g'] );
+                                                    $shipping_price = $this->add_xml_child_with_escaped_entities( $shipping, 'g:price', trim( $piece_value[1] ), $namespace['g'] );
                                                 } elseif ( preg_match( '/WOOSEA_MIN_TRANSIT_TIME/', $ship_piece ) ) {
-                                                    $shipping->addChild( 'g:min_transit_time', trim( $piece_value[1] ), $namespace['g'] );
+                                                    $this->add_xml_child_with_escaped_entities( $shipping, 'g:min_transit_time', trim( $piece_value[1] ), $namespace['g'] );
                                                 } elseif ( preg_match( '/WOOSEA_MAX_TRANSIT_TIME/', $ship_piece ) ) {
-                                                    $shipping->addChild( 'g:max_transit_time', trim( $piece_value[1] ), $namespace['g'] );
+                                                    $this->add_xml_child_with_escaped_entities( $shipping, 'g:max_transit_time', trim( $piece_value[1] ), $namespace['g'] );
                                                 } elseif ( preg_match( '/WOOSEA_MIN_HANDLING_TIME/', $ship_piece ) ) {
-                                                    $shipping->addChild( 'g:min_handling_time', trim( $piece_value[1] ), $namespace['g'] );
+                                                    $this->add_xml_child_with_escaped_entities( $shipping, 'g:min_handling_time', trim( $piece_value[1] ), $namespace['g'] );
                                                 } elseif ( preg_match( '/WOOSEA_MAX_HANDLING_TIME/', $ship_piece ) ) {
-                                                    $shipping->addChild( 'g:max_handling_time', trim( $piece_value[1] ), $namespace['g'] );
+                                                    $this->add_xml_child_with_escaped_entities( $shipping, 'g:max_handling_time', trim( $piece_value[1] ), $namespace['g'] );
                                                 } else {
                                                     // DO NOT ADD ANYTHING
                                                 }
@@ -872,9 +896,9 @@ class WooSEA_Get_Products {
                                                     }
 
                                                     if ( preg_match( '/WOOSEA_COUNTRY/', $threshold_piece ) ) {
-                                                        $threshold_element->addChild( 'g:country', $piece_value[1], $namespace['g'] );
+                                                        $this->add_xml_child_with_escaped_entities( $threshold_element, 'g:country', $piece_value[1], $namespace['g'] );
                                                     } elseif ( preg_match( '/WOOSEA_PRICE_THRESHOLD/', $threshold_piece ) ) {
-                                                        $threshold_element->addChild( 'g:price_threshold', trim( $piece_value[1] ), $namespace['g'] );
+                                                        $this->add_xml_child_with_escaped_entities( $threshold_element, 'g:price_threshold', trim( $piece_value[1] ), $namespace['g'] );
                                                     }
                                                 }
                                             }
@@ -885,19 +909,19 @@ class WooSEA_Get_Products {
                                         $v = str_replace( ' ', '', $v );
                                         // Only add the element if the value is not empty
                                         if ( ! empty( $v ) ) {
-                                            $link = $product->addChild( 'g:additional_image_link', $v, $namespace['g'] );
+                                            $link = $this->add_xml_child_with_escaped_entities( $product, 'g:additional_image_link', $v, $namespace['g'] );
                                         }
                                         // $product->$k = $v;
                                     } elseif ( preg_match( '/g:product_highlight/i', $k ) ) {
-                                        $v                 = preg_replace( '/&/', '&#38;', $v );
-                                        $product_highlight = $product->addChild( 'g:product_highlight', $v, $namespace['g'] );
+                                        $this->add_xml_child_with_escaped_entities( $product, 'g:product_highlight', $v, $namespace['g'] );
                                     } elseif ( preg_match( '/g:included_destination/i', $k ) ) {
-                                        $v                            = preg_replace( '/&/', '&#38;', $v );
-                                        $product_included_destination = $product->addChild( 'g:included_destination', $v, $namespace['g'] );
+                                        $this->add_xml_child_with_escaped_entities( $product, 'g:included_destination', $v, $namespace['g'] );
+                                    } elseif ( preg_match( '/g:excluded_destination/i', $k ) ) {
+                                        $this->add_xml_child_with_escaped_entities( $product, 'g:excluded_destination', $v, $namespace['g'] );
                                     } elseif ( preg_match( '/g:shopping_ads_excluded_country/i', $k ) ) {
-                                        $exclude_country = $product->addChild( 'g:shopping_ads_excluded_country', $v, $namespace['g'] );
+                                        $exclude_country = $this->add_xml_child_with_escaped_entities( $product, 'g:shopping_ads_excluded_country', $v, $namespace['g'] );
                                     } elseif ( preg_match( '/g:promotion_id/i', $k ) ) {
-                                        $promotion_id = $product->addChild( 'g:promotion_id', $v, $namespace['g'] );
+                                        $promotion_id = $this->add_xml_child_with_escaped_entities( $product, 'g:promotion_id', $v, $namespace['g'] );
                                     } elseif ( preg_match( '/g:product_detail/i', $k ) ) {
                                         if ( ! empty( $v ) ) {
                                             $product_detail_split = explode( '#', $v );
@@ -919,39 +943,39 @@ class WooSEA_Get_Products {
                                                     $product_detail_value = $product_detail_split[0];
                                                 }
 
-                                                $section_name         = $product_detail->addChild( 'g:section_name', $product_detail_name, $namespace['g'] );
+                                                $section_name         = $this->add_xml_child_with_escaped_entities( $product_detail, 'g:section_name', $product_detail_name, $namespace['g'] );
                                                 $section_name_start   = str_replace( 'Pa ', '', $section_name_start );
                                                 $section_name_start   = str_replace( 'pa ', '', $section_name_start );
                                                 $section_name_start   = str_replace( '-', ' ', $section_name_start );
                                                 $section_name_start   = str_replace( 'Custom attributes ', '', $section_name_start );
-                                                $product_detail_name  = $product_detail->addChild( 'g:attribute_name', ucfirst( $section_name_start ), $namespace['g'] );
-                                                $product_detail_value = $product_detail->addChild( 'g:attribute_value', $product_detail_value, $namespace['g'] );
+                                                $product_detail_name  = $this->add_xml_child_with_escaped_entities( $product_detail, 'g:attribute_name', ucfirst( $section_name_start ), $namespace['g'] );
+                                                $product_detail_value = $this->add_xml_child_with_escaped_entities( $product_detail, 'g:attribute_value', $product_detail_value, $namespace['g'] );
                                             }
                                         }
                                     } elseif ( preg_match( '/g:consumer_notice/i', $k ) ) {
                                         if ( ! empty( $v ) ) {
                                             $notice = $product->addChild( 'consumer_notice', '', $namespace['g'] );
-                                            if ( strpos( $v, 'prop 65' ) !== false ) {
+                                            if ( str_contains( $v, 'prop 65' ) ) {
                                                 $notice_type = $notice->addChild( 'g:notice_type', 'prop 65', $namespace['g'] );
                                                 $v           = trim( str_replace( 'prop 65', '', $v ) );
-                                            } elseif ( strpos( $v, 'safety warning' ) !== false ) {
+                                            } elseif ( str_contains( $v, 'safety warning' ) ) {
                                                 $notice_type = $notice->addChild( 'g:notice_type', 'safety warning', $namespace['g'] );
                                                 $v           = trim( str_replace( 'safety warning', '', $v ) );
-                                            } elseif ( strpos( $v, 'legal disclaimer' ) !== false ) {
+                                            } elseif ( str_contains( $v, 'legal disclaimer' ) ) {
                                                 $notice_type = $notice->addChild( 'g:notice_type', 'legal disclaimer', $namespace['g'] );
                                                 $v           = trim( str_replace( 'legal disclaimer', '', $v ) );
                                             } else {
                                                 // No notice type set so we assume it is a safety warning
                                                 $notice_type = $notice->addChild( 'g:notice_type', 'safety warning', $namespace['g'] );
                                             }
-                                            $notice_type = $notice->addChild( 'g:notice_message', $v, $namespace['g'] );
+                                            $notice_type = $this->add_xml_child_with_escaped_entities( $notice, 'g:notice_message', $v, $namespace['g'] );
                                         }
                                     } elseif ( $k == 'g:installment' ) {
                                         if ( ! empty( $v ) ) {
                                             $installment_split  = explode( ':', $v );
                                             $installment        = $product->addChild( $k, '', $namespace['g'] );
-                                            $installment_months = $installment->addChild( 'g:months', $installment_split[0], $namespace['g'] );
-                                            $installment_amount = $installment->addChild( 'g:amount', $installment_split[1], $namespace['g'] );
+                                            $installment_months = $this->add_xml_child_with_escaped_entities( $installment, 'g:months', $installment_split[0], $namespace['g'] );
+                                            $installment_amount = $this->add_xml_child_with_escaped_entities( $installment, 'g:amount', $installment_split[1], $namespace['g'] );
                                         }
                                     } elseif ( $k == 'g:color' || $k == 'g:size' || $k == 'g:material' ) {
                                         if ( ! empty( $v ) ) {
@@ -1010,8 +1034,8 @@ class WooSEA_Get_Products {
                     $xml->addAttribute( 'date', $date );
                     $shop = $xml->addChild( 'shop' );
                     $shop->addChild( 'name', htmlspecialchars( $feed->title ) );
-                    $shop->addChild( 'company', get_bloginfo() );
-                    $shop->addChild( 'url', home_url() );
+                    $this->add_xml_child_with_escaped_entities( $shop, 'company', get_bloginfo() );
+                    $this->add_xml_child_with_escaped_entities( $shop, 'url', home_url() );
                     // $shop->addChild('platform', 'WooCommerce');
                     $currencies = $shop->addChild( 'currencies' );
                     $currency   = $currencies->addChild( 'currency' );
@@ -1088,7 +1112,7 @@ class WooSEA_Get_Products {
                     $xml = new SimpleXMLElement( '<?xml version="1.0" encoding="utf-8"?><STORE></STORE>' );
                     $xml->addChild( 'datetime', $date );
                     $xml->addChild( 'title', htmlspecialchars( $feed->title ) );
-                    $xml->addChild( 'link', home_url() );
+                    $this->add_xml_child_with_escaped_entities( $xml, 'link', home_url() );
                     $xml->addChild( 'description', 'WooCommerce Product Feed PRO - This product feed is created with the free Advanced Product Feed PRO for WooCommerce plugin from AdTribes.io. For all your support questions check out our FAQ on https://www.adtribes.io or e-mail to: support@adtribes.io ' );
                     $xml->addChild( 'agency', 'AdTribes.io' );
                     $xml->addChild( 'email', 'support@adtribes.io' );
@@ -1097,7 +1121,7 @@ class WooSEA_Get_Products {
                     $xml = new SimpleXMLElement( '<?xml version="1.0" encoding="utf-8"?><root></root>' );
                     $xml->addChild( 'datetime', $date );
                     $xml->addChild( 'title', htmlspecialchars( $feed->title ) );
-                    $xml->addChild( 'link', home_url() );
+                    $this->add_xml_child_with_escaped_entities( $xml, 'link', home_url() );
                     $xml->addChild( 'description', 'WooCommerce Product Feed PRO - This product feed is created with the free Advanced Product Feed PRO for WooCommerce plugin from AdTribes.io. For all your support questions check out our FAQ on https://www.adtribes.io or e-mail to: support@adtribes.io ' );
                     $xml->addChild( 'agency', 'AdTribes.io' );
                     $xml->addChild( 'email', 'support@adtribes.io' );
@@ -1111,8 +1135,8 @@ class WooSEA_Get_Products {
                     $aggregator = $xml->addChild( 'aggregator' );
                     $aggregator->addChild( 'name', htmlspecialchars( $feed->title ) );
                     $publisher = $xml->addChild( 'publisher' );
-                    $publisher->addChild( 'name', get_bloginfo( 'name' ) );
-                    $publisher->addChild( 'favicon', get_site_icon_url() );
+                    $this->add_xml_child_with_escaped_entities( $publisher, 'name', get_bloginfo( 'name' ) );
+                    $this->add_xml_child_with_escaped_entities( $publisher, 'favicon', get_site_icon_url() );
                     $xml->asXML( $file );
                 } elseif ( $feed_config['name'] == 'Fruugo.nl' ) {
                     $xml = new SimpleXMLElement( '<?xml version="1.0" encoding="utf-8"?><Products></Products>' );
@@ -1143,7 +1167,20 @@ class WooSEA_Get_Products {
                     $xml->asXML( $file );
                 }
             } else {
-                $xml    = simplexml_load_file( $file );
+                // Validate tmp file exists and is valid XML before loading.
+                if ( ! file_exists( $file ) ) {
+                    throw new \Exception( 'Temporary XML feed file missing during batch processing: ' . basename( $file ) );
+                }
+
+                if ( ! $this->is_xml_file( $file ) ) {
+                    throw new \Exception( 'Temporary feed file is not valid XML: ' . basename( $file ) );
+                }
+
+                $xml = simplexml_load_file( $file );
+                if ( false === $xml ) {
+                    throw new \Exception( 'Failed to parse temporary XML feed file: ' . basename( $file ) );
+                }
+
                 $aantal = count( $products );
 
                 if ( $aantal > 0 ) {
@@ -1180,9 +1217,9 @@ class WooSEA_Get_Products {
                         $date = Formatting::date_rfc822( $date );
 
                         $productz = $xml->addChild( 'channel' );
-                        $productz = $xml->channel->addChild( 'title', get_bloginfo( 'name' ) );
+                        $productz = $this->add_xml_child_with_escaped_entities( $xml->channel, 'title', get_bloginfo( 'name' ) );
                         $productz = $xml->channel->addChild( 'description', htmlspecialchars( $feed->title ) );
-                        $productz = $xml->channel->addChild( 'link', home_url() );
+                        $productz = $this->add_xml_child_with_escaped_entities( $xml->channel, 'link', home_url() );
                         $productz = $xml->channel->addChild( 'generator', 'Product Feed Pro for WooCommerce by AdTribes.io' );
                         $productz = $xml->channel->addChild( 'lastBuildDate', $date );
                         $atom_link = $xml->channel->addChild( 'atom:link', '', 'http://www.w3.org/2005/Atom' );
@@ -1227,7 +1264,7 @@ class WooSEA_Get_Products {
                                                                 $reviewer->addChild( 'name', 'Anonymous' );
                                                                 $reviewer->name->addAttribute( 'is_anonymous', 'true' );
                                                             } else {
-                                                                $reviewer->addChild( 'name', $name );
+                                                                $this->add_xml_child_with_escaped_entities( $reviewer, 'name', $name );
                                                             }
                                                         } elseif ( is_numeric( $nodes[1] ) ) {
                                                             $reviewer->addChild( 'reviewer_id', $nodes[1] );
@@ -1260,7 +1297,7 @@ class WooSEA_Get_Products {
 
                                                 if ( $nodes[0] == 'REVIEW_RATINGS' ) {
                                                     $rev  = $productz->addChild( 'ratings' );
-                                                    $over = $productz->ratings->addChild( 'overall', $nodes[1] );
+                                                    $over = $this->add_xml_child_with_escaped_entities( $productz->ratings, 'overall', $nodes[1] );
                                                     $over->addAttribute( 'min', '1' );
                                                     $over->addAttribute( 'max', '5' );
                                                 }
@@ -1460,11 +1497,26 @@ class WooSEA_Get_Products {
      * @return void
      */
     private function woosea_save_xml_with_xmlwriter( $xml, $file ) {
-        // Save without formatting during batch processing to avoid indent accumulation
-        // The file will be formatted once at the very end in move_feed_file_to_final()
-        $dom = dom_import_simplexml( $xml )->ownerDocument;
-        $dom->save( $file );
+        // Save without formatting during batch processing to avoid indent accumulation.
+        // The file will be formatted once at the very end in move_feed_file_to_final().
+        // Write to a staging file first, then atomically rename to prevent corruption on timeout.
+        $staging_file = $file . '.writing';
+        $dom          = dom_import_simplexml( $xml )->ownerDocument;
+        $bytes        = $dom->save( $staging_file );
         unset( $dom );
+
+        if ( false === $bytes || ! file_exists( $staging_file ) ) {
+            if ( file_exists( $staging_file ) ) {
+                wp_delete_file( $staging_file );
+            }
+            throw new \Exception( 'Failed to write XML staging file: ' . basename( $staging_file ) );
+        }
+
+        // Atomic rename (POSIX) from staging to actual tmp file.
+        if ( ! rename( $staging_file, $file ) ) {
+            wp_delete_file( $staging_file );
+            throw new \Exception( 'Failed to rename XML staging file to: ' . basename( $file ) );
+        }
     }
 
     /**
@@ -1767,7 +1819,7 @@ class WooSEA_Get_Products {
                 try {
                     foreach ( $node->attributes as $attr ) {
                         // Skip namespace declarations (already written)
-                        if ( strpos( $attr->name, 'xmlns' ) === 0 ) {
+                        if ( str_starts_with( $attr->name, 'xmlns' ) ) {
                             continue;
                         }
                         
@@ -1904,7 +1956,7 @@ class WooSEA_Get_Products {
         if ( ( preg_match( '/picture/i', $k ) ) && ( $feed_config['name'] == 'Yandex' ) ) {
             if ( isset( $product ) ) {
                 if ( ! empty( $v ) ) {
-                    $additional_picture_link = $product->addChild( 'picture', $v );
+                    $additional_picture_link = $this->add_xml_child_with_escaped_entities( $product, 'picture', $v );
                 }
             }
         }
@@ -1920,7 +1972,7 @@ class WooSEA_Get_Products {
                 if ( is_array( $cls ) ) {
                     foreach ( $cls as $kkx => $vvx ) {
                         if ( ! empty( $vvx ) ) {
-                            $additional_color = $product->addChild( 'color', trim( $vvx ) );
+                            $additional_color = $this->add_xml_child_with_escaped_entities( $product, 'color', trim( $vvx ) );
                         }
                     }
                 }
@@ -1931,7 +1983,7 @@ class WooSEA_Get_Products {
                     foreach ( $clp as $kkx => $vvx ) {
                         if ( ! empty( $vvx ) ) {
                             if ( ! is_null( $product ) ) {
-                                $additional_color = $product->addChild( 'color', trim( $v ) );
+                                $additional_color = $this->add_xml_child_with_escaped_entities( $product, 'color', trim( $v ) );
                                 // $additional_color = $product->addChild('color',trim($vvx));
                             }
                         }
@@ -1967,15 +2019,15 @@ class WooSEA_Get_Products {
             }
         } elseif ( preg_match( '/^additionalimage/', $k ) ) {
             if ( ! empty( $v ) ) {
-                $additional_image_link = $product->addChild( 'additionalimage', $v );
+                $additional_image_link = $this->add_xml_child_with_escaped_entities( $product, 'additionalimage', $v );
             }
         } elseif ( preg_match( '/^additional_imageurl/', $k ) ) {
             if ( ! empty( $v ) ) {
-                $additional_image_link = $product->addChild( 'additional_imageurl', $v );
+                $additional_image_link = $this->add_xml_child_with_escaped_entities( $product, 'additional_imageurl', $v );
             }
         } elseif ( $k == 'shipping' ) {
             $expl = '||';
-            if ( strpos( $v, $expl ) ) {
+            if ( str_contains( $v, $expl ) ) {
                 $ship = explode( '||', $v );
                 foreach ( $ship as $kk => $vv ) {
                     $ship_zone  = $product->addChild( 'shipping' );
@@ -2060,11 +2112,11 @@ class WooSEA_Get_Products {
                     $pieces   = explode( '_', $k, 2 );
                     $productp = $product->addChild( 'PARAM' );
                     if ( $feed_config['name'] == 'Mall.sk' ) {
-                        $productp->addChild( 'NAME', $pieces[1] );
-                        $productp->addChild( 'VALUE', $v );
+                        $this->add_xml_child_with_escaped_entities( $productp, 'NAME', $pieces[1] );
+                        $this->add_xml_child_with_escaped_entities( $productp, 'VALUE', $v );
                     } else {
-                        $productp->addChild( 'PARAM_NAME', $pieces[1] );
-                        $productp->addChild( 'VAL', $v );
+                        $this->add_xml_child_with_escaped_entities( $productp, 'PARAM_NAME', $pieces[1] );
+                        $this->add_xml_child_with_escaped_entities( $productp, 'VAL', $v );
                     }
                 } elseif ( ( $feed_config['name'] == 'Mall.sk' ) && ( $k == 'VARIABLE_PARAMS' ) ) {
                     if ( isset( $value['ITEMGROUP_ID'] ) ) {
@@ -2074,33 +2126,33 @@ class WooSEA_Get_Products {
                             $variations = $product_variations->get_variation_attributes( false );
                             foreach ( $variations as $k => $v ) {
                                 $k = str_replace( 'pa_', '', $k );
-                                $productvp->addChild( 'PARAM', $k );
+                                $this->add_xml_child_with_escaped_entities( $productvp, 'PARAM', $k );
                             }
                         }
                     }
                 } elseif ( ( $feed_config['name'] == 'Mall.sk' ) && ( $k == 'MEDIA' ) ) {
                     $productp = $product->addChild( 'MEDIA' );
-                    $productp->addChild( 'URL', $v );
+                    $this->add_xml_child_with_escaped_entities( $productp, 'URL', $v );
                     $productp->addChild( 'MAIN', 'true' );
                 } elseif ( ( $feed_config['name'] == 'Mall.sk' ) && ( $k == 'MEDIA_1' ) ) {
                     $productp = $product->addChild( 'MEDIA' );
-                    $productp->addChild( 'URL', $v );
+                    $this->add_xml_child_with_escaped_entities( $productp, 'URL', $v );
                     $productp->addChild( 'MAIN', 'false' );
                 } elseif ( ( $feed_config['name'] == 'Mall.sk' ) && ( $k == 'MEDIA_2' ) ) {
                     $productp = $product->addChild( 'MEDIA' );
-                    $productp->addChild( 'URL', $v );
+                    $this->add_xml_child_with_escaped_entities( $productp, 'URL', $v );
                     $productp->addChild( 'MAIN', 'false' );
                 } elseif ( ( $feed_config['name'] == 'Mall.sk' ) && ( $k == 'MEDIA_3' ) ) {
                     $productp = $product->addChild( 'MEDIA' );
-                    $productp->addChild( 'URL', $v );
+                    $this->add_xml_child_with_escaped_entities( $productp, 'URL', $v );
                     $productp->addChild( 'MAIN', 'false' );
                 } elseif ( ( $feed_config['name'] == 'Mall.sk' ) && ( $k == 'MEDIA_4' ) ) {
                     $productp = $product->addChild( 'MEDIA' );
-                    $productp->addChild( 'URL', $v );
+                    $this->add_xml_child_with_escaped_entities( $productp, 'URL', $v );
                     $productp->addChild( 'MAIN', 'false' );
                 } elseif ( ( $feed_config['name'] == 'Mall.sk' ) && ( $k == 'MEDIA_5' ) ) {
                     $productp = $product->addChild( 'MEDIA' );
-                    $productp->addChild( 'URL', $v );
+                    $this->add_xml_child_with_escaped_entities( $productp, 'URL', $v );
                     $productp->addChild( 'MAIN', 'false' );
                 } elseif ( ( ( $feed_config['name'] == 'Zbozi.cz' ) || ( $feed_config['name'] == 'Heureka.cz' ) ) && ( $k == 'DELIVERY' ) ) {
                     $delivery       = $product->addChild( 'DELIVERY' );
@@ -2171,7 +2223,7 @@ class WooSEA_Get_Products {
                 } elseif ( ( $feed_config['name'] == 'Yandex' ) && ( preg_match( "/$zbozi_nodes/i", $k ) ) ) {
                     $pieces   = explode( '_', $k );
                     $p        = 'param';
-                    $productp = $product->addChild( $p, $v );
+                    $productp = $this->add_xml_child_with_escaped_entities( $product, $p, $v );
                     $productp->addAttribute( 'name', $pieces[1] );
                 } elseif ( $feed_config['name'] == 'Google Product Review' ) {
                 } elseif ( $feed_config['name'] == 'Vivino' ) {
@@ -2185,7 +2237,7 @@ class WooSEA_Get_Products {
 
                         // Add units to it
                         if ( in_array( $k, $unit_arr ) ) {
-                            $productk = $productp->addChild( $k, $v );
+                            $productk = $this->add_xml_child_with_escaped_entities( $productp, $k, $v );
                             if ( $k == 'acidity' ) {
                                 $productk->addAttribute( 'unit', 'g/l' );
                             }
@@ -2246,7 +2298,7 @@ class WooSEA_Get_Products {
                     }
                 } elseif ( $feed_config['name'] == 'Pinterest RSS Board' && $k === 'guid' ) {
                     if ( ! empty( $v ) ) {
-                        $guid = $product->addChild( 'guid', $v );
+                        $guid = $this->add_xml_child_with_escaped_entities( $product, 'guid', $v );
                         $guid->addAttribute( 'isPermaLink', 'true' );
                     }
                 } elseif ( $feed_config['name'] == 'Skroutz' ) {
@@ -2262,7 +2314,7 @@ class WooSEA_Get_Products {
                     $use_cdata = $this->should_use_cdata_for_field( $k, $feed_config, $feed );
 
                     // Handle Google Shopping namespace for g: prefixed elements
-                    if ( ( $feed_config['taxonomy'] == 'google_shopping' ) && ( strpos( $k, 'g:' ) === 0 ) ) {
+                    if ( ( $feed_config['taxonomy'] == 'google_shopping' ) && ( str_starts_with( $k, 'g:' ) ) ) {
                         $this->add_child_with_cdata( $product, $k, $v, 'http://base.google.com/ns/1.0', $use_cdata );
                     } else {
                         $this->add_child_with_cdata( $product, $k, $v, '', $use_cdata );
@@ -2465,15 +2517,9 @@ class WooSEA_Get_Products {
      * Returns relative and absolute file path
      */
     public function woosea_create_csvtxt_feed( $products, $feed, $header ) {
-        $upload_dir = wp_upload_dir();
-        $base       = $upload_dir['basedir'];
-        $path       = $base . '/woo-product-feed-pro/' . $feed->file_format;
-        $file       = $path . '/' . sanitize_file_name( $feed->file_name ) . '_tmp.' . $feed->file_format;
-
-        // External location for downloading the file
-        $external_base = $upload_dir['baseurl'];
-        $external_path = $external_base . '/woo-product-feed-pro/' . $feed->file_format;
-        $external_file = $external_path . '/' . sanitize_file_name( $feed->file_name ) . '.' . $feed->file_format;
+        $path          = $feed->get_file_dir_path();
+        $file          = $feed->get_temp_file_path();
+        $external_file = $feed->get_file_url();
 
         // Check if directory in uploads exists, if not create one
         if ( ! file_exists( $path ) ) {
@@ -2562,7 +2608,7 @@ class WooSEA_Get_Products {
                 $real_path = realpath( $channel_file_path );
                 $channels_dir = realpath( plugin_dir_path( __FILE__ ) . '/channels' );
                 
-                if ( $real_path && $channels_dir && strpos( $real_path, $channels_dir ) === 0 && file_exists( $real_path ) ) {
+                if ( $real_path && $channels_dir && str_starts_with( $real_path, $channels_dir ) && file_exists( $real_path ) ) {
                     require $real_path;
                     $channel_class      = 'WooSEA_' . $channel_name;
                     $channel_attributes = $channel_class::get_channel_attributes();
@@ -2637,7 +2683,7 @@ class WooSEA_Get_Products {
         
         foreach ( $pieces as $k_inner => $v ) {
             // For CSV fileformat the keys need to get stripped of the g:
-            if ( $header === 'true' && in_array( $feed->file_format, array( 'csv', 'txt', 'tsv' ), true ) ) {
+            if ( $header === 'true' && in_array( $feed->file_format, array( 'csv', 'txt', 'tsv', 'csv.gz' ), true ) ) {
                 $v = str_replace( 'g:', '', $v );
             }
 
@@ -2706,7 +2752,7 @@ class WooSEA_Get_Products {
          * Construct header line for CSV ans TXT files, for XML create the XML root and header
          */
         $products = array();
-        if ( $file_format == 'jsonl' ) {
+        if ( $file_format == 'jsonl' || $file_format == 'jsonl.gz' ) {
             // Initialize JSONL feed (no header needed for JSONL format).
             $jsonl_writer = \AdTribes\PFP\Classes\Feed_Writers\Feed_Writer_JSONL::instance();
             $file         = $jsonl_writer->write_feed( array(), $feed, true );
@@ -2920,6 +2966,8 @@ class WooSEA_Get_Products {
 
             $product_data['title']                   = Sanitization::sanitize_html_content( $product->get_title(), $feed );
             $product_data['mother_title']            = $product_data['title'];
+            $product_data['raw_title']               = html_entity_decode( Sanitization::sanitize_raw_html_content( $product->get_title() ), ENT_QUOTES | ENT_XML1, 'UTF-8' );
+            $product_data['raw_mother_title']        = $product_data['raw_title'];
             $product_data['title_hyphen']            = $product_data['title'];
             $product_data['title_slug']              = $product->get_slug();
             $product_data['sku']                     = $product->get_sku();
@@ -4003,41 +4051,44 @@ class WooSEA_Get_Products {
             if ( ( $product->is_type( 'simple' ) ) || ( $product->is_type( 'woosb' ) ) || ( $product->is_type( 'mix-and-match' ) ) || ( $product->is_type( 'external' ) ) || ( $product->is_type( 'bundle' ) ) || ( $product->is_type( 'composite' ) ) || ( $product_data['product_type'] == 'variable' ) || ( $product_data['product_type'] == 'auction' ) || ( $product->is_type( 'subscription' ) || ( $product->is_type( 'grouped' ) ) ) ) {
                 $custom_attributes = $this->get_custom_attributes( $product_data['id'] );
 
-                if ( is_array( $custom_attributes ) ) {
-                    if ( ! in_array( 'woosea optimized title', $custom_attributes ) ) {
-                        $woosea_opt        = array(
-                            '_woosea_optimized_title' => 'woosea optimized title',
-                        );
-                        $custom_attributes = array_merge( $custom_attributes, $woosea_opt );
-                    }
+                if ( ! is_array( $custom_attributes ) ) {
+                    $custom_attributes = array();
+                }
 
-                    if ( class_exists( 'All_in_One_SEO_Pack' ) ) {
-                        $custom_attributes['_aioseop_title']       = 'All in one seo pack title';
-                        $custom_attributes['_aioseop_description'] = 'All in one seo pack description';
-                    }
+                if ( ! in_array( 'woosea optimized title', $custom_attributes ) ) {
+                    $woosea_opt        = array(
+                        '_woosea_optimized_title' => 'woosea optimized title',
+                    );
+                    $custom_attributes = array_merge( $custom_attributes, $woosea_opt );
+                }
 
-                    if ( class_exists( 'Yoast_WooCommerce_SEO' ) ) {
-                        if ( array_key_exists( 'yoast_gtin8', $custom_attributes ) ) {
-                            $product_data['yoast_gtin8'] = $custom_attributes['yoast_gtin8'];
-                        }
-                        if ( array_key_exists( 'yoast_gtin12', $custom_attributes ) ) {
-                            $product_data['yoast_gtin12'] = $custom_attributes['yoast_gtin12'];
-                        }
-                        if ( array_key_exists( 'yoast_gtin13', $custom_attributes ) ) {
-                            $product_data['yoast_gtin13'] = $custom_attributes['yoast_gtin13'];
-                        }
-                        if ( array_key_exists( 'yoast_gtin14', $custom_attributes ) ) {
-                            $product_data['yoast_gtin14'] = $custom_attributes['yoast_gtin14'];
-                        }
-                        if ( array_key_exists( 'yoast_isbn', $custom_attributes ) ) {
-                            $product_data['yoast_isbn'] = $custom_attributes['yoast_isbn'];
-                        }
-                        if ( array_key_exists( 'yoast_mpn', $custom_attributes ) ) {
-                            $product_data['yoast_mpn'] = $custom_attributes['yoast_mpn'];
-                        }
-                    }
+                if ( class_exists( 'All_in_One_SEO_Pack' ) ) {
+                    $custom_attributes['_aioseop_title']       = 'All in one seo pack title';
+                    $custom_attributes['_aioseop_description'] = 'All in one seo pack description';
+                }
 
-                    foreach ( $custom_attributes as $custom_kk => $custom_vv ) {
+                if ( class_exists( 'Yoast_WooCommerce_SEO' ) ) {
+                    if ( array_key_exists( 'yoast_gtin8', $custom_attributes ) ) {
+                        $product_data['yoast_gtin8'] = $custom_attributes['yoast_gtin8'];
+                    }
+                    if ( array_key_exists( 'yoast_gtin12', $custom_attributes ) ) {
+                        $product_data['yoast_gtin12'] = $custom_attributes['yoast_gtin12'];
+                    }
+                    if ( array_key_exists( 'yoast_gtin13', $custom_attributes ) ) {
+                        $product_data['yoast_gtin13'] = $custom_attributes['yoast_gtin13'];
+                    }
+                    if ( array_key_exists( 'yoast_gtin14', $custom_attributes ) ) {
+                        $product_data['yoast_gtin14'] = $custom_attributes['yoast_gtin14'];
+                    }
+                    if ( array_key_exists( 'yoast_isbn', $custom_attributes ) ) {
+                        $product_data['yoast_isbn'] = $custom_attributes['yoast_isbn'];
+                    }
+                    if ( array_key_exists( 'yoast_mpn', $custom_attributes ) ) {
+                        $product_data['yoast_mpn'] = $custom_attributes['yoast_mpn'];
+                    }
+                }
+
+                foreach ( $custom_attributes as $custom_kk => $custom_vv ) {
                         $custom_value = get_post_meta( $product_data['id'], $custom_kk, true );
                         $new_key      = 'custom_attributes_' . $custom_kk;
 
@@ -4074,7 +4125,6 @@ class WooSEA_Get_Products {
 
                         $product_data[ $new_key ] = $custom_value;
                     }
-                }
                 // unset($custom_attributes);
 
                 /**
@@ -4387,6 +4437,7 @@ class WooSEA_Get_Products {
                             if ( ! preg_match( '/' . preg_quote( $product_data['title'], '/' ) . '/', $append ) ) {
                                 $product_data['title']        = $product_data['title'] . ' ' . $append;
                                 $product_data['title_hyphen'] = $product_data['title_hyphen'] . ' ' . $append;
+                                $product_data['raw_title']    = $product_data['raw_title'] . ' ' . $append;
                             }
                         }
                     }
@@ -4401,13 +4452,15 @@ class WooSEA_Get_Products {
                  */
                 $custom_attributes = $this->get_custom_attributes( $product_data['id'] );
 
-                if ( is_array( $custom_attributes ) ) {
-                    if ( ! in_array( 'woosea optimized title', $custom_attributes ) ) {
-                        $woosea_opt        = array(
-                            '_woosea_optimized_title' => 'woosea optimized title',
-                        );
-                        $custom_attributes = array_merge( $custom_attributes, $woosea_opt );
-                    }
+                if ( ! is_array( $custom_attributes ) ) {
+                    $custom_attributes = array();
+                }
+
+                if ( ! in_array( 'woosea optimized title', $custom_attributes ) ) {
+                    $woosea_opt        = array(
+                        '_woosea_optimized_title' => 'woosea optimized title',
+                    );
+                    $custom_attributes = array_merge( $custom_attributes, $woosea_opt );
                 }
 
                 if ( class_exists( 'All_in_One_SEO_Pack' ) ) {
@@ -4596,13 +4649,11 @@ class WooSEA_Get_Products {
              */
             if ( ! empty( $product_data['reviews'] ) ) {
                 foreach ( $product_data['reviews'] as $review_id => $review_details ) {
-                    $pos = strpos( $review_details['content'], 'www' );
-                    if ( $pos !== false ) {
+                    if ( str_contains( $review_details['content'], 'www' ) ) {
                         unset( $product_data['reviews'][ $review_id ] );
                     }
 
-                    $pos = strpos( $review_details['content'], 'http' );
-                    if ( $pos !== false ) {
+                    if ( str_contains( $review_details['content'], 'http' ) ) {
                         unset( $product_data['reviews'][ $review_id ] );
                     }
                 }
@@ -5103,7 +5154,7 @@ class WooSEA_Get_Products {
                     $products[] = array( $attr_line );
 
                     // Track preview mode product count (CSV/TXT feeds only)
-                    if ( $is_preview_mode && $file_format != 'xml' && $file_format != 'jsonl' ) {
+                    if ( $is_preview_mode && $file_format != 'xml' && $file_format != 'jsonl' && $file_format != 'jsonl.gz' ) {
                         $preview_found_count++;
                         // Exit the inner while loop if we have enough CSV products
                         if ( $preview_found_count >= $preview_target_count ) {
@@ -5127,7 +5178,7 @@ class WooSEA_Get_Products {
                     $products[] = array( $attr_line );
 
                     // Track preview mode product count (CSV/TXT feeds only)
-                    if ( $is_preview_mode && $file_format != 'xml' && $file_format != 'jsonl' ) {
+                    if ( $is_preview_mode && $file_format != 'xml' && $file_format != 'jsonl' && $file_format != 'jsonl.gz' ) {
                         $preview_found_count++;
                         // Exit the inner while loop if we have enough CSV products
                         if ( $preview_found_count >= $preview_target_count ) {
@@ -5338,8 +5389,8 @@ class WooSEA_Get_Products {
                                             $ca       = explode( '_', $attr_map_from );
                                             $ca_extra = end( $ca );
 
-                                            // Google Shopping Actions, allow multiple product highlights in feed
-                                            if ( ( $attr_attribute == 'g:product_highlight' ) || ( $attr_attribute == 'g:included_destination' ) ) {
+                                            // Google Shopping Actions, allow multiple product highlights, included destinations and excluded destinations in feed
+                                            if ( in_array( $attr_attribute, array( 'g:product_highlight', 'g:included_destination', 'g:excluded_destination' ), true ) ) {
                                                 $xml_product[ $attr_attribute . "_$ga" ] = "$attr_value[prefix]" . $attr_data_value . "$attr_value[suffix]";
                                             } elseif ( $attr_attribute == 'g:consumer_notice' ) {
                                                 $xml_product[ $attr_attribute . "_$ga" ] = "$attr_value[prefix]" . $attr_data_value . "$attr_value[suffix]";
@@ -5369,7 +5420,7 @@ class WooSEA_Get_Products {
                                                 $xml_product[ $attr_attribute ] = "$attr_value[prefix]" . $attr_data_value . "$attr_value[suffix]";
                                             } elseif ( $attr_attribute == 'g:product_detail' && $attr_data_value !== '' ) {
                                                 $xml_product[ $attr_attribute ] = "$attr_value[prefix]||" . $attr_map_from . '#' . $attr_data_value . "$attr_value[suffix]";
-                                            } elseif ( ( $attr_attribute == 'g:product_highlight' || $attr_attribute == 'g:included_destination' ) && $attr_data_value !== '' ) {
+                                            } elseif ( in_array( $attr_attribute, array( 'g:product_highlight', 'g:included_destination', 'g:excluded_destination' ), true ) && $attr_data_value !== '' ) {
                                                 $xml_product[ $attr_attribute . "_$ga" ] = "$attr_value[prefix]" . $attr_data_value . "$attr_value[suffix]";
                                             } elseif ( $attr_data_value !== '' ) {
                                                 $xml_product[ $attr_attribute ] = "$attr_value[prefix]" . $attr_data_value . "$attr_value[suffix]";
@@ -5406,11 +5457,25 @@ class WooSEA_Get_Products {
                         $xml_piece[ $product->get_id() ] = $xml_product;
                     }
                 } else {
+                    // For JSONL formats, allow channel-specific product-level transformations
+                    // (e.g. shipping parsing and HTML entity decoding for OpenAI).
+                    if ( $file_format === 'jsonl' || $file_format === 'jsonl.gz' ) {
+                        /**
+                         * Filter a single JSONL product array before it is added to the batch.
+                         *
+                         * @since 13.5.2
+                         *
+                         * @param array  $xml_product  The product data key/value array.
+                         * @param array  $feed_channel The active channel configuration.
+                         * @param object $feed         The feed object.
+                         */
+                        $xml_product = apply_filters( 'adt_product_feed_jsonl_product', $xml_product, $feed_channel, $feed );
+                    }
                     $xml_piece[] = $xml_product;
                 }
 
                 // Track preview mode product count (XML/JSONL feeds only)
-                if ( $is_preview_mode && ( $file_format == 'xml' || $file_format == 'jsonl' ) ) {
+                if ( $is_preview_mode && ( $file_format == 'xml' || $file_format == 'jsonl' || $file_format == 'jsonl.gz' ) ) {
                     $preview_found_count++;
                     // Exit the inner while loop if we have enough products
                     if ( $preview_found_count >= $preview_target_count ) {
@@ -5456,7 +5521,7 @@ class WooSEA_Get_Products {
         /**
          * Write row to CSV/TXT or XML or JSONL file
          */
-        if ( $file_format == 'jsonl' && is_array( $xml_piece ) && ! empty( $xml_piece ) ) {
+        if ( ( $file_format == 'jsonl' || $file_format == 'jsonl.gz' ) && is_array( $xml_piece ) && ! empty( $xml_piece ) ) {
             $jsonl_writer = \AdTribes\PFP\Classes\Feed_Writers\Feed_Writer_JSONL::instance();
             $file         = $jsonl_writer->write_feed( array_filter( $xml_piece ), $feed, false );
             unset( $xml_piece );
@@ -5605,7 +5670,7 @@ class WooSEA_Get_Products {
      * Get attribute value
      */
     public function get_attribute_value( $id, $name ) {
-        if ( strpos( $name, 'attribute_pa' ) !== false ) {
+        if ( str_contains( $name, 'attribute_pa' ) ) {
             $taxonomy = str_replace( 'attribute_', '', $name );
             $meta     = get_post_meta( $id, $name, true );
             $term     = get_term_by( 'slug', $meta, $taxonomy );

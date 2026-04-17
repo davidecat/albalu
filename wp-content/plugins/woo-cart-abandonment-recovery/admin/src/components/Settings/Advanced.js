@@ -44,8 +44,8 @@ const Advanced = ( { settingsData = {} } ) => {
 					'Allow anonymous usage tracking to help improve WooCommerce Cart Abandonment Recovery. We only collect non-sensitive data to enhance your experience. <a href="" class="no-underline text-flamingo-400 font-medium">Learn more</a>',
 					'woo-cart-abandonment-recovery'
 				) }
-				name={ 'cf_analytics_optin' }
-				value={ settingsData?.cf_analytics_optin }
+				name={ 'wcar_usage_optin' }
+				value={ settingsData?.wcar_usage_optin }
 			/>
 		</TabWrapper>
 	);

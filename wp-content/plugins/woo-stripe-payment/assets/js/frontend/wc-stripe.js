@@ -884,7 +884,7 @@
 
     wc_stripe.CheckoutGateway = function () {
         this.message_container = 'li.payment_method_' + this.gateway_id;
-        this.banner_container = 'li.banner_payment_method_' + this.gateway_id;
+        this.banner_container = '.banner_payment_method_' + this.gateway_id;
         $(document.body).on('update_checkout', this.update_checkout.bind(this));
         $(document.body).on('updated_checkout', this.updated_checkout.bind(this));
         $(document.body).on('updated_checkout', this.container_styles.bind(this));
@@ -1204,12 +1204,15 @@
         $('form.cart').on('reset_data', this.reset_variation_data.bind(this));
         this.buttonWidth = $('form.cart div.quantity').outerWidth(true) + $('.single_add_to_cart_button').outerWidth();
         var marginLeft = $('.single_add_to_cart_button').css('marginLeft');
-
+        var marginRight = $('form.cart div.quantity').css('marginRight');
         if (marginLeft) {
             this.buttonWidth += parseInt(marginLeft.replace('px', ''));
         }
+        if (marginRight) {
+            this.buttonWidth += parseInt(marginRight.replace('px', ''));
+        }
 
-        $(this.container).css('max-width', this.buttonWidth + 'px');
+        //$(this.container).css('max-width', this.buttonWidth + 'px');
     };
 
     wc_stripe.ProductGateway.prototype.update_shipping_address = function (ev) {
@@ -1381,7 +1384,7 @@
 
     wc_stripe.ProductGateway.prototype.get_product_variations = function () {
         var variation = this.get_product_data().variation;
-        var attributes = variation ? variation.attributes : {};
+        var attributes = variation ? Object.assign({}, variation.attributes) : {};
         if (this.is_variable_product()) {
             $('.variations [name^="attribute_"]').each(function (index, el) {
                 var $el = $(el);
@@ -1399,7 +1402,7 @@
     wc_stripe.CartGateway = function () {
         this.message_container = 'div.woocommerce';
 
-        $(document.body).on('updated_wc_div', this.updated_html.bind(this));
+        //$(document.body).on('updated_wc_div', this.updated_html.bind(this));
         $(document.body).on('updated_cart_totals', this.updated_html.bind(this));
         $(document.body).on('wc_cart_emptied', this.cart_emptied.bind(this));
     };

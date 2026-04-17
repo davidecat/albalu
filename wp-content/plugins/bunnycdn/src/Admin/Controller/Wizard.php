@@ -151,6 +151,7 @@ class Wizard implements ControllerInterface
             update_option('bunnycdn_wizard_mode', $mode);
             update_option('bunnycdn_wizard_finished', '1', true);
             delete_option('_bunnycdn_migration_warning');
+            delete_option('_bunnycdn_sync_delayed_warning');
             if ('agency' === $mode) {
                 delete_option('bunnycdn_api_key');
                 delete_option('bunnycdn_api_user');

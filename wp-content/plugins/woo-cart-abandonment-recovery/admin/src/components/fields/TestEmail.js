@@ -87,7 +87,7 @@ const TestEmail = ( { title, description, value } ) => {
 			title={ title }
 			description={ description }
 			type="block"
-			size="small"
+			size="normal"
 		>
 			<div className="flex gap-2 items-center">
 				<div className="flex-1">
@@ -126,3 +126,4 @@ const TestEmail = ( { title, description, value } ) => {
 };
 
 export default TestEmail;
+

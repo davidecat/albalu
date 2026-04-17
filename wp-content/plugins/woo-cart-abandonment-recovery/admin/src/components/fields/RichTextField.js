@@ -1,8 +1,17 @@
-import { useEffect } from 'react';
-import { Label, Button } from '@bsf/force-ui';
+import { useEffect, useState } from 'react';
+import { Label, Button, Tabs } from '@bsf/force-ui';
 import { ArrowUpTrayIcon } from '@heroicons/react/24/outline';
+import { __ } from '@wordpress/i18n';
 
-const RichTextField = ( { title, name, id, value, handleChange } ) => {
+const RichTextField = ( {
+	title,
+	name,
+	id,
+	value,
+	handleChange,
+	size = 'normal',
+} ) => {
+	const [ activeTab, setActiveTab ] = useState( 'visual' );
 	useEffect( () => {
 		let isActive = true;
 		if ( isActive ) {
@@ -11,7 +20,7 @@ const RichTextField = ( { title, name, id, value, handleChange } ) => {
 
 				function ( event, editor ) {
 					editor.settings.toolbar1 =
-						'formatselect,bold,italic,underline,blockquote,strikethrough,bullist,numlist,alignleft,aligncenter,alignright,undo,redo,link,unlink,spellchecker,fullscreen,wcar_fields';
+						'formatselect,wcar_fields,bold,italic,underline,blockquote,strikethrough,bullist,numlist,alignleft,aligncenter,alignright,undo,redo,link,unlink,spellchecker,fullscreen';
 					editor.on( 'change', function () {
 						handleChange( name, editor.getContent() );
 					} );
@@ -128,7 +137,9 @@ const RichTextField = ( { title, name, id, value, handleChange } ) => {
 
 		return () => {
 			isActive = false;
-			tinymce.activeEditor.destroy();
+			if ( tinymce.activeEditor ) {
+				tinymce.activeEditor.destroy();
+			}
 		};
 	}, [] );
 
@@ -138,6 +149,23 @@ const RichTextField = ( { title, name, id, value, handleChange } ) => {
 			editor.setContent( value || '' );
 		}
 	}, [ value, id ] );
+
+	const handleTabChange = ( tab ) => {
+		setActiveTab( tab );
+		const editor = tinymce.get( id );
+		if ( editor ) {
+			const container = editor.getContainer();
+			const wrapper = container.closest( `#wp-${ id }-wrap` );
+			if ( wrapper ) {
+				const switchClass =
+					tab === 'visual' ? 'switch-tmce' : 'switch-html';
+				const modeButton = wrapper.querySelector( `.${ switchClass }` );
+				if ( modeButton ) {
+					modeButton.click();
+				}
+			}
+		}
+	};
 
 	function updateValue( e ) {
 		handleChange( name, e.target.value );
@@ -202,9 +230,9 @@ const RichTextField = ( { title, name, id, value, handleChange } ) => {
 		>
 			<div className="flex justify-between items-center">
 				<Label
-					className="font-medium mb-1"
+					className="font-semibold mb-1"
 					htmlFor={ fieldId }
-					size="sm"
+					size={ `${ size === 'normal' ? 'md' : 'sm' }` }
 					id={ `${ fieldId }-title` }
 					as="h3"
 				>
@@ -212,28 +240,61 @@ const RichTextField = ( { title, name, id, value, handleChange } ) => {
 						char.toLocaleUpperCase()
 					) }
 				</Label>
-				<Button
-					className="px-4 bg-primary-25 text-primary-600 outline-primary-300 hover:bg-primary-25 hover:outline-primary-300"
-					size="sm"
-					tag="button"
-					icon={ <ArrowUpTrayIcon className="h-4 w-4" /> }
-					iconPosition="left"
-					variant="outline"
-					onClick={ handleAddMedia }
-				>
-					Add Media
-				</Button>
+				<div className="flex items-center gap-2 w-fit">
+					<Tabs.Group
+						variant="rounded"
+						size="sm"
+						className="p-0 bg-white"
+						onChange={ ( { value: val } ) => {
+							handleTabChange( val.slug );
+						} }
+					>
+						<Tabs.Tab
+							className={ `text-sm font-medium hover:text-primary-600 ${
+								activeTab === 'visual'
+									? 'text-primary-600 bg-primary-25 outline outline-1 outline-primary-300 focus:outline-1'
+									: ''
+							}` }
+							key={ 'visual' }
+							text={ __( 'Visual', 'sureforms-pro' ) }
+							slug={ 'visual' }
+						/>
+						<Tabs.Tab
+							className={ `text-sm font-medium hover:text-primary-600 ${
+								activeTab === 'html'
+									? 'text-primary-600 bg-primary-25 outline outline-1 outline-primary-300 focus:outline-1'
+									: ''
+							}` }
+							key={ 'html' }
+							text={ __( 'HTML', 'sureforms-pro' ) }
+							slug={ 'html' }
+						/>
+					</Tabs.Group>
+					<Button
+						className="px-4 bg-primary-25 text-primary-600 outline-primary-300 hover:bg-primary-25 hover:outline-primary-300 whitespace-nowrap"
+						size="sm"
+						tag="button"
+						icon={ <ArrowUpTrayIcon className="h-4 w-4" /> }
+						iconPosition="left"
+						variant="outline"
+						onClick={ handleAddMedia }
+					>
+						Add Media
+					</Button>
+				</div>
 			</div>
+
 			<textarea
 				name={ name }
 				id={ id }
 				value={ value }
 				rows="17"
 				onChange={ updateValue }
-				className="w-full"
+				className="w-full focus:border-flamingo-400 focus:shadow-sm focus:shadow-flamingo-400 focus:outline-0"
 			></textarea>
 		</section>
 	);
 };
 
 export default RichTextField;
+

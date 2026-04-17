@@ -43,10 +43,13 @@ class WebhookEventReceiver {
 			if ( $order && $order instanceof \WC_Order ) {
 				if ( ! OrderLock::has_order_lock( $order ) ) {
 					$needs_payment_complete = $order->get_meta( Constants::CAPTURE_STATUS ) === Capture::PENDING;
+
+					// If the transaction ID matches the authorization ID, then the payment needs to be completed.
+					$txn_matches_auth_id = $order->get_transaction_id() === $order->get_meta( Constants::AUTHORIZATION_ID );
 					/**
-					 * Only orders that don't have a transaction ID or ar pending review should be completed.
+					 * Only orders that don't have a transaction ID or are pending review should be completed.
 					 */
-					if ( ! $order->get_transaction_id() || $needs_payment_complete || $order->has_status( 'on-hold' ) ) {
+					if ( ! $order->get_transaction_id() || $txn_matches_auth_id || $needs_payment_complete || $order->has_status( 'on-hold' ) ) {
 						$paypal_order_id = $order->get_meta( Constants::ORDER_ID );
 						if ( $paypal_order_id ) {
 							$paypal_order = $this->client->orderMode( $order )->orders->retrieve( $paypal_order_id );
@@ -61,7 +64,11 @@ class WebhookEventReceiver {
 
 								$order->delete_meta_data( Constants::CAPTURE_STATUS );
 								$order->payment_complete( $capture->getId() );
-								$this->payment_handler->save_order_meta_data( $order, $paypal_order );
+								$payment_method = wc_get_payment_gateway_by_order( $order );
+								if ( $payment_method instanceof AbstractGateway ) {
+									$this->payment_handler->set_payment_method( $payment_method );
+									$this->payment_handler->save_order_meta_data( $order, $paypal_order );
+								}
 							} else {
 								throw new \Exception( $paypal_order->get_error_message(), 400 );
 							}

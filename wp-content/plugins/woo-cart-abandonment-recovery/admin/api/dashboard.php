@@ -313,7 +313,10 @@ class Dashboard extends ApiBase {
 			case WCF_CART_COMPLETED_ORDER:
 				return 'Successful';
 			case WCF_CART_LOST_ORDER:
+			case WCF_CART_FAILED_ORDER:
 				return 'Failed';
+			case WCF_CART_BLACKLISTED_ORDER:
+				return 'Blacklisted';
 			default:
 				return 'Normal';
 		}

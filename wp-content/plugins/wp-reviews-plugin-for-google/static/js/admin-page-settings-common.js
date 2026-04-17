@@ -742,6 +742,27 @@ jQuery(document).on('click', '.btn-send-feature-request', function(event) {
 
 // - import/rate-us.js
 // remember on hover
+(function() {
+	setTimeout(() => {
+		let quickRating = document.querySelector('.ti-quick-rating');
+		if (quickRating) {
+			for (let i = 0; i < 5; i++) {
+				setTimeout(() => {
+					let star = quickRating.querySelector('.ti-quick-rating .ti-star-check[data-value="'+ (i+1) +'"]');
+					let prevStar = quickRating.querySelector('.ti-quick-rating .ti-star-check[data-value="'+ i +'"]')
+					star.classList.add('ti-active')
+					prevStar?.classList.remove('ti-active');
+				}, i * 200);
+			}
+			quickRating.addEventListener(
+				'mouseleave',
+				() => quickRating.querySelector('.ti-star-check.ti-active').classList.remove('ti-active'),
+				{once: true}
+			);
+		}
+	}, 1000);
+})();
+
 jQuery(document).on('mouseenter', '.ti-quick-rating', function(event) {
 	let container = jQuery(this);
 	let selected = container.find('.ti-star-check.ti-active, .star-check.active');
@@ -751,6 +772,7 @@ jQuery(document).on('mouseenter', '.ti-quick-rating', function(event) {
 		container.data('selected', selected.index()).find('.ti-star-check, .star-check').removeClass('ti-active active');
 
 		// give back active star on mouse enter
+		console.log(container.data('selected'));
 		container.one('mouseleave', () => container.find('.ti-star-check, .star-check').eq(container.data('selected')).addClass('ti-active active'));
 	}
 });

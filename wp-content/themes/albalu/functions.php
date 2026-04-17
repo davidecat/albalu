@@ -880,11 +880,18 @@ function display_variation_sku() {
 	wp_add_inline_script('wc-add-to-cart-variation', "
 		jQuery(function($) {
 			var parentSku = '" . esc_js( $parent_sku ) . "';
+			var parentDesc = $('.woocommerce-product-details__short-description').html();
 			$(document).on('found_variation', 'form.cart', function( event, variation ) {
 				$('#product-sku span').text(variation.sku || parentSku);
+				if (variation.variation_description) {
+					$('.woocommerce-product-details__short-description').html(variation.variation_description);
+				} else {
+					$('.woocommerce-product-details__short-description').html(parentDesc);
+				}
 			});
 			$(document).on('hide_variation', 'form.cart', function() {
 				$('#product-sku span').text(parentSku);
+				$('.woocommerce-product-details__short-description').html(parentDesc);
 			});
 		});
 	");
@@ -1233,13 +1240,6 @@ function albalu_show_base_price_in_order( $item_id, $item, $product ) {
 }
 
 
-// Disable WooCommerce Product structured data output (let Yoast handle it)
-add_filter( 'woocommerce_structured_data_type_for_page', function( $types ) {
-	if ( is_product() ) {
-		$types = array_diff( $types, array( 'product' ) );
-	}
-	return $types;
-} );
 
 // Add shippingDetails, returnPolicy, GTIN and hasVariant to Yoast Product schema
 add_filter( 'wpseo_schema_product', function( $data ) {
@@ -1313,10 +1313,20 @@ add_filter( 'wpseo_schema_product', function( $data ) {
 			$var_product = wc_get_product( $variation['variation_id'] );
 			if ( ! $var_product ) continue;
 
+			$var_desc = $var_product->get_description();
+			if ( empty( $var_desc ) ) {
+				$var_desc = $product->get_short_description();
+			}
+			if ( empty( $var_desc ) ) {
+				$var_desc = $product->get_description();
+			}
+
 			$variant = array(
-				'@type' => 'Product',
-				'name'  => $var_product->get_name(),
-				'sku'   => $var_product->get_sku(),
+				'@type'          => 'Product',
+				'name'           => $var_product->get_name(),
+				'description'    => wp_strip_all_tags( $var_desc ),
+				'sku'            => $var_product->get_sku(),
+				'productGroupID' => (string) $product->get_id(),
 				'offers' => array(
 					'@type'         => 'Offer',
 					'url'           => $var_product->get_permalink(),

@@ -54,6 +54,7 @@ if ( ! class_exists( 'CARTFLOWS_CA_Loader' ) ) {
 
 			// deActivation hook.
 			register_deactivation_hook( CARTFLOWS_CA_FILE, [ $this, 'deactivation_reset' ] );
+			add_action( 'plugins_loaded', [ $this, 'load_abilities' ], 1 );
 			add_action( 'plugins_loaded', [ $this, 'load_libraries' ], 99 );
 			add_action( 'init', [ $this, 'load_cf_textdomain' ] );
 			add_action( 'init', [ $this, 'load_plugin' ], 99 );
@@ -95,8 +96,8 @@ if ( ! class_exists( 'CARTFLOWS_CA_Loader' ) ) {
 			define( 'CARTFLOWS_CA_BASE', plugin_basename( CARTFLOWS_CA_FILE ) );
 			define( 'CARTFLOWS_CA_DIR', plugin_dir_path( CARTFLOWS_CA_FILE ) );
 			define( 'CARTFLOWS_CA_URL', plugins_url( '/', CARTFLOWS_CA_FILE ) );
-			define( 'CARTFLOWS_CA_VER', '2.0.5' );
-			define( 'CARTFLOWS_CA_REQ_PRO_VER', '1.1.0' );
+			define( 'CARTFLOWS_CA_VER', '2.1.1' );
+			define( 'CARTFLOWS_CA_REQ_PRO_VER', '1.2.0' );
 
 			define( 'CARTFLOWS_CA_SLUG', 'cartflows_ca' );
 
@@ -108,6 +109,8 @@ if ( ! class_exists( 'CARTFLOWS_CA_Loader' ) ) {
 			define( 'CARTFLOWS_CA_DOMAIN_URL', 'https://cartflows.com/' );
 			define( 'CARTFLOWS_CA_NPS_WEBHOOK_URL', 'https://webhook.ottokit.com/ottokit/c883bcf8-1f86-4a16-9b81-7fd4cfaa3a49' );
 			define( 'WCAR_ONBOARDING_USER_SUB_WORKFLOW_URL', 'https://webhook.ottokit.com/ottokit/9d32a688-8d3f-4329-8f59-261dfc62c938' );
+
+			define( 'WCF_DEFAULT_CART_LOST_TIME', 30 );
 		}
 
 		/**
@@ -132,7 +135,7 @@ if ( ! class_exists( 'CARTFLOWS_CA_Loader' ) ) {
 			$this->load_helper_files_components();
 			$this->load_core_files();
 			$this->load_core_components();
-			
+
 			/**
 			 * CartFlows Init.
 			 *
@@ -270,6 +273,8 @@ if ( ! class_exists( 'CARTFLOWS_CA_Loader' ) ) {
 			include_once CARTFLOWS_CA_DIR . 'classes/class-cartflows-ca-tabs.php';
 			
 			include_once CARTFLOWS_CA_DIR . 'classes/class-cartflows-ca-admin-notices.php';
+
+			include_once CARTFLOWS_CA_DIR . 'classes/class-cartflows-ca-rollback.php';
 			
 			if ( ! $this->is_legacy_admin() ) {
 				/* New admin loader with namespace */
@@ -297,7 +302,7 @@ if ( ! class_exists( 'CARTFLOWS_CA_Loader' ) ) {
 
 			$bsf_analytics->set_entity(
 				[
-					'cf' => [
+					'wcar' => [
 						'hide_optin_checkbox' => true,
 						'product_name'        => 'Woocommerce Cart Abandonment Recovery',
 						'usage_doc_link'      => 'https://my.cartflows.com/usage-tracking/',
@@ -401,6 +406,33 @@ if ( ! class_exists( 'CARTFLOWS_CA_Loader' ) ) {
 			include_once CARTFLOWS_CA_DIR . 'modules/cart-abandonment/classes/class-cartflows-ca-module-loader.php';
 
 			include_once CARTFLOWS_CA_DIR . 'modules/weekly-email-report/class-cartflows-ca-admin-report-emails.php';
+		}
+
+		/**
+		 * Load MCP Abilities.
+		 *
+		 * Includes the abstract ability base, the abilities register singleton,
+		 * and all five WCAR ability classes, then bootstraps the register.
+		 *
+		 * @since 2.1.0
+		 * @return void
+		 */
+		public function load_abilities(): void {
+
+			// Ensure Meta_Options is available (it may not be in legacy-admin mode).
+			if ( ! class_exists( 'WCAR\Admin\Inc\Meta_Options' ) ) {
+				include_once CARTFLOWS_CA_DIR . 'admin/inc/meta-options.php';
+			}
+
+			include_once CARTFLOWS_CA_DIR . 'inc/abilities/class-wcar-abstract-ability.php';
+			include_once CARTFLOWS_CA_DIR . 'inc/abilities/class-wcar-abilities-register.php';
+			include_once CARTFLOWS_CA_DIR . 'inc/abilities/class-wcar-ability-get-settings.php';
+			include_once CARTFLOWS_CA_DIR . 'inc/abilities/class-wcar-ability-get-setting.php';
+			include_once CARTFLOWS_CA_DIR . 'inc/abilities/class-wcar-ability-update-setting.php';
+			include_once CARTFLOWS_CA_DIR . 'inc/abilities/class-wcar-ability-get-dashboard-stats.php';
+			include_once CARTFLOWS_CA_DIR . 'inc/abilities/class-wcar-ability-get-product-stats.php';
+
+			\WCAR\Inc\Abilities\Wcar_Abilities_Register::get_instance();
 		}
 
 		/**
@@ -509,7 +541,6 @@ if ( ! class_exists( 'CARTFLOWS_CA_Loader' ) ) {
 		 * @return bool True if notice should be shown.
 		 */
 		public function should_show_ui_switch_notice(): bool {
-			$saved_version = get_option( 'wcf_ca_version', false );
 			$user_opted_in = get_option( 'cartflows_ca_use_new_ui', false );
 
 			// Don't show notice if user already opted in.
@@ -517,13 +548,7 @@ if ( ! class_exists( 'CARTFLOWS_CA_Loader' ) ) {
 				return false;
 			}
 
-			// Show notice only for versions below or equal to 2.0.0.
-			// Check for null, empty, and exclude RC versions from comparison.
-			if ( ! empty( $saved_version ) && false === stripos( $saved_version, 'RC' ) && version_compare( $saved_version, '2.0.0', '<=' ) ) {
-				return true;
-			}
-
-			return false;
+			return true;
 		}
 
 		/**

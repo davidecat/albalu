@@ -18,7 +18,10 @@ class PaymentGatewaysController {
 		add_filter( 'wfocu_wc_get_supported_gateways', [ $this, 'get_supported_gateways' ] );
 		add_filter( 'wfocu_subscriptions_get_supported_gateways', [ $this, 'get_subscription_gateways' ] );
 		add_filter( 'wfocu_gateways_paypal_support_non_reference_trans', [ $this, 'add_no_reference_txn_support' ] );
-		add_action( 'wfocu_footer_before_print_scripts', [ $this, 'enqueue_scripts' ] );
+
+		// deprecated - 2.0.12
+		//add_action( 'wfocu_footer_before_print_scripts', [ $this, 'enqueue_scripts' ] );
+
 		add_filter( 'wfocu_localized_data', [ $this, 'add_script_data' ] );
 		add_action( 'wfocu_subscription_created_for_upsell', [ $this, 'update_subscription_meta' ], 10, 3 );
 
@@ -95,14 +98,22 @@ class PaymentGatewaysController {
 
 	/**
 	 * @param \WC_Subscription $subscription
-	 * @param string $product_hash
-	 * @param \WC_Order $order
+	 * @param string           $product_hash
+	 * @param \WC_Order        $order
 	 *
 	 * @return void
 	 */
 	public function update_subscription_meta( $subscription, $product_hash, $order ) {
 		if ( $this->is_supported_gateway( $subscription->get_payment_method() ) ) {
-			$subscription->update_meta_data( Constants::PAYMENT_METHOD_TOKEN, $order->get_meta( Constants::PAYMENT_METHOD_TOKEN ) );
+			$payment_token = $order->get_meta( Constants::PAYMENT_METHOD_TOKEN );
+			if ( $payment_token ) {
+				$subscription->update_meta_data( Constants::PAYMENT_METHOD_TOKEN, $payment_token );
+			} else {
+				$billing_agreement_id = $order->get_meta( Constants::BILLING_AGREEMENT_ID );
+				if ( $billing_agreement_id ) {
+					$subscription->update_meta_data( Constants::BILLING_AGREEMENT_ID, $billing_agreement_id );
+				}
+			}
 			$subscription->save();
 		}
 	}

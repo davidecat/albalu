@@ -29,6 +29,7 @@ class Reset
         delete_option('_bunnycdn_migration_warning');
         delete_option('_bunnycdn_offloader_last_password_check');
         delete_option('_bunnycdn_offloader_last_sync');
+        delete_option('_bunnycdn_sync_delayed_warning');
         delete_option('bunnycdn');
         delete_option('bunnycdn_api_key');
         delete_option('bunnycdn_api_user');

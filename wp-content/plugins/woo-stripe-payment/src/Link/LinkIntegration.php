@@ -38,7 +38,7 @@ class LinkIntegration {
 	private $supported_countries = 'AE, AT, AU, BE, BG, CA, CH, CY, CZ, DE, DK, EE, ES, FI, FR, GB, 
 	GI, GR, HK, HR, HU, IE, IT, JP, LI, LT, LU, LV, MT, MX, MY, NL, NO, NZ, PL, PT, RO, SE, SG, SI, SK, US';
 
-	private $supported_payment_methods = [ 'stripe_cc', 'stripe_link_checkout' ];
+	private $supported_payment_methods = [ 'stripe_cc', 'stripe_upm', 'stripe_link_checkout' ];
 
 	private $card_settings = [];
 
@@ -50,7 +50,7 @@ class LinkIntegration {
 		$this->account_settings = $account_settings;
 		$this->assets           = $assets;
 		$this->data_api         = $data_api;
-		$this->enabled          = $settings->is_active( 'link_enabled' );
+		//$this->enabled          = $settings->is_active( 'link_enabled' );
 		$this->initialize();
 	}
 
@@ -73,8 +73,6 @@ class LinkIntegration {
 		add_filter( 'wc_stripe_payment_intent_confirmation_args', [ $this, 'add_confirmation_args' ], 10, 3 );
 
 		add_filter( 'wc_stripe_express_payment_methods', [ $this, 'get_express_payment_methods' ] );
-
-		add_filter( 'woocommerce_update_order_review_fragments', [ $this, 'update_order_review_fragments' ] );
 	}
 
 	public function is_active() {
@@ -139,7 +137,24 @@ class LinkIntegration {
 	 */
 	public function add_payment_method_type( $params, $order ) {
 		if ( $this->can_process_link_payment( $order ) ) {
-			$params['payment_method_types'][] = 'link';
+			$payment_method = wc_get_payment_gateway_by_order( $order );
+			if ( $payment_method instanceof \WC_Payment_Gateway_Stripe ) {
+				switch ( $order->get_payment_method() ) {
+					case 'stripe_cc':
+						if ( $payment_method->get_option( 'link_enabled' ) === 'yes' ) {
+							$params['payment_method_types'][] = 'link';
+						}
+						break;
+					case 'stripe_upm':
+						/**
+						 * @var \WC_Payment_Gateway_Stripe_UPM $payment_method
+						 */
+						if ( $payment_method->is_enabled_payment_method( 'link' ) ) {
+							$params['payment_method_types'][] = 'link';
+						}
+						break;
+				}
+			}
 		}
 
 		return $params;
@@ -245,16 +260,15 @@ class LinkIntegration {
 	public function get_express_payment_methods( $gateways ) {
 		$link = WC()->payment_gateways()->payment_gateways()['stripe_link_checkout'] ?? null;
 		if ( $link && $link->banner_checkout_enabled() ) {
-			wp_localize_script( 'wc-stripe-link-express-checkout', 'wc_stripe_link_checkout_params', $link->get_localized_params() );
-			wp_enqueue_script( 'wc-stripe-link-express-checkout' );
+			$link->enqueue_express_checkout_scripts();
 		}
 
 		return $gateways;
 	}
 
 	public function update_order_review_fragments( $fragments ) {
-		if ( in_array( 'checkout_banner', $this->settings->get_option( 'payment_sections', [] ) ) ) {
-			$link                   = WC()->payment_gateways()->payment_gateways()['stripe_link_checkout'];
+		$link = WC()->payment_gateways()->payment_gateways()['stripe_link_checkout'] ?? null;
+		if ( $link && in_array( 'checkout_banner', $link->get_option( 'payment_sections', [] ) ) ) {
 			$fragments[ $link->id ] = $link->get_localized_params();
 		}
 

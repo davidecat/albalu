@@ -25,12 +25,7 @@ class WOE_HTMLPurifier_AttrDef_HTML_LinkTypes extends WOE_HTMLPurifier_AttrDef
             'rev' => 'AllowedRev'
         );
         if (!isset($configLookup[$name])) {
-            trigger_error(
-                'Unrecognized attribute name for link ' .
-                'relationship.',
-                E_USER_ERROR
-            );
-            return;
+            throw new Exception('Unrecognized attribute name for link relationship.');
         }
         $this->name = $configLookup[$name];
     }

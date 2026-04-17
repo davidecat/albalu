@@ -19,7 +19,20 @@ class Checkout {
 	 * @param int $order_id The ID of the order.
 	 */
 	public function admin_new_order_email( $order_id ) {
-		WC()->mailer()->emails['WC_Email_New_Order']->trigger( $order_id );
+		$order = wc_get_order( $order_id );
+		if ( ! $order ) {
+			return;
+		}
+	
+		// The new order email has already been sent → do not send it again
+		if ( $order->get_new_order_email_sent() ) {
+			return;
+		}
+		
+		// Send the new order email to the admin
+		if ( isset( WC()->mailer()->emails['WC_Email_New_Order'] ) ) {
+			WC()->mailer()->emails['WC_Email_New_Order']->trigger( $order_id );
+		}
 	}
 	/**
 	 * Sets the order status for offline payments.
