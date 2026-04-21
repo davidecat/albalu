@@ -26,7 +26,7 @@ if( ! defined( 'ABSPATH' ) ) {
 
 	</td>
 
-	<td class="pewc-option-image">
+	<td class="pewc-option-image alt">
 
 		<?php $placeholder = trailingslashit( PEWC_PLUGIN_URL ) . 'assets/images/placeholder-small.png'; ?>
 		<div class="pewc-field-image">
@@ -61,9 +61,9 @@ if( ! defined( 'ABSPATH' ) ) {
 
 	<?php do_action( 'pewc_after_option_params', 'OPTION_KEY', 'GROUP_ID', 'ITEM_KEY', array(), '' ); ?>
 
-	<td class="product-extra-field-10 pewc-actions pewc-select-actions">
+	<td class="pewc-actions pewc-select-actions">
 		<span class="sort-option pewc-action"><span class="dashicons dashicons-menu"></span></span>
-		<span class="remove-option pewc-action"><?php _e( 'Remove', 'pewc' ); ?></span>
+		<span class="remove-option pewc-action"><span class="dashicons dashicons-trash"></span></span>
 	</td>
 
 </tr>

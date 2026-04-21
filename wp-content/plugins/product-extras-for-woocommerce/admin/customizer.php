@@ -1015,7 +1015,7 @@ function pewc_add_product_extras_section( $wp_customize ) {
   $wp_customize->add_setting(
     'pewc_show_inputs',
     array(
-      'default'       => false,
+      'default'       => true,
       'type'          => 'theme_mod',
       'capability'    => 'manage_woocommerce',
       'transport'     => 'refresh'

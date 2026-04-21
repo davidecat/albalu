@@ -103,7 +103,7 @@ function pewc_do_global_settings_page() {
 		<form name="pewc_global_settings_form" id="pewc_global_settings_form" class="<?php echo $class; ?>" method="post">
 
 			<ul class="new-field-list">
-				<?php include( PEWC_DIRNAME . '/templates/admin/new-field-item.php' ); ?>
+				<?php include( PEWC_DIRNAME . '/templates/admin/field-item.php' ); ?>
 			</ul>
 			<table class="new-option">
 				<?php include( PEWC_DIRNAME . '/templates/admin/views/option-new.php' ); ?>
@@ -348,16 +348,17 @@ function pewc_save_globals() {
 							$global_rules[$group_id]['categories']['cats'] = array( $value );
 						}
 
-					} else if( $name_array[1] == 'items' || strpos( $name_array[0], '_' ) !== false ) {
+					} else if( ( ! empty( $name_array[1] ) && $name_array[1] == 'items' ) || strpos( $name_array[0], '_' ) !== false ) {
+						// 4.1.1, added ! empty( $name_array[1] ) to the condition. If $item->name == _product_extra_groups_[condition_action], $name_array[1] triggers a PHP warning
 
 						if( strpos( $name_array[0], '_' ) !== false ) {
 
 							// 3.3.0
-							$field_id = $name_array[1];
+							$field_id = $name_array[1] ?? 0; // 4.1.1
 							$split_name_array = explode( '_', $name_array[0] );
 							$group_id = $split_name_array[0];
 							$field_id = $split_name_array[1];
-							$param = $name_array[1];
+							$param = $name_array[1] ?? 0; // 4.1.1
 
 						} else {
 
@@ -630,6 +631,12 @@ function pewc_filter_product_extra_groups( $product_extra_groups, $product_id ) 
 		$globals = array();
 		if( $global_order ) {
 			$global_ids = explode( ',', $global_order );
+			// Batch-prime global group post objects AND meta: get_post_status() (called later in
+			// the foreach to filter unpublished groups) needs the post object in cache, and
+			// pewc_get_group_title() etc. need meta in cache. _prime_post_caches() issues one
+			// posts SELECT + one meta SELECT for all IDs, replacing one WP_Post::get_instance()
+			// and one update_meta_cache() call per group.
+			_prime_post_caches( $global_ids, false, true );
 			foreach( $global_ids as $group_id ) {
 				// Check whether we need to meet all rules or any rule
 				$globals[$group_id]['meta']['group_title'] = pewc_get_group_title( $group_id, array(), true );
@@ -706,7 +713,7 @@ function pewc_filter_product_extra_groups( $product_extra_groups, $product_id ) 
 			foreach( $rules as $rule ) {
 
 				// Verify the rule if it's set
-				if( isset( $global['global_rules'][$rule['id']]['is_selected'] ) && $global['global_rules'][$rule['id']]['is_selected'] == 'on' && isset( $rule['verification'] ) && function_exists( $rule['verification'] ) ) {
+				if( ! empty( $global['global_rules'][$rule['id']]['is_selected'] ) && isset( $rule['verification'] ) && function_exists( $rule['verification'] ) ) {
 
 					$rule_verified = call_user_func( $rule['verification'], $product_id, $global, $rule, $global_id );
 					$rule_set = true;
@@ -901,7 +908,8 @@ function pewc_show_categories_rule( $group_key, $group, $rule ) {
 function pewc_verify_all_products( $product_id, $global, $rule ) {
 
 	$verified = false;
-	if( isset( $global['global_rules']['all']['is_selected'] ) && $global['global_rules']['all']['is_selected'] == 'on' ) {
+	if( ! empty( $global['global_rules']['all']['is_selected'] ) ) {
+	// if( isset( $global['global_rules']['all']['is_selected'] ) && $global['global_rules']['all']['is_selected'] == 'on' ) {
 		$verified = true;
 	}
 	return apply_filters( 'pewc_after_verify_all_products', $verified, $product_id, $global, $rule );

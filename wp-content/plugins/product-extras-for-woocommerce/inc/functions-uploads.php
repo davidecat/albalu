@@ -12,9 +12,15 @@ if( ! defined( 'ABSPATH' ) ) {
 
 function pewc_ajax_upload_script( $id, $field, $multiply_price ) {
 
+	// 4.2.0, if this is a repeatable Upload field, we use a different function that initializes the Upload field
+	if ( pewc_is_repeatable_field( $field ) ) {
+		return; // use our other function?
+	}
+
 	$accepted_files = pewc_get_accepted_files();
 	$max_file_size = pewc_get_max_upload();
-	$max_files = ! empty( $field['max_files'] ) ? absint( $field['max_files'] ) : 1; ?>
+	// 4.3.0, max_files should only be used if multiple_uploads is enabled
+	$max_files = ! empty( $field['multiple_uploads'] ) && ! empty( $field['max_files'] ) ? absint( $field['max_files'] ) : 1; ?>
 
 	<script>
 		Dropzone.autoDiscover = false;
@@ -25,16 +31,16 @@ function pewc_ajax_upload_script( $id, $field, $multiply_price ) {
 			var ajaxUrl = pewc_vars.ajaxurl;
 			var dropzone_<?php echo esc_attr( $id ); ?> = new Dropzone( "#dz_<?php echo esc_attr( $id ); ?>", {
 
-			dictDefaultMessage: "<?php echo apply_filters( 'pewc_filter_dictDefaultMessage_message', __( 'Drop files here to upload', 'pewc' ) ); ?>",
-			dictFallbackMessage: "<?php echo apply_filters( 'pewc_filter_dictFallbackMessage_message', __( 'Your browser does not support drag and drop file uploads', 'pewc' ) ); ?>",
-			dictFallbackText: "<?php echo apply_filters( 'pewc_filter_dictFallbackText_message', __( 'Please use the fallback form below to upload your files like in the olden days', 'pewc' ) ); ?>",
-			dictFileTooBig: "<?php echo apply_filters( 'pewc_filter_dictFileTooBig_message', __( 'The file is too big', 'pewc' ) ); ?>",
-			dictInvalidFileType: "<?php echo apply_filters( 'pewc_filter_dictInvalidFileType_message', __( 'You cannot upload files of this type', 'pewc' ) ); ?>",
-			dictCancelUpload: "<?php echo apply_filters( 'pewc_filter_dictCancelUpload_message', __( 'Cancel upload', 'pewc' ) ); ?>",
-			dictUploadCanceled: "<?php echo apply_filters( 'pewc_filter_dictUploadCanceled_message', __( 'Upload cancelled.', 'pewc' ) ); ?>",
-			dictCancelUploadConfirmation: "<?php echo apply_filters( 'pewc_filter_dictCancelUploadConfirmation_message', __( 'Are you sure you want to cancel this upload?', 'pewc' ) ); ?>",
-			dictRemoveFile: "<?php echo apply_filters( 'pewc_filter_dictRemoveFile_message', __( 'Remove file', 'pewc' ) ); ?>",
-			dictMaxFilesExceeded: "<?php echo apply_filters( 'pewc_filter_dictMaxFilesExceeded_message', __( 'You cannot upload any more files.', 'pewc' ) ); ?>",
+				dictDefaultMessage: "<?php echo apply_filters( 'pewc_filter_dictDefaultMessage_message', __( 'Drop files here to upload', 'pewc' ) ); ?>",
+				dictFallbackMessage: "<?php echo apply_filters( 'pewc_filter_dictFallbackMessage_message', __( 'Your browser does not support drag and drop file uploads', 'pewc' ) ); ?>",
+				dictFallbackText: "<?php echo apply_filters( 'pewc_filter_dictFallbackText_message', __( 'Please use the fallback form below to upload your files like in the olden days', 'pewc' ) ); ?>",
+				dictFileTooBig: "<?php echo apply_filters( 'pewc_filter_dictFileTooBig_message', __( 'The file is too big', 'pewc' ) ); ?>",
+				dictInvalidFileType: "<?php echo apply_filters( 'pewc_filter_dictInvalidFileType_message', __( 'You cannot upload files of this type', 'pewc' ) ); ?>",
+				dictCancelUpload: "<?php echo apply_filters( 'pewc_filter_dictCancelUpload_message', __( 'Cancel upload', 'pewc' ) ); ?>",
+				dictUploadCanceled: "<?php echo apply_filters( 'pewc_filter_dictUploadCanceled_message', __( 'Upload cancelled.', 'pewc' ) ); ?>",
+				dictCancelUploadConfirmation: "<?php echo apply_filters( 'pewc_filter_dictCancelUploadConfirmation_message', __( 'Are you sure you want to cancel this upload?', 'pewc' ) ); ?>",
+				dictRemoveFile: "<?php echo apply_filters( 'pewc_filter_dictRemoveFile_message', __( 'Remove file', 'pewc' ) ); ?>",
+				dictMaxFilesExceeded: "<?php echo apply_filters( 'pewc_filter_dictMaxFilesExceeded_message', __( 'You cannot upload any more files.', 'pewc' ) ); ?>",
 
 				previewTemplate: document.querySelector('#tpl').innerHTML,
 				url: ajaxUrl,
@@ -294,6 +300,8 @@ function pewc_ajax_upload_script( $id, $field, $multiply_price ) {
 
 					<?php if ( ! empty( $field['quantity_per_upload'] ) ) { ?>
 						// adjust quantity per field for Advanced Uploads
+						// this is no longer working when tested with AU 1.2.16 because this is run first before a name is assigned to the upload quantity input form
+						// issue should be fixed in AU 1.2.17
 						if (typeof existingFile.quantity !== 'undefined') {
 							$( 'input[name="<?php echo esc_attr( $id ); ?>_extra_fields[quantity]\['+key+'\]"]' ).val( existingFile.quantity );
 						}
@@ -308,8 +316,300 @@ function pewc_ajax_upload_script( $id, $field, $multiply_price ) {
 	</script>
 
 	<?php
+
 }
 add_action( 'pewc_do_ajax_upload_script', 'pewc_ajax_upload_script', 10, 3 );
+
+/**
+ * Initializes repeatable Upload fields
+ * @since 4.2.0
+ */
+function pewc_ajax_upload_script_repeatable( $id, $field, $multiply_price ) {
+
+	if ( ! pewc_is_repeatable_field( $field ) ) {
+		return; // only use this for repeatable Upload fields
+	}
+
+	$accepted_files = pewc_get_accepted_files();
+	$max_file_size = pewc_get_max_upload();
+	$max_files = ! empty( $field['max_files'] ) ? absint( $field['max_files'] ) : 1; ?>
+
+	<script>
+		Dropzone.autoDiscover = false;
+		jQuery(document).ready(function( $ ) {
+			//Dropzone.autoDiscover = false; // doesn't work?
+
+			<?php do_action( 'pewc_start_upload_script', $id, $field ); ?>
+
+			var ajaxUrl = pewc_vars.ajaxurl;
+			var dropzone_settings = {
+
+				dictDefaultMessage: "<?php echo apply_filters( 'pewc_filter_dictDefaultMessage_message', __( 'Drop files here to upload', 'pewc' ) ); ?>",
+				dictFallbackMessage: "<?php echo apply_filters( 'pewc_filter_dictFallbackMessage_message', __( 'Your browser does not support drag and drop file uploads', 'pewc' ) ); ?>",
+				dictFallbackText: "<?php echo apply_filters( 'pewc_filter_dictFallbackText_message', __( 'Please use the fallback form below to upload your files like in the olden days', 'pewc' ) ); ?>",
+				dictFileTooBig: "<?php echo apply_filters( 'pewc_filter_dictFileTooBig_message', __( 'The file is too big', 'pewc' ) ); ?>",
+				dictInvalidFileType: "<?php echo apply_filters( 'pewc_filter_dictInvalidFileType_message', __( 'You cannot upload files of this type', 'pewc' ) ); ?>",
+				dictCancelUpload: "<?php echo apply_filters( 'pewc_filter_dictCancelUpload_message', __( 'Cancel upload', 'pewc' ) ); ?>",
+				dictUploadCanceled: "<?php echo apply_filters( 'pewc_filter_dictUploadCanceled_message', __( 'Upload cancelled.', 'pewc' ) ); ?>",
+				dictCancelUploadConfirmation: "<?php echo apply_filters( 'pewc_filter_dictCancelUploadConfirmation_message', __( 'Are you sure you want to cancel this upload?', 'pewc' ) ); ?>",
+				dictRemoveFile: "<?php echo apply_filters( 'pewc_filter_dictRemoveFile_message', __( 'Remove file', 'pewc' ) ); ?>",
+				dictMaxFilesExceeded: "<?php echo apply_filters( 'pewc_filter_dictMaxFilesExceeded_message', __( 'You cannot upload any more files.', 'pewc' ) ); ?>",
+
+				previewTemplate: document.querySelector('#tpl').innerHTML,
+				url: ajaxUrl,
+				acceptedFiles: "<?php echo esc_attr( $accepted_files ); ?>",
+				maxFiles: <?php echo absint( $max_files ); ?>,
+				maxFilesize: <?php echo esc_attr( $max_file_size ); ?>,
+				thumbnailWidth: <?php echo apply_filters( 'pewc_dropzone_thumbnail_width', 1000, $id, $field ); ?>,
+				thumbnailHeight: <?php echo apply_filters( 'pewc_dropzone_thumbnail_height', 1000, $id, $field ); ?>,
+				addRemoveLinks: true,
+				uploadMultiple: true,
+				maxThumbnailFilesize: <?php echo apply_filters( 'pewc_dropzone_max_thumbnail_size', 10, $id ); ?>,
+				timeout: <?php echo apply_filters( 'pewc_dropzone_timeout', 30000, $id ); ?>,
+
+				<?php do_action( 'pewc_end_upload_options', $id, $field ); ?>
+
+				init: function() {
+					<?php do_action( 'pewc_start_upload_script_init', $id, $field ); ?>
+
+					this.on( 'sendingmultiple', function( file, xhr, formData ) {
+						var field_id = <?php echo $field['field_id']; ?>;
+						$( '#field_' + field_id + '_pdf_count' ).val( 0 );
+						<?php if( pewc_disable_add_to_cart_upload() ) { ?>
+							$( 'body' ).trigger( 'pewc_toggle_add_to_cart_button', [ true, 'upload' ] ); // since 3.11.9
+						<?php } ?>
+						formData.append( 'action', 'pewc_dropzone_upload' );
+						formData.append( 'pewc_file_upload', $( '#pewc_file_upload' ).val() );
+						formData.append( 'field_id', '<?php echo $field['field_id']; ?>' );
+						formData.append( 'pewc_product_id', $( '#pewc_product_id' ).val() );
+						formData.append( 'file_data', $( '#<?php echo esc_attr( $id ); ?>_file_data' ).val() );
+						formData.append( 'pewc_item_id', '<?php echo esc_attr( $id ); ?>' ); // 3.27.2
+						// Safari seems to have issues with special characters, we pass the encoded filename for now, to be used later
+						for ( k in file ) {
+							formData.append( 'filename_encoded['+k+']', encodeURIComponent( file[k].name ) );
+						}
+					});
+					this.on( 'successmultiple', function( file, response ) {
+						return;
+					});
+					this.on( 'complete', function( file ) {
+						return;
+					});
+					this.on( 'queuecomplete', function() {
+						// We use this method because successmultiple was overwriting some files when used with Advanced Uploads
+						var dz_element = $( this.element );
+						var dz_id = dz_element.attr( 'id' );
+						var pewc_id = dz_id.replace( 'dz_', '' );
+						var files = this.files; //dropzone_<?php echo esc_attr( $id ); ?>.files;
+						var num_files = this.files.length; //dropzone_<?php echo esc_attr( $id ); ?>.files.length;
+						var all_files = [];
+						var uploaded_files = [];
+						var page_counts = [];
+
+						if ( num_files > 0 && $( '#' + pewc_id + '_file_data' ).val() != '' ) {
+							// on 3.9.7, we regenerate the dropzone area if files were previously uploaded
+							uploaded_files = JSON.parse( $( '#' + pewc_id + '_file_data' ).val() );
+						}
+
+						// Ensure we have a list of the currently uploaded files, excluding any that may have been removed
+						if( files ) {
+							for( k in files ) {
+								var file = files[k];
+								if( file.xhr === undefined) {
+									if ( uploaded_files.length > 0 && uploaded_files[k] ) {
+										// use the already uploaded files instead
+										all_files.push( uploaded_files[k]) ;
+									}
+									continue; // if we're regenerating the dropzone, this is undefined, so skip the rest of the loop
+								}
+								var response = JSON.parse( file.xhr.response );
+								var received_files = response.data.files;
+								if( received_files ) {
+									<?php do_action( 'pewc_after_upload_queuecomplete', $id, $field ); ?>
+									for( f in received_files ) {
+										if( file.name === received_files[f].name || file.name === decodeURIComponent( received_files[f].name_encoded ) ) {
+											// If this is a PDF and the option is enabled, count the pages
+											if( pewc_vars.pdf_count == 'yes' && received_files[f].type == 'application/pdf' ) {
+												$( file.previewElement ).find( '.dz-success-mark' ).append( '<div class="pewc-counting-pdf-pages-text">' + pewc_vars.counting_pages_text + '</div>' ); // 3.26.5
+												$.ajax({
+													type: 'POST',
+													url: pewc_vars.ajaxurl,
+													data: {
+														action: 'wcpauau_get_pdf_page_count',
+														path: received_files[f].file,
+														name: received_files[f].name
+													},
+													success: function( response ) {
+														$( file.previewElement ).find( '.pewc-counting-pdf-pages-text' ).remove(); // 3.26.5
+														var field_id = <?php echo $field['field_id']; ?>;
+														if( ! $( '#field_' + field_id + '_pdf_count' ).val() ) {
+															current_count = 0;
+														} else {
+															current_count = parseInt( $( '#field_' + field_id + '_pdf_count' ).val() );
+														}
+														file.pageCount = parseInt( response.data.count );
+														var element = {};
+														element.name = response.data.name;
+														element.count = response.data.count;
+														page_counts.push( element );
+														$( '#field_' + field_id + '_pdf_count' ).attr( 'data-counts', JSON.stringify( page_counts ) );
+														current_count += parseInt( response.data.count );
+														$( '#field_' + field_id + '_pdf_count' ).val( current_count );
+														// 3.25.5, trigger calculation, so that the calc field that is using the pdf page count updates its value
+														$( 'body' ).trigger( 'pewc_trigger_calculations' );
+														if ( response.data.error != '' ) {
+															alert( 'There was an error in getting the PDF page count: ' + response.data.error );
+														}
+													}
+												});
+											}
+											// Identify the file from the response data
+											all_files.push( received_files[f] );
+											if ( received_files[f].pdf_thumb ) {
+												// the uploaded file was a PDF, get the generated PDF thumb if it exists and use it
+												$(file.previewElement).find(".pewc-dz-image-wrapper img").attr("src", received_files[f].pdf_thumb + '?' + Math.random());
+											}
+											break;
+										}
+									}
+								}
+
+								
+
+							}
+						}
+
+						$( '#' + pewc_id + '_file_data' ).val( JSON.stringify( all_files ) );
+						var num_all_files = all_files.length; // 3.10.5, maybe this is more accurate, because this can detect failed uploads
+
+						var upload_delay = setTimeout(
+							function() {
+								$( '#' + pewc_id + '_number_uploads' ).val( JSON.stringify( num_all_files ) ).trigger( 'change' );
+								var pewc_item = $( '#' + dz_id ).closest( '.pewc-item' );
+
+								if ( num_all_files > 0 ) {
+									var price = $( '#' + pewc_id + '_base_price' ).val();
+									<?php if( $multiply_price ) { ?>
+									if ( pewc_item.hasClass( 'quantity-per-upload' ) && pewc_item.hasClass( 'price-quantity-per-upload' ) ) {
+										// 3.22.1, multiply price with quantity per upload
+										var total_quantity_per_upload = parseFloat( pewc_item.attr( 'data-total-quantity-per-upload' ) );
+										price = total_quantity_per_upload * parseFloat( price );
+									} else {
+										price = parseFloat( num_all_files ) * parseFloat( price );
+									}
+									<?php } ?>
+									pewc_item.attr( 'data-price', price );
+								}
+								else {
+									pewc_item.attr( 'data-price', 0 );
+								}
+
+								$( 'body' ).trigger( 'pewc_force_update_total_js' );
+								$( 'body' ).trigger( 'pewc_check_conditions' );
+								$( 'body' ).trigger( 'pewc_trigger_calculations' );
+								$( 'body' ).trigger( 'pewc_image_uploaded', [ pewc_id, num_all_files ] );
+							},
+							pewc_vars.pdf_count_timer
+						);
+
+						<?php if( pewc_disable_add_to_cart_upload() ) { ?>
+							$( 'body' ).trigger( 'pewc_toggle_add_to_cart_button', [ false, 'upload' ] ); // since 3.11.9
+						<?php } ?>
+
+					});
+					this.on( 'removedfile', function( file, response ) {
+						var dz_element = $( this.element );
+						var dz_id = dz_element.attr( 'id' );
+						var pewc_id = dz_id.replace( 'dz_', '' );
+						$( '.dropzone.dz-clickable' ).block({
+							message: null,
+							overlayCSS:  {
+								backgroundColor: '#fff',
+								opacity:         0.6,
+								cursor:          'wait'
+					    	},
+						});
+						// Delete pdf count value
+						var field_id = <?php echo $field['field_id']; ?>;
+						if( pewc_vars.pdf_count == 'yes' && file.type == 'application/pdf' ) {
+							var page_counts = $( '#field_' + field_id + '_pdf_count' ).attr( 'data-counts' );
+							page_counts = JSON.parse( page_counts );
+							var page_count = 0;
+							for( p in page_counts ) {
+								var element = page_counts[p];
+								if( element.name == file.name ) {
+									page_count = parseInt( element.count );
+								}
+							}
+							if( isNaN( page_count ) ) page_count = 0;
+							var current_count = parseInt( $( '#field_' + field_id + '_pdf_count' ).val() );
+							var new_count = current_count - page_count;
+							$( '#field_' + field_id + '_pdf_count' ).val( new_count ).trigger( 'change' );
+							// $( 'body' ).trigger( 'pewc_trigger_calculations' );
+						}
+						var remove_data = {
+							action: 'pewc_dropzone_remove',
+							file: file.name,
+							pewc_file_upload: $( '#pewc_file_upload' ).val(),
+							file_data: $( '#' + pewc_id + '_file_data' ).val()
+						};
+						if ( file.wcpauau_from_cropper != undefined && file.wcpauau_from_cropper == 'yes' ) {
+							remove_data['wcpauau_from_cropper'] = 'yes'; // 3.18.2
+						}
+						$.ajax({
+							type: 'POST',
+							url: pewc_vars.ajaxurl,
+							data: remove_data,
+							success: function( response ) {
+								$( '.dropzone.dz-clickable' ).unblock();
+								$( '#' + pewc_id + '_file_data' ).val( JSON.stringify( response.data.files ) );
+								var num_files = response.data.count;
+								if( num_files === 0 ) {
+									$( '#' + pewc_id + '_file_data' ).val( '' );
+									$( '#field_' + field_id + '_pdf_count' ).val( 0 ).trigger( 'change' );
+								}
+								$( '#' + pewc_id + '_number_uploads' ).val( JSON.stringify( num_files ) ).trigger( 'change' );
+								<?php if( $multiply_price ) { ?>
+									var price = $( '#' + pewc_id + '_base_price' ).val();
+									price = parseFloat( num_files ) * parseFloat( price );
+									$( '#' + dz_id ).closest( '.pewc-item' ).attr( 'data-price', price );
+									$( 'body' ).trigger( 'pewc_force_update_total_js' );
+								<?php } ?>
+								$( '#' + dz_id ).closest( '.pewc-item' ).find( '.aouau-quantity-field' ).trigger( 'wcaouau-update-quantity-field' );
+								$( 'body' ).trigger( 'pewc_check_conditions' );
+								$( 'body' ).trigger( 'pewc_trigger_calculations' );
+								$( 'body' ).trigger( 'pewc_image_removed', [ pewc_id ]);
+							}
+						});
+					});
+					this.on( 'error', function( file, response ) {
+						console.log( 'error' );
+					});
+
+				},
+
+				<?php do_action( 'pewc_after_upload_script_init', $id, $field ); ?>
+
+			};
+
+			//var dropzone_<?php echo esc_attr( $id ); ?> = new Dropzone( "#dz_<?php echo esc_attr( $id ); ?>", dropzone_settings );
+			$( 'body' ).on( 'pewc_initialize_upload_dropzones', function( e, pewc_id ){
+				new Dropzone( '#dz_' + pewc_id, dropzone_settings );
+			});
+			$( 'body' ).trigger( 'pewc_initialize_upload_dropzones', [ '<?php echo esc_attr( $id ); ?>' ] );
+
+			// if the product page has been submitted but there's an error, we'll try to re-build the dropzone area with previously uploaded files, so that they won't have to re-upload again
+			// copy code from pewc_ajax_upload_script() later
+
+			<?php do_action( 'pewc_end_upload_script', $id, $field ); ?>
+
+		});
+	</script>
+
+	<?php
+
+}
+add_action( 'pewc_do_ajax_upload_script', 'pewc_ajax_upload_script_repeatable', 11, 3 );
 
 /**
  * Get the accepted file types for our upload

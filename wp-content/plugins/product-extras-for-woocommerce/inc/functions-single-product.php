@@ -126,6 +126,16 @@ function pewc_enqueue_scripts() {
 		wp_enqueue_style( 'pewc-clear-all', trailingslashit( PEWC_PLUGIN_URL ) . 'assets/css/pewc-clear-all.css', array(), $version );
 	}
 
+	// Plus/minus buttons for Products field quantity inputs
+	if ( 'yes' === pewc_enable_plus_minus_buttons( isset( $post->ID ) ? $post->ID : 0 ) ) {
+		wp_register_script( 'pewc-plusminus', trailingslashit( PEWC_PLUGIN_URL ) . 'assets/js/plusminus.js', array( 'pewc-script' ), $version, true );
+		wp_enqueue_script( 'pewc-plusminus' );
+		wp_localize_script( 'pewc-plusminus', 'pewc_plusminus_vars', array(
+			'increase_label' => __( 'Increase quantity', 'pewc' ),
+			'decrease_label' => __( 'Decrease quantity', 'pewc' ),
+		) );
+	}
+
 	$vars = array(
 		'ajaxurl'					=> admin_url( 'admin-ajax.php' ),
 		'currency_symbol'			=> get_woocommerce_currency_symbol(),
@@ -440,13 +450,21 @@ function pewc_product_extra_fields() {
 
 					// Now we're looking for quantities
 					// Child Product ID => Quantity
-					if( ! empty( $child_cart_item['product_extras']['products']['field_id'] ) && ! empty( $child_cart_item['product_extras']['product_id'] ) ) {
+					// 4.1.2, changed $child_cart_item['product_extras']['product_id'] to $child_cart_item['product_id'] since the former doesn't seem to exist anymore
+					// 4.1.3 note: the issue in 4.1.2 seems to have come from the changes I made in pewc_add_cart_item_data()
+					if( ! empty( $child_cart_item['product_extras']['products']['field_id'] ) && ! empty( $child_cart_item['product_id'] ) ) {
 						// This is a child product of the product we're currently editing
+						$child_quantity = (int) $child_cart_item['quantity'];
+						// 4.1.2, if Multiply independent quantities is enabled, let's divide independent quantities, so that the JS calculation is still correct
+						if ( 'yes' === pewc_multiply_independent_quantities_by_parent_quantity() && ! empty( $child_cart_item['product_extras']['products']['products_quantities'] ) && 'independent' === $child_cart_item['product_extras']['products']['products_quantities'] && $cart_item['quantity'] > 0 && 0 === $child_quantity % $cart_item['quantity'] ) {
+							$child_quantity = $child_quantity / $cart_item['quantity'];
+						}
 						if ( ! empty( $child_cart_item['variation_id'] ) ) {
 							// 3.20.1, this is a variant
-							$child_fields[$child_cart_item['product_extras']['products']['field_id']][$child_cart_item['variation_id']] = $child_cart_item['quantity'];
+							$child_fields[$child_cart_item['product_extras']['products']['field_id']][$child_cart_item['variation_id']] = $child_quantity;
 						} else {
-							$child_fields[$child_cart_item['product_extras']['products']['field_id']][$child_cart_item['product_extras']['product_id']] = $child_cart_item['quantity'];
+							// 4.1.2, changed $child_cart_item['product_extras']['product_id'] to $child_cart_item['product_id']
+							$child_fields[$child_cart_item['product_extras']['products']['field_id']][$child_cart_item['product_id']] = $child_quantity;
 						}
 					}
 				}
@@ -586,7 +604,7 @@ function pewc_product_extra_fields() {
 
 								// 3.25.2, added 'front'
 								$value = pewc_get_default_value( $id, $item, $_POST, 'front' );
-
+	
 								// Replace default value with editable value
 								// 3.23.1, updated the last condition so that checkbox fields with default value are not affected
 								if ( 'checkbox' === $item['field_type'] && 'checked' === $value && false !== $edited_fields ) {
@@ -655,7 +673,8 @@ function pewc_product_extra_fields() {
 									'data-field-label'				=> $label,
 									'data-field-value'				=> $data_field_value,
 									'data-field-layered'			=> pewc_is_field_layered( $item ),
-									'data-field-index'				=> $count_fields
+									'data-field-index'				=> $count_fields,
+									'data-field-class'				=> ! empty( $item['field_class'] ) ? esc_attr( $item['field_class'] ) : ''
 								);
 
 								// Since 3.11.6. This will be used on Calculation fields so only do this for Pro
@@ -738,6 +757,29 @@ function pewc_product_extra_fields() {
 
 								}
 
+								// For calendar-list fields, pre-populate data-selected-option-price with the
+								// default option's price so calculations read the correct value on page load
+								// before JS has had a chance to run update_total_js.
+								// $value holds the day offset (e.g. "6"), matching $list_item['value'] in each option row.
+								// field_cl_options is indexed by row count, so we search by value, not array key.
+								if( $item['field_type'] === 'calendar-list' && ! empty( $item['field_cl_options'] ) ) {
+									$default_offset = $value !== '' ? (string) $value : '0';
+									$default_option = null;
+									foreach( $item['field_cl_options'] as $cl_option ) {
+										if( isset( $cl_option['value'] ) && (string) $cl_option['value'] === $default_offset ) {
+											$default_option = $cl_option;
+											break;
+										}
+									}
+									// Fall back to the first option if no default is configured
+									if( $default_option === null ) {
+										$default_option = reset( $item['field_cl_options'] );
+									}
+									if( $default_option ) {
+										$attributes['data-selected-option-price'] = pewc_get_option_price( $default_option, $item, $product );
+									}
+								}
+
 								$attributes = apply_filters( 'pewc_filter_item_attributes', $attributes, $item );
 
 								do_action( 'pewc_before_group_inner_tag_open', $item );
@@ -774,8 +816,8 @@ function pewc_product_extra_fields() {
 		}
 
 		/**
-		 * @hooked pewc_display_summary_panel				5
-		 * @hooked pewc_totals_fields								10
+		 * @hooked pewc_display_summary_panel		5
+		 * @hooked pewc_totals_fields				10
 		 * @hooked pewc_hidden_fields_product_page	20
 		 */
 		do_action( 'pewc_after_group_wrap', $post_id, $product, $summary_panel );
@@ -1039,6 +1081,12 @@ function pewc_get_group_wrapper_classes( $group_id, $group_index, $first_group_c
 	$group_classes = pewc_get_group_class( $group_id );
 	if( $group_classes ) {
 		$wrapper_classes[] = $group_classes;
+	}
+
+	// 3.27.9, add class to be used when calculating totals on the product page
+	$always_include = pewc_get_group_include_in_order( $group_id );
+	if ( $always_include ) {
+		$wrapper_classes[] = 'pewc-group-always-include';
 	}
 
 	return apply_filters( 'pewc_group_wrapper_classes', $wrapper_classes, $group_id, $group_index, $first_group_class, $group, $post_id );
@@ -1364,6 +1412,8 @@ function pewc_get_field_classes( $item, $id, $post_id, $product, $count_fields, 
 	if( ! empty( $item['layered_images'] ) ) {
 		$classes[] = 'pewc-layered-image';
 	}
+
+	$classes[] = ! empty( $item['field_class'] ) ? esc_attr( $item['field_class'] ) : '';
 	
 	$classes = apply_filters( 'pewc_filter_single_product_classes', $classes, $item );
 
@@ -1433,10 +1483,10 @@ function pewc_get_option_price( $option_value, $item, $product, $cart_price=fals
 				return (float) $_POST[ $item['id'] . '_option_' . $option_index . '_price_calculated' ];
 			}
 		}
-		return $option_value['price'];
+		return sanitize_text_field( $option_value['price'] );
 	}
 
-	$option_price = ! empty( $option_value['price'] ) ? $option_value['price'] : 0;
+	$option_price = ! empty( $option_value['price'] ) ? sanitize_text_field( $option_value['price'] ) : 0;
 	$option_price = apply_filters( 'pewc_get_option_price_before_maybe_include_tax', $option_price, $option_value, $product );
 	if( apply_filters( 'pewc_check_tax_for_option_price', true, $option_price, $item ) ) {
 		$option_price = pewc_maybe_include_tax( $product, $option_price, $cart_price );
@@ -1818,12 +1868,11 @@ function pewc_get_default_value( $id, $item, $posted, $location='' ) {
  */
 function pewc_add_on_price_separator( $sep=false, $item=false ) {
 
-	$separator = get_option( 'pewc_price_separator', false );
+	$separator = get_option( 'pewc_price_separator', '+' );
 	$sep = sprintf(
 		'<span class="pewc-separator"> %s </span>',
 		$separator
 	);
-	// $sep = ' ' . $separator . ' ';
 	return $sep;
 
 }
@@ -2071,3 +2120,34 @@ function pewc_hide_woocommerce_quantity_input() {
 
 }
 add_action( 'pewc_after_product_fields', 'pewc_hide_woocommerce_quantity_input' );
+
+/**
+ * Get a date based on today's date plus the value of $offset
+ * @since 4.1.0
+ */
+function pewc_get_calendar_list_date( $date, $offset ) {
+	$date->modify( '+' . $offset . ' day' );
+	return $date;
+}
+
+/**
+ * Check if a date is available for the calendar list
+ * @since 4.1.0
+ */
+function pewc_is_calendar_list_date_allowed( $option_date, $weekdays, $blocked_dates ) {
+
+	$ymd = $option_date->format( 'Y-m-d' );
+	// Numeric representation of day of week, Sunday is 0, Monday is 1, etc
+	$option_dow = $option_date->format( 'w' );
+
+	if( in_array( $option_dow, $weekdays ) ) {
+		// Day of week is blocked
+		return false;
+	} else if( in_array( $ymd, $blocked_dates ) ) {
+		// Specific date is blocked
+		return false;
+	}
+	
+	return true;
+
+}

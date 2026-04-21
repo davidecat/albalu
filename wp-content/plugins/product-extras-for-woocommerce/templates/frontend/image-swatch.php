@@ -39,6 +39,8 @@ if( isset( $item['field_options'] ) ) {
 
 		$option_index = 0;
 
+		pewc_prime_swatch_field_attachment_cache( $item['field_options'] );
+
 		foreach( $item['field_options'] as $key=>$option_value ) {
 
 			$image = pewc_get_swatch_image_html( $option_value, $item );

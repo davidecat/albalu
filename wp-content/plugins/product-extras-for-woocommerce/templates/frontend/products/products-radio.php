@@ -1,7 +1,8 @@
 <?php
 /**
  * A products field template for the radio layout
- * @since 2.2.0
+ * @since	2.2.0
+ * @version	4.0.3
  * @package WooCommerce Product Add-Ons Ultimate
  */
 
@@ -42,10 +43,12 @@ if( ! empty( $item['products_quantities'] ) ) {
 
 <?php if( $item['child_products'] ) {
 
+	pewc_prime_child_product_thumbnail_cache( $item['child_products'] );
+
 	foreach( $item['child_products'] as $child_product_id ) {
 
 		$child_product = wc_get_product( $child_product_id );
-		if( ! is_object( $child_product ) || get_post_status( $child_product_id ) != 'publish' ) {
+		if( ! is_object( $child_product ) || $child_product->get_status() !== 'publish' ) {
 			continue;
 		}
 
@@ -135,8 +138,10 @@ if( ! empty( $item['products_quantities'] ) ) {
 </div><!-- .pewc-radio-images-wrapper -->
 
 
-<?php if( $products_quantities == 'independent' ) {
+<?php
+// 4.0.3, added ! empty( $child_product_id ) to the condition
+if( $products_quantities == 'independent' && ! empty( $child_product_id ) ) {
 
 	pewc_child_product_independent_quantity_field( $quantity_field_values, $child_product_id, $id, $item );
 
-} ?>
+}

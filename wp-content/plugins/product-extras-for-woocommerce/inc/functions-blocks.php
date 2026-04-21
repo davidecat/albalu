@@ -30,17 +30,18 @@ function pewc_page_has_wc_blocks() {
 /**
  * Enqueues script for use in Block pages
  * @since	3.21.7
- * @version	3.24.8
+ * @version	4.1.4
  */
 function pewc_wc_blocks_enqueue_scripts() {
 
 	// 3.24.3, enqueue pewc-blocks.js only if wc-cart-block-frontend is enqueued. Fixed an error in Query Monitor
 	// 3.24.8, added wc-checkout-block-frontend for the checkout page
 	// 3.26.1, created pewc_enqueue_blocks_script() function
+	// 4.1.4, check if wc-cart-block-frontend is registed. As of WC 10.6.2, using it as a dependency causes a PHP Notice saying it isn't registered. WC recommends using wc-blocks-checkout as dependency instead
 	if ( pewc_enqueue_blocks_script( 'cart' ) ) {
-		$deps = array( 'wc-cart-block-frontend' );
+		$deps = wp_script_is( 'wc-cart-block-frontend', 'registered' ) ? array( 'wc-cart-block-frontend' ) : array( 'wc-blocks-checkout' );
 	} else if ( pewc_enqueue_blocks_script( 'checkout' ) ) {
-		$deps = array( 'wc-checkout-block-frontend' );
+		$deps = wp_script_is( 'wc-checkout-block-frontend', 'registered' ) ? array( 'wc-checkout-block-frontend' ) : array( 'wc-blocks-checkout' );
 	} else {
 		return;
 	}
@@ -77,7 +78,8 @@ add_action( 'woocommerce_blocks_loaded', 'pewc_wc_blocks_endpoints' );
 
 /**
  * Callback function to register endpoint data for blocks, used in cart page
- * @since 3.21.7
+ * @since	3.21.7
+ * @version	aou-repeatable-conditions-upload
  */
 function pewc_item_data_callback( $cart_item ) {
 
@@ -96,27 +98,41 @@ function pewc_item_data_callback( $cart_item ) {
 		}
 
 		$uploaded_files = array();
-		foreach ( $cart_item['product_extras']['groups'] as $group_id => $fields ) {
-			foreach ( $fields as $field_id => $field ) {
-				if ( 'upload' === $field['type'] && ! empty( $field['files'] ) ) {
-					foreach ( $field['files'] as $file ) {
-						if ( is_file( $file['file'] ) && ! empty( $file['url'] ) ) {
-							$thumb = pewc_thumb_anti_cache( $file['url'] );
-							$uploaded_file = array(
-								'url' => $thumb,
-								'type' => strpos( $file['type'], 'image/' ) !== false && ! apply_filters( 'pewc_show_link_only_cart', false ) ? 'image' : 'link',
-								'name' => $file['name'],
-							);
-							if ( ! empty( $file['quantity'] ) ) {
-								$uploaded_file['quantity'] = sprintf(
-									'%s: %s',
-									__( 'Quantity', 'pewc' ),
-									$file['quantity']
+
+		// aou-repeatable-conditions-upload, build the array to include cloned groups if they exist
+		$all_groups = pewc_rebuild_cart_item_data( $cart_item['product_extras'] );
+
+		//foreach ( $cart_item['product_extras']['groups'] as $group_id => $fields )
+		foreach ( $all_groups as $groups ) {
+			if ( $groups ) {
+				$group_id = $groups['id'];
+				foreach ( $groups as $field ) {
+					if ( ! empty( $field['type'] ) && 'upload' === $field['type'] && ! empty( $field['files'] ) ) {
+						$field_id = $field['field_id'];
+						foreach ( $field['files'] as $file ) {
+							if ( is_file( $file['file'] ) && ! empty( $file['url'] ) ) {
+								$thumb = pewc_thumb_anti_cache( $file['url'] );
+								$uploaded_file = array(
+									'url' => $thumb,
+									'type' => strpos( $file['type'], 'image/' ) !== false && ! apply_filters( 'pewc_show_link_only_cart', false ) ? 'image' : 'link',
+									'name' => $file['name'],
 								);
+								if ( ! empty( $file['quantity'] ) ) {
+									$uploaded_file['quantity'] = sprintf(
+										'%s: %s',
+										__( 'Quantity', 'pewc' ),
+										$file['quantity']
+									);
+								}
+								// convert label to a string that we can match on the frontend. Not sure yet how WooCommerce converts the strings
+								$label_key = 'pewc-upload-' . $field_id; // this matches the className data in pewc_get_item_data
+								if ( pewc_is_cloned_field( $field['id'] ) ) {
+									// aou-repeatable-conditions-upload, this is a cloned Upload field, add an extra identifier so that we can add the correct uploaded images in Cart and Checkout blocks
+									$clone_index = pewc_get_repeatable_index_from_field_id( $field['id'] );
+									$label_key .= '-cloned-' . $clone_index;
+								}
+								$uploaded_files[$label_key][] = $uploaded_file;
 							}
-							// convert label to a string that we can match on the frontend. Not sure yet how WooCommerce converts the strings
-							$label_key = 'pewc-upload-' . $field_id; // this matches the className data in pewc_get_item_data
-							$uploaded_files[$label_key][] = $uploaded_file;
 						}
 					}
 				}

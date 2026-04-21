@@ -197,11 +197,15 @@ function pewc_cart_calculate_fees() {
 					if( ! empty( $item['flat_rate'] ) ) {
 						foreach( $item['flat_rate'] as $id=>$flat_rate ) {
 							// Do it like this so we overwrite any duplicates
-							if( ! empty( $all_flat_rates[$cart_key . '_' . $id] ) ) {
+							// 3.27.7, the array key used to be $cart_key . '_' . $id, but that means it couldn't detect global add-on fields that are flat rate
+							// global add-on fields that are flat rate should only be added once in the cart
+							$flat_rate_key = $id; 
+							if( ! empty( $all_flat_rates[$flat_rate_key] ) ) {
 								// If we already have this ID, it's a global flat rate so only added once
 								$flat_rate['label'] = apply_filters( 'pewc_filter_flat_rate_cart_global_label', $flat_rate['label'], $item );
 							} else {
 								// Include the product name in the label for clarity if it is not a global flat rate
+								// 3.27.7 note: if this is the first time that a global flat rate is added, it will go here. But if this global flat rate is detected again, the label is overwritten above in the other condition
 								$product = wc_get_product( $value['product_id'] );
 								// Include the variation
 								$name = $product->get_name();
@@ -212,7 +216,7 @@ function pewc_cart_calculate_fees() {
 								$flat_rate['label'] = apply_filters( 'pewc_filter_flat_rate_cart_label', $name . ': ' . $flat_rate['label'], $item );
 
 							}
-							$all_flat_rates[$cart_key . '_' . $id] = $flat_rate;
+							$all_flat_rates[$flat_rate_key] = $flat_rate;
 						}
 					}
 				}
@@ -354,6 +358,14 @@ function pewc_add_cart_item_data( $cart_item_data, $product_id, $variation_id, $
 			'title'			=> $title_str,
 			'groups'		=> array()
 		);
+
+	} else if ( ! empty( $cart_item_data['product_extras']['products']['child_field'] ) ) {
+
+		// 4.1.2, this is a child product, triggered in pewc_add_on_product(). We don't want to proceed because global add-on fields that are applied to all products are inadvertently added to this child product
+		// 4.1.3, add these two to prevent PHP warnings when an order is created with a child product
+		$cart_item_data['product_extras']['product_id']	= $product_id;
+		$cart_item_data['product_extras']['title']	= $title_str;
+		return $cart_item_data;
 
 	} else {
 
@@ -568,7 +580,7 @@ function pewc_add_cart_item_data( $cart_item_data, $product_id, $variation_id, $
 							$price = apply_filters( 'pewc_filter_cart_item_data_price', $price, $cart_item_data, $item, $group_id, $field_id );
 
 							// Find any additional cost for options and select fields
-							if( ! empty( $item['field_options'] ) ) {
+							if( ! empty( $item['field_options'] ) && in_array( $field_type, pewc_field_has_options() ) ) {
 
 								// Record checkbox group values differently
 								$checkbox_group_values = array();
@@ -707,6 +719,18 @@ function pewc_add_cart_item_data( $cart_item_data, $product_id, $variation_id, $
 								$value = join( ' ', $value );
 							}
 
+							// For Calendar List fields, return the date based on the selected offset
+							if( $item['field_type'] == 'calendar-list' ) {
+								$cl_date = isset( $_POST['pewc_cl_' . $field_id] ) ? $_POST['pewc_cl_' . $field_id] : false;
+								$date_format = get_option( 'date_format' );
+								$value = date_i18n( get_option( 'date_format' ), strtotime( $cl_date ) );
+								
+								// Get the calendar list price 
+								$option_price = isset( $_POST['pewc_cl_price_' . $field_id] ) ? sanitize_text_field( $_POST['pewc_cl_price_' . $field_id] ) : 0;
+								$option_price = pewc_get_option_price( array( 'price' => $option_price ), $item, $product, true, 0 );
+								$price = floatval( $option_price ) + floatval( $field_price );
+							}
+
 							// Filter the price of the product extra
 							$price = apply_filters( 'pewc_add_cart_item_data_price', $price, $item, $product_id );
 
@@ -726,11 +750,11 @@ function pewc_add_cart_item_data( $cart_item_data, $product_id, $variation_id, $
 								'type'			=> $item['field_type'],
 								'label'			=> isset( $item['field_label'] ) ? sanitize_text_field( $item['field_label'] ) : '',
 								'id'    		=> esc_attr( $id ),
-								'group_id'  => $group_id,
-								'field_id'  => $field_id,
-								'price'   	=> floatval( $price ),
-								'value'   	=> $value,
-								'flat_rate'	=> $flat_rate_items,
+								'group_id'  	=> $group_id,
+								'field_id'  	=> $field_id,
+								'price'   		=> floatval( $price ),
+								'value'   		=> $value,
+								'flat_rate'		=> $flat_rate_items,
 								'hidden'		=> ! empty( $item['hidden_calculation'] ) ? sanitize_text_field( $item['hidden_calculation'] ) : '',
 								'price_visibility' => isset( $item['price_visibility'] ) ? $item['price_visibility'] : '',
 								'field_visibility' => isset( $item['field_visibility'] ) ? $item['field_visibility'] : '',
@@ -862,7 +886,8 @@ function pewc_add_cart_item_data( $cart_item_data, $product_id, $variation_id, $
 							}
 
 							// Ensure price can't be less than 0
-							if( $new_price < 0 ) $new_price = 0;
+							// 4.1.2, add a filter for those that could be using Calculation fields with negative values
+							if( $new_price < 0 && ! apply_filters( 'pewc_allow_negative_addon_price', false, $item ) ) $new_price = 0;
 
 							// Set parameter to record total product price including extras
 							// Set this here before we start doing the uploads
@@ -1060,11 +1085,12 @@ function pewc_add_cart_item_data( $cart_item_data, $product_id, $variation_id, $
 
 	// Do the file uploads separately
 
-	if( pewc_enable_ajax_upload() == 'yes' ) {
+	if( isset( $all_groups ) && pewc_enable_ajax_upload() == 'yes' ) {
 
 		// Iterate through each field and get all the files
 
-		foreach( $product_extra_groups as $group ) {
+		//foreach( $product_extra_groups as $group )
+		foreach( $all_groups as $group ) {
 
 			if( isset( $group['items'] ) ) {
 
@@ -1075,14 +1101,24 @@ function pewc_add_cart_item_data( $cart_item_data, $product_id, $variation_id, $
 					if( ! empty( $_POST['pewc_file_data'][$field_id] ) ) {
 
 						// Make this an array like $_FILES
-						if( empty( $files ) ) {
-
-							$files = pewc_get_files_array( $_POST['pewc_file_data'][$field_id], $item['id'], $product_id );
-
+						// 4.2.0
+						$is_repeatable = ! empty( $group['is_repeatable'] ) ? $group['is_repeatable'] : false;
+						$repeatable_index = ( $is_repeatable && ! empty( $group['clone_count'] ) ) ? $group['clone_count'] - 1 : 0;
+						if ( $is_repeatable ) {
+							$file_data = $_POST['pewc_file_data'][$field_id][$repeatable_index];
 						} else {
+							$file_data = $_POST['pewc_file_data'][$field_id];
+						}
+						$files_array = pewc_get_files_array( $file_data, $item['id'], $product_id );
+						if ( $is_repeatable && $repeatable_index > 0 && ! empty( $files_array[$item['id']]) ) {
+							$files_array[$item['id'] . '_cloned_' . ( $repeatable_index + 1) ] = $files_array[$item['id']];
+							unset( $files_array[$item['id']] );
+						}
 
-							$files = array_merge( $files, pewc_get_files_array( $_POST['pewc_file_data'][$field_id], $item['id'], $product_id ) );
-
+						if( empty( $files ) ) {
+							$files = $files_array;
+						} else {
+							$files = array_merge( $files, $files_array );
 						}
 
 						$is_ajax_upload = true;
@@ -1114,12 +1150,20 @@ function pewc_add_cart_item_data( $cart_item_data, $product_id, $variation_id, $
 		foreach( $files as $id=>$file ) {
 
 			// Work out group and field IDs from the $id
-			$last_index = strrpos( $id, '_' );
-			$field_id = substr( $id, $last_index + 1 ); // Find last instance of _
-			$group_id = substr( $id, 0, $last_index ); // Remove _field_id from $id
-			//$field_id = str_replace( '_', '', $field_id );
-			$group_id = strrchr( $group_id, '_' );
-			$group_id = str_replace( '_', '', $group_id );
+			if ( pewc_is_cloned_field( $id ) ) {
+				// 4.2.0
+				$tmp = explode( '_', $id );
+				$field_id = $tmp[3];
+				$group_id = $tmp[2];
+				$group_clone_count = $tmp[5];
+			} else {
+				$last_index = strrpos( $id, '_' );
+				$field_id = substr( $id, $last_index + 1 ); // Find last instance of _
+				$group_id = substr( $id, 0, $last_index ); // Remove _field_id from $id
+				$group_id = strrchr( $group_id, '_' );
+				$group_id = str_replace( '_', '', $group_id );
+				$group_clone_count = 0;
+			}
 
 			if ( ! isset( $product_extra_groups[$group_id] ) ) {
 				continue; // 3.21.4, if this is not set, the rest of this loop can't be processed, so skip
@@ -1260,28 +1304,34 @@ function pewc_add_cart_item_data( $cart_item_data, $product_id, $variation_id, $
 								$cart_item_data['product_extras']['groups'][$group_id][$field_id]['price'] = $price;
 						}
 
-						$cart_item_data['product_extras']['groups'][$group_id][$field_id] = apply_filters(
+						$cart_item_field_data = apply_filters(
 							'pewc_filter_cart_item_data',
-									array(
-									'files'			=> $uploads,
-									// 'file'			=> $upload['file'], // Save this so we can delete file later
-									'type'			=> 'upload',
-									'label'			=> sanitize_text_field( $label ),
-									'id'    		=> esc_attr( $id ),
-									'group_id'  => $group_id,
-									'field_id' 	=> $field_id,
-									'price'   	=> floatval( $price ),
-									// 'url'   		=> wc_clean( $upload['url'] ),
-									// 'display' 	=> basename( wc_clean( $upload['url'] ) ),
-									'flat_rate'	=> $flat_rate_items,
-									'price_visibility' => isset( $item['price_visibility'] ) ? $item['price_visibility'] : '',
-									'field_visibility' => isset( $item['field_visibility'] ) ? $item['field_visibility'] : '',
-								),
+							array(
+								'files'			=> $uploads,
+								// 'file'			=> $upload['file'], // Save this so we can delete file later
+								'type'			=> 'upload',
+								'label'			=> sanitize_text_field( $label ),
+								'id'    		=> esc_attr( $id ),
+								'group_id'  => $group_id,
+								'field_id' 	=> $field_id,
+								'price'   	=> floatval( $price ),
+								// 'url'   		=> wc_clean( $upload['url'] ),
+								// 'display' 	=> basename( wc_clean( $upload['url'] ) ),
+								'flat_rate'	=> $flat_rate_items,
+								'price_visibility' => isset( $item['price_visibility'] ) ? $item['price_visibility'] : '',
+								'field_visibility' => isset( $item['field_visibility'] ) ? $item['field_visibility'] : '',
+							),
 							$item,
 							$group_id,
 							$field_id,
 							$uploads
 						);
+
+						if ( $group_clone_count > 0 ) {
+							$cart_item_data['product_extras']['cloned_groups'][$group_id][$group_clone_count][$field_id] = $cart_item_field_data;
+						} else {
+							$cart_item_data['product_extras']['groups'][$group_id][$field_id] = $cart_item_field_data;
+						}
 
 						// Only add the cost of the extra to the product price if it's not flat rate
 						if( ! $is_flat_rate ) {
@@ -1409,24 +1459,6 @@ function pewc_validate_cart_item_data( $passed, $product_id, $quantity, $variati
 						// 3.22.0
 						$passed = pewc_validate_cart_item_data_text( $passed, $is_required, $item, $label, $group, $_POST );
 
-						/*if( empty( $_POST[$id] ) && $is_required ) {
-							// Required field
-							wc_add_notice( apply_filters( 'pewc_filter_validation_notice', esc_html( $label ) . __( ' is a required field.', 'pewc' ), $label, $item ), 'error' );
-							$passed = false;
-						} else if ( ! empty( $_POST[$id] ) ) {
-							// Character length
-							if( ! empty( $item['field_minchars'] ) || ! empty( $item['field_maxchars'] ) ) {
-								$length = isset( $_POST[$id] ) ? mb_strlen( str_replace( ' ', '', $_POST[$id] ) ) : 0;
-								if( ! empty( $item['field_minchars'] ) && $length < $item['field_minchars'] ) {
-									wc_add_notice( apply_filters( 'pewc_filter_minchars_validation_notice', esc_html( $label ) . __( ': minimum number of characters: ', 'pewc' ) . esc_html( $item['field_minchars'] ), $label, $item ), 'error' );
-									$passed = false;
-								} else if( ! empty( $item['field_maxchars'] ) && $length > $item['field_maxchars'] ) {
-									wc_add_notice( apply_filters( 'pewc_filter_maxchars_validation_notice', esc_html( $label ) . __( ': maximum number of characters: ', 'pewc' ) . esc_html( $item['field_maxchars'] ), $label, $item ), 'error' );
-									$passed = false;
-								}
-							}
-						}*/
-
 					} else if( isset( $item['field_type'] ) && $item['field_type'] == 'date' ) {
 						if( empty( $_POST[$id] ) && $is_required ) {
 							// Required field
@@ -1435,11 +1467,14 @@ function pewc_validate_cart_item_data( $passed, $product_id, $quantity, $variati
 						}
 
 					} else if( isset( $item['field_type'] ) && $item['field_type'] == 'checkbox' ) {
-						if( empty( $_POST[$id] ) && $is_required ) {
+
+						// 4.2.0
+						$passed = pewc_validate_cart_item_data_checkbox( $passed, $is_required, $item, $label, $group, $_POST );
+						/*if( empty( $_POST[$id] ) && $is_required ) {
 							// Required field
 							wc_add_notice( apply_filters( 'pewc_filter_validation_notice', esc_html( $label ) . __( ' is a required field.', 'pewc' ), $label, $item ), 'error' );
 							$passed = false;
-						}
+						}*/
 
 					} else if( isset( $item['field_type'] ) && ( $item['field_type'] == 'checkbox_group' || $item['field_type'] == 'image_swatch') && pewc_is_pro() ) {
 						if( empty( $_POST[$id] ) && $is_required ) {
@@ -1488,45 +1523,6 @@ function pewc_validate_cart_item_data( $passed, $product_id, $quantity, $variati
 						// 3.22.0
 						$passed = pewc_validate_cart_item_data_number( $passed, $is_required, $is_visible, $product_id, $item, $label, $group, $_POST );
 
-						/*if( ( empty( $_POST[$id] ) && ! is_numeric( $_POST[$id] ) ) && $is_required ) {
-							// Required field
-							wc_add_notice( apply_filters( 'pewc_filter_validation_notice', esc_html( $label ) . __( ' is a required field.', 'pewc' ), $label, $item ), 'error' );
-							$passed = false;
-
-						} else {
-
-							// Does the number field need to be required in order to carry out value validation?
-							$require_required = apply_filters( 'pewc_only_validate_number_field_value_if_field_required', false, $product_id, $item );
-
-							if( ( ! $require_required || $is_required ) && $is_visible ) {
-
-								// The field doesn't need to be required or it is required - so do value validation
-								if( ! empty( $item['field_minval'] ) || ! empty( $item['field_maxval'] ) ) {
-
-									$val = $_POST[$id];
-
-									/** 
-									 * Filter before Min and Max validations values
-									 * @since 3.13.5
-									 * @param array $item
-									 * @param int $product_id
-									 */
-									/*$item = apply_filters( 'pewc_filter_minmax_validation_values', $item, $product_id );
-
-									if( ! empty( $item['field_minval'] ) && $val < $item['field_minval'] ) {
-										wc_add_notice( apply_filters( 'pewc_filter_minval_validation_notice', esc_html( $label ) . __( ': minimum value is ', 'pewc' ) . esc_html( $item['field_minval'] ) ), 'error' );
-										$passed = false;
-									} else if( ! empty( $item['field_maxval'] ) && $val > $item['field_maxval'] ) {
-										wc_add_notice( apply_filters( 'pewc_filter_maxval_validation_notice', esc_html( $label ) . __( ': maximum value is ', 'pewc' ) . esc_html( $item['field_maxval'] ) ), 'error' );
-										$passed = false;
-									}
-
-								}
-
-							}
-
-						}*/
-
 					} else if( isset( $item['field_type'] ) && $item['field_type'] == 'color-picker' ) {
 
 						if( empty( $_POST[$id] ) && $is_required ) {
@@ -1540,7 +1536,10 @@ function pewc_validate_cart_item_data( $passed, $product_id, $quantity, $variati
 
 					} else if( isset( $item['field_type'] ) && $item['field_type'] == 'upload' ) {
 
-						$files = array();
+						// 4.2.0
+						$passed = pewc_validate_cart_item_data_upload( $passed, $is_required, $item, $label, $group, $_POST, $product_id );
+
+						/*$files = array();
 						$upload_passed = true; // used for this field type only
 
 						if( ! empty( $_FILES ) ) {
@@ -1667,7 +1666,7 @@ function pewc_validate_cart_item_data( $passed, $product_id, $quantity, $variati
 
 						// We have passed validation for files, save now. If empty $files is passed into pewc_save_uploaded_files_to_session, saved data is removed
 						// 3.20.1, allow other files to be saved even if $upload_passed = false
-						if( pewc_enable_ajax_upload() == 'yes' /*&& $upload_passed*/ ) {
+						if( pewc_enable_ajax_upload() == 'yes' ) {
 							// AJAX upload, perhaps save $_POST['pewc_file_data'][$item['field_id']]
 							$pewc_file_data = stripslashes( $_POST['pewc_file_data'][$item['field_id']] );
 
@@ -1711,9 +1710,9 @@ function pewc_validate_cart_item_data( $passed, $product_id, $quantity, $variati
 						}
 						else {
 							// standard
-						}
+						}*/
 
-					} else if( isset( $item['field_type'] ) && ( $item['field_type'] == 'radio' || $item['field_type'] == 'select' || $item['field_type'] == 'select-box' ) ) {
+					} else if( isset( $item['field_type'] ) && ( $item['field_type'] == 'radio' || $item['field_type'] == 'select' || $item['field_type'] == 'select-box' ) || $item['field_type'] == 'calendar-list' ) {
 
 						// 3.22.0
 						$passed = pewc_validate_cart_item_data_select( $passed, $is_required, $item, $label, $group, $_POST );
@@ -2106,11 +2105,18 @@ function pewc_get_item_data( $other_data, $cart_item ) {
 
 								$display .= '</div>';
 
+								// 4.2.0
+								$upload_class_name = 'pewc-upload-'.$item['field_id'];
+								if ( pewc_is_cloned_field( $item['id'] ) ) {
+									// this is a cloned Upload field, add an extra identifier so that we can add the correct uploaded images in Cart and Checkout blocks
+									$clone_index = pewc_get_repeatable_index_from_field_id( $item['id'] );
+									$upload_class_name .= '-cloned-' . $clone_index;
+								}
 								$other_data[] = array(
 									'name'    => sanitize_text_field( $item['label'] ),
 									// 'value'   => sanitize_text_field( $item['display'] ),
 									'display' => $display,
-									'className' => 'pewc-upload-'.$item['field_id'], // used by Blocks
+									'className' => $upload_class_name, // used by Blocks
 								);
 
 							}
@@ -2665,7 +2671,7 @@ function pewc_validate_cart_item_data_select( $passed, $is_required, $item, $lab
 
 }
 
-/**
+/*
  * Prevent thumb of uploaded image from getting cached on the cart page, in case the image was edited with AU
  * @since 3.26.11
  */
@@ -2675,5 +2681,247 @@ function pewc_thumb_anti_cache( $thumb ) {
 		$thumb .= '?' . rand();
 	}
 	return $thumb;
+
+}
+
+/**
+ * Validate Checkbox fields
+ * @since 4.2.0
+ */
+function pewc_validate_cart_item_data_checkbox( $passed, $is_required, $item, $label, $group, $posted ) {
+
+	$id = $item['id'];
+	$is_repeatable = $item['group_is_repeatable'];
+	$group_id = $item['group_id'];
+	$group_title = $group['group_title'];
+	$repeatable_index = ( $is_repeatable && ! empty( $group['clone_count'] ) ) ? $group['clone_count'] - 1 : 0;
+
+	if ( $is_repeatable ) {
+		$labeling_type = $group['labeling_type'];
+		$label_format = $group['label_format'];
+		$quantity = (int) $posted['quantity'];
+		$clone_count = $repeatable_index + 1;
+		$label = pewc_repeatable_get_label( $label_format, $group_title, $label, $clone_count );
+	}
+
+	if ( empty( $posted[$id][$repeatable_index] ) && $is_required ) {
+		wc_add_notice( apply_filters( 'pewc_filter_validation_notice', esc_html( $label ) . __( ' is a required field.', 'pewc' ), $label, $item ), 'error' );
+		return false;
+	}
+
+	return $passed;
+}
+
+/**
+ * Validate repeatable Upload fields
+ * @since 4.2.0
+ */
+function pewc_validate_cart_item_data_upload( $passed, $is_required, $item, $label, $group, $posted, $product_id ) {
+
+	$files = array();
+	$upload_passed = true; // used for this field type only
+	$id = $item['id'];
+	$max = pewc_get_max_upload();
+	$max_mb = $max * pow( 1024, 2 );
+
+	if ( pewc_is_repeatable_field( $item ) ) {
+		$is_repeatable = $item['group_is_repeatable'];
+		$repeatable_index = ( $is_repeatable && ! empty( $group['clone_count'] ) ) ? $group['clone_count'] - 1 : 0;
+	} else {
+		$is_repeatable = false;
+	}
+
+	if( ! empty( $_FILES ) ) {
+
+		// We're using the standard image upload
+		$files = $_FILES;
+
+	} else if( ! empty( $_POST['pewc_file_data'][$item['field_id']] ) ) {
+		// Using jQuery version
+		// Make this an array like $_FILES
+		if ( $is_repeatable && is_array( $_POST['pewc_file_data'][$item['field_id']] ) ) {
+			$files = pewc_get_files_array( $_POST['pewc_file_data'][$item['field_id']][$repeatable_index], $id, $product_id );
+		} else {
+			$files = pewc_get_files_array( $_POST['pewc_file_data'][$item['field_id']], $id, $product_id );
+		}
+	}
+
+	if( ! empty( $files[$id]['size'] ) ) {
+
+		// 3.20.1, let's use the indexes to keep track of problematic files to remove
+		$f_index_remove = array();
+
+		// 4.2.1, check min number of files, only available for AJAX uploads
+		if ( 'yes' === pewc_enable_ajax_upload() && ! empty( $item['min_files'] ) ) {
+			$field_min_files = absint( $item['min_files'] );
+			if (  $field_min_files > 1 && $field_min_files > count( $files[$id]['size'] ) ) {
+				wc_add_notice( apply_filters(
+					'pewc_filter_min_files_notice',
+					sprintf(
+						__( '%s requires a minimum of %s files to be uploaded', 'pewc' ),
+						$label,
+						$field_min_files
+					),
+					$label,
+					$field_min_files
+				), 'error' );
+
+				$passed = false; // don't return, allow the current uploaded files to be saved so that when the page is loaded again, they only upload the remaining files
+			}
+		}
+
+		// this is not empty for AJAX uploads, but empty for standard uploads
+		if ( ! empty( $files[$id]['file'] ) ) {
+			// Is the upload path in the file page? Checking that someone hasn't changed the file path
+			$file_valid = true;
+			$upload_dir = pewc_get_upload_dir();
+			$upload_subdir = $upload_dir . pewc_get_upload_subdirs();
+
+			foreach( $files[$id]['file'] as $f_index=>$f ) {
+				$uploaded_dir = substr( $files[$id]['file'][$f_index], 0, strrpos( $files[$id]['file'][$f_index], '/') );
+
+				// Does the path match the expected path?
+				$uploaded_path = trailingslashit( $uploaded_dir ) . $files[$id]['name'][$f_index];
+				$expected_path = trailingslashit( $upload_subdir ) . $files[$id]['name'][$f_index];
+
+				// Ensure the file doesn't have a php suffix
+				$ext = substr( strrchr( $files[$id]['file'][$f_index], '.' ), 1 );
+
+				if( strpos( $files[$id]['file'][$f_index], $upload_dir ) === false || $uploaded_path != $expected_path || $ext == 'php' ) {
+					wc_add_notice(  __( 'The uploaded file has failed a security check. Please try uploading it again: ' . basename( $files[$id]['file'][$f_index] ) , 'pewc' ), 'error' );
+					// 3.20.1, add some error logs to help debug the issue
+					pewc_error_log('AOU: The uploaded file has failed a security check. Please try uploading it again. id:'.$id.', file:'.$files[$id]['file'][$f_index].', upload_dir:'.$upload_dir.', uploaded_path:'.$uploaded_path.', expected_path:'.$expected_path.', ext:'.$ext.', $files:'.print_r($files, true));
+					//$files = array(); // commented out on 3.20.1
+					if ( ! in_array( $f_index, $f_index_remove ) ) {
+						// 3.20.1, let's save this index, to be used later
+						$f_index_remove[] = $f_index;
+					}
+					$upload_passed = false;
+					$passed = false;
+				}
+			}
+		}
+
+		if( ! empty( $files[$id]['size'] ) ) {
+
+			foreach( $files[$id]['size'] as $key=>$size ) {
+
+				if( $size > $max_mb ) {
+					// File too big
+					wc_add_notice( apply_filters( 'pewc_filter_file_size_validation_notice', esc_html( $files[$id]['name'][$key] ) . __( ': File size too large.', 'pewc' ) ), 'error' );
+					$upload_passed = $passed = false;
+					if ( ! in_array( $key, $f_index_remove ) ) {
+						// 3.20.1, let's save this key, to be used later
+						$f_index_remove[] = $key;
+					}
+				}
+
+				if( $size == 0 && $is_required ) {
+					// Required field
+					wc_add_notice( apply_filters( 'pewc_filter_validation_notice', esc_html( $label ) . __( ' is a required upload field.', 'pewc' ), $label, $item ), 'error' );
+					$upload_passed = $passed = false;
+					if ( ! in_array( $key, $f_index_remove ) ) {
+						// 3.20.1, let's save this key, to be used later
+						$f_index_remove[] = $key;
+					}
+				}
+
+			}
+
+		}
+
+		$mime_types = pewc_get_permitted_mimes();
+
+		// Check file type
+		// moved here in 3.20.1
+		if( ! empty( $files[$id]['name'] ) ) {
+
+			foreach( $files[$id]['name'] as $key => $name ) {
+
+				// Use wp_check_filetype for additional security
+				$file_info = wp_check_filetype( basename( $name ), $mime_types );
+
+				if( ! empty( $file_info['type'] ) ) {
+					// File type is permitted
+				} else {
+
+					if( $is_required ) {
+						wc_add_notice( apply_filters( 'pewc_file_not_valid_message', esc_html( $label ) . __( ': File not valid.', 'pewc' ) ), 'error' );
+						$upload_passed = $passed = false;
+						if ( ! in_array( $key, $f_index_remove ) ) {
+							// 3.20.1, let's save this key, to be used later
+							$f_index_remove[] = $key;
+						}
+					}
+
+				}
+
+			}
+
+		}
+
+	} else if( $is_required ) {
+
+		// Required field
+		wc_add_notice( apply_filters( 'pewc_filter_validation_notice', esc_html( $label ) . __( ' is a required upload field.', 'pewc' ), $label, $item ), 'error' );
+		// Delete the uploaded session in case he added something before
+		pewc_save_uploaded_files_to_session( '', $item['field_id'] );
+		$upload_passed = $passed = false;
+		return $passed; // no need to continue
+
+	}
+
+	if ( $is_repeatable ) {
+		return $passed; // don't save for now, remove later
+	}
+
+	// We have passed validation for files, save now. If empty $files is passed into pewc_save_uploaded_files_to_session, saved data is removed
+	// 3.20.1, allow other files to be saved even if $upload_passed = false
+	if( pewc_enable_ajax_upload() == 'yes' ) {
+		// AJAX upload, perhaps save $_POST['pewc_file_data'][$item['field_id']]
+		$pewc_file_data = stripslashes( $_POST['pewc_file_data'][$item['field_id']] );
+
+		if ( ! $upload_passed && ! empty( $f_index_remove ) ) {
+			// we have some uploads that failed and need to be removed
+			$pewc_file_data_arr = json_decode( $pewc_file_data, true );
+			$tmp_file_arr = array();
+			foreach ( $pewc_file_data_arr as $f_index => $fdata ) {
+				if ( ! in_array( $f_index, $f_index_remove ) ) {
+					// ok to save
+					$tmp_file_arr[] = $fdata;
+				}
+			}
+			if ( ! empty( $tmp_file_arr ) ) {
+				// save this
+				$pewc_file_data_arr = $tmp_file_arr;
+				$pewc_file_data = json_encode( $pewc_file_data_arr );
+			} else {
+				// no more valid files left
+				$pewc_file_data = ''; // empty string clears the session
+			}
+		}
+
+		if ( isset($_POST[$id . '_extra_fields']) && is_array( $_POST[$id . '_extra_fields'] ) && ! empty( $pewc_file_data ) ) {
+			// quantity is set for Advanced Uploads, save it as well
+			$pfd_arr = json_decode( $pewc_file_data, true);
+			if ( is_array($pfd_arr) && count($pfd_arr) > 0 ) {
+				foreach ( $pfd_arr as $key => $value ) {
+					// add quantity from Advanced Uploads
+					$quantity = isset( $_POST[$id . '_extra_fields'][$key] ) ? $_POST[$id . '_extra_fields'][$key] : false;
+					if ( false !== $quantity ) {
+						$pfd_arr[$key]['quantity'] = $quantity;
+					}
+				}
+				$pewc_file_data = json_encode($pfd_arr);
+			}
+		}
+
+		// save the uploaded data into a WooCommerce session
+		pewc_save_uploaded_files_to_session( $pewc_file_data, $item['field_id'] );
+	}
+	else {
+		// standard
+	}
+	return $passed;
 
 }

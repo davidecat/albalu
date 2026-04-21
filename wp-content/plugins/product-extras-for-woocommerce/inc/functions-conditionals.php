@@ -13,7 +13,7 @@ if( ! defined( 'ABSPATH' ) ) {
 /**
  * Get all the product extra fields for a product or group
  * Use this to populate the field parameter in conditionals
- * @param $group 			Group data
+ * @param $group 		Group data
  * @param $is_ajax		Are we loading add-ons via AJAX?
  * @param $product_id	Only passed from product page
  * @return Array
@@ -780,6 +780,9 @@ function pewc_get_conditional_field_visibility( $id, $item, $items, $product_id,
 
 				// Use this variable for fields that have arrays as values, e.g. checkbox groups and products
 				$posted_field = isset( $posted[$field] ) ? $posted[$field] : false;
+				if( ! empty( $posted['pewc_cl_offset_' . $field] ) ) {
+					$posted_field = $posted['pewc_cl_offset_' . $field];
+				}
 				$posted_field = isset( $posted[$field. '_child_product'] ) ? $posted[$field. '_child_product'] : $posted_field;
 
 				// Ensure we remove any backslashes, apostrophes, etc
@@ -839,7 +842,13 @@ function pewc_get_conditional_field_visibility( $id, $item, $items, $product_id,
 				} else if( $rule == 'is' ) {
 
 					// $posted[$field] is the value of the field on which the condition depends
-					if( $field_type == 'checkbox' && ! isset( $posted[$field] ) ) {
+					if ( $has_repeatable && $field_type == 'checkbox' && empty( $posted[$field][$repeatable_index] ) ) {
+
+						// aou-repeatable-conditions-checkbox, we check repeated checkboxes differently
+						$rules_obtain = false;
+						break;
+
+					} else if( $field_type == 'checkbox' && ! isset( $posted[$field] ) ) {
 
 						$rules_obtain = false;
 						break;
@@ -860,7 +869,13 @@ function pewc_get_conditional_field_visibility( $id, $item, $items, $product_id,
 
 				} else if( $rule == 'is-not' ) {
 
-					if( $posted_field && is_array( $posted_field ) && in_array( $value, $posted_field ) ) {
+					if ( $has_repeatable && $field_type == 'checkbox' && ! empty( $posted[$field][$repeatable_index] ) ) {
+
+						// aou-repeatable-conditions-checkbox, we check repeated checkboxes differently
+						$rules_obtain = false;
+						break;
+
+					} else if( $posted_field && is_array( $posted_field ) && in_array( $value, $posted_field ) ) {
 
 						// Fields which return an array for their value, e.g. radio groups
 						$rules_obtain = false;
@@ -1269,7 +1284,16 @@ function pewc_get_conditional_field_visibility( $id, $item, $items, $product_id,
 
 				} else if( $rule == 'is' ) {
 
-					if( is_array( $posted_field ) && in_array( $key, $posted_field ) ) {
+					if ( $has_repeatable && $field_type == 'checkbox' ) {
+
+						// aou-repeatable-conditions-checkbox, we check repeated checkboxes differently
+						// this needs to be inside or it will satisfy the next condition (is_array($posted_field))
+						if ( ! empty( $posted[$field][$repeatable_index] ) ) {
+							$rules_obtain = true;
+							break;
+						}
+
+					} else if( is_array( $posted_field ) && in_array( $key, $posted_field ) ) {
 						$rules_obtain = true;
 						break;
 					} else if( isset( $posted_field ) && $posted_field == $key ) {
@@ -1279,7 +1303,16 @@ function pewc_get_conditional_field_visibility( $id, $item, $items, $product_id,
 
 				} else if( $rule == 'is-not' ) {
 
-					if( is_array( $posted_field ) && ! in_array( $key, $posted_field ) ) {
+					if ( $has_repeatable && $field_type == 'checkbox' ) {
+
+						// aou-repeatable-conditions-checkbox, we check repeated checkboxes differently
+						// this needs to be inside or it will satisfy the next condition (is_array($posted_field))
+						if ( empty( $posted[$field][$repeatable_index] ) ) {
+							$rules_obtain = true;
+							break;
+						}
+
+					} else if( is_array( $posted_field ) && ! in_array( $key, $posted_field ) ) {
 						$rules_obtain = true;
 						break;
 					} else if( $posted_field != $key ) {

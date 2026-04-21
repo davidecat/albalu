@@ -35,7 +35,7 @@ $manage_stock = false; ?>
 		$child_product_id = $item['child_products'][0];
 
 		$child_product = wc_get_product( $child_product_id );
-		if( ! is_object( $child_product ) || get_post_status( $child_product_id ) != 'publish' ) {
+		if( ! is_object( $child_product ) || $child_product->get_status() !== 'publish' ) {
 			return;
 		}
 

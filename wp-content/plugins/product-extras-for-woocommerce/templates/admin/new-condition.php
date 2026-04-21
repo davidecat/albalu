@@ -12,11 +12,11 @@ if( ! defined( 'ABSPATH' ) ) {
 
 <?php $style = 'style="display: none;"';
 if( ! empty( $item['condition_field'] ) ) {
-	$style = 'style="display: block;"';
+	$style = 'style="display: grid;"';
 } ?>
-<div class="product-extra-conditional-row product-extra-action-match-row" <?php echo $style; ?>>
+<div class="product-extra-conditional-row product-extra-conditional-rule product-extra-action-match-row" <?php echo $style; ?>>
 
-	<div class="product-extra-field-half">
+	<div>
 		<?php $actions = pewc_get_actions();
 		$action = '';
 		if( ! empty( $actions ) ) { ?>
@@ -29,7 +29,7 @@ if( ! empty( $item['condition_field'] ) ) {
 		<?php } ?>
 	</div>
 
-	<div class="product-extra-field-half">
+	<div>
 		<?php $matches = pewc_get_matches();
 		$match = '';
 		if( ! empty( $matches ) ) { ?>

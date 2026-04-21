@@ -23,10 +23,13 @@ const pewc_repeatable = {
 			// get the max repeat limit and apply it to the product quantity
 			var max_repeat_limit = 0;
 			jQuery( '.pewc-repeat-by-quantity' ).each( function( index, element ){
-				var repeat_limit = parseInt( jQuery( this ).find( '.pewc-repeat-group-button' ).attr( 'data-repeat-limit' ) );
+				var repeat_limit = parseInt( jQuery( this ).attr( 'data-repeat-limit' ) );
 				if ( repeat_limit > max_repeat_limit ) {
 					max_repeat_limit = repeat_limit;
 				}
+				// hide the Add More buttons for repeatable groups attached to quantity
+				var group_id = jQuery( this ).attr( 'id' ).replace( 'pewc-repeat-group-count-', '' );
+				jQuery( '.pewc-repeat-group-' + group_id ).hide();
 			});
 			if ( max_repeat_limit > 0 ) {
 				jQuery( 'form.cart .qty' ).attr( 'max', max_repeat_limit+1 );
@@ -34,7 +37,7 @@ const pewc_repeatable = {
 
 			// attach an on change event to the quantity
 			// 3.26.6, changed 'change' to 'keyup input change paste'
-			jQuery( 'form.cart .qty' ).on( 'keyup input change paste', function(){
+			jQuery( 'form.cart .qty' ).on( 'keyup input change paste', function( e ){
 				// get the current quantity
 				var curr_quantity = parseInt( jQuery( 'form.cart .qty' ).val() );
 
@@ -45,12 +48,15 @@ const pewc_repeatable = {
 
 				// repeat all groups that are dependent on quantity
 				jQuery( '.pewc-repeat-by-quantity' ).each( function( index, element ){
-					var repeat_button = jQuery( this ).find( '.pewc-repeat-group-button' );
-					var prev_quantity = parseInt( repeat_button.attr( 'data-prev-quantity' ) );
-					var group_id = repeat_button.attr( 'id' ).replace( 'pewc-repeat-group-', '' );
+					//var repeat_button = jQuery( this ).find( '.pewc-repeat-group-button' );
+					//var group_id = repeat_button.attr( 'id' ).replace( 'pewc-repeat-group-', '' );
+					var group_id = jQuery( this ).attr( 'id' ).replace( 'pewc-repeat-group-count-', '' );
+					var prev_quantity = parseInt( jQuery( '#pewc-repeat-group-count-' + group_id ).val() ); //parseInt( repeat_button.attr( 'data-prev-quantity' ) );
 					var loop_counter = 1;
 
-					if ( isNaN( prev_quantity ) || curr_quantity > prev_quantity ) {
+					if ( prev_quantity == curr_quantity ) {
+						return;
+					} else if ( isNaN( prev_quantity ) || curr_quantity > prev_quantity ) {
 						// repeat the group
 						// 3.26.6, we now use looping in case a customer types a quantity that is more than 1 from the previous quantity e.g. from 1 to 4
 						if ( ! isNaN( prev_quantity ) ) {
@@ -69,8 +75,12 @@ const pewc_repeatable = {
 						//pewc_repeatable.hide_repeated_group( group_id, curr_quantity );
 					}
 
+					// hide Add More buttons
+					jQuery( '.pewc-repeat-group-' + group_id ).hide();
+
 					// keep track of the quantity
-					repeat_button.attr( 'data-prev-quantity', curr_quantity );
+					//repeat_button.attr( 'data-prev-quantity', curr_quantity );
+					jQuery( '#pewc-repeat-group-count-' + group_id ).val( curr_quantity );
 				});
 			});
 
@@ -81,14 +91,22 @@ const pewc_repeatable = {
 		}
 
 		if ( jQuery( '.pewc-repeat-group-button' ).length > 0 ) {
-			// attach the click event to the Add More button for groups that are not repeatable by quantity
-			jQuery( '.pewc-repeat-group-button' ).on( 'click', function( e ){
+			pewc_repeatable.attach_event_to_repeat_button();
+		}
+
+	},
+
+	// 3.26.14, separated this into a function so that we can call this again when a group and the button is cloned
+	attach_event_to_repeat_button() {
+		// attach the click event to the Add More button for groups that are not repeatable by quantity
+		jQuery( '.pewc-repeat-group-button' ).not( '.pewc-clickable' ).each( function( e ){
+			jQuery( this ).addClass( 'pewc-clickable' );
+			jQuery( this ).on( 'click', function( e ){
 				e.preventDefault();
 				var group_id = jQuery( this ).attr( 'id' ).replace( 'pewc-repeat-group-', '' );
 				return pewc_repeatable.repeat_group( group_id );
 			});
-		}
-
+		});
 	},
 
 	is_repeatable_field( field_type ) {
@@ -107,17 +125,21 @@ const pewc_repeatable = {
 		if ( repeat_button.length < 1 ) {
 			return; // button not found
 		}
-		var clone_count = parseInt( repeat_button.attr( 'data-clone-counter' ) );
-		var repeat_limit = parseInt( repeat_button.attr( 'data-repeat-limit' ) );
+		repeat_button.removeClass( 'pewc-clickable' ); // so that we can attach the click event later
+		var clone_count = parseInt( jQuery( '#pewc-repeat-group-count-' + group_id ).val() );
+		var repeat_limit = parseInt( jQuery( '#pewc-repeat-group-count-' + group_id ).attr( 'data-repeat-limit' ) );
 		var repeat_labeling = repeat_button.attr( 'data-repeat-labeling' );
 		var repeat_label_format = repeat_button.attr( 'data-repeat-label-format' );
 
-		if ( clone_count >= curr_quantity ) {
-			// we may have some hidden cloned groups, show them instead
+		if ( jQuery( '.pewc-cloned-group-' + group_id ).length >= curr_quantity-1 ) {
+			// we may have some hidden cloned groups, show them instead, but only if he original group is visible (maybe condition dependent)
 			var counter = 2;
 			jQuery( '.pewc-cloned-group-' + group_id ).each( function( index, element ){
 				if ( counter <= curr_quantity ) {
-					jQuery( this ).removeClass( 'pewc-group-hidden' );
+					//if ( ! jQuery( '#pewc-group-' + group_id ).hasClass( 'pewc-group-hidden' ) ) {
+					//	jQuery( this ).removeClass( 'pewc-group-hidden' );
+					//}
+					jQuery( this ).removeClass( 'pewc-cloned-hidden' );
 				}
 				counter++;
 			});
@@ -185,6 +207,25 @@ const pewc_repeatable = {
 						.attr( 'data-orig-label', label ) // 3.26.18, used to update radio button IDs when removing clones
 						.prop( 'checked', false ); // uncheck duplicated radio button
 				});
+			} else if ( jQuery( this ).attr( 'data-field-type' ) == 'checkbox' ) {
+				// aou-repeatable-conditions-checkbox
+				id = jQuery( this ).attr( 'data-id' );
+				var checkbox_index = clone_count-1;
+				var label = jQuery( this ).find( '.pewc-checkbox-form-label' ).attr( 'for' );
+				jQuery( this ).find( '.pewc-checkbox-form-label' ).attr( 'for', label + '_' + checkbox_index );
+				jQuery( this ).find( '.pewc-form-field' ).each( function( index, el ) {
+					jQuery( this )
+						.attr( 'id', id + '_' + checkbox_index )
+						.attr( 'name', id + '[' + checkbox_index + ']')
+						.val( '__checked__' ) // put back value
+						.prop( 'checked', false ); // uncheck
+				});
+			} else if ( jQuery( this ).attr( 'data-field-type' ) == 'textarea' ) {
+				// aou-repeatable-conditions-textarea
+				jQuery( this ).find( 'textarea.pewc-form-field' ).val( '' );
+			} else if ( jQuery( this ).attr( 'data-field-type' ) == 'upload' ) {
+				// aou-repeatable-conditions-upload
+				pewc_repeatable.reset_cloned_field_value_upload( jQuery( this ), clone_count );
 			}
 
 			// remove validations
@@ -195,10 +236,14 @@ const pewc_repeatable = {
 		});
 
 		// 3.26.5, moved here. We update IDs first before inserting it to the page because radio button values get reset if it detects duplicate IDs
-		cloned_group.insertBefore( '.pewc-repeat-group-' + group_id );
+		//cloned_group.insertBefore( '.pewc-repeat-group-' + group_id );
+		// 3.26.14, insert at the end. The above won't work anymore since the button is now inside the group container
+		jQuery( '.pewc-group-wrap-' + group_id ).last().after( cloned_group );
+
+		// 3.26.14, hide all repeat buttons except the last one
+		pewc_repeatable.update_repeat_buttons( group_id );
 
 		// update clone counter
-		repeat_button.attr( 'data-clone-counter', clone_count );
 		jQuery( '#pewc-repeat-group-count-' + group_id ).val( clone_count );
 
 		if ( clone_count >= repeat_limit+1 ) {
@@ -226,25 +271,43 @@ const pewc_repeatable = {
 
 	},
 
+	// used only if attached to quantity
 	hide_repeated_group: function( group_id, curr_quantity ) {
 
 		var repeat_button = jQuery( '#pewc-repeat-group-' + group_id );
 		if ( repeat_button.length < 1 ) {
 			return; // button not found
 		}
-		var clone_count = parseInt( repeat_button.attr( 'data-clone-counter' ) );
-		var repeat_limit = parseInt( repeat_button.attr( 'data-repeat-limit' ) );
+		var clone_count = parseInt( jQuery( '#pewc-repeat-group-count-' + group_id ).val() );
+		var repeat_limit = parseInt( jQuery( '#pewc-repeat-group-count-' + group_id ).attr( 'data-repeat-limit' ) );
 
 		if ( clone_count > curr_quantity ) {
 			// we have an excess of repeated groups that we need to hide
 			var counter = 2; // we always start with 2
 			jQuery( '.pewc-cloned-group-' + group_id ).each( function( index, element ) {
 				if ( counter > curr_quantity ) {
-					jQuery( this ).addClass( 'pewc-group-hidden' );
+					jQuery( this )
+						//.addClass( 'pewc-group-hidden' )
+						.addClass( 'pewc-cloned-hidden' );
 				}
 				counter++;
 			});
 		}
+
+		// update clone count
+		jQuery( '#pewc-repeat-group-count-' + group_id ).val( curr_quantity );
+
+	},
+
+	// 3.26.14
+	update_repeat_buttons: function( group_id ) {
+
+		// hide all buttons for this group first
+		jQuery( '.pewc-repeat-group-' + group_id ).hide();
+		// show only the last button
+		jQuery( '.pewc-repeat-group-' + group_id ).last().show();
+		// attach the click events again
+		pewc_repeatable.attach_event_to_repeat_button();
 	},
 
 	// 3.26.18
@@ -259,11 +322,11 @@ const pewc_repeatable = {
 			var clone_counter = 1;
 
 			//if ( repeat_button.length > 0 ) {
-				clone_counter = parseInt( repeat_button.attr( 'data-clone-counter' ) ); 
+				clone_counter = parseInt( jQuery( '#pewc-repeat-group-count-' + group_id ).val() ); 
 				// decrease clone_count
 				clone_counter -= 1;
 				// update it
-				repeat_button.attr( 'data-clone-counter', clone_counter );
+				jQuery( '#pewc-repeat-group-count-' + group_id ). val( clone_counter );
 			//}
 			cloned_group.remove();
 
@@ -301,12 +364,25 @@ const pewc_repeatable = {
 									.attr( 'id', label + '_' + radio_index )
 									.attr( 'name', id + '[' + radio_index + ']' );
 							});
+						} else if ( jQuery( this ).attr( 'data-field-type' ) == 'checkbox' ) {
+							// aou-repeatable-conditions-checkbox
+							id = jQuery( this ).attr( 'data-id' );
+							var checkbox_index = i-1;
+							var label = jQuery( this ).find( '.pewc-checkbox-form-label' ).attr( 'for' );
+							jQuery( this ).find( '.pewc-checkbox-form-label' ).attr( 'for', label + '_' + checkbox_index );
+							jQuery( this ).find( '.pewc-form-field' ).each( function( index, el ) {
+								jQuery( this )
+									.attr( 'id', id + '_' + checkbox_index )
+									.attr( 'name', id + '[' + checkbox_index + ']');
+							});
 						}
 					});
 					
 					i++;
 				});
 			}
+
+			pewc_repeatable.update_repeat_buttons( group_id );
 		}
 
 	},
@@ -345,6 +421,56 @@ const pewc_repeatable = {
 				pewc_item.attr( 'data-field-maxval-error', old_message.replace( orig_label, new_label_text ) );
 			}
 		}
+
+	},
+
+	// aou-repeatable-conditions-uploads
+	reset_cloned_field_value_upload: function( cloned_field, clone_count ) {
+
+		if ( clone_count < 2 ) {
+			// this is wrong
+			console.log('Incorrect clone count:' + clone_count);
+			return;
+		}
+
+		var pewc_id = cloned_field.attr( 'data-id' );
+		var cloned_pewc_id = pewc_id + '_cloned_' + clone_count;
+
+		if ( cloned_field.find( '#dz_' + pewc_id ).length < 1 ) {
+			// not an AJAX dropzone, maybe a simple upload
+			cloned_field.find( '#' + pewc_id )
+				.attr( 'id', cloned_pewc_id )
+				.attr( 'name', cloned_pewc_id + '[]' );
+			return;
+		}
+
+		// replace IDs, so that they are unique?
+		cloned_field.find( '#dz_' + pewc_id )
+			.html( '' )
+			.attr( 'id', 'dz_'+ cloned_pewc_id )
+			.attr( 'class', 'dropzone pewc-upload-dropzone' );
+		cloned_field.find( '#' + pewc_id )
+			.attr( 'id', cloned_pewc_id )
+			.val( cloned_pewc_id );
+		cloned_field.find( '#' + pewc_id + '_file_data' )
+			.attr( 'id', cloned_pewc_id + '_file_data' )
+			.val( '' );
+		cloned_field.find( '#' + pewc_id + '_number_uploads' )
+			.attr( 'id', cloned_pewc_id + '_number_uploads' )
+			.val( '' );
+		cloned_field.find( '#' + pewc_id + '_multiply_price' ).attr( 'id', cloned_pewc_id + '_multiply_price' );
+		cloned_field.find( '#' + pewc_id + '_base_price' ).attr( 'id', cloned_pewc_id + '_base_price' );
+		cloned_field.find( '#' + pewc_id + '_pdf_count' )
+			.attr( 'id', cloned_pewc_id + '_pdf_count' )
+			.val( '' );
+
+		// initialize Dropzone on the cloned Upload field. We need to wait some time.
+		setTimeout(
+			function(){
+				jQuery( 'body' ).trigger( 'pewc_initialize_upload_dropzones', [ cloned_pewc_id ] );
+			},
+			500
+		);
 
 	}
 

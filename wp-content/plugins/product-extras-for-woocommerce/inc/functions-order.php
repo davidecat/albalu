@@ -62,13 +62,25 @@ function pewc_add_custom_data_to_order( $item, $cart_item_key, $values, $order )
 									// needed in Windows systems
 									if ( ! empty( $field['files'] ) && pewc_replace_backslashes_in_file_paths() ) {
 										foreach ( $field['files'] as $index => $file ) {
-											$values['product_extras']['groups'][$group_id][$field_id]['files'][$index]['file'] = str_replace( '\\', '/', $file['file'] );
+											if ( pewc_is_cloned_field( $field['id'] ) ) {
+												// aou-repeatable-conditions-upload, avoid overwriting the original group's file data
+												$clone_index = pewc_get_repeatable_index_from_field_id( $field['id'] );
+												$values['product_extras']['cloned_groups'][$group_id][$clone_index][$field_id]['files'][$index]['file'] = str_replace( '\\', '/', $file['file'] );
+											} else {
+												$values['product_extras']['groups'][$group_id][$field_id]['files'][$index]['file'] = str_replace( '\\', '/', $file['file'] );
+											}
 										}
 									}
 
 									// 3.21.7, product_extras was already created for an order. Since WC 9.4.2, it might get overwritten with the product_extras from here
 									if ( ! empty( $field['files'] ) && 'yes' === $order->get_meta( 'pewc_product_extras_created' ) && ( pewc_get_rename_uploads() || 'yes' === pewc_get_pewc_organise_uploads() ) ) {
-										$values['product_extras']['groups'][$group_id][$field_id]['files'] = pewc_rename_uploaded_files( $field['files'], $order->get_id(), $field, $product_id );
+										if ( pewc_is_cloned_field( $field['id'] ) ) {
+											// aou-repeatable-conditions-upload, avoid overwriting the original group's file data
+											$clone_index = pewc_get_repeatable_index_from_field_id( $field['id'] );
+											$values['product_extras']['cloned_groups'][$group_id][$clone_index][$field_id]['files'] = pewc_rename_uploaded_files( $field['files'], $order->get_id(), $field, $product_id );
+										} else {
+											$values['product_extras']['groups'][$group_id][$field_id]['files'] = pewc_rename_uploaded_files( $field['files'], $order->get_id(), $field, $product_id );
+										}
 									}
 
 								} else {
@@ -114,6 +126,10 @@ function pewc_add_custom_data_to_order( $item, $cart_item_key, $values, $order )
 			// This is used in several places, including exports, instead of individual meta data items
 			// Note: as of WC 9.4.2, $item and $order might not exist yet, so if payment failed, a new item is created for the existing order
 			$item->add_meta_data( 'product_extras', $values['product_extras'], true );
+
+			// 4.1.3, new action hook, Image Preview's composite image hooks into this
+			// $item and $order might not exist yet if using blocks
+			do_action( 'pewc_after_add_product_extras_to_order_line_item', $values, $cart_item_key, $item, $order );
 
 		}
 
@@ -497,7 +513,14 @@ function pewc_create_product_extra( $order_id ) {
 				if( ! empty( $product_extras['groups'] ) ) {
 
 					// Rename any uploads if appropriate
-					$product_extras['groups'] = pewc_rename_uploaded_files_item_meta( $order_item );
+					if ( ! empty( $product_extras['cloned_groups'] ) ) {
+						// aou-repeatable-conditions-upload
+						$renamed = pewc_rename_uploaded_files_item_meta( $order_item, true );
+						$product_extras['groups'] = $renamed['groups'];
+						$product_extras['cloned_groups'] = $renamed['cloned_groups'];
+					} else {
+						$product_extras['groups'] = pewc_rename_uploaded_files_item_meta( $order_item );
+					}
 
 					foreach( $product_extras['groups'] as $gr_id => $groups ) {
 
@@ -553,9 +576,16 @@ function pewc_create_product_extra( $order_id ) {
 											'id' => $field['id'],
 											'type' => $field['type'],
 											'label' => $field['label'] . ' (' . $clone_index . ')', // add clone_index so that they have their own column in the Export file,
-											'price' => $field['price'],
-											'value' => $field['value']
+											'price' => $field['price']
 										);
+
+										// aou-repeatable-conditions-upload, Upload fields don't have values, only files
+										if ( ! empty( $field['value'] ) ) {
+											$new_field['value'] = $field['value'];
+										}
+										if ( ! empty( $field['files'] ) ) {
+											$new_field['files'] = $field['files'];
+										}
 										$fields[$gr_id][$cloned_field_id . '_' . $clone_index ] = $new_field;
 									}
 								}
@@ -584,7 +614,9 @@ add_action( 'woocommerce_checkout_order_processed', 'pewc_create_product_extra',
  * @param $files	$files array from field
  * @since 3.7.0
  */
-function pewc_rename_uploaded_files_item_meta( $item ) {
+function pewc_rename_uploaded_files_item_meta( $item, $has_repeatable=false ) {
+
+	// aou-repeatable-conditions-upload, added $has_repeatable condition, so that we can return renamed Upload fields from cloned groups
 
 	if( isset( $item['product_extras']['groups'] ) ) {
 
@@ -606,13 +638,17 @@ function pewc_rename_uploaded_files_item_meta( $item ) {
 				$uploaded_files = array();
 			}
 
-			foreach( $new_item_meta['groups'] as $group_id=>$group ) {
+			// aou-repeatable-conditions-upload
+			$all_groups = pewc_rebuild_cart_item_data( $item['product_extras'], 'order' );
+			//foreach( $new_item_meta['groups'] as $group_id=>$group )
+			foreach ( $all_groups as $group ) {
 
 				if( $group ) {
 
 					foreach( $group as $field_id=>$field ) {
 
 						if( isset( $field['type'] ) && $field['type'] == 'upload' ) {
+							$group_id = $field['group_id'];
 
 							if( ! empty( $field['files'] ) ) {
 
@@ -682,14 +718,25 @@ function pewc_rename_uploaded_files_item_meta( $item ) {
 										}
 									}
 
-									$new_item_meta['groups'][$group_id][$field_id]['files'][$index]['file'] = $new_file_name;
-									$new_item_meta['groups'][$group_id][$field_id]['files'][$index]['url'] = $new_url;
-									$new_item_meta['groups'][$group_id][$field_id]['files'][$index]['display'] = $new_display_name;
+									if ( pewc_is_cloned_field( $field['id'] ) ) {
+										$clone_index = pewc_get_repeatable_index_from_field_id( $field['id'] );
+										$new_item_meta['cloned_groups'][$group_id][$clone_index][$field_id]['files'][$index]['file'] = $new_file_name;
+										$new_item_meta['cloned_groups'][$group_id][$clone_index][$field_id]['files'][$index]['url'] = $new_url;
+										$new_item_meta['cloned_groups'][$group_id][$clone_index][$field_id]['files'][$index]['display'] = $new_display_name;
+									} else {
+										$new_item_meta['groups'][$group_id][$field_id]['files'][$index]['file'] = $new_file_name;
+										$new_item_meta['groups'][$group_id][$field_id]['files'][$index]['url'] = $new_url;
+										$new_item_meta['groups'][$group_id][$field_id]['files'][$index]['display'] = $new_display_name;
+									}
 
 									// 3.21.7, replace backslashes with slashes because backslashes gets trimmed by WP later and then the file isn't readable anymore
 									// needed in Windows systems
 									if ( pewc_replace_backslashes_in_file_paths() ) {
-										$new_item_meta['groups'][$group_id][$field_id]['files'][$index]['file'] = str_replace( '\\', '/', $new_item_meta['groups'][$group_id][$field_id]['files'][$index]['file'] );
+										if ( pewc_is_cloned_field( $field['id'] ) ) {
+											$new_item_meta['cloned_groups'][$group_id][$clone_index][$field_id]['files'][$index]['file'] = str_replace( '\\', '/', $new_item_meta['cloned_groups'][$group_id][$clone_index][$field_id]['files'][$index]['file'] );
+										} else {
+											$new_item_meta['groups'][$group_id][$field_id]['files'][$index]['file'] = str_replace( '\\', '/', $new_item_meta['groups'][$group_id][$field_id]['files'][$index]['file'] );
+										}
 									}
 
 									if( ! empty( $file['quantity'] ) ) {
@@ -744,13 +791,23 @@ function pewc_rename_uploaded_files_item_meta( $item ) {
 
 			// Update the meta
 			wc_update_order_item_meta( $item_id, 'product_extras', $new_item_meta );
-			return $new_item_meta['groups'];
+			if ( $has_repeatable ) {
+				// aou-repeatable-conditions-upload
+				return array( 'groups' => $new_item_meta['groups'], 'cloned_groups' => $new_item_meta['cloned_groups'] );
+			} else {
+				return $new_item_meta['groups'];
+			}
 
 		}
 
 	}
 
-	return $item['product_extras']['groups'];
+	if ( $has_repeatable ) {
+		// aou-repeatable-conditions-upload
+		return array( 'groups' => $item['product_extras']['groups'], 'cloned_groups' => $item['product_extras']['cloned_groups'] );
+	} else {
+		return $item['product_extras']['groups'];
+	}
 
 }
 
@@ -1092,9 +1149,15 @@ add_filter( 'woocommerce_order_item_get_formatted_meta_data', 'pewc_order_item_r
  */
 function pewc_filter_replace_product_sku( $new_file_name, $order_id, $field, $product_id, $order_item, $file_index ) {
 
-	if ( false !== strpos( $new_file_name, 'xxproduct_skuxx' ) && $order_item && $order_item->is_type( 'line_item' ) ) {
-		$product = $order_item->get_product();
-		if ( $product ) {
+	if ( false !== strpos( $new_file_name, 'xxproduct_skuxx' ) ) {
+		if ( is_object( $order_item ) && $order_item->is_type( 'line_item' ) ) {
+			$product = $order_item->get_product();
+		} else if ( isset( $order_item['data'] ) ) {
+			// 3.27.7, this might be a $cart_value array, called from pewc_get_uploaded_files_per_field()
+			$product = $order_item['data'];
+		}
+
+		if ( ! empty( $product ) && is_a( $product, 'WC_Product' ) ) {
 			$sku = '';
 			if ( 'variation' === $product->get_type() ) {
 				if ( apply_filters( 'pewc_replace_with_variation_sku', true, $product, $field ) ) {

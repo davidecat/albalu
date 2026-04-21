@@ -182,6 +182,9 @@ function pewc_generate_csv() {
 
 							foreach( $field['files'] as $index=>$file ) {
 
+								if ( empty( $file['file'] ) || ! file_exists( $file['file'] ) ) {
+									continue; // 4.1.4, skip blank or missing files?
+								}
 								if( is_array( getimagesize( $file['file'] ) ) ) {
 
 									$uploaded_files[] = $file['url'];

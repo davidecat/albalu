@@ -351,6 +351,9 @@ class PEWC_SL_Plugin_Updater {
 
 			if ( false !== $api_response ) {
 				$_data = $api_response;
+			} else {
+				// 4.0.1, prevent error on the Plugins page if $api_response is false
+				return $_data;
 			}
 		} else {
 			$_data = $edd_api_request_transient;

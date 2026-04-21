@@ -40,13 +40,15 @@ if( $group_layout == 'table' ) {
 	$open_td = '<td colspan=2>';
 }
 
+$checkbox_id = apply_filters( 'pewc_filter_input_id', $id, $item, 'id' ); // aou-repeatable-conditions-checkbox, apply filter to select form ID
+
 printf(
 	'%s<label class="%s" for="%s"><input type="checkbox" class="pewc-form-field" id="%s" name="%s" %s value="__checked__">&nbsp;<span>%s</span><span class="pewc-theme-element"></span></label>%s',
 	$open_td, // Set in functions-single-product.php
 	join( ' ', $label_classes ),
-	esc_attr( $id ),
-	esc_attr( $id ),
-	esc_attr( $id ),
+	esc_attr( $checkbox_id ),
+	esc_attr( $checkbox_id ),
+	esc_attr( $name ), // aou-repeatable-conditions-checkbox, changed to name
 	$attribute_string,
 	$label,
 	$close_td

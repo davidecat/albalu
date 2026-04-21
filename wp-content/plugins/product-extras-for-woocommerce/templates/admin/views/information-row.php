@@ -18,9 +18,9 @@ if( ! isset( $group_id ) ) {
 }  ?>
 
 
-<div class="product-extra-row-wrapper" data-row-count="<?php echo esc_attr( $row_count ); ?>">
+<div class="product-extra-row-wrapper pewc-field-information-wrapper" data-row-count="<?php echo esc_attr( $row_count ); ?>">
 
-	<div class="pewc-row-image">
+	<div class="">
 		<?php $image_wrapper_classes = array(
 			'pewc-field-image-' . $item_key . '_' . $row_count
 		);
@@ -48,17 +48,17 @@ if( ! isset( $group_id ) ) {
 
 	</div>
 
-	<div class="product-extra-field-quarter">
+	<div>
 		<?php $label = ( isset( $key ) && isset( $item['field_rows'][esc_attr( $key )]['label'] ) ) ? $item['field_rows'][esc_attr( $key )]['label'] : ''; ?>
 		<input type="text" class="pewc-field-row-label" name="<?php echo $name_label; ?>" value="<?php echo esc_attr( $label ); ?>">
 	</div>
-	<div class="product-extra-field-half">
+	<div>
 		<?php $data = ( isset( $key ) && isset( $item['field_rows'][esc_attr( $key )]['data'] ) ) ? $item['field_rows'][esc_attr( $key )]['data'] : ''; ?>
 		<input type="text" class="pewc-field-row-data" name="<?php echo $name_data; ?>" value="<?php echo esc_attr( $data ); ?>">
 	</div>
-	<div class="product-extra-field-10 pewc-actions pewc-select-actions">
+	<div class="pewc-actions pewc-select-actions">
 		<span class="sort-option pewc-action"><span class="dashicons dashicons-menu"></span></span>
-		<span class="remove-row pewc-action"><?php _e( 'Remove', 'pewc' ); ?></span>
+		<span class="remove-row pewc-action"><span class="dashicons dashicons-trash"></span></span>
 	</div>
 
 </div>

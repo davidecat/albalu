@@ -127,14 +127,14 @@ function pewc_metaboxes() {
 				'cols-2'	=> __( 'Two Columns', 'pewc' ),
 				'cols-3'	=> __( 'Three Columns', 'pewc' )
 			),
-			'class'		=> ''
+			'class'		=> 'pewc-start-twos'
 		),
 		array(
 			'ID'		=> 'group_class',
 			'name'		=> 'group_class',
 			'title'		=> __( 'Group Class', 'pewc' ),
 			'type'		=> 'text',
-			'class'		=> ''
+			'class'		=> 'pewc-end-twos'
 		),
 		array(
 			'ID'			=> 'global_rules',
@@ -170,7 +170,7 @@ function pewc_metaboxes() {
 			'class'		=> ''
 		),
 		array(
-			'ID'			=> 'pewc_assign_group',
+			'ID'		=> 'pewc_assign_group',
 			'name'		=> 'pewc_assign_group',
 			'title'		=> __( 'Duplicate to', 'pewc' ),
 			'type'		=> 'metabox_assign_group_to_product',
@@ -265,7 +265,7 @@ function pewc_metaboxes() {
 		),
 		'pewc_group'	=> array(
 			'ID'			=> 'pewc_group_metabox',
-			'title'			=> __( 'Group Meta', 'pewc' ),
+			'title'			=> __( 'Group Settings', 'pewc' ),
 			'callback'		=> 'meta_box_callback',
 			'screens'		=> array( 'pewc_group' ),
 			'context'		=> 'normal',

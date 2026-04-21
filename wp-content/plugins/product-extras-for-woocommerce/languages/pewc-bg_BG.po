@@ -1,134 +1,144 @@
 msgid ""
 msgstr ""
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
 "Project-Id-Version: WooCommerce Product Add-Ons Ultimate\n"
-"POT-Creation-Date: 2023-03-29 08:33+0100\n"
-"PO-Revision-Date: 2023-07-17 17:21+0000\n"
+"Report-Msgid-Bugs-To: \n"
 "Last-Translator: \n"
 "Language-Team: Български\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2023-03-29 08:33+0100\n"
+"PO-Revision-Date: 2023-07-17 17:21+0000\n"
+"Language: bg_BG\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Loco https://localise.biz/\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-Flags-xgettext: --add-comments=translators:\n"
 "X-Poedit-WPHeader: product-extras-for-woocommerce.php\n"
 "X-Poedit-SourceCharset: UTF-8\n"
-"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
-"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;"
-"_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: *.min.js\n"
-"Report-Msgid-Bugs-To: \n"
-"Language: bg_BG\n"
-"X-Loco-Version: 2.6.4; wp-6.2.2"
+"X-Loco-Version: 2.6.4; wp-6.2.2\n"
 
-#: classes/class-pewc-product-extra-post-type.php:58
+#: classes/class-pewc-product-extra-post-type.php:80
 #: inc/functions-conditionals.php:23
 msgid " -- Select a field -- "
 msgstr "-- Изберете поле --"
 
-#: inc/functions-cart.php:1214 inc/functions-cart.php:1233
-#: inc/functions-cart.php:1240 inc/functions-cart.php:1247
-#: inc/functions-cart.php:1290 inc/functions-cart.php:1321
-#: inc/functions-cart.php:1463 inc/functions-cart.php:1555
-#: inc/functions-cart.php:1563 inc/functions-js-validation.php:52
+#: inc/functions-cart.php:1465
+#: inc/functions-cart.php:1482
+#: inc/functions-cart.php:1530
+#: inc/functions-cart.php:1813
+#: inc/functions-cart.php:1821
+#: inc/functions-cart.php:2479
+#: inc/functions-cart.php:2502
+#: inc/functions-cart.php:2569
+#: inc/functions-cart.php:2660
+#: inc/functions-cart.php:2671
+#: inc/functions-cart.php:2712
+#: inc/functions-js-validation.php:54
 msgid " is a required field."
 msgstr " е задължително поле."
 
-#: inc/functions-cart.php:1382 inc/functions-cart.php:1394
+#: inc/functions-cart.php:2804
+#: inc/functions-cart.php:2849
 msgid " is a required upload field."
 msgstr " е задължително поле за качване."
 
-#: inc/functions-cart.php:1549
+#: inc/functions-cart.php:1807
 msgid " must have a quantity entered."
 msgstr "трябва да има въведено количество."
 
-#: inc/functions-updater.php:150
+#: inc/functions-updater.php:162
 #, php-format
-msgid ""
-" Please ensure you enter the correct licence key as the plugin may not work "
-"correctly without it. Your licence key will be on the email you were sent "
-"with the download link or on <a target=\"_blank\" href=\"%s\">your account "
-"page</a>."
+msgid " Please ensure you enter the correct licence key as the plugin may not work correctly without it. Your licence key will be on the email you were sent with the download link or on <a target=\"_blank\" href=\"%s\">your account page</a>."
 msgstr ""
 
-#: inc/functions-cart.php:1959
+#: inc/functions-cart.php:2297
 #, php-format
 msgid "%s has been updated."
 msgid_plural "%s have been updated."
 msgstr[0] ""
 msgstr[1] ""
 
-#: inc/functions-cart.php:1274 inc/functions-js-validation.php:135
+#: inc/functions-cart.php:1509
+#: inc/functions-js-validation.php:137
 #, php-format
 msgid "%s requires a maximum of %s items to be selected"
 msgstr "%s изисква да бъдат избрани максимум %s елемента"
 
-#: inc/functions-cart.php:1257 inc/functions-js-validation.php:119
+#: inc/functions-cart.php:1492
+#: inc/functions-js-validation.php:121
 #, php-format
 msgid "%s requires at least %s items to be selected"
 msgstr "%s изисква да бъдат избрани поне %s елемента"
 
-#: inc/functions-cart.php:1498 inc/functions-js-validation.php:99
+#: inc/functions-cart.php:1756
+#: inc/functions-js-validation.php:101
 #, php-format
 msgid "%s requires you to choose %s products"
 msgstr "%s изисква да изберете %s продукти"
 
-#: inc/functions-cart.php:1532 inc/functions-js-validation.php:85
+#: inc/functions-cart.php:1790
+#: inc/functions-js-validation.php:87
 #, php-format
 msgid "%s requires you to choose a maximum of %s products"
 msgstr "%s изисква да изберете максимум %s продукта"
 
-#: inc/functions-cart.php:1515 inc/functions-js-validation.php:69
+#: inc/functions-cart.php:1773
+#: inc/functions-js-validation.php:71
 #, php-format
 msgid "%s requires you to choose a minimum of %s products"
 msgstr "%s изисква да изберете минимум %s продукта"
 
-#: admin/customizer.php:68
-msgid "(Beta only - subject to change)"
-msgstr "(Само бета - подлежи на промяна)"
-
-#: templates/admin/views/calculation-fields.php:113
+#: templates/admin/sections/calculations.php:138
 msgid "--"
 msgstr ""
 
-#: inc/functions-cart.php:1375
+#: inc/functions-cart.php:2794
 msgid ": File size too large."
 msgstr "Размерът на файла е твърде голям."
 
-#: inc/functions-cart.php:1224 inc/functions-js-validation.php:189
+#: inc/functions-cart.php:2512
+#: inc/functions-js-validation.php:191
 msgid ": maximum number of characters: "
 msgstr "максимален брой знаци:"
 
-#: inc/functions-cart.php:1308 inc/functions-js-validation.php:176
+#: inc/functions-cart.php:2596
+#: inc/functions-js-validation.php:178
 msgid ": maximum value is "
 msgstr "максималната стойност е"
 
-#: inc/functions-cart.php:1221 inc/functions-js-validation.php:185
+#: inc/functions-cart.php:2509
+#: inc/functions-js-validation.php:187
 msgid ": minimum number of characters: "
 msgstr "минимален брой знаци:"
 
-#: inc/functions-cart.php:1305 inc/functions-js-validation.php:169
+#: inc/functions-cart.php:2593
+#: inc/functions-js-validation.php:171
 msgid ": minimum value is "
 msgstr "минималната стойност е"
 
-#: inc/functions-cart.php:1324
+#: inc/functions-cart.php:1533
 msgid ": the value is not a valid hex code"
 msgstr "стойността не е валиден шестнадесетичен код"
 
-#: inc/functions-updater.php:156 inc/functions-updater.php:294
+#: inc/functions-updater.php:168
+#: inc/functions-updater.php:316
 #, php-format
 msgid "<p><a href=\"%s\">Enter your licence key here</a></p>"
 msgstr "<p><a href=\"%s\">Въведете вашия лицензен ключ тук</a></p>"
 
-#: inc/functions-updater.php:261
+#: inc/functions-updater.php:283
 #, php-format
 msgid "<p><a href=\"%s\">Enter your license key here</a></p>"
 msgstr "<p><a href=\"%s\">Въведете вашия лицензен ключ тук</a></p>"
 
-#: inc/functions-conditionals.php:38 inc/functions-conditionals.php:52
-#: inc/functions-conditionals.php:68 inc/functions-conditionals.php:84
+#: inc/functions-conditionals.php:38
+#: inc/functions-conditionals.php:52
+#: inc/functions-conditionals.php:68
+#: inc/functions-conditionals.php:84
 msgid "[no label]"
 msgstr ""
 
@@ -136,69 +146,70 @@ msgstr ""
 msgid "A guide to field types"
 msgstr "Ръководство за типовете полета"
 
-#: admin/customizer.php:91
+#: admin/customizer.php:111
 msgid "Accent colour"
 msgstr "Цвят на акцента"
 
-#: admin/metaboxes.php:187
+#: admin/metaboxes.php:198
 msgid "Accept"
 msgstr "Приемам"
 
-#: templates/admin/group-settings.php:26
+#: templates/admin/group-settings.php:43
 msgid "Accordion"
 msgstr "Акордеон"
 
-#: classes/class-pewc-settings-tab.php:196
 #: classes/class-pewc-settings-tab.php:208
-#: classes/class-pewc-settings-tab.php:252
+#: classes/class-pewc-settings-tab.php:220
 #: classes/class-pewc-settings-tab.php:264
-#: classes/class-pewc-settings-tab.php:308
+#: classes/class-pewc-settings-tab.php:276
 #: classes/class-pewc-settings-tab.php:320
-#: templates/admin/views/calculation-fields.php:105
+#: classes/class-pewc-settings-tab.php:332
+#: templates/admin/sections/calculations.php:128
 msgid "Action"
 msgstr "Действие"
 
-#: classes/class-pewc-settings-tab.php:213
-#: classes/class-pewc-settings-tab.php:269
-#: classes/class-pewc-settings-tab.php:325
+#: classes/class-pewc-settings-tab.php:225
+#: classes/class-pewc-settings-tab.php:281
+#: classes/class-pewc-settings-tab.php:337
 msgid "Activate this licence"
 msgstr "Активирайте този лиценз"
 
-#: templates/frontend/products/products-column.php:283
+#: templates/frontend/products/products-column.php:380
 msgid "Add"
 msgstr "Добавяне"
 
-#: classes/class-pewc-product-extra-post-type.php:87
+#: classes/class-pewc-product-extra-post-type.php:110
 msgid "Add "
 msgstr "Добавяне"
 
-#: templates/admin/condition.php:201 templates/admin/new-condition.php:46
+#: templates/admin/condition.php:256
+#: templates/admin/new-condition.php:46
 #: templates/admin/views/group-condition-new.php:46
-#: templates/admin/views/group-condition.php:196
+#: templates/admin/views/group-condition.php:211
 msgid "Add Condition"
 msgstr "Добавяне на условие"
 
-#. Description of the plugin/theme
+#. Description of the plugin
+#: product-extras-for-woocommerce.php
 msgid "Add extra fields to WooCommerce products"
 msgstr "Добавете допълнителни полета към продуктите на WooCommerce"
 
-#: admin/functions-custom-panel.php:204
-#: classes/class-pewc-product-extra-post-type.php:190
-#: classes/class-pewc-product-extra-post-type.php:637
-#: templates/admin/new-group.php:73
+#: classes/class-pewc-product-extra-post-type.php:213
+#: classes/class-pewc-product-extra-post-type.php:771
+#: templates/admin/group.php:192
 msgid "Add Field"
 msgstr "Добавяне на поле"
 
-#: admin/functions-custom-panel.php:101
-#: classes/class-pewc-product-extra-post-type.php:146
+#: admin/functions-custom-panel.php:106
+#: classes/class-pewc-product-extra-post-type.php:169
 msgid "Add Group"
 msgstr "Добавяне на група"
 
-#: classes/class-pewc-product-extra-post-type.php:88
+#: classes/class-pewc-product-extra-post-type.php:111
 msgid "Add New "
 msgstr "Добавяне на нов"
 
-#: classes/class-pewc-product-extra-post-type.php:191
+#: classes/class-pewc-product-extra-post-type.php:214
 msgid "Add New Field"
 msgstr "Добавяне на ново поле"
 
@@ -206,39 +217,36 @@ msgstr "Добавяне на ново поле"
 msgid "Add New Global Group"
 msgstr ""
 
-#: classes/class-pewc-product-extra-post-type.php:147
+#: classes/class-pewc-product-extra-post-type.php:170
 msgid "Add New Group"
 msgstr "Добавяне на нова група"
 
-#: templates/admin/views/option-fields-new.php:41
-#: templates/admin/views/option-fields.php:62
+#: templates/admin/views/option-fields-new.php:47
+#: templates/admin/views/option-fields.php:77
 msgid "Add Option"
 msgstr "Добавяне на опция"
 
-#: admin/functions-admin-settings.php:588
+#: admin/functions-admin-settings.php:702
 msgid "Add padding to child products in the cart and order."
 msgstr "Добавете подложка към дъщерните продукти в количката и поръчайте."
 
 #: inc/functions-global-extras.php:121
-msgid ""
-"Add Product Add-Ons in bulk to your products. You can add Product Add-Ons to "
-"individual products by editing the product and clicking on the 'Product Add-"
-"Ons' tab of the Product Data section."
+msgid "Add Product Add-Ons in bulk to your products. You can add Product Add-Ons to individual products by editing the product and clicking on the 'Product Add-Ons' tab of the Product Data section."
 msgstr ""
 
-#: templates/admin/views/information.php:38
+#: templates/admin/sections/information.php:52
 msgid "Add Row"
 msgstr "Добавяне на ред"
 
-#: templates/admin/views/calculation-fields.php:133
+#: templates/admin/sections/calculations.php:163
 msgid "Add to Product Weight"
 msgstr "Добавяне към теглото на продукта"
 
-#: admin/functions-admin-settings.php:476
+#: admin/functions-admin-settings.php:521
 msgid "Add uploaded images to new order emails."
 msgstr "Добавяне на качени изображения към имейли за нови поръчки."
 
-#: admin/functions-admin-settings.php:449
+#: admin/functions-admin-settings.php:495
 msgid "Add uploaded images via AJAX."
 msgstr "Добавяне на качени изображения чрез AJAX."
 
@@ -254,22 +262,20 @@ msgstr "Оформление на групата на добавките."
 msgid "Add-on group title."
 msgstr "Заглавие на група добавки."
 
-#: classes/class-pewc-product-extra-post-type.php:99
+#: classes/class-pewc-product-extra-post-type.php:122
 msgid "Add-Ons by Order"
 msgstr "Добавки по поръчка"
 
-#: inc/functions-migration.php:118 inc/functions-migration.php:119
+#: inc/functions-migration.php:118
+#: inc/functions-migration.php:119
 msgid "Add-Ons Migration"
 msgstr ""
 
 #: inc/functions-migration.php:161
-msgid ""
-"Add-Ons Ultimate would like to update your database. This is important "
-"because the plugin is changing how it stores its data, which should result "
-"in performance improvements and feature enhancements."
+msgid "Add-Ons Ultimate would like to update your database. This is important because the plugin is changing how it stores its data, which should result in performance improvements and feature enhancements."
 msgstr ""
 
-#: admin/functions-admin-menu.php:126
+#: admin/functions-admin-menu.php:132
 msgid "Adding conditions to your fields"
 msgstr "Добавяне на условия към вашите полета"
 
@@ -277,15 +283,15 @@ msgstr "Добавяне на условия към вашите полета"
 msgid "Adding your first Add-Ons field"
 msgstr "Добавяне на вашето първо поле за добавки"
 
-#: admin/metaboxes.php:235
+#: admin/metaboxes.php:250
 msgid "Additional Information"
 msgstr "Допълнителна информация"
 
-#: admin/functions-admin-settings.php:163
+#: admin/functions-admin-settings.php:269
 msgid "Additional or replacement text for the price"
 msgstr "Допълнителен или заместващ текст за цената"
 
-#: admin/functions-custom-panel.php:447
+#: admin/functions-custom-panel.php:516
 msgid "Additional or replacement text for the price."
 msgstr "Допълнителен или заместващ текст за цената."
 
@@ -293,18 +299,13 @@ msgstr "Допълнителен или заместващ текст за це�
 msgid "Address"
 msgstr "Адрес"
 
-#: admin/functions-admin-settings.php:339
-msgid ""
-"Adjust add-on field prices if User Role Pricing is enabled in Fees and "
-"Discounts."
-msgstr ""
-
-#: admin/functions-admin-menu.php:114
+#: admin/functions-admin-menu.php:120
 msgid "Advanced"
 msgstr "Разширено"
 
-#: admin/customizer.php:540 admin/functions-admin-settings.php:176
-#: admin/functions-custom-panel.php:458
+#: admin/customizer.php:933
+#: admin/functions-admin-settings.php:282
+#: admin/functions-custom-panel.php:527
 msgid "After price"
 msgstr "След цена"
 
@@ -316,24 +317,25 @@ msgstr "Всички"
 msgid "All done. This page will automatically reload."
 msgstr ""
 
-#: classes/class-pewc-product-extra-post-type.php:201
-#: classes/class-pewc-product-extra-post-type.php:202
+#: classes/class-pewc-product-extra-post-type.php:224
+#: classes/class-pewc-product-extra-post-type.php:225
 msgid "All Fields"
 msgstr "Всички полета"
 
-#: admin/functions-custom-panel.php:431
+#: admin/functions-custom-panel.php:500
 msgid "All required fields"
 msgstr "Всички задължителни полета"
 
-#: admin/functions-custom-panel.php:432
+#: admin/functions-custom-panel.php:501
 msgid "All required fields if first field complete"
 msgstr "Всички задължителни полета, ако първото поле е попълнено"
 
-#: inc/functions-conditionals.php:119
+#: inc/functions-conditionals.php:121
 msgid "All rules match"
 msgstr ""
 
-#: admin/functions-admin-menu.php:96 admin/functions-admin-menu.php:134
+#: admin/functions-admin-menu.php:96
+#: admin/functions-admin-menu.php:140
 msgid "All the plugin documentation"
 msgstr "Цялата документация на плъгина"
 
@@ -341,123 +343,106 @@ msgstr "Цялата документация на плъгина"
 msgid "All the rules are met"
 msgstr ""
 
-#: admin/metaboxes.php:134 templates/admin/global-rule.php:25
+#: admin/metaboxes.php:145
+#: templates/admin/global-rule.php:28
 msgid "All the selected rules are met"
 msgstr "Всички избрани правила са изпълнени"
 
-#: templates/admin/field-item.php:390 templates/admin/new-field-item.php:247
+#: templates/admin/sections/uploads.php:18
 msgid "Allow multiple uploads?"
 msgstr "Разрешаване на множество качвания?"
 
-#: templates/admin/field-item.php:297
+#: templates/admin/sections/swatches.php:93
 msgid "Allow Multiple?"
 msgstr "Разрешаване на множество?"
 
-#: templates/admin/new-field-item.php:188
-msgid "Allow multiple?"
+#: admin/functions-admin-settings.php:139
+msgid "Allow users to edit the add-ons in products that have already been added to the cart."
 msgstr ""
 
-#: admin/functions-admin-settings.php:66
-msgid ""
-"Allow users to edit the add-ons in products that have already been added to "
-"the cart."
-msgstr ""
-
-#: admin/functions-admin-settings.php:441
+#: admin/functions-admin-settings.php:487
 msgid "Allow users to upload PDFs."
 msgstr "Разрешаване на потребителите да качват PDF файлове."
-
-#: inc/functions-updater.php:95 inc/functions-updater.php:221
-msgid "An error occurred, please try again."
-msgstr "Възникна грешка, моля опитайте отново."
-
-#: inc/functions-updater.php:145
-msgid "an error occurred, please try again."
-msgstr "възникна грешка, моля опитайте отново."
 
 #: templates/admin/new-global-rule.php:27
 msgid "Any of the rules are met"
 msgstr ""
 
-#: admin/metaboxes.php:135 templates/admin/global-rule.php:26
+#: admin/metaboxes.php:146
+#: templates/admin/global-rule.php:29
 msgid "Any of the selected rules are met"
 msgstr "Някое от избраните правила е изпълнено"
 
-#: inc/functions-conditionals.php:120
+#: inc/functions-conditionals.php:122
 msgid "Any rule matches"
 msgstr ""
 
-#: admin/functions-admin-settings.php:336
+#: admin/functions-admin-settings.php:950
 msgid "Apply User Role Pricing to add-on field prices"
-msgstr ""
-"Прилагане на ценообразуването на потребителски роли към цените на полето за "
-"добавки"
+msgstr "Прилагане на ценообразуването на потребителски роли към цените на полето за добавки"
 
-#: inc/functions-uploads.php:35
+#: inc/functions-uploads.php:40
+#: inc/functions-uploads.php:353
 msgid "Are you sure you want to cancel this upload?"
 msgstr "Сигурни ли сте, че искате да отмените това качване?"
 
-#: templates/admin/group-settings.php:72
+#: templates/admin/group-settings.php:129
 msgid "Assign"
 msgstr "Присвояване"
 
-#: templates/admin/group-settings.php:49
+#: templates/admin/group-settings.php:106
 msgid "Assign groups to other products"
 msgstr "Присвояване на групи към други продукти"
 
-#: templates/admin/group-settings.php:56
+#: templates/admin/group-settings.php:113
 msgid "Assign to products"
 msgstr "Присвояване на продукти"
 
-#: admin/metaboxes.php:156
+#: admin/metaboxes.php:167
 msgid "Assigned to"
 msgstr "Възложено на"
 
-#: admin/functions-admin-settings.php:473
+#: admin/functions-admin-settings.php:518
 msgid "Attach uploads to emails"
 msgstr "Прикачване на качвания към имейли"
 
-#: admin/customizer.php:539 admin/functions-admin-settings.php:175
-#: admin/functions-custom-panel.php:457
+#: admin/customizer.php:932
+#: admin/functions-admin-settings.php:281
+#: admin/functions-custom-panel.php:526
 msgid "Before price"
 msgstr "Преди цена"
 
-#: admin/functions-admin-settings.php:253
-msgid "Beta"
-msgstr "Бета"
-
-#: admin/functions-admin-settings.php:303
-msgid "Beta testing"
-msgstr "Бета тестване"
-
-#: templates/admin/field-item.php:603
+#: templates/admin/sections/calendar-list.php:105
+#: templates/admin/sections/date.php:128
 msgid "Blocked dates"
 msgstr "Блокирани дати"
 
-#: classes/class-pewc-product-extra-post-type.php:536
-#: inc/functions-global-extras.php:541
+#: classes/class-pewc-product-extra-post-type.php:671
+#: inc/functions-global-extras.php:589
 msgid "By category"
 msgstr "По категория"
 
-#: classes/class-pewc-product-extra-post-type.php:505
-#: inc/functions-global-extras.php:535
+#: classes/class-pewc-product-extra-post-type.php:647
+#: inc/functions-global-extras.php:583
 msgid "By product"
 msgstr "По продукт"
 
-#: inc/functions-single-product.php:181
+#: inc/functions-single-product.php:233
 msgid "Calculating..."
 msgstr ""
 
-#: admin/functions-custom-panel.php:404
+#: admin/functions-custom-panel.php:472
 msgid "Calculation"
 msgstr "Изчисляване"
 
-#: admin/functions-admin-settings.php:650
-#: classes/class-pewc-settings-tab.php:100
+#: admin/functions-admin-settings.php:803
+#: classes/class-pewc-settings-tab.php:112
+#: templates/admin/field-item.php:83
 msgid "Calculations"
 msgstr "Изчисления"
 
-#: inc/functions-uploads.php:33
+#: inc/functions-uploads.php:38
+#: inc/functions-uploads.php:351
 msgid "Cancel upload"
 msgstr "Отмяна на качването"
 
@@ -469,37 +454,36 @@ msgstr "Не може да се изтрие полето за добавка."
 msgid "Cannot delete add-on group."
 msgstr "Не може да изтрие група добавки."
 
-#: admin/functions-admin-post-types.php:89
+#: admin/functions-admin-post-types.php:96
 msgid "Categories"
 msgstr "Категории"
 
-#: inc/functions-single-product.php:1244 inc/functions-single-product.php:1251
+#: inc/functions-single-product.php:1665
+#: inc/functions-single-product.php:1672
 msgid "characters"
 msgstr ""
 
-#: admin/functions-custom-panel.php:405
+#: admin/functions-custom-panel.php:474
 msgid "Checkbox"
 msgstr "Квадратче за отметка"
 
-#: admin/functions-custom-panel.php:406 inc/functions-pro-helpers.php:23
+#: admin/functions-custom-panel.php:475
+#: inc/functions-pro-helpers.php:23
 msgid "Checkbox Group"
 msgstr "Група квадратчета за отметка"
 
-#: templates/admin/new-field-item.php:134
-msgid "Checkboxes"
-msgstr ""
-
-#: templates/admin/field-item.php:225
+#: templates/admin/sections/products.php:105
 msgid "Checkboxes Images"
 msgstr "Изображения в полетата за отметка"
 
-#: templates/admin/field-item.php:226 templates/admin/new-field-item.php:135
+#: templates/admin/sections/products.php:106
 msgid "Checkboxes List"
 msgstr "Списък с квадратчета за отметка"
 
-#: classes/class-pewc-product-extra-post-type.php:55
-#: templates/admin/condition.php:188 templates/admin/new-conditional-row.php:67
-#: templates/admin/views/group-condition.php:183
+#: classes/class-pewc-product-extra-post-type.php:77
+#: templates/admin/condition.php:242
+#: templates/admin/new-conditional-row.php:70
+#: templates/admin/views/group-condition.php:196
 msgid "Checked"
 msgstr "Проверено"
 
@@ -515,31 +499,23 @@ msgstr "Дъщерният продукт трябва да бъде проме�
 msgid "Child product needs to have two attributes"
 msgstr "Дъщерният продукт трябва да има два атрибута"
 
-#: templates/admin/field-item.php:263 templates/admin/new-field-item.php:162
-msgid "Child Product Not Required"
-msgstr "Не се изисква дъщерен продукт"
-
-#: templates/admin/field-item.php:142 templates/admin/new-field-item.php:97
+#: templates/admin/sections/products.php:19
 msgid "Child Products"
 msgstr "Детски продукти"
 
-#: classes/class-pewc-product-extra-post-type.php:721
+#: classes/class-pewc-product-extra-post-type.php:855
 msgid "Choose products"
 msgstr "Изберете продукти"
 
-#: templates/admin/field-item.php:151
-msgid "Choose the child products"
-msgstr "Изберете дъщерните продукти"
-
-#: templates/admin/field-item.php:166
+#: templates/admin/sections/products.php:41
 msgid "Choose the child subscription variations"
 msgstr "Изберете вариантите на дъщерния абонамент"
 
-#: templates/admin/group-settings.php:58
+#: templates/admin/group-settings.php:115
 msgid "Choose the products"
 msgstr "Изберете продуктите"
 
-#: inc/functions-single-product.php:65
+#: inc/functions-single-product.php:66
 msgid "Clear"
 msgstr ""
 
@@ -548,53 +524,42 @@ msgid "Click the button below to get started."
 msgstr ""
 
 #: admin/functions-admin-export.php:33
-msgid ""
-"Click the Export button to export all your Product Add-Ons from orders to a "
-"csv file which you can then open with Excel or other spreadsheet software."
+msgid "Click the Export button to export all your Product Add-Ons from orders to a csv file which you can then open with Excel or other spreadsheet software."
 msgstr ""
 
+#: admin/functions-admin-import-export-aou.php:121
 #: inc/functions-lightbox.php:107
 msgid "Close"
 msgstr ""
 
-#: templates/admin/group-meta-actions.php:14
-msgid "Collapse"
-msgstr "Свиване"
-
 #: templates/admin/field-meta-actions.php:15
-#: templates/admin/group-meta-actions.php:14
+#: templates/admin/group-meta-actions.php:15
 msgid "Collapse / Expand"
 msgstr "Свиване / Разгъване"
 
-#: admin/functions-custom-panel.php:407
+#: admin/functions-custom-panel.php:476
 msgid "Color Picker"
 msgstr "Избор на цвят"
 
-#: templates/admin/field-item.php:227 templates/admin/new-field-item.php:136
+#: templates/admin/sections/products.php:107
 msgid "Column"
 msgstr "Колона"
 
-#: admin/functions-admin-settings.php:133 templates/admin/field-item.php:726
-#: templates/admin/new-field-item.php:453
+#: admin/functions-admin-settings.php:231
+#: templates/admin/field-item.php:98
+#: templates/admin/sections/conditions.php:17
 msgid "Conditions"
 msgstr "Условия"
 
 #: inc/functions-migration.php:148
-msgid ""
-"Congratulations - all done. All your Product Add-Ons have been migrated. You "
-"need take no further action."
+msgid "Congratulations - all done. All your Product Add-Ons have been migrated. You need take no further action."
 msgstr ""
 
-#: inc/functions-conditionals.php:133
+#: inc/functions-conditionals.php:135
 msgid "Contains"
 msgstr ""
 
-#: templates/admin/field-meta-actions.php:16
-#: templates/admin/group-meta-actions.php:15
-msgid "Copy"
-msgstr "Копие"
-
-#: classes/class-pewc-product-extra-post-type.php:57
+#: classes/class-pewc-product-extra-post-type.php:79
 msgid "copy"
 msgstr "копие"
 
@@ -602,177 +567,168 @@ msgstr "копие"
 msgid "Cost"
 msgstr ""
 
-#: inc/functions-single-product.php:68
+#: inc/functions-single-product.php:69
 msgid "Current Color"
 msgstr ""
 
-#: templates/admin/views/information.php:21
+#: templates/admin/sections/information.php:36
 msgid "Data"
 msgstr "Данни"
 
-#: admin/functions-admin-post-types.php:42 admin/functions-custom-panel.php:408
-#: classes/class-pewc-product-extra-post-type.php:920
-#: classes/class-pewc-settings-tab.php:94
+#: admin/functions-admin-post-types.php:42
+#: admin/functions-custom-panel.php:477
+#: classes/class-pewc-product-extra-post-type.php:1079
+#: classes/class-pewc-settings-tab.php:106
+#: templates/admin/field-item.php:89
 msgid "Date"
 msgstr "Дата"
 
-#: admin/functions-admin-settings.php:364
+#: admin/functions-admin-settings.php:410
 msgid "Date fields"
 msgstr "Полета за дата"
 
-#: classes/class-pewc-settings-tab.php:201
-#: classes/class-pewc-settings-tab.php:257
-#: classes/class-pewc-settings-tab.php:313
+#: classes/class-pewc-settings-tab.php:213
+#: classes/class-pewc-settings-tab.php:269
+#: classes/class-pewc-settings-tab.php:325
 msgid "Deactivate this licence"
 msgstr "Деактивирайте този лиценз"
 
-#: admin/functions-admin-settings.php:185
+#: admin/functions-admin-settings.php:291
 msgid "Decide how to display totals fields on product pages"
 msgstr "Решете как да показвате полетата за общи суми на продуктовите страници"
 
-#: admin/functions-admin-settings.php:170
+#: admin/functions-admin-settings.php:276
 msgid "Decide where to display the label"
 msgstr "Решете къде да се покаже етикетът"
 
-#: admin/functions-custom-panel.php:455
+#: admin/functions-custom-panel.php:524
 msgid "Decide where to display the label."
 msgstr "Решете къде да се покаже етикетът."
 
-#: templates/admin/views/calculation-fields.php:94
+#: templates/admin/sections/calculations.php:112
 msgid "Decimal Places"
 msgstr ""
 
-#: inc/functions-single-product.php:66 templates/admin/field-item.php:668
-#: templates/admin/field-item.php:673 templates/admin/field-item.php:679
-#: templates/admin/new-field-item.php:411
-#: templates/admin/new-field-item.php:415
-#: templates/admin/new-field-item.php:421
+#: inc/functions-single-product.php:67
+#: templates/admin/sections/general.php:127
 msgid "Default"
 msgstr ""
 
-#: templates/admin/field-item.php:621 templates/admin/new-field-item.php:375
+#: templates/admin/sections/colorpicker.php:21
 msgid "Default color"
 msgstr "Цвят по подразбиране"
 
-#: admin/functions-admin-settings.php:57
+#: admin/functions-admin-settings.php:67
 msgid "Define a symbol to separate the add-on label from the add-on price."
-msgstr ""
-"Дефинирайте символ за разделяне на етикета на добавката от цената на "
-"добавката."
+msgstr "Дефинирайте символ за разделяне на етикета на добавката от цената на добавката."
 
-#: templates/admin/field-meta-actions.php:17
-#: templates/admin/group-meta-actions.php:16
+#: admin/functions-admin-cleanup-files.php:134
+#: templates/admin/field-meta-actions.php:18
+#: templates/admin/group-meta-actions.php:20
 msgid "Delete"
 msgstr "Изтриване"
 
-#: classes/class-pewc-product-extra-post-type.php:53
-msgid ""
-"Delete this field? Deleting this field will also delete any conditions "
-"associated with it."
+#: classes/class-pewc-product-extra-post-type.php:75
+msgid "Delete this field? Deleting this field will also delete any conditions associated with it."
 msgstr ""
 
-#: classes/class-pewc-product-extra-post-type.php:52
+#: classes/class-pewc-product-extra-post-type.php:74
 msgid "Delete this group?"
 msgstr "Изтриване на тази група?"
 
-#: classes/class-pewc-product-extra-post-type.php:54
+#: classes/class-pewc-product-extra-post-type.php:76
 msgid "Delete this option?"
 msgstr "Изтриване на тази опция?"
 
-#: admin/functions-admin-settings.php:90
+#: admin/functions-admin-settings.php:363
 msgid "Dequeue scripts"
 msgstr "Отмяна на скриптове от опашката"
 
-#: admin/functions-admin-settings.php:93
+#: admin/functions-admin-settings.php:366
 msgid "Dequeue scripts and stylesheets on non-product pages."
-msgstr ""
-"Извадете скриптове и таблици със стилове от опашката на непродуктови "
-"страници."
+msgstr "Извадете скриптове и таблици със стилове от опашката на непродуктови страници."
 
-#: admin/functions-admin-settings.php:464
+#: admin/functions-admin-settings.php:509
 msgid "Disable Add to Cart button"
 msgstr "Деактивиране на бутона за добавяне в количката"
 
-#: templates/admin/field-item.php:568
+#: templates/admin/sections/calendar-list.php:73
+#: templates/admin/sections/date.php:88
 msgid "Disable days of the week?"
 msgstr "Забраняване на дните от седмицата?"
 
-#: admin/functions-admin-settings.php:327
-msgid "Disable Dynamic Pricing and Discount Rules price label"
-msgstr "Деактивиране на ценовия етикет на такси и отстъпки"
-
-#: admin/functions-admin-settings.php:467
+#: admin/functions-admin-settings.php:512
 msgid "Disable the add to cart button while files are being uploaded."
-msgstr ""
-"Деактивирайте бутона за добавяне в количката, докато файловете се качват."
+msgstr "Деактивирайте бутона за добавяне в количката, докато файловете се качват."
 
-#: templates/admin/field-item.php:332
+#: templates/admin/sections/pricing.php:117
 msgid "Discount"
 msgstr "Отстъпка"
 
-#: templates/admin/field-item.php:340
+#: templates/admin/sections/pricing.php:134
 msgid "Discount Type"
 msgstr "Тип отстъпка"
 
-#: admin/functions-admin-settings.php:75
+#: admin/functions-admin-settings.php:117
 msgid "Display add-on field descriptions in interactive elements."
 msgstr "Показване на описания на допълнителни полета в интерактивни елементи."
 
-#: templates/admin/views/calculation-fields.php:118
+#: templates/admin/sections/calculations.php:143
 msgid "Display As Cost"
 msgstr ""
 
-#: admin/functions-admin-settings.php:549
+#: admin/functions-admin-settings.php:663
 msgid "Display child products as metadata"
 msgstr "Показване на дъщерни продукти като метаданни"
 
-#: templates/admin/field-item.php:649 templates/admin/new-field-item.php:399
+#: templates/admin/sections/colorpicker.php:63
 msgid "Display common palettes?"
 msgstr "Показване на общи палети?"
 
-#: admin/functions-admin-settings.php:99
+#: admin/functions-admin-settings.php:145
 msgid "Display group titles in cart"
 msgstr "Показване на заглавията на групите в количката"
 
-#: templates/admin/group-settings.php:23
+#: templates/admin/group-settings.php:31
+#: templates/admin/group-settings.php:39
 msgid "Display groups as"
 msgstr "Показване на групи като"
 
-#: admin/functions-admin-settings.php:122
+#: admin/functions-admin-settings.php:220
 msgid "Display groups as custom post types, not on single page."
-msgstr ""
-"Показване на групи като персонализирани типове публикации, а не на отделна "
-"страница."
+msgstr "Показване на групи като персонализирани типове публикации, а не на отделна страница."
 
-#: admin/functions-admin-settings.php:119
+#: admin/functions-admin-settings.php:217
 msgid "Display groups as post type"
 msgstr "Показване на групи като тип публикации"
 
-#: admin/customizer.php:392
+#: admin/customizer.php:412
 msgid "Display Label on Own Line"
 msgstr "Показване на етикет на собствена линия"
 
-#: admin/functions-admin-settings.php:45
+#: admin/functions-admin-settings.php:55
 msgid "Display tax suffix"
 msgstr "Показване на данъчен суфикс"
 
-#: admin/functions-admin-settings.php:48
+#: admin/functions-admin-settings.php:58
 msgid "Display the tax suffix after all add-on price fields."
 msgstr "Показване на данъчния суфикс след всички полета за цена на добавката."
 
-#: templates/admin/global-rule.php:20 templates/admin/new-global-rule.php:21
+#: templates/admin/global-rule.php:22
+#: templates/admin/new-global-rule.php:21
 msgid "Display this group if:"
 msgstr "Показване на тази група, ако:"
 
-#: admin/customizer.php:550 admin/functions-admin-settings.php:182
+#: admin/customizer.php:942
+#: admin/functions-admin-settings.php:288
 msgid "Display totals fields"
 msgstr "Показване на полета за общи суми"
 
-#: inc/functions-conditionals.php:134
+#: inc/functions-conditionals.php:136
 msgid "Does Not Contain"
 msgstr ""
 
-#: admin/functions-admin-order.php:310
+#: admin/functions-admin-order.php:378
 msgid "Download Files"
 msgstr "Изтегляне на файлове"
 
@@ -780,46 +736,48 @@ msgstr "Изтегляне на файлове"
 msgid "Drag"
 msgstr "Плъзнете"
 
-#: inc/functions-uploads.php:28
+#: inc/functions-uploads.php:33
+#: inc/functions-uploads.php:346
 msgid "Drop files here to upload"
 msgstr "Пуснете файлове тук за качване"
 
-#: templates/admin/field-meta-actions.php:16
-#: templates/admin/group-meta-actions.php:15
+#: templates/admin/field-meta-actions.php:17
+#: templates/admin/group-meta-actions.php:19
 msgid "Duplicate"
 msgstr "Дубликат"
 
-#: classes/class-pewc-product-extra-post-type.php:726
+#: classes/class-pewc-product-extra-post-type.php:860
 msgid "Duplicate Global Group"
 msgstr "Дублирана глобална група"
 
-#: admin/metaboxes.php:164
+#: admin/metaboxes.php:175
 msgid "Duplicate to"
 msgstr "Дубликат на"
 
-#: classes/class-pewc-product-extra-post-type.php:89
-#: classes/class-pewc-product-extra-post-type.php:148
-#: classes/class-pewc-product-extra-post-type.php:192
+#: classes/class-pewc-product-extra-post-type.php:112
+#: classes/class-pewc-product-extra-post-type.php:171
+#: classes/class-pewc-product-extra-post-type.php:215
 msgid "Edit"
 msgstr "Редактиране"
 
-#: classes/class-pewc-product-extra-post-type.php:90
+#: classes/class-pewc-product-extra-post-type.php:113
 msgid "Edit "
 msgstr "Редактиране"
 
-#: classes/class-pewc-product-extra-post-type.php:193
+#: classes/class-pewc-product-extra-post-type.php:216
 msgid "Edit Field"
 msgstr "Поле за редактиране"
 
-#: classes/class-pewc-product-extra-post-type.php:149
+#: classes/class-pewc-product-extra-post-type.php:172
 msgid "Edit Group"
 msgstr "Редактиране на група"
 
-#: inc/functions-cart.php:1919
+#: inc/functions-blocks.php:94
+#: inc/functions-cart.php:2257
 msgid "Edit options"
 msgstr "Опции за редактиране"
 
-#: templates/admin/field-item.php:629 templates/admin/new-field-item.php:382
+#: templates/admin/sections/colorpicker.php:34
 msgid "Element width"
 msgstr "Ширина на елемента"
 
@@ -827,156 +785,136 @@ msgstr "Ширина на елемента"
 msgid "Email"
 msgstr "Имейл"
 
-#: admin/functions-admin-settings.php:391
+#: admin/functions-admin-settings.php:437
 msgid "Enable a field to enter dates that are unavailable."
 msgstr "Разрешете поле за въвеждане на дати, които не са налични."
 
-#: admin/functions-admin-settings.php:446
+#: admin/functions-admin-settings.php:492
 msgid "Enable AJAX uploader"
 msgstr "Активиране на програмата за качване на AJAX"
 
-#: admin/functions-admin-settings.php:382
+#: admin/functions-admin-settings.php:428
 msgid "Enable an option to offset the minimum date by a set number of days."
-msgstr ""
-"Активирайте опция за компенсиране на минималната дата с определен брой дни."
+msgstr "Активирайте опция за компенсиране на минималната дата с определен брой дни."
 
-#: admin/functions-admin-settings.php:388
+#: admin/functions-admin-settings.php:434
 msgid "Enable blocked dates"
 msgstr "Активиране на блокирани дати"
 
-#: admin/functions-admin-settings.php:370
+#: admin/functions-admin-settings.php:416
 msgid "Enable days of the week"
 msgstr "Активиране на дни от седмицата"
 
-#: admin/functions-admin-settings.php:63
-msgid "Enable editing"
-msgstr "Разрешаване на редактиране"
-
-#: admin/functions-admin-settings.php:379
+#: admin/functions-admin-settings.php:425
 msgid "Enable offset"
 msgstr "Активиране на отместването"
 
-#: admin/functions-admin-settings.php:438
+#: admin/functions-admin-settings.php:484
 msgid "Enable PDF uploads"
 msgstr "Активиране на PDF качвания"
 
-#: admin/functions-admin-settings.php:622
+#: admin/functions-admin-settings.php:765
 msgid "Enable QuickView for child products"
 msgstr "Активирайте QuickView за дъщерни продукти"
 
-#: admin/customizer.php:514
+#: admin/customizer.php:907
 msgid "Enable summary panel"
 msgstr "Активиране на панела с резюме"
 
-#: admin/functions-admin-settings.php:373
+#: admin/functions-admin-settings.php:419
 msgid "Enable the option to disable specific days of the week."
 msgstr "Активирайте опцията за деактивиране на определени дни от седмицата."
 
-#: admin/functions-custom-panel.php:478
+#: admin/functions-custom-panel.php:547
 msgid "Enable this to automatically increase the product price to the minimum."
-msgstr ""
-"Активирайте това, за да увеличите автоматично цената на продукта до минимума."
+msgstr "Активирайте това, за да увеличите автоматично цената на продукта до минимума."
 
-#: admin/functions-admin-settings.php:606
-msgid ""
-"Enable this to automatically remove parent products if a child product is "
-"out of stock."
+#: admin/functions-admin-settings.php:720
+msgid "Enable this to automatically remove parent products if a child product is out of stock."
 msgstr ""
 
-#: admin/functions-admin-settings.php:552
-msgid ""
-"Enable this to display child products as metadata for parent products in the "
-"cart."
+#: admin/functions-admin-settings.php:666
+msgid "Enable this to display child products as metadata for parent products in the cart."
 msgstr ""
 
-#: admin/functions-admin-settings.php:534
+#: admin/functions-admin-settings.php:648
 msgid "Enable this to exclude SKUs from child variant names."
 msgstr "Активирайте това, за да изключите SKU от имена на дъщерни варианти."
 
-#: admin/functions-admin-settings.php:543
+#: admin/functions-admin-settings.php:657
 msgid "Enable this to hide child products in the cart."
 msgstr "Активирайте това, за да скриете дъщерните продукти в количката."
 
-#: admin/functions-admin-settings.php:570
+#: admin/functions-admin-settings.php:684
 msgid "Enable this to hide child products in the order."
 msgstr "Активирайте това, за да скриете дъщерните продукти в поръчката."
 
-#: admin/functions-admin-settings.php:561
+#: admin/functions-admin-settings.php:675
 msgid "Enable this to hide parent products in the cart."
 msgstr "Активирайте това, за да скриете основните продукти в количката."
 
-#: admin/functions-admin-settings.php:579
+#: admin/functions-admin-settings.php:693
 msgid "Enable this to hide parent products in the order."
 msgstr "Активирайте това, за да скриете основните продукти в поръчката."
 
-#: admin/functions-admin-settings.php:525
+#: admin/functions-admin-settings.php:639
 msgid "Enable this to include variations as child products."
 msgstr "Разрешете това, за да включите варианти като дъщерни продукти."
 
-#: admin/functions-admin-settings.php:597
-msgid ""
-"Enable this to multiply child product independent quantities when parent "
-"product quantities are adjusted."
+#: admin/functions-admin-settings.php:711
+msgid "Enable this to multiply child product independent quantities when parent product quantities are adjusted."
 msgstr ""
 
-#: admin/functions-admin-settings.php:616
-msgid ""
-"Enable this to prevent users purchasing child products direct from their "
-"product page."
+#: admin/functions-admin-settings.php:740
+msgid "Enable this to prevent users purchasing child products direct from their product page."
 msgstr ""
 
-#: admin/functions-admin-settings.php:72
+#: admin/functions-admin-settings.php:114
 msgid "Enable tooltips"
 msgstr "Активиране на подсказки"
 
-#: admin/functions-admin-settings.php:659
+#: admin/functions-admin-settings.php:812
 msgid "Enter a value for variable_1 that will be used in calculations"
 msgstr "Въведете стойност за променлива_1, която ще се използва в изчисленията"
 
-#: admin/functions-admin-settings.php:670
+#: admin/functions-admin-settings.php:823
 msgid "Enter a value for variable_2 that will be used in calculations"
 msgstr "Въведете стойност за променлива_2, която ще се използва в изчисленията"
 
-#: admin/functions-admin-settings.php:681
+#: admin/functions-admin-settings.php:834
 msgid "Enter a value for variable_3 that will be used in calculations"
 msgstr "Въведете стойност за променлива_3, която ще се използва в изчисленията"
 
-#: admin/functions-admin-settings.php:242
-msgid ""
-"Enter the roles that you would like to have different add-on prices for."
+#: admin/functions-admin-settings.php:97
+msgid "Enter the roles that you would like to have different add-on prices for."
 msgstr ""
 
-#: admin/functions-admin-settings.php:725
-msgid ""
-"Enter your license key here. You should have received a key with the email "
-"containing the plugin download link."
+#: admin/functions-admin-settings.php:878
+msgid "Enter your license key here. You should have received a key with the email containing the plugin download link."
 msgstr ""
 
-#: inc/functions-pro-helpers.php:40
+#: inc/functions-pro-helpers.php:41
 msgid "enter your Pro licence key here"
 msgstr ""
 
-#: inc/functions-conditionals.php:135
+#: inc/functions-conditionals.php:137
 msgid "Equals"
 msgstr ""
 
-#: classes/class-pewc-sl-plugin-updater.php:487
-msgid "Error"
-msgstr "Грешка"
-
-#: admin/functions-admin-settings.php:531
+#: admin/functions-admin-settings.php:645
 msgid "Exclude SKUs from child variants"
 msgstr "Изключване на SKU от дъщерните варианти"
 
-#: templates/admin/group-meta-actions.php:14
-msgid "Expand"
-msgstr "Разгъване"
-
-#: admin/functions-admin-export.php:35 admin/functions-admin-import.php:26
+#: admin/functions-admin-export.php:35
+#: admin/functions-admin-import-export-aou.php:119
+#: admin/functions-admin-import-export-aou.php:261
+#: admin/functions-admin-import-export-aou.php:401
+#: admin/functions-admin-import.php:26
 msgid "Export"
 msgstr "Износ"
 
-#: admin/functions-admin-export.php:21 admin/functions-admin-export.php:22
+#: admin/functions-admin-export.php:21
+#: admin/functions-admin-export.php:22
 msgid "Export Orders"
 msgstr "Експортни поръчки"
 
@@ -984,30 +922,31 @@ msgstr "Експортни поръчки"
 msgid "Export Product Add-Ons by Order"
 msgstr "Експортиране на продуктови добавки по поръчка"
 
-#: inc/functions-media.php:493
+#: inc/functions-media.php:597
 msgid "Failed"
 msgstr "Провали се"
 
-#: admin/functions-fields.php:485 admin/functions-fields.php:504
-#: classes/class-pewc-product-extra-post-type.php:189
-#: classes/class-pewc-product-extra-post-type.php:387
-#: templates/admin/field-item.php:45 templates/admin/new-field-item.php:19
+#: admin/functions-fields.php:509
+#: admin/functions-fields.php:528
+#: classes/class-pewc-product-extra-post-type.php:212
+#: classes/class-pewc-product-extra-post-type.php:510
+#: templates/admin/field-item.php:69
 msgid "Field"
 msgstr "Поле"
 
-#: admin/customizer.php:272
+#: admin/customizer.php:292
 msgid "Field Background Colour"
 msgstr "Цвят на фона на полето"
 
-#: templates/admin/field-item.php:718 templates/admin/new-field-item.php:445
+#: templates/admin/sections/general.php:183
 msgid "Field Description"
 msgstr "Описание на полето"
 
-#: templates/admin/field-item.php:705 templates/admin/new-field-item.php:433
+#: templates/admin/sections/general.php:165
 msgid "Field Image"
 msgstr "Полево изображение"
 
-#: templates/admin/field-item.php:62 templates/admin/new-field-item.php:34
+#: templates/admin/sections/general.php:21
 msgid "Field Label"
 msgstr "Етикет на полето"
 
@@ -1015,11 +954,11 @@ msgstr "Етикет на полето"
 msgid "Field label"
 msgstr "Етикет на полето"
 
-#: admin/customizer.php:212
+#: admin/customizer.php:232
 msgid "Field Margin Bottom"
 msgstr "Поле отдолу"
 
-#: admin/customizer.php:192
+#: admin/customizer.php:212
 msgid "Field Margin Left"
 msgstr "Ляво поле на полето"
 
@@ -1027,115 +966,113 @@ msgstr "Ляво поле на полето"
 msgid "Field not created"
 msgstr "Полето не е създадено"
 
-#: admin/customizer.php:252
+#: admin/customizer.php:272
 msgid "Field Padding (Left and Right)"
 msgstr "Попълване на полето (ляво и дясно)"
 
-#: admin/customizer.php:232
+#: admin/customizer.php:252
 msgid "Field Padding (Top and Bottom)"
 msgstr "Подложка на поле (отгоре и отдолу)"
 
-#: templates/admin/field-item.php:84 templates/admin/new-field-item.php:53
-#: templates/admin/views/role-based-prices.php:55
+#: templates/admin/sections/pricing.php:20
+#: templates/admin/views/role-based-prices.php:52
 msgid "Field Price"
 msgstr ""
 
-#: templates/admin/views/price-visibility.php:37
+#: templates/admin/views/price-visibility.php:42
 msgid "Field Price Visibility"
 msgstr "Видимост на цената на полето"
 
-#: templates/admin/field-item.php:69 templates/admin/new-field-item.php:41
+#: templates/admin/sections/general.php:45
 msgid "Field Type"
 msgstr "Тип поле"
 
-#: admin/functions-custom-panel.php:191 admin/metaboxes.php:145
-#: admin/metaboxes.php:262 classes/class-pewc-product-extra-post-type.php:176
-#: classes/class-pewc-product-extra-post-type.php:188
+#: admin/functions-admin-settings.php:181
+#: admin/metaboxes.php:156
+#: admin/metaboxes.php:277
+#: classes/class-pewc-product-extra-post-type.php:199
+#: classes/class-pewc-product-extra-post-type.php:211
+#: templates/admin/group.php:178
 msgid "Fields"
 msgstr "Полета"
 
-#: admin/customizer.php:171
+#: admin/customizer.php:191
 msgid "Fields Wrapper Background Colour"
 msgstr "Цвят на фона на обвивката на полета"
 
-#: admin/customizer.php:132
+#: admin/customizer.php:152
 msgid "Fields Wrapper Margin Bottom"
 msgstr "Долно поле на обвивка на полета"
 
-#: admin/customizer.php:112
+#: admin/customizer.php:132
 msgid "Fields Wrapper Margin Left"
 msgstr "Поле за обвивка отляво"
 
-#: admin/customizer.php:152
+#: admin/customizer.php:172
 msgid "Fields Wrapper Padding"
 msgstr "Подложка за обвивка на полета"
 
-#: inc/functions-media.php:382
+#: inc/functions-media.php:474
 msgid "File not valid"
 msgstr "Файлът не е валиден"
 
-#: inc/functions-cart.php:1421 inc/functions-media.php:194
-#: inc/functions-media.php:208 inc/functions-media.php:230
+#: inc/functions-cart.php:2832
+#: inc/functions-media.php:217
+#: inc/functions-media.php:231
+#: inc/functions-media.php:259
 msgid "File not valid."
 msgstr "Файлът не е валиден."
 
-#: admin/functions-admin-menu.php:164
+#: admin/functions-admin-menu.php:170
 msgid "Find more videos on YouTube."
 msgstr "Намерете още видеоклипове в YouTube."
 
-#: templates/admin/views/option-fields-new.php:48
-#: templates/admin/views/option-fields.php:70
+#: templates/admin/views/option-fields-new.php:54
+#: templates/admin/views/option-fields.php:91
 msgid "First field is instruction only"
 msgstr "Първото поле е само инструкция"
 
-#: templates/admin/field-item.php:344
+#: templates/admin/sections/pricing.php:143
 msgid "Fixed Amount"
 msgstr "Фиксирана сума"
 
-#: inc/functions-cart.php:1735
+#: inc/functions-cart.php:2038
 msgid "Flat rate cost"
 msgstr "Фиксирана цена"
 
-#: admin/customizer.php:492 admin/functions-admin-settings.php:217
+#: admin/customizer.php:885
+#: admin/functions-admin-settings.php:323
 #: templates/frontend/price-subtotals.php:32
 msgid "Flat rate total"
 msgstr "Общо фиксирана ставка"
 
-#: admin/customizer.php:585 admin/functions-admin-settings.php:212
+#: admin/customizer.php:977
+#: admin/functions-admin-settings.php:318
 msgid "Flat rate total label"
 msgstr "Общ етикет с фиксирана ставка"
 
-#: templates/admin/field-item.php:365 templates/admin/new-field-item.php:226
+#: templates/admin/sections/pricing.php:73
 msgid "Flat Rate?"
 msgstr "Фиксирана ставка?"
 
-#: admin/functions-admin-settings.php:424
-msgid ""
-"For security reasons, it is strongly recommended that you require users to "
-"be logged in before allowing them to upload files."
+#: admin/functions-admin-settings.php:470
+msgid "For security reasons, it is strongly recommended that you require users to be logged in before allowing them to upload files."
 msgstr ""
 
 #: inc/functions-migration.php:176
-msgid ""
-"For the vast majority of users, you won't notice a difference after the "
-"migration has completed. However, if you have extended the plugin and you "
-"are making use of the IDs of Product Add-Ons, you'll need to update to the "
-"new IDs."
+msgid "For the vast majority of users, you won't notice a difference after the migration has completed. However, if you have extended the plugin and you are making use of the IDs of Product Add-Ons, you'll need to update to the new IDs."
 msgstr ""
 
-#: admin/functions-custom-panel.php:476
+#: admin/functions-custom-panel.php:545
 msgid "Force minimum price"
 msgstr "Принудителна минимална цена"
 
-#: templates/admin/views/calculation-fields.php:35
+#: templates/admin/sections/calculations.php:46
 msgid "Formula"
 msgstr ""
 
-#: templates/admin/field-item.php:456 templates/admin/new-field-item.php:302
-msgid "Free Chars"
-msgstr "Безплатни знаци"
-
-#: templates/admin/field-item.php:578
+#: templates/admin/sections/calendar-list.php:85
+#: templates/admin/sections/date.php:100
 msgid "Friday"
 msgstr "петък"
 
@@ -1143,37 +1080,37 @@ msgstr "петък"
 msgid "Front End Title"
 msgstr "Заглавие на предния край"
 
-#: admin/customizer.php:330
+#: admin/customizer.php:350
 msgid "Full Width Number Fields "
 msgstr "Числови полета с пълна ширина"
 
-#: admin/customizer.php:373
+#: admin/customizer.php:393
 msgid "Full Width Select Fields "
 msgstr "Полета за избор на пълна ширина"
 
-#: admin/customizer.php:311
+#: admin/customizer.php:331
 msgid "Full Width Text Fields "
 msgstr "Текстови полета с пълна ширина"
 
-#: admin/customizer.php:37 admin/functions-admin-settings.php:21
-#: classes/class-pewc-settings-tab.php:93
+#: classes/class-pewc-settings-tab.php:105
+#: templates/admin/field-item.php:81
 msgid "General"
 msgstr "Общи"
-
-#: classes/class-pewc-settings-tab.php:188
-msgid "Get error message."
-msgstr "Получаване на съобщение за грешка."
 
 #: admin/functions-admin-menu.php:72
 msgid "Getting Started"
 msgstr "Първи стъпки"
 
-#: admin/functions-admin-post-types.php:143
-#: admin/functions-admin-settings.php:113
+#: admin/functions-admin-import-export-aou.php:88
+#: admin/functions-admin-import-export-aou.php:107
+#: admin/functions-admin-post-types.php:168
+#: admin/functions-admin-settings.php:211
 msgid "Global"
 msgstr "Глобален"
 
-#: inc/functions-global-extras.php:29 inc/functions-global-extras.php:30
+#: admin/functions-admin-import-export-aou.php:200
+#: inc/functions-global-extras.php:29
+#: inc/functions-global-extras.php:30
 msgid "Global Add-Ons"
 msgstr ""
 
@@ -1181,55 +1118,56 @@ msgstr ""
 msgid "Global add-ons"
 msgstr "Глобални добавки"
 
-#: classes/class-pewc-product-extra-post-type.php:157
-#: classes/class-pewc-product-extra-post-type.php:158
+#: admin/functions-admin-import-export-aou.php:198
+#: classes/class-pewc-product-extra-post-type.php:180
+#: classes/class-pewc-product-extra-post-type.php:181
 msgid "Global Groups"
 msgstr "Глобални групи"
 
-#: inc/functions-global-extras.php:54 inc/functions-global-extras.php:119
+#: inc/functions-global-extras.php:54
+#: inc/functions-global-extras.php:119
 msgid "Global Product Add-Ons"
 msgstr ""
 
-#: inc/functions-global-extras.php:84 inc/functions-migration.php:45
+#: inc/functions-global-extras.php:84
+#: inc/functions-migration.php:45
 msgid "Go to Migration Page"
 msgstr ""
 
-#: admin/customizer.php:503 admin/functions-admin-settings.php:225
+#: admin/customizer.php:896
+#: admin/functions-admin-settings.php:331
 #: templates/frontend/price-subtotals.php:41
 msgid "Grand total"
 msgstr "Общо"
 
-#: admin/customizer.php:595 admin/functions-admin-settings.php:220
+#: admin/customizer.php:987
+#: admin/functions-admin-settings.php:326
 msgid "Grand total label"
 msgstr "Етикет за обща сума"
 
-#: inc/functions-conditionals.php:136
+#: inc/functions-conditionals.php:138
 msgid "Greater Than"
 msgstr ""
 
-#: admin/functions-custom-panel.php:172
-#: classes/class-pewc-product-extra-post-type.php:145
+#: admin/functions-custom-panel.php:181
+#: classes/class-pewc-product-extra-post-type.php:168
 #: templates/admin/new-group.php:22
 msgid "Group"
 msgstr "Група"
 
-#: templates/admin/group.php:58
+#: templates/admin/group.php:98
 msgid "Group Conditions"
 msgstr "Групови условия"
 
-#: admin/metaboxes.php:111 templates/admin/group.php:29
-#: templates/admin/new-group.php:47
+#: admin/metaboxes.php:115
+#: templates/admin/group.php:47
 msgid "Group Description"
 msgstr "Описание на групата"
 
-#: admin/metaboxes.php:118 templates/admin/group.php:41
-#: templates/admin/new-group.php:58
+#: admin/metaboxes.php:122
+#: templates/admin/group.php:63
 msgid "Group Layout"
 msgstr "Групово оформление"
-
-#: admin/metaboxes.php:253
-msgid "Group Meta"
-msgstr "Групови мета"
 
 #: admin/functions-admin-post-types.php:40
 msgid "Group Name"
@@ -1239,65 +1177,66 @@ msgstr "Име на групата"
 msgid "Group not created"
 msgstr "Групата не е създадена"
 
-#: admin/metaboxes.php:131
+#: admin/metaboxes.php:142
 msgid "Group Rules"
 msgstr "Правила на групата"
 
-#: templates/admin/group.php:17 templates/admin/new-group.php:36
+#: templates/admin/group.php:34
 msgid "Group Title"
 msgstr "Заглавие на групата"
 
-#: admin/metaboxes.php:104
+#: admin/metaboxes.php:108
 msgid "Group Title (Front End)"
 msgstr "Заглавие на групата (преден край)"
 
-#: classes/class-pewc-product-extra-post-type.php:130
-#: classes/class-pewc-product-extra-post-type.php:144
+#: admin/customizer.php:65
+#: admin/functions-admin-settings.php:182
+#: classes/class-pewc-product-extra-post-type.php:167
 msgid "Groups"
 msgstr "Групи"
 
 #: admin/functions-admin-menu.php:77
-msgid ""
-"Here are some links to documents to help with setting the plugin up for the "
-"first time."
+msgid "Here are some links to documents to help with setting the plugin up for the first time."
 msgstr ""
 
-#: templates/admin/views/price-visibility.php:46
-#: templates/admin/views/price-visibility.php:69
+#: templates/admin/views/price-visibility.php:54
+#: templates/admin/views/price-visibility.php:82
 msgid "Hidden"
 msgstr "Скрит"
 
-#: templates/admin/views/calculation-fields.php:53
+#: templates/admin/sections/calculations.php:66
 msgid "Hide Calculation?"
 msgstr ""
 
-#: admin/functions-admin-settings.php:540
+#: admin/functions-admin-settings.php:654
 msgid "Hide child products in the cart"
 msgstr "Скриване на детски продукти в количката"
 
-#: admin/functions-admin-settings.php:567
+#: admin/functions-admin-settings.php:681
 msgid "Hide child products in the order"
 msgstr "Скриване на дъщерните продукти в поръчката"
 
-#: templates/admin/field-item.php:289 templates/admin/new-field-item.php:181
+#: templates/admin/sections/display.php:61
 msgid "Hide Labels?"
 msgstr "Скриване на етикети?"
 
-#: templates/admin/views/price-visibility.php:45
-#: templates/admin/views/price-visibility.php:68
+#: templates/admin/sections/general.php:94
+#: templates/admin/views/price-visibility.php:53
+#: templates/admin/views/price-visibility.php:81
 msgid "Hide on product page only"
 msgstr "Скриване само на продуктовата страница"
 
-#: admin/functions-admin-settings.php:558
+#: admin/functions-admin-settings.php:672
 msgid "Hide parent products in the cart"
 msgstr "Скриване на основните продукти в количката"
 
-#: admin/functions-admin-settings.php:576
+#: admin/functions-admin-settings.php:690
 msgid "Hide parent products in the order"
 msgstr "Скриване на основните продукти в поръчката"
 
-#: admin/customizer.php:541 admin/functions-admin-settings.php:177
-#: admin/functions-custom-panel.php:459
+#: admin/customizer.php:934
+#: admin/functions-admin-settings.php:283
+#: admin/functions-custom-panel.php:528
 msgid "Hide price"
 msgstr "Скриване на цената"
 
@@ -1305,15 +1244,15 @@ msgstr "Скриване на цената"
 msgid "Hide prices in the cart for extras which don't have a cost."
 msgstr "Скриване на цените в количката за екстри, които нямат цена."
 
-#: inc/functions-conditionals.php:107
+#: inc/functions-conditionals.php:109
 msgid "Hide this field if"
 msgstr ""
 
-#: admin/customizer.php:556 admin/functions-admin-settings.php:191
+#: admin/customizer.php:948
 msgid "Hide totals"
 msgstr "Скриване на сумите"
 
-#: admin/functions-admin-settings.php:294
+#: admin/functions-admin-settings.php:1025
 msgid "Hide totals until validated"
 msgstr "Скриване на общите суми до валидиране"
 
@@ -1321,122 +1260,100 @@ msgstr "Скриване на общите суми до валидиране"
 msgid "Hide zero prices"
 msgstr "Скриване на нулеви цени"
 
-#: classes/class-pewc-settings-tab.php:172
-msgid "How to solve any problems with activating your licence."
-msgstr "Как да разрешите проблеми с активирането на вашия лиценз."
-
-#. Author URI of the plugin/theme
+#. Author URI of the plugin
+#: product-extras-for-woocommerce.php
 msgid "https://pluginrepublic.com/"
 msgstr ""
 
-#. Plugin URI of the plugin/theme
-msgid ""
-"https://pluginrepublic.com/wordpress-plugins/woocommerce-product-add-ons-"
-"ultimate/"
+#. Plugin URI of the plugin
+#: product-extras-for-woocommerce.php
+msgid "https://pluginrepublic.com/wordpress-plugins/woocommerce-product-add-ons-ultimate/"
 msgstr ""
 
 #: admin/functions-admin-post-types.php:38
 msgid "ID"
 msgstr ""
 
-#: classes/class-pewc-settings-tab.php:168
-msgid ""
-"If the licence key is correct and you're still seeing this message, please "
-"check the link below for help."
-msgstr ""
-
-#: classes/class-pewc-settings-tab.php:176
-msgid "If you are asked for an error code, please click the following link."
-msgstr ""
-"Ако бъдете попитани за код за грешка, моля, щракнете върху следната връзка."
-
 #: admin/functions-duplication.php:89
-msgid ""
-"If you are duplicating products with add-on fields, please check the "
-"following article"
+msgid "If you are duplicating products with add-on fields, please check the following article"
 msgstr ""
 
-#: classes/class-pewc-product-extra-post-type.php:124
-msgid ""
-"If you are looking to add or edit a Product Add On, you can do so from the "
-"Product Data panel when you add or edit a product or from the Global Add-Ons "
-"page."
+#: classes/class-pewc-product-extra-post-type.php:147
+msgid "If you are looking to add or edit a Product Add On, you can do so from the Product Data panel when you add or edit a product or from the Global Add-Ons page."
 msgstr ""
 
-#: inc/functions-pro-helpers.php:55
+#: inc/functions-pro-helpers.php:56
 #, php-format
 msgid "If you have recently upgraded to Pro, please %s."
 msgstr ""
 
-#: templates/admin/variation.php:16
-msgid ""
-"If you only want to show this field for certain variations, enter the "
-"variation IDs below. Leave empty to show for all variations."
+#: templates/admin/sections/conditions.php:38
+msgid "If you only want to show this field for certain variations, enter the variation IDs below. Leave empty to show for all variations."
 msgstr ""
 
-#: admin/functions-admin-menu.php:119
-msgid ""
-"If you'd like some help with more advanced features, check out the links "
-"below."
+#: admin/functions-admin-menu.php:125
+msgid "If you'd like some help with more advanced features, check out the links below."
 msgstr ""
 
-#: admin/functions-admin-settings.php:36
+#: admin/functions-admin-settings.php:46
 msgid "Ignore tax setting"
 msgstr "Игнориране на данъчната настройка"
 
-#: admin/functions-admin-settings.php:39
-msgid ""
-"Ignore the WooCommerce \"Display prices in the shop\" setting which "
-"determines whether prices are displaying including or excluding tax."
+#: admin/functions-admin-settings.php:49
+msgid "Ignore the WooCommerce \"Display prices in the shop\" setting which determines whether prices are displaying including or excluding tax."
 msgstr ""
 
-#: admin/functions-custom-panel.php:409 inc/functions-pro-helpers.php:24
+#: inc/functions-pro-helpers.php:24
 msgid "Image Swatch"
 msgstr "Мостра на изображението"
 
+#: admin/functions-admin-import-export-aou.php:118
+#: admin/functions-admin-import-export-aou.php:354
 #: admin/functions-admin-import.php:25
 msgid "Import"
 msgstr "Внасяне"
 
+#: admin/functions-admin-import-export-aou.php:45
+#: admin/functions-admin-import-export-aou.php:293
+#: admin/functions-admin-import-export-aou.php:306
+#: admin/functions-admin-import-export-aou.php:307
+#: admin/functions-admin-import-export-aou.php:343
 #: templates/admin/import-groups.php:42
 msgid "Import Groups"
 msgstr ""
-
-#: templates/admin/import-groups.php:16
-msgid "Import groups from"
-msgstr "Импортиране на групи от"
 
 #: admin/functions-duplication.php:91
 msgid "Important Information when Duplicating Product Add-Ons"
 msgstr "Важна информация при дублиране на продуктови добавки"
 
 #: templates/admin/import-groups.php:37
-msgid ""
-"Imported groups will appear after any groups already registered to this "
-"product."
+msgid "Imported groups will appear after any groups already registered to this product."
 msgstr ""
 
-#: admin/functions-admin-settings.php:522
+#: admin/functions-admin-settings.php:636
 msgid "Include variations as child products"
 msgstr "Включете варианти като дъщерни продукти"
 
-#: admin/functions-admin-settings.php:585
+#: admin/functions-admin-settings.php:699
 msgid "Indent child products"
 msgstr "Отстъп на дъщерни продукти"
 
-#: templates/admin/field-item.php:243 templates/admin/new-field-item.php:148
+#: templates/admin/sections/products.php:159
 msgid "Independent"
 msgstr "Независим"
 
-#: admin/functions-custom-panel.php:410
+#: admin/functions-custom-panel.php:478
+#: templates/admin/field-item.php:92
+#: templates/admin/sections/information.php:20
 msgid "Information"
 msgstr "Информация"
 
-#: admin/customizer.php:70
+#: admin/customizer.php:89
 msgid "Inherit from theme"
 msgstr "Наследяване от темата"
 
-#: admin/functions-admin-settings.php:321
+#: admin/functions-admin-settings.php:902
+#: classes/class-pewc-settings-tab.php:113
 msgid "Integrations"
 msgstr "Интеграции"
 
@@ -1449,68 +1366,48 @@ msgstr "Невалиден ID на полето за добавка."
 msgid "Invalid Add-on Group ID."
 msgstr "Невалиден идентификатор на група добавки."
 
-#: classes/rest-api/class-pewc-rest-api-fields-controller.php:136
-#: classes/rest-api/class-pewc-rest-api-groups-controller.php:118
-msgid "Invalid product ID."
-msgstr "Невалиден идентификатор на продукта."
-
-#: inc/functions-conditionals.php:131
+#: inc/functions-conditionals.php:133
 msgid "Is"
 msgstr ""
 
-#: inc/functions-conditionals.php:132
+#: inc/functions-conditionals.php:134
 msgid "Is Not"
 msgstr ""
 
-#: classes/class-pewc-settings-tab.php:164
-msgid ""
-"It hasn't been possible to validate your licence key. Please check that "
-"you've entered it correctly. Remember, the licence key will be on the email "
-"you were sent with the downloadable plugin files."
-msgstr ""
-
-#: admin/metaboxes.php:65
+#: admin/metaboxes.php:69
 msgid "Item Cost"
 msgstr "Цена на артикул"
 
-#. translators: %s: product name
-#: inc/functions-cart.php:1954
-#, php-format
-msgctxt "Item name in quotes"
-msgid "&ldquo;%s&rdquo;"
-msgstr ""
-
-#: templates/admin/views/information.php:18
+#: templates/admin/sections/information.php:33
+#: templates/admin/views/option-fields.php:38
 msgid "Label"
 msgstr "Етикет"
 
-#: admin/functions-admin-settings.php:153
+#: admin/customizer.php:38
+#: admin/functions-admin-settings.php:259
 msgid "Labels"
 msgstr "Етикети"
 
-#: inc/functions-conditionals.php:137
+#: inc/functions-conditionals.php:139
 msgid "Less Than"
 msgstr ""
 
-#: classes/class-pewc-settings-tab.php:103
-msgid "Licence"
-msgstr "Лиценз"
-
-#: classes/class-pewc-settings-tab.php:141
-#: classes/class-pewc-settings-tab.php:230
-#: classes/class-pewc-settings-tab.php:286
+#: classes/class-pewc-settings-tab.php:156
+#: classes/class-pewc-settings-tab.php:242
+#: classes/class-pewc-settings-tab.php:298
 msgid "Licence key"
 msgstr "Лицензионен ключ"
 
-#: admin/functions-admin-settings.php:722
+#: admin/functions-admin-settings.php:875
 msgid "License key"
 msgstr "Лицензионен ключ"
 
-#: templates/admin/group-settings.php:27
+#: admin/functions-admin-settings.php:773
+#: templates/admin/group-settings.php:44
 msgid "Lightbox"
 msgstr "Лайтбокс"
 
-#: templates/admin/field-item.php:244 templates/admin/new-field-item.php:149
+#: templates/admin/sections/products.php:160
 msgid "Linked"
 msgstr "Свързан"
 
@@ -1518,123 +1415,115 @@ msgstr "Свързан"
 msgid "List of add-on groups under a product."
 msgstr "Списък с групи добавки към продукт."
 
-#: inc/functions-single-product.php:1236 inc/functions-single-product.php:1249
+#: inc/functions-single-product.php:1657
+#: inc/functions-single-product.php:1670
 msgid "Max"
 msgstr ""
 
-#: templates/admin/field-item.php:431 templates/admin/new-field-item.php:278
-msgid "Max Chars"
-msgstr "Макс. знаци"
-
-#: templates/admin/field-item.php:318 templates/admin/new-field-item.php:206
+#: templates/admin/sections/products.php:192
 msgid "Max Child Products"
 msgstr "Максимални дъщерни продукти"
 
-#: templates/admin/field-item.php:552 templates/admin/new-field-item.php:364
+#: templates/admin/sections/date.php:67
 msgid "Max date"
 msgstr "Максимална дата"
 
-#: inc/functions-single-product.php:1258
+#: inc/functions-single-product.php:1679
 msgid "Max file size"
 msgstr "Максимален размер на файла"
 
-#: admin/functions-admin-settings.php:430
+#: admin/functions-admin-settings.php:476
 msgid "Max file size (MB)"
 msgstr "Максимален размер на файла (MB)"
 
-#: templates/admin/field-item.php:405 templates/admin/new-field-item.php:260
+#: templates/admin/sections/uploads.php:32
 msgid "Max Files"
 msgstr "Макс. файлове"
 
-#: templates/admin/field-item.php:126 templates/admin/new-field-item.php:84
+#: templates/admin/sections/options.php:47
 msgid "Max Number"
 msgstr "Максимален номер"
 
-#: templates/admin/field-item.php:495 templates/admin/new-field-item.php:333
+#: templates/admin/sections/number.php:34
 msgid "Max Value"
 msgstr "Максимална стойност"
 
 #: inc/functions-migration.php:87
-msgid ""
-"Migration complete. All your Product Add-Ons have been migrated. Thank you."
+msgid "Migration complete. All your Product Add-Ons have been migrated. Thank you."
 msgstr ""
 
-#: inc/functions-single-product.php:1225 inc/functions-single-product.php:1242
+#: inc/functions-single-product.php:1646
+#: inc/functions-single-product.php:1663
 msgid "Min"
 msgstr ""
 
-#: templates/admin/field-item.php:423 templates/admin/new-field-item.php:271
-msgid "Min Chars"
-msgstr "Минимални символи"
-
-#: templates/admin/field-item.php:310 templates/admin/new-field-item.php:199
+#: templates/admin/sections/products.php:175
 msgid "Min Child Products"
 msgstr "Минимални дъщерни продукти"
 
-#: templates/admin/field-item.php:540 templates/admin/new-field-item.php:357
+#: templates/admin/sections/date.php:51
 msgid "Min date"
 msgstr "Мин дата"
 
-#: templates/admin/field-item.php:531 templates/admin/new-field-item.php:350
+#: templates/admin/sections/date.php:37
 msgid "Min date today?"
 msgstr "Минимална дата днес?"
 
-#: templates/admin/field-item.php:118 templates/admin/new-field-item.php:77
+#: templates/admin/sections/options.php:30
 msgid "Min Number"
 msgstr "Минимален номер"
 
-#: templates/admin/field-item.php:487 templates/admin/new-field-item.php:326
+#: templates/admin/sections/number.php:21
 msgid "Min Value"
 msgstr "Минимална стойност"
 
-#: admin/functions-custom-panel.php:467
+#: admin/functions-custom-panel.php:536
 msgid "Minimum price"
 msgstr "Минимална цена"
 
-#: inc/functions-single-product.php:1364
+#: inc/functions-single-product.php:1785
 msgid "Minimum price:"
 msgstr "Минимална цена:"
 
 #: classes/rest-api/class-pewc-rest-api-fields-controller.php:208
 #: classes/rest-api/class-pewc-rest-api-fields-controller.php:245
-msgid ""
-"Missing field data. Please pass at least one value to use this endpoint."
+msgid "Missing field data. Please pass at least one value to use this endpoint."
 msgstr ""
 
 #: classes/rest-api/class-pewc-rest-api-groups-controller.php:225
-msgid ""
-"Missing group data. Please pass at least one value to use this endpoint."
+msgid "Missing group data. Please pass at least one value to use this endpoint."
 msgstr ""
 
-#: templates/admin/field-item.php:574
+#: templates/admin/sections/calendar-list.php:81
+#: templates/admin/sections/date.php:96
 msgid "Monday"
 msgstr "понеделник"
 
-#: admin/functions-admin-settings.php:594
+#: admin/functions-admin-settings.php:708
 msgid "Multiply independent quantities"
 msgstr "Умножаване на независими величини"
 
-#: templates/admin/field-item.php:502 templates/admin/new-field-item.php:340
+#: templates/admin/sections/number.php:62
 msgid "Multiply Price?"
 msgstr "Умножаване на цената?"
 
-#: admin/functions-custom-panel.php:411
+#: admin/functions-custom-panel.php:479
 msgid "Name Your Price"
 msgstr "Назовете цената си"
 
-#: classes/class-pewc-product-extra-post-type.php:91
+#: classes/class-pewc-product-extra-post-type.php:114
 msgid "New "
 msgstr "Ново"
 
-#: classes/class-pewc-product-extra-post-type.php:194
+#: classes/class-pewc-product-extra-post-type.php:217
 msgid "New Field"
 msgstr "Ново поле"
 
-#: classes/class-pewc-product-extra-post-type.php:150
+#: classes/class-pewc-product-extra-post-type.php:173
 msgid "New Group"
 msgstr "Нова група"
 
-#: inc/functions-pro-helpers.php:150
+#: inc/functions-pro-helpers.php:152
 msgid "Next"
 msgstr ""
 
@@ -1642,19 +1531,19 @@ msgstr ""
 msgid "No assigned products"
 msgstr "Няма присвоени продукти"
 
-#: templates/admin/views/calculation-fields.php:74
+#: templates/admin/sections/calculations.php:93
 msgid "No rounding"
 msgstr ""
 
-#: classes/class-pewc-product-extra-post-type.php:95
-#: classes/class-pewc-product-extra-post-type.php:154
-#: classes/class-pewc-product-extra-post-type.php:198
+#: classes/class-pewc-product-extra-post-type.php:118
+#: classes/class-pewc-product-extra-post-type.php:177
+#: classes/class-pewc-product-extra-post-type.php:221
 msgid "None found"
 msgstr "Няма намерени"
 
-#: classes/class-pewc-product-extra-post-type.php:96
-#: classes/class-pewc-product-extra-post-type.php:155
-#: classes/class-pewc-product-extra-post-type.php:199
+#: classes/class-pewc-product-extra-post-type.php:119
+#: classes/class-pewc-product-extra-post-type.php:178
+#: classes/class-pewc-product-extra-post-type.php:222
 msgid "None found in trash"
 msgstr "Няма намерени в кошчето"
 
@@ -1662,123 +1551,112 @@ msgstr "Няма намерени в кошчето"
 msgid "Not a product"
 msgstr "Не е продукт"
 
-#: admin/functions-admin-export.php:62 admin/metaboxes.php:176
+#: admin/functions-admin-export.php:62
+#: admin/metaboxes.php:187
 msgid "Notes"
 msgstr "Бележки"
 
-#: admin/functions-custom-panel.php:412
+#: admin/functions-custom-panel.php:480
+#: templates/admin/field-item.php:88
 msgid "Number"
 msgstr "Число"
 
-#: templates/admin/field-item.php:280 templates/admin/new-field-item.php:174
+#: templates/admin/sections/display.php:39
 msgid "Number Columns"
 msgstr "Колони с номера"
 
-#: templates/admin/field-item.php:521
+#: templates/admin/sections/date.php:23
 msgid "Offset days"
 msgstr "Дни на компенсиране"
 
-#: classes/class-pewc-product-extra-post-type.php:493
-#: inc/functions-global-extras.php:530
+#: classes/class-pewc-product-extra-post-type.php:634
+#: inc/functions-global-extras.php:578
 msgid "On all products"
 msgstr "На всички продукти"
 
-#: inc/functions-products.php:890
-msgid ""
-"One of the options in this order is out of stock so the product has been "
-"removed from the cart"
+#: inc/functions-products.php:1027
+msgid "One of the options in this order is out of stock so the product has been removed from the cart"
 msgstr ""
 
-#: templates/admin/field-item.php:245 templates/admin/new-field-item.php:150
+#: templates/admin/sections/products.php:161
 msgid "One only"
 msgstr "Само един"
 
-#: templates/admin/field-item.php:463 templates/admin/new-field-item.php:309
+#: templates/admin/sections/text.php:82
 msgid "Only Allow Alphanumeric?"
 msgstr "Разрешаване само на буквено-цифрови?"
 
-#: templates/admin/field-item.php:471 templates/admin/new-field-item.php:316
+#: templates/admin/sections/text.php:95
 msgid "Only Charge Alphanumeric?"
 msgstr "Таксуване само буквено-цифрово?"
 
-#: admin/functions-admin-settings.php:306
-msgid ""
-"Opt in to beta testing the plugin. You should only choose this option on a "
-"staging or development site - don't enable this on your live site."
-msgstr ""
-
-#: admin/functions-admin-settings.php:267
-msgid "Optimise calculations"
-msgstr "Оптимизиране на изчисленията"
-
-#: admin/functions-admin-settings.php:276
-msgid "Optimise conditions"
-msgstr "Оптимизиране на условията"
-
-#: admin/functions-admin-settings.php:285
+#: admin/functions-admin-settings.php:1016
 msgid "Optimised validation"
 msgstr "Оптимизирано валидиране"
 
-#: templates/admin/views/option-fields-new.php:21
-#: templates/admin/views/option-fields.php:21
+#: templates/admin/views/option-fields-new.php:27
 msgid "Option"
 msgstr "Опция"
 
-#: templates/admin/views/price-visibility.php:60
+#: templates/admin/views/price-visibility.php:70
 msgid "Option Price Visibility"
 msgstr "Видимост на цената на опцията"
 
-#: admin/customizer.php:481 admin/functions-admin-settings.php:209
+#: admin/customizer.php:874
+#: admin/functions-admin-settings.php:315
 #: templates/frontend/price-subtotals.php:23
 msgid "Options total"
 msgstr "Общо опции"
 
-#: admin/customizer.php:575 admin/functions-admin-settings.php:204
+#: admin/customizer.php:967
+#: admin/functions-admin-settings.php:310
 msgid "Options total label"
 msgstr "Общ етикет на опциите"
 
-#: classes/class-pewc-product-extra-post-type.php:917
+#: classes/class-pewc-product-extra-post-type.php:1076
 msgid "Order"
 msgstr "Заповед"
 
-#: admin/metaboxes.php:217
+#: admin/metaboxes.php:232
 msgid "Order Details"
 msgstr "Подробности за поръчката"
 
-#: admin/functions-admin-export.php:59 admin/metaboxes.php:57
+#: admin/functions-admin-export.php:59
+#: admin/metaboxes.php:61
 msgid "Order ID"
 msgstr "ID на поръчката"
 
-#: admin/metaboxes.php:81
+#: admin/metaboxes.php:85
 msgid "Order Notes"
 msgstr "Бележки за поръчка"
 
-#: admin/metaboxes.php:73
+#: admin/metaboxes.php:77
 msgid "Order Total"
 msgstr "Общо за поръчка"
 
-#: admin/functions-admin-settings.php:490
+#: admin/functions-admin-settings.php:535
 msgid "Organise uploads by order"
 msgstr "Организиране на качвания по поръчка"
 
-#: admin/functions-admin-settings.php:493
+#: admin/functions-admin-settings.php:538
 msgid "Organise uploads into unique folders for each order"
 msgstr "Организирайте качванията в уникални папки за всяка поръчка"
 
-#: admin/functions-admin-order.php:143 inc/functions-cart.php:1866
-#: inc/functions-order.php:295
+#: admin/functions-admin-order.php:148
+#: inc/functions-cart.php:2202
+#: inc/functions-order.php:406
 msgid "Original price"
 msgstr "Оригинална цена"
 
-#: classes/class-pewc-product-extra-post-type.php:97
+#: classes/class-pewc-product-extra-post-type.php:120
 msgid "Parent "
 msgstr "Родител"
 
-#: classes/class-pewc-product-extra-post-type.php:200
+#: classes/class-pewc-product-extra-post-type.php:223
 msgid "Parent Fields"
 msgstr "Родителски полета"
 
-#: classes/class-pewc-product-extra-post-type.php:156
+#: classes/class-pewc-product-extra-post-type.php:179
 msgid "Parent Groups"
 msgstr "Родителски групи"
 
@@ -1786,23 +1664,24 @@ msgstr "Родителски групи"
 msgid "Parent Product"
 msgstr "Основен продукт"
 
-#: admin/metaboxes.php:272
+#: admin/metaboxes.php:287
 msgid "Parent Products"
 msgstr "Основни продукти"
 
-#: inc/functions-percentages.php:40 inc/functions-single-product.php:1150
+#: inc/functions-percentages.php:40
+#: inc/functions-single-product.php:1566
 msgid "per character"
 msgstr ""
 
-#: templates/admin/field-item.php:345
+#: templates/admin/sections/pricing.php:144
 msgid "Percentage"
 msgstr "Процент"
 
-#: templates/admin/field-item.php:375 templates/admin/new-field-item.php:235
+#: templates/admin/sections/pricing.php:92
 msgid "Percentage?"
 msgstr "Процент?"
 
-#: inc/functions-single-product.php:1262
+#: inc/functions-single-product.php:1683
 msgid "Permitted file types"
 msgstr "Разрешени типове файлове"
 
@@ -1810,68 +1689,64 @@ msgstr "Разрешени типове файлове"
 msgid "Phone Number"
 msgstr "Телефонен номер"
 
-#: classes/class-pewc-settings-tab.php:159
+#: classes/class-pewc-settings-tab.php:174
 msgid "Please enter your licence key"
 msgstr "Моля, въведете вашия лицензен ключ"
 
 #: inc/functions-global-extras.php:75
-msgid ""
-"Please follow the instructions below to update your database. You will then "
-"be able to access Global Add-Ons through a new Global Groups page."
+msgid "Please follow the instructions below to update your database. You will then be able to access Global Add-Ons through a new Global Groups page."
 msgstr ""
 
-#: inc/functions-uploads.php:30
-msgid ""
-"Please use the fallback form below to upload your files like in the olden "
-"days"
+#: inc/functions-uploads.php:35
+#: inc/functions-uploads.php:348
+msgid "Please use the fallback form below to upload your files like in the olden days"
 msgstr ""
 
-#. Author of the plugin/theme
+#. Author of the plugin
+#: product-extras-for-woocommerce.php
 msgid "Plugin Republic"
 msgstr ""
 
-#: admin/functions-admin-menu.php:179
+#: admin/functions-admin-menu.php:185
 msgid "Power up Add-Ons Ultimate with these extensions"
 msgstr "Увеличете мощността на добавките Ultimate с тези разширения"
 
-#: admin/customizer.php:64
+#: admin/customizer.php:83
 msgid "Preset styles"
 msgstr "Предварително зададени стилове"
 
-#: admin/functions-admin-settings.php:330
-msgid ""
-"Prevent Dynamic Pricing and Discount Rules from updating the price label on the product page."
-msgstr ""
-
-#: inc/functions-pro-helpers.php:141
+#: inc/functions-pro-helpers.php:143
 msgid "Previous"
 msgstr ""
 
-#: classes/class-pewc-product-extra-post-type.php:389
-#: templates/admin/views/option-fields-new.php:24
-#: templates/admin/views/option-fields.php:24
+#: classes/class-pewc-product-extra-post-type.php:512
+#: templates/admin/sections/calendar-list.php:44
+#: templates/admin/views/option-fields-new.php:30
+#: templates/admin/views/option-fields.php:41
 msgid "Price"
 msgstr "Цена"
 
-#: admin/customizer.php:524 admin/functions-admin-settings.php:160
-#: admin/functions-custom-panel.php:445
+#: admin/customizer.php:917
+#: admin/functions-admin-settings.php:266
+#: admin/functions-custom-panel.php:514
 msgid "Price label"
 msgstr "Етикет с цена"
 
-#: admin/customizer.php:534 admin/functions-admin-settings.php:167
-#: admin/functions-custom-panel.php:453
+#: admin/customizer.php:927
+#: admin/functions-admin-settings.php:273
+#: admin/functions-custom-panel.php:522
 msgid "Price label display"
 msgstr "Показване на ценови етикет"
 
-#: templates/admin/field-item.php:438 templates/admin/new-field-item.php:285
+#: templates/admin/sections/pricing.php:38
 msgid "Price Per Character?"
 msgstr "Цена за символ?"
 
-#: templates/admin/field-item.php:398 templates/admin/new-field-item.php:254
+#: templates/admin/sections/pricing.php:51
 msgid "Price per upload?"
 msgstr "Цена за качване?"
 
-#: admin/functions-admin-settings.php:54
+#: admin/functions-admin-settings.php:64
 msgid "Price separator"
 msgstr "Ценови разделител"
 
@@ -1880,13 +1755,11 @@ msgid "Priority"
 msgstr "Приоритет"
 
 #: inc/functions-migration.php:210
-msgid ""
-"Processing <span id=\"pewc-processing\"></span> of <span id=\"pewc-total\">"
-"</span>."
+msgid "Processing <span id=\"pewc-processing\"></span> of <span id=\"pewc-total\"></span>."
 msgstr ""
 
 #: admin/functions-admin-export.php:60
-#: classes/class-pewc-product-extra-post-type.php:918
+#: classes/class-pewc-product-extra-post-type.php:1077
 msgid "Product"
 msgstr "Продукт"
 
@@ -1898,29 +1771,27 @@ msgstr "Съдържание на продуктова добавка"
 msgid "Product Add On Date"
 msgstr "Дата на добавяне на продукт"
 
-#: admin/metaboxes.php:94
+#: admin/metaboxes.php:98
 msgid "Product Add On Fields"
 msgstr "Полета за добавяне на продукти"
 
-#: admin/metaboxes.php:226
+#: admin/metaboxes.php:241
 msgid "Product Add On Groups"
 msgstr "Групи за добавяне на продукти"
 
-#: admin/functions-admin-export.php:52 admin/metaboxes.php:199
+#: admin/functions-admin-export.php:52
+#: admin/metaboxes.php:210
 msgid "Product Add On ID"
 msgstr "Идентификационен номер на добавка към продукта"
 
-#: admin/functions-custom-panel.php:20
-msgid "Product Add-On"
-msgstr "Продуктова добавка"
-
-#: admin/functions-admin-menu.php:18 admin/functions-admin-menu.php:19
-#: admin/functions-custom-panel.php:21 admin/metaboxes.php:244
+#: admin/functions-admin-menu.php:18
+#: admin/functions-admin-menu.php:19
+#: admin/metaboxes.php:259
 #: classes/class-pewc-settings-tab.php:35
 msgid "Product Add-Ons"
 msgstr "Добавки към продукта"
 
-#: admin/customizer.php:31
+#: admin/customizer.php:32
 msgid "Product Add-Ons Ultimate"
 msgstr "Продуктови добавки Ultimate"
 
@@ -1932,16 +1803,14 @@ msgstr ""
 msgid "Product Add-Ons Ultimate Database Migration"
 msgstr ""
 
-#: admin/functions-custom-panel.php:414 inc/functions-pro-helpers.php:22
-#: templates/admin/field-item.php:189 templates/admin/new-field-item.php:114
+#: admin/functions-custom-panel.php:482
+#: inc/functions-pro-helpers.php:22
+#: templates/admin/sections/products.php:61
 msgid "Product Categories"
 msgstr "Категории продукти"
 
-#: inc/functions-rest-api.php:48
-msgid "Product extras"
-msgstr ""
-
-#: admin/metaboxes.php:49
+#: admin/metaboxes.php:53
+#: templates/admin/sections/calculations.php:205
 msgid "Product ID"
 msgstr "ИД на продукта"
 
@@ -1949,146 +1818,149 @@ msgstr "ИД на продукта"
 msgid "Product IDs"
 msgstr "Идентификационни номера на продукти"
 
-#: admin/customizer.php:470 admin/functions-admin-settings.php:201
+#: admin/customizer.php:863
+#: admin/functions-admin-settings.php:307
 #: templates/frontend/price-subtotals.php:15
 msgid "Product total"
 msgstr "Общ продукт"
 
-#: admin/customizer.php:565 admin/functions-admin-settings.php:196
+#: admin/customizer.php:957
+#: admin/functions-admin-settings.php:302
 msgid "Product total label"
 msgstr "Общ етикет на продукта"
 
-#: admin/functions-admin-settings.php:516 admin/functions-custom-panel.php:413
-#: classes/class-pewc-settings-tab.php:99 inc/functions-pro-helpers.php:21
+#: admin/functions-admin-settings.php:630
+#: admin/functions-custom-panel.php:481
+#: classes/class-pewc-settings-tab.php:111
+#: inc/functions-pro-helpers.php:21
+#: templates/admin/field-item.php:85
 msgid "Products"
 msgstr "Продукти"
 
-#: templates/admin/field-item.php:220 templates/admin/new-field-item.php:130
+#: templates/admin/sections/products.php:96
 msgid "Products Layout"
 msgstr "Оформление на продуктите"
 
-#: templates/admin/field-item.php:238 templates/admin/new-field-item.php:144
+#: templates/admin/sections/products.php:150
 msgid "Products Quantities"
 msgstr "Количества на продукти"
 
-#: inc/functions-cart.php:1782 inc/functions-conditionals.php:95
-#: inc/functions-order.php:117 inc/functions-order.php:218
-#: inc/functions-order.php:550
+#: inc/functions-blocks.php:122
+#: inc/functions-cart.php:2103
+#: inc/functions-conditionals.php:95
+#: inc/functions-order.php:198
+#: inc/functions-order.php:323
+#: inc/functions-order.php:745
+#: inc/functions-products.php:741
+#: templates/frontend/products/products-checkboxes-list.php:111
+#: templates/frontend/products/products-checkboxes.php:134
+#: templates/frontend/products/products-column.php:353
+#: templates/frontend/products/products-components.php:149
+#: templates/frontend/products/products-grid.php:163
+#: templates/frontend/products/products-swatches.php:311
 msgid "Quantity"
 msgstr "Количество"
 
-#: templates/admin/new-field-item.php:137
-msgid "Radio"
-msgstr ""
-
-#: admin/functions-custom-panel.php:415
+#: admin/functions-custom-panel.php:483
 msgid "Radio Group"
 msgstr "Радио група"
 
-#: templates/admin/field-item.php:228
+#: templates/admin/sections/products.php:108
 msgid "Radio Images"
 msgstr "Радио изображения"
 
-#: templates/admin/field-item.php:229 templates/admin/new-field-item.php:138
+#: templates/admin/sections/products.php:109
 msgid "Radio List"
 msgstr "Списък с радиостанции"
 
-#: admin/functions-admin-settings.php:613
+#: admin/functions-admin-settings.php:737
 msgid "Redirect hidden products"
 msgstr "Пренасочване на скрити продукти"
 
-#: admin/metaboxes.php:188
+#: admin/metaboxes.php:199
 msgid "Reject"
 msgstr "Отхвърляне"
 
-#: templates/admin/condition.php:192 templates/admin/field-meta-actions.php:17
-#: templates/admin/group-meta-actions.php:16
-#: templates/admin/new-conditional-row.php:58
-#: templates/admin/views/group-condition.php:187
-#: templates/admin/views/information-row-new.php:37
-#: templates/admin/views/information-row.php:61
-#: templates/admin/views/option-new.php:41 templates/admin/views/option.php:62
-#: templates/frontend/products/products-column.php:284
-#: templates/frontend/upload.php:53
+#: inc/functions-repeatable.php:747
+#: templates/frontend/products/products-column.php:381
+#: templates/frontend/upload.php:59
 msgid "Remove"
 msgstr "Премахване"
 
-#: inc/functions-uploads.php:36
+#: inc/functions-uploads.php:41
+#: inc/functions-uploads.php:354
 msgid "Remove file"
 msgstr "Премахване на файл"
 
-#: admin/functions-admin-settings.php:603
+#: admin/functions-admin-settings.php:717
 msgid "Remove parent if child product out of stock"
 msgstr "Премахване на родител, ако дъщерният продукт е изчерпан"
 
-#: admin/functions-admin-settings.php:482
+#: admin/functions-admin-settings.php:527
 msgid "Rename uploads"
 msgstr "Преименуване на качванията"
 
-#: admin/functions-admin-settings.php:485
-msgid ""
-"Rename uploads using the following tags: {original_file_name}, {order_number}"
-", {date}, {product_id}, {product_sku}, {group_id}, {field_id}"
+#: admin/functions-admin-settings.php:530
+msgid "Rename uploads using the following tags: {original_file_name}, {order_number}, {date}, {product_id}, {product_sku}, {group_id}, {field_id}"
 msgstr ""
 
-#: templates/admin/group-settings.php:65
+#: templates/admin/group-settings.php:122
 msgid "Replace existing groups"
 msgstr "Замяна на съществуващи групи"
 
-#: templates/admin/field-item.php:357 templates/admin/new-field-item.php:219
+#: templates/admin/sections/general.php:110
 msgid "Required Field?"
 msgstr "Задължително поле?"
 
-#: admin/functions-admin-settings.php:139
+#: admin/functions-admin-settings.php:237
 msgid "Reset field values"
 msgstr "Нулиране на стойностите на полето"
 
-#: admin/functions-admin-settings.php:142
+#: admin/functions-admin-settings.php:240
 msgid "Reset field values to null when fields are hidden through a condition."
-msgstr ""
-"Нулирайте стойностите на полето до нула, когато полетата са скрити чрез "
-"условие."
+msgstr "Нулирайте стойностите на полето до нула, когато полетата са скрити чрез условие."
 
-#: admin/functions-admin-settings.php:458
+#: admin/functions-admin-settings.php:503
 msgid "Retain the upload graphic even after a file has been uploaded."
 msgstr "Запазване на графиката за качване дори след като файлът е качен."
 
-#: admin/functions-admin-settings.php:455
+#: admin/functions-admin-settings.php:500
 msgid "Retain Upload Graphic"
 msgstr "Запазване на графиката за качване"
 
-#: admin/functions-admin-settings.php:692
-msgid ""
-"Return a 0 as the value for any fields that are not included on the page."
+#: admin/functions-admin-settings.php:845
+msgid "Return a 0 as the value for any fields that are not included on the page."
 msgstr ""
 
-#: admin/functions-admin-settings.php:233
+#: admin/functions-admin-settings.php:88
 msgid "Role-based Pricing"
 msgstr "Ценообразуване въз основа на роли"
 
-#: admin/functions-admin-settings.php:239
+#: admin/functions-admin-settings.php:94
 msgid "Roles"
 msgstr "Роли"
 
-#: templates/admin/views/calculation-fields.php:79
+#: templates/admin/sections/calculations.php:98
 msgid "Round down"
 msgstr ""
 
-#: templates/admin/views/calculation-fields.php:66
+#: templates/admin/sections/calculations.php:83
 msgid "Round Result"
 msgstr ""
 
-#: templates/admin/views/calculation-fields.php:84
+#: templates/admin/sections/calculations.php:103
 msgid "Round up"
 msgstr ""
 
 #: admin/functions-admin-post-types.php:41
-#: classes/class-pewc-product-extra-post-type.php:481
-#: templates/admin/global-rule.php:43 templates/admin/new-global-rule.php:39
+#: classes/class-pewc-product-extra-post-type.php:621
+#: templates/admin/global-rule.php:53
+#: templates/admin/new-global-rule.php:39
 msgid "Rule"
 msgstr "Правило"
 
-#: templates/admin/field-item.php:579
+#: templates/admin/sections/calendar-list.php:86
+#: templates/admin/sections/date.php:101
 msgid "Saturday"
 msgstr "събота"
 
@@ -2096,11 +1968,11 @@ msgstr "събота"
 msgid "Save Global Add-Ons"
 msgstr ""
 
-#: classes/class-pewc-product-extra-post-type.php:94
+#: classes/class-pewc-product-extra-post-type.php:117
 msgid "Search "
 msgstr "Търсене"
 
-#: classes/class-pewc-product-extra-post-type.php:197
+#: classes/class-pewc-product-extra-post-type.php:220
 msgid "Search Fields"
 msgstr "Полета за търсене"
 
@@ -2108,7 +1980,7 @@ msgstr "Полета за търсене"
 msgid "Search for a product&hellip;"
 msgstr "Търсене на продукт"
 
-#: classes/class-pewc-product-extra-post-type.php:153
+#: classes/class-pewc-product-extra-post-type.php:176
 msgid "Search Groups"
 msgstr "Групи за търсене"
 
@@ -2116,24 +1988,24 @@ msgstr "Групи за търсене"
 msgid "See more"
 msgstr ""
 
-#: inc/functions-pro-helpers.php:45
+#: inc/functions-pro-helpers.php:46
 msgid "see this support article"
 msgstr ""
 
-#: admin/functions-custom-panel.php:416 templates/admin/field-item.php:230
-#: templates/admin/new-field-item.php:139
+#: admin/functions-custom-panel.php:484
+#: templates/admin/sections/products.php:110
 msgid "Select"
 msgstr "Изберете"
 
-#: admin/functions-custom-panel.php:417
+#: admin/functions-custom-panel.php:485
 msgid "Select Box"
 msgstr "Изберете кутия"
 
-#: inc/functions-single-product.php:67
+#: inc/functions-single-product.php:68
 msgid "Select Color"
 msgstr ""
 
-#: templates/admin/field-item.php:251 templates/admin/new-field-item.php:155
+#: templates/admin/sections/products.php:131
 msgid "Select Field Placeholder"
 msgstr "Изберете контейнер за поле"
 
@@ -2141,70 +2013,68 @@ msgstr "Изберете контейнер за поле"
 msgid "Select options"
 msgstr "Избор на опции"
 
-#: templates/admin/field-item.php:195
+#: templates/admin/sections/products.php:67
 msgid "Select product categories"
 msgstr "Изберете продуктови категории"
 
-#: admin/functions-admin-settings.php:625
-msgid ""
-"Select this to show extra information for child products when clicking the "
-"child product title."
+#: admin/functions-admin-settings.php:768
+msgid "Select this to show extra information for child products when clicking the child product title."
 msgstr ""
 
-#: admin/functions-custom-panel.php:469
+#: admin/functions-custom-panel.php:538
 msgid "Set an optional minimum price for this product."
 msgstr "Задайте незадължителна минимална цена за този продукт."
 
-#: templates/admin/views/calculation-fields.php:123
+#: templates/admin/sections/calculations.php:148
 msgid "Set Product Price"
 msgstr ""
 
-#: templates/admin/field-item.php:641 templates/admin/new-field-item.php:392
+#: templates/admin/sections/colorpicker.php:50
 msgid "Show by default?"
 msgstr "Показване по подразбиране?"
 
-#: templates/admin/field-item.php:445 templates/admin/new-field-item.php:292
+#: templates/admin/sections/text.php:49
 msgid "Show Counter?"
 msgstr "Показване на брояч?"
 
-#: admin/functions-admin-settings.php:102
+#: admin/functions-admin-settings.php:148
 msgid "Show the group title in the cart."
 msgstr "Показване на заглавието на групата в количката."
 
-#: inc/functions-conditionals.php:108
+#: inc/functions-conditionals.php:110
 msgid "Show this field if"
 msgstr ""
 
-#: admin/customizer.php:555 admin/functions-admin-settings.php:190
+#: admin/customizer.php:947
 msgid "Show totals"
 msgstr "Показване на суми"
 
-#: admin/customizer.php:74
+#: admin/customizer.php:94
 msgid "Simple"
 msgstr "Просто"
 
-#: classes/rest-api/class-pewc-rest-api-fields-controller.php:140
-#: classes/rest-api/class-pewc-rest-api-groups-controller.php:122
-msgid "Sorry, you are not allowed to create resources."
-msgstr "Съжаляваме, нямате право да създавате ресурси."
-
-#: admin/metaboxes.php:121 templates/admin/group-settings.php:25
-#: templates/admin/group.php:48 templates/admin/new-group.php:64
+#: admin/functions-admin-settings.php:122
+#: admin/metaboxes.php:125
+#: templates/admin/group-settings.php:42
+#: templates/admin/group.php:70
 msgid "Standard"
 msgstr "Стандартен"
 
-#: admin/functions-admin-export.php:63 admin/metaboxes.php:183
-#: classes/class-pewc-settings-tab.php:149
-#: classes/class-pewc-settings-tab.php:238
-#: classes/class-pewc-settings-tab.php:294
+#: admin/functions-admin-export.php:63
+#: admin/metaboxes.php:194
+#: classes/class-pewc-settings-tab.php:164
+#: classes/class-pewc-settings-tab.php:250
+#: classes/class-pewc-settings-tab.php:306
+#: inc/functions-conditionals.php:96
 msgid "Status"
 msgstr "Състояние"
 
-#: templates/admin/group-settings.php:28
+#: admin/functions-admin-settings.php:202
+#: templates/admin/group-settings.php:45
 msgid "Steps"
 msgstr "Стъпки"
 
-#: admin/customizer.php:46
+#: admin/customizer.php:47
 msgid "Styles"
 msgstr "Стилове"
 
@@ -2212,205 +2082,140 @@ msgstr "Стилове"
 msgid "Subtotal"
 msgstr "Междинна сума"
 
-#: templates/admin/field-item.php:573
+#: templates/admin/sections/calendar-list.php:80
+#: templates/admin/sections/date.php:95
 msgid "Sunday"
 msgstr "неделя"
 
-#: admin/customizer.php:412
-msgid "Swatch Highlight Colour"
-msgstr "Мостра цвят за осветяване"
-
-#: templates/admin/field-item.php:231
+#: classes/class-pewc-settings-tab.php:110
+#: templates/admin/field-item.php:86
+#: templates/admin/sections/products.php:111
 msgid "Swatches"
 msgstr "Мостри"
 
-#: admin/metaboxes.php:122 templates/admin/group.php:49
-#: templates/admin/new-group.php:65
+#: admin/metaboxes.php:126
+#: templates/admin/group.php:71
 msgid "Table"
 msgstr "Таблица"
 
-#: templates/admin/group-settings.php:29
+#: admin/customizer.php:650
+#: admin/customizer.php:785
+#: templates/admin/group-settings.php:46
 msgid "Tabs"
 msgstr "Раздели"
 
-#: admin/functions-custom-panel.php:418
+#: admin/functions-custom-panel.php:487
+#: templates/admin/field-item.php:87
 msgid "Text"
 msgstr "Текст"
 
-#: admin/customizer.php:292
+#: admin/customizer.php:312
 msgid "Text Colour"
 msgstr "Цвят на текста"
 
-#: admin/functions-custom-panel.php:419
+#: admin/functions-custom-panel.php:488
 msgid "Textarea"
 msgstr ""
 
-#: admin/customizer.php:349
+#: admin/customizer.php:369
 msgid "Textarea Height"
 msgstr "Височина на Textarea"
 
-#: inc/functions-uploads.php:31
+#: inc/functions-uploads.php:36
+#: inc/functions-uploads.php:349
 msgid "The file is too big"
 msgstr "Файлът е твърде голям"
 
-#: admin/functions-admin-settings.php:215
+#: admin/functions-admin-settings.php:321
 msgid "The label for the Flat rate total"
 msgstr "Етикетът за общата фиксирана ставка"
 
-#: admin/functions-admin-settings.php:223
+#: admin/functions-admin-settings.php:329
 msgid "The label for the Grand total"
 msgstr "Етикетът за общата сума"
 
-#: admin/functions-admin-settings.php:207
+#: admin/functions-admin-settings.php:313
 msgid "The label for the Options total"
 msgstr "Етикетът за общия брой опции"
 
-#: admin/functions-admin-settings.php:199
+#: admin/functions-admin-settings.php:305
 msgid "The label for the Product total"
 msgstr "Етикетът за общата сума на продукта"
 
-#: inc/functions-updater.php:124
-msgid "the license is invalid."
-msgstr "лицензът е невалиден."
-
-#: inc/functions-updater.php:130
-msgid "the license is not active for this URL."
-msgstr "лицензът не е активен за този URL адрес."
-
-#: admin/functions-admin-settings.php:433
+#: admin/functions-admin-settings.php:479
 msgid "The max file size for uploads (in MB)"
 msgstr "Максималният размер на файла за качване (в MB)"
 
 #: inc/functions-migration.php:171
-msgid ""
-"The migration should only take a few seconds (slightly longer if you have a "
-"larger number of products on your site). Please stay on this page while it "
-"runs. The page will provide you with regular status updates so you can view "
-"progress."
+msgid "The migration should only take a few seconds (slightly longer if you have a larger number of products on your site). Please stay on this page while it runs. The page will provide you with regular status updates so you can view progress."
 msgstr ""
 
-#: inc/functions-cart.php:283
+#: inc/functions-cart.php:307
 msgid "The price has been set to the minimum price of"
 msgstr "Цената е зададена на минималната цена на"
 
-#: inc/functions-cart.php:1604
-msgid ""
-"The product has not been added to the cart because one or more of its "
-"components is out of stock."
+#: inc/functions-cart.php:1891
+msgid "The product has not been added to the cart because one or more of its components is out of stock."
 msgstr ""
 
 #: inc/functions-migration.php:145
 msgid "the support page"
 msgstr ""
 
-#: inc/functions-cart.php:1362
-msgid ""
-"The uploaded file has failed a security check. Please try uploading it again."
-msgstr ""
-"Каченият файл не е преминал проверка за сигурност. Моля, опитайте да го "
-"качите отново."
-
-#: classes/class-pewc-sl-plugin-updater.php:244
-#, php-format
-msgid ""
-"There is a new version of %1$s available. %2$sView version %3$s details%4$s "
-"or %5$supdate now%6$s."
-msgstr ""
-
-#: classes/class-pewc-sl-plugin-updater.php:236
-#, php-format
-msgid ""
-"There is a new version of %1$s available. %2$sView version %3$s details%4$s."
-msgstr ""
-
-#: inc/functions-updater.php:104
+#: inc/functions-updater.php:116
 msgid "There was a problem in activating your license: "
 msgstr "Възникна проблем при активирането на вашия лиценз:"
 
-#: inc/functions-updater.php:135
+#: inc/functions-pro-helpers.php:51
 #, php-format
-msgid "this appears to be an invalid license key for %s."
-msgstr "изглежда, че това е невалиден лицензен ключ за %s."
-
-#: inc/functions-pro-helpers.php:50
-#, php-format
-msgid ""
-"This field is not available with the Basic licence. Please %s or %s to use "
-"this field."
+msgid "This field is not available with the Basic licence. Please %s or %s to use this field."
 msgstr ""
 
-#: classes/class-pewc-product-extra-post-type.php:56
-msgid ""
-"This field is used in a condition. Changing its field type may affect the "
-"condition. Continue?"
+#: classes/class-pewc-product-extra-post-type.php:78
+msgid "This field is used in a condition. Changing its field type may affect the condition. Continue?"
 msgstr ""
 
-#: admin/metaboxes.php:168
-msgid ""
-"This group and its fields will be duplicated to the products you enter here"
+#: admin/metaboxes.php:179
+msgid "This group and its fields will be duplicated to the products you enter here"
 msgstr ""
 
 #: inc/functions-global-extras.php:57
 msgid "This page is no longer available."
 msgstr ""
 
-#: classes/class-pewc-product-extra-post-type.php:123
-msgid ""
-"This page shows a list of Product Add-Ons associated with orders, so don't "
-"be alarmed if you don't see anything here: it just means that you haven't "
-"had any orders placed yet that contain Product Add On fields."
+#: classes/class-pewc-product-extra-post-type.php:146
+msgid "This page shows a list of Product Add-Ons associated with orders, so don't be alarmed if you don't see anything here: it just means that you haven't had any orders placed yet that contain Product Add On fields."
 msgstr ""
 
-#: inc/functions-cart.php:263
-msgid ""
-"This product has not been added to your cart. The product has a minimum "
-"price of"
+#: inc/functions-cart.php:287
+msgid "This product has not been added to your cart. The product has a minimum price of"
 msgstr ""
 
-#: admin/functions-admin-settings.php:270
-msgid ""
-"This will enable an alternative method for checking calculations which might "
-"improve page performance. Still beta."
-msgstr ""
-
-#: admin/functions-admin-settings.php:279
-msgid ""
-"This will enable an alternative method for checking conditions which might "
-"improve page performance. Still beta."
-msgstr ""
-
-#: admin/functions-admin-settings.php:288
-msgid ""
-"This will enable validation of add-on fields using Javascript. Still beta."
-msgstr ""
-
-#: admin/functions-admin-settings.php:297
-msgid ""
-"This will hide the subtotals fields until all required fields have been "
-"completed."
-msgstr ""
-
-#: admin/metaboxes.php:124 templates/admin/group.php:51
+#: admin/metaboxes.php:128
+#: templates/admin/group.php:73
 msgid "Three Columns"
 msgstr "Три колони"
 
-#: templates/admin/field-item.php:577
+#: templates/admin/sections/calendar-list.php:84
+#: templates/admin/sections/date.php:99
 msgid "Thursday"
 msgstr "четвъртък"
 
-#: templates/frontend/products/products-swatches.php:264
+#: templates/frontend/products/products-swatches.php:359
 msgid "Toggle"
 msgstr "Превключване"
 
-#: admin/customizer.php:557 admin/functions-admin-settings.php:192
+#: admin/customizer.php:949
 msgid "Total only"
 msgstr "Само общо"
 
-#: templates/admin/field-item.php:575
+#: templates/admin/sections/calendar-list.php:82
+#: templates/admin/sections/date.php:97
 msgid "Tuesday"
 msgstr "вторник"
 
-#: admin/metaboxes.php:123 templates/admin/group.php:50
+#: admin/metaboxes.php:127
+#: templates/admin/group.php:72
 msgid "Two Columns"
 msgstr "Две колони"
 
@@ -2435,34 +2240,25 @@ msgstr "Уникален идентификатор за полето за до�
 msgid "Unique identifier for the add-on group."
 msgstr "Уникален идентификатор за групата добавки."
 
-#: classes/rest-api/class-pewc-rest-api-fields-controller.php:59
-#: classes/rest-api/class-pewc-rest-api-fields-controller.php:88
-#: classes/rest-api/class-pewc-rest-api-groups-controller.php:52
-#: classes/rest-api/class-pewc-rest-api-groups-controller.php:75
-msgid "Unique identifier for the product."
-msgstr "Уникален идентификатор за продукта."
-
 #: inc/functions-migration.php:200
 msgid "Update Database"
 msgstr ""
 
-#: admin/functions-admin-settings.php:81
+#: admin/functions-admin-settings.php:73
 msgid "Update price label"
 msgstr "Актуализиране на ценовия етикет"
 
-#: inc/functions-cart.php:2015
+#: inc/functions-cart.php:2353
 msgid "Update product"
 msgstr ""
 
-#: templates/admin/views/calculation-fields.php:128
+#: templates/admin/sections/calculations.php:153
 msgid "Update Quantity"
 msgstr "Актуализиране на количеството"
 
-#: admin/functions-admin-settings.php:84
+#: admin/functions-admin-settings.php:76
 msgid "Update the price label on product pages when price changes."
-msgstr ""
-"Актуализиране на ценовия етикет на продуктовите страници при промяна на "
-"цената."
+msgstr "Актуализиране на ценовия етикет на продуктовите страници при промяна на цената."
 
 #: inc/functions-migration.php:215
 msgid "Updating conditionals."
@@ -2476,153 +2272,155 @@ msgstr ""
 msgid "Updating globals."
 msgstr ""
 
-#: classes/class-pewc-settings-tab.php:123
-#: classes/class-pewc-settings-tab.php:131
+#: classes/class-pewc-settings-tab.php:138
+#: classes/class-pewc-settings-tab.php:146
 msgid "Upgrade"
 msgstr "Надграждане"
 
-#: inc/functions-pro-helpers.php:35
+#: inc/functions-pro-helpers.php:36
 msgid "upgrade to the Pro licence"
 msgstr ""
 
-#: admin/functions-custom-panel.php:420
+#: admin/functions-custom-panel.php:489
 msgid "Upload"
 msgstr "Качване"
 
-#: inc/functions-uploads.php:34
+#: inc/functions-uploads.php:39
+#: inc/functions-uploads.php:352
 msgid "Upload cancelled."
 msgstr "Качването е отменено."
 
-#: inc/functions-media.php:492
+#: inc/functions-media.php:596
 msgid "Uploaded"
 msgstr "Качено"
 
-#: admin/functions-admin-menu.php:130
+#: admin/functions-admin-menu.php:136
 msgid "Uploading files"
 msgstr "Качване на файлове"
 
-#: admin/functions-admin-settings.php:415
-#: classes/class-pewc-settings-tab.php:95
+#: admin/functions-admin-settings.php:461
+#: classes/class-pewc-settings-tab.php:107
+#: templates/admin/field-item.php:90
 msgid "Uploads"
 msgstr "Качвания"
 
 #: admin/functions-admin-menu.php:60
-msgid ""
-"Use this page to find help quickly, whether you've just started using the "
-"plugin or you've been using it for years."
+msgid "Use this page to find help quickly, whether you've just started using the plugin or you've been using it for years."
 msgstr ""
 
-#: classes/class-pewc-product-extra-post-type.php:919
+#: classes/class-pewc-product-extra-post-type.php:1078
 msgid "User"
 msgstr "Потребител"
 
-#: admin/metaboxes.php:208
+#: admin/metaboxes.php:223
 msgid "User Details"
 msgstr "Данни за потребителя"
 
-#: admin/metaboxes.php:30
+#: admin/metaboxes.php:34
 msgid "User Email"
 msgstr "Имейл на потребителя"
 
-#: admin/functions-admin-export.php:54 admin/metaboxes.php:14
+#: admin/functions-admin-export.php:54
+#: admin/metaboxes.php:18
 msgid "User ID"
 msgstr "Потребителско ИД"
 
-#: admin/functions-admin-export.php:55 admin/metaboxes.php:22
+#: admin/functions-admin-export.php:55
+#: admin/metaboxes.php:26
 msgid "User Name"
 msgstr "Потребителско име"
 
-#: admin/metaboxes.php:38
+#: admin/metaboxes.php:42
 msgid "User Phone Number"
 msgstr "Телефонен номер на потребител"
 
-#: admin/functions-admin-settings.php:421
+#: admin/functions-admin-settings.php:467
 msgid "Users must be logged in to upload"
 msgstr "Потребителите трябва да са влезли, за да качват"
 
-#: classes/class-pewc-product-extra-post-type.php:388
+#: classes/class-pewc-product-extra-post-type.php:511
 msgid "Value"
 msgstr "Стойност"
 
-#: templates/admin/views/price-visibility.php:74
+#: templates/admin/views/price-visibility.php:87
 msgid "Value Only"
 msgstr "Само стойност"
 
-#: admin/functions-admin-settings.php:656
+#: admin/functions-admin-settings.php:809
 msgid "Variable 1"
 msgstr "Променлива 1"
 
-#: admin/functions-admin-settings.php:667
+#: admin/functions-admin-settings.php:820
 msgid "Variable 2"
 msgstr "Променлива 2"
 
-#: admin/functions-admin-settings.php:678
+#: admin/functions-admin-settings.php:831
 msgid "Variable 3"
 msgstr "Променлива 3"
 
 #: inc/functions-variations.php:22
+#: templates/admin/sections/conditions.php:31
 msgid "Variations"
 msgstr "Вариации"
 
-#: templates/admin/field-item.php:232
+#: templates/admin/sections/products.php:112
 msgid "Variations Grid"
 msgstr "Решетка с вариации"
 
-#: classes/class-pewc-product-extra-post-type.php:92
-#: classes/class-pewc-product-extra-post-type.php:93
+#: classes/class-pewc-product-extra-post-type.php:115
+#: classes/class-pewc-product-extra-post-type.php:116
 msgid "View "
 msgstr "Преглед"
 
-#: classes/class-pewc-product-extra-post-type.php:196
+#: classes/class-pewc-product-extra-post-type.php:219
 msgid "View Field"
 msgstr "Поле за изглед"
 
-#: classes/class-pewc-product-extra-post-type.php:195
+#: classes/class-pewc-product-extra-post-type.php:218
 msgid "View Fields"
 msgstr "Преглед на полета"
 
-#: classes/class-pewc-product-extra-post-type.php:151
-#: classes/class-pewc-product-extra-post-type.php:152
+#: classes/class-pewc-product-extra-post-type.php:174
+#: classes/class-pewc-product-extra-post-type.php:175
 msgid "View Group"
 msgstr "Преглед на групата"
 
-#: templates/admin/views/price-visibility.php:44
-#: templates/admin/views/price-visibility.php:67
+#: templates/admin/views/price-visibility.php:52
+#: templates/admin/views/price-visibility.php:80
 msgid "Visible"
 msgstr "Видим"
 
-#: templates/admin/field-item.php:576
+#: templates/admin/sections/calendar-list.php:83
+#: templates/admin/sections/date.php:98
 msgid "Wednesday"
 msgstr "сряда"
 
-#: classes/class-pewc-product-extra-post-type.php:482
-#: templates/admin/global-rule.php:44 templates/admin/new-global-rule.php:40
+#: classes/class-pewc-product-extra-post-type.php:622
+#: templates/admin/global-rule.php:54
+#: templates/admin/new-global-rule.php:40
 msgid "With"
 msgstr "С"
 
-#. Plugin Name of the plugin/theme
-#: admin/functions-admin-menu.php:54 admin/functions-admin-settings.php:716
-#: inc/functions-updater.php:251 inc/functions-updater.php:266
+#. Plugin Name of the plugin
+#: product-extras-for-woocommerce.php
+#: admin/functions-admin-menu.php:54
+#: admin/functions-admin-settings.php:869
+#: inc/functions-updater.php:273
+#: inc/functions-updater.php:288
 msgid "WooCommerce Product Add-Ons Ultimate"
 msgstr "Продуктови добавки на WooCommerce Ultimate"
 
-#: inc/functions-global-extras.php:79 inc/functions-migration.php:41
-msgid ""
-"WooCommerce Product Add-Ons Ultimate needs to update your database. This "
-"will only take a few seconds. Please click the button below to go to the "
-"migration page to get started."
+#: inc/functions-global-extras.php:79
+#: inc/functions-migration.php:41
+msgid "WooCommerce Product Add-Ons Ultimate needs to update your database. This will only take a few seconds. Please click the button below to go to the migration page to get started."
 msgstr ""
 
-#: product-extras-for-woocommerce.php:66
-msgid ""
-"WooCommerce Product Add-Ons Ultimate requires WooCommerce to be installed. "
-"Please install and activate WooCommerce before activating Add-Ons Ultimate."
+#: product-extras-for-woocommerce.php:67
+msgid "WooCommerce Product Add-Ons Ultimate requires WooCommerce to be installed. Please install and activate WooCommerce before activating Add-Ons Ultimate."
 msgstr ""
 
-#: product-extras-for-woocommerce.php:60
-msgid ""
-"WooCommerce Product Add-Ons Ultimate requires WooCommerce version 3.0.0 "
-"minimum. Please upgrade your version of WooCommerce."
+#: product-extras-for-woocommerce.php:61
+msgid "WooCommerce Product Add-Ons Ultimate requires WooCommerce version 3.0.0 minimum. Please upgrade your version of WooCommerce."
 msgstr ""
 
 #: inc/functions-migration.php:83
@@ -2634,82 +2432,977 @@ msgstr ""
 msgid "You can now edit your Global Add-Ons from <a href=\"%s\">this page</a>."
 msgstr ""
 
-#: inc/functions-uploads.php:37
+#: inc/functions-uploads.php:42
+#: inc/functions-uploads.php:355
 msgid "You cannot upload any more files."
 msgstr "Не можете да качвате повече файлове."
 
-#: inc/functions-uploads.php:32
+#: inc/functions-uploads.php:37
+#: inc/functions-uploads.php:350
 msgid "You cannot upload files of this type"
 msgstr "Не можете да качвате файлове от този тип"
 
-#: classes/class-pewc-sl-plugin-updater.php:487
-msgid "You do not have permission to install plugin updates"
-msgstr "Нямате разрешение да инсталирате актуализации на плъгини"
-
 #: inc/functions-migration.php:183
 #, php-format
-msgid ""
-"You have %s products with Add-Ons that need to be updated and %s global "
-"rules. "
+msgid "You have %s products with Add-Ons that need to be updated and %s global rules. "
 msgstr ""
 
 #: inc/functions-migration.php:166
-msgid ""
-"You might like to test this first on a staging or development version of "
-"your site. In any case, please make a backup of your site before clicking "
-"the update button below."
+msgid "You might like to test this first on a staging or development version of your site. In any case, please make a backup of your site before clicking the update button below."
 msgstr ""
 
 #: templates/frontend/upload.php:22
 msgid "You need to be logged in to upload files"
 msgstr "Трябва да сте влезли, за да качвате файлове"
 
-#: templates/admin/new-field-item.php:105
-#: templates/admin/new-field-item.php:122
-msgid ""
-"You need to save or publish this product before this field becomes available"
-msgstr ""
-
 #: admin/functions-admin-menu.php:64
-msgid ""
-"You'll find links and videos here that will answer the most common questions."
+msgid "You'll find links and videos here that will answer the most common questions."
 msgstr ""
 
-#: inc/functions-uploads.php:29
+#: inc/functions-uploads.php:34
+#: inc/functions-uploads.php:347
 msgid "Your browser does not support drag and drop file uploads"
 msgstr "Вашият браузър не поддържа качване на файлове с плъзгане и пускане"
 
-#: inc/functions-updater.php:289
+#: inc/functions-updater.php:311
 #, php-format
-msgid ""
-"Your licence is not currently activated. Please ensure you activate your "
-"licence in order to use all the features of this plugin. Your licence number "
-"will be on the email you were sent with the download link or on <a "
-"target=\"_blank\" href=\"%s\">your account page</a>."
+msgid "Your licence is not currently activated. Please ensure you activate your licence in order to use all the features of this plugin. Your licence number will be on the email you were sent with the download link or on <a target=\"_blank\" href=\"%s\">your account page</a>."
 msgstr ""
 
-#: inc/functions-updater.php:256
+#: inc/functions-updater.php:278
 #, php-format
-msgid ""
-"Your license is not currently activated. Please ensure you activate your "
-"license in order to use all the features of this plugin. Your license number "
-"will be on the email you were sent with the download link or on <a "
-"target=\"_blank\" href=\"%s\">your account page</a>."
+msgid "Your license is not currently activated. Please ensure you activate your license in order to use all the features of this plugin. Your license number will be on the email you were sent with the download link or on <a target=\"_blank\" href=\"%s\">your account page</a>."
 msgstr ""
 
-#: inc/functions-updater.php:111
-#, php-format
-msgid "your license key expired on %s."
-msgstr "лицензионният ви ключ е изтекъл на %s."
-
-#: inc/functions-updater.php:119
-msgid "your license key has been disabled."
-msgstr "вашият лицензен ключ е деактивиран."
-
-#: inc/functions-updater.php:140
-msgid "your license key has reached its activation limit."
-msgstr "Вашият лицензен ключ е достигнал лимита си за активиране."
-
-#: admin/functions-admin-settings.php:689
+#: admin/functions-admin-settings.php:842
 msgid "Zero value for missing fields"
 msgstr "Нулева стойност за липсващи полета"
+
+#: admin/customizer.php:56
+msgid "Swatches and Products"
+msgstr ""
+
+#: admin/customizer.php:435
+msgid "Hide the Group Title"
+msgstr ""
+
+#: admin/customizer.php:455
+msgid "Standard Layout"
+msgstr ""
+
+#: admin/customizer.php:475
+msgid "Title Colour"
+msgstr ""
+
+#: admin/customizer.php:494
+msgid "Title Font Size"
+msgstr ""
+
+#: admin/customizer.php:513
+msgid "Description Colour"
+msgstr ""
+
+#: admin/customizer.php:532
+msgid "Description Font Size"
+msgstr ""
+
+#: admin/customizer.php:552
+msgid "Accordion Layout"
+msgstr ""
+
+#: admin/customizer.php:572
+msgid "Title Background"
+msgstr ""
+
+#: admin/customizer.php:591
+msgid "Icon Colour"
+msgstr ""
+
+#: admin/customizer.php:610
+msgid "Icon Size"
+msgstr ""
+
+#: admin/customizer.php:630
+msgid "Steps Layout"
+msgstr ""
+
+#: admin/customizer.php:669
+#: admin/customizer.php:804
+msgid "Active Tab"
+msgstr ""
+
+#: admin/customizer.php:688
+msgid "Next Button"
+msgstr ""
+
+#: admin/customizer.php:707
+msgid "Previous Button"
+msgstr ""
+
+#: admin/customizer.php:726
+msgid "Button Text Color"
+msgstr ""
+
+#: admin/customizer.php:746
+msgid "Tabs Layout"
+msgstr ""
+
+#: admin/customizer.php:766
+msgid "Justify Tabs"
+msgstr ""
+
+#: admin/customizer.php:1028
+msgid "Show Inputs on Products Field"
+msgstr ""
+
+#: admin/customizer.php:1048
+msgid "Products Highlight Colour"
+msgstr ""
+
+#: admin/customizer.php:1068
+msgid "Swatch Border Width"
+msgstr ""
+
+#: admin/customizer.php:1088
+msgid "Swatch Border Padding"
+msgstr ""
+
+#: admin/customizer.php:1107
+msgid "Enable Circular Swatches"
+msgstr ""
+
+#: admin/customizer.php:1127
+msgid "Color Swatch Width"
+msgstr ""
+
+#: admin/customizer.php:1147
+msgid "Color Swatch Height"
+msgstr ""
+
+#: admin/customizer.php:1166
+msgid "Use Grid Layout"
+msgstr ""
+
+#: admin/customizer.php:1185
+msgid "Swatch Image Size"
+msgstr ""
+
+#: admin/customizer.php:1205
+msgid "Product Quantity Layout"
+msgstr ""
+
+#: admin/customizer.php:1210
+msgid "Grid"
+msgstr ""
+
+#: admin/customizer.php:1211
+msgid "Block"
+msgstr ""
+
+#: admin/customizer.php:1227
+msgid "Show Product Names as Tooltips"
+msgstr ""
+
+#: admin/functions-admin-cleanup-files.php:57
+#: admin/functions-admin-cleanup-files.php:58
+msgid "Clean Up Files"
+msgstr ""
+
+#: admin/functions-admin-cleanup-files.php:74
+msgid "Clean Up Uploaded Files"
+msgstr ""
+
+#: admin/functions-admin-cleanup-files.php:77
+msgid "Scanning directories..."
+msgstr ""
+
+#: admin/functions-admin-cleanup-files.php:80
+msgid "No directories found"
+msgstr ""
+
+#: admin/functions-admin-cleanup-files.php:83
+msgid "Getting all files that are older than [before_date]... [percentage]"
+msgstr ""
+
+#: admin/functions-admin-cleanup-files.php:86
+msgid "Scanning has finished for files older than [before_date]. Number of files to be deleted: [files_to_delete]"
+msgstr ""
+
+#: admin/functions-admin-cleanup-files.php:89
+msgid "Deleting files older than [before_date]... [percentage]"
+msgstr ""
+
+#: admin/functions-admin-cleanup-files.php:92
+msgid "Clean up done for files older than [before_date]. Number of files deleted: [total_deleted]"
+msgstr ""
+
+#: admin/functions-admin-cleanup-files.php:93
+msgid "Done"
+msgstr ""
+
+#: admin/functions-admin-cleanup-files.php:101
+msgid "Confirm delete? This cannot be undone."
+msgstr ""
+
+#: admin/functions-admin-cleanup-files.php:102
+#: admin/functions-admin-import-export-aou.php:48
+#: admin/functions-admin-import-export-aou.php:120
+msgid "Cancel"
+msgstr ""
+
+#: admin/functions-admin-cleanup-files.php:105
+msgid "Deleted files:"
+msgstr ""
+
+#: admin/functions-admin-cleanup-files.php:121
+msgid "Delete uploaded files for all Completed orders? This cannot be undone."
+msgstr ""
+
+#: admin/functions-admin-cleanup-files.php:122
+msgid "Delete uploaded files from Completed orders"
+msgstr ""
+
+#: admin/functions-admin-cleanup-files.php:129
+msgid "Delete files uploaded before date:"
+msgstr ""
+
+#: admin/functions-admin-cleanup-files.php:132
+msgid "Scan files to delete"
+msgstr ""
+
+#: admin/functions-admin-cleanup-files.php:156
+msgid "All uploaded files in Completed orders have been deleted."
+msgstr ""
+
+#: admin/functions-admin-cleanup-files.php:162
+msgid "Some files have not been deleted because of an error."
+msgstr ""
+
+#: admin/functions-admin-cleanup-files.php:168
+#: admin/functions-admin-order.php:610
+msgid "Invalid nonce. No files were deleted."
+msgstr ""
+
+#: admin/functions-admin-cleanup-files.php:204
+msgid "No Completed orders with uploaded files were found."
+msgstr ""
+
+#: admin/functions-admin-cleanup-files.php:335
+#: admin/functions-admin-cleanup-files.php:387
+msgid "Invalid nonce. Please refresh page then try again."
+msgstr ""
+
+#: admin/functions-admin-cleanup-files.php:342
+#: admin/functions-admin-cleanup-files.php:394
+msgid "Invalid request. Some parameters are missing."
+msgstr ""
+
+#: admin/functions-admin-cleanup-files.php:350
+#: admin/functions-admin-cleanup-files.php:402
+msgid "Invalid date format: "
+msgstr ""
+
+#: admin/functions-admin-cleanup-files.php:363
+#: admin/functions-admin-cleanup-files.php:415
+msgid "Invalid directory: "
+msgstr ""
+
+#: admin/functions-admin-conditions.php:20
+msgid "True"
+msgstr ""
+
+#: admin/functions-admin-conditions.php:21
+msgid "False"
+msgstr ""
+
+#: admin/functions-admin-import-export-aou.php:44
+msgid "Import/Export Add-Ons"
+msgstr ""
+
+#: admin/functions-admin-import-export-aou.php:46
+#: admin/functions-admin-import-export-aou.php:100
+#: admin/functions-admin-import-export-aou.php:315
+#: admin/functions-admin-import-export-aou.php:316
+#: admin/functions-admin-import-export-aou.php:383
+msgid "Export Groups"
+msgstr ""
+
+#: admin/functions-admin-import-export-aou.php:47
+msgid "Export Selected Group(s)"
+msgstr ""
+
+#: admin/functions-admin-import-export-aou.php:81
+msgid "Import Add-On Groups"
+msgstr ""
+
+#: admin/functions-admin-import-export-aou.php:83
+msgid "Choose whether to import groups from one or more products or from existing global groups. You'll be able to select which groups to import. All fields within the groups will also be imported."
+msgstr ""
+
+#: admin/functions-admin-import-export-aou.php:87
+#: admin/functions-admin-import-export-aou.php:106
+msgid "Product(s)"
+msgstr ""
+
+#: admin/functions-admin-import-export-aou.php:101
+msgid "Groups: "
+msgstr ""
+
+#: admin/functions-admin-import-export-aou.php:103
+msgid "Choose where to export these groups to - either to specific products or to global groups. All fields within your selected groups will also be exported."
+msgstr ""
+
+#: admin/functions-admin-import-export-aou.php:123
+#: admin/functions-admin-import-export-aou.php:399
+msgid "Exporting..."
+msgstr ""
+
+#: admin/functions-admin-import-export-aou.php:124
+#: admin/functions-admin-import-export-aou.php:352
+msgid "Importing..."
+msgstr ""
+
+#: admin/functions-admin-import-export-aou.php:129
+msgid "Go to Global Groups"
+msgstr ""
+
+#: admin/functions-admin-import-export-aou.php:132
+msgid "Go to Global Add-Ons"
+msgstr ""
+
+#: admin/functions-admin-import-export-aou.php:135
+#: admin/functions-admin-import-export-aou.php:403
+msgid "Go to"
+msgstr ""
+
+#: admin/functions-admin-import-export-aou.php:205
+msgid "No groups found in your selection. Please try again."
+msgstr ""
+
+#: admin/functions-admin-import-export-aou.php:344
+#: admin/functions-admin-import-export-aou.php:384
+msgid "Go back to Global Groups"
+msgstr ""
+
+#: admin/functions-admin-import-export-aou.php:388
+msgid "No Global Groups selected for export."
+msgstr ""
+
+#: admin/functions-admin-import-export-aou.php:393
+msgid "Export to products:"
+msgstr ""
+
+#: admin/functions-admin-menu.php:103
+msgid "Find the Product Add-Ons Ultimate settings page here"
+msgstr ""
+
+#: admin/functions-admin-order.php:320
+#: admin/functions-admin-order.php:598
+msgid "All files for this order have been deleted."
+msgstr ""
+
+#: admin/functions-admin-order.php:395
+msgid "Delete uploaded files in this order? This cannot be undone."
+msgstr ""
+
+#: admin/functions-admin-order.php:396
+msgid "Delete Files"
+msgstr ""
+
+#: admin/functions-admin-order.php:604
+msgid "Some files for this order have not been deleted because of an error."
+msgstr ""
+
+#: admin/functions-admin-order.php:664
+msgid "Has uploads?"
+msgstr ""
+
+#: admin/functions-admin-settings.php:21
+#: templates/admin/field-item.php:93
+msgid "Pricing"
+msgstr ""
+
+#: admin/functions-admin-settings.php:37
+msgid "Hide field prices"
+msgstr ""
+
+#: admin/functions-admin-settings.php:40
+msgid "Hide field prices in the cart for extras with only one option value (e.g. Radio, Select). Avoids displaying add-on prices twice."
+msgstr ""
+
+#: admin/functions-admin-settings.php:108
+msgid "Enhancements"
+msgstr ""
+
+#: admin/functions-admin-settings.php:121
+#: admin/functions-admin-settings.php:180
+#: admin/functions-admin-settings.php:772
+msgid "Disabled"
+msgstr ""
+
+#: admin/functions-admin-settings.php:123
+msgid "Enhanced"
+msgstr ""
+
+#: admin/functions-admin-settings.php:127
+msgid "Enable Clear All Options button"
+msgstr ""
+
+#: admin/functions-admin-settings.php:130
+msgid "Display the Clear All Options button on the product page, which allows customers to clear all Add-On field values. Requires Optimise conditions."
+msgstr ""
+
+#: admin/functions-admin-settings.php:136
+msgid "Enable cart editing"
+msgstr ""
+
+#: admin/functions-admin-settings.php:154
+msgid "Exclude empty fields in cart"
+msgstr ""
+
+#: admin/functions-admin-settings.php:157
+msgid "If a field does not have a value, do not include it in cart meta"
+msgstr ""
+
+#: admin/functions-admin-settings.php:167
+msgid "Progress bar"
+msgstr ""
+
+#: admin/functions-admin-settings.php:173
+msgid "Display progress bar"
+msgstr ""
+
+#: admin/functions-admin-settings.php:176
+msgid "Show a graphic progress bar for users to see how many fields they have completed."
+msgstr ""
+
+#: admin/functions-admin-settings.php:186
+msgid "Required fields only"
+msgstr ""
+
+#: admin/functions-admin-settings.php:189
+msgid "Only check required fields for progress bar update."
+msgstr ""
+
+#: admin/functions-admin-settings.php:194
+msgid "Progress bar layout"
+msgstr ""
+
+#: admin/functions-admin-settings.php:197
+msgid "Choose a style for your progress bar."
+msgstr ""
+
+#: admin/functions-admin-settings.php:201
+msgid "Bar"
+msgstr ""
+
+#: admin/functions-admin-settings.php:246
+msgid "Display hidden fields as disabled"
+msgstr ""
+
+#: admin/functions-admin-settings.php:249
+msgid "If a field is hidden by a condition, select this option to make it visible but disabled"
+msgstr ""
+
+#: admin/functions-admin-settings.php:341
+msgid "Optimizations"
+msgstr ""
+
+#: admin/functions-admin-settings.php:347
+msgid "Optimize calculations"
+msgstr ""
+
+#: admin/functions-admin-settings.php:350
+msgid "This will enable an alternative method for checking calculations which might improve page performance."
+msgstr ""
+
+#: admin/functions-admin-settings.php:355
+msgid "Optimize conditions"
+msgstr ""
+
+#: admin/functions-admin-settings.php:358
+msgid "This will enable an alternative method for checking conditions which might improve page performance."
+msgstr ""
+
+#: admin/functions-admin-settings.php:544
+msgid "File types"
+msgstr ""
+
+#: admin/functions-admin-settings.php:547
+msgid "Enter the permitted file types. Please remember that allowing users to upload files to your server carries a security risk, so please use this feature with caution."
+msgstr ""
+
+#: admin/functions-admin-settings.php:574
+msgid "Swatches settings"
+msgstr ""
+
+#: admin/functions-admin-settings.php:589
+#: templates/admin/sections/swatches.php:42
+msgid "Replace main image"
+msgstr ""
+
+#: admin/functions-admin-settings.php:592
+msgid "Enable this option to replace the main product image with the selected image swatch."
+msgstr ""
+
+#: admin/functions-admin-settings.php:727
+msgid "Show stock status"
+msgstr ""
+
+#: admin/functions-admin-settings.php:730
+msgid "Enable this to add a child product's stock status to their name"
+msgstr ""
+
+#: admin/functions-admin-settings.php:746
+msgid "Enable plus minus buttons"
+msgstr ""
+
+#: admin/functions-admin-settings.php:749
+msgid "Enable this to show + and - buttons alongside quantity fields in Products fields."
+msgstr ""
+
+#: admin/functions-admin-settings.php:759
+msgid "QuickView"
+msgstr ""
+
+#: admin/functions-admin-settings.php:774
+msgid "New tab"
+msgstr ""
+
+#: admin/functions-admin-settings.php:778
+msgid "Optional link text"
+msgstr ""
+
+#: admin/functions-admin-settings.php:781
+msgid "Enter text here to display as a separate link below the product name. Leave this empty to link directly from the product name."
+msgstr ""
+
+#: admin/functions-admin-settings.php:908
+msgid "Enable compatibility with Polylang"
+msgstr ""
+
+#: admin/functions-admin-settings.php:911
+msgid "Enable this only if you have Polylang installed. Also, if you have added the Polylang compatibility snippets before, please remove them before enabling this setting."
+msgstr ""
+
+#: admin/functions-admin-settings.php:926
+msgid "Dynamic Pricing and Discount Rules"
+msgstr ""
+
+#: admin/functions-admin-settings.php:932
+msgid "Disable Dynamic Pricing and Discount Rules price labels"
+msgstr ""
+
+#: admin/functions-admin-settings.php:935
+msgid "Prevent Dynamic Pricing and Discount Rules from updating the price labels on the product page."
+msgstr ""
+
+#: admin/functions-admin-settings.php:941
+msgid "Disable add-on prices on pricing table"
+msgstr ""
+
+#: admin/functions-admin-settings.php:944
+msgid "Prevent Add-Ons Ultimate from adding add-on field prices to the pricing table on the product page."
+msgstr ""
+
+#: admin/functions-admin-settings.php:953
+msgid "Adjust add-on field prices if User Role Pricing is enabled in Dynamic Pricing and Discount Rules."
+msgstr ""
+
+#: admin/functions-admin-settings.php:959
+msgid "Disable discounts for add-ons"
+msgstr ""
+
+#: admin/functions-admin-settings.php:962
+msgid "Select this if you don't wish to apply dynamic discounts to add-on field prices."
+msgstr ""
+
+#: admin/functions-admin-settings.php:977
+msgid "Custom user fields"
+msgstr ""
+
+#: admin/functions-admin-settings.php:983
+msgid "Enable user fields"
+msgstr ""
+
+#: admin/functions-admin-settings.php:986
+msgid "Select this to use custom user data in your add-on fields."
+msgstr ""
+
+#: admin/functions-admin-settings.php:1010
+#: classes/class-pewc-settings-tab.php:114
+msgid "Validation"
+msgstr ""
+
+#: admin/functions-admin-settings.php:1019
+msgid "This will enable validation of add-on fields using Javascript."
+msgstr ""
+
+#: admin/functions-admin-settings.php:1028
+msgid "This will hide the subtotals fields until all required fields have been completed. Requires Optimised validation."
+msgstr ""
+
+#: admin/functions-admin-settings.php:1034
+msgid "Disable groups"
+msgstr ""
+
+#: admin/functions-admin-settings.php:1037
+msgid "Disable the next groups until all required fields in the current group are completed. Only works if groups are displayed as Accordion, Steps, or Tabs. Requires Optimised validation."
+msgstr ""
+
+#: admin/functions-admin-settings.php:1043
+msgid "Disable scroll on Steps layout"
+msgstr ""
+
+#: admin/functions-admin-settings.php:1046
+msgid "Disable the scrolling animation on Steps layout when validation fails. Requires Optimised validation."
+msgstr ""
+
+#: admin/functions-custom-panel.php:105
+msgid "Select all groups"
+msgstr ""
+
+#: admin/functions-custom-panel.php:473
+#: templates/admin/field-item.php:84
+msgid "Calendar List"
+msgstr ""
+
+#: admin/functions-custom-panel.php:486
+msgid "Swatch"
+msgstr ""
+
+#: admin/metaboxes.php:135
+#: templates/admin/group.php:81
+msgid "Group Class"
+msgstr ""
+
+#: admin/metaboxes.php:268
+#: templates/admin/group.php:23
+msgid "Group Settings"
+msgstr ""
+
+#: classes/class-pewc-product-extra-post-type.php:610
+#: templates/admin/global-rule.php:39
+msgid "Applies To"
+msgstr ""
+
+#: classes/class-pewc-settings-tab.php:117
+msgid "License"
+msgstr ""
+
+#: classes/class-pewc-settings-tab.php:178
+msgid "It hasn't been possible to validate your license key."
+msgstr ""
+
+#: classes/class-pewc-settings-tab.php:182
+msgid "<strong>Most importantly, this isn't a problem - all the plugin's features and functionality are fully available so you can start using the plugin straightaway without needing to activate the license.</strong>"
+msgstr ""
+
+#: classes/class-pewc-settings-tab.php:186
+msgid "There are a number of possible reasons for the license not validating:"
+msgstr ""
+
+#: classes/class-pewc-settings-tab.php:190
+msgid "It's possible there is an issue connecting between this site and the Plugin Republic site"
+msgstr ""
+
+#: classes/class-pewc-settings-tab.php:191
+msgid "If you have bought a bundle, please make sure you enter the license key that is specific to each plugin - not the main bundle license key"
+msgstr ""
+
+#: classes/class-pewc-settings-tab.php:192
+msgid "If you are running a security or firewall plugin, like Wordfence or Sucuri, please try temporarily disabling it and retesting the license "
+msgstr ""
+
+#: classes/class-pewc-settings-tab.php:196
+msgid "There are some more things to try on the following link:"
+msgstr ""
+
+#: classes/class-pewc-settings-tab.php:200
+msgid "How to solve any problems with activating your license."
+msgstr ""
+
+#: inc/functions-cart.php:1853
+msgid "The product has not been added to the cart because one or more of its components is sold individually and already exists in the cart."
+msgstr ""
+
+#: inc/functions-cart.php:2774
+msgid "The uploaded file has failed a security check. Please try uploading it again: "
+msgstr ""
+
+#: inc/functions-clear-all.php:33
+msgid "Clear All Options"
+msgstr ""
+
+#: inc/functions-conditionals.php:97
+msgid "User Role"
+msgstr ""
+
+#: inc/functions-js-validation.php:243
+msgid "Some fields in this group failed validation."
+msgstr ""
+
+#: inc/functions-media.php:592
+msgid "No thumbnail"
+msgstr ""
+
+#: inc/functions-media.php:602
+msgid "Remove uploaded file"
+msgstr ""
+
+#: inc/functions-order.php:118
+msgid "Composite image"
+msgstr ""
+
+#: inc/functions-order.php:122
+msgid "Composite preview"
+msgstr ""
+
+#: inc/functions-products.php:1008
+#: inc/functions-products.php:1056
+msgid "One of the options in this order is sold individually, so duplicates have been removed from the cart"
+msgstr ""
+
+#: inc/functions-repeatable.php:118
+msgid "+ Add More"
+msgstr ""
+
+#: inc/functions-repeatable.php:192
+msgid "Are you sure you want to remove this group?"
+msgstr ""
+
+#: inc/functions-repeatable.php:445
+#: templates/admin/group.php:133
+msgid "Repeatable"
+msgstr ""
+
+#: inc/functions-repeatable.php:453
+#: templates/admin/group.php:148
+msgid "Attach to Quantity"
+msgstr ""
+
+#: inc/functions-repeatable.php:461
+msgid "Repeatable Limit"
+msgstr ""
+
+#: inc/functions-single-product.php:134
+msgid "Increase quantity"
+msgstr ""
+
+#: inc/functions-single-product.php:135
+msgid "Decrease quantity"
+msgstr ""
+
+#: inc/functions-single-product.php:238
+msgid "Uploading..."
+msgstr ""
+
+#: inc/functions-single-product.php:299
+msgid "Counting the number of pages..."
+msgstr ""
+
+#: inc/functions-uploads.php:839
+msgid "Loading original image..."
+msgstr ""
+
+#: templates/admin/field-item.php:82
+#: templates/admin/views/option-fields.php:18
+msgid "Options"
+msgstr ""
+
+#: templates/admin/field-item.php:91
+msgid "Color picker"
+msgstr ""
+
+#: templates/admin/field-item.php:94
+msgid "Display"
+msgstr ""
+
+#: templates/admin/field-item.php:96
+msgid "Additional"
+msgstr ""
+
+#: templates/admin/field-meta-actions.php:16
+msgid "Export Field"
+msgstr ""
+
+#: templates/admin/group-meta-actions.php:14
+msgid "Sort"
+msgstr ""
+
+#: templates/admin/group-settings.php:21
+msgid "Product Settings"
+msgstr ""
+
+#: templates/admin/group-settings.php:57
+msgid "Assign global groups"
+msgstr ""
+
+#: templates/admin/group-settings.php:79
+msgid "Hide quantity field"
+msgstr ""
+
+#: templates/admin/group.php:113
+msgid "Always Include in Order"
+msgstr ""
+
+#: templates/admin/group.php:161
+msgid "Repeat Limit"
+msgstr ""
+
+#: templates/admin/sections/additional.php:20
+msgid "User Field ID"
+msgstr ""
+
+#: templates/admin/sections/calculations.php:57
+msgid "Click here for a list of tags"
+msgstr ""
+
+#: templates/admin/sections/calculations.php:158
+msgid "Set Child Product Quantity"
+msgstr ""
+
+#: templates/admin/sections/calculations.php:168
+msgid "Add to Product Length"
+msgstr ""
+
+#: templates/admin/sections/calculations.php:173
+msgid "Add to Product Width"
+msgstr ""
+
+#: templates/admin/sections/calculations.php:178
+msgid "Add to Product Height"
+msgstr ""
+
+#: templates/admin/sections/calculations.php:192
+msgid "Products Field ID"
+msgstr ""
+
+#: templates/admin/sections/calculations.php:218
+msgid "Reverse Formula Field ID"
+msgstr ""
+
+#: templates/admin/sections/calculations.php:231
+msgid "Original Input Field ID"
+msgstr ""
+
+#: templates/admin/sections/calculations.php:244
+msgid "Override Calculation?"
+msgstr ""
+
+#: templates/admin/sections/calendar-list.php:20
+msgid "Days"
+msgstr ""
+
+#: templates/admin/sections/calendar-list.php:41
+msgid "Offset"
+msgstr ""
+
+#: templates/admin/sections/calendar-list.php:60
+msgid "Add Item"
+msgstr ""
+
+#: templates/admin/sections/calendar-list.php:120
+msgid "Latest time"
+msgstr ""
+
+#: templates/admin/sections/calendar-list.php:153
+msgid "Latest time label"
+msgstr ""
+
+#: templates/admin/sections/display.php:19
+msgid "Field Class"
+msgstr ""
+
+#: templates/admin/sections/display.php:81
+msgid "Display as Swatch?"
+msgstr ""
+
+#: templates/admin/sections/display.php:97
+msgid "Display as Slider?"
+msgstr ""
+
+#: templates/admin/sections/general.php:33
+msgid "Admin Label"
+msgstr ""
+
+#: templates/admin/sections/general.php:67
+msgid "Click here for guidance on each field type"
+msgstr ""
+
+#: templates/admin/sections/general.php:82
+msgid "Field Visibility"
+msgstr ""
+
+#: templates/admin/sections/general.php:92
+msgid "Display everywhere"
+msgstr ""
+
+#: templates/admin/sections/general.php:93
+msgid "Display on product page only"
+msgstr ""
+
+#: templates/admin/sections/general.php:95
+msgid "Hide from customer"
+msgstr ""
+
+#: templates/admin/sections/number.php:50
+msgid "Decimal places"
+msgstr ""
+
+#: templates/admin/sections/products.php:29
+msgid "Choose child products"
+msgstr ""
+
+#: templates/admin/sections/products.php:113
+msgid "Components List"
+msgstr ""
+
+#: templates/admin/sections/products.php:120
+msgid "This article explains the different layouts"
+msgstr ""
+
+#: templates/admin/sections/products.php:209
+msgid "Default Quantity"
+msgstr ""
+
+#: templates/admin/sections/products.php:226
+msgid "Force Quantity?"
+msgstr ""
+
+#: templates/admin/sections/swatches.php:21
+msgid "Swatch width"
+msgstr ""
+
+#: templates/admin/sections/swatches.php:59
+msgid "Layer images?"
+msgstr ""
+
+#: templates/admin/sections/swatches.php:76
+msgid "Parent Swatch ID"
+msgstr ""
+
+#: templates/admin/sections/text.php:20
+msgid "Min Characters"
+msgstr ""
+
+#: templates/admin/sections/text.php:34
+msgid "Max Characters"
+msgstr ""
+
+#: templates/admin/sections/text.php:67
+msgid "Free Characters"
+msgstr ""
+
+#: templates/admin/views/option-fields-new.php:21
+#: templates/admin/views/option-fields.php:32
+msgid "Alt"
+msgstr ""
+
+#: templates/admin/views/option-fields-new.php:24
+msgid "Colour"
+msgstr ""
+
+#: templates/admin/views/option-fields.php:35
+msgid "Color"
+msgstr ""

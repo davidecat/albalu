@@ -369,7 +369,10 @@ const pewc_import_export = {
 		jQuery( '.pewc-import-aou-groups' ).hide();
 		jQuery( '.pewc-export-aou-groups' ).hide();
 		jQuery( '.add_new_group' ).hide();
-		jQuery( '.pewc-group-settings' ).hide();
+		jQuery( '.pewc-group-settings' ).not( '.pewc-group-import-export' ).hide();
+
+		// Collapse all groups
+		jQuery( '.field-table' ).addClass( 'collapse-panel' );
 
 		jQuery( '.pewc-export-aou-selected-group' ).show();
 		jQuery( '.pewc-export-aou-cancel' ).show();

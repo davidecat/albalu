@@ -240,6 +240,21 @@ function pewc_attach_images_to_email( $attachments, $id, $order ) {
 						}
 					}
 				}
+
+				// aou-repeatable-conditions-upload, attach uploaded files from repeatable groups
+				if ( ! empty( $product_extras['cloned_groups'] ) ) {
+					foreach( $product_extras['cloned_groups'] as $group_id => $group ) {
+						foreach ( $group as $clone_index => $fields ) {
+							foreach( $fields as $field_id => $field ) {
+								if ( ! empty( $field['files'] ) ) {
+									foreach( $field['files'] as $index => $file ) {
+										$attachments[] = $file['file'];
+									}
+								}
+							}
+						}
+					}
+				}
 			}
 		}
 

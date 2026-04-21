@@ -113,14 +113,36 @@ function pewc_aelia_cs_convert( $amount, $item, $product=null, $from_currency=''
 
 }
 add_filter( 'pewc_filter_field_price', 'pewc_aelia_cs_convert', 10, 3 );
-add_filter( 'pewc_filter_option_price', 'pewc_aelia_cs_convert', 10, 3 );
+
+/**
+ * Filter option prices for Aelia, skipping conversion for 'Value Only' options
+ * (used in calculation fields where the price is a multiplier, not a currency amount)
+ * @since 4.1.1
+ */
+function pewc_aelia_cs_convert_option_price( $amount, $item, $product=null, $from_currency='', $to_currency='' ) {
+
+	// Don't convert option prices that are 'Value only'
+	if( isset( $item['option_price_visibility'] ) && $item['option_price_visibility'] === 'value' ) {
+		return $amount;
+	}
+
+	if( ! $from_currency ) {
+		$from_currency = pewc_aelia_get_from_currency();
+	}
+	if( ! $to_currency ) {
+		$to_currency = pewc_aelia_get_to_currency();
+	}
+
+	return pewc_aelia_cs_convert( $amount, $item, $product );
+}
+add_filter( 'pewc_filter_option_price', 'pewc_aelia_cs_convert_option_price', 10, 5 );
 
 function pewc_aelia_get_from_currency() {
-	return get_option( 'woocommerce_currency' );
+	return pewc_get_default_currency(); // 4.1.2, use the new function. Keep pewc_aelia_get_from_currency() for backwards compatibility?
 }
 
 function pewc_aelia_get_to_currency() {
-	return get_woocommerce_currency();
+	return pewc_get_current_currency(); // 4.1.2, use the new function. Keep pewc_aelia_get_to_currency() for backwards compatibility?
 }
 
 function pewc_aelia_get_selected_currency() {
@@ -503,3 +525,88 @@ function pewc_wcfad_get_disable_on_addons( $disable, $product_id ) {
 
 }
 add_filter( 'pewc_disable_wcfad_on_addons', 'pewc_wcfad_get_disable_on_addons', 1, 2 );
+
+/**
+ * Get default currency as set in WooCommerce
+ * @since 4.1.2
+ */
+function pewc_get_default_currency() {
+	return get_option( 'woocommerce_currency' );
+}
+
+/**
+ * Get current currency, may be filtered by other plugins like Aelia or FOX
+ * @since 4.1.2
+ */
+function pewc_get_current_currency() {
+	return get_woocommerce_currency();
+}
+
+/**
+ * Allow FOX Currency Switcher to filter our field prices on the frontend product pages
+ * @since 4.1.2
+ */
+function pewc_woocs_filter_field_price( $amount, $item, $product=null, $from_currency='', $to_currency='' ) {
+
+	$amount = apply_filters( 'woocs_exchange_value', $amount );
+	return $amount;
+
+}
+add_filter( 'pewc_filter_field_price', 'pewc_woocs_filter_field_price', 11, 3 );
+
+/**
+ * Allow FOX Currency Switcher to filter our option prices on the frontend product pages
+ * @since 4.1.2
+ */
+function pewc_woocs_filter_option_price( $amount, $item, $product=null, $from_currency='', $to_currency='' ) {
+
+	$amount = apply_filters( 'woocs_exchange_value', $amount );
+	return $amount;
+
+}
+add_filter( 'pewc_filter_option_price', 'pewc_woocs_filter_option_price', 11, 5 );
+
+/**
+ * Function to convert prices back to the default currency before saving to the cart. FOX Currency Switcher seems to assume that all prices in the cart are using the default currency
+ * So if a customer adds a product in a different currency other than default, we convert them back first
+ * @since 4.1.2
+ */
+function pewc_woocs_after_add_cart_item_data( $cart_item_data ) {
+
+	global $WOOCS;
+	if ( ! isset( $WOOCS ) ) {
+		return $cart_item_data;
+	}
+
+	$current_currency = pewc_get_current_currency();
+	$default_currency = pewc_get_default_currency();
+
+	if ( $current_currency === $default_currency ) {
+		// no need to convert?
+		return $cart_item_data;
+	}
+
+	// We have to iterate through every price and convert to the default currency. WOOCS converts them to the current currency on display
+	foreach( $cart_item_data['product_extras']['groups'] as $group_id=>$group ) {
+		foreach( $group as $field_id=>$field ) {
+			if( ! empty( $field['price'] ) ) {
+				// Convert the add-on price
+				$price = $cart_item_data['product_extras']['groups'][$group_id][$field_id]['price'];
+				$cart_item_data['product_extras']['groups'][$group_id][$field_id]['price'] = apply_filters( 'woocs_back_convert_price', $price );
+			}
+		}
+		
+	}
+	if( ! empty( $cart_item_data['product_extras']['price_with_extras'] ) ) {
+		$price = $cart_item_data['product_extras']['price_with_extras'];
+		$cart_item_data['product_extras']['price_with_extras'] = apply_filters( 'woocs_back_convert_price', $price );
+	}
+	if( ! empty( $cart_item_data['product_extras']['original_price'] ) ) {
+		$price = $cart_item_data['product_extras']['original_price'];
+		$cart_item_data['product_extras']['original_price'] = apply_filters( 'woocs_back_convert_price', $price );
+	}
+
+	return $cart_item_data;
+
+}
+add_filter( 'pewc_after_add_cart_item_data', 'pewc_woocs_after_add_cart_item_data', 11, 1 );

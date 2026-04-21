@@ -77,8 +77,56 @@ function pewc_repeatable_get_label( $format, $group_title, $field_label, $clone_
 }
 
 /**
+ * Display the Add More button inside the group container so that it is also hidden if there is a condition
+ * @since 3.26.14
+ */
+function pewc_close_group_repeatable( $group_id, $group, $group_index ) {
+
+	if ( ! empty( $group['is_repeatable'] ) && ! empty( $group['has_repeatable'] ) ) {
+
+		if ( isset( $_POST['pewc-repeat-group-count-'.$group_id] ) ) {
+			$clone_count = (int) $_POST['pewc-repeat-group-count-'.$group_id];
+			//if ( $clone_count > 1 && ( empty( $group['clone_count'] ) || $group['clone_count'] < $clone_count ) ) {
+				//return; // we only add this button after the last repeated group
+			//}
+			$repeat_style = ( $group_index < $clone_count ) ? ' style="display:none;"' : '';
+		} else {
+			$clone_count = 1;
+			$repeat_style = ( $group_index+1 < $clone_count ) ? ' style="display:none;"' : ''; // maybe this is not needed?
+		}
+
+		$group_title = pewc_get_group_title( $group_id, $group, pewc_has_migrated() );
+		$label_type = pewc_repeatable_labeling( $group_id );
+		$label_format = pewc_repeatable_label_format( $label_type );
+
+		printf(
+			'<p class="pewc-repeat-group pewc-repeat-group-%s" %s>
+				<a href="#" 
+					id="pewc-repeat-group-%s" 
+					class="pewc-repeat-group-button" 
+					data-repeat-labeling="%s" 
+					data-repeat-label-format="%s" 
+					data-group-title="%s"
+				>%s</a>
+			</p>',
+			$group_id,
+			$repeat_style,
+			$group_id,
+			esc_attr( $label_type ),
+			esc_attr( $label_format ),
+			esc_attr( $group_title ),
+			__( '+ Add More', 'pewc'),
+		);
+
+	}
+
+}
+add_action( 'pewc_close_group_inner', 'pewc_close_group_repeatable', 10, 3 );
+
+/**
  * Display a button on the frontend product page that allows customers to repeat a group
- * @since 3.22.0
+ * @since	3.22.0
+ * @version	3.26.14
  */
 function pewc_end_group_repeatable( $group_id, $group, $group_index ) {
 
@@ -87,44 +135,29 @@ function pewc_end_group_repeatable( $group_id, $group, $group_index ) {
 		if ( isset( $_POST['pewc-repeat-group-count-'.$group_id] ) ) {
 			$clone_count = (int) $_POST['pewc-repeat-group-count-'.$group_id];
 			if ( $clone_count > 1 && ( empty( $group['clone_count'] ) || $group['clone_count'] < $clone_count ) ) {
-				return; // we only add this button after the last repeated group
+				return; // we only add this after the last repeated group
 			}
 		} else {
 			$clone_count = 1;
 		}
 
-		$repeat_limit = pewc_get_group_repeatable_limit( $group_id );
-		$group_title = pewc_get_group_title( $group_id, $group, pewc_has_migrated() );
-		$label_type = pewc_repeatable_labeling( $group_id );
-		$label_format = pewc_repeatable_label_format( $label_type );
 		$repeat_by_quantity = pewc_get_group_repeatable_by_quantity( $group_id );
+		$repeat_limit = pewc_get_group_repeatable_limit( $group_id );
 
+		// 3.26.14, the Add More button is removed from here and added above instead in pewc_close_group_repeatable()
 		printf(
-			'<p class="pewc-repeat-group pewc-repeat-group-%s %s">
-				<a href="#" 
-					id="pewc-repeat-group-%s" 
-					class="pewc-repeat-group-button" 
-					data-clone-counter="%s" 
-					data-repeat-limit="%s" 
-					data-repeat-labeling="%s" 
-					data-repeat-label-format="%s" 
-					data-repeat-by-quantity="%s" 
-					data-group-title="%s"
-				>%s</a>
-			</p>
-			<input type="hidden" id="pewc-repeat-group-count-%s" name="pewc-repeat-group-count-%s" value="%s">',
+			'<input type="hidden" 
+				id="pewc-repeat-group-count-%s" 
+				class="%s" 
+				name="pewc-repeat-group-count-%s" 
+				value="%s"
+				data-repeat-limit="%s"
+				data-internal-counter="%s" >',
 			$group_id,
-			$repeat_by_quantity ? 'pewc-repeat-by-quantity pewc-visibility-hidden' : '',
+			$repeat_by_quantity ? 'pewc-repeat-by-quantity' : '',
 			$group_id,
 			$clone_count,
 			$repeat_limit,
-			esc_attr( $label_type ),
-			esc_attr( $label_format ),
-			$repeat_by_quantity ? 'yes' : 'no',
-			esc_attr( $group_title ),
-			__( '+ Add More', 'pewc'),
-			$group_id,
-			$group_id,
 			$clone_count,
 		);
 
@@ -146,8 +179,8 @@ add_action( 'pewc_end_group', 'pewc_end_group_repeatable', 10, 3 );
  * @since 3.22.0
  */
 function pewc_get_repeatable_fields() {
-	$repeatable_fields = array( 'number', 'select', 'text', 'radio' );
-	return $repeatable_fields;
+	$repeatable_fields = array( 'number', 'select', 'text', 'radio', 'checkbox', 'textarea', 'upload' );
+	return apply_filters( 'pewc_filter_repeatable_fields', $repeatable_fields );
 }
 
 /**
@@ -169,7 +202,7 @@ function pewc_change_to_array_id( $id, $item, $type='' ) {
 
 	if ( pewc_is_repeatable_field( $item ) ) {
 		// some fields need unique IDs?
-		$unique_fields = array( 'radio', 'select' );
+		$unique_fields = array( 'checkbox', 'radio', 'select' );
 		// $item['clone_count'] is not empty if this is a submitted page
 		if( in_array( $item['field_type'], $unique_fields ) && ! empty( $item['clone_count'] ) ) {
 			$index = floor( $item['clone_count'] - 1 );
@@ -411,7 +444,7 @@ function pewc_metabox_repeatable_fields( $pewc_groups ) {
 		'name'		=> 'repeatable',
 		'title'		=> __( 'Repeatable', 'pewc' ),
 		'type'		=> 'checkbox',
-		'class'		=> '',
+		'class'		=> 'pewc-start-threes',
 		'input_class' => 'pewc-group-repeatable',
 	);
 	$pewc_groups[] = array(
@@ -427,7 +460,7 @@ function pewc_metabox_repeatable_fields( $pewc_groups ) {
 		'name'		=> 'repeatable_limit',
 		'title'		=> __( 'Repeatable Limit', 'pewc' ),
 		'type'		=> 'number',
-		'class'		=> '',
+		'class'		=> 'pewc-end-threes',
 	);
 	return $pewc_groups;
 }
@@ -719,3 +752,28 @@ function pewc_remove_cloned_group_button( $group_id, $group, $group_index ) {
 
 }
 add_action( 'pewc_open_group_inner', 'pewc_remove_cloned_group_button', 11, 3 );
+
+/**
+ * Checks if a field is a cloned field, $field_id looks like this pewc_group_<group_id>_<field_id>_cloned_<clone_index>
+ * @since aou-repeatable-conditions-upload
+ */
+function pewc_is_cloned_field( $field_id ) {
+
+	return false !== strpos( $field_id, '_cloned_' );
+
+}
+
+/**
+ * Get clone index from field_id (must pass pewc_is_cloned_field())
+ * @since aou-repeatable-conditions-upload
+ */
+function pewc_get_repeatable_index_from_field_id( $field_id ) {
+
+	$index = 0;
+	$tmp = explode( '_', $field_id );
+	if ( ! empty( $tmp[5] ) ) {
+		$index = $tmp[5];
+	}
+	return $index;
+
+}

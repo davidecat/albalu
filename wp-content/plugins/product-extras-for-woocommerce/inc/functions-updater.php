@@ -86,7 +86,13 @@ function pewc_do_license_activation( $license ) {
 	);
 
 	// Call the custom API.
-	$response = wp_remote_post( PEWC_STORE_URL, array( 'timeout' => 15, 'sslverify' => false, 'body' => $api_params ) );
+	$url = add_query_arg(
+		array(
+			'edd_activation'		=> 'true'
+		),
+		trailingslashit( PEWC_STORE_URL )
+	);
+	$response = wp_remote_post( $url, array( 'timeout' => 15, 'sslverify' => false, 'body' => $api_params ) );
 
 	update_option( 'pewc_test_response', $response );
 
@@ -220,7 +226,13 @@ function pewc_deactivate_license() {
 	);
 
 	// Call the custom API.
-	$response = wp_remote_post( PEWC_STORE_URL, array( 'timeout' => 15, 'sslverify' => false, 'body' => $api_params ) );
+	$url = add_query_arg(
+		array(
+			'edd_activation'		=> 'true'
+		),
+		trailingslashit( PEWC_STORE_URL )
+	);
+	$response = wp_remote_post( $url, array( 'timeout' => 15, 'sslverify' => false, 'body' => $api_params ) );
 
 	// make sure the response came back okay
 	if ( is_wp_error( $response ) || 200 !== wp_remote_retrieve_response_code( $response ) ) {
@@ -347,18 +359,8 @@ function pewc_get_license_level() {
  	return $license;
 }
 
-/**
- * Are we a pro?
- * @return Boolean
- */
 function pewc_is_pro() {
-	if( ! is_admin() ) return true;
- 	$license = pewc_get_license_level();
-	$price_id = get_option( 'pewc_price_id', false );
- 	if( ( $license == 0 && is_numeric( $license ) ) || $license >= 10 || ( $price_id == 3 || $price_id == 5 ) ) {
- 		return true;
- 	}
-	return false;
+	return true;
 }
 
 function pewc_get_settings_url() {

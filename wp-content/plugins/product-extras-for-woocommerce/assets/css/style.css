@@ -244,7 +244,8 @@ input[type="range"] {
 }
 /* Conditional styles */
 .pewc-group-hidden,
-.pewc-hidden-conditional-fields {
+.pewc-hidden-conditional-fields,
+.pewc-cloned-hidden {
 	display: none;
 	visibility: hidden;
 }
@@ -462,11 +463,12 @@ td.pewc-information-image:empty {
 	border: 0;
 	background: white;
 	border: 3px dashed #d3d3d3;
-	padding: 1rem 2rem;
+	padding: 1rem;
 	margin: 1rem 0
 }
 .dropzone .dz-preview {
-	width: 100px
+	width: 100px;
+	margin: 0
 }
 .dropzone .dz-preview.dz-image-preview {
 	margin: 0
@@ -939,6 +941,9 @@ li .pewc-calculation-field-wrapper {
 	margin-bottom: 5px;
 	align-items: center;
 }
+.pewc-plus-minus-enabled .pewc-component-wrapper {
+	grid-template-columns: 125px 1fr 130px;
+}
 .pewc-quantity-layout-block .pewc-item-products-components .products-quantities-independent .pewc-radio-image-desc {
 	text-align: left;
 }
@@ -986,13 +991,13 @@ select.pewc-variable-child-select {
 	margin-bottom: 1em
 }
 .pewc-style-simple [data-field-type="select"] select.pewc-form-field {
-	background: url(data:image/svg+xml;base64,PHN2ZyBpZD0iTGF5ZXJfMSIgZGF0YS1uYW1lPSJMYXllciAxIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0Ljk1IDEwIj48ZGVmcz48c3R5bGU+LmNscy0xe2ZpbGw6I2ZmZjt9LmNscy0ye2ZpbGw6IzQ0NDt9PC9zdHlsZT48L2RlZnM+PHRpdGxlPmFycm93czwvdGl0bGU+PHJlY3QgY2xhc3M9ImNscy0xIiB3aWR0aD0iNC45NSIgaGVpZ2h0PSIxMCIvPjxwb2x5Z29uIGNsYXNzPSJjbHMtMiIgcG9pbnRzPSIxLjQxIDQuNjcgMi40OCAzLjE4IDMuNTQgNC42NyAxLjQxIDQuNjciLz48cG9seWdvbiBjbGFzcz0iY2xzLTIiIHBvaW50cz0iMy41NCA1LjMzIDIuNDggNi44MiAxLjQxIDUuMzMgMy41NCA1LjMzIi8+PC9zdmc+) no-repeat 95% 50%;
-  -moz-appearance: none;
-  -webkit-appearance: none;
-  appearance: none;
-  height: 30px;
-  width: 100%;
-  padding: 5px;
+	background: url(data:image/svg+xml;base64,PHN2ZyBpZD0iTGF5ZXJfMSIgZGF0YS1uYW1lPSJMYXllciAxIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0Ljk1IDEwIj48ZGVmcz48c3R5bGU+LmNscy0xe2ZpbGw6I2ZmZjt9LmNscy0ye2ZpbGw6IzQ0NDt9PC9zdHlsZT48L2RlZnM+PHRpdGxlPmFycm93czwvdGl0bGU+PHJlY3QgY2xhc3M9ImNscy0xIiB3aWR0aD0iNC45NSIgaGVpZ2h0PSIxMCIvPjxwb2x5Z29uIGNsYXNzPSJjbHMtMiIgcG9pbnRzPSIxLjQxIDQuNjcgMi40OCAzLjE4IDMuNTQgNC42NyAxLjQxIDQuNjciLz48cG9seWdvbiBjbGFzcz0iY2xzLTIiIHBvaW50cz0iMy41NCA1LjMzIDIuNDggNi44MiAxLjQxIDUuMzMgMy41NCA1LjMzIi8+PC9zdmc+) no-repeat 98% 50%;
+	-moz-appearance: none;
+	-webkit-appearance: none;
+	appearance: none;
+	height: 30px;
+	width: 100%;
+	padding: 5px;
 }
 .pewc-column-wrapper .pewc-column-add-wrapper .pewc-quantity-wrapper {
 	margin-right: 0.5em
@@ -1102,6 +1107,57 @@ input[type=number].pewc-child-quantity-field {
 .pewc-hidden-child-product,
 .pewc-hidden-parent-product {
 	display: none !important;
+}
+/* Calendar List */
+.pewc-cl-wrapper,
+.pewc-preset-style .pewc-cl-wrapper {
+	padding: 2em 0;
+	text-align: center;
+	background: #f8f8f8;
+}
+.pewc-cl-wrapper.disabled,
+.pewc-preset-style .pewc-radio-form-label.pewc-cl-wrapper.disabled {
+	pointer-events: none !important;
+	cursor: not-allowed !important;
+}
+.pewc-cl-wrapper.disabled label {
+	opacity: 0.7;
+	cursor: not-allowed !important;
+}
+.pewc-cl-date-box,
+.pewc-cl-info-box {
+	padding: 0.5em 0;
+	display: block;
+}
+.pewc-cl-date-box {
+	border-bottom: 1px solid #d7d7d7;
+}
+span.pewc-cl-item,
+span.pewc-cl-date-box {
+	display: block
+}
+.pewc-cl-nice-day {
+    text-transform: uppercase;
+    font-size: 1em;
+    font-weight: bold;
+    font-style: normal;
+}
+.pewc-cl-nice-date {
+	font-size: 2em;
+    line-height: 1;
+	font-weight: bold;
+}
+.pewc-cl-option-price {
+	font-size: 1.5em;
+    font-weight: bold;
+}
+.pewc-cl-wrapper.checked,
+.pewc-preset-style .pewc-cl-wrapper.checked {
+	background: #009B74;
+	color: #fff;
+}
+.checked .pewc-cl-date-box {
+	border-bottom: 1px solid #fff;
 }
 
 /* Barn2 Fast Cart */
@@ -1659,6 +1715,16 @@ span.pewc-cart-group-heading {
 	font-size: 110%;
 	text-decoration: underline;
 }
+dl.variation dt:before {
+    content: "";
+    clear: left;
+    display: table;
+}
+dl.variation dt,
+dl.variation dd,
+dl.variation p {
+	display: inline
+}
 dl.variation dd:empty {
 	margin-bottom: 0.5em;
 	clear:left;
@@ -1984,3 +2050,57 @@ body.wp-admin.rtl .ui-datepicker {
 	border-color: #333 transparent transparent transparent;
 }
 
+/* Plus/minus buttons for Products field quantity inputs */
+span.pewc-plusminus-wrapper {
+	display: flex;
+	flex-direction: row;
+	align-items: stretch;
+	flex-wrap: nowrap;
+	width: 100%;
+	align-self: flex-start;
+}
+.pewc-child-select-field span.pewc-plusminus-wrapper {
+	margin-top: 8px;
+}
+span.pewc-plusminus-wrapper input[type="number"] {
+	text-align: center;
+	-moz-appearance: textfield;
+	appearance: textfield;
+	flex: 1 1 auto !important;
+	min-width: 0;
+	width: 0;
+	margin: 0 4px !important;
+}
+.products-quantities-independent span.pewc-plusminus-wrapper input[type="number"],
+.pewc-child-select-field span.pewc-plusminus-wrapper input[type="number"] {
+	flex: none;
+}
+span.pewc-plusminus-wrapper input[type="number"]::-webkit-inner-spin-button,
+span.pewc-plusminus-wrapper input[type="number"]::-webkit-outer-spin-button {
+	-webkit-appearance: none;
+	margin: 0;
+}
+
+.pewc-plusminus-btn {
+	flex: 0 0 2em;
+	display: block;
+	width: 2em;
+	min-width: 0;
+	max-width: none;
+	padding: 0;
+	line-height: 1;
+	font-size: 1em;
+	text-align: center;
+	cursor: pointer;
+	background: #f0f0f0;
+	border: 1px solid #ccc;
+	border-radius: 3px;
+	box-shadow: none;
+	float: none;
+	margin: 0;
+}
+
+.pewc-plusminus-btn:disabled {
+	opacity: 0.4;
+	cursor: default;
+}

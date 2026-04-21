@@ -98,10 +98,12 @@ $selected_variations = apply_filters( 'pewc_products_column_selected_variations'
 		// 3.26.0
 		$default_child_products = pewc_get_default_child_products( $item['field_default'] );
 
+		pewc_prime_child_product_thumbnail_cache( $item['child_products'], true );
+
 		foreach( $item['child_products'] as $child_product_id ) {
 
 			$child_product = wc_get_product( $child_product_id );
-			if( ! is_object( $child_product ) || get_post_status( $child_product_id ) != 'publish' ) {
+			if( ! is_object( $child_product ) || $child_product->get_status() !== 'publish' ) {
 				continue;
 			}
 

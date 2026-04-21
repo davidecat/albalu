@@ -325,7 +325,7 @@ function pewc_add_on_product( $child_product_ids, $original_quantity, $product_i
 			$cart_item['product_extras'] = apply_filters( 'pewc_cart_item_extras_child_product', $cart_item['product_extras'], $cart_item_data, $child_product_id );
 
 			if( apply_filters( 'pewc_add_child_product_to_cart', true, $cart_item['product_extras'], $cart_item_data, $child_product_id ) ) {
-				WC()->cart->add_to_cart( $child_product_id, $quantity, 0, array(), $cart_item );	
+				WC()->cart->add_to_cart( $child_product_id, $quantity, 0, array(), $cart_item );
 			}
 
 		}
@@ -437,7 +437,7 @@ function pewc_after_cart_item_quantity_update( $cart_item_key, $quantity, $old_q
 				WC()->cart->cart_contents[$key]['quantity'] = $quantity;
 
 				// 3.23.1, also update the postmeta value
-				if ( isset( $item['product_extras']['products']['field_id'] ) && 'yes' === pewc_display_child_products_as_meta() ) {
+				if ( isset( $item['product_extras']['products']['field_id'] ) && 'yes' === pewc_display_child_products_as_meta( 'no', $item['product_extras'] ) ) {
 					$id = $item['product_extras']['products']['field_id'];
 					list( , , $group_id, ) = explode( '_', $id );
 					$child_product_id = $item['variation_id'] > 0 ? $item['variation_id'] : $item['product_id'];
@@ -761,14 +761,14 @@ function pewc_child_product_independent_quantity_field( $quantity_field_values, 
  * @since 3.7.21
  */
 function pewc_hide_child_product_in_cart( $visible, $cart_item, $cart_item_key ) {
-	$hide = get_option( 'pewc_hide_child_products_cart', 'no' );
+	$hide = apply_filters( 'pewc_hide_child_product_in_cart', get_option( 'pewc_hide_child_products_cart', 'no' ), $visible, $cart_item, $cart_item_key );
 	if( $hide != 'yes' ) {
 		return $visible;
 	}
-  if( ! empty( $cart_item['product_extras']['products']['child_field'] ) ) {
-    $visible = false;
-  }
-  return $visible;
+	if( ! empty( $cart_item['product_extras']['products']['child_field'] ) ) {
+		$visible = false;
+	}
+	return $visible;
 }
 add_filter( 'woocommerce_cart_item_visible', 'pewc_hide_child_product_in_cart' , 10, 3 );
 add_filter( 'woocommerce_widget_cart_item_visible', 'pewc_hide_child_product_in_cart', 10, 3 );
@@ -778,9 +778,9 @@ add_filter( 'woocommerce_checkout_cart_item_visible', 'pewc_hide_child_product_i
  * Hide child products in the cart
  * @since 3.7.21
  */
-function pewc_display_child_products_as_meta() {
+function pewc_display_child_products_as_meta( $display='no', $field=array() ) {
 	$display_meta = get_option( 'pewc_display_child_products_as_meta', 'no' );
-  return $display_meta;
+  	return apply_filters( 'pewc_display_child_products_as_meta', $display_meta, $display, $field );
 }
 
 /**
@@ -789,7 +789,7 @@ function pewc_display_child_products_as_meta() {
  */
 function pewc_display_child_product_meta( $display, $field ) {
 
-	if( pewc_display_child_products_as_meta() != 'yes' ) {
+	if( pewc_display_child_products_as_meta( $display, $field ) != 'yes' ) {
 		return false;
 	}
 	return true;
@@ -803,7 +803,7 @@ add_filter( 'pewc_display_child_product_meta', 'pewc_display_child_product_meta'
  */
 function pewc_replace_child_ids_with_titles( $value, $field ) {
 
-	if( pewc_display_child_products_as_meta() != 'yes' ) {
+	if( pewc_display_child_products_as_meta( $value, $field ) != 'yes' ) {
 		return $value;
 	}
 
@@ -1085,7 +1085,7 @@ function pewc_purge_product_categories_addons_products( $product_id, $product=fa
 	$wpdb->query('DELETE FROM ' . $wpdb->options . ' WHERE option_name LIKE "%pewc_product_categories_products%"');
 
 }
-add_action( 'woocommerce_update_product', 'pewc_purge_product_categories_addons_products', 10, 2 );
+//add_action( 'woocommerce_update_product', 'pewc_purge_product_categories_addons_products', 10, 2 ); // 4.0.3, commented out, not sure if we use any options or transients with the string pewc_product_categories_products
 
 /**
  * Set a default quantity for child products with independent quantities
@@ -1205,3 +1205,85 @@ function pewc_show_complete_variation_title( $title, $child_product ) {
 
 }
 add_filter( 'pewc_child_product_title', 'pewc_show_complete_variation_title', 1, 2 );
+
+/**
+ * Filter the child product name to add the price
+ * @since 3.27.5
+ */
+function pewc_add_child_product_price( $name, $child_product, $option_price=false, $item=false ) {
+
+	// Don't add zero price to name
+	// 3.27.6, made $option_price and $item optional in the arguments to prevent fatal error with pewc_show_complete_variation_title() which only has 2 arguments
+	if( empty( $option_price ) || ! $item || apply_filters( 'pewc_hide_zero_option_price', false, $item ) ) {
+		return $name;
+	}
+	
+	if( pewc_display_option_prices_product_page( $item ) ) {
+		$name .= apply_filters( 'pewc_option_price_separator', '+', $item ) . pewc_get_semi_formatted_raw_price( $option_price );
+	}
+
+	return $name;
+
+}
+add_filter( 'pewc_child_product_title', 'pewc_add_child_product_price', 10, 4 );
+
+/**
+ * Check if we want to add stock status to child product name
+ * @since 4.0.3
+ */
+function pewc_add_stock_status_child_product_name( $child_product, $item ) {
+
+	$add = get_option( 'pewc_add_stock_status_child_product_name', 'no' );
+	return apply_filters( 'pewc_add_stock_status_child_product_name', 'yes' === $add, $child_product, $item );
+
+}
+
+/**
+ * Filter the child product name to add the stock status
+ * @since 4.0.3
+ */
+function pewc_add_child_product_stock_status( $name, $child_product, $option_price=false, $item=false ) {
+
+	if ( pewc_add_stock_status_child_product_name( $child_product, $item ) ) {
+		$oos_string = apply_filters( 'pewc_child_product_stock_status_out_of_stock', __( 'Out of stock', 'woocommerce' ), $child_product, $item );
+		$obo_string = apply_filters( 'pewc_child_product_stock_status_on_backorder', __( 'On backorder', 'woocommerce' ), $child_product, $item );
+		$stock_status = array();
+
+		$out_of_stock = ! $child_product->is_in_stock() || ( $child_product->managing_stock() && 1 > $child_product->get_stock_quantity() );
+		if ( $out_of_stock ) {
+			if ( $child_product->backorders_allowed() ) {
+				$stock_status = array( $oos_string, $obo_string );
+			} else {
+				$stock_status = array( $oos_string );
+			}
+		} else if ( 'onbackorder' === $child_product->get_stock_status() ) {
+			$stock_status = array( $obo_string );
+		}
+
+		if ( ! empty( $stock_status ) ) {
+			$name .= apply_filters(
+				'pewc_child_product_stock_status_pattern',
+				' (' . implode( ', ', $stock_status ) . ')',
+				$stock_status,
+				$child_product,
+				$item
+			);
+		}
+	}
+	return $name;
+
+}
+add_filter( 'pewc_child_product_title', 'pewc_add_child_product_stock_status', 10, 4 );
+
+/**
+ * Delete transient when a Product Category is updated
+ * @since 4.1.4
+ */
+function pewc_edited_product_cart( $term_id, $tt_id ) {
+
+	global $wpdb;
+
+	$wpdb->query('DELETE FROM ' . $wpdb->options . ' WHERE option_name LIKE "%pewc_categories_field_products_%"');
+
+}
+add_action( 'edited_product_cat', 'pewc_edited_product_cart', 10, 2 );

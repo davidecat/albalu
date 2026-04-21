@@ -395,9 +395,9 @@ function pewc_get_preset_styles( $style, $colour ) {
 	}
 	.pewc-select-wrapper {
 		width: 100%;
-		border: 2px solid #eee;
-		border-radius: 0;
-		padding: 0.75em 0.75em;
+		border: 1px solid #ccc;
+		border-radius: 3px;
+		padding: 0.25em 0.25em;
 		cursor: pointer;
 		line-height: 1.1;
 		background-color: #fff

@@ -102,7 +102,7 @@
 				var passed = true;
 				var first_failed = '';
 				var first_failed_group = ''; // 3.22.0
-				var has_min_max = [ 'text', 'textarea', 'advanced-preview', 'number', 'name_price', 'products', 'product-categories', 'image_swatch', 'checkbox_group' ];
+				var has_min_max = [ 'text', 'textarea', 'advanced-preview', 'number', 'name_price', 'products', 'product-categories', 'image_swatch', 'checkbox_group', 'upload' ];
 
 				// loop through all add-on fields
 				$( 'body' ).find( 'form.cart' ).find( '.pewc-item' ).each( function() {
@@ -259,6 +259,25 @@
 
 							}
 
+						} else if ( curr_type == 'upload' ) {
+
+							// 4.2.1
+							var field_minfiles = 0;
+
+							if ( curr_item.attr( 'data-field-min-files' ) > 0 ) {
+								field_minfiles = parseInt( curr_item.attr( 'data-field-min-files' ) );
+							}
+
+							if ( field_minfiles > 0 ) {
+								var files_count = $( '#dz_' + curr_id )[0].dropzone.files.length;
+
+								// only check if there are uploaded files, so that if this field is not required, it should be bypassed
+								if ( files_count > 0 && ! pewc_js_validation.passed_min_req( field_minfiles, files_count ) ) {
+									min_max_error_message = curr_item.attr( 'data-field-min-files-error' );
+									passed2 = false;
+								}
+							}
+
 						}
 
 						if ( ! passed2 ) {
@@ -407,7 +426,7 @@
 
 			validate_text_field: function( curr_id, curr_item ) {
 
-				var curr_field = $( '#'+curr_id );
+				var curr_field = $( curr_item ).find( '#'+curr_id ); // if this is a repeatable field there could be multiple #curr_id, so we find the curr_id inside the curr_item
 				var curr_notice = curr_item.find( '.pewc-js-validation-notice' );
 				passed2 = true;
 

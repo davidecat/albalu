@@ -2,6 +2,16 @@
 
 	var total_updated = false;
 
+	// Debounce timer for pewc_update_total_js: the function is called from multiple
+	// synchronous sources on a single click (form change, pewc_force_update_total_js,
+	// conditions chain). Debouncing collapses these into one call at the end of the
+	// event loop, removing the main-thread jank visible as click-to-selection lag.
+	var pewc_update_total_timer = null;
+	function pewc_update_total_js_debounced() {
+		clearTimeout( pewc_update_total_timer );
+		pewc_update_total_timer = setTimeout( pewc_update_total_js, 0 );
+	}
+
 	$( document ).ready( function() {
 
 		// $( 'body').find( '.dz-default.dz-message span' ).text( pewc_vars.drop_files_message );
@@ -38,7 +48,7 @@
 					$( 'body' ).find( '#' + box_id ).trigger( 'pewc_update_select_box' );
 					$( wrapper ).find( '.dd-selected-description' ).text( pewc_wc_price( selected_option_price, true ) );
 
-					pewc_update_total_js(); // since 3.21.4, moved here so that WCFAD can also update the price of the selected option
+					// pewc_update_total_js() removed: trigger(change) above already fires pewc_update_total_js_debounced via .pewc-form-field change handler // since 3.21.4, moved here so that WCFAD can also update the price of the selected option
 
 				}
 			});
@@ -145,7 +155,8 @@
 	$('body').on( 'change input', '.pewc-form-field', function() {
 		$form = $(this).closest( 'form' );
 		add_on_images.update_add_on_image( $( this ), $form );
-		pewc_update_total_js();
+		// Debounced: this fires alongside the form.cart handler and pewc_force_update_total_js.
+		pewc_update_total_js_debounced();
 		if ( 'yes' == pewc_vars.enable_character_counter ) {
 			pewc_update_text_field_counter( $(this) );
 		}
@@ -424,7 +435,10 @@
 			if( ! $( field_wrapper ).hasClass( 'pewc-variation-dependent' ) || ( $( field_wrapper ).hasClass( 'pewc-variation-dependent' ) && $( field_wrapper ).hasClass( 'active' ) ) ) {
 
 				var group_wrap = $( field_wrapper ).closest( '.pewc-group-wrap' );
-				if ( group_wrap.hasClass( 'pewc-group-hidden' ) ) {
+				if ( group_wrap.hasClass( 'pewc-group-hidden' ) && ! group_wrap.hasClass( 'pewc-group-always-include' ) ) {
+					// 3.27.9, added condition to check for class .pewc-group-always-include. If it exists, include it in the totals, 
+					// since when added to the cart, the hidden field's cost are included. This makes it consistent on both the product page and 
+					// the cart page.
 					return; // this field is inside a hidden group, so ignore and return
 				}
 
@@ -487,18 +501,22 @@
 						if( $(field_wrapper).hasClass('pewc-per-character-pricing') && ( $(field_wrapper).hasClass('pewc-item-text') || $(field_wrapper).hasClass('pewc-item-textarea') || $(field_wrapper).hasClass( 'pewc-item-advanced-preview' ) ) ) {
 							var str_len = pewc_get_text_str_len( $(this).val(), field_wrapper );
 							added_price = str_len * parseFloat( $(field_wrapper).attr('data-price') );
-						} else if( $(field_wrapper).hasClass('pewc-multiply-pricing') ) {
+						} else if( $(field_wrapper).hasClass( 'pewc-multiply-pricing' ) ) {
 							var num_value = $(this).val();
 							added_price = num_value * parseFloat( $(field_wrapper).attr('data-price') );
 						} else if( $(field_wrapper).hasClass('pewc-group-name_price') ) {
 							added_price = parseFloat( $(this).val() );
-						} else if( $(field_wrapper).hasClass('pewc-item-number' ) && $(field_wrapper).hasClass('pewc-per-unit-pricing') ) {
+						} else {
+							added_price = parseFloat( $(field_wrapper).attr('data-price') );
+						}
+
+						// 3.27.11, moved here so that Price per booking unit can be used with Multiply Price
+						if( $(field_wrapper).hasClass( 'pewc-item-number' ) && $(field_wrapper).hasClass( 'pewc-per-unit-pricing' ) ) {
 								// Bookings for WooCommerce
 								// Multiply option cost by number of booked units
 								// total_price += parseFloat( $('#num_units_int').val() ) * parseFloat( $(field_wrapper).attr('data-price') );
-								added_price = parseFloat( $('#num_units_int').val() ) * parseFloat( $(field_wrapper).attr('data-price') ) * parseFloat( $( this ).val() );
-						} else {
-							added_price = parseFloat( $(field_wrapper).attr('data-price') );
+								// added_price = parseFloat( $('#num_units_int').val() ) * parseFloat( $(field_wrapper).attr('data-price') ) * parseFloat( $( this ).val() );
+								added_price = parseFloat( added_price ) * parseFloat( $('#num_units_int').val() ); // 3.27.11, use added_price so that this can be used with Multiply Price setting
 						}
 
 						if( $(this).val() ) {
@@ -579,7 +597,7 @@
 
 		});
 
-		$( 'form.cart .pewc-item-radio, form.cart .pewc-item-image_swatch' ).each(function() {
+		$( 'form.cart .pewc-item-radio, form.cart .pewc-item-image_swatch, form.cart .pewc-item-calendar-list' ).each(function() {
 
 			var field_value = [];
 
@@ -1184,9 +1202,11 @@
 		var total_grid_variations = $( '#pewc-grid-total-variations' ).val();
 
 		// 3.27.0, for Booking products, product_price already includes "qty" (num_units), no need to multiply again
-		if ( ! pewc_is_booking_product() ) {
+		// 4.1.1, also skip for variable products using Better Variations grid mode
+		if ( ! pewc_is_booking_product() && ! pewc_wcbvp_variation_grid() ) {
 			var product_price = qty * product_price;
 		}
+
 		var grand_total = product_price;
 		var orig_grand_total = qty * orig_product_price; // 3.21.7, for DPDR
 		base_price = product_price;
@@ -1333,11 +1353,26 @@
 	function update_product_price( grand_total, base_price, orig_grand_total ) {
 		var price_suffix_setting = pewc_vars.price_suffix_setting;
 		// We can rebuild him
-		var suffix = $( '.pewc-main-price' ).find( '.woocommerce-price-suffix' ).html();
-		var label = $( '.pewc-main-price' ).find( '.wcfad-rule-label' ).html();
-		var before = $( '.pewc-main-price' ).find( '.pewc-label-before' ).html();
-		var after = $( '.pewc-main-price' ).find( '.pewc-label-after' ).html();
-		var hide = $( '.pewc-main-price' ).find( '.pewc-label-hidden' );
+		// 3.27.5, Related Products could also have pewc-main-price, so we assume the first one to be the correct main one
+		// This fixes an issue where if a Related Product has a hidden price, that it affects all prices on the product page
+		// Let's also exclude main price from QuickView here instead of later in the function
+		var main_price = $( '.pewc-main-price' ).not( '.pewc-quickview-product-wrapper .pewc-main-price' );
+		if ( main_price.length > 1 ) {
+			// get only the first?
+			main_price.each(function( index, element){
+				// add a special class to the first main price, we assume that's the real main price
+				if ( index < 1 ) {
+					$( this ).addClass( 'pewc-main-main-price' );
+					return false;
+				};
+			});
+			main_price = $( '.pewc-main-price.pewc-main-main-price' );
+		}
+		var suffix = main_price.find( '.woocommerce-price-suffix' ).html();
+		var label = main_price.find( '.wcfad-rule-label' ).html();
+		var before = main_price.find( '.pewc-label-before' ).html();
+		var after = main_price.find( '.pewc-label-after' ).html();
+		var hide = main_price.find( '.pewc-label-hidden' );
 		var new_total = '';
 
 		if( hide.length > 0 ) {
@@ -1375,7 +1410,7 @@
 		}
 
 		// 3.22.1, retain DPDR label even if Update pricing label is enabled
-		var main_price = $( '.pewc-main-price').not( '.pewc-quickview-product-wrapper .pewc-main-price' );
+		//var main_price = $( '.pewc-main-price').not( '.pewc-quickview-product-wrapper .pewc-main-price' ); // 3.27.5, commented out, maybe no longer needed?
 		if ( main_price.find( '.wcfad-rule-label' ).length > 0 && new_total.indexOf( 'wcfad-rule-label' ) == -1 ) {
 			// this has a DPDR discount label, add it to the new_total
 			var dpdr_label = main_price.find( '.wcfad-rule-label' );
@@ -1403,7 +1438,8 @@
 	// 3.24.7, add a trigger event so that other plugins like PTU can re-trigger the form.cart input changes
 	$( 'body' ).on( 'pewc_attach_form_cart_input_change', function() {
 		$( 'form.cart' ).on('keyup input change paste', 'input:not(.pewc-grid-quantity-field), select, textarea.pewc-has-field-price', function(){
-			pewc_update_total_js();
+			// Debounced: batches rapid keyup/input events and redundant change events.
+			pewc_update_total_js_debounced();
 			$( 'body' ).trigger( 'pewc_updated_total_js' );
 		});
 	});
@@ -1420,7 +1456,8 @@
 		pewc_update_total_js();
 	});
 	$( 'body' ).on( 'pewc_force_update_total_js', function() {
-		pewc_update_total_js();
+		// Debounced: this event fires multiple times per user action from conditions.js.
+		pewc_update_total_js_debounced();
 	});
 	// Accordion and tabs
 	$('.pewc-groups-accordion h3').on('click',function(e){
@@ -1803,7 +1840,10 @@
 				$( wrapper ).addClass( 'checked' );
 				//radio = $( wrapper ).find( '.pewc-radio-form-field' ).trigger( 'click' );
 			}
-			radio = $( wrapper ).find( '.pewc-radio-form-field' ).trigger( 'click' ); // moved here 3.9.5 for lightbox
+			// Defer the heavy synchronous chain (conditions, price update) so the browser can
+			// paint the checked class before running the condition check / price recalculation.
+			radio = $( wrapper ).find( '.pewc-radio-form-field' );
+			setTimeout( function() { radio.trigger( 'click' ); }, 0 ); // moved here 3.9.5 for lightbox
 		} else {
 			// Checkbox
 			if ( is_checkbox ) {
@@ -1811,13 +1851,14 @@
 				e.preventDefault(); // this helps avoid the conflict with clicking the child product image
 				radio = $( wrapper ).find( '.pewc-checkbox-form-field' );
 				$( wrapper ).toggleClass( 'checked' );
-				$( radio ).trigger( 'click' ); // this triggers the click event attached to .products-quantities-independent .pewc-checkbox-form-field
+				setTimeout( function() { $( radio ).trigger( 'click' ); }, 0 ); // this triggers the click event attached to .products-quantities-independent .pewc-checkbox-form-field
 				e.stopPropagation();
 			} else {
 				radio = $( wrapper ).find( '.pewc-radio-form-field' );
 				var checked = $( radio ).prop( 'checked' );
 				$( wrapper ).toggleClass( 'checked' );
-				$( radio ).prop( 'checked', ! checked ).trigger( 'click' ); // click added 3.9.5
+				var new_checked = ! checked;
+				setTimeout( function() { $( radio ).prop( 'checked', new_checked ).trigger( 'click' ); }, 0 ); // click added 3.9.5
 			}
 		}
 
@@ -1830,7 +1871,7 @@
 			var checked = $( this ).closest( '.pewc-radio-image-wrapper' ).hasClass( 'checked' );
 			if( ! checked ) {
 				$( this ).prop( 'checked', false ).trigger( 'change' ); // added on 3.9.5 for lightbox
-				pewc_update_total_js();
+				// pewc_update_total_js() removed: trigger(change) above fires pewc_update_total_js_debounced via .pewc-form-field handler
 			}
 		} else {
 			e.stopPropagation(); // added on 3.9.5, for checkbox in lightbox
@@ -2198,7 +2239,14 @@
 			if( $( '.pewc-field-' + field_id ).find( 'input.pewc-number-field' ).length > 0 ) {
 				return $( '.pewc-field-' + field_id ).find( 'input.pewc-number-field' ).val();
 			} else if( $( '.pewc-field-' + field_id ).find( 'select' ).length > 0 ) {
-				return $( '.pewc-field-' + field_id ).find( 'select option:selected' ).attr( 'value' );
+				if( ! isNaN( $( '.pewc-field-' + field_id ).find( 'select option:selected' ).attr( 'value' ) ) ) {
+					// Return the option 'label' if it's numeric
+					return $( '.pewc-field-' + field_id ).find( 'select option:selected' ).attr( 'value' );
+				} else {
+					// Return the option's 'price'
+					return $( '.pewc-field-' + field_id ).find( 'select option:selected' ).attr( 'data-option-cost' );
+				}
+				
 			} else if( $( '.pewc-field-' + field_id ).find( 'input.pewc-radio-form-field[type="radio"]:checked' ).length > 0 ) {
 				return $( '.pewc-field-' + field_id ).find( 'input.pewc-radio-form-field[type="radio"]:checked' ).attr( 'data-option-cost' );
 			}
@@ -2842,9 +2890,15 @@
 
 					if (add_on_image_src != undefined) {
 						turn = 'on';
+						// 3.27.5
+						if ( $( field_wrapper ).hasClass( 'pewc-item-radio' ) ) {
+							$product_img.closest( '.' + pewc_vars.layer_parent ).removeClass(function(index, className) {
+								return (className.match(/(^|\s)pewc\-add\-on\-image\-\S+/g) || []).join(' ');
+							});
+						}
 						// 3.27.4
 						add_on_image_field = 'pewc-add-on-image-' + $( field_wrapper ).attr( 'data-field-id' );
-						add_on_image_option = 'pewc-add-on-image-' + $( field ).attr( 'id' );
+						add_on_image_option = add_on_image_field + '-' + $( field ).attr( 'id' ).replace( $( field_wrapper ).attr( 'data-id' ) + '_', '' );
 					}
 				}
 			} else if ( field_type == 'select-box' && add_on_images.replace_image( field_wrapper ) != 'replace_image_swatch_only' ) {
@@ -2867,7 +2921,7 @@
 					if ( add_on_image_src != undefined) {
 						turn = 'on';
 						// 3.27.4, always remove first for Select Box, so that the previous option selected is removed first
-						$product_img.closest( pewc_vars.product_img_wrap ).removeClass(function(index, className) {
+						$product_img.closest( '.' + pewc_vars.layer_parent ).removeClass(function(index, className) {
 							return (className.match(/(^|\s)pewc\-add\-on\-image\-\S+/g) || []).join(' ');
 						});
 						add_on_image_field = 'pewc-add-on-image-' + $( field_wrapper ).attr( 'data-field-id' );
@@ -2903,6 +2957,14 @@
 					$( '.' + layer_id ).remove();
 				}
 
+				// 3.27.8, add special classes
+				if ( add_on_image_field != '' && ! $( '.' + pewc_vars.layer_parent ).hasClass( add_on_image_field ) ) {
+					$product_img.closest( '.' + pewc_vars.layer_parent ).addClass( add_on_image_field );
+				}
+				if ( add_on_image_option != '' && ! $( '.' + pewc_vars.layer_parent ).hasClass( add_on_image_option ) ) {
+					$product_img.closest( '.' + pewc_vars.layer_parent ).addClass( add_on_image_option );
+				}
+
 			} else if ( add_on_image_src && turn == 'on' ) {
 				// maybe save original
 				add_on_images.save_original_src( $product_img );
@@ -2921,15 +2983,15 @@
 				}
 
 				// 3.27.4, add special classes
-				if ( add_on_image_field != '' && ! $( pewc_vars.product_img_wrap ).hasClass( add_on_image_field ) ) {
-					$product_img.closest( pewc_vars.product_img_wrap ).addClass( add_on_image_field );
+				if ( add_on_image_field != '' && ! $( '.' + pewc_vars.layer_parent ).hasClass( add_on_image_field ) ) {
+					$product_img.closest( '.' + pewc_vars.layer_parent ).addClass( add_on_image_field );
 				}
-				if ( add_on_image_option != '' && ! $( pewc_vars.product_img_wrap ).hasClass( add_on_image_option ) ) {
-					$product_img.closest( pewc_vars.product_img_wrap ).addClass( add_on_image_option );
+				if ( add_on_image_option != '' && ! $( '.' + pewc_vars.layer_parent ).hasClass( add_on_image_option ) ) {
+					$product_img.closest( '.' + pewc_vars.layer_parent ).addClass( add_on_image_option );
 				}
 			} else {
 				// 3.27.4, remove all our special classes, it will be added back if we still have a swatch selected
-				$product_img.closest( pewc_vars.product_img_wrap ).removeClass(function(index, className) {
+				$product_img.closest( '.' + pewc_vars.layer_parent ).removeClass(function(index, className) {
 					return (className.match (/(^|\s)pewc\-add\-on\-image\-\S+/g) || []).join(' ');
 				});
 				add_on_images.replace_main_with_default( $product_img, false ); // 3.24.7, let's try to find an active swatch first before resetting the main image
@@ -3104,7 +3166,8 @@
 							}
 						});
 					} else if ( field_type == 'checkbox' ) {
-						if ( $( this ).find( '.pewc-form-field' ).is( ':checked' ) ) {
+						if ( $( this ).find( '.pewc-form-field' ).is( ':checked' ) && $( this ).find( '.pewc-item-field-image-wrapper' ).length > 0 ) {
+							// 4.3.0, only do this if checkbox has an image, prevent an infinite loop
 							add_on_images.update_add_on_image( $( this ).find( '.pewc-form-field' ), $(this).closest( 'form' ) );
 							replaced = true;
 							return;
@@ -3181,6 +3244,85 @@
 	}
 
 	quickview.init();
+
+	var check_time = {
+
+		interval_id: null,
+
+		init: function() {
+			var today = new Date();
+			var loaded = $( '.pewc-cl-wrapper' ).first().attr( 'data-today' );
+			today.setHours(0,0,0,0);
+			if( today > loaded ) {
+				$( '.pewc-cl-wrapper' ).addClass( 'disabled' );
+				$( '.pewc-cl-wrapper' ).find( '.pewc-radio-form-field' ).prop( 'disabled', true );
+			}
+			// check_time.check();
+			check_time.interval_id = setInterval(
+				function() {
+					check_time.check();
+				},
+				5000
+			);
+			$( '.pewc-cl-wrapper' ).find( 'input' ).on( 'change', this.update_date );
+
+			// Auto-select the default option in each calendar list field so that
+			// calculations using {field_XXX_option_price} have a value on page load.
+			// data-default-value holds the day offset (e.g. "6"), matching data-offset on each radio.
+			$( 'form.cart .pewc-item-calendar-list' ).each( function() {
+				var $field = $( this );
+				if ( $field.find( 'input[type=radio]:checked' ).length === 0 ) {
+					var default_val = $field.attr( 'data-default-value' );
+					var $enabled = $field.find( '.pewc-cl-wrapper:not(.disabled) input[type=radio]:enabled' );
+					var $target = ( default_val !== '' && default_val !== undefined )
+						? $enabled.filter( '[data-offset="' + default_val + '"]' )
+						: $();
+					if ( ! $target.length ) {
+						$target = $enabled.first();
+					}
+					if ( $target.length ) {
+						$target.prop( 'checked', true ).trigger( 'change' );
+					}
+				}
+			} );
+		},
+
+		check: function() {
+			$( '.pewc-cl-has-time' ).each( function() {
+				var hour = $( this ).attr( 'data-hour' );
+				var min = $( this ).attr( 'data-minute' );
+				if( ! hour || ! min ) {
+					return;
+				}
+				if( check_time.is_after( hour, min ) ) {
+					clearInterval( check_time.interval_id );
+					var now = new Date();
+					var client_minutes = now.getHours() * 60 + now.getMinutes();
+					var url = new URL( window.location.href );
+					url.searchParams.set( 'pewc_client_minutes', client_minutes );
+					window.location.replace( url.toString() );
+					return false; // Break out of .each()
+				}
+			});
+		},
+
+		is_after: function( hour, min ) {
+			let ms_today = Date.now() - new Date().setHours(0,0,0,0);
+			return ms_today > (hour*3.6e6 + min*6e4);
+		},
+
+		update_date: function() {
+			var field_id = $( this ).closest( '.pewc-item' ).attr( 'data-field-id' );
+			var id = $( this ).closest( '.pewc-item' ).attr( 'data-id' );
+			$( '#pewc_cl_' + field_id ).val( $( this ).attr( 'data-date' ) );
+			$( '#pewc_cl_price_' + field_id ).val( $( this ).closest( '.pewc-item' ).attr( 'data-field-price' ) );
+			$( '#pewc_cl_offset_' + id ).val( $( this ).attr( 'data-offset' ) );
+		}
+
+	}
+
+	check_time.init();
+
 
 })(jQuery);
 
@@ -3268,11 +3410,15 @@ function pewc_is_booking_product() {
 // 3.27.0, for compatibility with Bookings for WooCommerce
 function pewc_get_quantity( qty=1, type='' ) {
 
-	if( jQuery( 'form.cart .quantity .qty' ).val() && 'one-only' !== type ) {
+	if ( pewc_wcbvp_variation_grid() ) {
+		// 4.1.1, return the total variations selected when using Better Variations grid mode
+		qty = jQuery( '#wcbvp_total_variations' ).val();
+		if ( qty < 1 ) qty = 1; // so that the add-on price updates even if no variations have been selected yet
+	} else if( jQuery( 'form.cart .quantity .qty' ).val() && 'one-only' !== type ) {
 		qty = jQuery( 'form.cart .quantity .qty' ).val();
 	} else if ( pewc_is_booking_product() ) {
 		// for Booking products, where the quantity field is not available
-		qty = jQuery( '#num_units_int' ).val();
+		qty = 1; // 3.27.11, changed to 1 so that "Price per booking unit" setting is respected. Previously jQuery( '#num_units_int' ).val();
 		if ( jQuery( '#num_bookings' ).length > 0 && ! isNaN( jQuery( '#num_bookings' ).val() ) && 'linked' === type ) {
 			// also multiply by quantity?
 			qty = qty * jQuery( '#num_bookings' ).val();
@@ -3281,4 +3427,9 @@ function pewc_get_quantity( qty=1, type='' ) {
 
 	return qty;
 
+}
+
+// 4.1.1, Better Variations grid mode
+function pewc_wcbvp_variation_grid() {
+	return ( jQuery( 'body' ).find( '.wcbvp-grid-quantity-field' ).length > 0 );
 }

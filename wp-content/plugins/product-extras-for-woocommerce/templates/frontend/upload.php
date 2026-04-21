@@ -33,15 +33,21 @@ if( ! $can_upload ) {
 
 	if( pewc_enable_ajax_upload() == 'yes' ) {
 		$pewc_file_data = pewc_get_uploaded_files_from_session( $item['field_id'], $item, $cart_item );
+
+		// aou-repeatable-conditions-uploads
+		$input_name_suffix = '';
+		if ( pewc_is_repeatable_field( $item ) ) {
+			$input_name_suffix = '[]'; // make the inputs an array
+		}
 		?>
 
 		<div class="dropzone" id="dz_<?php echo esc_attr( $id ); ?>" aria-label="<?php echo esc_attr( strip_tags( $item['field_label'] ) ); ?>"></div>
 		<input type="hidden" id="<?php echo esc_attr( $id ); ?>" name="<?php echo esc_attr( $id ); ?>[]" value="<?php echo esc_attr( $id ); ?>">
-		<input type="hidden" class="pewc_file_data" name="pewc_file_data[<?php echo $item['field_id']; ?>]" id="<?php echo esc_attr( $id ); ?>_file_data" value="<?php echo esc_attr( $pewc_file_data ); ?>">
-		<input type="hidden" class="pewc-form-field pewc-number-uploads" name="<?php echo esc_attr( $id ); ?>_number_uploads" id="<?php echo esc_attr( $id ); ?>_number_uploads" value="">
-		<input type="hidden" name="<?php echo esc_attr( $id ); ?>_multiply_price" id="<?php echo esc_attr( $id ); ?>_multiply_price" value="<?php echo esc_attr( $multiply_price ); ?>">
-		<input type="hidden" name="<?php echo esc_attr( $id ); ?>_base_price" id="<?php echo esc_attr( $id ); ?>_base_price" value="<?php echo esc_attr( $field_price ); ?>">
-		<input type="hidden" class="pewc_pdf_count_field" name="field_<?php echo esc_attr( $item['field_id'] ); ?>_pdf_count" id="field_<?php echo esc_attr( $item['field_id'] ); ?>_pdf_count" value="">
+		<input type="hidden" class="pewc_file_data" name="pewc_file_data[<?php echo $item['field_id']; ?>]<?php echo $input_name_suffix; ?>" id="<?php echo esc_attr( $id ); ?>_file_data" value="<?php echo esc_attr( $pewc_file_data ); ?>">
+		<input type="hidden" class="pewc-form-field pewc-number-uploads" name="<?php echo esc_attr( $id ); ?>_number_uploads<?php echo $input_name_suffix; ?>" id="<?php echo esc_attr( $id ); ?>_number_uploads" value="">
+		<input type="hidden" name="<?php echo esc_attr( $id ); ?>_multiply_price<?php echo $input_name_suffix; ?>" id="<?php echo esc_attr( $id ); ?>_multiply_price" value="<?php echo esc_attr( $multiply_price ); ?>">
+		<input type="hidden" name="<?php echo esc_attr( $id ); ?>_base_price<?php echo $input_name_suffix; ?>" id="<?php echo esc_attr( $id ); ?>_base_price" value="<?php echo esc_attr( $field_price ); ?>">
+		<input type="hidden" class="pewc_pdf_count_field" name="field_<?php echo esc_attr( $item['field_id'] ); ?>_pdf_count<?php echo $input_name_suffix; ?>" id="field_<?php echo esc_attr( $item['field_id'] ); ?>_pdf_count" value="">
 
 		<?php do_action( 'pewc_do_ajax_upload_script', $id, $item, $multiply_price ); ?>
 

@@ -35,6 +35,7 @@ if( ! empty( $item['products_quantities'] ) ) {
  * The function "pewc_product_extra_fields" in functions-single-product.php has a similar process, but it does not consider the parent field ID,
  * and $quantity_field_values does not seem to get passed down to the pewc_field function, which is where this file is loaded
  */
+// $quantity_field_values seem to be passed down now here as of 4.1.1 so maybe re-work this in the future
 
 // This is moved here so that Wishlists Ultimate can use it
 $selected_variations = array();
@@ -52,22 +53,34 @@ if ( ! empty( $_GET['pewc_key'] ) && pewc_user_can_edit_products() ) {
 		if ( isset( $tmp_cart[$cart_key] ) ) {
 			// this exists in the cart, so continue
 			// get parent field ID so that we only get the correct children
-			if ( isset( $tmp_cart[$cart_key]['product_extras']['products']['parent_field_id'] ) )
+			if ( isset( $tmp_cart[$cart_key]['product_extras']['products']['parent_field_id'] ) ) {
 				$parent_field_id = $tmp_cart[$cart_key]['product_extras']['products']['parent_field_id'];
+			}
 
 			if ( isset( $parent_field_id ) ) {
+				$parent_quantity = $tmp_cart[$cart_key]['quantity'];
+
 				// now loop through the cart to find the child products
 				$child_product_values = array();
 
 				foreach( $tmp_cart as $tmp_key => $tmp_item ) {
+
+					// 4.1.2, added $tmp_item['product_extras']['products']['field_id'] == $item['id'] to the condition so that we only loop through this field's child products
 					if ( isset( $tmp_item['product_extras']['products']['child_field'] ) &&
 						$tmp_item['product_extras']['products']['child_field'] &&
 						isset( $tmp_item['product_extras']['products']['parent_field_id'] ) &&
-						$tmp_item['product_extras']['products']['parent_field_id'] == $parent_field_id ) {
+						$tmp_item['product_extras']['products']['parent_field_id'] == $parent_field_id &&
+						$tmp_item['product_extras']['products']['field_id'] == $item['id'] ) {
+
+						// 4.1.2, if Multiply independent quantities is enabled, let's divide independent quantities, so that the JS calculation is still correct
+						$child_quantity = $tmp_item['quantity'];
+						if ( 'yes' === pewc_multiply_independent_quantities_by_parent_quantity() && ! empty( $tmp_item['product_extras']['products']['products_quantities'] ) && 'independent' === $tmp_item['product_extras']['products']['products_quantities'] && $parent_quantity > 0 && 0 === $child_quantity % $parent_quantity ) {
+							$child_quantity = $child_quantity / $parent_quantity;
+						}
 
 						// this is a child field, save the quantity and selected variation_id to be used later
 						$child_product_values[ $tmp_item['product_extras']['products']['field_id'] ][ $tmp_item['product_id'] ] = array(
-							'quantity' => $tmp_item['quantity'],
+							'quantity' => $child_quantity,
 							'variation_id' => isset( $tmp_item['variation_id'] ) ? $tmp_item['variation_id'] : 0
 						);
 					}
@@ -108,6 +121,8 @@ $selected_variations = apply_filters( 'pewc_products_column_selected_variations'
 	// 3.26.3
 	$thumbnail_size = pewc_get_swatch_thumbnail_size( $item );
 
+	pewc_prime_child_product_thumbnail_cache( $item['child_products'] );
+
 	foreach( $item['child_products'] as $child_product_id ) {
 		$manage_stock = false; // 3.21.4, always reset per child product
 
@@ -125,7 +140,7 @@ $selected_variations = apply_filters( 'pewc_products_column_selected_variations'
 		}
 
 		$child_product = wc_get_product( $child_product_id );
-		if( ! is_object( $child_product ) || get_post_status( $child_product_id ) != 'publish' ) {
+		if( ! is_object( $child_product ) || $child_product->get_status() !== 'publish' ) {
 			continue;
 		}
 

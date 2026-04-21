@@ -26,7 +26,8 @@ function pewc_variation_fields_wrapper( $group_key, $item_key, $item, $post_id )
 	<?php
 	}
 }
-add_action( 'pewc_end_product_extra_field', 'pewc_variation_fields_wrapper', 10, 4 );
+// @since 4.0 Moved to templates/admin/sections/conditions.php
+// add_action( 'pewc_end_product_extra_field', 'pewc_variation_fields_wrapper', 10, 4 );
 
 /**
  * Add data-variations attributes to field item
@@ -75,5 +76,5 @@ add_filter( 'pewc_get_conditional_field_visibility', 'pewc_variation_field_visib
  * @since 3.26.3
  */
 function pewc_column_layout_replace_thumbnail( $item=false, $child_product_id=false ) {
-	return apply_filters( 'pewc_column_layout_replace_thumbnail', false, $item, $child_product_id );
+	return apply_filters( 'pewc_column_layout_replace_thumbnail', true, $item, $child_product_id );
 }

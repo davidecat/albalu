@@ -14,8 +14,8 @@ if ( 'yes' === get_option( 'pewc_optimised_validation', 'no' ) ) {
 	add_action( 'pewc_before_group_inner_tag_close', 'pewc_js_validation_notice_container', 1, 2 );
 	add_filter( 'pewc_field_label_end', 'pewc_js_validation_notice_container2', 1, 4 );
 	add_filter( 'pewc_filter_item_attributes', 'pewc_js_validation_attributes', 1, 2 );
-	add_filter( 'pewc_filter_group_wrapper_class', 'custom_group_wrapper_disable_groups', 1, 4 );
-	add_action( 'pewc_end_group_content_wrapper', 'custom_end_group_content_wrapper_disable_groups', 1, 5 );
+	add_filter( 'pewc_filter_group_wrapper_class', 'pewc_custom_group_wrapper_disable_groups', 1, 4 );
+	add_action( 'pewc_end_group_content_wrapper', 'pewc_custom_end_group_content_wrapper_disable_groups', 1, 5 );
 }
 
 /**
@@ -191,6 +191,20 @@ function pewc_js_validation_attributes( $attributes, $item ) {
 			$attributes['data-field-maxchars-error'] = esc_attr( apply_filters( 'pewc_filter_maxchars_validation_notice', esc_html( $label ) . __( ': maximum number of characters: ', 'pewc' ) . esc_html( $field_maxchars ), $label, $item ) );
 		}
 
+	} else if ( $item['field_type'] == 'upload' && ! empty( $item['min_files'] ) && $item['min_files'] > 1 ) {
+		// 4.2.1
+		$field_min_files = absint( $item['min_files'] );
+		$attributes['data-field-min-files'] = $field_min_files;
+		$attributes['data-field-min-files-error'] = esc_attr( apply_filters(
+			'pewc_filter_min_files_notice',
+			sprintf(
+				__( '%s requires a minimum of %s files to be uploaded', 'pewc' ),
+				$label,
+				$field_min_files
+			),
+			$label,
+			$field_min_files
+		) );
 	}
 
 	return $attributes;
@@ -219,7 +233,7 @@ function pewc_disable_groups_required_completed( $product=false ) {
  * Uses filter hook "pewc_filter_group_wrapper_class"
  * @since 3.15.0
  */
-function custom_group_wrapper_disable_groups( $group_classes, $group_id, $group, $post_id ) {
+function pewc_custom_group_wrapper_disable_groups( $group_classes, $group_id, $group, $post_id ) {
 	if ( $post_id ) {
 		$product = wc_get_product( $post_id );
 		if ( $product && pewc_disable_groups_required_completed( $product ) ) {
@@ -234,7 +248,7 @@ function custom_group_wrapper_disable_groups( $group_classes, $group_id, $group,
  * Uses action hook "pewc_end_group_content_wrapper"
  * @since 3.15.0
  */
-function custom_end_group_content_wrapper_disable_groups( $group, $group_id, $display, $product_extra_groups, $product ) {
+function pewc_custom_end_group_content_wrapper_disable_groups( $group, $group_id, $display, $product_extra_groups, $product ) {
 	if ( $product && pewc_disable_groups_required_completed( $product ) ) {
 		printf(
 			'<div class="pewc-group-js-validation-notice">%s</div>',

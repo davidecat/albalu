@@ -10,8 +10,8 @@ if( ! defined( 'ABSPATH' ) ) {
 	exit;
 } ?>
 
-<div class="product-extra-conditional-row new-conditional-row">
-	<div class="product-extra-field-third">
+<div class="product-extra-conditional-row product-extra-conditional-rule new-conditional-row">
+	<div class="">
 		<select class="pewc-condition-field pewc-condition-select" name="" id="" data-group-id="" data-item-id="" data-condition-id="">
 		<?php
 		// retrieve all attributes, this gets removed on page load
@@ -46,7 +46,7 @@ if( ! defined( 'ABSPATH' ) ) {
 		</select>
 		<input type="hidden" class="pewc-hidden-field-type" name="" id="" value="">
 	</div>
-	<div class="product-extra-field-sixth">
+	<div class="">
 		<select class="pewc-condition-rule pewc-condition-select" name="" id="" data-group-id="" data-item-id="" data-condition-id="">
 			<?php $rules = pewc_get_rules();
 			foreach( $rules as $key=>$value ) {
@@ -55,7 +55,10 @@ if( ! defined( 'ABSPATH' ) ) {
 		</select>
 	</div>
 	<div class="product-extra-field-half product-extra-field-last pewc-condition-value-field">
-		<span class="remove-condition pewc-action"><?php _e( 'Remove', 'pewc' ); ?></span>
+		
+	</div>
+	<div>
+		<span class="remove-condition pewc-action"><span class="dashicons dashicons-trash"></span></span>
 	</div>
 </div><!-- .new-conditional-row -->
 

@@ -16,7 +16,8 @@ if( ! defined( 'ABSPATH' ) ) {
  */
 function pewc_filter_post_classes( $classes ) {
 	global $post;
-	if( is_single() && 'product' == get_post_type( $post->ID ) && pewc_has_extra_fields( $post->ID ) ) {
+	// Only apply to the main queried product, not related products or other product cards on the page
+	if( is_single() && $post->ID === get_queried_object_id() && 'product' == get_post_type( $post->ID ) && pewc_has_extra_fields( $post->ID ) ) {
 		$classes[] = 'has-extra-fields';
 		if( pewc_has_flat_rate_field( $post->ID ) ) {
 			$classes[] = 'has-flat-rate';
@@ -52,6 +53,9 @@ function pewc_filter_body_classes( $classes ) {
 		$classes[] = 'pewc-disable-hidden-fields';
 	}
 	$classes[] = 'pewc-quantity-layout-' . pewc_get_quantity_layout();
+	if ( 'yes' === pewc_enable_plus_minus_buttons( isset( $post->ID ) ? $post->ID : 0 ) ) {
+		$classes[] = 'pewc-plus-minus-enabled';
+	}
 	return $classes;
 }
 add_filter( 'body_class', 'pewc_filter_body_classes' );
@@ -63,6 +67,13 @@ add_filter( 'body_class', 'pewc_filter_body_classes' );
  * @return Array
  */
 function pewc_get_extra_fields( $post_id ) {
+
+	// Request-level cache: pewc_get_extra_fields() is called multiple times per page load
+	// (enqueue checks, rendering, conditionals etc). After the first call, serve from memory.
+	static $cache = array();
+	if( isset( $cache[ $post_id ] ) ) {
+		return $cache[ $post_id ];
+	}
 
 	$group_transient = pewc_get_transient( 'pewc_extra_fields_' . $post_id );
 
@@ -84,6 +95,15 @@ function pewc_get_extra_fields( $post_id ) {
 			// This is the post-3.0.0 method using post types
 			// However, it still returns a big groups array like the old method for backwards compatibility
 			$product_extra_groups = pewc_get_pewc_groups( $post_id );
+
+			// Filter the groups
+			// Only filter on the front end, since 3.7.24
+			if( ! is_admin() || wp_doing_ajax() ) {
+				if( apply_filters( 'pewc_filter_groups_early', false ) ) {
+					$product_extra_groups = apply_filters( 'pewc_filter_product_extra_groups', $product_extra_groups, $post_id );
+				}
+			}
+
 		}
 
 		pewc_set_transient( 'pewc_extra_fields_' . $post_id, $product_extra_groups );
@@ -92,9 +112,24 @@ function pewc_get_extra_fields( $post_id ) {
 
 	// Filter the groups
 	// Only filter on the front end, since 3.7.24
+	/**
+	 * MOVE THIS ABOVE WHERE PEWC_SET_TRANSIENT IS FORMED
+	 * ENSURE IT RUNS ON BACK END AS WELL
+	 */
 	if( ! is_admin() || wp_doing_ajax() ) {
-		$product_extra_groups = apply_filters( 'pewc_filter_product_extra_groups', $product_extra_groups, $post_id );
+		if( ! apply_filters( 'pewc_filter_groups_early', false ) ) {
+			// Batch-prime group meta before filters fire. When the transient is served,
+			// pewc_get_pewc_groups() never runs so group meta is not in cache. Filters like
+			// pewc_filter_product_extra_groups call pewc_get_group_title() etc. which each
+			// trigger their own update_meta_cache() query — one per group — without this.
+			if ( ! empty( $product_extra_groups ) ) {
+				update_meta_cache( 'post', array_keys( $product_extra_groups ) );
+			}
+			$product_extra_groups = apply_filters( 'pewc_filter_product_extra_groups', $product_extra_groups, $post_id );
+		}
 	}
+
+	$cache[ $post_id ] = $product_extra_groups;
 
 	return $product_extra_groups;
 
@@ -112,11 +147,68 @@ function pewc_get_pewc_groups( $post_id ) {
 	// Iterate through the group IDs and build a big array
 	if( $group_ids ) {
 		$group_ids = explode( ',', $group_ids );
-		foreach( $group_ids as $index=>$group_id ) {
-			// Confirm that the group ID is an actual group
-			if( 'publish' === get_post_status( $group_id ) ) {
-				$groups[$group_id]['items'] = pewc_get_group_fields( $group_id );
+		// Fetch all published group IDs in a single query instead of one get_post_status() call per group
+		$published_group_ids = get_posts( array(
+			'post_type'      => 'pewc_group',
+			'post__in'       => $group_ids,
+			'fields'         => 'ids',
+			'posts_per_page' => -1,
+			'post_status'    => 'publish',
+		) );
+		$published_group_ids = array_map( 'strval', $published_group_ids );
+
+		// Batch-prime group meta cache: get_posts() with 'fields'=>'ids' does not load post meta,
+		// so without this, each get_post_meta( $group_id, 'field_ids' ) below triggers its own
+		// update_meta_cache() query — one per group.
+		update_meta_cache( 'post', $published_group_ids );
+
+		// Collect field IDs for all published groups so we can batch the publish-status check
+		// into a single get_posts() call rather than one per group.
+		$field_ids_by_group = array();
+		$all_field_ids      = array();
+		foreach( $group_ids as $group_id ) {
+			if( ! in_array( $group_id, $published_group_ids ) ) {
+				continue;
 			}
+			$fields = get_post_meta( $group_id, 'field_ids', true );
+			if( $fields ) {
+				$field_ids_by_group[ $group_id ] = $fields;
+				foreach( $fields as $fid ) {
+					$all_field_ids[ $fid ] = true;
+				}
+			}
+		}
+
+		// One query for all fields across all groups
+		$published_field_lookup = array();
+		if( $all_field_ids ) {
+			$published_fields_raw = get_posts( array(
+				'post_type'      => 'pewc_field',
+				'post__in'       => array_keys( $all_field_ids ),
+				'fields'         => 'ids',
+				'posts_per_page' => -1,
+				'post_status'    => 'publish',
+			) );
+			$published_field_lookup = array_flip( array_map( 'strval', $published_fields_raw ) );
+			// Batch-prime field meta cache: get_posts() with 'fields'=>'ids' does not load post meta,
+			// so without this, each get_post_meta( $field_id, 'all_params' ) inside
+			// pewc_create_item_object() triggers its own update_meta_cache() query — one per field.
+			update_meta_cache( 'post', $published_fields_raw );
+		}
+
+		foreach( $group_ids as $group_id ) {
+			if( ! in_array( $group_id, $published_group_ids ) ) {
+				continue;
+			}
+			$all_fields = array();
+			if( isset( $field_ids_by_group[ $group_id ] ) ) {
+				foreach( $field_ids_by_group[ $group_id ] as $field_id ) {
+					if( isset( $published_field_lookup[ $field_id ] ) ) {
+						$all_fields[ $field_id ] = pewc_create_item_object( $field_id );
+					}
+				}
+			}
+			$groups[ $group_id ]['items'] = $all_fields;
 		}
 	}
 
@@ -202,24 +294,6 @@ function pewc_get_global_groups_list() {
 		'orderby'				=> 'menu_order',
 		'order'					=> 'ASC'
 	);
-	// 3.19.1, commented out the code block below because WP_Query overrides the global $post variable, causing an error with another plugin
-	/*
-	$groups = new WP_Query( $args );
-	$group_list = array();
-	if( $groups->have_posts() ) {
-		while ( $groups->have_posts() ) {
-			$groups->the_post();
-			$group_id = get_the_ID();
-			$group = get_post( $group_id );
-			$group_list[$group_id] = sprintf(
-				'#%s: %s (%s)',
-				$group_id,
-				get_the_title(),
-				$group->post_title
-			);
-		}
-	}
-	*/
 	// new code since 3.19.1
 	$group_list = array();
 	$groups = get_posts( $args );
@@ -288,16 +362,31 @@ function pewc_get_group_order( $product_id ) {
  * @return Array
  */
 function pewc_get_group_fields( $group_id ) {
+	// Request-level cache: prevents repeated DB lookups when the same group is requested
+	// from multiple code paths (e.g. pewc_get_pewc_groups, conditionals, global extras).
+	static $cache = array();
+	if( isset( $cache[ $group_id ] ) ) {
+		return $cache[ $group_id ];
+	}
 	$all_fields = array();
 	$fields = get_post_meta( $group_id, 'field_ids', true );
 	if( $fields ) {
+		// Fetch all published field IDs in a single query instead of one get_post_status() call per field
+		$published_field_ids = get_posts( array(
+			'post_type'      => 'pewc_field',
+			'post__in'       => $fields,
+			'fields'         => 'ids',
+			'posts_per_page' => -1,
+			'post_status'    => 'publish',
+		) );
+		$published_field_ids = array_map( 'strval', $published_field_ids );
 		foreach( $fields as $field_id ) {
-			// Confirm that the field ID is an actual field
-			if( 'publish' === get_post_status( $field_id ) ) {
+			if( in_array( $field_id, $published_field_ids ) ) {
 				$all_fields[$field_id] = pewc_create_item_object( $field_id );
 			}
 		}
 	}
+	$cache[ $group_id ] = $all_fields;
 	return $all_fields;
 }
 
@@ -305,10 +394,12 @@ function pewc_get_group_fields( $group_id ) {
  * Before 3.0.0, field data was stored as a serialised array
  * This function just gets our post meta and formats it in an array so we can continue using pre-3.0 templates
  * @since	3.0.0
- * @version	3.15.0
+ * @version	4.3.0
  * @return Array
  */
 function pewc_create_item_object( $field_id ) {
+
+	global $pagenow;
 
 	$item = pewc_get_transient( 'pewc_item_object_' . $field_id );
 
@@ -321,23 +412,26 @@ function pewc_create_item_object( $field_id ) {
 
 		$all_params = get_post_meta( $field_id, 'all_params', true );
 
-		// before 3.15.0
-		/*if( ! empty( $all_params ) && pewc_enable_groups_as_post_types() ) {
-			$item = $all_params; // before 3.15.0, this could cause undefined keys PHP warnings
-		} else {
-			if( $params ) {
-				foreach( $params as $param ) {
-					$value = get_post_meta( $field_id, $param, true );
-					$item[$param] = $value;
-				}
-			}
-		}*/
-
 		// Since 3.15.0. This hopes to avoid "undefined keys" for fields created using an older version where a newer key did not exist yet
 		// $params retrieves the key list from pewc_get_field_params() which is always updated when we add new field settings/keys
 		if ( $params ) {
+
+			// 4.3.0, transient is now disabled by default. We need to detect if this page is not the Global Add-Ons page (i.e. Display groups as post type is disabled). This is for the toggle issue always remaining enabled because postmetas are not deleted when editing the product page
+			$is_global_product_addons = ! empty( $pagenow ) && 'admin.php' === $pagenow && ! empty( $_GET['page'] ) && 'global' === $_GET['page'];
+
 			foreach ( $params as $param ) {
-				if ( ! empty( $all_params ) && pewc_enable_groups_as_post_types() ) {
+				// 4.1.1, added the additional conditions because on the Edit Product page, the toggle settings don't get turned off if Display as post type is disabled
+				// This happens because we no longer delete_post_meta in admin/functions-custom-panel.php since 4.0. Also use $all_params on the frontend now, so that the backend settings match the frontend.
+				// Consider just deleting pewc_enable_groups_as_post_types() from the condition in the future, but need to test that extensively for effects especially on Global Add-Ons (groups as post type disabled) which still seems to use postmeta
+				// 4.3.0, use ! $is_global_product_addons instead
+				if (
+					! empty( $all_params ) && 
+					(
+						pewc_enable_groups_as_post_types() || 
+						! $is_global_product_addons || 
+						is_product()
+					)
+				) {
 					$item[$param] = $all_params[$param] ?? '';
 				} else {
 					$value = get_post_meta( $field_id, $param, true );
@@ -370,6 +464,7 @@ function pewc_get_field_params( $field_id=null ) {
 		'id',
 		'group_id',
 		'field_label',
+		'field_admin_label',
 		'field_type',
 		'field_price',
 		'field_options',
@@ -433,6 +528,7 @@ function pewc_get_field_params( $field_id=null ) {
 		'decimal_places',
 		'field_rows',
 		'multiple_uploads',
+		'min_files',
 		'max_files',
 		'multiply_price',
 		'hidden_calculation',
@@ -448,8 +544,15 @@ function pewc_get_field_params( $field_id=null ) {
 		'layered_images',
 		'parent_swatch_id',
 		'field_swatchwidth',
+		'field_class',
 		'field_step',
-		'field_enable_range_slider'
+		'field_enable_range_slider',
+		'field_latest_hour',
+		'field_latest_minute',
+		'field_time_label',
+		'field_cl_options',
+		'cl_weekdays',
+		'cl_blocked_dates'
 	);
 
 	return apply_filters( 'pewc_item_params', $params, $field_id );
@@ -1148,7 +1251,7 @@ function pewc_get_products_for_cats( $categories ) {
 		'limit'			=> apply_filters( 'pewc_products_for_cats_limit', 99 ),
 		'exclude' 		=> [ get_queried_object_id() ],
 		'category' 		=> $categories,
-		'stock_status' 	=> apply_filters( 'pewc_products_for_cats_stock', 'instock' ),
+		'stock_status' 	=> apply_filters( 'pewc_products_for_cats_stock', array( 'instock', 'outofstock', 'onbackorder' ) ), // 4.0.3, changed 'instock' to an array of statuses, to make it consistent with the Products field
 		'return'		=> 'ids'
 	);
 
@@ -1461,7 +1564,7 @@ function pewc_has_color_picker_field( $product_id ) {
  * Have we enabled DropZone.js uploads?
  */
 function pewc_enable_ajax_upload() {
-	$enable_js = get_option( 'pewc_enable_dropzonejs', 'no' );
+	$enable_js = get_option( 'pewc_enable_dropzonejs', 'yes' );
 	return apply_filters( 'pewc_enable_dropzonejs', $enable_js );
 }
 
@@ -1643,6 +1746,86 @@ function pewc_get_swatch_image_html( $option_value, $item ) {
 	);
 
 	return $image;
+}
+
+/**
+ * Batch-prime the WP post meta cache for child product thumbnails before rendering a products field.
+ * Reduces one DB query per child product to two queries total:
+ *   1. one UPDATE_META_CACHE query for all child product meta (loads _thumbnail_id etc.)
+ *   2. one UPDATE_META_CACHE query for all their thumbnail attachment meta
+ *
+ * @param array $child_product_ids  Product IDs from $item['child_products']
+ * @param bool  $include_variants   Also prime thumbnail meta for variable product variants (swatches layout)
+ * @since 4.2.1
+ */
+function pewc_prime_child_product_thumbnail_cache( $child_product_ids, $include_variants = false ) {
+	if ( empty( $child_product_ids ) ) {
+		return;
+	}
+
+	// Prime both post objects AND post meta for all child products in one pass.
+	// update_meta_cache() alone only warms the meta cache — get_post_thumbnail_id() also
+	// calls get_post() → WP_Post::get_instance(), which needs the post object in cache too.
+	// _prime_post_caches() issues a single posts query + a single meta query for all IDs.
+	_prime_post_caches( $child_product_ids, false, true );
+
+	$attach_ids = array();
+
+	if ( $include_variants ) {
+		// For layouts that display per-variant thumbnails (e.g. swatches), also prime
+		// variation post objects + meta so get_post_thumbnail_id() on each variant is cache-served.
+		foreach ( $child_product_ids as $cpid ) {
+			$cp = wc_get_product( $cpid ); // post object + meta now in cache
+			if ( ! is_object( $cp ) || $cp->get_status() !== 'publish' ) {
+				continue;
+			}
+			if ( $cp->get_type() === 'variable' ) {
+				$variants = $cp->get_children();
+				if ( $variants ) {
+					_prime_post_caches( $variants, false, true );
+					foreach ( $variants as $vid ) {
+						$tid = get_post_thumbnail_id( $vid );
+						if ( $tid ) {
+							$attach_ids[] = $tid;
+						}
+					}
+				}
+			} else {
+				$tid = get_post_thumbnail_id( $cpid );
+				if ( $tid ) {
+					$attach_ids[] = $tid;
+				}
+			}
+		}
+	} else {
+		$attach_ids = array_filter( array_map( 'get_post_thumbnail_id', $child_product_ids ) );
+	}
+
+	if ( $attach_ids ) {
+		// One query for all thumbnail attachment meta (_wp_attached_file, _wp_attachment_metadata etc.)
+		_prime_post_caches( array_unique( $attach_ids ), false, true );
+	}
+}
+
+/**
+ * Batch-prime the WP attachment meta cache for an image-swatch field before rendering its options.
+ * Attachment IDs for image swatches live directly in $item['field_options'], so no product loading needed.
+ *
+ * @param array $field_options  $item['field_options'] from an image-swatch field
+ * @since 4.2.1
+ */
+function pewc_prime_swatch_field_attachment_cache( $field_options ) {
+	if ( empty( $field_options ) ) {
+		return;
+	}
+	$attach_ids = array();
+	foreach ( $field_options as $option ) {
+		if ( ! empty( $option['image'] ) )     $attach_ids[] = $option['image'];
+		if ( ! empty( $option['image_alt'] ) ) $attach_ids[] = $option['image_alt'];
+	}
+	if ( $attach_ids ) {
+		_prime_post_caches( array_unique( $attach_ids ), false, true );
+	}
 }
 
 /**
@@ -1911,3 +2094,40 @@ function pewc_hide_quantity( $product ) {
 	
 	return 'yes' === $hide ? true : false;
 }
+
+/**
+ * Return a list of field types that use options
+ * @since 4.1.1
+ */
+function pewc_field_has_options() {
+	return array( 'checkbox_group', 'radio', 'select', 'select-box', 'image_swatch' );
+}
+
+/**
+ * Get the price visibility setting for a field
+ * @since 4.1.3
+ */
+function pewc_get_price_visibility( $field ) {
+	return isset( $field['price_visibility'] ) ? $field['price_visibility'] : false;
+}
+
+/**
+ * Are plus/minus buttons enabled for Products quantity fields?
+ * @since 4.1.4
+ */
+function pewc_enable_plus_minus_buttons( $product_id = 0 ) {
+	$enabled = get_option( 'pewc_enable_plus_minus_buttons', 'no' );
+	return apply_filters( 'pewc_enable_plus_minus_buttons', $enabled, $product_id );
+}
+
+/**
+ * Force quantity layout to 'block' when plus/minus buttons are enabled
+ * @since 4.1.4
+ */
+function pewc_plus_minus_force_quantity_layout_block( $layout ) {
+	if ( 'yes' === pewc_enable_plus_minus_buttons() ) {
+		return 'block';
+	}
+	return $layout;
+}
+add_filter( 'pewc_quantity_layout', 'pewc_plus_minus_force_quantity_layout_block' );

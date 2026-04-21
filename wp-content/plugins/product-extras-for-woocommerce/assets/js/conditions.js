@@ -3,6 +3,22 @@
 	$( document ).ready( function() {
 
 		var reset_fields = [];
+		// Guard flag: reset_field_value() calls .trigger('change') on inputs to restore
+		// default values, which fires trigger_field_condition_check → reset_fields() again,
+		// creating a cascade loop. This flag breaks that cycle.
+		var pewc_is_resetting = false;
+		// Debounce timer: reset_field_value() fires pewc_reset_field_condition once per field,
+		// which would schedule 40+ setTimeouts on a complex page. We cancel and reschedule so
+		// only one sweep runs after the last field is reset.
+		var field_reset_timer = null;
+		// Debounce timer for trigger_field_condition_check: on radio/swatch clicks the change event fires
+		// synchronously and blocks the main thread between the visual selection and the price update.
+		// Deferring by one tick lets the browser paint the checked state before running conditions.
+		var field_condition_check_timer = null;
+		// Debounce timer for deferred reset_fields: trigger_field_condition_check defers reset_fields()
+		// via setTimeout(0) so the browser can paint shown/hidden field state before resetting values.
+		// Debouncing ensures rapid clicks don't queue multiple resets.
+		var reset_fields_timer = null;
 
 		var pewc_conditions = {
 
@@ -25,7 +41,12 @@
 
 				// 3.26.11
 				$( 'body' ).on( 'pewc_field_visibility_updated', function( e, field_id, action ){
-					pewc_conditions.put_back_default( field_id );
+					// Skip during batch reset: reset_field_value() already restores defaults,
+					// and firing put_back_default() here causes N DOM queries + potential
+					// .trigger('change') calls for every field in every group being toggled.
+					if ( ! pewc_is_resetting ) {
+						pewc_conditions.put_back_default( field_id );
+					}
 				});
 
 				if( pewc_vars.conditions_timer > 0 ) {
@@ -49,6 +70,12 @@
 							pewc_vars.conditions_timer
 						);
 					}
+
+					// 3.27.9, trigger on page load if we have fields dependent on quantity
+					if( typeof pewc_quantity_triggers !== 'undefined' ) {
+						$( 'form.cart .qty' ).trigger( 'change' );
+					}
+
 				}
 
 			},
@@ -56,50 +83,68 @@
 			// 3.26.5, created a separate function so that we can re-attach these to repeatable groups
 			attach_events: function() {
 				$( '.pewc-field-triggers-condition' ).on( 'pewc_update_select_box', this.trigger_field_condition_check );
-				$( '.pewc-field-triggers-condition input' ).on( 'change input keyup paste', this.trigger_field_condition_check );
+				// Debounced: radio/swatch clicks fire change synchronously; deferring yields a paint frame so
+				// the checked class renders before the conditions chain runs.
+				$( '.pewc-field-triggers-condition input' ).on( 'change input keyup paste', this.trigger_field_condition_check_debounced );
 				$( '.pewc-field-triggers-condition select' ).on( 'update change', this.trigger_field_condition_check );
 				$( '.pewc-field-triggers-condition .pewc-calculation-value' ).on( 'calculation_field_updated', this.trigger_field_condition_check );
 			},
 
 			initial_check: function() {
 
+				// Process condition triggers in small batches, yielding the main thread
+				// between each batch via setTimeout(fn, 0). This prevents a single long
+				// blocking task that delays user interaction (INP). Groups and attribute
+				// checks run after all field batches complete.
+				var batch_size = 5;
+
+				var run_groups_and_attributes = function() {
+					// Check the groups
+					$( '.pewc-condition-trigger' ).each( function() {
+						var field = $( this );
+						var groups = JSON.parse( $( field ).attr( 'data-trigger-groups' ) );
+						for( var g in groups ) {
+							conditions_obtain = pewc_conditions.check_group_conditions( groups[g] );
+							var action = $( '#pewc-group-' + groups[g] ).attr( 'data-condition-action' );
+							pewc_conditions.assign_group_classes( conditions_obtain, action, groups[g] );
+						}
+					});
+
+					// 3.11.9, check all groups and fields using attributes on conditions
+					pewc_conditions.trigger_attribute_condition_check();
+				};
+
 				// Check the fields
 				if( pewc_vars.conditions_timer > 0 ) {
 
-					$( '.pewc-field-triggers-condition' ).each( function() {
+					var fields = $( '.pewc-field-triggers-condition' ).toArray();
 
-						var field = $( this ).closest( '.pewc-item' );
-						var parent = pewc_conditions.get_field_parent( field );
-						var field_value = pewc_conditions.get_field_value( $( field ).attr( 'data-field-id' ), $( field ).attr( 'data-field-type' ), parent );
-						var triggers_for = JSON.parse( $( field ).attr( 'data-triggers-for' ) );
-
-						// 3.26.5
-						pewc_conditions.check_triggered_fields( $( field ), field_value, triggers_for, parent );
-
-						// Iterate through each field that is conditional on the updated field
-						//for( var g in triggers_for ) {
-						//	conditions_obtain = pewc_conditions.check_field_conditions( triggers_for[g], field_value, parent );
-						//	var action = $( '.pewc-field-' + triggers_for[g] ).attr( 'data-field-conditions-action' );
-						//	pewc_conditions.assign_field_classes( conditions_obtain, action, triggers_for[g], parent );
-						//}
-
-					});
-
-				}
-
-				// Check the groups
-				$( '.pewc-condition-trigger' ).each( function() {
-					var field = $( this );
-					var groups = JSON.parse( $( field ).attr( 'data-trigger-groups' ) );
-					for( var g in groups ) {
-						conditions_obtain = pewc_conditions.check_group_conditions( groups[g] );
-						var action = $( '#pewc-group-' + groups[g] ).attr( 'data-condition-action' );
-						pewc_conditions.assign_group_classes( conditions_obtain, action, groups[g] );
+					if ( fields.length === 0 ) {
+						run_groups_and_attributes();
+						return;
 					}
-				});
 
-				// 3.11.9, check all groups and fields using attributes on conditions
-				pewc_conditions.trigger_attribute_condition_check();
+					var process_batch = function( index ) {
+						var end = Math.min( index + batch_size, fields.length );
+						for ( var i = index; i < end; i++ ) {
+							var field = $( fields[i] ).closest( '.pewc-item' );
+							var parent = pewc_conditions.get_field_parent( field );
+							var field_value = pewc_conditions.get_field_value( $( field ).attr( 'data-field-id' ), $( field ).attr( 'data-field-type' ), parent );
+							var triggers_for = JSON.parse( $( field ).attr( 'data-triggers-for' ) );
+							pewc_conditions.check_triggered_fields( $( field ), field_value, triggers_for, parent );
+						}
+						if ( end < fields.length ) {
+							setTimeout( function() { process_batch( end ); }, 0 );
+						} else {
+							setTimeout( run_groups_and_attributes, 0 );
+						}
+					};
+
+					process_batch( 0 );
+
+				} else {
+					run_groups_and_attributes();
+				}
 
 			},
 
@@ -123,7 +168,10 @@
 				pewc_conditions.trigger_group_conditions( groups );
 
 				if( pewc_vars.reset_fields == 'yes' ) {
-					pewc_conditions.reset_fields();
+					clearTimeout( reset_fields_timer );
+					reset_fields_timer = setTimeout( function() {
+						pewc_conditions.reset_fields();
+					}, 0 );
 				}
 
 			},
@@ -135,7 +183,11 @@
 					pewc_conditions.assign_group_classes( conditions_obtain, action, groups[g] );
 				}
 				// let's do this if we need to toggle other groups or fields that are dependent on a field inside a toggled group
-				$( 'body' ).trigger( 'pewc_reset_field_condition' );
+				// Skip during batch reset: reset_field_value() calls this for every field that triggers a group,
+				// causing the debounce timer to restart M times. reset_fields() handles the post-reset sweep.
+				if ( ! pewc_is_resetting ) {
+					$( 'body' ).trigger( 'pewc_reset_field_condition' );
+				}
 			},
 
 			get_field_parent: function( field ) {
@@ -156,7 +208,21 @@
 
 			},
 
+			trigger_field_condition_check_debounced: function() {
+				// Capture context (the triggering element) for use inside the deferred callback.
+				// Using a closure over `this` avoids losing the jQuery event context.
+				var self = this;
+				clearTimeout( field_condition_check_timer );
+				field_condition_check_timer = setTimeout( function() {
+					pewc_conditions.trigger_field_condition_check.call( self );
+				}, 0 );
+			},
+
 			trigger_field_condition_check: function() {
+
+				if ( pewc_is_resetting ) {
+					return;
+				}
 
 				var field = $( this ).closest( '.pewc-item' );
 				var parent = pewc_conditions.get_field_parent( field );
@@ -176,7 +242,12 @@
 				//}
 
 				if( pewc_vars.reset_fields == 'yes' ) {
-					pewc_conditions.reset_fields();
+					// Defer reset_fields so the browser can paint show/hide changes from check_triggered_fields
+					// before doing the synchronous value-reset work (which includes .trigger('change') per field).
+					clearTimeout( reset_fields_timer );
+					reset_fields_timer = setTimeout( function() {
+						pewc_conditions.reset_fields();
+					}, 0 );
 				}
 
 			},
@@ -185,8 +256,10 @@
 			// Ensures fields with dependent conditions will also get reset correctly
 			trigger_field_reset_condition_check: function() {
 
-				// Use a timer to allow complex pages to catch up
-				var reset_timer = setTimeout(
+				// Use a debounced timer: cancel any pending sweep and reschedule,
+				// so only one sweep runs after the last field reset fires this event.
+				clearTimeout( field_reset_timer );
+				field_reset_timer = setTimeout(
 					function() {
 						$( '.pewc-reset' ).each( function() {
 							$( this ).removeClass( 'pewc-reset' );
@@ -268,15 +341,20 @@
 				}
 				for( var i in conditions ) {
 					var condition = conditions[i];
+					// Cache the condition field element once to avoid repeated full-document scans per condition
+					var condition_field_el = $( '.' + condition.field );
 					if( ! condition.field_type ) {
-						condition.field_type = $( '.' + condition.field ).attr( 'data-field-type' );
+						condition.field_type = condition_field_el.attr( 'data-field-type' );
 					}
+					var condition_field_id = condition_field_el.attr( 'data-field-id' );
 
-					var field = $( '.pewc-field-' + $( '.' + condition.field ).attr( 'data-field-id' ) );
+					var field = $( '.pewc-field-' + condition_field_id );
 					var parent = pewc_conditions.get_field_parent( field );
-					var value = pewc_conditions.get_field_value( $( '.' + condition.field ).attr( 'data-field-id' ), condition.field_type, parent );
+					var value = pewc_conditions.get_field_value( condition_field_id, condition.field_type, parent );
 					if ( condition.field.substring(0, 3) == 'pa_' ) {
-						value = $( '#'+condition.field ).val();
+						//value = $( '#'+condition.field ).val();
+						// 4.1.2, use encodeURIComponent to support attribute slugs with special chars e.g. Greek letters. We use [id=""] so that we don't need to escape special chars
+						value = $( '[id="' + encodeURIComponent( condition.field ).toLowerCase() + '"]' ).val();
 					}
 					var meets_condition = this.field_meets_condition( value, condition.rule, condition.value );
 					if( meets_condition && match =='any' ) {
@@ -313,7 +391,9 @@
 					} else if ( condition.field == 'quantity' ) {
 						var field_value = $( 'form.cart .quantity input.qty' ).val();
 					} else if ( condition.field.substring(0, 3) == 'pa_' ){
-						var attribute_field = $( '#' + condition.field );
+						//var attribute_field = $( '#' + condition.field );
+						// 4.1.2, use encodeURIComponent to support attribute slugs with special chars e.g. Greek letters. We use [id=""] so that we don't need to escape special chars
+						var attribute_field = $( '[id="' + encodeURIComponent( condition.field ).toLowerCase() + '"]' );
 						var field_value = $( attribute_field ).val();
 						if ( field_value != undefined && field_value.indexOf( ',' ) !== -1 && $( attribute_field ).is( 'input' ) ) {
 							// 3.26.11, this could be a hidden input field with a list of attributes, split into an array?
@@ -329,6 +409,18 @@
 						var field_value = this.get_field_value( $( '.' + condition.field ).attr( 'data-field-id' ), condition.field_type, loop_parent );
 					}
 					var meets_condition = this.field_meets_condition( field_value, condition.rule, condition.value );
+
+					// 3.27.9, if we have a condition based on attributes, and rule is Is Not (e.g. Color Is Not Blue), if attribute Color does not exist, then meets_condition is still false, but it should be true?
+					// we do this hear so as not to affect other functions that use field_meets_condition()
+					if ( typeof attribute_field !== 'undefined' ) {
+						// this is a condition based on an attribute
+						var not_rules = [ 'is-not', 'does-not-contain' ];
+						if ( typeof field_value == 'undefined' && not_rules.includes( condition.rule ) && ! meets_condition ) {
+							// the attribute does not exist, but if the rule is using Is Not or Does Not Contain, the it meets the condition, yes?
+							meets_condition = true;
+						}
+					}
+
 					if( meets_condition && match == 'any' ) {
 						return true;
 					} else if( ! meets_condition && match =='all' ) {
@@ -399,6 +491,8 @@
 					return false;
 				} else if( field_type == 'radio' ) {
 					return $( field ).find( 'input:radio:checked' ).val();
+				} else if( field_type == 'calendar-list' ) {
+					return $( field ).find( 'input:radio:checked' ).attr( 'data-offset' );
 				} else if( field_type == 'quantity' ) {
 					return $( 'form.cart .quantity input.qty' ).val();
 				} else if( field_type == 'cost' ) {
@@ -412,7 +506,7 @@
 			},
 
 			field_meets_condition: function( value, rule, required_value ) {
-				if (value == undefined ) {
+				if ( value == undefined ) {
 					return false;
 				} else if( rule == 'is') {
 					return value == required_value;
@@ -460,31 +554,40 @@
 
 			assign_group_classes: function( conditions_obtain, action, group_id ) {
 
+				// aou-repeatable-conditions
+				var group_selector = '#pewc-group-' + group_id;
+				var tab_selector = '#pewc-tab-' + group_id;
+
+				if ( $( '#pewc-repeat-group-count-' + group_id ).length > 0 ) {
+					// this is a repeatable group, use class as the selector so that cloned groups are also shown/hidden
+					group_selector = '.pewc-group-wrap-' + group_id;
+				}
+
 				if( conditions_obtain ) {
 					if( action == 'show' ) {
-						$( '#pewc-group-' + group_id ).removeClass( 'pewc-group-hidden' );
-						$( '#pewc-tab-' + group_id ).removeClass( 'pewc-group-hidden' );
-						$( '#pewc-group-' + group_id ).removeClass( 'pewc-reset-group' );
-						$( '#pewc-tab-' + group_id ).removeClass( 'pewc-reset-group' );
+						$( group_selector ).removeClass( 'pewc-group-hidden' );
+						$( tab_selector ).removeClass( 'pewc-group-hidden' );
+						$( group_selector ).removeClass( 'pewc-reset-group' );
+						$( tab_selector ).removeClass( 'pewc-reset-group' );
 					} else {
-						$( '#pewc-group-' + group_id ).addClass( 'pewc-group-hidden pewc-reset-group' );
-						$( '#pewc-tab-' + group_id ).addClass( 'pewc-group-hidden pewc-reset-group' );
+						$( group_selector ).addClass( 'pewc-group-hidden pewc-reset-group' );
+						$( tab_selector ).addClass( 'pewc-group-hidden pewc-reset-group' );
 					}
 				} else {
 					if( action == 'show' ) {
-						$( '#pewc-group-' + group_id ).addClass( 'pewc-group-hidden pewc-reset-group' );
-						$( '#pewc-tab-' + group_id ).addClass( 'pewc-group-hidden pewc-reset-group' );
+						$( group_selector ).addClass( 'pewc-group-hidden pewc-reset-group' );
+						$( tab_selector ).addClass( 'pewc-group-hidden pewc-reset-group' );
 
-						// $( '#pewc-group-' + group_id ).find( '.pewc-field-triggers-condition' ).each( function() {
+						// $( group_selector ).find( '.pewc-field-triggers-condition' ).each( function() {
 							// Check each field in this group, in case of conditions on the fields
 							// $( this ).find( 'input' ).trigger( 'change' );
 							// pewc_conditions.trigger_field_condition_check_by_id( $( this ).attr( 'data-field-id' ) );
 						// });
 					} else {
-						$( '#pewc-group-' + group_id ).removeClass( 'pewc-group-hidden' );
-						$( '#pewc-tab-' + group_id ).removeClass( 'pewc-group-hidden' );
-						$( '#pewc-group-' + group_id ).removeClass( 'pewc-reset-group' );
-						$( '#pewc-tab-' + group_id ).removeClass( 'pewc-reset-group' );
+						$( group_selector ).removeClass( 'pewc-group-hidden' );
+						$( tab_selector ).removeClass( 'pewc-group-hidden' );
+						$( group_selector ).removeClass( 'pewc-reset-group' );
+						$( tab_selector ).removeClass( 'pewc-reset-group' );
 					}
 				}
 
@@ -492,13 +595,19 @@
 				pewc_conditions.trigger_fields_within_hidden_groups( group_id );
 				// also moved here since 3.11.5 because the replace main image function for image swatch depends on this
 				$( 'body' ).trigger( 'pewc_group_visibility_updated', [ group_id, action ] );
-				$( 'body' ).trigger('pewc_force_update_total_js'); // added in 3.11.9
+				// Skip during a batch reset — reset_fields() fires this once after all fields are done.
+				if ( ! pewc_is_resetting ) {
+					$( 'body' ).trigger('pewc_force_update_total_js'); // added in 3.11.9
+				}
 
 				// Iterate through each field in the group to check for layered swatches
-				$( '#pewc-group-' + group_id ).find( '.pewc-item' ).each( function( layer_index, element ) {
+				// and fire pewc_field_visibility_updated per field (3.26.6, needed when editing options from cart).
+				// Skip during batch reset: the per-field events fire individually via assign_field_classes.
+				$( group_selector ).find( '.pewc-item' ).each( function( layer_index, element ) {
 					pewc_conditions.hide_layered_images( $( this ), $( this ).attr( 'data-field-id' ) );
-					// 3.26.6, trigger this in case group has condition but field does not, needed when editing options from the cart
-					$( 'body' ).trigger( 'pewc_field_visibility_updated', [ $( this ).attr('data-id'), action ] );
+					if ( ! pewc_is_resetting ) {
+						$( 'body' ).trigger( 'pewc_field_visibility_updated', [ $( this ).attr('data-id'), action ] );
+					}
 				});
 
 			},
@@ -594,9 +703,13 @@
 
 			reset_fields: function() {
 
+				if ( pewc_is_resetting ) { return; }
+
 				if( $( '.pewc-reset-me' ).length < 1 && $( '.pewc-reset-group' ).length < 1 ) {
 					return;
 				}
+
+				pewc_is_resetting = true;
 
 				$( '.pewc-reset-me' ).each( function() {
 
@@ -616,6 +729,11 @@
 					});
 
 				});
+
+				pewc_is_resetting = false;
+
+				// Fire once after all fields are reset rather than once per field.
+				$( 'body' ).trigger('pewc_force_update_total_js');
 
 			},
 
@@ -672,12 +790,21 @@
 						$( '#' + $( field ).attr( 'data-id' ) + '_' + default_value2 ).closest( '.pewc-radio-image-wrapper, .pewc-checkbox-image-wrapper' ).addClass( 'checked' );
 					}
 				} else if( checks.includes( field_type ) ) {
+					// checkbox, checkbox_group, radio
+					// uncheck all
 					$( field ).find( 'input' ).prop( 'checked', false );
 					// 3.23.1
 					if ( $( field ).hasClass( 'pewc-text-swatch' ) ) {
 						$( field ).find( '.active-swatch' ).removeClass( 'active-swatch' );
 					}
-					default_value = $( field ).hasClass( 'pewc-hidden-field' ) ? '' : $( field ).attr( 'data-default-value' ); // 3.21.7, if checkbox is hidden, nullify the value, so that conditions based on this does not match in the backend
+					// 3.27.11, added conditions below so that Radio field's default value is selected when it is shown via condition
+					if ( field_type == 'checkbox' ) {
+						default_value = $( field ).hasClass( 'pewc-hidden-field' ) ? '' : $( field ).attr( 'data-default-value' ); // 3.21.7, if checkbox is hidden, nullify the value, so that conditions based on this does not match in the backend
+					} else {
+						// Radio group goes here. Checkbox group does not have the Default field?
+						default_value = $( field ).attr( 'data-default-value' );
+					}
+
 					if ( default_value ) {
 						if ( field_type === 'checkbox' ) {
 							$( field ).find( 'input' ).prop( 'checked', true ); // 3.17.2
@@ -771,7 +898,10 @@
 					$( field ).attr( 'data-field-price', 0 );
 				}
 				// we force update_total_js so that the summary panel is also updated
-				$( 'body' ).trigger('pewc_force_update_total_js');
+			// Skip during a batch reset — reset_fields() fires this once after all fields are done.
+				if ( ! pewc_is_resetting ) {
+					$( 'body' ).trigger('pewc_force_update_total_js');
+				}
 				$( 'body' ).trigger( 'pewc_reset_field_condition' );
 
 			},
@@ -828,16 +958,23 @@
 
 					pewc_conditions.assign_field_classes( conditions_obtain, action, field_id, parent );
 
-					if( pewc_vars.reset_fields == 'yes' ) {
-						pewc_conditions.reset_fields();
-					}
-
 				});
+
+				// reset_fields() was previously called inside the each() loop above, causing one
+				// full querySelectorAll('.pewc-reset-me') + querySelectorAll('.pewc-reset-group')
+				// scan per field. Moved outside so it runs once after all fields are processed.
+				if( pewc_vars.reset_fields == 'yes' ) {
+					pewc_conditions.reset_fields();
+				}
 
 			},
 
 			// since 3.11.9
 			trigger_attribute_condition_check: function( event, variation, purchasable ) {
+
+				if ( pewc_is_resetting ) {
+					return;
+				}
 
 				pewc_conditions.trigger_groups_with_attribute_conditions( event, variation, purchasable );
 				pewc_conditions.trigger_fields_with_attribute_conditions( event, variation, purchasable );
@@ -848,14 +985,11 @@
 			check_triggered_fields: function( field, field_value, triggers_for, parent=false ) {
 
 				var is_repeatable_field = false;
-				var is_cloned_field = false;
 				var group_wrapper = $( field ).closest( '.pewc-group-wrap' );
 
 				if ( field != 'cost' && field != 'quantity' ) {
 					// was this triggered from a field inside a repeatable group?
 					is_repeatable_field = $( group_wrapper ).hasClass( 'pewc-repeatable-group' );
-					// was this triggered from a cloned field?
-					is_cloned_field = $( group_wrapper ).hasClass( 'pewc-cloned-group' );
 				}
 
 				// we use a different var so that it doesn't get overwritten in the loop

@@ -101,7 +101,38 @@ function pewc_create_composite_image( $cart_item_data, $groups ) {
 	$upload_dir = trailingslashit( pewc_get_upload_dir() );
 	$product_id = $_POST['pewc_product_id'];
 	$product = wc_get_product( $product_id );
-	$base_image_url = $base_image_url_orig = ! empty( $swatch_main_image ) ? $swatch_main_image : wp_get_attachment_url( $product->get_image_id() ); // 3.25.6
+
+	if ( ! is_a( $product, 'WC_Product' ) ) {
+		return $cart_item_data;
+	}
+
+	//$base_image_url = $base_image_url_orig = ! empty( $swatch_main_image ) ? $swatch_main_image : wp_get_attachment_url( $product->get_image_id() ); // 3.25.6
+
+	// 3.27.8, use selected variation image if it exists
+	$base_image_url_orig = '';
+	if ( ! empty( $swatch_main_image ) ) {
+		$base_image_url_orig = $swatch_main_image;
+	} else {
+		if ( ! empty( $_POST['variation_id'] ) ) {
+			// use the selected variation's image
+			$varproduct = wc_get_product( (int) $_POST['variation_id'] );
+			if ( is_a( $varproduct, 'WC_Product' ) && $varproduct->get_image_id() ) {
+				$base_image_url_orig = wp_get_attachment_url( $varproduct->get_image_id() );
+			}
+		}
+		if ( empty( $base_image_url_orig ) ) {
+			// base image is still empty, maybe this is a simple product or parent variable product
+			$base_image_url_orig = wp_get_attachment_url( $product->get_image_id() );
+		}
+	}
+
+	if ( empty( $base_image_url_orig ) ) {
+		// return if base image URL is empty to prevent fatal error
+		return $cart_item_data;
+	}
+
+	$base_image_url = $base_image_url_orig;
+
 	$base_image_url = apply_filters( 'pewc_swatch_layer_base_image_url', $base_image_url ); // 3.21.4, allow users to change url to absolute path
 	if ( basename( $base_image_url ) != basename( $base_image_url_orig ) ) {
 		// incorrect use of filter?

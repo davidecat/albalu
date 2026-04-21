@@ -3,7 +3,7 @@ Contributors: Gareth Harris
 Tags: add-ons, ecommerce
 Requires at least: 4.7
 Tested up to: 6.9
-Stable tag: 3.27.4
+Stable tag: 4.3.0
 Allow your users to customise products through additional fields
 
 == Description ==
@@ -23,6 +23,109 @@ WooCommerce Product Add Ons Ultimate allows your users to customise products thr
 1.
 
 == Changelog ==
+
+= 4.3.0, 15 April 2026 =
+* Added: Min Files setting for Upload fields
+* Added: pewc_filter_groups_early filter - set to true for performance improvements
+* Fixed: PHP notices when using Cart and Checkout blocks
+* Fixed: PHP warning or error when exporting Product Add-Ons by Order and files are missing
+* Fixed: PHP warning when adding a product with no add-ons and AJAX upload is enabled
+* Fixed: JS error if Checkbox field does not have a field image
+* Updated: multiple front-end performance improvements
+* Updated: delete pewc_categories_field_products_ transients when a product category is updated
+* Updated: AJAX upload now only allows one upload if Allow multiple uploads is disabled, regardless of Max Files value
+* Updated: set pewc_column_layout_replace_thumbnail to true by default
+* Updated: incorrect string in German translation
+
+= 4.2.0, 2 April 2026 =
+* Added: Checkbox, Textarea, and Upload fields are now repeatable
+* Added: pewc_filter_repeatable_fields filter
+* Added: option to enable plus and minus buttons on child product quantity fields
+* Fixed: Add More button not hidden when a repeatable group is hidden
+* Updated: Calendar List now finds first available date
+
+= 4.1.3, 25 March 2026 =
+* Added: pewc_after_add_product_extras_to_order_line_item action hook
+* Fixed: PHP warnings when checking out a cart with child products
+* Updated: CSS style for some fields on smaller screens
+* Updated: fixes for calendar list fields
+
+= 4.1.2, 17 March 2026 =
+* Added: pewc_allow_negative_addon_price filter
+* Added: compatibility with FOX Currency Switcher
+* Added: pewc_hide_child_product_in_cart and pewc_display_child_products_as_meta filters
+* Fixed: conditions using attributes not working for attribute slugs with special characters
+* Fixed: global add-on fields are also added to child products' metadata in the cart
+* Fixed: child products with independent quantities increase if 'Multiply independent quantities' is enabled and when editing from the cart
+* Updated: style improvement on cart page
+
+= 4.1.1, 10 March 2026 =
+* Added: ensure 'Value only' option prices are not converted by Aelia
+* Fixed: ensure Calendar List fields can have zero price
+* Fixed: toggle settings on product-level add-on fields not getting saved if 'Display groups as post type' is disabled
+* Fixed: PHP warnings when saving Global Add-Ons if 'Display groups as post type' is disabled
+* Updated: better validation for calendar list field
+* Updated: support for WooCommerce Better Variations grid mode
+* Updated: minor style tweaks to AJAX uploader
+
+= 4.1.0, 3 March 2026 =
+* Added: new Calendar List field type
+* Added: 'Show stock status' setting
+* Fixed: Export buttons not showing up after clicking Export Groups on the Edit Product page
+* Fixed: saving a product is sometimes slow if the site has a large options table
+* Fixed: warning messages in Chrome's browser console when editing a product and an add-on field has a default value
+* Fixed: PHP warnings on some layout if Product Categories fields do not have child products
+* Updated: detect whether select field has numeric values for calculation fields - use option prices if not
+* Updated: include Field Class value as attribute
+
+= 4.0.2, 18 February 2026 =
+* Updated: improved handling of failed license validation
+
+= 4.0.1, 18 February 2026 =
+* Fixed: error on Plugins page if licence API returns false
+* Updated: improvements to admin UI
+
+= 4.0.0, 4 February 2026 =
+* Added: admin label field for back end field names
+* Fixed: Price per booking unit setting in Bookings for WooCommerce stopped working correctly
+* Fixed: Radio Group default value not working if field is initially hidden
+* Updated: admin interface revamp
+* Updated: minor style update to front end select fields
+* Updated: allow the use of both Multiply Price and Price per booking unit in a Number field
+* Updated: set Dropzone auto discover to false for better compatibility with plugins that defer JS scripts
+
+= 3.27.11, 29 January 2026 =
+* Fixed: issue with global fields not saving
+
+= 3.27.10, 28 January 2026 =
+* Updated: version bump
+
+= 3.27.9, 22 January 2026 =
+* Fixed: product search in Group Rule not working when adding a new Global Add-On group
+* Fixed: fields with conditions using quantity not showing up when editing options from the cart
+* Fixed: fields that use attributes in conditions and the rules Is Not or Does Not Contain do not match for simple products that do not contain the attribute
+* Updated: include field prices in the product page totals for fields inside a hidden group that has the setting 'Always Include in Order' enabled
+* Updated: enable AJAX uploader by default
+* Updated: show inputs on swatches and products by default
+
+= 3.27.8, 18 December 2025 =
+* Fixed: selected variation's image not used as base image when creating a composite image
+* Fixed: selector classes not added to the main image container if Layer image setting is enabled
+
+= 3.27.7, 16 December 2025 =
+* Fixed: fatal error sometimes happen on the checkout page when using {product_sku} tag
+* Fixed: global flat rate price is being added to the cart per product instead of just once for the whole cart
+* Updated: selected products are now sortable on a newly created Products field
+
+= 3.27.6, 10 December 2025 =
+* Fixed: fatal error on product pages with child products
+
+= 3.27.5, 9 December 2025 =
+* Added: $option_cost and $item parameters to pewc_child_product_title filter
+* Fixed: main product price are sometimes incorrectly updated with price from Related Products
+* Updated: changed location of selector classes in the main image container
+* Updated: moved pewc_end_checkbox_row action
+* Updated: set default separator between option and price to plus symbol
 
 = 3.27.4, 3 December 2025 =
 * Added: selector classes to the main image container when an image is replaced by the selected swatch

@@ -613,6 +613,8 @@ function pewc_reset_all_transients( $force_reset = false ) {
 		$sql = 'DELETE FROM ' . $wpdb->options . ' WHERE option_name LIKE "_transient_pewc_rules_%"';
 		$wpdb->query( $sql );
 
+		delete_post_meta_by_key( '_pewc_has_extra_fields' );
+
 	}
 
 }

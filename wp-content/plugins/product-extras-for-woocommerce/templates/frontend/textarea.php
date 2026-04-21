@@ -22,7 +22,7 @@ printf(
 	'%s<textarea class="pewc-form-field" id="%s" name="%s" %s placeholder="%s">%s</textarea>%s',
 	$open_td, // Set in functions-single-product.php
 	esc_attr( $id ),
-	esc_attr( $id ),
+	esc_attr( $name ), // aou-repeatable-conditions-textarea, changed to $name
 	$attributes,
 	esc_attr( $placeholder ),
 	esc_html( $value ),
