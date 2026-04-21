@@ -1,7 +1,7 @@
 <?php
 /**
  * Template Name: Articolo – Bomboniere 2026
- * Template Post Type: page
+ * Template Post Type: post
  *
  * Pagina template per l'articolo editoriale
  * "Ha senso fare ancora le bomboniere nel 2026?"
