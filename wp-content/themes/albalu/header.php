@@ -239,7 +239,7 @@ defined('ABSPATH') || exit;
                         <div class="row">
                             <!-- Left Column: Text & Links -->
                             <div class="col-lg-6">
-                                <h6 class="text-uppercase fw-bold mb-3" style="letter-spacing: 1px; color: var(--color-titoli);"><?= esc_html($data['title']); ?></h6>
+                                <div class="text-uppercase fw-bold mb-3" style="letter-spacing: 1px; color: var(--color-titoli); font-size: 1rem;"><?= esc_html($data['title']); ?></div>
                                 <?php if (!empty($data['description'])) : ?>
                                 <p class="mb-4 small text-muted"><?= esc_html($data['description']); ?></p>
                                 <?php endif; ?>

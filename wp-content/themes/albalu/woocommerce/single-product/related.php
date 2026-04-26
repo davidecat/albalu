@@ -22,7 +22,7 @@ if ( $related_products ) :
 
 	<section class="related products">
 
-		<h2>Potrebbe interessarti anche: </h2>
+		<h2 class="h2 mb-4 border-bottom py-2">Potrebbe interessarti anche: </h2>
 
 		<!-- Swiper -->
 		<div class="px-2 position-relative product-slider woocommerce">
