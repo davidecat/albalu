@@ -2,8 +2,8 @@
 Contributors: Gareth Harris
 Tags: add-ons, ecommerce
 Requires at least: 4.7
-Tested up to: 6.9
-Stable tag: 4.3.0
+Tested up to: 7.0
+Stable tag: 4.3.1
 Allow your users to customise products through additional fields
 
 == Description ==
@@ -23,6 +23,12 @@ WooCommerce Product Add Ons Ultimate allows your users to customise products thr
 1.
 
 == Changelog ==
+
+= 4.3.1, 22 April 2026 =
+* Fixed: some fields with conditions inside repeatable groups are not reset when repeated
+* Fixed: unchecked Checkbox fields with default value and has a condition gets checked again when the field it depends on is updated
+* Fixed: JavaScript error when a field does not have a condition
+* Fixed: Swatch fields not getting added to the cart if 'Allow multiple' is enabled
 
 = 4.3.0, 15 April 2026 =
 * Added: Min Files setting for Upload fields

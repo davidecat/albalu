@@ -1723,7 +1723,8 @@ dl.variation dt:before {
 dl.variation dt,
 dl.variation dd,
 dl.variation p {
-	display: inline
+	display: inline;
+	/*float: left;*/
 }
 dl.variation dd:empty {
 	margin-bottom: 0.5em;

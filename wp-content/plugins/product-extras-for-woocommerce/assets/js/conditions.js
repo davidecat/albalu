@@ -40,11 +40,14 @@
 				});
 
 				// 3.26.11
-				$( 'body' ).on( 'pewc_field_visibility_updated', function( e, field_id, action ){
+				$( 'body' ).on( 'pewc_field_visibility_updated', function( e, field_id, action, was_hidden ){
 					// Skip during batch reset: reset_field_value() already restores defaults,
 					// and firing put_back_default() here causes N DOM queries + potential
 					// .trigger('change') calls for every field in every group being toggled.
-					if ( ! pewc_is_resetting ) {
+					// 4.3.1, added was_hidden to the condition so that unchecked checkbox 
+					// with default value don't always become checked when updating a field 
+					// that is used by the checkbox's condition
+					if ( ! pewc_is_resetting && was_hidden ) {
 						pewc_conditions.put_back_default( field_id );
 					}
 				});
@@ -371,7 +374,8 @@
 			check_field_conditions: function( field_id, field_value, parent ) {
 
 				var field = $( parent ).find( '.pewc-field-' + field_id );
-				if( $( field ).length < 1 ) {
+				// 4.3.1, added 2nd condition to prevent error when JSON.parse encounters an undefined data-field-conditions
+				if( $( field ).length < 1 || $( field ).attr( 'data-field-conditions' ) == undefined ) {
 					return false;
 				}
 
@@ -554,7 +558,7 @@
 
 			assign_group_classes: function( conditions_obtain, action, group_id ) {
 
-				// aou-repeatable-conditions
+				// 4.2.0
 				var group_selector = '#pewc-group-' + group_id;
 				var tab_selector = '#pewc-tab-' + group_id;
 
@@ -618,6 +622,14 @@
 					// Check each field in this group, in case of conditions on the fields
 					var field = $( '.pewc-field-' + $( this ).attr( 'data-field-id' ) );
 					var parent = pewc_conditions.get_field_parent( field );
+
+					if ( $( this ).closest( '.pewc-group-wrap' ).hasClass( 'pewc-repeatable-group' ) ) {
+						// 4.3.1, this is a field in a repeatable group, select only this field because the original could return more than 1 fields
+						field = $( this );
+						// change parent to the field's group container
+						parent = $( field ).closest( '.pewc-group-wrap' );
+					}
+
 					var field_value = pewc_conditions.get_field_value( $( field ).attr( 'data-field-id' ), $( field ).attr( 'data-field-type' ), parent );
 					var triggers_for = JSON.parse( $( field ).attr( 'data-triggers-for' ) );
 
@@ -644,6 +656,7 @@
 
 				var field = $( parent ).find( '.pewc-field-' + field_id );
 				//$( 'body' ).trigger( 'pewc_field_visibility_updated', [ field.attr('data-id'), action ] ); // commented out on 3.21.7
+				var is_hidden = ! $( field ).is( ':visible' ); // 4.3.1
 
 				if( conditions_obtain ) {
 					if( action == 'show' ) {
@@ -681,8 +694,11 @@
 					pewc_conditions.hide_layered_images( field, field_id );
 				}
 
+				var was_hidden = is_hidden && $( field ).is( ':visible' ); // 4.3.1
+
 				// 3.21.7, moved here so that field visibility has already been updated before other plugins hook into this
-				$( 'body' ).trigger( 'pewc_field_visibility_updated', [ field.attr('data-id'), action ] );
+				// 4.3.1, added was_hidden to the arguments passed
+				$( 'body' ).trigger( 'pewc_field_visibility_updated', [ field.attr('data-id'), action, was_hidden ] );
 
 			},
 

@@ -1851,7 +1851,15 @@
 				e.preventDefault(); // this helps avoid the conflict with clicking the child product image
 				radio = $( wrapper ).find( '.pewc-checkbox-form-field' );
 				$( wrapper ).toggleClass( 'checked' );
-				setTimeout( function() { $( radio ).trigger( 'click' ); }, 0 ); // this triggers the click event attached to .products-quantities-independent .pewc-checkbox-form-field
+				if ( is_image_swatch_checkbox ) {
+					// 4.3.1, Swatch fields with Allow multiple enable wasn't getting added. trigger( 'click' ) below also causes infinite loop with the new Swatch template
+					var checked = $( radio ).prop( 'checked' );
+					var new_checked = ! checked;
+					setTimeout( function() { $( radio ).prop( 'checked', new_checked ).trigger( 'change' ); }, 0 );
+				} else {
+					// keeping this here in case Products field need this
+					setTimeout( function() { $( radio ).trigger( 'click' ); }, 0 ); // this triggers the click event attached to .products-quantities-independent .pewc-checkbox-form-field
+				}
 				e.stopPropagation();
 			} else {
 				radio = $( wrapper ).find( '.pewc-radio-form-field' );

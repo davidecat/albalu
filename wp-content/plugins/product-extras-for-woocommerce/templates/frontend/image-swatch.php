@@ -1,7 +1,8 @@
 <?php
 /**
  * The template for Image Swatches
- * @since 2.0.0
+ * @since	2.0.0
+ * @version	4.3.1
  * @package WooCommerce Product Add-Ons Ultimate
  */
 
@@ -54,7 +55,8 @@ if( isset( $item['field_options'] ) ) {
 			$option_price = pewc_get_option_price( $option_value, $item, $product );
 			$option_percentage = '';
 
-			$classes = array( 'pewc-radio-form-field' );
+			// 4.3.1, previously pewc-radio-form-field
+			$classes = array( 'pewc-' . $input_type . '-form-field' );
 
 			// Check for percentages
 			if( ! empty( $item['field_percentage'] ) && ! empty( $option_price ) ) {
@@ -85,8 +87,9 @@ if( isset( $item['field_options'] ) ) {
 				$radio_id = $id . '_' . $key;
 			}
 
+			// 4.3.1, changed first class from pewc-radio-image-wrapper
 			$wrapper_classes = array(
-				'pewc-radio-image-wrapper',
+				'pewc-' . $input_type . '-image-wrapper',
 				'pewc-radio-checkbox-image-wrapper',
 				'pewc-radio-image-wrapper-' . $option_index
 			);
