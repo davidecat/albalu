@@ -34,6 +34,10 @@ get_header();
     $term = get_queried_object();
     $custom_name = get_field( 'nome_categoria_visualizzato', $term );
     $cat_title = ! empty( $custom_name ) ? $custom_name : single_term_title( '', false );
+    $paged = max( 1, get_query_var( 'paged' ) );
+    if ( $paged > 1 ) {
+        $cat_title .= ' – Pagina ' . $paged;
+    }
     ?>
     <section class="bg-white py-4 mb-4">
         <div class="container">
