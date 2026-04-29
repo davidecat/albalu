@@ -1383,3 +1383,14 @@ add_filter('wpseo_canonical', function( $canonical ) {
     }
     return $canonical;
 });
+
+// Append pagination to archive title (Yoast SEO and WordPress fallback)
+add_filter( 'wpseo_title', function( $title ) {
+    if ( ( is_product_category() || is_product_tag() || is_shop() || is_archive() ) && ! is_singular() ) {
+        $paged = max( 1, get_query_var( 'paged' ) );
+        if ( $paged > 1 ) {
+            $title .= ' – Pagina ' . $paged;
+        }
+    }
+    return $title;
+} );
