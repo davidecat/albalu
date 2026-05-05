@@ -409,11 +409,27 @@ h2.woocommerce-loop-product__title {
     font-size: 2rem !important;
 }
 
-/* Fix sale price strikethrough on category/loop pages */
-.products .product .price del,
-.products .product .price del .woocommerce-Price-amount,
-.products .product .price del bdi {
-    text-decoration: line-through !important;
+/* Fix sale price strikethrough on category/loop pages only */
+body:not(.single-product) .products .product .price del {
+    text-decoration: none !important;
+    position: relative;
+    display: inline-block;
+    opacity: 0.7;
+
+    .woocommerce-Price-amount,
+    bdi {
+        text-decoration: none !important;
+    }
+
+    &::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 50%;
+        height: 1px;
+        background-color: currentColor;
+    }
 }
 
 
