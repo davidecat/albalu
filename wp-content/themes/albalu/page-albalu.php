@@ -262,12 +262,13 @@ get_header();
                                             if ( ! $cat_id ) { continue; }
                                             $term = get_term( $cat_id, 'product_cat' );
                                             if ( ! $term || is_wp_error( $term ) ) { continue; }
-                                            $custom_image  = ! empty( $item['custom_image'] ) ? $item['custom_image'] : '';
+                                            $custom_image = ! empty( $item['custom_image'] ) ? $item['custom_image'] : '';
+                                            $image_id = 0;
                                             if ( $custom_image ) {
-                                                $cat_image = $custom_image;
-                                            } else {
-                                                $thumbnail_id = get_term_meta( $cat_id, 'thumbnail_id', true );
-                                                $cat_image    = $thumbnail_id ? wp_get_attachment_url( $thumbnail_id ) : '';
+                                                $image_id = is_array( $custom_image ) ? ( $custom_image['ID'] ?? 0 ) : (int) $custom_image;
+                                            }
+                                            if ( ! $image_id ) {
+                                                $image_id = (int) get_term_meta( $cat_id, 'thumbnail_id', true );
                                             }
                                             $cat_link      = get_term_link( $term );
                                             $custom_label  = ! empty( $item['custom_label'] ) ? $item['custom_label'] : $term->name;
@@ -275,9 +276,12 @@ get_header();
                                             <div class="col-6 col-md-4 col-lg-3">
                                                 <div class="chi-cat-card h-100">
                                                     <div class="chi-cat-card__image">
-                                                        <?php if ( $cat_image ) : ?>
+                                                        <?php if ( $image_id ) : ?>
                                                             <a href="<?php echo esc_url( $cat_link ); ?>">
-                                                                <img src="<?php echo esc_url( $cat_image ); ?>" alt="<?php echo esc_attr( $custom_label ); ?>">
+                                                                <?php echo wp_get_attachment_image( $image_id, 'medium_large', false, array(
+                                                                    'alt'     => esc_attr( $custom_label ),
+                                                                    'loading' => 'lazy',
+                                                                ) ); ?>
                                                             </a>
                                                         <?php endif; ?>
                                                     </div>
