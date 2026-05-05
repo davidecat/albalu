@@ -3,7 +3,7 @@ Contributors: Gareth Harris
 Tags: add-ons, ecommerce
 Requires at least: 4.7
 Tested up to: 7.0
-Stable tag: 4.3.1
+Stable tag: 4.3.3
 Allow your users to customise products through additional fields
 
 == Description ==
@@ -23,6 +23,17 @@ WooCommerce Product Add Ons Ultimate allows your users to customise products thr
 1.
 
 == Changelog ==
+
+= 4.3.3, 30 April 2026 =
+* Fixed: pewc_hide_quantity defaulting to true
+* Updated: support for Accordion layout on repeatable groups
+
+= 4.3.2, 30 April 2026 =
+* Fixed: Attributes do not appear in field conditions on the Global Add-Ons page when admin language is not English
+* Fixed: when DPDR is active, products with a regular price and calculation field that set the product price is incorrectly marked as having a discount if the calculated price is lower than the regular price
+* Fixed: 'Hide quantity field' setting stopped working
+* Fixed: JavaScript error if there are more than 1 repeatable Upload fields on a product
+* Updated: prevent fatal error if a product no longer exists
 
 = 4.3.1, 22 April 2026 =
 * Fixed: some fields with conditions inside repeatable groups are not reset when repeated

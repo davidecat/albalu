@@ -2090,9 +2090,12 @@ function pewc_hide_quantity( $product ) {
 	} else {
 		$product_id = $product->get_id();
 	}
-	$hide = get_post_meta( $product_id, 'pewc_hide_quantity', 'no' );
-	
-	return 'yes' === $hide ? true : false;
+	$hide = get_post_meta( $product_id, 'pewc_hide_quantity', true );
+
+	$hide = apply_filters( 'pewc_hide_quantity', $hide, $product );
+
+	// 4.3.2, also added 1 == $hide because the value returned seems to have changed
+	return ( 'yes' === $hide || 1 == $hide ) ? true : false;
 }
 
 /**

@@ -594,7 +594,11 @@ function pewc_ajax_upload_script_repeatable( $id, $field, $multiply_price ) {
 
 			//var dropzone_<?php echo esc_attr( $id ); ?> = new Dropzone( "#dz_<?php echo esc_attr( $id ); ?>", dropzone_settings );
 			$( 'body' ).on( 'pewc_initialize_upload_dropzones', function( e, pewc_id ){
-				new Dropzone( '#dz_' + pewc_id, dropzone_settings );
+				// 4.3.2, check if dropzone isn't attached yet. This issue arises if there are multiple Upload fields on a page.
+				// Improvement: maybe attach this .on event only once, or display this whole JS script block only once per page if an Upload field exists?
+				if ( ! $( '#dz_' + pewc_id )[0].dropzone ) {
+					new Dropzone( '#dz_' + pewc_id, dropzone_settings );
+				}
 			});
 			$( 'body' ).trigger( 'pewc_initialize_upload_dropzones', [ '<?php echo esc_attr( $id ); ?>' ] );
 

@@ -1269,6 +1269,10 @@
 				grand_total = parseFloat( $( '#pewc_calc_set_price').val() );
 			}
 
+			// 4.3.2. In DPDR if a product has a regular price, a strikethrough is added to it if the final calculated price is less than the regular price
+			// we copy it here before the possible DPDR discount below
+			orig_grand_total = grand_total;
+
 			if ( $('form.cart .quantity .qty').length > 0 ) {
 
 				// 3.12.0, apply dynamic pricing if it exists
@@ -1278,6 +1282,8 @@
 
 				// 3.11.6 multiply product price by quantity
 				grand_total = grand_total * parseFloat( $('form.cart .quantity .qty').val() );
+				// 4.3.2, for DPDR
+				orig_grand_total = orig_grand_total * parseFloat( $('form.cart .quantity .qty').val() );
 
 			}
 		}
@@ -1459,22 +1465,13 @@
 		// Debounced: this event fires multiple times per user action from conditions.js.
 		pewc_update_total_js_debounced();
 	});
-	// Accordion and tabs
-	$('.pewc-groups-accordion h3').on('click',function(e){
-		// 3.13.7
-		var is_open = $( this ).closest( '.pewc-group-wrap' ).hasClass( 'group-active' );
 
-		if ( $(this).closest( '.pewc-group-wrap' ).hasClass( 'pewc-disabled-group') ) {
-			return;
-		}
-		if( pewc_vars.close_accordion == 'yes' ) {
-			$( '.pewc-group-wrap' ).removeClass( 'group-active' );
-		}
-		// Don't reopen group if we've just closed it, only if close_accordion snippet is active
-		if( ! is_open || pewc_vars.close_accordion != 'yes' ) {
-			$(this).closest('.pewc-group-wrap').toggleClass('group-active');
-		}
+	// Accordion and tabs
+	// 4.3.3, created a function for the click so that repeatable groups can use it. Moved the function out of the container
+	$( '.pewc-groups-accordion h3' ).on( 'click', function( e ){
+		pewc_accordion_click( $( this ) );
 	});
+
 	if( pewc_vars.accordion_toggle == 'open' ) {
 		$('.pewc-group-wrap').addClass('group-active');
 	} else if( pewc_vars.accordion_toggle == 'closed' ) {
@@ -3440,4 +3437,20 @@ function pewc_get_quantity( qty=1, type='' ) {
 // 4.1.1, Better Variations grid mode
 function pewc_wcbvp_variation_grid() {
 	return ( jQuery( 'body' ).find( '.wcbvp-grid-quantity-field' ).length > 0 );
+}
+
+// 4.3.3, separated into a function and moved here so that repeatable groups can access it
+function pewc_accordion_click( header ){
+	var is_open = jQuery( header ).closest( '.pewc-group-wrap' ).hasClass( 'group-active' );
+
+	if ( jQuery( header ).closest( '.pewc-group-wrap' ).hasClass( 'pewc-disabled-group') ) {
+		return;
+	}
+	if( pewc_vars.close_accordion == 'yes' ) {
+		jQuery( '.pewc-group-wrap' ).removeClass( 'group-active' );
+	}
+	// Don't reopen group if we've just closed it, only if close_accordion snippet is active
+	if( ! is_open || pewc_vars.close_accordion != 'yes' ) {
+		jQuery( header ).closest('.pewc-group-wrap').toggleClass('group-active');
+	}
 }

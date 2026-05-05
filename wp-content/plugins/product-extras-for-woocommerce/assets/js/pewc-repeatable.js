@@ -208,7 +208,7 @@ const pewc_repeatable = {
 						.prop( 'checked', false ); // uncheck duplicated radio button
 				});
 			} else if ( jQuery( this ).attr( 'data-field-type' ) == 'checkbox' ) {
-				// aou-repeatable-conditions-checkbox
+				// 4.2.0
 				id = jQuery( this ).attr( 'data-id' );
 				var checkbox_index = clone_count-1;
 				var label = jQuery( this ).find( '.pewc-checkbox-form-label' ).attr( 'for' );
@@ -221,10 +221,10 @@ const pewc_repeatable = {
 						.prop( 'checked', false ); // uncheck
 				});
 			} else if ( jQuery( this ).attr( 'data-field-type' ) == 'textarea' ) {
-				// aou-repeatable-conditions-textarea
+				// 4.2.0
 				jQuery( this ).find( 'textarea.pewc-form-field' ).val( '' );
 			} else if ( jQuery( this ).attr( 'data-field-type' ) == 'upload' ) {
-				// aou-repeatable-conditions-upload
+				// 4.2.0
 				pewc_repeatable.reset_cloned_field_value_upload( jQuery( this ), clone_count );
 			}
 
@@ -266,6 +266,13 @@ const pewc_repeatable = {
 		// 3.26.5, attach condition events, then trigger pewc_trigger_initial_check
 		jQuery( document ).trigger( 'pewc_attach_condition_events' );
 		jQuery( document ).trigger( 'pewc_trigger_initial_check' );
+
+		// 4.3.3, attach accordion click
+		if ( jQuery( '.pewc-groups-accordion .pewc-cloned-group h3' ).length > 0 ) {
+			cloned_group.find( 'h3' ).on( 'click', function( e ){
+				pewc_accordion_click( jQuery( this ) );
+			});
+		}
 
 		return;
 
@@ -365,7 +372,7 @@ const pewc_repeatable = {
 									.attr( 'name', id + '[' + radio_index + ']' );
 							});
 						} else if ( jQuery( this ).attr( 'data-field-type' ) == 'checkbox' ) {
-							// aou-repeatable-conditions-checkbox
+							// 4.2.0
 							id = jQuery( this ).attr( 'data-id' );
 							var checkbox_index = i-1;
 							var label = jQuery( this ).find( '.pewc-checkbox-form-label' ).attr( 'for' );
@@ -424,7 +431,7 @@ const pewc_repeatable = {
 
 	},
 
-	// aou-repeatable-conditions-uploads
+	// 4.2.0
 	reset_cloned_field_value_upload: function( cloned_field, clone_count ) {
 
 		if ( clone_count < 2 ) {

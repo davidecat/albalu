@@ -44,7 +44,7 @@ add_filter( 'pewc_filter_end_add_cart_item_data', 'pewc_set_product_dimensions_m
 /**
  * Update the product weight
  * @since	3.9.5
- * @version 3.13.7
+ * @version 4.3.2
  */
 function pewc_set_product_dimensions( $cart ) {
 
@@ -68,6 +68,10 @@ function pewc_set_product_dimensions( $cart ) {
 	}
 
 	foreach( $cart->get_cart() as $cart_item ) {
+		// 4.3.2, prevent fatal error
+		if ( empty( $cart_item['data'] ) || ! ( $cart_item['data'] instanceof WC_Product ) ) {
+			continue;
+		}
 		$item_weight = floatval( $cart_item['data']->get_weight() );
 		if ( ! empty( $cart_item['product_extras']['weight'] ) ) {
 			$item_weight += $cart_item['product_extras']['weight'];

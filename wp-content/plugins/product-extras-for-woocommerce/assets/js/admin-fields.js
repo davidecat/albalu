@@ -1609,8 +1609,14 @@ jQuery( function( $ ) {
     // If we're in a product, get fields from all groups
     // If we're on the global page, only get fields belonging to the specific group
     // Changed in 2.2.2 so that all fields are available in global
+	// 4.3.2, added .pewc-global-set-wrap because some of the classes are translated and therefore not detected, which in turn causes global attributes to not get added back to Global Add-Ons fields
     var page = 'product';
-    if( $( 'body' ).hasClass( 'pewc_product_extra_page_global' ) || $( 'body' ).hasClass( 'product-add-ons_page_global' ) || $( 'body' ).hasClass( 'post-type-pewc_group' ) ) {
+    if(
+		$( 'body' ).hasClass( 'pewc_product_extra_page_global' ) || 
+		$( 'body' ).hasClass( 'product-add-ons_page_global' ) || 
+		$( 'body' ).hasClass( 'post-type-pewc_group' ) || 
+		$( '.pewc-global-set-wrap' ).length > 0 
+	) {
       page = 'global';
     }
 
