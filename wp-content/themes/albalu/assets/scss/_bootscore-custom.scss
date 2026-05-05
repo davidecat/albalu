@@ -409,8 +409,8 @@ h2.woocommerce-loop-product__title {
     font-size: 2rem !important;
 }
 
-/* Fix sale price strikethrough on category/loop pages only */
-body:not(.single-product) .products .product .price del {
+/* Uniform sale price strikethrough across all loops (everywhere except single product) */
+body:not(.single-product) .price del {
     text-decoration: none !important;
     position: relative;
     display: inline-block;
