@@ -409,6 +409,13 @@ h2.woocommerce-loop-product__title {
     font-size: 2rem !important;
 }
 
+/* Fix sale price strikethrough on category/loop pages */
+.products .product .price del,
+.products .product .price del .woocommerce-Price-amount,
+.products .product .price del bdi {
+    text-decoration: line-through !important;
+}
+
 
 /* Offcanvas Mobile Menu */
 #offcanvas-navbar {
