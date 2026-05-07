@@ -4,7 +4,7 @@ Tags: stripe, klarna, credit card, apple pay, google pay
 Requires at least: 3.0.1
 Tested up to: 7.0
 Requires PHP: 5.6
-Stable tag: 3.3.106
+Stable tag: 3.3.107
 Copyright: Payment Plugins
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -63,6 +63,9 @@ If your site is not loading over https, then Stripe won't render the Payment Req
 9. Stripe Link for high conversion
 
 == Changelog ==
+= 3.3.107 - 05/06/26 =
+* Updated - Removed Javascript use of isPhoneNumber function because it was not included in WordPress until 2025. This will improve compatibility with older versions of WordPress.
+* Updated - Improved load time performance of express checkout buttons on cart block and checkout block
 = 3.3.106 - 04/08/26 =
 * Fixed - [MBWay Javascript error when payment cancelled](https://wordpress.org/support/topic/mb-way-via-upm-throws-javascript-error-when-customer-cancels-payment/)
 * Fixed - PHP notice triggered when iDEAL used for a free trial subscription

@@ -83,7 +83,8 @@ abstract class AbstractStripePayment extends AbstractPaymentMethodType {
 			'description'            => $this->get_setting( 'description' ),
 			'i18n'                   => $this->get_script_translations(),
 			'elementOptions'         => $this->payment_method->get_element_options(),
-			'paymentElementOptions'  => $this->payment_method->get_payment_element_options()
+			'paymentElementOptions'  => $this->payment_method->get_payment_element_options(),
+			'currency'               => get_woocommerce_currency()
 		);
 	}
 
