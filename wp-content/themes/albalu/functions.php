@@ -13,6 +13,127 @@ defined('ABSPATH') || exit;
 /**
  * Enqueue scripts and styles
  */
+/* ====================================================================
+ * PERFORMANCE OPTIMIZATIONS — 3 blocchi attivabili gradualmente
+ * ====================================================================
+ * Per attivare un blocco, decommenta l'intera sezione tra START e END.
+ * Testa in produzione 24h prima di passare al blocco successivo.
+ * ==================================================================== */
+
+
+/* ====================================================================
+ * BLOCCO 1 — SICURO (rischio basso)
+ * Risparmio stimato: ~55KB di CSS
+ * - Dashicons (35KB) per utenti non loggati
+ * - Gutenberg block library (16.5KB) sul frontend
+ * Cosa testare: visualizzazione di pagine con blocchi Gutenberg (blog,
+ * post editoriali). Se i blocchi appaiono senza stile, rimuovi le
+ * righe relative a wp-block-library / global-styles.
+ * ==================================================================== */
+// ---- BLOCCO 1 START ----
+add_action( 'wp_enqueue_scripts', function() {
+	if ( is_admin() ) return;
+
+	// Dashicons: solo se serve la admin bar
+	if ( ! is_user_logged_in() || ! is_admin_bar_showing() ) {
+		wp_dequeue_style( 'dashicons' );
+	}
+
+	// Gutenberg block library — non usata sul frontend di questo tema
+	wp_dequeue_style( 'wp-block-library' );
+	wp_dequeue_style( 'wp-block-library-theme' );
+	wp_dequeue_style( 'global-styles' );
+	wp_dequeue_style( 'classic-theme-styles' );
+}, 100 );
+// ---- BLOCCO 1 END ----
+
+
+/* ====================================================================
+ * BLOCCO 2 — RISCHIO MEDIO
+ * Risparmio stimato: ~20KB di CSS su pagine non-Woo (home, blog, pagine)
+ * - WooCommerce CSS (woocommerce.css, layout, smallscreen)
+ * - WooCommerce Blocks CSS
+ * Cosa testare: home, articoli del blog e pagine generiche. Verifica
+ * che non ci siano widget WooCommerce (es. carrello, prodotti correlati)
+ * mostrati fuori dal contesto Woo. Se sì, rimuovi questo blocco o
+ * aggiungi le condizioni mancanti.
+ * ==================================================================== */
+// ---- BLOCCO 2 START ----
+/*
+add_filter( 'woocommerce_enqueue_styles', function( $styles ) {
+	if ( ! is_woocommerce() && ! is_cart() && ! is_checkout() && ! is_account_page() ) {
+		return array();
+	}
+	return $styles;
+} );
+
+add_action( 'wp_enqueue_scripts', function() {
+	if ( is_admin() ) return;
+	if ( ! is_woocommerce() && ! is_cart() && ! is_checkout() && ! is_account_page() ) {
+		wp_dequeue_style( 'wc-blocks-style' );
+		wp_dequeue_style( 'wc-blocks-vendors-style' );
+	}
+}, 100 );
+*/
+// ---- BLOCCO 2 END ----
+
+
+/* ====================================================================
+ * BLOCCO 3 — RISCHIO ALTO
+ * Risparmio stimato: ~80KB JS + ~15KB CSS sulle pagine non prodotto
+ * - PEWC (dropzone 26KB, conditions 10KB, datepicker 11KB, jQuery UI)
+ * - jQuery e jquery-core spostati in footer
+ * - jquery-migrate rimosso completamente
+ *
+ * RISCHI:
+ *  - Script inline di plugin terzi (Iubenda, Brevo, Pinterest, GTM, FB
+ *    Pixel) che usano $/jQuery aspettandosi sia caricato nell'head
+ *  - Plugin vecchi che usano API jQuery deprecate (.live, $.browser)
+ *  - PEWC su widget/blocchi fuori dalle pagine prodotto
+ *
+ * Cosa testare: TUTTO. Specialmente: prodotti con personalizzazione
+ * PEWC, mobile menu, AJAX add-to-cart, modali, swiper, cookie banner,
+ * tracking pixel.
+ * ==================================================================== */
+// ---- BLOCCO 3 START ----
+/*
+add_action( 'wp_enqueue_scripts', function() {
+	if ( is_admin() ) return;
+
+	// PEWC — solo sulle pagine prodotto singolo
+	if ( ! is_product() ) {
+		wp_dequeue_style( 'pewc-style' );
+		wp_dequeue_style( 'pewc-dropzone' );
+		wp_dequeue_style( 'pewc-basic' );
+		wp_dequeue_script( 'pewc-script' );
+		wp_dequeue_script( 'pewc-conditions' );
+		wp_dequeue_script( 'pewc-dropzone' );
+		wp_dequeue_script( 'jquery-ui-datepicker' );
+		wp_dequeue_script( 'jquery-ui-core' );
+	}
+}, 100 );
+
+add_action( 'wp_default_scripts', function( $scripts ) {
+	if ( is_admin() ) return;
+
+	// Rimuovi jquery-migrate
+	if ( ! empty( $scripts->registered['jquery'] ) ) {
+		$scripts->registered['jquery']->deps = array_diff(
+			$scripts->registered['jquery']->deps,
+			array( 'jquery-migrate' )
+		);
+	}
+
+	// Sposta jQuery in footer
+	foreach ( array( 'jquery', 'jquery-core', 'jquery-migrate' ) as $handle ) {
+		if ( isset( $scripts->registered[ $handle ] ) ) {
+			$scripts->registered[ $handle ]->extra['group'] = 1;
+		}
+	}
+} );
+*/
+// ---- BLOCCO 3 END ----
+
 // Force font-display: swap on Font Awesome and preload critical font
 add_action( 'wp_head', function() {
 	$fa_path = get_template_directory_uri() . '/assets/fontawesome/webfonts/';
