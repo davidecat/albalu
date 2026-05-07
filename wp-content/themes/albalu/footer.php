@@ -109,11 +109,11 @@
     </div>
 </footer>
 
-<!-- To Top Button -->
+<!-- To Top Button 
 <a href="#" class="btn btn-primary shadow to-top p-0 d-flex align-items-center justify-content-center position-fixed bottom-0 end-0 m-4 rounded-circle" style="width: 50px; height: 50px; z-index: 1000; background-color: #76a9b4; border-color: #76a9b4;" aria-label="Torna su">
     <i class="fas fa-chevron-up"></i>
 </a>
-
+-->
 </div><!-- #page -->
 
 <?php wp_footer(); ?>
