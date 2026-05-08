@@ -31,6 +31,7 @@ defined('ABSPATH') || exit;
  * righe relative a wp-block-library / global-styles.
  * ==================================================================== */
 // ---- BLOCCO 1 START ----
+/*
 add_action( 'wp_enqueue_scripts', function() {
 	if ( is_admin() ) return;
 
@@ -45,6 +46,7 @@ add_action( 'wp_enqueue_scripts', function() {
 	wp_dequeue_style( 'global-styles' );
 	wp_dequeue_style( 'classic-theme-styles' );
 }, 100 );
+*/
 // ---- BLOCCO 1 END ----
 
 

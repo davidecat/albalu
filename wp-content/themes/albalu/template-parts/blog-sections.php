@@ -133,9 +133,18 @@ while ( have_rows( 'chi_siamo_sections', $section_post_id ) ) : the_row();
                         <?php foreach ( $items as $item ) : ?>
                             <div class="col-md-4">
                                 <div class="text-start p-4 border-start">
-                                    <?php if ( ! empty( $item['icon'] ) ) : ?>
-                                        <img src="<?php echo esc_url( $item['icon'] ); ?>" alt="<?php echo esc_attr( $item['title'] ?? '' ); ?>" class="mb-3" width="70" height="70">
-                                    <?php endif; ?>
+                                    <?php if ( ! empty( $item['icon'] ) ) :
+                                        $icon_id = is_array( $item['icon'] ) ? ( $item['icon']['ID'] ?? 0 ) : (int) $item['icon'];
+                                        if ( $icon_id ) {
+                                            echo wp_get_attachment_image( $icon_id, array( 70, 70 ), false, array(
+                                                'class'   => 'mb-3',
+                                                'alt'     => esc_attr( $item['title'] ?? '' ),
+                                                'loading' => 'lazy',
+                                            ) );
+                                        } else { ?>
+                                            <img src="<?php echo esc_url( is_array( $item['icon'] ) ? ( $item['icon']['url'] ?? '' ) : $item['icon'] ); ?>" alt="<?php echo esc_attr( $item['title'] ?? '' ); ?>" class="mb-3" width="70" height="70" loading="lazy">
+                                        <?php }
+                                    endif; ?>
                                     <?php if ( ! empty( $item['title'] ) ) : ?>
                                         <h5 class="fw-bold mb-2 text-start"><?php echo esc_html( $item['title'] ); ?></h5>
                                     <?php endif; ?>

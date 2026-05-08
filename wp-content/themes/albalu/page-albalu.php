@@ -95,12 +95,22 @@ get_header();
                                         <?php endif; ?>
                                     </div>
                                 </div>
-                                <?php if ( $image ) : ?>
+                                <?php if ( $image ) :
+                                    $img_id = is_array( $image ) ? ( $image['ID'] ?? 0 ) : (int) $image; ?>
                                     <div class="text-center mt-5">
                                         <?php if ( $image_link ) : ?>
                                             <a href="<?php echo esc_url( $image_link ); ?>">
                                         <?php endif; ?>
-                                        <img src="<?php echo esc_url( $image ); ?>" alt="<?php echo esc_attr( strip_tags( $title ) ); ?>" class="img-fluid rounded">
+                                        <?php if ( $img_id ) {
+                                            echo wp_get_attachment_image( $img_id, 'medium_large', false, array(
+                                                'class'   => 'img-fluid rounded',
+                                                'alt'     => esc_attr( strip_tags( $title ) ),
+                                                'loading' => 'lazy',
+                                            ) );
+                                        } else {
+                                            $img_url = is_array( $image ) ? ( $image['url'] ?? '' ) : $image; ?>
+                                            <img src="<?php echo esc_url( $img_url ); ?>" alt="<?php echo esc_attr( strip_tags( $title ) ); ?>" class="img-fluid rounded" loading="lazy">
+                                        <?php } ?>
                                         <?php if ( $image_link ) : ?>
                                             </a>
                                         <?php endif; ?>
@@ -151,9 +161,19 @@ get_header();
                                             </a>
                                         <?php endif; ?>
                                     </div>
-                                    <?php if ( $image ) : ?>
+                                    <?php if ( $image ) :
+                                        $img_id = is_array( $image ) ? ( $image['ID'] ?? 0 ) : (int) $image; ?>
                                         <div class="col-lg-5 <?php echo esc_attr( $img_order ); ?>">
-                                            <img src="<?php echo esc_url( $image ); ?>" alt="<?php echo esc_attr( $title ); ?>" class="img-fluid rounded">
+                                            <?php if ( $img_id ) {
+                                                echo wp_get_attachment_image( $img_id, 'medium_large', false, array(
+                                                    'class'   => 'img-fluid rounded',
+                                                    'alt'     => esc_attr( $title ),
+                                                    'loading' => 'lazy',
+                                                ) );
+                                            } else {
+                                                $img_url = is_array( $image ) ? ( $image['url'] ?? '' ) : $image; ?>
+                                                <img src="<?php echo esc_url( $img_url ); ?>" alt="<?php echo esc_attr( $title ); ?>" class="img-fluid rounded" loading="lazy">
+                                            <?php } ?>
                                         </div>
                                     <?php endif; ?>
                                 </div>
@@ -311,9 +331,18 @@ get_header();
                                         <?php foreach ( $items as $item ) : ?>
                                             <div class="col-md-4">
                                                 <div class="text-start p-4 border-start">
-                                                    <?php if ( ! empty( $item['icon'] ) ) : ?>
-                                                        <img src="<?php echo esc_url( $item['icon'] ); ?>" alt="<?php echo esc_attr( $item['title'] ?? '' ); ?>" class="mb-3" width="70" height="70">
-                                                    <?php endif; ?>
+                                                    <?php if ( ! empty( $item['icon'] ) ) :
+                                                        $icon_id = is_array( $item['icon'] ) ? ( $item['icon']['ID'] ?? 0 ) : (int) $item['icon'];
+                                                        if ( $icon_id ) {
+                                                            echo wp_get_attachment_image( $icon_id, array( 70, 70 ), false, array(
+                                                                'class'   => 'mb-3',
+                                                                'alt'     => esc_attr( $item['title'] ?? '' ),
+                                                                'loading' => 'lazy',
+                                                            ) );
+                                                        } else { ?>
+                                                            <img src="<?php echo esc_url( is_array( $item['icon'] ) ? ( $item['icon']['url'] ?? '' ) : $item['icon'] ); ?>" alt="<?php echo esc_attr( $item['title'] ?? '' ); ?>" class="mb-3" width="70" height="70" loading="lazy">
+                                                        <?php }
+                                                    endif; ?>
                                                     <?php if ( ! empty( $item['title'] ) ) : ?>
                                                         <h5 class="fw-bold mb-2 text-start"><?php echo esc_html( $item['title'] ); ?></h5>
                                                     <?php endif; ?>
@@ -355,11 +384,20 @@ get_header();
                                 <div class="swiper creations-swiper">
                                     <div class="swiper-wrapper">
                                         <?php foreach ( $gal_images as $gal_idx => $gal_img ) :
+                                            $gal_img_id  = is_array( $gal_img ) ? ( $gal_img['ID'] ?? 0 ) : (int) $gal_img;
                                             $gal_img_url = is_array( $gal_img ) ? ( $gal_img['url'] ?? '' ) : $gal_img;
                                         ?>
                                             <div class="swiper-slide">
                                                 <a href="#" class="d-block ratio ratio-1x1 bg-white rounded-3 shadow-sm overflow-hidden h-100" data-bs-toggle="modal" data-bs-target="#<?php echo esc_attr( $gal_id ); ?>" data-bs-slide-to="<?php echo (int) $gal_idx; ?>">
-                                                    <img src="<?php echo esc_url( $gal_img_url ); ?>" class="object-fit-contain w-100 h-100 p-2 transition-transform" alt="Creazione Albalù">
+                                                    <?php if ( $gal_img_id ) : ?>
+                                                        <?php echo wp_get_attachment_image( $gal_img_id, 'medium_large', false, array(
+                                                            'class'   => 'object-fit-contain w-100 h-100 p-2 transition-transform',
+                                                            'alt'     => 'Creazione Albalù',
+                                                            'loading' => 'lazy',
+                                                        ) ); ?>
+                                                    <?php else : ?>
+                                                        <img src="<?php echo esc_url( $gal_img_url ); ?>" class="object-fit-contain w-100 h-100 p-2 transition-transform" alt="Creazione Albalù" loading="lazy">
+                                                    <?php endif; ?>
                                                 </a>
                                             </div>
                                         <?php endforeach; ?>
@@ -544,9 +582,20 @@ get_header();
                                             <?php endif; ?>
                                         </div>
                                         <div class="col-lg-6 text-center">
-                                            <?php if ( $hp_fg_image ) : ?>
-                                                <img src="<?php echo esc_url( $hp_fg_image ); ?>" alt="<?php echo esc_attr( wp_strip_all_tags( $hp_title ) ); ?>" class="img-fluid" fetchpriority="high" loading="eager">
-                                            <?php endif; ?>
+                                            <?php if ( $hp_fg_image ) :
+                                                $fg_id = is_array( $hp_fg_image ) ? ( $hp_fg_image['ID'] ?? 0 ) : (int) $hp_fg_image;
+                                                if ( $fg_id ) {
+                                                    echo wp_get_attachment_image( $fg_id, 'medium_large', false, array(
+                                                        'class'         => 'img-fluid',
+                                                        'alt'           => esc_attr( wp_strip_all_tags( $hp_title ) ),
+                                                        'fetchpriority' => 'high',
+                                                        'loading'       => 'eager',
+                                                    ) );
+                                                } else {
+                                                    $fg_url = is_array( $hp_fg_image ) ? ( $hp_fg_image['url'] ?? '' ) : $hp_fg_image; ?>
+                                                    <img src="<?php echo esc_url( $fg_url ); ?>" alt="<?php echo esc_attr( wp_strip_all_tags( $hp_title ) ); ?>" class="img-fluid" fetchpriority="high" loading="eager">
+                                                <?php }
+                                            endif; ?>
                                         </div>
                                     </div>
                                 </div>
