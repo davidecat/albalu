@@ -242,3 +242,29 @@ function pewc_enqueue_blocks_script( $page=false ) {
 	return apply_filters( 'pewc_enqueue_blocks_script', $enqueue, $page );
 
 }
+
+/**
+ * Filter the thumbnail image if we have a composite version (blocks)
+ * @since 4.3.4
+ */
+function pewc_cart_item_thumbnail_blocks( $product_images, $cart_item_data, $cart_item_key ) {
+
+	if( ! empty( $product_images[0] ) && ! empty( $cart_item_data['composite_image'] ) ) {
+		$image_url = $cart_item_data['composite_image'];
+		$composite = (object) [
+			'id' => 0,
+			'src' => $image_url,
+			'srcset' => '',
+			'sizes' => '',
+			'thumbnail' => $image_url,
+			'thumbnail_srcset' => '',
+			'thumbnail_sizes' => '',
+			'name' => $product_images[0]->name,
+			'alt' => $product_images[0]->alt
+		];
+		$product_images[0] = $composite;
+	}
+	return $product_images;
+
+}
+add_filter( 'woocommerce_store_api_cart_item_images', 'pewc_cart_item_thumbnail_blocks', 10, 3 );

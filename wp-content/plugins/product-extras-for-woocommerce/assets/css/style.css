@@ -1108,6 +1108,12 @@ input[type=number].pewc-child-quantity-field {
 .pewc-hidden-parent-product {
 	display: none !important;
 }
+.pewc-item-products.pewc-hide-option-price .pewc-radio-image-desc .pewc-separator,
+.pewc-item-products.pewc-hide-option-price .pewc-radio-image-desc .pewc-child-product-price-label,
+.pewc-item-product-categories.pewc-hide-option-price .pewc-radio-image-desc .pewc-separator,
+.pewc-item-product-categories.pewc-hide-option-price .pewc-radio-image-desc .pewc-child-product-price-label {
+	display: none;
+}
 /* Calendar List */
 .pewc-cl-wrapper,
 .pewc-preset-style .pewc-cl-wrapper {

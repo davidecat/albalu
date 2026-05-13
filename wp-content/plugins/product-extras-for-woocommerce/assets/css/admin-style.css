@@ -619,7 +619,9 @@ li.field-item {
 .field-type-image_swatch .pewc-option-price-visibility-field,
 .field-type-select-box .pewc-option-price-visibility-field,
 .field-type-select .pewc-option-price-visibility-field,
-.field-type-checkbox_group .pewc-option-price-visibility-field {
+.field-type-checkbox_group .pewc-option-price-visibility-field,
+.field-type-products .pewc-visibility-fields.pewc-option-price-visibility-field,
+.field-type-product-categories .pewc-visibility-fields.pewc-option-price-visibility-field {
 	display: grid
 }
 .field-type-checkbox .pewc-default-fields,
@@ -691,7 +693,8 @@ input[type=checkbox].pewc-checkbox-block {
 .field-type-calculation .pewc-hide-if-not-pro,
 .field-type-calculation .pewc-visibility-fields,
 .field-type-information .pewc-visibility-fields,
-.field-type-products .pewc-visibility-fields, .field-type-product-categories .pewc-visibility-fields  {
+.field-type-products .pewc-visibility-fields,
+.field-type-product-categories .pewc-visibility-fields  {
 	display: none;
 }
 .field-type-checkbox_group .pewc-hide-if-not-pro,

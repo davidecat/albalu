@@ -82,7 +82,9 @@ if( ! pewc_is_pro() ) {
 				</div>
 				<div class="product-extra-field-inner">
 					<?php $pewc_hide_quantity = get_post_meta( $post_id, 'pewc_hide_quantity', true );
-					$checked = ( $pewc_hide_quantity == 'yes' || $pewc_hide_quantity == true ) ? 1 : 0;
+					//$checked = ( $pewc_hide_quantity == 'yes' || $pewc_hide_quantity == true ) ? 1 : 0;
+					// 4.3.4, possible values are now '', 1, 'no', 'yes'. yes and no are from older versions
+					$checked = ( ! empty( $pewc_hide_quantity ) && $pewc_hide_quantity != 'no' ) ? 1 : 0;
 					pewc_checkbox_toggle( 'pewc_hide_quantity', $checked, false, false ); ?>
 				</div>
 			</div>

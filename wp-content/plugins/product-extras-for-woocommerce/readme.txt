@@ -3,7 +3,7 @@ Contributors: Gareth Harris
 Tags: add-ons, ecommerce
 Requires at least: 4.7
 Tested up to: 7.0
-Stable tag: 4.3.3
+Stable tag: 4.3.4
 Allow your users to customise products through additional fields
 
 == Description ==
@@ -23,6 +23,11 @@ WooCommerce Product Add Ons Ultimate allows your users to customise products thr
 1.
 
 == Changelog ==
+
+= 4.3.4, 6 May 2026 =
+* Fixed: 'Hide quantity field' setting is enabled on the Edit Product page even if pewc_hide_quantity value in the database is 'no'
+* Fixed: composite image not displayed on Cart and Checkout pages that use blocks
+* Updated: enable option price visibility setting for Products and Product Categories fields
 
 = 4.3.3, 30 April 2026 =
 * Fixed: pewc_hide_quantity defaulting to true

@@ -2,9 +2,9 @@
 Contributors: OllieJones, rjasdfiii
 Tags: index, key, performance, mysql, wp-cli
 Requires at least: 4.2
-Tested up to: 6.9
+Tested up to: 7.0
 Requires PHP: 5.6
-Stable tag: 1.5.6
+Stable tag: 1.5.7
 Network: true
 License: GPL v2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -131,7 +131,7 @@ When you activate it, it will copy [a php source file](https://www.plumislandmed
 
 If you configure your WordPress installation using composer, you may install this plugin into your WordPress top level configuration with the command
 
-`composer require "wpackagist-plugin/index-wp-mysql-for-speed":"^>=1.5.6"`
+`composer require "wpackagist-plugin/index-wp-mysql-for-speed":"^>=1.5.7"`
 
 During composer installation the plugin can automatically copy the necessary source file (see the previous section) into the must-use plugins directory. If you want that to happen, you should include these scripts in your top-level `composer.json` file.
 
@@ -241,11 +241,23 @@ Database keying works by making copies of your table’s data organized in ways 
 
 You can revert the keys from the Index MySQL Tool under the Tools menu, or use the wp-cli command `wp index-mysql disable --all`. *Notice* that if you deactivate or delete the plugin without doing this, the high-performance keys *remain*.
 
+= One of my tables already has a nonstandard key in it. How do I make this plugin leave it there? =
+
+If you start the name of the index with the characters `index_wp_mysql_protect_` this plugin ignores it and leaves it in place. For example if yoo want an index on `wp_posts.guid` you can create it like this:
+
+`ALTER TABLE wp_posts ADD KEY index_wp_mysql_protect_guid` ON wp_posts(guid);`
+
+Notice how `index_wp_mysql_protect_guid`, the name of the key, starts with those characters.
+
 = How do I get an answer to another question? =
 
 Please see more questions and answers [here](https://plumislandmedia.net/index-wp-mysql-for-speed/faq/).
 
 == Changelog ==
+
+= 1.5.7 =
+* (No changes to keys).
+* php 8.5 compatibility fixes.
 
 = 1.5.6 =
 * (No changes to keys).
@@ -286,13 +298,7 @@ Miscellaneous bug fixes
 
 == Upgrade Notice ==
 
-We have corrected a problem with the composer package.
-
-We updated the Datatables.net package.
-
-We have added support for the WooCommerce tables wp_automatewoo_log_meta, wp_wc_orders_meta, and  wp_woocommerce_order_itemmeta. If those tables are present in your site, we will offer to add high-performance keys to them. And, we'll suppress the WooCommerce installer's attempts to revert the keys.
-
-Now we display information about the host machine using `/proc/meminfo` and `/proc/cpuinfo` if those files are available, and upload that information with metadata and monitors.
+Test with WordPress 7.0; fix some php 8.5 deprecations.
 
 == Screenshots ==
 

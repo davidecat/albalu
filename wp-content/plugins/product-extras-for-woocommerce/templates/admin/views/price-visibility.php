@@ -63,7 +63,7 @@ if( isset( $group_id ) && isset( $item_key ) ) {
 	</div>
 </div>
 
-<div class="product-extra-field pewc-visibility-fields pewc-option-price-visibility-field">
+<div class="product-extra-field pewc-visibility-fields pewc-option-price-visibility-field last-one">
 	<div class="product-extra-field-inner">
 
 		<label>

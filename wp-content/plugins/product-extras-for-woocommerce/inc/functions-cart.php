@@ -129,9 +129,10 @@ function pewc_cart_item_price_adjust( $subtotal, $cart_item, $cart_item_key ) {
 
 			// get this parent product's price
 			$parent_price = $parent_products_keys[$cart_item_key]['parent_price'];
+			if( ! $parent_price ) $parent_price = 0;
 
 			// this is for the line subtotal, so no need to divide by quantity
-			$new_price = ($parent_price * $cart_item['quantity']) + $child_products_total;
+			$new_price = ((int)$parent_price * $cart_item['quantity']) + (int)$child_products_total;
 			$old_price = $parent_price * $cart_item['quantity'];
 
 			if ( doing_filter( 'woocommerce_cart_item_price' ) && $cart_item['quantity'] > 0 ) {
