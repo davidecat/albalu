@@ -92,7 +92,7 @@ function albalu_ws_checkout_field( $checkout ) {
 	woocommerce_form_field( 'albalu_delivery_week', array(
 		'type'     => 'select',
 		'class'    => array( 'form-row-wide' ),
-		'label'    => __( 'Scegli quando ricevere l\'ordine', 'albalu-week-selector' ),
+		'label'    => __( 'Scegli quando vuoi che l\'ordine venga spedito', 'albalu-week-selector' ),
 		'required' => true,
 		'options'  => $options,
 	), $checkout->get_value( 'albalu_delivery_week' ) );
@@ -149,7 +149,7 @@ add_action( 'woocommerce_admin_order_data_after_billing_address', 'albalu_ws_dis
 function albalu_ws_display_admin_order( $order ) {
 	$label = $order->get_meta( '_albalu_delivery_week_label' );
 	if ( $label ) {
-		echo '<p><strong>' . esc_html__( 'Settimana di consegna', 'albalu-week-selector' ) . ':</strong> ' . esc_html( $label ) . '</p>';
+		echo '<p><strong>' . esc_html__( 'Settimana di spedizione', 'albalu-week-selector' ) . ':</strong> ' . esc_html( $label ) . '</p>';
 	}
 }
 
@@ -162,9 +162,9 @@ function albalu_ws_display_email( $order, $sent_to_admin, $plain_text, $email ) 
 	if ( ! $label ) return;
 
 	if ( $plain_text ) {
-		echo "\n" . esc_html__( 'Settimana di consegna', 'albalu-week-selector' ) . ': ' . $label . "\n";
+		echo "\n" . esc_html__( 'Settimana di spedizione', 'albalu-week-selector' ) . ': ' . $label . "\n";
 	} else {
-		echo '<p><strong>' . esc_html__( 'Settimana di consegna', 'albalu-week-selector' ) . ':</strong> ' . esc_html( $label ) . '</p>';
+		echo '<p><strong>' . esc_html__( 'Settimana di spedizione', 'albalu-week-selector' ) . ':</strong> ' . esc_html( $label ) . '</p>';
 	}
 }
 
@@ -175,7 +175,7 @@ add_action( 'woocommerce_order_details_after_order_table', 'albalu_ws_display_th
 function albalu_ws_display_thankyou( $order ) {
 	$label = $order->get_meta( '_albalu_delivery_week_label' );
 	if ( $label ) {
-		echo '<p><strong>' . esc_html__( 'Settimana di consegna', 'albalu-week-selector' ) . ':</strong> ' . esc_html( $label ) . '</p>';
+		echo '<p><strong>' . esc_html__( 'Settimana di spedizione', 'albalu-week-selector' ) . ':</strong> ' . esc_html( $label ) . '</p>';
 	}
 }
 
@@ -192,7 +192,7 @@ function albalu_ws_register_acf_field() {
 		'fields'   => array(
 			array(
 				'key'       => 'field_albalu_delivery_week',
-				'label'     => 'Settimana di consegna',
+				'label'     => 'Settimana di spedizione',
 				'name'      => 'albalu_delivery_week',
 				'type'      => 'text',
 				'readonly'  => 1,
@@ -223,7 +223,7 @@ function albalu_ws_admin_order_column( $columns ) {
 	foreach ( $columns as $key => $column ) {
 		$new_columns[ $key ] = $column;
 		if ( $key === 'order_date' ) {
-			$new_columns['albalu_delivery_week'] = __( 'Settimana consegna', 'albalu-week-selector' );
+			$new_columns['albalu_delivery_week'] = __( 'Settimana spedizione', 'albalu-week-selector' );
 		}
 	}
 	return $new_columns;
