@@ -16,7 +16,7 @@ defined( 'ABSPATH' ) || exit;
  * Format: "Settimana {week_number}, {year}, {dd/mm} - {dd/mm}"
  */
 function albalu_ws_get_weeks_options() {
-	$options = array( '' => __( 'Seleziona una settimana', 'albalu-week-selector' ) );
+	$options = array( '' => __( 'Scegli settimana di spedizione', 'albalu-week-selector' ) );
 
 	// Start from the coming Monday (or today if Monday)
 	$today = new DateTime( 'now', wp_timezone() );
@@ -105,7 +105,7 @@ function albalu_ws_checkout_field( $checkout ) {
 add_action( 'woocommerce_checkout_process', 'albalu_ws_validate_field' );
 function albalu_ws_validate_field() {
 	if ( empty( $_POST['albalu_delivery_week'] ) ) {
-		wc_add_notice( __( 'Seleziona una settimana di consegna.', 'albalu-week-selector' ), 'error' );
+		wc_add_notice( __( 'Scegli settimana di spedizione.', 'albalu-week-selector' ), 'error' );
 	}
 }
 
