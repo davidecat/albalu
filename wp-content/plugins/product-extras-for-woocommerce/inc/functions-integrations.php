@@ -56,23 +56,40 @@ function pewc_get_default_wpml_language() {
 }
 
 /**
- * Ensure image replacemeent works with different themes
+ * Ensure image replacement works with different themes
  */
 function pewc_product_img_wrap( $img_wrap ) {
 	if( wp_get_theme()->template == 'porto' ) {
 		$img_wrap = '.owl-item.active';
+	} else if ( wp_get_theme()->template == 'blocksy' ) {
+		// Blocksy uses ct-media-container instead of woocommerce-product-gallery__image
+		$img_wrap = '.ct-media-container';
 	}
 	return $img_wrap;
 }
 add_filter( 'pewc_product_img_wrap', 'pewc_product_img_wrap' );
 
 /**
- * Ensure image replacement / layering works with porto
+ * Ensure product gallery selector works with different themes
+ */
+function pewc_product_gallery_wrap( $gallery ) {
+	if ( wp_get_theme()->template == 'blocksy' ) {
+		// Blocksy uses woocommerce-product-gallery instead of .images
+		$gallery = '.woocommerce-product-gallery';
+	}
+	return $gallery;
+}
+add_filter( 'pewc_product_gallery', 'pewc_product_gallery_wrap' );
+
+/**
+ * Ensure image replacement / layering works with porto and blocksy
  * @since 3.21.4
  */
 function pewc_layer_parent_porto( $class ) {
 	if( wp_get_theme()->template == 'porto' ) {
 		$class = 'product-image-slider .owl-item';
+	} else if ( wp_get_theme()->template == 'blocksy' ) {
+		$class = 'ct-product-gallery-container';
 	}
 	return $class;
 }
@@ -610,3 +627,67 @@ function pewc_woocs_after_add_cart_item_data( $cart_item_data ) {
 
 }
 add_filter( 'pewc_after_add_cart_item_data', 'pewc_woocs_after_add_cart_item_data', 11, 1 );
+
+
+/**
+ * @since   4.3.4
+ * Filter container class for Image and Text Previews for non-standard themes
+ */
+function pewc_preview_gallery_container( $gallery_container, $post ) {
+
+	if( wp_get_theme()->template == 'porto' ) {
+		$gallery_container = 'product-images';
+	} else if ( wp_get_theme()->template == 'shoptimizer' && defined( 'CGKIT_BASE_PATH' ) ) {
+		// Updated because the cgkit-one-slider class is only applied by the CG Kit plugin
+		$gallery_container = 'cgkit-one-slider';
+	}
+	return $gallery_container;
+}
+add_filter( 'aipaou_gallery_container', 'pewc_preview_gallery_container', 10, 2 );
+add_filter( 'apaou_gallery_container', 'pewc_preview_gallery_container', 10, 2 );
+add_filter( 'apaou_field_gallery_container', 'pewc_preview_gallery_container', 10, 2 );
+
+/**
+ * @since   1.0.0
+ * Filter layer parent class for Image and Text Previews for non-standard themes
+ */
+function pewc_preview_layer_parent( $layer_parent, $post ) {
+
+	if( wp_get_theme()->template == 'porto' ) {
+		$layer_parent = 'product-image-slider';
+	} else if ( wp_get_theme()->template == 'shoptimizer' && defined( 'CGKIT_BASE_PATH' ) ) {
+		// Updated because the swiper-wrapper class is only applied by the CG Kit plugin
+		$layer_parent = 'swiper-wrapper';
+	} else if ( wp_get_theme()->template == 'blocksy' ) {
+		// ct-product-gallery-container has position:relative and wraps both single and multi-image galleries
+		$layer_parent = 'ct-product-gallery-container';
+	}
+	return $layer_parent;
+}
+add_filter( 'aipaou_layer_parent', 'pewc_preview_layer_parent', 10, 2 );
+add_filter( 'apaou_layer_parent', 'pewc_preview_layer_parent', 10, 2 );
+add_filter( 'apaou_field_layer_parent', 'pewc_preview_layer_parent', 10, 2 );
+
+/**
+ * Fix for issue with WooCommerce Paypal Payments where it continually triggers woocommerce_add_to_cart,
+ * which means pewc_add_to_cart() and pewc_add_on_product() are called repeatedly. Child products are then added repeatedly
+ * @since 4.3.5
+ */
+function pewc_wcpp_is_simulating_cart() {
+	if ( apply_filters( 'woocommerce_paypal_payments_is_simulating_cart', false ) ) {
+		// don't trigger our own action if WCPP is just simulating the cart
+		remove_action( 'woocommerce_add_to_cart', 'pewc_add_to_cart', 10, 6 );
+	}
+}
+add_action( 'woocommerce_add_to_cart', 'pewc_wcpp_is_simulating_cart', 1 );
+
+/**
+ * Flatsome theme includes its own tooltip library which conflicts with ours
+ */
+function pewc_dequeue_tooltips( $dequeue ) {
+	if( wp_get_theme()->template == 'flatsome' ) {
+		$dequeue = true;
+	}
+	return $dequeue;
+}
+add_filter( 'pewc_dequeue_tooltips', 'pewc_dequeue_tooltips' );

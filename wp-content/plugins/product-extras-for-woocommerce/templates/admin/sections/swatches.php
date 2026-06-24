@@ -69,6 +69,23 @@ if( ! defined( 'ABSPATH' ) ) {
 			</div>
 		</div>
 
+		<div class="product-extra-field product-extra-field-main-image-scale" <?php echo ( ! $checked ) ? 'style="display:none;"' : ''; ?>>
+			<div class="product-extra-field-inner">
+				
+				<label class="pewc-checkbox-field-label" for="<?php echo esc_attr( $base_name ); ?>_layered_images">
+					<?php _e( 'Main Image Scale %', 'pewc' ); ?>
+					<?php echo wc_help_tip( 'Scale the image based on the image container', 'pewc' ); ?>
+				</label>
+
+			</div>
+			<div class="product-extra-field-inner">
+
+				<?php $main_image_scale = ! empty( $item['main_image_scale'] ) ? $item['main_image_scale'] : 100; ?>
+				<input type="number" class="pewc-field-item pewc-main-image-scale" name="<?php echo esc_attr( $base_name ); ?>[main_image_scale]" value="<?php echo $main_image_scale; ?>" data-field-name="main_image_scale" min="1" step="0.01">
+
+			</div>
+		</div>
+
 		<div class="product-extra-field">
 			<div class="product-extra-field-inner">
 				

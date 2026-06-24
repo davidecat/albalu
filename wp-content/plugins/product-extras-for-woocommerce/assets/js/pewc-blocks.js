@@ -34,15 +34,19 @@ function pewc_blocks_init_cart() {
 			setTimeout( pewc_blocks_add_uploaded_images, 200, extensions );
 
 			return 'pewc-key-' + extensions.pewc_data.key;
-		}
-		/*cartItemPrice: function( defaultValue, extensions, args, validation ) {
-			console.log(defaultValue);
-			if ( ( args?.context !== 'cart' && args?.context !== 'summary' ) || 'undefined' === typeof extensions.pewc_data ) {
+		},
+		cartItemPrice: function( defaultValue, extensions, args, validation ) {
+			if ( ( args?.context !== 'cart' && args?.context !== 'summary' ) || 'undefined' === typeof extensions.pewc_data || 'undefined' === typeof extensions.pewc_data.parent_plus_children_price ) {
 				return defaultValue;
 			}
 
-			return defaultValue + ' + extras';
-		}*/
+			// 4.3.8, update the parent price to include the hidden children prices
+			// WC 10.7 blocks do not allow the price to be changed, so we use a jQuery function
+			setTimeout( pewc_blocks_update_price, 200, extensions.pewc_data.parent_plus_children_price, extensions.pewc_data.key );
+			//pewc_blocks_update_price( extensions.pewc_data.parent_plus_children_price, extensions.pewc_data.key );
+
+			return defaultValue;
+		}
 	} );
 
 }
@@ -52,7 +56,7 @@ function pewc_blocks_init_cart() {
  */
 function pewc_blocks_add_uploaded_images( extensions ) {
 
-	jQuery(document).ready( function(){
+	jQuery( document ).ready( function(){
 		if ( undefined != extensions.pewc_data && jQuery(extensions.pewc_data.uploaded_files).length > 0 && jQuery( '.pewc-key-' + extensions.pewc_data.key + ' .wc-block-components-product-metadata' ).length > 0 ) {
 			var ufiles = extensions.pewc_data.uploaded_files;
 			for ( var i in ufiles ) {
@@ -88,6 +92,15 @@ function pewc_blocks_add_uploaded_images( extensions ) {
 		}
 	});
 
+}
+
+/**
+ * @since 4.3.8
+ */
+function pewc_blocks_update_price( new_price, cart_item_key ) {
+	jQuery( document ).ready( function(){
+		jQuery( '.pewc-key-' + cart_item_key + ' .wc-block-components-product-price' ).html( new_price );
+	});
 }
 
 if ( 'undefined' !== typeof wc && wc?.blocksCheckout ) {

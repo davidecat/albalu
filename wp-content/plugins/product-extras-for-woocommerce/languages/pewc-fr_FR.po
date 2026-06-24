@@ -1393,11 +1393,11 @@ msgstr "Afficher ce champ si"
 
 #: inc/functions-conditionals.php:121
 msgid "All rules match"
-msgstr "Toutes les règles correspondent"
+msgstr "Toutes les règles doivent correspondent à"
 
 #: inc/functions-conditionals.php:122
 msgid "Any rule matches"
-msgstr "Toute règle correspond"
+msgstr "Au moins une des règles doit correspondre"
 
 #: inc/functions-conditionals.php:133
 msgid "Is"

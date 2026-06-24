@@ -41,7 +41,12 @@ if( ! class_exists( 'PEWC_Settings_Tab' ) ) {
 		}
 
 		public function update_settings() {
+			global $current_section;
 			woocommerce_update_options( $this->get_settings() );
+			if ( 'pewc_uploads' === $current_section && function_exists( 'pewc_create_protection_files' ) && apply_filters( 'pewc_regenerate_htaccess_on_settings_save', true ) ) {
+				// 4.3.11, regenerate .htaccess file in /wp-content/uploads/product-extras/
+				pewc_create_protection_files();
+			}
 		}
 
 		public function get_settings() {

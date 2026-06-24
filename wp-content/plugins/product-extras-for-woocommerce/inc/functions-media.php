@@ -406,8 +406,13 @@ function pewc_upload_dir( $pathdata ) {
  */
 function pewc_dropzone_upload() {
 
-	if( ! isset( $_REQUEST['pewc_file_upload'] ) || ! wp_verify_nonce( $_REQUEST['pewc_file_upload'], 'pewc_file_upload' ) ) {
-		wp_send_json_error( array( 'nonce_fail' ) );
+	// 4.3.5
+	$can_process = pewc_can_process_dropzone();
+	if ( true !== $can_process ) {
+		wp_send_json_error( array(
+			$can_process
+		), 400 );
+		die();
 	}
 
 	add_filter( 'upload_dir', 'pewc_set_upload_dir' );
@@ -419,7 +424,7 @@ function pewc_dropzone_upload() {
 
 	if( ! empty( $_FILES ) ) {
 
-		$existing_file_data = $_REQUEST['file_data'];
+		$existing_file_data = $_POST['file_data'];
 		$existing_files = array();
 		if( $existing_file_data ) {
 			$existing_files = json_decode( stripslashes( $existing_file_data ) );
@@ -431,17 +436,69 @@ function pewc_dropzone_upload() {
 
 		foreach( $_FILES['file']['name'] as $index=>$file ) {
 
-			$error = 0;
+			// 4.3.5, check files before processing using wp_upload_bits
 
+			$error = 0;
+			$tmp   = $_FILES['file']['tmp_name'][$index];
+			$name  = $_FILES['file']['name'][$index];
+
+			// 1. Confirm the file actually came via HTTP POST.
+			if ( ! is_uploaded_file( $tmp ) ) {
+				pewc_error_log( 'AOU: is_uploaded_file() failed for ' . $name );
+				continue;
+			}
+
+			// 2. Reject empty files.
+			if ( ! ( $_FILES['file']['size'][$index] > 0 ) ) {
+				pewc_error_log( 'AOU: empty file rejected: ' . $name );
+				continue;
+			}
+
+			// 3. Validate extension AND actual file content (mirrors _wp_handle_upload).
+			$mime_types  = pewc_get_permitted_mimes();
+			$wp_filetype = wp_check_filetype_and_ext( $tmp, $name, $mime_types );
+			$ext         = empty( $wp_filetype['ext'] )  ? '' : $wp_filetype['ext'];
+			$type        = empty( $wp_filetype['type'] ) ? '' : $wp_filetype['type'];
+
+			// Use corrected filename if finfo detected a wrong extension.
+			if ( ! empty( $wp_filetype['proper_filename'] ) ) {
+				$name = $wp_filetype['proper_filename'];
+			}
+
+			if ( ( ! $ext || ! $type ) && ! current_user_can( 'unfiltered_upload' ) ) {
+				pewc_error_log( 'AOU: wp_check_filetype_and_ext() rejected file: ' . $name );
+				continue;
+			}
+
+			// 4. For images, confirm the binary is a real image before writing.
+			$image_mimes = pewc_get_image_mimes();
+			if ( is_array( $image_mimes ) && in_array( $type, $image_mimes ) ) {
+				if ( ! @getimagesize( $tmp ) ) {
+					wc_add_notice(
+						apply_filters(
+							'pewc_ajax_file_not_valid_message',
+							sprintf(
+								'%s: %s',
+								__( 'File not valid', 'pewc' ),
+								$name
+							)
+						),
+						'error'
+					);
+					continue;
+				}
+			}
+
+			// All checks passed — write the file.
 			$uploaded_bits = wp_upload_bits(
-				$_FILES['file']['name'][$index],
+				$name,
 				null, //deprecated
-				file_get_contents( $_FILES['file']['tmp_name'][$index] )
+				file_get_contents( $tmp )
 			);
 			if ( false !== $uploaded_bits['error'] ) {
 				$error = 'There was an error in uploading the file. Please try again.';
-				$uploaded_bits['file'] = $_FILES['file']['name'][$index]; // 3.20.1, this is blank if it encountered an error, so add it
-				pewc_error_log('AOU: wp_upload_bits encountered an error when uploading the file - '.$uploaded_bits['error'].', $_FILES:'.print_r($_FILES, true));
+				$uploaded_bits['file'] = $name;
+				pewc_error_log( 'AOU: wp_upload_bits encountered an error when uploading the file - ' . $uploaded_bits['error'] . ', $_FILES:' . print_r( $_FILES, true ) );
 			}
 
 			// Remove the base URL from the uploaded file name
@@ -450,48 +507,25 @@ function pewc_dropzone_upload() {
 
 			// Does the URL still contain http? Something fishy could be happening, so reject it
 			if( strpos( $truncated_url, 'http' ) !== false || strpos( $truncated_url, ':' ) !== false ) {
-				pewc_error_log( 'AOU: fail. truncated_url:'.$truncated_url );
+				pewc_error_log( 'AOU: fail. truncated_url:' . $truncated_url );
 			}
 
-			$file_type = $_FILES['file']['type'][$index];
-			if ( 'application/pdf' === $file_type && ! empty( $uploaded_bits ) && empty( $uploaded_bits['error'] ) ) {
+			if ( 'application/pdf' === $type && ! empty( $uploaded_bits ) && empty( $uploaded_bits['error'] ) ) {
 				$pdf_thumb = pewc_generate_pdf_thumb( $uploaded_bits );
 			} else {
 				$pdf_thumb = false;
 			}
 
-			// Validate any images
-			$image_mimes = pewc_get_image_mimes();
-			if( is_array( $image_mimes ) && in_array( $_FILES['file']['type'][$index], $image_mimes ) ) {
-
-				// Check image size for valid image
-				if( ! @getimagesize( $_FILES['file']['tmp_name'][$index] ) ) {
-					wc_add_notice(
-						apply_filters(
-							'pewc_ajax_file_not_valid_message',
-							sprintf(
-								'%s: %s',
-								__( 'File not valid', 'pewc' ),
-								$_FILES['file']['name'][$index]
-							)
-						),
-						'error'
-					);
-					continue;
-				}
-
-			}
-
 			$uploaded_files[$index] = array(
-				'file'     	=> $uploaded_bits['file'],
-				'size'			=> $_FILES['file']['size'][$index],
-				'url'      	=> $truncated_url,
-				'type'			=> $_FILES['file']['type'][$index],
-				'filetype' 	=> wp_check_filetype( basename( $uploaded_bits['file'] ), null ),
-				'name'			=> $_FILES['file']['name'][$index],
-				'tmp_name'	=> $_FILES['file']['tmp_name'][$index],
-				'error'			=> $error,
-				'name_encoded'	=> $_REQUEST['filename_encoded'][$index] // Safari has issues with special characters, backup fix
+				'file'         => $uploaded_bits['file'],
+				'size'         => $_FILES['file']['size'][$index],
+				'url'          => $truncated_url,
+				'type'         => $type,
+				'filetype'     => wp_check_filetype( basename( $uploaded_bits['file'] ), null ),
+				'name'         => $name,
+				'tmp_name'     => $tmp,
+				'error'        => $error,
+				'name_encoded' => $_POST['filename_encoded'][$index],
 			);
 
 			if ( $pdf_thumb ) {
@@ -532,14 +566,19 @@ add_action( 'wp_ajax_pewc_dropzone_upload', 'pewc_dropzone_upload' );
  */
 function pewc_dropzone_remove() {
 
-	if( ! isset( $_REQUEST['pewc_file_upload'] ) || ! wp_verify_nonce( $_REQUEST['pewc_file_upload'], 'pewc_file_upload' ) ) {
-		wp_send_json_error( array( 'nonce_fail' ) );
+	// 4.3.5
+	$can_process = pewc_can_process_dropzone();
+	if ( true !== $can_process ) {
+		wp_send_json_error( array(
+			$can_process
+		), 400 );
+		die();
 	}
 
 	add_filter( 'upload_dir', 'pewc_set_upload_dir' );
 
-	$remove_file_name = $_REQUEST['file'];
-	$existing_file_data = $_REQUEST['file_data'];
+	$remove_file_name = $_POST['file'];
+	$existing_file_data = $_POST['file_data'];
 	$existing_files = array();
 	if( $existing_file_data ) {
 		$existing_files = json_decode( stripslashes( $existing_file_data ) );
@@ -547,12 +586,19 @@ function pewc_dropzone_remove() {
 
 	$base_url = get_site_url();
 
-	// Does the URL still contain http? Something fishy could be happening, so reject it
+	// 4.3.5, reject URLs and empty data
+	if ( false !== strpos( $remove_file_name, '://' ) || empty( $remove_file_name ) || empty( $existing_file_data ) ) {
+		wp_send_json_error( array( 'invalid_file' ), 400 );
+	}
 
 	// Find our file
 	if( $existing_files ) {
 		foreach( $existing_files as $index=>$existing_file ) {
-			if( $existing_file->name == $remove_file_name ) {
+			if( $existing_file->name === $remove_file_name ) {
+				// 4.3.5
+				if ( ! pewc_valid_dropzone_file( $existing_file, $remove_file_name ) ) {
+					continue;
+				}
 				// Remove it from the array and from the server
 				$filepath = $existing_file->file;
 				if ( is_file( $filepath ) ) {
@@ -704,15 +750,80 @@ function pewc_add_pdf_permitted_mimes( $permitted_mimes ) {
 }
 add_filter( 'pewc_permitted_mimes', 'pewc_add_pdf_permitted_mimes' );
 
-// Add PDF to the list of restricted filetypes
-function pewc_add_pdf_allowed_filetypes( $restricted_filetypes ) {
+/**
+ * Add PDF and any custom MIME type extensions to the list of restricted filetypes
+ * @version 4.3.11
+ */
+function pewc_add_allowed_filetypes( $restricted_filetypes ) {
 
-	if( pewc_enable_pdf_uploads() != 'yes' ) {
-		return $restricted_filetypes;
+	// 4.3.11, changed function name from pewc_add_pdf_allowed_filetypes to pewc_add_allowed_filetypes
+	if( pewc_enable_pdf_uploads() == 'yes' ) {
+		$restricted_filetypes[] = 'pdf';
 	}
 
-  $restricted_filetypes[] = 'pdf';
-  return $restricted_filetypes;
+	// 4.3.11, also include pewc_upload_mime_types
+	$mime_type_keys = get_option( 'pewc_upload_mime_types', array() );
+	foreach ( $mime_type_keys as $key ) {
+		foreach ( explode( '|', $key ) as $ext ) {
+			if ( ! in_array( $ext, $restricted_filetypes ) ) {
+				$restricted_filetypes[] = $ext;
+			}
+		}
+	}
+
+	return $restricted_filetypes;
 
 }
-add_filter( 'pewc_protected_directory_allowed_filetypes', 'pewc_add_pdf_allowed_filetypes' );
+add_filter( 'pewc_protected_directory_allowed_filetypes', 'pewc_add_allowed_filetypes' );
+
+/**
+ * Check if we can process this Dropzone request
+ * @since 4.3.5
+ */
+function pewc_can_process_dropzone() {
+
+	$can_process = true;
+
+	if( ! isset( $_POST['pewc_file_upload'] ) || ! wp_verify_nonce( $_POST['pewc_file_upload'], 'pewc_file_upload' ) ) {
+		$can_process = __( 'Invalid nonce.', 'pewc' );
+		return $can_process;
+	}
+
+	if ( ! pewc_can_upload() ) {
+		$can_process = __( 'Permission denied.', 'pewc' );
+		return $can_process;
+	}
+
+	return $can_process;
+
+}
+
+/**
+ * Do some security checks before removing the file
+ * @since 4.3.5
+ */
+function pewc_valid_dropzone_file( $existing_file, $remove_file_name ) {
+
+	$valid = true;
+	$filepath = $existing_file->file;
+	$filename = $existing_file->name;
+
+	$upload_dir = pewc_get_upload_dir();
+	$upload_subdir = $upload_dir . pewc_get_upload_subdirs();
+	$uploaded_dir = substr( $filepath, 0, strrpos( $filepath, '/') );
+
+	// Does the path match the expected path?
+	$uploaded_path = trailingslashit( $uploaded_dir ) . $filename;
+	$expected_path = trailingslashit( $upload_subdir ) . $filename;
+
+	// Ensure the file doesn't have a php suffix
+	$ext = substr( strrchr( $filepath, '.' ), 1 );
+
+	if( strpos( $filepath, $upload_dir ) === false || $uploaded_path != $expected_path || $ext == 'php' ) {
+		pewc_error_log('AOU: The file was not removed because it failed a security check. file:'.$filepath.', upload_dir:'.$upload_dir.', uploaded_path:'.$uploaded_path.', expected_path:'.$expected_path.', ext:'.$ext.', $existing_file:'.print_r($existing_file, true));
+		return false;
+	}
+
+	return $valid;
+
+}

@@ -139,6 +139,8 @@ jQuery( function( $ ) {
 
       $( document.body ).on( 'update change', '.pewc-field-maxdate', this.update_ymd );
 
+	  $( '.pewc-layered-images' ).on( 'change', this.toggle_layer_image_settings ); // 4.3.8
+
       $( document.body ).trigger( 'update_field_names_object' );
 
 		},
@@ -1508,6 +1510,18 @@ jQuery( function( $ ) {
 		// reinitialize enhanced select2
 		$( document.body ).trigger( 'wc-enhanced-select-init' );
 
+	},
+
+	// 4.3.8
+	toggle_layer_image_settings: function( e ) {
+		console.log($(this));
+		var is_enabled = $( this ).prop( 'checked' );
+		var main_image_scale = $( this ).closest( '.pewc-swatch-extras' ).find( '.product-extra-field-main-image-scale' );
+		if ( is_enabled ) {
+			main_image_scale.show();
+		} else {
+			main_image_scale.hide();
+		}
 	},
 
   };

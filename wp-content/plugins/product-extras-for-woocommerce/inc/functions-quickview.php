@@ -110,7 +110,7 @@ add_filter( 'pewc_filter_single_product_classes', 'pewc_add_quickview_field_clas
 /**
  * Build the QuickView template
  * @since	3.8.6
- * @version	3.26.15
+ * @version	4.3.11
  */
 function pewc_display_quickview_template( $field_id, $child_product, $child_product_id ) {
 
@@ -123,56 +123,60 @@ function pewc_display_quickview_template( $field_id, $child_product, $child_prod
 	$GLOBALS['post'] = get_post( $child_product_id ); // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
 	setup_postdata( $GLOBALS['post'] ); // this also overrides the global $product object
 
-	/**
-	 * Hook: woocommerce_before_single_product.
-	 *
-	 * @hooked woocommerce_output_all_notices - 10
-	 */
-	remove_action( 'woocommerce_before_single_product', 'woocommerce_output_all_notices', 10 );
-
-	/**
-	 * Hook: woocommerce_single_product_summary.
-	 *
-	 * @hooked woocommerce_template_single_title - 5
-	 * @hooked woocommerce_template_single_rating - 10
-	 * @hooked woocommerce_template_single_price - 10
-	 * @hooked woocommerce_template_single_excerpt - 20
-	 * @hooked woocommerce_template_single_add_to_cart - 30
-	 * @hooked woocommerce_template_single_meta - 40
-	 * @hooked woocommerce_template_single_sharing - 50
-	 * @hooked WC_Structured_Data::generate_product_data() - 60
-	 */
-	remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_add_to_cart', 30 );
-	remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_meta', 40 );
-
-	/*
-	* @hooked woocommerce_output_product_data_tabs - 10
-	* @hooked woocommerce_upsell_display - 15
-	* @hooked woocommerce_output_related_products - 20
-	*/
-	remove_action( 'woocommerce_after_single_product_summary', 'woocommerce_output_product_data_tabs', 10 );
-	remove_action( 'woocommerce_after_single_product_summary', 'woocommerce_upsell_display', 15 );
-	remove_action( 'woocommerce_after_single_product_summary', 'woocommerce_output_related_products', 20 );
-
+	// Suppress hooks that themes use to render product elements during quickview.
+	//
+	// For each hook we want to suppress, we swap $wp_filter[$hook_name] with a
+	// fresh empty WP_Hook object. Any nested do_action() for that hook will find
+	// an empty registry and fire nothing. After rendering we swap the original
+	// object back.
+	//
+	// Crucially, we never mutate the original WP_Hook object. If a hook is
+	// currently being iterated (e.g. woocommerce_single_product_summary firing
+	// the parent product's callbacks), its do_action() loop holds a reference to
+	// $this — the original object — and keeps iterating it regardless of what
+	// $wp_filter[$hook_name] now points to. So swapping the pointer is safe.
+	global $wp_filter;
+	$pewc_saved_hooks = array();
+	$add_to_cart_actions = apply_filters( 'pewc_quickview_suppress_add_to_cart_actions', array(
+		'woocommerce_simple_add_to_cart',
+		'woocommerce_variable_add_to_cart',
+		'woocommerce_grouped_add_to_cart',
+		'woocommerce_external_add_to_cart',
+	) );
+	$pewc_hooks_to_suppress = array_merge(
+		array(
+			'woocommerce_before_single_product',
+			'woocommerce_before_single_product_summary',
+			//'woocommerce_single_product_summary', // commented out in 4.3.11 because the QuickView lightbox shows blank if this is included
+			'woocommerce_after_single_product_summary',
+		),
+		$add_to_cart_actions
+	);
+	foreach ( $pewc_hooks_to_suppress as $hook_name ) {
+		if ( ! isset( $wp_filter[ $hook_name ] ) ) {
+			continue;
+		}
+		$pewc_saved_hooks[ $hook_name ] = $wp_filter[ $hook_name ];
+		$wp_filter[ $hook_name ]        = new WP_Hook();
+	}
 
 	// 3.26.15
-	do_action( 'pewc_before_quickview_template_load', $field_id, $child_product_id );	
+	do_action( 'pewc_before_quickview_template_load', $field_id, $child_product_id );
+
 	$path = pewc_include_frontend_template( 'quickview/quickview.php' );
 	if ( $path ) {
 		include( $path );
 	}
+
 	do_action( 'pewc_after_quickview_template_load', $field_id, $child_product_id );
 
+	// Restore the original WP_Hook objects.
+	foreach ( $pewc_saved_hooks as $hook_name => $saved_hook ) {
+		$wp_filter[ $hook_name ] = $saved_hook;
+	}
 
 	$GLOBALS['post'] = $original_post; // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
 	setup_postdata( $GLOBALS['post'] ); // we need to do this again to put back the original $product object (parent product)
-
-	add_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_add_to_cart', 30 );
-	add_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_meta', 40 );
-
-	add_action( 'woocommerce_after_single_product_summary', 'woocommerce_output_product_data_tabs', 10 );
-	add_action( 'woocommerce_after_single_product_summary', 'woocommerce_upsell_display', 15 );
-	add_action( 'woocommerce_after_single_product_summary', 'woocommerce_output_related_products', 20 );
 
 }
 add_action( 'pewc_after_child_product_item', 'pewc_display_quickview_template', 10, 3 );

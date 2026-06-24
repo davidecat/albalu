@@ -742,6 +742,9 @@ if( ! class_exists( 'PEWC_Product_Extra_Post_Type' ) ) {
 						<div class="new-information-row">
 							<?php include( PEWC_DIRNAME . '/templates/admin/views/information-row-new.php' ); ?>
 						</div>
+						<div class="new-calendar-list-row">
+							<?php include( PEWC_DIRNAME . '/templates/admin/views/calendar-list-row-new.php' ); ?>
+						</div>
 
 						<div class="product-extra-group-data" id="product_extra_groups">
 

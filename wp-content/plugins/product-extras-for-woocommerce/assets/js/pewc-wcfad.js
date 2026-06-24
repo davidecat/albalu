@@ -457,7 +457,8 @@ const pewc_wcfad = {
 
 				// we update the price_html in this attr because .pewc-variation-price gets updated in pewc-variations.js
 				var variation_data = select.attr( 'data-product_variations' );
-				if ( variation_data != '' ) {
+				// aou-products-column-new, changed condition from variation_data != '' to variation_data to also catch undefined
+				if ( variation_data ) {
 					variation_data = JSON.parse( variation_data );
 					jQuery( variation_data ).each( function( index, element ){
 						if ( jQuery(this)[0].variation_id == selected_var ) {

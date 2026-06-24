@@ -3,7 +3,7 @@
         'name' => 'elementor/image-optimizer',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => '36bec09d720305e7186c67761e3369a375278875',
+        'reference' => 'b5321ff5f84292c751460425698d3257aebf6653',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -13,7 +13,7 @@
         'elementor/image-optimizer' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => '36bec09d720305e7186c67761e3369a375278875',
+            'reference' => 'b5321ff5f84292c751460425698d3257aebf6653',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -29,8 +29,8 @@
             'dev_requirement' => false,
         ),
         'elementor/wp-one-package' => array(
-            'pretty_version' => '1.0.59',
-            'version' => '1.0.59.0',
+            'pretty_version' => '1.0.62',
+            'version' => '1.0.62.0',
             'reference' => null,
             'type' => 'library',
             'install_path' => __DIR__ . '/../elementor/wp-one-package',

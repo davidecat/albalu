@@ -475,6 +475,10 @@
 								added_price = parseFloat( $(this).find(':selected').attr('data-option-cost') );
 								// Add cost of select field
 								added_price += parseFloat( $(field_wrapper).attr('data-price') );
+								// Bookings for WooCommerce: multiply by number of booked units
+								if ( $(field_wrapper).hasClass('pewc-per-unit-pricing') ) {
+									added_price = parseFloat( $('#num_units_int').val() ) * added_price;
+								}
 							}
 						}
 
@@ -493,6 +497,10 @@
 								added_price = parseFloat( $( field_wrapper ).attr( 'data-selected-option-price') );
 								// Add cost of select field
 								added_price += parseFloat( $( field_wrapper ).attr( 'data-price' ) );
+								// Bookings for WooCommerce: multiply by number of booked units
+								if ( $(field_wrapper).hasClass('pewc-per-unit-pricing') ) {
+									added_price = parseFloat( $('#num_units_int').val() ) * added_price;
+								}
 							}
 						}
 
@@ -565,6 +573,10 @@
 						added_price = parseFloat( $(this).find(':selected').attr('data-option-cost') );
 						// Add cost of select field
 						added_price += parseFloat( $(field_wrapper).attr('data-price') );
+						// Bookings for WooCommerce: multiply by number of booked units
+						if ( $(field_wrapper).hasClass('pewc-per-unit-pricing') ) {
+							added_price = parseFloat( $('#num_units_int').val() ) * added_price;
+						}
 						$( field_wrapper ).addClass( 'pewc-active-field' );
 					} else if( $(this).val() && ! $(field_wrapper).hasClass('pewc-hidden-field') ) {
 						if( $(field_wrapper).hasClass('pewc-per-character-pricing') ) {
@@ -641,6 +653,8 @@
 							flat_rate_total += parseFloat( selected_option_price );
 
 						}
+					} else {
+						$( this ).attr( 'data-selected-option-price', 0 );
 					}
 
 					if( checked_radio.val() ) {
@@ -1001,6 +1015,45 @@
 					}
 
 				});
+
+				// aou-products-column-new, for column layout with attributes select
+				if ( $( this ).find( '.pewc-column-attributes-select' ).length > 0 ) {
+					var child_id = $( this ).data( 'option-id' );
+					var child_variant = $( this ).find( 'input[name="pewc_child_variants_' + child_id + '"]' );
+					field_value.push( child_variant.attr( 'data-variation-name' ) );
+					var child_product_price = child_variant.attr( 'data-option-cost' );
+					// not yet supported, maybe add later
+					//if ( parseFloat( $(this).find(':selected').attr('data-wcfad-price') ) > 0 ) {
+					//	child_product_price = parseFloat( $(this).find(':selected').attr('data-wcfad-price') );
+					//}
+					var qty = 0;
+
+					// Get the quantity
+					if( quantities == 'linked' ) {
+						qty = pewc_get_quantity( qty, 'linked' );
+						selected_counter++;
+					} else if( quantities == 'independent' ) {
+						qty = $(this).find( '.pewc-child-quantity-field' ).val();
+						selected_counter += parseInt( qty );
+						if ( pewc_vars.multiply_independent == 'yes' ) {
+							var main_quantity = pewc_get_quantity();
+							qty = qty * parseFloat( main_quantity );
+						}
+					} else if( quantities == 'one-only' ) {
+						qty = pewc_get_quantity( 1, 'one-only' );
+						selected_counter++;
+					}
+
+					if( child_product_price > 0 ) {
+						child_products_total += parseFloat( child_product_price ) * parseFloat( qty );
+						parent_field_price += parseFloat( child_product_price ) * parseFloat( qty );
+					}
+
+					if( field_value.length > 0 ) {
+						field_wrapper.attr( 'data-field-price', parent_field_price );
+						set_summary_panel_data( field_wrapper, field_value.join( ', ' ), parent_field_price );
+					}
+				}
 
 			}
 
@@ -1771,7 +1824,8 @@
 		}
 	});
 	$( 'body' ).on( 'click', '.products-quantities-independent .pewc-checkbox-form-field', function( e ) {
-		if( $( this ).closest( '.pewc-checkbox-images-wrapper' ).hasClass( 'pewc-force-quantity' ) ) {
+		// aou-products-column-new, added 2nd condition
+		if( $( this ).closest( '.pewc-checkbox-images-wrapper' ).hasClass( 'pewc-force-quantity' ) || $( this ).closest( '.pewc-checkbox-image-wrapper' ).find( '.pewc-column-attributes-select' ).length > 0 ) {
 			e.stopPropagation();
 			e.preventDefault(); // 3.25.7, prevent the hidden input checkbox from being unchecked and deselected
 			return;
@@ -1824,7 +1878,12 @@
 		if( $( wrapper ).closest( '.pewc-components-wrapper' ).hasClass( 'pewc-force-quantity' ) ) {
 			return;
 		}
-		
+
+		// aou-products-column-new, disable the click event for Column layout with attributes selection
+		if ( $( wrapper ).find( '.pewc-column-attributes-select' ).length > 0 ) {
+			return;
+		}
+
 		// 
 		var radio;
 		var is_image_swatch_checkbox = $( wrapper ).closest( '.pewc-item' ).hasClass( 'pewc-item-image-swatch-checkbox' );
@@ -1868,6 +1927,11 @@
 		}
 
 	}).on( 'click', '.pewc-radio-image-wrapper .pewc-radio-form-field', function( e ) {
+		// aou-products-column-new, disable the click event for Column layout with attributes selection
+		var wrapper = $( this ).closest( '.pewc-radio-image-wrapper' );
+		if ( $( wrapper ).find( '.pewc-column-attributes-select' ).length > 0 ) {
+			return;
+		}
 		var is_image_swatch_checkbox = $( this ).closest( '.pewc-item' ).hasClass( 'pewc-item-image-swatch-checkbox' );
 		if( ! is_image_swatch_checkbox ) {
 			// Stop propagation for radio buttons
@@ -1954,10 +2018,22 @@
 		init: function() {
 
 			if( pewc_vars.calculations_timer > 0 ) {
-				var interval = setInterval(
-					this.recalculate,
-					pewc_vars.calculations_timer
-				);
+				if ( pewc_vars.event_driven_conditions === 'yes' ) {
+					// 4.3.5: bind recalculate to field change events instead of polling every 500ms.
+					// These are the same triggers used by the non-optimised path but run within the
+					// optimised context so we don't fall back to legacy condition-checking behaviour.
+					$( 'body' ).on( 'keyup input change paste', 'form.cart .qty', this.recalculate );
+					$( 'body' ).on( 'keyup input change paste', 'form.cart .pewc-item.pewc-calculation-trigger, .pewc-form-field.pewc-calculation-trigger, .pewc-field-triggers-condition .pewc-form-field, .pewc-field-triggers-condition .pewc-radio-form-field', this.recalculate );
+					$( 'body' ).on( 'keyup input change paste', '.pewc-number-uploads', this.recalculate );
+					$( 'body' ).on( 'pewc_trigger_calculations', this.recalculate );
+					$( 'body' ).on( 'pewc_conditions_checked', this.recalculate );
+					$( 'body' ).one( 'pewc_after_update_total_js', this.recalculate );
+				} else {
+					var interval = setInterval(
+						this.recalculate,
+						pewc_vars.calculations_timer
+					);
+				}
 
 				// since 3.12.0, disable add-to-cart button while recalculating
 				if ( pewc_vars.disable_button_recalculate == 'yes' ) {
@@ -2313,7 +2389,7 @@
 						var field_id = fields[i].replace( '_option_price', '' );
 						// We want the price of the selected option in this field, not its value
 						var o_price = parseFloat( $( 'form.cart .pewc-field-' + field_id ).attr( 'data-selected-option-price' ) );
-						if( $( 'form.cart .pewc-field-' + field_id ).length == 0 && pewc_vars.zero_missing_field == 'yes' ) {
+						if( isNaN( o_price ) || ( $( 'form.cart .pewc-field-' + field_id ).length == 0 && pewc_vars.zero_missing_field == 'yes' ) ) {
 							o_price = 0;
 						}
 						replace = new RegExp( '{field_' + fields[i] + '}', 'g' );
@@ -2818,11 +2894,23 @@
 				$product_img.attr( 'data-pewc-old-data-large_image_height', '' );
 			}
 
-			// zoomImg
-			var zoomImg = $product_img.closest( pewc_vars.product_img_wrap ).find( pewc_vars.product_img_zoom ).eq(0);
-			if ( zoomImg ) {
-				$product_img.attr( 'data-pewc-old-zoom', zoomImg.attr( 'src' ) );
+		},
+
+		// 4.3.13, created a separate function outside of save_original_src()
+		save_original_zoom_src: function( $product_img ) {
+
+			if ( $product_img.attr( 'data-pewc-old-zoom' ) ) {
+				return; // already set, do nothing
 			}
+
+			var zoomImg = $product_img.closest( pewc_vars.product_img_wrap ).find( pewc_vars.product_img_zoom ).eq(0);
+			if ( zoomImg.length ) {
+				$product_img.attr( 'data-pewc-old-zoom', zoomImg.attr( pewc_vars.product_img_zoom_src ) );
+			} else {
+				// zoomImg not yet in DOM (e.g. Enfold theme) — fall back to data-src, which jquery.zoom uses to populate zoomImg
+				$product_img.attr( 'data-pewc-old-zoom', $product_img.attr( 'data-src' ) || $product_img.attr( 'src' ) );
+			}
+
 		},
 
 		update_add_on_image: function( field, $form ) {
@@ -2971,8 +3059,11 @@
 				}
 
 			} else if ( add_on_image_src && turn == 'on' ) {
+
 				// maybe save original
 				add_on_images.save_original_src( $product_img );
+				add_on_images.save_original_zoom_src( $product_img );
+
 				$product_img.attr( 'data-pewc-from-field', $( field_wrapper ).attr( 'data-id' ) );
 				$product_img.attr( 'src', add_on_image_src );
 				$product_img.attr( 'srcset', add_on_image_srcset );
@@ -2981,10 +3072,31 @@
 				$product_img.attr( 'data-large_image', add_on_image_large_image );
 				$product_img.attr( 'data-large_image_width', add_on_image_large_image_width );
 				$product_img.attr( 'data-large_image_height', add_on_image_large_image_height );
+
 				// replace zoom image
-				var zoomImg = $product_img.closest( pewc_vars.product_img_wrap ).find( pewc_vars.product_img_zoom ).eq(0);
-				if ( zoomImg ) {
-					zoomImg.attr( 'src', add_on_image_src );
+				//var zoomImg = $product_img.closest( pewc_vars.product_img_wrap ).find( pewc_vars.product_img_zoom ).eq(0);
+				//if ( zoomImg ) {
+				//	zoomImg.attr( pewc_vars.product_img_zoom_src, add_on_image_src );
+				//}
+
+				// 4.3.13, newer version, waits for zoomImg to be ready
+				var $wrap   = $product_img.closest( pewc_vars.product_img_wrap );
+				var zoomImg = $wrap.find( pewc_vars.product_img_zoom ).eq(0);
+
+				if ( zoomImg.length ) {
+					add_on_images.save_original_zoom_src( $product_img );
+					zoomImg.attr( pewc_vars.product_img_zoom_src, add_on_image_src );
+				} else if ( $wrap[0] ) {
+					var _src = add_on_image_src;
+					var zoomObserver = new MutationObserver( function() {
+						var $z = $wrap.find( pewc_vars.product_img_zoom ).eq(0);
+						if ( $z.length ) {
+							zoomObserver.disconnect();
+							add_on_images.save_original_zoom_src( $product_img );
+							$z.attr( pewc_vars.product_img_zoom_src, _src );
+						}
+					} );
+					zoomObserver.observe( $wrap[0], { childList: true, subtree: true } );
 				}
 
 				// 3.27.4, add special classes
@@ -3114,7 +3226,7 @@
 			// zoom image
 			var zoomImg = $product_img.closest( pewc_vars.product_img_wrap ).find( pewc_vars.product_img_zoom ).eq(0);
 			if ( zoomImg ) {
-				zoomImg.attr( 'src', $product_img.attr( 'data-pewc-old-zoom' ) );
+				zoomImg.attr( pewc_vars.product_img_zoom_src, $product_img.attr( 'data-pewc-old-zoom' ) );
 			}
 		},
 

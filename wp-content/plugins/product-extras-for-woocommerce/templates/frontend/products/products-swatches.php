@@ -1,7 +1,8 @@
 <?php
 /**
  * A products field template for the swatches layout
- * @since 2.6.0
+ * @since	2.6.0
+ * @version	4.3.12
  * @package WooCommerce Product Add-Ons Ultimate
  */
 
@@ -181,6 +182,9 @@ $selected_variations = apply_filters( 'pewc_products_column_selected_variations'
 						$viewer_image_url = ( get_post_thumbnail_id( $variant_id ) ) ? wp_get_attachment_image_url( get_post_thumbnail_id( $variant_id, apply_filters( 'pewc_child_product_image_size', 'thumbnail' ) ) ) : wc_placeholder_img_src();
 
 						$variation_title = str_replace( $child_product_title . apply_filters( 'pewc_option_price_separator', '+', $item ), '', $variant->get_name() );
+						// 4.3.12, new filter for variable with 3 or more attributes, where the attribute values are not displayed
+						// To display attribute values: $variation_title = $child_product_title . ' &#8211; ' . wc_get_formatted_variation( $variant, true, false );
+						$variation_title = apply_filters( 'pewc_filter_variation_title_swatches_layout', $variation_title, $variant, $child_product_id, $item );
 
 						if( ! $variant_price ) {
 							$variant_price = 0;
@@ -358,7 +362,7 @@ $selected_variations = apply_filters( 'pewc_products_column_selected_variations'
 					// If we've got variations, add a toggle
 					printf(
 						'<div class="pewc-swatches-toggle-wrapper"><a class="pewc-swatches-toggle" href="#">%s</a></div>',
-						__( 'Toggle', 'pewc' )
+						apply_filters( 'pewc_filter_swatches_toggle_text', __( 'Toggle', 'pewc' ), $item )
 					);
 
 					// Then add our variations

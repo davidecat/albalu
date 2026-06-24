@@ -111,6 +111,9 @@ function pewc_do_global_settings_page() {
 			<div class="new-information-row">
 				<?php include( PEWC_DIRNAME . '/templates/admin/views/information-row-new.php' ); ?>
 			</div>
+			<div class="new-calendar-list-row">
+				<?php include( PEWC_DIRNAME . '/templates/admin/views/calendar-list-row-new.php' ); ?>
+			</div>
 
 			<?php include( PEWC_DIRNAME . '/templates/admin/new-global-set.php' ); ?>
 
@@ -257,6 +260,7 @@ function pewc_save_globals() {
 			$condition_values = array();
 			$all_field_ids = array();
 			$weekdays = array();
+			$cl_options = array(); // 4.3.7
 
 			$all_field_params = array(); // This is going to be improved
 			$all_params = pewc_get_field_params();
@@ -373,7 +377,7 @@ function pewc_save_globals() {
 						delete_transient( 'pewc_item_object_' . $field_id );
 
 						// Saving field data here
-						$fields_with_multiples = array( 'field_options', 'child_products', 'child_categories', 'field_rows', 'weekdays' );
+						$fields_with_multiples = array( 'field_options', 'child_products', 'child_categories', 'field_rows', 'weekdays', 'field_cl_options' );
 						$all_field_ids[$group_id][$field_id] = $field_id;
 
 						if( ! isset( $all_field_params[$field_id] ) ) {
@@ -390,7 +394,8 @@ function pewc_save_globals() {
 						if( ! in_array( $param, $fields_with_multiples ) && strpos( $param, 'condition' ) === false ) {
 
 							// Simple value
-							if( $value ) {
+							if( $value || 0 == $value ) {
+								// 4.3.7, allow 0 values e.g Min Value for Number fields
 								update_post_meta( $field_id, $param, $value );
 							} else {
 								delete_post_meta( $field_id, $param );
@@ -464,6 +469,9 @@ function pewc_save_globals() {
 								$weekdays[$field_id] = array( $name_array[2] => $value );
 							}
 
+						} else if ( $param == 'field_cl_options' ) {
+							// 4.3.7
+							$cl_options[$field_id][$name_array[2]][$name_array[3]] = $value;
 						}
 
 					}
@@ -538,6 +546,12 @@ function pewc_save_globals() {
 			if( $weekdays ) {
 				foreach( $weekdays as $key=>$value ) {
 					update_post_meta( $key, 'weekdays', $value );
+				}
+			}
+			if ( $cl_options ) {
+				// 4.3.7
+				foreach ( $cl_options as $key => $value ) {
+					update_post_meta( $key, 'field_cl_options', $value );
 				}
 			}
 

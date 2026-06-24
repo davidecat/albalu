@@ -238,6 +238,271 @@ function pewc_recalculate_calculation_fields_in_cart( $cart_item_key, $quantity,
 add_action( 'woocommerce_after_cart_item_quantity_update', 'pewc_recalculate_calculation_fields_in_cart', 10, 3 );
 
 /**
+ * Validate that cart item quantities match the server-side result of any qty-action calculation fields.
+ * Prevents a tampered quantity from reaching checkout.
+ * @since 4.3.5
+ */
+function pewc_validate_qty_calculation_fields() {
+
+	foreach ( WC()->cart->get_cart() as $cart_item_key => $cart_item ) {
+
+		// Quick check: does this item have a qty calculation field at all?
+		if ( ! pewc_cart_item_has_qty_calc_field( $cart_item ) ) {
+			continue;
+		}
+
+		$expected_qty = pewc_get_qty_calculation_expected( $cart_item );
+		$actual_qty   = (int) $cart_item['quantity'];
+
+		if ( false !== $expected_qty && $actual_qty !== $expected_qty ) {
+			wc_add_notice(
+				sprintf(
+					__( 'The quantity for &ldquo;%s&rdquo; is not valid and has been corrected.', 'pewc' ),
+					$cart_item['data']->get_name()
+				),
+				'error'
+			);
+			WC()->cart->set_quantity( $cart_item_key, $expected_qty, false );
+		}
+	}
+}
+add_action( 'woocommerce_check_cart_items', 'pewc_validate_qty_calculation_fields' );
+add_action( 'woocommerce_checkout_process', 'pewc_validate_qty_calculation_fields' );
+
+/**
+ * Blocks a cart quantity update before it is written to the session when the
+ * item's quantity is controlled by a calculation field formula.  Without this,
+ * a POST request crafted in the browser console can bypass the after-the-fact
+ * correction in pewc_validate_qty_calculation_fields and set an arbitrary qty.
+ * @since 4.3.7
+ */
+function pewc_block_qty_calculation_cart_update( $valid, $cart_item_key, $values, $quantity ) {
+	if ( pewc_cart_item_has_qty_calc_field( $values ) ) {
+		// Quantity is formula-controlled; reject any external change request.
+		return false;
+	}
+	return $valid;
+}
+add_filter( 'woocommerce_update_cart_validation', 'pewc_block_qty_calculation_cart_update', 10, 4 );
+
+/**
+ * Returns true if the cart item's product has a qty-action calculation field,
+ * or false otherwise.  Quantity-controlled items must not allow arbitrary changes.
+ *
+ * Queries field meta directly (bypassing group filters) so that security checks
+ * cannot be circumvented by conditional display rules that hide the calculation group.
+ *
+ * @param array $cart_item
+ * @return bool
+ * @since 4.3.7
+ */
+function pewc_cart_item_has_qty_calc_field( $cart_item ) {
+
+	if ( empty( $cart_item['data'] ) || empty( $cart_item['product_extras']['groups'] ) ) {
+		return false;
+	}
+
+	$product    = $cart_item['data'];
+	$product_id = $product->is_type( 'variation' ) ? $product->get_parent_id() : $product->get_id();
+
+	// Per-product static cache (one check per product per request).
+	static $cache = array();
+	if ( isset( $cache[ $product_id ] ) ) {
+		return $cache[ $product_id ];
+	}
+
+	// Collect all field IDs that belong to this product's groups (product-level and global).
+	// We query groups directly without going through pewc_get_extra_fields() so that
+	// conditional display filters cannot hide the calculation field from this check.
+	$all_group_id_strings = array();
+
+	$product_group_ids = pewc_get_group_order( $product_id );
+	if ( ! empty( $product_group_ids ) ) {
+		$all_group_id_strings[] = $product_group_ids;
+	}
+
+	// Also include global groups so we detect qty calc fields defined site-wide.
+	if ( function_exists( 'pewc_get_global_group_order' ) ) {
+		$global_group_ids = pewc_get_global_group_order();
+		if ( ! empty( $global_group_ids ) ) {
+			$all_group_id_strings[] = $global_group_ids;
+		}
+	}
+
+	if ( empty( $all_group_id_strings ) ) {
+		$cache[ $product_id ] = false;
+		return false;
+	}
+
+	$group_id_array = array_filter( array_map( 'intval', explode( ',', implode( ',', $all_group_id_strings ) ) ) );
+	if ( empty( $group_id_array ) ) {
+		$cache[ $product_id ] = false;
+		return false;
+	}
+
+	// Gather all field IDs from all groups for this product.
+	$all_field_ids = array();
+	foreach ( $group_id_array as $gid ) {
+		$field_ids = get_post_meta( $gid, 'field_ids', true );
+		if ( ! empty( $field_ids ) && is_array( $field_ids ) ) {
+			$all_field_ids = array_merge( $all_field_ids, $field_ids );
+		}
+	}
+
+	if ( empty( $all_field_ids ) ) {
+		$cache[ $product_id ] = false;
+		return false;
+	}
+
+	// Batch-prime meta cache so we're doing one SQL query, not one per field.
+	update_meta_cache( 'post', $all_field_ids );
+
+	foreach ( $all_field_ids as $field_id ) {
+		$all_params = get_post_meta( $field_id, 'all_params', true );
+		if (
+			! empty( $all_params['field_type'] ) && $all_params['field_type'] === 'calculation' &&
+			! empty( $all_params['formula_action'] ) && $all_params['formula_action'] === 'qty'
+		) {
+			$cache[ $product_id ] = true;
+			return true;
+		}
+	}
+
+	$cache[ $product_id ] = false;
+	return false;
+}
+
+/**
+ * Resolves the formula-computed quantity for a cart item, or returns false if the item
+ * has no qty-action calculation field or the formula cannot be evaluated.
+ *
+ * @param array $cart_item
+ * @return int|false
+ * @since 4.3.7
+ */
+function pewc_get_qty_calculation_expected( $cart_item ) {
+
+	if ( empty( $cart_item['data'] ) || empty( $cart_item['product_extras']['groups'] ) ) {
+		return false;
+	}
+
+	$product    = $cart_item['data'];
+	$product_id = $product->is_type( 'variation' ) ? $product->get_parent_id() : $product->get_id();
+
+	$all_groups = pewc_get_extra_fields( $product_id );
+	if ( empty( $all_groups ) ) {
+		return false;
+	}
+
+	// Build a flat fields array from the cart item's stored values (for formula resolution).
+	$fields = array();
+	foreach ( $cart_item['product_extras']['groups'] as $group_id => $group_fields ) {
+		foreach ( $group_fields as $field_id => $item ) {
+			$fields[ $field_id ] = $item;
+		}
+	}
+
+	$original_price = isset( $cart_item['product_extras']['original_price'] ) ? $cart_item['product_extras']['original_price'] : 0;
+
+	$other_values = array(
+		'pewc_global_values' => array(
+			'quantity'       => $cart_item['quantity'],
+			'product_price'  => $original_price,
+			'product_width'  => $product->get_width(),
+			'product_length' => $product->get_length(),
+			'product_height' => $product->get_height(),
+			'product_weight' => $product->get_weight(),
+			'variable_1'     => get_option( 'pewc_variable_1', 0 ),
+			'variable_2'     => get_option( 'pewc_variable_2', 0 ),
+			'variable_3'     => get_option( 'pewc_variable_3', 0 ),
+		),
+	);
+
+	foreach ( $all_groups as $group ) {
+		if ( empty( $group['items'] ) ) {
+			continue;
+		}
+		foreach ( $group['items'] as $field_id => $item ) {
+			if ( empty( $item['field_type'] ) || $item['field_type'] !== 'calculation' ) {
+				continue;
+			}
+			if ( empty( $item['formula_action'] ) || $item['formula_action'] !== 'qty' ) {
+				continue;
+			}
+			if ( empty( $item['formula'] ) ) {
+				continue;
+			}
+
+			preg_match_all( '|{field_(.*)}|U', $item['formula'], $matched, PREG_PATTERN_ORDER );
+			$fields[ $field_id ] = array(
+				'type'          => 'calculation',
+				'formula'       => $item['formula'],
+				'formula_action'=> 'qty',
+				'decimal_places'=> $item['decimal_places'] ?? '',
+				'value'         => $item['value'] ?? '',
+				'all_fields'    => $matched[1] ?? array(),
+			);
+
+			list( $fields, $other_values ) = pewc_evaluate_calc_field_formula( $fields, $field_id, $other_values );
+
+			$eval_value = isset( $fields[ $field_id ]['value'] ) && is_numeric( $fields[ $field_id ]['value'] )
+				? (float) $fields[ $field_id ]['value']
+				: false;
+
+			if ( false === $eval_value || $eval_value <= 0 ) {
+				continue;
+			}
+
+			$expected_qty = (int) round( $eval_value );
+			return apply_filters( 'pewc_validate_qty_calculation_expected', $expected_qty, $cart_item, $field_id );
+		}
+	}
+
+	return false;
+}
+
+/**
+ * Lock the Store API quantity limits for items controlled by a qty calculation field.
+ * Sets min=max=current_qty so the Store API rejects any change request.
+ * Falls back to the formula-evaluated quantity when available.
+ * @since 4.3.7
+ */
+function pewc_store_api_qty_calculation_minimum( $value, $product, $cart_item ) {
+	if ( empty( $cart_item ) ) {
+		return $value;
+	}
+	$expected = pewc_get_qty_calculation_expected( $cart_item );
+	if ( false !== $expected ) {
+		return $expected;
+	}
+	// Formula couldn't be evaluated, but field is still qty-controlled: lock to current qty.
+	if ( pewc_cart_item_has_qty_calc_field( $cart_item ) && ! empty( $cart_item['quantity'] ) ) {
+		return (int) $cart_item['quantity'];
+	}
+	return $value;
+}
+add_filter( 'woocommerce_store_api_product_quantity_minimum', 'pewc_store_api_qty_calculation_minimum', 10, 3 );
+
+/**
+ * Lock the Store API maximum quantity to the formula result (or current qty as fallback).
+ * @since 4.3.7
+ */
+function pewc_store_api_qty_calculation_maximum( $value, $product, $cart_item ) {
+	if ( empty( $cart_item ) ) {
+		return $value;
+	}
+	$expected = pewc_get_qty_calculation_expected( $cart_item );
+	if ( false !== $expected ) {
+		return $expected;
+	}
+	if ( pewc_cart_item_has_qty_calc_field( $cart_item ) && ! empty( $cart_item['quantity'] ) ) {
+		return (int) $cart_item['quantity'];
+	}
+	return $value;
+}
+add_filter( 'woocommerce_store_api_product_quantity_maximum', 'pewc_store_api_qty_calculation_maximum', 10, 3 );
+
+/**
  * Evaluates a single calc field, recursive
  * To-do: ACF fields
  * Look Up Table - issue if one of the axis is referencing another calc field

@@ -141,7 +141,7 @@ class AdminManager
     public function brevo_hook_javascript_footer()
     {
         $is_checkout = is_checkout();
-        if (!$is_checkout) {
+        if ($is_checkout) {
             return;
         }
         $is_account_page = is_account_page();
@@ -192,6 +192,11 @@ class AdminManager
             !$settings[SendinblueClient::IS_PAGE_TRACKING_ENABLED] ||
             !$settings[SendinblueClient::MA_KEY]
         ) {
+            return;
+        }
+
+        $is_checkout = is_checkout();
+        if ($is_checkout) {
             return;
         }
 

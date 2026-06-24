@@ -57,7 +57,7 @@ function pewc_create_composite_image( $cart_item_data, $groups ) {
 		return $cart_item_data;
 	}
 
-	$swatch_urls = array();
+	$swatches = array();
 	$file_name = array();
 	$swatch_main_image = ''; // 3.25.6
 
@@ -86,14 +86,17 @@ function pewc_create_composite_image( $cart_item_data, $groups ) {
 					
 					$file_name[] = $field_id;
 					$file_name[] = sanitize_key( $field_value );
-					$swatch_urls[] = pewc_get_swatch_field_url( $field_value, $field );
+					$swatches[] = array(
+						'swatch_url'		=> pewc_get_swatch_field_url( $field_value, $field ),
+						'main_image_scale'	=> ! empty( $field['main_image_scale'] ) ? ( float ) $field['main_image_scale'] : 100,
+					);
 
 				}
 			}
 		}
 	}
 
-	if( ! $swatch_urls ) {
+	if( ! $swatches ) {
 		// If we don't have any layers, just return the data
 		return $cart_item_data;
 	}
@@ -105,8 +108,6 @@ function pewc_create_composite_image( $cart_item_data, $groups ) {
 	if ( ! is_a( $product, 'WC_Product' ) ) {
 		return $cart_item_data;
 	}
-
-	//$base_image_url = $base_image_url_orig = ! empty( $swatch_main_image ) ? $swatch_main_image : wp_get_attachment_url( $product->get_image_id() ); // 3.25.6
 
 	// 3.27.8, use selected variation image if it exists
 	$base_image_url_orig = '';
@@ -140,7 +141,6 @@ function pewc_create_composite_image( $cart_item_data, $groups ) {
 		return $cart_item_data;
 	}
 
-	//$base_image = new Imagick( $base_image );
 	// 3.21.4, sometimes Imagick returns "Failed to read file" so let's try and catch the error
 	try{
 		$base_image = new Imagick( $base_image_url );
@@ -159,9 +159,41 @@ function pewc_create_composite_image( $cart_item_data, $groups ) {
 	
 	$base_image->setImageVirtualPixelMethod(Imagick::VIRTUALPIXELMETHOD_TRANSPARENT);
 	$base_image->setImageArtifact('compose:args', "1,0,-0.5,0.5");
-	foreach( $swatch_urls as $swatch_url ) {
-		//$swatch = new Imagick( $swatch_url );
-		//$base_image->compositeImage($swatch, Imagick::COMPOSITE_MATHEMATICS, 0, 0);
+
+	// 4.3.8, for now, while we can only generate one composite image, use just one value
+	$base_image_scale = false;
+	foreach( $swatches as $swatch_data ) {
+
+		// 4.3.8, extract $swatch_url and $main_image_scale
+		extract( $swatch_data );
+
+		if ( false === $base_image_scale && ! empty( $main_image_scale ) && 100 > $main_image_scale && 0 < $main_image_scale ) {
+			// 4.3.8, scale the base image. Save the value so that this is only done once?
+			$base_image_scale = $main_image_scale;
+			// save the original base image's size
+			$orig_base_width = $base_image->getImageWidth();
+			$orig_base_height = $base_image->getImageHeight();
+			// scale image, scaleImage might be blurry so let's try resizeImage instead?
+			$resized_width = (int) ( $orig_base_width * ( $main_image_scale / 100 ) );
+			$resized_height = (int) ( $orig_base_height * ( $main_image_scale / 100 ) );
+			$base_image->resizeImage(
+				$resized_width,
+				$resized_height,
+				Imagick::FILTER_LANCZOS,
+				1
+			);
+			// now try to increase the image back, centering the image
+			// Calculate offset to center the image
+			$x = (int) ( ( $orig_base_width - $resized_width ) / 2 );
+			$y = (int) ( ( $orig_base_height - $resized_height ) / 2 );
+			// change to negative, but maybe use filter to allow customers to change
+			// see: https://www.php.net/manual/en/imagick.extentimage.php
+			$x = apply_filters( 'pewc_main_image_scale_x', -$x );
+			$y = apply_filters( 'pewc_main_image_scale_y', -$y );
+			// resize canvas
+			$base_image->extentImage( $orig_base_width, $orig_base_height, $x, $y );
+		}
+
 		// 3.21.4, try/catch method for swatch images
 		$swatch_url_orig = $swatch_url;
 		$swatch_url = apply_filters( 'pewc_swatch_layer_swatch_url', $swatch_url ); // allow users to change url to absolute path
@@ -186,11 +218,21 @@ function pewc_create_composite_image( $cart_item_data, $groups ) {
 		}
 		if ( $swatch ) {
 			try {
-				$base_image->compositeImage($swatch, apply_filters( 'pewc_swatch_layer_composite_constant', Imagick::COMPOSITE_MATHEMATICS ), 0, 0); // 3.21.4, use Imagick::COMPOSITE_DEFAULT if layered image appears black
+				// 4.3.8, resize swatch to match the base image
+				if ( pewc_resize_swatch_layer() ) {
+					$swatch->resizeImage(
+						$base_image->getImageWidth(),
+						$base_image->getImageHeight(),
+						Imagick::FILTER_LANCZOS,
+						1
+					);
+				}
+				$base_image->compositeImage( $swatch, apply_filters( 'pewc_swatch_layer_composite_constant', Imagick::COMPOSITE_MATHEMATICS ), 0, 0 ); // 3.21.4, use Imagick::COMPOSITE_DEFAULT if layered image appears black
 			} catch ( Exception $e ) {
 				pewc_error_log('AOU: error generating composite image for swatch: '.$e->getMessage().', '.$swatch_url);
 			}
 		}
+
 	}
 
 	$layer_dir = $upload_dir . trailingslashit( pewc_get_upload_subdirs() );
@@ -215,3 +257,12 @@ function pewc_create_composite_image( $cart_item_data, $groups ) {
 
 }
 add_filter( 'pewc_after_add_cart_item_data', 'pewc_create_composite_image', 10, 2 );
+
+/**
+ * Resize swatch layer to match the size of the base image?
+ * @since 4.3.8
+ */
+function pewc_resize_swatch_layer() {
+	$resize = get_option( 'pewc_resize_swatch_layer', 'no' );
+	return 'yes' === $resize ? true : false;
+}

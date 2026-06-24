@@ -79,7 +79,7 @@ add_action( 'woocommerce_blocks_loaded', 'pewc_wc_blocks_endpoints' );
 /**
  * Callback function to register endpoint data for blocks, used in cart page
  * @since	3.21.7
- * @version	aou-repeatable-conditions-upload
+ * @version	4.3.8
  */
 function pewc_item_data_callback( $cart_item ) {
 
@@ -99,7 +99,7 @@ function pewc_item_data_callback( $cart_item ) {
 
 		$uploaded_files = array();
 
-		// aou-repeatable-conditions-upload, build the array to include cloned groups if they exist
+		// 4.2.0, build the array to include cloned groups if they exist
 		$all_groups = pewc_rebuild_cart_item_data( $cart_item['product_extras'] );
 
 		//foreach ( $cart_item['product_extras']['groups'] as $group_id => $fields )
@@ -127,7 +127,7 @@ function pewc_item_data_callback( $cart_item ) {
 								// convert label to a string that we can match on the frontend. Not sure yet how WooCommerce converts the strings
 								$label_key = 'pewc-upload-' . $field_id; // this matches the className data in pewc_get_item_data
 								if ( pewc_is_cloned_field( $field['id'] ) ) {
-									// aou-repeatable-conditions-upload, this is a cloned Upload field, add an extra identifier so that we can add the correct uploaded images in Cart and Checkout blocks
+									// 4.2.0, this is a cloned Upload field, add an extra identifier so that we can add the correct uploaded images in Cart and Checkout blocks
 									$clone_index = pewc_get_repeatable_index_from_field_id( $field['id'] );
 									$label_key .= '-cloned-' . $clone_index;
 								}
@@ -161,7 +161,8 @@ function pewc_item_data_callback( $cart_item ) {
 		if ( 'yes' === get_option( 'pewc_hide_parent_products_cart', 'no' ) ) {
 			$pewc_data['key'] .= ' ' . 'pewc-hidden-parent-product';
 		} else if ( 'yes' === get_option( 'pewc_hide_child_products_cart', 'no' ) ) {
-			// child products are hidden, do we want to update the parent's totals?
+			// 4.3.8, child products are hidden, update the parent's totals?
+			$pewc_data['parent_plus_children_price'] = pewc_cart_item_price_adjust( wc_price( $cart_item['data']->get_price() ), $cart_item, $cart_item['key'] );
 		}
 	}
 
@@ -171,18 +172,31 @@ function pewc_item_data_callback( $cart_item ) {
 
 /**
  * Callback function to register schema for data, used in cart page
- * @since 3.21.7
+ * @since	3.21.7
+ * @version	4.3.9
  */
 function pewc_item_schema_callback() {
 
 	return array(
-		'properties' => array(
-			'key' => array(
-				'type' => 'string',
-			),
-			'uploaded_files' => array(
-				'type' => 'array',
-			)
+		'key' => array(
+			'description' => __( 'Cart item key', 'pewc' ),
+			'type'        => 'string',
+		),
+		'edit_html' => array(
+			'description' => __( 'Edit options link HTML', 'pewc' ),
+			'type'        => 'string',
+		),
+		'uploaded_files' => array(
+			'description' => __( 'Uploaded file data keyed by field', 'pewc' ),
+			'type'        => 'object',
+		),
+		'arrow_right' => array(
+			'description' => __( 'Arrow right icon URL', 'pewc' ),
+			'type'        => 'string',
+		),
+		'parent_plus_children_price' => array(
+			'description' => __( 'Combined parent and child product price', 'pewc' ),
+			'type'        => 'string',
 		),
 	);
 

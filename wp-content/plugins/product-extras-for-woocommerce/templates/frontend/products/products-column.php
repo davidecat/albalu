@@ -164,12 +164,56 @@ $selected_variations = apply_filters( 'pewc_products_column_selected_variations'
 
 		$max = '';
 		$first_variant_id = false; // 3.26.11, used for the quantity field
+		$show_attributes_select = false; // aou-products-column-new
 
 		if( $child_product->get_type() == 'variable' ) {
 
 			$variants = apply_filters( 'pewc_product_column_variants', $child_product->get_children(), $child_product, $item );
 
-			if( $variants ) {
+			if( $variants && pewc_product_column_show_attributes_select( $item, $child_product ) ) {
+
+				// aou-products-column-new, display attributes in their own Select fields
+				$show_attributes_select = true;
+				$attributes = $child_product->get_variation_attributes();
+				$available_variations = $child_product->get_available_variations();
+
+				if ( empty( $available_variations ) && false !== $available_variations ) {
+					continue; // skip this child product
+				}
+
+				$variant_wrapper = '<table class="pewc-product-column-attributes" cellspacing="0" role="presentation">
+					<tbody>';
+
+				foreach ( $attributes as $attribute_name => $options ) {
+					$variant_wrapper .= '
+						<tr>
+							<th class="label"><label for="' . esc_attr( sanitize_title( $attribute_name ) ) .'">' . wc_attribute_label( $attribute_name ) . '</label></th>
+							<td class="value">';
+					ob_start();
+					wc_dropdown_variation_attribute_options(
+						array(
+							'options'   => $options,
+							'attribute' => $attribute_name,
+							'product'   => $child_product,
+							'name'		=> $item['id'] . '_' . $child_product_id . '_attribute_' . sanitize_title( $attribute_name ),
+							'id'		=> $item['id'] . '_' . $child_product_id . '_' . sanitize_title( $attribute_name ),
+							'class'		=> 'pewc-product-column-attribute', //$item['id'] . '_' . $child_product_id . '_attribute',
+						)
+					);
+					$variant_wrapper .= ob_get_clean();
+					$variant_wrapper .= '
+							</td>
+						</tr>';
+				} // end foreach $attributes
+
+				$variant_wrapper .= '
+					</tbody>
+				</table>
+				<a class="pewc_reset_variations" href="#"><span class="dashicons dashicons-update"></span> ' . __( 'Clear', 'woocommerce' ).'</a>
+				<input type="hidden" name="pewc_child_variants_' . $item['id'] . '_' . $child_product_id .'" value="">';
+				$wrapper_classes[] = 'pewc-variable-child-product-wrapper';
+
+			} else if ( $variants ) {
 
 				$available_variations = $child_product->get_available_variations();
 
@@ -383,8 +427,20 @@ $selected_variations = apply_filters( 'pewc_products_column_selected_variations'
 			__( 'Remove', 'pewc' )
 		);
 
+		// aou-products-column-new, use a variable for the variants wrapper class
+		$variant_wrapper_class = array( 'pewc-column-variants-wrapper' );
+		if ( $show_attributes_select ) {
+			$variant_wrapper_class[] = 'pewc-column-attributes-select';
+		}
+
 	  $checkbox = sprintf(
-	    '<div class="%s" data-option-id="%s" data-manage-stock="%s"><label for="%s"><input data-option-cost="%s" %s data-field-label="%s" type="checkbox" name="%s[]" id="%s" class="pewc-checkbox-form-field pewc-column-form-field" value="%s" %s %s>%s</label><div class="pewc-checkbox-desc-wrapper">%s%s%s<div class="pewc-column-variants-wrapper">%s</div>%s<p class="pewc-column-add-wrapper">%s</p></div></div>',
+	    '<div class="%s" data-option-id="%s" data-manage-stock="%s">
+			<label for="%s"><input data-option-cost="%s" %s data-field-label="%s" type="checkbox" name="%s[]" id="%s" class="pewc-checkbox-form-field pewc-column-form-field" value="%s" %s %s>%s</label>
+			<div class="pewc-checkbox-desc-wrapper">%s%s%s
+				<div class="%s">%s</div>%s
+				<p class="pewc-column-add-wrapper">%s</p>
+			</div>
+		</div>',
 			join( ' ', $wrapper_classes ),
 			esc_attr( $checkbox_id ),
 			$manage_stock,
@@ -401,6 +457,7 @@ $selected_variations = apply_filters( 'pewc_products_column_selected_variations'
 			apply_filters( 'pewc_child_product_name', $name, $item, $available_stock, $child_product ),
 			$price,
 			apply_filters( 'pewc_child_product_excerpt', $excerpt, $item, $available_stock, $child_product ),
+			implode( ' ', $variant_wrapper_class ),
 			$variant_wrapper,
 			$description,
 			$add_button

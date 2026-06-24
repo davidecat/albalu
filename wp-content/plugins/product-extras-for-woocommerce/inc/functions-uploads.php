@@ -258,11 +258,19 @@ function pewc_ajax_upload_script( $id, $field, $multiply_price ) {
 								$( 'body' ).trigger( 'pewc_check_conditions' );
 								$( 'body' ).trigger( 'pewc_trigger_calculations' );
 								$( 'body' ).trigger( 'pewc_image_removed', [ '<?php echo esc_attr( $id ); ?>' ]);
-							}
+							},
+							error: function( xhr, statusText, errorThrown ) {
+								// aou-improvements-4.3.5, when remove fails. File is removed from Dropzone anyway but not on the server, fail silently for now?
+								$( '.dropzone.dz-clickable' ).unblock();
+							},
 						});
 					});
-					this.on( 'error', function( file, response ) {
-						console.log( 'error' );
+					this.on( 'error', function( file, response, xhr ) {
+						// aou-improvements-4.3.5, when upload fails
+						var message = ( response && response.data ) ? response.data : response;
+						var errorEl = file.previewElement.querySelector('[data-dz-errormessage]');
+    					if ( errorEl ) errorEl.textContent = message;
+						$( '.dropzone.dz-clickable' ).unblock();
 					});
 
 				},
@@ -474,8 +482,6 @@ function pewc_ajax_upload_script_repeatable( $id, $field, $multiply_price ) {
 									}
 								}
 
-								
-
 							}
 						}
 
@@ -579,11 +585,19 @@ function pewc_ajax_upload_script_repeatable( $id, $field, $multiply_price ) {
 								$( 'body' ).trigger( 'pewc_check_conditions' );
 								$( 'body' ).trigger( 'pewc_trigger_calculations' );
 								$( 'body' ).trigger( 'pewc_image_removed', [ pewc_id ]);
-							}
+							},
+							error: function( xhr, statusText, errorThrown ) {
+								// aou-improvements-4.3.5, when remove fails. File is removed from Dropzone anyway but not on the server, fail silently for now?
+								$( '.dropzone.dz-clickable' ).unblock();
+							},
 						});
 					});
 					this.on( 'error', function( file, response ) {
-						console.log( 'error' );
+						// aou-improvements-4.3.5, when upload fails
+						var message = ( response && response.data ) ? response.data : response;
+						var errorEl = file.previewElement.querySelector('[data-dz-errormessage]');
+    					if ( errorEl ) errorEl.textContent = message;
+						$( '.dropzone.dz-clickable' ).unblock();
 					});
 
 				},

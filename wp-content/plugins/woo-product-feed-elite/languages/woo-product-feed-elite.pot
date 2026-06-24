@@ -1,0 +1,1179 @@
+# Copyright (C) 2026 AdTribes.io
+# This file is distributed under the same license as the Product Feed ELITE for WooCommerce plugin.
+msgid ""
+msgstr ""
+"Project-Id-Version: Product Feed ELITE for WooCommerce 5.0.8\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/woo-product-feed-elite\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-06-09T04:45:39+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.12.0\n"
+"X-Domain: woo-product-feed-elite\n"
+
+#. Plugin Name of the plugin
+#: woocommerce-sea.php
+#: includes/Classes/Shipping_Data.php:311
+msgid "Product Feed ELITE for WooCommerce"
+msgstr ""
+
+#. Plugin URI of the plugin
+#: woocommerce-sea.php
+msgid "https://adtribes.io/support/?utm_source=wpadmin&utm_medium=plugin&utm_campaign=woosea_product_feed_pro"
+msgstr ""
+
+#. Description of the plugin
+#: woocommerce-sea.php
+msgid "Configure and maintain your WooCommerce product feeds for Google Shopping, Facebook, Remarketing, Bing, Yandex, Comparison shopping websites and over a 100 channels more."
+msgstr ""
+
+#. Author of the plugin
+#: woocommerce-sea.php
+msgid "AdTribes.io"
+msgstr ""
+
+#. Author URI of the plugin
+#: woocommerce-sea.php
+msgid "https://adtribes.io"
+msgstr ""
+
+#. translators: %1$s = opening <strong> tag; %2$s = closing </strong> tag; %3$s = opening <p> tag; %4$s = closing </p> tag
+#: bootstrap/app.php:133
+#, php-format
+msgid "%3$s%1$sProduct Feed Elite for WooCommerce %2$splugin missing dependency.%4$s"
+msgstr ""
+
+#. translators: %1$s = required version of the plugin; %2$s = current version of the plugin
+#: bootstrap/app.php:154
+#, php-format
+msgid "%1$sPlease update the following plugin(s) to the required version:%2$s"
+msgstr ""
+
+#: bootstrap/app.php:225
+msgid "The class does not have a run method. Please make sure to extend the Abstract_Class class."
+msgstr ""
+
+#: includes/autoload.php:64
+#: includes/autoload.php:84
+msgid "Please contact support if this issue persists."
+msgstr ""
+
+#. translators: %s: addon product name
+#: includes/Classes/Addon_Manager.php:236
+#, php-format
+msgid "%s Available"
+msgstr ""
+
+#. translators: 1: addon name, 2: version
+#: includes/Classes/Addon_Manager.php:241
+#, php-format
+msgid "Your license includes %1$s (v%2$s). Install it now to unlock additional features."
+msgstr ""
+
+#: includes/Classes/Addon_Manager.php:253
+msgid "Install Now"
+msgstr ""
+
+#: includes/Classes/Addon_Manager.php:346
+msgid "Security check failed."
+msgstr ""
+
+#: includes/Classes/Addon_Manager.php:350
+msgid "Insufficient permissions."
+msgstr ""
+
+#: includes/Classes/Addon_Manager.php:355
+msgid "Missing addon identifier."
+msgstr ""
+
+#: includes/Classes/Addon_Manager.php:369
+msgid "Missing license key."
+msgstr ""
+
+#: includes/Classes/Addon_Manager.php:399
+msgid "Failed to retrieve addon download URL."
+msgstr ""
+
+#: includes/Classes/Addon_Manager.php:423
+msgid "Addon installed and activated successfully."
+msgstr ""
+
+#: includes/Classes/Addon_Manager.php:478
+msgid "Plugin installation failed."
+msgstr ""
+
+#: includes/Classes/Addon_Manager.php:483
+msgid "Could not determine installed plugin file."
+msgstr ""
+
+#: includes/Classes/Addon_Manager.php:519
+msgid "Could not create temporary file."
+msgstr ""
+
+#. translators: %d: HTTP status code
+#: includes/Classes/Addon_Manager.php:547
+#, php-format
+msgid "Addon download failed (HTTP %d)."
+msgstr ""
+
+#: includes/Classes/Admin_Pages/Settings_Page.php:40
+msgid "Extra fields"
+msgstr ""
+
+#: includes/Classes/Admin_Pages/Settings_Page.php:41
+msgid "Attribute settings"
+msgstr ""
+
+#: includes/Classes/Admin_Pages/Settings_Page.php:75
+msgid "Increase the number of products that will be approved in Google's Merchant Center: <br />This option will fix WooCommerce's (JSON-LD) structured data bug and add extra structured data elements to your pages."
+msgstr ""
+
+#: includes/Classes/Admin_Pages/Settings_Page.php:81
+msgid "Exclude TAX from structured data prices"
+msgstr ""
+
+#: includes/Classes/Admin_Pages/Settings_Page.php:86
+msgid "Enable Product data manipulation feature:"
+msgstr ""
+
+#: includes/Classes/Admin_Pages/Settings_Page.php:92
+msgid "Enable WPML support:"
+msgstr ""
+
+#: includes/Classes/Admin_Pages/Settings_Page.php:98
+msgid "Enable Aelia Currency Switcher support:"
+msgstr ""
+
+#: includes/Classes/Admin_Pages/Settings_Page.php:104
+msgid "Enable Curcy Currency Switcher support:"
+msgstr ""
+
+#: includes/Classes/Admin_Pages/Settings_Page.php:110
+msgid "Enable Polylang support:"
+msgstr ""
+
+#: includes/Classes/Admin_Pages/Settings_Page.php:116
+msgid "Enable TranslatePress support:"
+msgstr ""
+
+#: includes/Classes/Admin_Pages/Settings_Page.php:127
+msgid "Enable Facebook Conversion API:"
+msgstr ""
+
+#: includes/Classes/Admin_Pages/Settings_Page.php:133
+msgid "Insert your Facebook Conversion API token:"
+msgstr ""
+
+#: includes/Classes/Custom_Refresh_Interval.php:66
+#: templates/manage-feeds/custom-refresh-interval-label.php:31
+msgid "Custom"
+msgstr ""
+
+#: includes/Classes/Export_Import_Tools.php:34
+msgid "No file uploaded. Please select a file to import."
+msgstr ""
+
+#: includes/Classes/Export_Import_Tools.php:45
+msgid "Invalid file type. Please upload a JSON file."
+msgstr ""
+
+#: includes/Classes/Export_Import_Tools.php:51
+msgid "File too large. Maximum file size is 10MB."
+msgstr ""
+
+#: includes/Classes/Export_Import_Tools.php:63
+msgid "Failed to read the uploaded file."
+msgstr ""
+
+#: includes/Classes/Export_Import_Tools.php:68
+msgid "Invalid JSON file. Please check the file format."
+msgstr ""
+
+#: includes/Classes/Export_Import_Tools.php:73
+msgid "Invalid export file format. Missing feeds data."
+msgstr ""
+
+#. translators: %d: number of feeds imported
+#: includes/Classes/Export_Import_Tools.php:107
+#, php-format
+msgid "%d feed imported successfully"
+msgid_plural "%d feeds imported successfully"
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: %d: number of feeds updated
+#: includes/Classes/Export_Import_Tools.php:114
+#, php-format
+msgid "%d feed updated successfully"
+msgid_plural "%d feeds updated successfully"
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: %d: number of feeds skipped
+#: includes/Classes/Export_Import_Tools.php:121
+#, php-format
+msgid "%d feed skipped (already exists)"
+msgid_plural "%d feeds skipped (already exist)"
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: %d: number of feeds with errors
+#: includes/Classes/Export_Import_Tools.php:128
+#, php-format
+msgid "%d feed had errors"
+msgid_plural "%d feeds had errors"
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/Classes/Export_Import_Tools.php:133
+msgid "Import completed."
+msgstr ""
+
+#. translators: %s: error message
+#: includes/Classes/Export_Import_Tools.php:150
+#, php-format
+msgid "Import failed: %s"
+msgstr ""
+
+#: includes/Classes/Export_Import_Tools.php:176
+msgid "Feed title is missing."
+msgstr ""
+
+#. translators: %s: feed title
+#: includes/Classes/Export_Import_Tools.php:193
+#, php-format
+msgid "Feed \"%s\" already exists (same project hash)."
+msgstr ""
+
+#. translators: %s: error message
+#: includes/Classes/Export_Import_Tools.php:282
+#, php-format
+msgid "Failed to save feed: %s"
+msgstr ""
+
+#. translators: %s: feed title
+#: includes/Classes/Export_Import_Tools.php:294
+#, php-format
+msgid "Feed \"%s\" updated successfully."
+msgstr ""
+
+#. translators: %s: feed title
+#: includes/Classes/Export_Import_Tools.php:296
+#, php-format
+msgid "Feed \"%s\" imported successfully."
+msgstr ""
+
+#. translators: %s: error message
+#: includes/Classes/Export_Import_Tools.php:310
+#, php-format
+msgid "Failed to import feed: %s"
+msgstr ""
+
+#: includes/Classes/Extra_Attributes.php:66
+msgid "General"
+msgstr ""
+
+#: includes/Classes/Extra_Attributes.php:67
+msgid "Enable or disable general fields for the product."
+msgstr ""
+
+#: includes/Classes/Extra_Attributes.php:72
+msgid "Brand"
+msgstr ""
+
+#: includes/Classes/Extra_Attributes.php:73
+msgid "Enter the product Brand here."
+msgstr ""
+
+#: includes/Classes/Extra_Attributes.php:78
+msgid "GTIN"
+msgstr ""
+
+#: includes/Classes/Extra_Attributes.php:79
+msgid "Enter the product Global Trade Item Number (GTIN) here."
+msgstr ""
+
+#: includes/Classes/Extra_Attributes.php:84
+msgid "MPN"
+msgstr ""
+
+#: includes/Classes/Extra_Attributes.php:85
+msgid "Enter the manufacturer product number"
+msgstr ""
+
+#: includes/Classes/Extra_Attributes.php:90
+msgid "UPC"
+msgstr ""
+
+#: includes/Classes/Extra_Attributes.php:91
+msgid "Enter the Universal Product Code (UPC) here."
+msgstr ""
+
+#: includes/Classes/Extra_Attributes.php:96
+msgid "EAN"
+msgstr ""
+
+#: includes/Classes/Extra_Attributes.php:97
+msgid "Enter the International Article Number (EAN) here."
+msgstr ""
+
+#: includes/Classes/Extra_Attributes.php:102
+msgid "Optimized title"
+msgstr ""
+
+#: includes/Classes/Extra_Attributes.php:103
+msgid "Enter a optimized product title."
+msgstr ""
+
+#: includes/Classes/Extra_Attributes.php:108
+msgid "Product condition"
+msgstr ""
+
+#: includes/Classes/Extra_Attributes.php:109
+msgid "Select the product condition."
+msgstr ""
+
+#: includes/Classes/Extra_Attributes.php:112
+msgid "new"
+msgstr ""
+
+#: includes/Classes/Extra_Attributes.php:113
+msgid "refurbished"
+msgstr ""
+
+#: includes/Classes/Extra_Attributes.php:114
+msgid "used"
+msgstr ""
+
+#: includes/Classes/Extra_Attributes.php:115
+msgid "damaged"
+msgstr ""
+
+#: includes/Classes/Extra_Attributes.php:121
+msgid "Color"
+msgstr ""
+
+#: includes/Classes/Extra_Attributes.php:122
+msgid "Insert a color."
+msgstr ""
+
+#: includes/Classes/Extra_Attributes.php:127
+msgid "Size"
+msgstr ""
+
+#: includes/Classes/Extra_Attributes.php:128
+msgid "Insert a size."
+msgstr ""
+
+#: includes/Classes/Extra_Attributes.php:133
+msgid "Gender"
+msgstr ""
+
+#: includes/Classes/Extra_Attributes.php:134
+msgid "Select gender."
+msgstr ""
+
+#: includes/Classes/Extra_Attributes.php:137
+msgid "female"
+msgstr ""
+
+#: includes/Classes/Extra_Attributes.php:138
+msgid "male"
+msgstr ""
+
+#: includes/Classes/Extra_Attributes.php:139
+msgid "unisex"
+msgstr ""
+
+#: includes/Classes/Extra_Attributes.php:145
+msgid "Material"
+msgstr ""
+
+#: includes/Classes/Extra_Attributes.php:146
+msgid "Enter a material."
+msgstr ""
+
+#: includes/Classes/Extra_Attributes.php:151
+msgid "Pattern"
+msgstr ""
+
+#: includes/Classes/Extra_Attributes.php:152
+msgid "Enter a pattern."
+msgstr ""
+
+#: includes/Classes/Extra_Attributes.php:157
+msgid "Age group"
+msgstr ""
+
+#: includes/Classes/Extra_Attributes.php:158
+msgid "Select the product age group."
+msgstr ""
+
+#: includes/Classes/Extra_Attributes.php:161
+msgid "newborn"
+msgstr ""
+
+#: includes/Classes/Extra_Attributes.php:162
+msgid "infant"
+msgstr ""
+
+#: includes/Classes/Extra_Attributes.php:163
+msgid "toddler"
+msgstr ""
+
+#: includes/Classes/Extra_Attributes.php:164
+msgid "kids"
+msgstr ""
+
+#: includes/Classes/Extra_Attributes.php:165
+msgid "adult"
+msgstr ""
+
+#: includes/Classes/Extra_Attributes.php:171
+msgid "Unit pricing measure"
+msgstr ""
+
+#: includes/Classes/Extra_Attributes.php:172
+msgid "Enter an unit pricing measure."
+msgstr ""
+
+#: includes/Classes/Extra_Attributes.php:177
+msgid "Unit pricing base measure"
+msgstr ""
+
+#: includes/Classes/Extra_Attributes.php:178
+msgid "Enter an unit pricing base measure."
+msgstr ""
+
+#: includes/Classes/Extra_Attributes.php:183
+msgid "Installment months"
+msgstr ""
+
+#: includes/Classes/Extra_Attributes.php:184
+msgid "Enter the number of monthly installments the buyer has to pay."
+msgstr ""
+
+#: includes/Classes/Extra_Attributes.php:189
+msgid "Installment amount"
+msgstr ""
+
+#: includes/Classes/Extra_Attributes.php:190
+msgid "Enter the amount the buyer has to pay per month."
+msgstr ""
+
+#: includes/Classes/Extra_Attributes.php:195
+msgid "Cost of goods sold"
+msgstr ""
+
+#: includes/Classes/Extra_Attributes.php:196
+msgid "Enter the cost of good you are selling."
+msgstr ""
+
+#: includes/Classes/Extra_Attributes.php:201
+msgid "Maximum retail price"
+msgstr ""
+
+#: includes/Classes/Extra_Attributes.php:202
+msgid "Enter the manufacturer's suggested retail price (MRP). Used by Google Shopping for the maximum_retail_price attribute (India only). Must match your landing page price."
+msgstr ""
+
+#: includes/Classes/Extra_Attributes.php:207
+msgid "Multipack"
+msgstr ""
+
+#: includes/Classes/Extra_Attributes.php:208
+msgid "Enter the multipack amount."
+msgstr ""
+
+#: includes/Classes/Extra_Attributes.php:213
+msgid "Is bundle"
+msgstr ""
+
+#: includes/Classes/Extra_Attributes.php:214
+msgid "Select the is bundle value."
+msgstr ""
+
+#: includes/Classes/Extra_Attributes.php:217
+msgid "yes"
+msgstr ""
+
+#: includes/Classes/Extra_Attributes.php:218
+msgid "no"
+msgstr ""
+
+#: includes/Classes/Extra_Attributes.php:224
+msgid "Energy efficiency class"
+msgstr ""
+
+#: includes/Classes/Extra_Attributes.php:225
+msgid "Select the product energy efficiency class."
+msgstr ""
+
+#: includes/Classes/Extra_Attributes.php:231
+msgid "Minimum energy efficiency class"
+msgstr ""
+
+#: includes/Classes/Extra_Attributes.php:232
+msgid "Select the minimum product energy efficiency class."
+msgstr ""
+
+#: includes/Classes/Extra_Attributes.php:238
+msgid "Maximum energy efficiency class"
+msgstr ""
+
+#: includes/Classes/Extra_Attributes.php:239
+msgid "Select the maximum product energy efficiency class."
+msgstr ""
+
+#: includes/Classes/Extra_Attributes.php:245
+msgid "Is promotion"
+msgstr ""
+
+#: includes/Classes/Extra_Attributes.php:246
+msgid "Enter your promotion ID."
+msgstr ""
+
+#: includes/Classes/Extra_Attributes.php:253
+msgid "Video"
+msgstr ""
+
+#: includes/Classes/Extra_Attributes.php:254
+msgid "Click to select video(s) from the media library."
+msgstr ""
+
+#: includes/Classes/Extra_Attributes.php:259
+msgid "Video URL"
+msgstr ""
+
+#. translators: %s: line break tag
+#: includes/Classes/Extra_Attributes.php:262
+#, php-format
+msgid "Enter the video URL(s) here.%sOne URL per line. Up to 20 lines."
+msgstr ""
+
+#: includes/Classes/Extra_Attributes.php:269
+msgid "Custom field 0"
+msgstr ""
+
+#: includes/Classes/Extra_Attributes.php:270
+msgid "Enter your custom field 0"
+msgstr ""
+
+#: includes/Classes/Extra_Attributes.php:275
+msgid "Custom field 1"
+msgstr ""
+
+#: includes/Classes/Extra_Attributes.php:276
+msgid "Enter your custom field 1"
+msgstr ""
+
+#: includes/Classes/Extra_Attributes.php:281
+msgid "Custom field 2"
+msgstr ""
+
+#: includes/Classes/Extra_Attributes.php:282
+msgid "Enter your custom field 2"
+msgstr ""
+
+#: includes/Classes/Extra_Attributes.php:287
+msgid "Custom field 3"
+msgstr ""
+
+#: includes/Classes/Extra_Attributes.php:288
+msgid "Enter your custom field 3"
+msgstr ""
+
+#: includes/Classes/Extra_Attributes.php:293
+msgid "Custom field 4"
+msgstr ""
+
+#: includes/Classes/Extra_Attributes.php:294
+msgid "Enter your custom field 4"
+msgstr ""
+
+#: includes/Classes/Extra_Attributes.php:299
+msgid "Shipping"
+msgstr ""
+
+#: includes/Classes/Extra_Attributes.php:300
+msgid "Configure shipping handling times for this product. Falls back to shipping class settings if empty."
+msgstr ""
+
+#: includes/Classes/Extra_Attributes.php:306
+msgid "Min Handling Time (days)"
+msgstr ""
+
+#: includes/Classes/Extra_Attributes.php:307
+msgid "Minimum time between order and shipment. Leave empty to use shipping class default."
+msgstr ""
+
+#: includes/Classes/Extra_Attributes.php:312
+msgid "Max Handling Time (days)"
+msgstr ""
+
+#: includes/Classes/Extra_Attributes.php:313
+msgid "Maximum time between order and shipment. Leave empty to use shipping class default."
+msgstr ""
+
+#: includes/Classes/Extra_Attributes.php:318
+msgid "OpenAI Flags"
+msgstr ""
+
+#: includes/Classes/Extra_Attributes.php:319
+msgid "Enable or disable OpenAI flags for the product."
+msgstr ""
+
+#: includes/Classes/Extra_Attributes.php:324
+#: includes/Classes/Extra_Attributes.php:325
+msgid "Enable search"
+msgstr ""
+
+#: includes/Classes/Extra_Attributes.php:331
+#: includes/Classes/Extra_Attributes.php:332
+msgid "Enable checkout"
+msgstr ""
+
+#: includes/Classes/Extra_Attributes.php:433
+#: includes/Classes/Extra_Attributes.php:563
+msgid "Exclude from feeds"
+msgstr ""
+
+#: includes/Classes/Extra_Attributes.php:435
+#: includes/Classes/Extra_Attributes.php:565
+msgid "Check this box if you want this product to be excluded from product feeds."
+msgstr ""
+
+#: includes/Classes/Extra_Attributes.php:539
+msgid "CUSTOM FIELDS (Product Feed ELITE for WooCommerce)"
+msgstr ""
+
+#: includes/Classes/Extra_Attributes.php:562
+msgid "&nbsp;Exclude from feeds"
+msgstr ""
+
+#: includes/Classes/Extra_Attributes.php:717
+msgid "You do not have permission to perform this action."
+msgstr ""
+
+#: includes/Classes/Extra_Attributes.php:729
+msgid "Invalid attribute data."
+msgstr ""
+
+#. translators: 1: Attribute name, 2: Attribute status
+#: includes/Classes/Extra_Attributes.php:752
+#, php-format
+msgid "Attribute %1$s: %2$s."
+msgstr ""
+
+#. translators: 1: Attribute name, 2: Attribute status
+#: includes/Classes/Extra_Attributes.php:752
+msgid "Enabled"
+msgstr ""
+
+#. translators: 1: Attribute name, 2: Attribute status
+#: includes/Classes/Extra_Attributes.php:752
+msgid "Disabled"
+msgstr ""
+
+#: includes/Classes/Feed_Statistics.php:47
+msgid "View Statistics"
+msgstr ""
+
+#: includes/Classes/Feed_Statistics.php:87
+#: includes/Classes/Feed_Statistics.php:88
+msgid "Feed Statistics"
+msgstr ""
+
+#: includes/Classes/Feed_Statistics.php:124
+msgid "Number of products in feed"
+msgstr ""
+
+#: includes/Classes/License_Manager.php:144
+#: includes/Classes/License_Manager.php:145
+#: includes/Classes/WP_Admin.php:69
+#: includes/Classes/WP_Admin.php:71
+msgid "License"
+msgstr ""
+
+#: includes/Classes/License_Manager.php:145
+msgid "AdTribes License"
+msgstr ""
+
+#: includes/Classes/License_Manager.php:189
+#: includes/Classes/License_Manager.php:961
+msgid "Product Feed Elite"
+msgstr ""
+
+#: includes/Classes/License_Manager.php:231
+#: includes/Classes/License_Manager.php:263
+msgid "Inactive"
+msgstr ""
+
+#: includes/Classes/License_Manager.php:232
+#: includes/Classes/License_Manager.php:267
+msgid "Active"
+msgstr ""
+
+#: includes/Classes/License_Manager.php:233
+#: includes/Classes/License_Manager.php:271
+msgid "Expired"
+msgstr ""
+
+#: includes/Classes/License_Manager.php:329
+#: includes/Classes/License_Manager.php:864
+msgid "Invalid AJAX Operation"
+msgstr ""
+
+#: includes/Classes/License_Manager.php:334
+msgid "Required parameters not supplied"
+msgstr ""
+
+#: includes/Classes/License_Manager.php:339
+msgid "Security check failed"
+msgstr ""
+
+#: includes/Classes/License_Manager.php:374
+msgid "Failed to connect to license server. Please contact plugin support."
+msgstr ""
+
+#: includes/Classes/License_Manager.php:487
+msgid "Failed to activate license. Failed to connect to license server. Please contact plugin support."
+msgstr ""
+
+#: includes/Classes/Product_Data_Manipulation.php:50
+msgid "Data Manipulation"
+msgstr ""
+
+#: includes/Classes/Product_Data_Manipulation.php:230
+msgid "You do not have permission to manage product feed."
+msgstr ""
+
+#: includes/Classes/Product_Data_Manipulation.php:236
+msgid "No attributes found."
+msgstr ""
+
+#: includes/Classes/Product_Data_Manipulation.php:254
+msgid "No channel data found."
+msgstr ""
+
+#: includes/Classes/Product_Data_Manipulation.php:260
+msgid "Channel file not found."
+msgstr ""
+
+#: includes/Classes/Rules.php:52
+msgid "Feed output fields"
+msgstr ""
+
+#: includes/Classes/Rules.php:80
+msgid "Set Attribute"
+msgstr ""
+
+#: includes/Classes/Rules.php:82
+msgid "Exclude Attribute"
+msgstr ""
+
+#: includes/Classes/Shipping_Data.php:313
+msgid "Configure transit times for Google Merchant Center. Transit Time is how long shipping takes after the product leaves your warehouse. These values help calculate the total delivery time displayed to customers."
+msgstr ""
+
+#: includes/Classes/Shipping_Data.php:316
+msgid "Enter values in business days."
+msgstr ""
+
+#: includes/Classes/Shipping_Data.php:321
+msgid "Min Transit Time"
+msgstr ""
+
+#: includes/Classes/Shipping_Data.php:323
+msgid "Enter the minimum transit time in days."
+msgstr ""
+
+#: includes/Classes/Shipping_Data.php:326
+msgid "e.g. 5"
+msgstr ""
+
+#: includes/Classes/Shipping_Data.php:329
+msgid "Max Transit Time"
+msgstr ""
+
+#: includes/Classes/Shipping_Data.php:331
+msgid "Enter the maximum transit time in days."
+msgstr ""
+
+#: includes/Classes/Shipping_Data.php:334
+msgid "e.g. 8"
+msgstr ""
+
+#: includes/Classes/Shipping_Data.php:467
+msgid "Min Handling Time"
+msgstr ""
+
+#: includes/Classes/Shipping_Data.php:468
+msgid "Max Handling Time"
+msgstr ""
+
+#: includes/Classes/Shipping_Data.php:482
+msgid "e.g. 1"
+msgstr ""
+
+#: includes/Classes/Shipping_Data.php:483
+#: includes/Classes/Shipping_Data.php:499
+msgid "Product Feed ELITE for WooCommerce:"
+msgstr ""
+
+#: includes/Classes/Shipping_Data.php:483
+msgid "Minimum time in days between order and shipment for this shipping class"
+msgstr ""
+
+#: includes/Classes/Shipping_Data.php:498
+msgid "e.g. 3"
+msgstr ""
+
+#: includes/Classes/Shipping_Data.php:499
+msgid "Maximum time in days between order and shipment for this shipping class"
+msgstr ""
+
+#: includes/Classes/Translation_Migration.php:79
+msgid "Translation features are moving to a separate addon!"
+msgstr ""
+
+#: includes/Classes/Translation_Migration.php:80
+msgid "Translation support (WPML, Polylang, TranslatePress) will be moved to the Feed Translations Addon in an upcoming release."
+msgstr ""
+
+#: includes/Classes/Translation_Migration.php:87
+msgid "Learn More"
+msgstr ""
+
+#: includes/Classes/WP_Admin.php:73
+msgid "Support"
+msgstr ""
+
+#: includes/Classes/WP_Admin.php:74
+msgid "Tutorials"
+msgstr ""
+
+#: includes/Classes/WP_Admin.php:75
+msgid "Settings"
+msgstr ""
+
+#: includes/Classes/WP_Admin.php:80
+msgid "Premium Support"
+msgstr ""
+
+#: includes/Classes/WP_Admin.php:81
+msgid "Upgrade to Elite"
+msgstr ""
+
+#: includes/Classes/WP_Admin.php:105
+msgid "Product Feed Elite for WooCommerce"
+msgstr ""
+
+#. translators: %1$s = opening <a> tag; %2$s = closing </a> tag
+#: includes/Factories/Admin_Notice.php:142
+#, php-format
+msgid "%1$sPlease ensure you have the %3$s plugin installed and activated.%2$s%4$sClick here to activate &rarr;%5$s"
+msgstr ""
+
+#: includes/Factories/Admin_Notice.php:157
+msgid "Activate this plugin"
+msgstr ""
+
+#. translators: %1$s = opening <p> tag; %2$s = closing </p> tag; %3$s = Product Feed Pro for WooCommerce
+#: includes/Factories/Admin_Notice.php:165
+#, php-format
+msgid "%1$sUnable to activate %3$s plugin. Please install and activate WooCoomerce plugin first.%2$s"
+msgstr ""
+
+#. translators: %1$s = opening <p> tag; %2$s = closing </p> tag; %3$s = Product Feed Pro for WooCommerce
+#: includes/Factories/Admin_Notice.php:176
+#, php-format
+msgid "%1$s%3$sClick here to install %5$s plugin &rarr;%4$s%2$s"
+msgstr ""
+
+#: includes/Factories/Admin_Notice.php:190
+msgid "Install this plugin"
+msgstr ""
+
+#. translators: %1$s = opening <a> tag; %2$s = closing </a> tag
+#: includes/Factories/Admin_Notice.php:203
+#, php-format
+msgid "%1$s%3$s version needs to be on at least version %4$s to work properly with Product Feed Elite. %2$s%1$sPlease update by clicking below.%2$s%5$sUpdate plugin &rarr;%6$s"
+msgstr ""
+
+#: includes/Factories/Admin_Notice.php:219
+msgid "Update plugin"
+msgstr ""
+
+#: includes/Factories/Vite_App.php:434
+msgid "Manifest file not found. Did you run the build script from package.json file?"
+msgstr ""
+
+#: includes/Factories/Vite_App.php:663
+msgid "Sample Blocks"
+msgstr ""
+
+#: includes/Helpers/Formatting.php:85
+#: templates/edit-feed/custom-refresh-interval.php:21
+msgid "Hourly"
+msgstr ""
+
+#: includes/Helpers/Formatting.php:87
+#: templates/edit-feed/custom-refresh-interval.php:31
+msgid "Daily"
+msgstr ""
+
+#: includes/Helpers/Formatting.php:89
+#: templates/edit-feed/custom-refresh-interval.php:41
+msgid "Twice Daily"
+msgstr ""
+
+#: includes/Helpers/Formatting.php:91
+#: templates/edit-feed/custom-refresh-interval.php:51
+msgid "Weekly"
+msgstr ""
+
+#: includes/Helpers/Formatting.php:93
+#: templates/edit-feed/custom-refresh-interval.php:61
+msgid "Monthly"
+msgstr ""
+
+#: includes/Helpers/Formatting.php:95
+#: templates/edit-feed/custom-refresh-interval.php:71
+msgid "Yearly"
+msgstr ""
+
+#. Translators: %s is the number of hours.
+#: includes/Helpers/Formatting.php:98
+#, php-format
+msgid "Every %s Hours"
+msgstr ""
+
+#: includes/Helpers/Formatting.php:117
+msgid "Every Day"
+msgstr ""
+
+#: includes/Helpers/Formatting.php:121
+#: templates/edit-feed/custom-refresh-interval.php:108
+msgid "Monday"
+msgstr ""
+
+#: includes/Helpers/Formatting.php:122
+#: templates/edit-feed/custom-refresh-interval.php:118
+msgid "Tuesday"
+msgstr ""
+
+#: includes/Helpers/Formatting.php:123
+#: templates/edit-feed/custom-refresh-interval.php:128
+msgid "Wednesday"
+msgstr ""
+
+#: includes/Helpers/Formatting.php:124
+#: templates/edit-feed/custom-refresh-interval.php:138
+msgid "Thursday"
+msgstr ""
+
+#: includes/Helpers/Formatting.php:125
+#: templates/edit-feed/custom-refresh-interval.php:148
+msgid "Friday"
+msgstr ""
+
+#: includes/Helpers/Formatting.php:126
+#: templates/edit-feed/custom-refresh-interval.php:158
+msgid "Saturday"
+msgstr ""
+
+#: includes/Helpers/Formatting.php:127
+#: templates/edit-feed/custom-refresh-interval.php:168
+msgid "Sunday"
+msgstr ""
+
+#: templates/edit-feed/custom-refresh-interval.php:13
+msgid "Frequency"
+msgstr ""
+
+#: templates/edit-feed/custom-refresh-interval.php:82
+msgid "Every"
+msgstr ""
+
+#: templates/edit-feed/custom-refresh-interval.php:95
+msgid "hours"
+msgstr ""
+
+#: templates/edit-feed/custom-refresh-interval.php:99
+msgid "Days"
+msgstr ""
+
+#: templates/edit-feed/custom-refresh-interval.php:172
+msgid "Commence"
+msgstr ""
+
+#: templates/edit-feed/custom-refresh-interval.php:181
+msgid "From now"
+msgstr ""
+
+#: templates/edit-feed/custom-refresh-interval.php:192
+msgid "From"
+msgstr ""
+
+#: templates/edit-feed/custom-refresh-interval.php:207
+msgid "Local time is:"
+msgstr ""
+
+#. translators: %s = URL to blog post.
+#: templates/edit-feed/tabs/data-manipulation-tab.php:44
+#, php-format
+msgid ""
+"<p>Manipulate your product data to improve the quality of your product feeds and online marketing campaigns. Manipulating your product data is an extremely powerfull feature.</p>\n"
+"                <p>Check out an example we have created in our blog post: <b><u><a href=\"%s\" target=\"_blank\">Manipulating product data</a></u></b></p>"
+msgstr ""
+
+#: templates/edit-feed/tabs/data-manipulation-tab.php:67
+msgid "Product type"
+msgstr ""
+
+#: templates/edit-feed/tabs/data-manipulation-tab.php:68
+msgid "Field"
+msgstr ""
+
+#: templates/edit-feed/tabs/data-manipulation-tab.php:69
+msgid "Becomes"
+msgstr ""
+
+#: templates/edit-feed/tabs/data-manipulation-tab.php:172
+msgid "Remove this attribute"
+msgstr ""
+
+#: templates/edit-feed/tabs/data-manipulation-tab.php:198
+msgid "Delete"
+msgstr ""
+
+#: templates/edit-feed/tabs/data-manipulation-tab.php:199
+msgid "Add field manipulation"
+msgstr ""
+
+#: templates/edit-feed/tabs/data-manipulation-tab.php:200
+msgid "Save Changes"
+msgstr ""
+
+#: templates/feed-statistics-page.php:24
+msgid "Feed statistics"
+msgstr ""
+
+#: templates/feed-statistics-page.php:30
+msgid "The graph shows the amount of products in this product feed, measured after every scheduled and/or manually triggered refresh"
+msgstr ""
+
+#: templates/integrations/aelia-currency/aelia-currency-general-settings-currency-switcher-field.php:9
+msgid "Currency (Aelia):"
+msgstr ""
+
+#: templates/integrations/curcy/curcy-general-settings-currency-field.php:9
+msgid "Currency (CURCY):"
+msgstr ""
+
+#: templates/integrations/polylang/polylang-general-settings-language-field.php:8
+msgid "Polylang language:"
+msgstr ""
+
+#: templates/integrations/translatepress/translatepress-general-settings-language-field.php:8
+msgid "TranslatePress Language:"
+msgstr ""
+
+#: templates/integrations/wcml/wcml-general-settings-currency-field.php:9
+msgid "Currency (WCML):"
+msgstr ""
+
+#: templates/integrations/wpml/wpml-general-settings-language-field.php:8
+msgid "Language (WPML):"
+msgstr ""
+
+#: templates/license-page.php:10
+msgid "AdTribes"
+msgstr ""
+
+#: templates/license-page.php:12
+msgid "Enter your license keys below to enjoy full access, plugin updates, and support."
+msgstr ""
+
+#: templates/license-page.php:17
+msgid "Dismiss this notice."
+msgstr ""
+
+#: templates/license-settings.php:9
+msgid "Version: "
+msgstr ""
+
+#: templates/license-settings.php:11
+msgid "You are currently using AdTribes Product Feed Elite."
+msgstr ""
+
+#: templates/license-settings.php:14
+msgid "License Status: "
+msgstr ""
+
+#: templates/license-settings.php:18
+msgid "Renew Now"
+msgstr ""
+
+#: templates/license-settings.php:32
+#: templates/notices/activate-license-notice.php:15
+msgid "License Key"
+msgstr ""
+
+#: templates/license-settings.php:33
+#: templates/notices/activate-license-notice.php:16
+msgid "Enter your license key"
+msgstr ""
+
+#: templates/license-settings.php:38
+#: templates/notices/activate-license-notice.php:21
+msgid "Activation Email"
+msgstr ""
+
+#: templates/license-settings.php:39
+#: templates/notices/activate-license-notice.php:22
+msgid "Enter your email"
+msgstr ""
+
+#: templates/license-settings.php:43
+#: templates/notices/activate-license-notice.php:26
+msgid "Activate License"
+msgstr ""
+
+#: templates/license-settings.php:48
+#: templates/notices/activate-license-notice.php:31
+msgid "Can't find your license key?"
+msgstr ""
+
+#: templates/license-settings.php:48
+#: templates/notices/activate-license-notice.php:31
+msgid "Login to your account."
+msgstr ""
+
+#: templates/manage-feeds/custom-refresh-interval-label.php:14
+msgid "Schedule:"
+msgstr ""
+
+#: templates/manage-feeds/custom-refresh-interval-label.php:19
+msgid "Days:"
+msgstr ""
+
+#: templates/manage-feeds/custom-refresh-interval-label.php:25
+msgid "Commence:"
+msgstr ""
+
+#: templates/notices/activate-license-notice.php:9
+msgid "Enter your AdTribes Product Feed Elite license to fully activate the plugin, gain access to automatic updates, technical support, and premium features."
+msgstr ""
+
+#: templates/notices/failed-dependency-notice.php:82
+msgid "Action required"
+msgstr ""
+
+#: templates/settings/manage-attributes-tab.php:25
+msgid "Attribute name"
+msgstr ""

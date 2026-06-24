@@ -1,4 +1,6 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) exit;
+
 if ( ! class_exists( 'WOE_FPDF' ) ) {
 	require( 'class-woe-fpdf.php' );
 }
@@ -287,6 +289,7 @@ class WOE_PDF_MC_Table extends WOE_FPDF {
 			$y = $this->GetY();
 			//Draw the border
 			$this->Rect( $x, $y, $w, $h, $this->table_props['border_style'] );
+			do_action("woe_pdf_cell_style", $i, $data[$i], $this);
 
 			if ( $this->isImageCell($data[ $i ]) ) {
 				$margin       = 1 / 2;

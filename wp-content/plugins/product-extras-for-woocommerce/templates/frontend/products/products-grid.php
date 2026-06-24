@@ -1,7 +1,8 @@
 <?php
 /**
  * A products field template for a variations grid
- * @since 3.7.21
+ * @since	3.7.21
+ * @version	4.3.11
  * @package WooCommerce Product Add-Ons Ultimate
  */
 
@@ -77,8 +78,13 @@ $manage_stock = false; ?>
 
 		$available_variations = $child_product->get_available_variations();
 
-		$h_attribute_name = 'attribute_' . array_key_first( $attributes );
-		$v_attribute_name = 'attribute_' . array_key_last( $attributes );
+		// 4.3.11, store these values in a variable so that we can re-use them
+		$array_key_first_attributes = array_key_first( $attributes );
+		$array_key_last_attributes = array_key_last( $attributes );
+
+		// 4.3.11, added sanitize_title for local attributes
+		$h_attribute_name = 'attribute_' . sanitize_title( $array_key_first_attributes );
+		$v_attribute_name = 'attribute_' . sanitize_title( $array_key_last_attributes );
 		$h_attributes = current( $attributes );
 		$v_attributes = end( $attributes );
 
@@ -92,7 +98,7 @@ $manage_stock = false; ?>
 
 				foreach( $v_attributes as $term ) {
 
-					$term_obj = get_term_by( 'slug', $term, array_key_last( $attributes ) );
+					$term_obj = get_term_by( 'slug', $term, $array_key_last_attributes );
 					if ( ! is_wp_error( $term_obj ) && isset( $term_obj->name ) ) {
 						$name = $term_obj->name;
 					} else {
@@ -112,7 +118,7 @@ $manage_stock = false; ?>
 
 				foreach( $h_attributes as $h_term ) {
 
-					$h_term_obj = get_term_by( 'slug', $h_term, array_key_first( $attributes ) );
+					$h_term_obj = get_term_by( 'slug', $h_term, $array_key_first_attributes );
 					if ( ! is_wp_error( $h_term_obj ) && isset( $h_term_obj->name ) ) {
 						$h_slug = $h_term_obj->slug;
 						$name = $h_term_obj->name;
@@ -132,16 +138,16 @@ $manage_stock = false; ?>
 
 							// Iterate through each term in the first attribute
 							// Find an available variation that includes the term
-							$v_term_obj = get_term_by( 'slug', $v_term, array_key_last( $attributes ) );
+							$v_term_obj = get_term_by( 'slug', $v_term, $array_key_last_attributes );
 							if ( ! is_wp_error( $v_term_obj ) && isset( $v_term_obj->name ) ) {
 								$v_slug = $v_term_obj->slug;
 							} else {
-								$v_slug = $v_term_obj;
+								$v_slug = $v_term; // 4.3.11, changed from $v_term_obj so that local attributes work
 							}
 
 							$cell_attributes = array(
-								'attribute_' . array_key_first( $attributes ) => $h_slug,
-								'attribute_' . array_key_last( $attributes ) => $v_slug
+								$h_attribute_name => $h_slug,
+								$v_attribute_name => $v_slug
 							);
 
 							$variation_id = $product_data_store->find_matching_product_variation( $child_product, $cell_attributes );

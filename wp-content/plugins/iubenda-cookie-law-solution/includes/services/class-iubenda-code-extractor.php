@@ -398,18 +398,16 @@ class Iubenda_Code_Extractor {
 	 * Sanitizes an attributes array into an attributes string to be placed inside a `<script>` tag.
 	 *
 	 * Automatically injects type attribute if needed.
-	 * Copied wp_sanitize_script_attributes core function because we support 5.0+
+	 * Self-contained copy of the core wp_sanitize_script_attributes() logic so the plugin
+	 * works across all supported versions (5.0+). The core function is not used directly:
+	 * it was deprecated in WordPress 7.0.0 (use wp_get_script_tag()/wp_get_inline_script_tag()),
+	 * and delegating to it triggers a _deprecated_function() notice on 7.0+.
 	 *
 	 * @param   array $attributes  Key-value pairs representing `<script>` tag attributes.
 	 *
 	 * @return string String made of sanitized `<script>` tag attributes.
-	 * @todo to be removed when we upgrade the support version to 5.7+
 	 */
 	private function wp_sanitize_script_attributes( $attributes ) {
-		if ( function_exists( 'wp_sanitize_script_attributes' ) ) {
-			return wp_sanitize_script_attributes( $attributes );
-		}
-
 		$html5_script_support = ! is_admin() && ! current_theme_supports( 'html5', 'script' );
 		$attributes_string    = '';
 

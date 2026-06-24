@@ -127,7 +127,7 @@ function pewc_get_general_settings() {
 			'name'		=> __( 'Enable Clear All Options button', 'pewc' ),
 			'type'		=> 'checkbox',
 			'desc_tip'	=> true,
-			'desc'		=> __( 'Display the Clear All Options button on the product page, which allows customers to clear all Add-On field values. Requires Optimise conditions.', 'pewc' ),
+			'desc'		=> __( 'Display the Clear All Options button on the product page, which allows customers to clear all Add-On field values. Requires a Performance optimization that includes conditions.', 'pewc' ),
 			'id'			=> 'pewc_enable_clear_all_button',
 			'default'	=> 'no',
 			'std'			=> 'no'
@@ -337,27 +337,67 @@ function pewc_get_general_settings() {
 
 		
 
+		// 'markup_section_title' => array(
+		// 	'name' => __( 'Markup', 'pewc' ),
+		// 	'type' => 'title',
+		// 	'desc' => '',
+		// 	'id'   => 'pewc_markup_title'
+		// ),
+		// 'pewc_group_title_tag' => array(
+		// 	'name'    => __( 'Group title tag', 'pewc' ),
+		// 	'type'    => 'select',
+		// 	'desc_tip' => true,
+		// 	'desc'    => __( 'The HTML tag used for group titles.', 'pewc' ),
+		// 	'id'      => 'pewc_group_title_tag',
+		// 	'default' => 'h3',
+		// 	'options' => array(
+		// 		'h2' => 'h2',
+		// 		'h3' => 'h3',
+		// 		'h4' => 'h4',
+		// 		'h5' => 'h5',
+		// 		'p'  => 'p',
+		// 	),
+		// ),
+		// 'pewc_field_label_tag' => array(
+		// 	'name'    => __( 'Default field tag', 'pewc' ),
+		// 	'type'    => 'select',
+		// 	'desc_tip' => true,
+		// 	'desc'    => __( 'The HTML tag used for field labels.', 'pewc' ),
+		// 	'id'      => 'pewc_field_label_tag',
+		// 	'default' => 'label',
+		// 	'options' => array(
+		// 		'h3'    => 'h3',
+		// 		'h4'    => 'h4',
+		// 		'h5'    => 'h5',
+		// 		'p'     => 'p',
+		// 		'label' => 'label',
+		// 	),
+		// ),
+		// 'markup_section_end' => array(
+		// 	'type' => 'sectionend',
+		// 	'id'   => 'pewc_markup_title'
+		// ),
+
 		'optimise_section_title' => array(
 			'name'     => __( 'Optimizations', 'pewc' ),
 			'type'     => 'title',
 			'desc'     => '',
 			'id'       => 'pewc_optimise_title'
 		),
-		'pewc_optimise_calculations' => array(
-			'name'			=> __( 'Optimize calculations', 'pewc' ),
-			'type'			=> 'checkbox',
-			'desc_tip'		=> true,
-			'desc'			=> __( 'This will enable an alternative method for checking calculations which might improve page performance.', 'pewc' ),
-			'id'			=> 'pewc_optimise_calculations',
-			'default'		=> 'yes'
-		),
-		'pewc_optimise_conditions' => array(
-			'name'			=> __( 'Optimize conditions', 'pewc' ),
-			'type'			=> 'checkbox',
-			'desc_tip'		=> true,
-			'desc'			=> __( 'This will enable an alternative method for checking conditions which might improve page performance.', 'pewc' ),
-			'id'			=> 'pewc_optimise_conditions',
-			'default'		=> 'yes'
+		'pewc_performance_optimization' => array(
+			'name'		=> __( 'Performance optimizations', 'pewc' ),
+			'type'		=> 'select',
+			'desc_tip'	=> true,
+			'desc'		=> __( 'Choose how calculations and conditions are evaluated. Time-based options poll at a fixed interval. Event-driven evaluates only when a relevant field changes, which is more efficient but is a beta feature.', 'pewc' ),
+			'id'		=> 'pewc_performance_optimization',
+			'default'	=> 'timebased_both',
+			'options'	=> array(
+				'none'					=> __( 'None', 'pewc' ),
+				'timebased_calculations'	=> __( 'Time-based Calculations', 'pewc' ),
+				'timebased_conditions'		=> __( 'Time-based Conditions', 'pewc' ),
+				'timebased_both'			=> __( 'Time-based Calculations and Conditions (recommended)', 'pewc' ),
+				'event_driven'				=> __( 'Event-driven Calculations and Conditions (beta)', 'pewc' ),
+			),
 		),
 		'pewc_dequeue_scripts' => array(
 			'name'		=> __( 'Dequeue scripts', 'pewc' ),
@@ -608,6 +648,16 @@ function pewc_get_image_settings() {
 		// 	'desc'		=> __( 'Set a swatch height to override the standard thumbnail size.', 'pewc' ),
 		// 	'id'		=> 'pewc_swatch_height'
 		// ),
+		// 4.3.8
+		'pewc_resize_swatch_layer' => array(
+			'name'		=> __( 'Resize swatch layer', 'pewc' ),
+			'type'		=> 'checkbox',
+			'desc_tip'	=> true,
+			'desc'		=> __( 'Enable this option to resize swatch images to match the base image before generating the layered image.', 'pewc' ),
+			'id'		=> 'pewc_resize_swatch_layer',
+			'default'	=> 'no',
+			'std'		=> 'no'
+		),
 		'image_section_end' => array(
 			'type' => 'sectionend',
 			'id' => 'pewc_image_title'
@@ -719,6 +769,15 @@ function pewc_get_products_settings() {
 			'desc_tip'	=> true,
 			'desc'		=> __( 'Enable this to automatically remove parent products if a child product is out of stock.', 'pewc' ),
 			'id'			=> 'pewc_remove_parent',
+			'default'	=> 'no',
+			'std'			=> 'no'
+		),
+		'pewc_do_not_remove_parent' => array(
+			'name'		=> __( 'Do not remove parent', 'pewc' ),
+			'type'		=> 'checkbox',
+			'desc_tip'	=> true,
+			'desc'		=> __( 'Enable this to keep the parent product in the cart when a required child product is removed.', 'pewc' ),
+			'id'			=> 'pewc_do_not_remove_parent',
 			'default'	=> 'no',
 			'std'			=> 'no'
 		),

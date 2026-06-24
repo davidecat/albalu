@@ -3,7 +3,7 @@ Contributors: Gareth Harris
 Tags: add-ons, ecommerce
 Requires at least: 4.7
 Tested up to: 7.0
-Stable tag: 4.3.4
+Stable tag: 4.3.14
 Allow your users to customise products through additional fields
 
 == Description ==
@@ -23,6 +23,81 @@ WooCommerce Product Add Ons Ultimate allows your users to customise products thr
 1.
 
 == Changelog ==
+
+= 4.3.14, 18 June 2026 =
+* Fixed: Select and Select Box field prices not multiplied by the number of booking units when 'Price per unit' is enabled in Bookings for WooCommerce
+
+= 4.3.13, 17 June 2026 =
+* Fixed: some fields are not getting reset when their parent groups are hidden
+* Fixed: some required fields fail validation even if they are hidden because of its parent group's conditions
+* Fixed: zoom image not getting replaced on Enfold theme if a Swatch field has a default value
+* Fixed: original zoom image not getting saved if a Swatch field has a default value
+
+= 4.3.12, 10 June 2026 =
+* Added: pewc_filter_variation_title_swatches_layout, pewc_product_img_zoom_src, pewc_update_child_product_metadata_after_remove and pewc_hide_child_product_quantity_metadata filters
+* Added: 'Do not remove parent' setting
+* Fixed: parent product is also removed when removing a non-required independent child product
+* Fixed: selected option price not resetting immediately when field is hidden
+* Fixed: incorrect child product quantity when updating a parent product and the child product has already been removed
+* Fixed: extra space on top of some admin pages
+* Updated: allow decimals for main_image_scale
+* Updated: use WordPress locale for calendar list days
+
+= 4.3.11, 2 June 2026 =
+* Added: pewc_regenerate_htaccess_on_settings_save filter
+* Fixed: Variations Grid layout not working if child product has a local attribute
+* Fixed: incorrect layout for Swatch fields with long option names and 'Allow multiple' enabled
+* Fixed: Lightbox QuickView for child products displaying blank popup box
+* Updated: include the extensions of allowed file types in the .htaccess file in the uploads directory
+* Updated: regenerate .htaccess file in the uploads directory when saving Uploads section in WooCommerce settings
+* Updated: changed how 'allow multiple' field value is retrieved when used in conditions
+* Updated: Radio Group frontend template
+* Updated: offset 0 in calendar field always gets removed when time is past cut off
+
+= 4.3.10, 27 May 2026 =
+* Added: 'Resize swatch layer' global setting
+* Added: 'Main Image Scale %' field setting
+
+= 4.3.9, 26 May 2026 =
+* Added: pewc_filter_swatches_toggle_text filter
+* Fixed: Upload field incorrectly displayed first on Cart page (blocks)
+* Fixed: child product thumbnail does not update after choosing a variation when using the Swatches layout
+* Updated: allow 0 values in cart
+* Updated: pewc_filter_group_description filter
+* Updated: data schema for add-on fields on Cart page (blocks)
+
+= 4.3.8, 22 May 2026 =
+* Fixed: parent product price in cart and checkout blocks does not include child products' prices if child products are hidden
+
+= 4.3.7, 20 May 2026 =
+* Added: pewc_filter_composite_image_link and apaou_filter_composite_image_link filters
+* Fixed: issue with add to cart button showing twice on certain themes when Quickview enabled
+* Fixed: Add Item not working for Calendar List fields in global groups
+* Fixed: '0' values not getting saved in Global Add-Ons
+* Fixed: 'Remove' link for repeatable groups is not clickable on some themes
+* Fixed: WooCommerce Settings tabs are hidden if a site is not fully set up yet
+* Updated: set pewc_quantity_layout default to block
+* Updated: tooltips compatibility with Flatsome and Woodmart
+* Updated: styles for improved theme compatibility
+* Updated: improved validation for dynamically set quantities
+
+= 4.3.6, 13 May 2026 =
+* Fixed: ReferenceError: wrapper is not defined when selecting a swatch field
+* Fixed: calculation formula returns empty when an option price tag references a field without pewc-calculation-trigger class or a conditionally hidden field
+* Fixed: deselecting a swatch option does not update the price total
+* Fixed: qty calculation field validation incorrectly rejects valid quantities when formula cannot be fully evaluated
+
+= 4.3.5, 12 May 2026 =
+* Added: server-side validation for dynamic quantity
+* Added: option for event-driven conditions and calculations (beta only)
+* Added: theme-specific CSS tweaks
+* Added: pewc-group-heading class
+* Added: pewc_product_column_show_attributes_select and pewc_hide_variation_description filters
+* Fixed: apaou_gallery_container, apaou_layer_parent, aipaou_gallery_container and aipaou_layer_parent filters now correctly override gallery and layer parent classes for Blocksy theme, fixing missing text and image preview layers
+* Fixed: incorrect child products quantities in the cart when WooCoommerce PayPal Payments is activated
+* Fixed: 'Field Is Blank' in conditions does not work for Swatch fields with 'Allow Multiple' disabled
+* Fixed: conditions stop working if a Select Box field has a default value that does not match any of its options
+* Updated: improved file upload validation, checks and removal
 
 = 4.3.4, 6 May 2026 =
 * Fixed: 'Hide quantity field' setting is enabled on the Edit Product page even if pewc_hide_quantity value in the database is 'no'
