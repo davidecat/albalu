@@ -203,14 +203,31 @@ function albalu_get_logo_attachment_id() {
  * Optimized header logo markup with srcset for LCP.
  */
 function albalu_get_logo_img( $max_height = 80 ) {
-	$logo_id = albalu_get_logo_attachment_id();
-	$attrs   = array(
-		'class'         => 'img-fluid',
+	$logo_id     = albalu_get_logo_attachment_id();
+	$max_height  = (int) $max_height;
+	$intrinsic_w = 600;
+	$intrinsic_h = 288;
+
+	if ( $logo_id ) {
+		$meta = wp_get_attachment_metadata( $logo_id );
+		if ( ! empty( $meta['width'] ) && ! empty( $meta['height'] ) ) {
+			$intrinsic_w = (int) $meta['width'];
+			$intrinsic_h = (int) $meta['height'];
+		}
+	}
+
+	$display_width = (int) round( $max_height * ( $intrinsic_w / $intrinsic_h ) );
+
+	$attrs = array(
+		'class'         => 'albalu-site-logo',
 		'alt'           => 'Albalù Bomboniere Logo',
 		'fetchpriority' => 'high',
 		'loading'       => 'eager',
 		'decoding'      => 'async',
-		'style'         => 'max-height: ' . (int) $max_height . 'px;',
+		'width'         => $display_width,
+		'height'        => $max_height,
+		'sizes'         => $display_width . 'px',
+		'style'         => sprintf( 'max-height: %dpx; width: auto; height: auto;', $max_height ),
 	);
 
 	if ( $logo_id ) {
@@ -218,17 +235,15 @@ function albalu_get_logo_img( $max_height = 80 ) {
 		return wp_get_attachment_image( $logo_id, $size, false, $attrs );
 	}
 
-	$width  = $max_height <= 60 ? 125 : 167;
-	$height = $max_height;
-
 	return sprintf(
-		'<img src="%s" alt="%s" class="%s" style="%s" width="%d" height="%d" fetchpriority="high" loading="eager" decoding="async">',
+		'<img src="%s" alt="%s" class="%s" style="%s" width="%d" height="%d" sizes="%s" fetchpriority="high" loading="eager" decoding="async">',
 		esc_url( home_url( '/wp-content/uploads/2024/05/albalu-logo-web.png' ) ),
 		esc_attr( $attrs['alt'] ),
 		esc_attr( $attrs['class'] ),
 		esc_attr( $attrs['style'] ),
-		$width,
-		$height
+		$display_width,
+		$max_height,
+		esc_attr( $attrs['sizes'] )
 	);
 }
 
