@@ -16,6 +16,11 @@ jQuery(function ($) {
         }
     });
 
+    // Initialize Swiper sliders only when the library is loaded
+    if (typeof Swiper === 'undefined') {
+        return;
+    }
+
     // Initialize Testimonial Swiper
     var testimonialSlideCount = $('.testimonial-swiper .swiper-slide').length;
     var testimonialSwiper = new Swiper('.testimonial-swiper', {
