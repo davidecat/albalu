@@ -132,17 +132,17 @@ function pewc_cart_item_price_adjust( $subtotal, $cart_item, $cart_item_key ) {
 			if( ! $parent_price ) $parent_price = 0;
 
 			// this is for the line subtotal, so no need to divide by quantity
-			$new_price = ((int)$parent_price * $cart_item['quantity']) + (int)$child_products_total;
+			$new_price = ((float)$parent_price * $cart_item['quantity']) + (float)$child_products_total;
 			$old_price = $parent_price * $cart_item['quantity'];
 
-			if ( doing_filter( 'woocommerce_cart_item_price' ) && $cart_item['quantity'] > 0 ) {
+			if ( doing_filter( 'woocommerce_cart_item_price' ) && $cart_item['quantity'] > 1 ) {
 				// some child products do not get multiplied based on the parent quantity, so we need to consider that
 				$new_price = $new_price / $cart_item['quantity'];
 				$old_price = $parent_price;
 			}
 
 			//return wc_price($new_price); // this does not have the suffix
-			$subtotal = str_replace( wc_price( $old_price ), wc_price( $new_price ), $subtotal); // this keeps the suffix
+			$subtotal = str_replace( wc_price( $old_price ), wc_price( $new_price ), $subtotal ); // this keeps the suffix
 		}
 	} else if ( ! empty( $cart_item['product_extras']['price_with_extras'] ) && ! apply_filters( 'pewc_disable_cart_item_price_adjust', false ) ) {
 		// 3.19.2, compatibility with Divi theme cart
@@ -446,7 +446,8 @@ function pewc_add_cart_item_data( $cart_item_data, $product_id, $variation_id, $
 							$value = pewc_filter_repeated_value( $value, $id, $item, $_POST );
 						}
 
-						if( ! $value && pewc_hide_empty_fields_cart() == 'yes' ) continue;
+						// 4.3.9, allow 0 values
+						if( ! $value && 0 != $value && pewc_hide_empty_fields_cart() == 'yes' ) continue;
 
 						$label = isset( $item['field_label'] ) ? $item['field_label'] : $item['id'];
 
@@ -467,7 +468,8 @@ function pewc_add_cart_item_data( $cart_item_data, $product_id, $variation_id, $
 						 * We need the add-on data first in order to check certain conditions, e.g. cost
 						 * @since 3.7.13
 						 */
-						if( ( ! empty( $_POST[$id] ) || apply_filters( 'pewc_allow_empty_field_values', false, $item ) ) && $is_visible ) {
+						// 4.3.9, allow 0 values
+						if( ( ! empty( $_POST[$id] ) || 0 == $_POST[$id] || apply_filters( 'pewc_allow_empty_field_values', false, $item ) ) && $is_visible ) {
 
 							$field_price = pewc_get_field_price( $item, $product, true ); // pass true for cart price (inc or exc tax)
 
@@ -1394,6 +1396,7 @@ function pewc_validate_cart_item_data( $passed, $product_id, $quantity, $variati
 		$max = pewc_get_max_upload();
 		$max_mb = $max * pow( 1024, 2 );
 		$products_qty_to_be_added = array(); // 3.17.2, used when validating child products stock
+		$visible_fields = array(); // 4.3.13
 
 		// 3.26.5, build a new array with repeated groups
 		$all_groups = pewc_build_groups_array_with_repeated( $product_extra_groups );
@@ -1444,7 +1447,8 @@ function pewc_validate_cart_item_data( $passed, $product_id, $quantity, $variati
 						$field_req = $item['field_required'];
 					}
 
-					$is_visible = pewc_get_conditional_field_visibility( $id, $item, $group['items'], $product_id, $_POST, $variation_id, $cart_item_data, $quantity, $group_id, $group );
+					// 4.3.13, added $visible_fields, used in pewc_is_group_visible()
+					$is_visible = pewc_get_conditional_field_visibility( $id, $item, $group['items'], $product_id, $_POST, $variation_id, $cart_item_data, $quantity, $group_id, $group, $visible_fields );
 
 					if( ! $is_visible ) {
 						// If the field is hidden by a condition, it can't be required
@@ -1453,6 +1457,10 @@ function pewc_validate_cart_item_data( $passed, $product_id, $quantity, $variati
 						// Will reinstate something similar to this with group conditionals
 						// $is_required = pewc_is_field_required( $group_req, $field_req, $id, $group['items'] );
 						$is_required = $field_req;
+						if ( ! in_array( $id, $visible_fields ) ) {
+							// 4.3.13
+							$visible_fields[] = $id;
+						}
 					}
 
 					if( isset( $item['field_type'] ) && ( $item['field_type'] == 'text' || $item['field_type'] == 'textarea' || $item['field_type'] == 'advanced-preview' ) ) {
@@ -1471,11 +1479,6 @@ function pewc_validate_cart_item_data( $passed, $product_id, $quantity, $variati
 
 						// 4.2.0
 						$passed = pewc_validate_cart_item_data_checkbox( $passed, $is_required, $item, $label, $group, $_POST );
-						/*if( empty( $_POST[$id] ) && $is_required ) {
-							// Required field
-							wc_add_notice( apply_filters( 'pewc_filter_validation_notice', esc_html( $label ) . __( ' is a required field.', 'pewc' ), $label, $item ), 'error' );
-							$passed = false;
-						}*/
 
 					} else if( isset( $item['field_type'] ) && ( $item['field_type'] == 'checkbox_group' || $item['field_type'] == 'image_swatch') && pewc_is_pro() ) {
 						if( empty( $_POST[$id] ) && $is_required ) {
@@ -1539,179 +1542,6 @@ function pewc_validate_cart_item_data( $passed, $product_id, $quantity, $variati
 
 						// 4.2.0
 						$passed = pewc_validate_cart_item_data_upload( $passed, $is_required, $item, $label, $group, $_POST, $product_id );
-
-						/*$files = array();
-						$upload_passed = true; // used for this field type only
-
-						if( ! empty( $_FILES ) ) {
-							// We're using the standard image upload
-							$files = $_FILES;
-
-						} else if( ! empty( $_POST['pewc_file_data'][$item['field_id']] ) ) {
-							// Using jQuery version
-
-							// Make this an array like $_FILES
-							$files = pewc_get_files_array( $_POST['pewc_file_data'][$item['field_id']], $id, $product_id );
-
-						}
-
-						if( ! empty( $files[$id]['size'] ) ) {
-							// 3.20.1, let's use the indexes to keep track of problematic files to remove
-							$f_index_remove = array();
-
-							// this is not empty for AJAX uploads, but empty for standard uploads
-							if ( ! empty( $files[$id]['file'] ) ) {
-								// Is the upload path in the file page? Checking that someone hasn't changed the file path
-								$file_valid = true;
-								$upload_dir = pewc_get_upload_dir();
-								$upload_subdir = $upload_dir . pewc_get_upload_subdirs();
-
-								foreach( $files[$id]['file'] as $f_index=>$f ) {
-									$uploaded_dir = substr( $files[$id]['file'][$f_index], 0, strrpos( $files[$id]['file'][$f_index], '/') );
-
-									// Does the path match the expected path?
-									$uploaded_path = trailingslashit( $uploaded_dir ) . $files[$id]['name'][$f_index];
-									$expected_path = trailingslashit( $upload_subdir ) . $files[$id]['name'][$f_index];
-
-									// Ensure the file doesn't have a php suffix
-									$ext = substr( strrchr( $files[$id]['file'][$f_index], '.' ), 1 );
-
-									if( strpos( $files[$id]['file'][$f_index], $upload_dir ) === false || $uploaded_path != $expected_path || $ext == 'php' ) {
-										wc_add_notice(  __( 'The uploaded file has failed a security check. Please try uploading it again: ' . basename( $files[$id]['file'][$f_index] ) , 'pewc' ), 'error' );
-										// 3.20.1, add some error logs to help debug the issue
-										pewc_error_log('AOU: The uploaded file has failed a security check. Please try uploading it again. id:'.$id.', file:'.$files[$id]['file'][$f_index].', upload_dir:'.$upload_dir.', uploaded_path:'.$uploaded_path.', expected_path:'.$expected_path.', ext:'.$ext.', $files:'.print_r($files, true));
-										//$files = array(); // commented out on 3.20.1
-										if ( ! in_array( $f_index, $f_index_remove ) ) {
-											// 3.20.1, let's save this index, to be used later
-											$f_index_remove[] = $f_index;
-										}
-										$upload_passed = false;
-										$passed = false;
-									}
-								}
-							}
-
-							if( ! empty( $files[$id]['size'] ) ) {
-
-								foreach( $files[$id]['size'] as $key=>$size ) {
-
-									if( $size > $max_mb ) {
-										// File too big
-										wc_add_notice( apply_filters( 'pewc_filter_file_size_validation_notice', esc_html( $files[$id]['name'][$key] ) . __( ': File size too large.', 'pewc' ) ), 'error' );
-										$upload_passed = $passed = false;
-										if ( ! in_array( $key, $f_index_remove ) ) {
-											// 3.20.1, let's save this key, to be used later
-											$f_index_remove[] = $key;
-										}
-									}
-
-									if( $size == 0 && $is_required ) {
-										// Required field
-										wc_add_notice( apply_filters( 'pewc_filter_validation_notice', esc_html( $label ) . __( ' is a required upload field.', 'pewc' ), $label, $item ), 'error' );
-										$upload_passed = $passed = false;
-										if ( ! in_array( $key, $f_index_remove ) ) {
-											// 3.20.1, let's save this key, to be used later
-											$f_index_remove[] = $key;
-										}
-									}
-
-								}
-
-							}
-
-							$mime_types = pewc_get_permitted_mimes();
-
-							// Check file type
-							// moved here in 3.20.1
-							if( ! empty( $files[$id]['name'] ) ) {
-
-								foreach( $files[$id]['name'] as $key => $name ) {
-
-									// Use wp_check_filetype for additional security
-									$file_info = wp_check_filetype( basename( $name ), $mime_types );
-
-									if( ! empty( $file_info['type'] ) ) {
-										// File type is permitted
-									} else {
-
-										if( $is_required ) {
-											wc_add_notice( apply_filters( 'pewc_file_not_valid_message', __( 'File not valid.', 'pewc' ) ), 'error' );
-											$upload_passed = $passed = false;
-											if ( ! in_array( $key, $f_index_remove ) ) {
-												// 3.20.1, let's save this key, to be used later
-												$f_index_remove[] = $key;
-											}
-										}
-
-									}
-
-								}
-
-							}
-
-						} else if( $is_required ) {
-
-							// Required field
-							wc_add_notice( apply_filters( 'pewc_filter_validation_notice', esc_html( $label ) . __( ' is a required upload field.', 'pewc' ), $label, $item ), 'error' );
-							// Delete the uploaded session in case he added something before
-							pewc_save_uploaded_files_to_session( '', $item['field_id'] );
-							$upload_passed = $passed = false;
-							continue; // 3.20.1, proceed to the next field
-
-						}
-
-						// commented out on 3.20.1, if a file failed validation earlier, allow other uploaded files to be saved and passed on the next page
-						//if ( ! $upload_passed ) {
-						//	continue; // no need to run the code below, go to next field
-						//}
-
-						// We have passed validation for files, save now. If empty $files is passed into pewc_save_uploaded_files_to_session, saved data is removed
-						// 3.20.1, allow other files to be saved even if $upload_passed = false
-						if( pewc_enable_ajax_upload() == 'yes' ) {
-							// AJAX upload, perhaps save $_POST['pewc_file_data'][$item['field_id']]
-							$pewc_file_data = stripslashes( $_POST['pewc_file_data'][$item['field_id']] );
-
-							if ( ! $upload_passed && ! empty( $f_index_remove ) ) {
-								// we have some uploads that failed and need to be removed
-								$pewc_file_data_arr = json_decode( $pewc_file_data, true );
-								$tmp_file_arr = array();
-								foreach ( $pewc_file_data_arr as $f_index => $fdata ) {
-									if ( ! in_array( $f_index, $f_index_remove ) ) {
-										// ok to save
-										$tmp_file_arr[] = $fdata;
-									}
-								}
-								if ( ! empty( $tmp_file_arr ) ) {
-									// save this
-									$pewc_file_data_arr = $tmp_file_arr;
-									$pewc_file_data = json_encode( $pewc_file_data_arr );
-								} else {
-									// no more valid files left
-									$pewc_file_data = ''; // empty string clears the session
-								}
-							}
-
-							if ( isset($_POST[$id . '_extra_fields']) && is_array( $_POST[$id . '_extra_fields'] ) && ! empty( $pewc_file_data ) ) {
-								// quantity is set for Advanced Uploads, save it as well
-								$pfd_arr = json_decode( $pewc_file_data, true);
-								if ( is_array($pfd_arr) && count($pfd_arr) > 0 ) {
-									foreach ( $pfd_arr as $key => $value ) {
-										// add quantity from Advanced Uploads
-										$quantity = isset( $_POST[$id . '_extra_fields'][$key] ) ? $_POST[$id . '_extra_fields'][$key] : false;
-										if ( false !== $quantity ) {
-											$pfd_arr[$key]['quantity'] = $quantity;
-										}
-									}
-									$pewc_file_data = json_encode($pfd_arr);
-								}
-							}
-
-							// save the uploaded data into a WooCommerce session
-							pewc_save_uploaded_files_to_session( $pewc_file_data, $item['field_id'] );
-						}
-						else {
-							// standard
-						}*/
 
 					} else if( isset( $item['field_type'] ) && ( $item['field_type'] == 'radio' || $item['field_type'] == 'select' || $item['field_type'] == 'select-box' ) || $item['field_type'] == 'calendar-list' ) {
 
@@ -1812,7 +1642,7 @@ function pewc_validate_cart_item_data( $passed, $product_id, $quantity, $variati
 
 						if( $item['products_layout'] == 'grid' ) {
 
-							if( array_sum( $_POST[$id . '_grid_child_variation'] ) <= 0 && $is_required ) {
+							if( ( empty( $_POST[$id . '_grid_child_variation'] ) || array_sum( $_POST[$id . '_grid_child_variation'] ) <= 0 ) && $is_required ) {
 								// Required field
 								wc_add_notice( apply_filters( 'pewc_filter_validation_notice', esc_html( $label ) . __( ' is a required field.', 'pewc' ), $label, $item ), 'error' );
 								return false;
@@ -2117,7 +1947,10 @@ function pewc_get_item_data( $other_data, $cart_item ) {
 									'name'    => sanitize_text_field( $item['label'] ),
 									// 'value'   => sanitize_text_field( $item['display'] ),
 									'display' => $display,
-									'className' => $upload_class_name, // used by Blocks
+									// custom className used by Blocks
+									// Added wc-block-components-product-details__item in 4.3.9 because WooCommerce now replaces the class 
+									// instead of appending our custom class, causing display issues
+									'className' => 'wc-block-components-product-details__item '. $upload_class_name,
 								);
 
 							}
@@ -2626,7 +2459,9 @@ function pewc_validate_cart_item_data_select( $passed, $is_required, $item, $lab
 
 	// let's all put the values in an array whether they are repeatable or not so that we can reuse the validation process below
 	$posted_values = array();
-	if ( ! empty( $posted[$id] ) ) {
+
+	// 4.3.9, allow 0 values
+	if ( isset( $posted[$id] ) && ( ! empty( $posted[$id] ) || 0 == $posted[$id] ) ) {
 		// radio groups pass $posted[$id] as an array; select and select-box pass single values
 		$posted_values = ( is_array( $posted[$id] ) ) ? $posted[$id] : array( $posted[$id] );
 	}
@@ -2651,7 +2486,8 @@ function pewc_validate_cart_item_data_select( $passed, $is_required, $item, $lab
 				}
 			}
 
-			if( empty( $value ) && $is_required ) {
+			// 4.3.9, allow 0 values
+			if( empty( $value ) && 0 != $value && $is_required ) {
 				// Required field
 				wc_add_notice( apply_filters( 'pewc_filter_validation_notice', esc_html( $label ) . __( ' is a required field.', 'pewc' ), $label, $item ), 'error' );
 				$passed = false;

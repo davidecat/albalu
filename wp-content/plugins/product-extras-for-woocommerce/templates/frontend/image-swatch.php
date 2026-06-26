@@ -2,7 +2,7 @@
 /**
  * The template for Image Swatches
  * @since	2.0.0
- * @version	4.3.1
+ * @version	4.3.11
  * @package WooCommerce Product Add-Ons Ultimate
  */
 
@@ -25,10 +25,17 @@ if( isset( $item['field_options'] ) ) {
   $index = 0;
 
 	$number_columns = ( isset( $item['number_columns'] ) ) ? $item['number_columns'] : 3;
-	$radio_wrapper_classes = array(
-		'pewc-radio-images-wrapper',
+	if ( 'checkbox' === $input_type ) {
+		// 4.3.11, CSS width stopped working because container did not have the correct class
+		$radio_wrapper_classes = array(
+			'pewc-checkboxes-images-wrapper',
 
-	);
+		);
+	} else {
+		$radio_wrapper_classes = array(
+			'pewc-radio-images-wrapper',
+		);
+	}
 	$radio_wrapper_classes[] = 'pewc-columns-' . intval( $number_columns );
 	if( ! empty( $item['hide_labels'] ) ) {
 		$radio_wrapper_classes[] = 'pewc-hide-labels';
@@ -150,11 +157,21 @@ if( isset( $item['field_options'] ) ) {
 
 			$option_index++;
 
-	  }
+		}
+
+		// 4.3.8
+		if ( ! empty( $item['main_image_scale'] ) && 100 > $item['main_image_scale'] && 0 < $item['main_image_scale'] ) {
+			global $post;
+			$main_image_scale = (float) $item['main_image_scale'];
+			$layer_parent = apply_filters( 'pewc_layer_parent', 'woocommerce-product-gallery__wrapper', $post );
+			$product_img_wrap = apply_filters( 'pewc_product_img_wrap', '.woocommerce-product-gallery__image' );
+			$main_image_scale_class = '.' . $layer_parent . '.pewc-add-on-image-' . $item['field_id'] . ' ' . $product_img_wrap . ' img'; ?>
+			<style type="text/css"><?php echo $main_image_scale_class; ?>{ transform: scale(<?php echo $main_image_scale / 100; ?>) ! important;}</style>
+		<?php }
 
 	} ?>
 
-</div><!-- .pewc-radio-images-wrapper -->
+	</div><!-- .pewc-radio-images-wrapper -->
 
 <?php }
 

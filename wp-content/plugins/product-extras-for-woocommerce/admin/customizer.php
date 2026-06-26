@@ -1334,13 +1334,13 @@ function pewc_customize_css() { ?>
     <?php } ?>
 
     <?php if( get_theme_mod( 'pewc_group_title_color', '#333' ) ){ ?>
-      .pewc-group-heading-wrapper h3 {
+      .pewc-group-heading-wrapper .pewc-group-heading {
         color: <?php echo get_theme_mod( 'pewc_group_title_color', '#333' ); ?>;
       }
     <?php } ?>
 
     <?php if( get_theme_mod( 'pewc_group_title_size', '32' ) ){ ?>
-      .pewc-group-heading-wrapper h3 {
+      .pewc-group-heading-wrapper .pewc-group-heading {
         font-size: <?php echo get_theme_mod( 'pewc_group_title_size', '32' ); ?>px;
       }
     <?php } ?>
@@ -1349,7 +1349,7 @@ function pewc_customize_css() { ?>
       .pewc-preset-style .pewc-groups-accordion .pewc-group-wrap h3 {
         background-color: <?php echo get_theme_mod( 'pewc_group_title_background', 'transparent' ); ?>;
       }
-      .pewc-groups-accordion .pewc-group-heading-wrapper, .pewc-preset-style .pewc-groups-accordion .pewc-group-wrap h3 {
+      .pewc-groups-accordion .pewc-group-heading-wrapper, .pewc-preset-style .pewc-groups-accordion .pewc-group-wrap .pewc-group-heading {
         background-color: <?php echo get_theme_mod( 'pewc_group_title_background', '#eee' ); ?>;
       }
     <?php } ?>

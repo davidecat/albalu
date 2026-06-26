@@ -499,12 +499,68 @@ function pewc_remove_cart_item( $cart_item_key, $cart ) {
 		if( ! empty( $cart->cart_contents[$cart_item_key]['product_extras']['products']['allow_none'] ) ) {
 
 			// Allow none is set, meaning the parent product doesn't require a child product - so we don't need to remove anything else
+			// 4.3.12, update metadata, so that if 'Display child products as meta' is enabled, the metadata are updated
+			// Also, this fixes a bug where if a child product is removed from the cart, and then you update the product via Edit Options, 
+			// the child product quantity of the already removed product is the child product ID
+			if ( apply_filters( 'pewc_update_child_product_metadata_after_remove', true ) ) {
+				$cart_item = $cart->cart_contents[$cart_item_key];
+				$child_product_id = ! empty( $cart_item['variation_id'] ) ? $cart_item['variation_id'] : $cart_item['product_id'];
+				$child_field_id = $cart_item['product_extras']['products']['field_id'];
+				$tmp = explode( '_', $child_field_id );
+				$child_group = $tmp[2];
+				$child_field = $tmp[3];
+
+				// find the parent
+				foreach( $cart->cart_contents as $key=>$item ) {
+					if (
+						empty( $item['product_extras']['products']['child_field'] ) && 
+						! empty( $item['product_extras']['products']['parent_field_id'] ) &&
+						$item['product_extras']['products']['parent_field_id'] == $parent_field_id && 
+						! empty( $item['product_extras']['groups'][$child_group][$child_field_id]['child_products_quantities'][$child_product_id] )
+					) {
+						// this is the parent, remove from child_products_quantities
+						unset( $item['product_extras']['groups'][$child_group][$child_field_id]['child_products_quantities'][$child_product_id] );
+						// remove from value
+						if ( isset( $item['product_extras']['groups'][$child_group][$child_field_id]['value'] ) ) {
+							$item_values = explode( ',', $item['product_extras']['groups'][$child_group][$child_field_id]['value'] );
+							$new_item_values = array();
+							foreach ( $item_values as $item_value ) {
+								if ( $item_value != $child_product_id ) {
+									$new_item_values[] = $item_value;
+								}
+							}
+							$item['product_extras']['groups'][$child_group][$child_field_id]['value'] = implode( ',', $new_item_values );
+
+							if ( empty( $new_item_values ) && empty( $item['product_extras']['groups'][$child_group][$child_field_id]['child_products_quantities'] ) ) {
+								// remove this field?
+								unset( $item['product_extras']['groups'][$child_group][$child_field_id] );
+								// also remove here
+								if ( ( $skey = array_search( $child_field_id, $item['product_extras']['child_fields'] ) ) !== false ) {
+									unset( $item['product_extras']['child_fields'][$skey] );
+									$item['product_extras']['child_fields'] = array_values( $item['product_extras']['child_fields'] ); // re-index
+								}
+								// and here
+								if ( ( $skey = array_search( $child_field, $item['product_extras']['child_field_ids'] ) ) !== false ) {
+									unset( $item['product_extras']['child_field_ids'][$skey] );
+									$item['product_extras']['child_field_ids'] = array_values( $item['product_extras']['child_field_ids'] ); // re-index
+								}
+							}
+						}
+						// also remove here?
+						if ( ! empty( $item['product_extras']['products']['child_products'][$child_product_id]['field_id'] ) && $item['product_extras']['products']['child_products'][$child_product_id]['field_id'] == $child_field_id ) {
+							unset( $item['product_extras']['products']['child_products'][$child_product_id] );
+						}
+
+						// update cart item
+						WC()->cart->cart_contents[$key] = $item;
+					}
+				}
+			}
 			return;
 
 		} else {
 
-			// 3.27.4, added $cart_item_key and $cart
-			if( apply_filters( 'pewc_do_not_remove_parents', false, $cart_item_key, $cart ) ) {
+			if( pewc_should_not_remove_parent( $cart_item_key, $cart ) ) {
 				return;
 			}
 
@@ -513,7 +569,7 @@ function pewc_remove_cart_item( $cart_item_key, $cart ) {
 				// Check that parent IDs match
 				if( ! empty( $item['product_extras']['products']['parent_field_id'] ) &&
 						$item['product_extras']['products']['parent_field_id'] == $parent_field_id ) {
-							// This is a child of the product we've just removed, so remove it
+					// This is a child of the product we've just removed, so remove it
 					unset( $cart->cart_contents[$key] );
 					// Add a notice that we'll use to remove the 'removed' notice, so that users can't undo the remove action
 					wc_add_notice( 'Clear cart notices', 'pewc_clear_cart_notices' );
@@ -526,6 +582,16 @@ function pewc_remove_cart_item( $cart_item_key, $cart ) {
 }
 add_action( 'woocommerce_remove_cart_item', 'pewc_remove_cart_item', 10, 2 );
 add_action( 'woocommerce_before_cart_item_quantity_zero', 'pewc_remove_cart_item', 10, 2 );
+
+/**
+ * Returns true if the parent product should be kept when a required child is removed.
+ * Respects the pewc_do_not_remove_parent admin setting; the pewc_do_not_remove_parents
+ * filter takes precedence so existing customisations continue to work.
+ */
+function pewc_should_not_remove_parent( $cart_item_key, $cart ) {
+	$setting = 'yes' === get_option( 'pewc_do_not_remove_parent', 'no' );
+	return apply_filters( 'pewc_do_not_remove_parents', $setting, $cart_item_key, $cart );
+}
 
 /**
  * Remove notices in the cart
@@ -818,8 +884,9 @@ function pewc_replace_child_ids_with_titles( $value, $field ) {
 				if( is_object( $product ) ) {
 					//$new_value[] = $product->get_name(); // since 3.12.1, this also works for variations
 					$product_name = $product->get_name();
-					if ( isset( $field['child_products_quantities'][$id] ) ) {
+					if ( isset( $field['child_products_quantities'][$id] ) && ! apply_filters( 'pewc_hide_child_product_quantity_metadata', false, $field, $product ) ) {
 						// 3.15.0
+						// 4.3.12, added pewc_hide_child_product_quantity_metadata filter
 						$child_product_quantity = $field['child_products_quantities'][$id];
 						$product_name .= apply_filters( 'pewc_child_products_quantity_symbol', ' x ', $field ) . $child_product_quantity;
 					}

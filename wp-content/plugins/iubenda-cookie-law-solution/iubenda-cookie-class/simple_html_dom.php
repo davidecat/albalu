@@ -19,7 +19,7 @@
  *   Antcs
  *
  * Version Rev. 1.9.1 (291)
- * 
+ *
  * @author S.C. Chen, John Schlick, Rus Carroll, logmanoriginal
  * @copyright 2018-2019, iubenda s.r.l
  * @license MIT License
@@ -1442,6 +1442,8 @@ class simple_html_dom
 		'span' => 1,
 		'table' => 1
 	);
+	// Declared to avoid the PHP 8.2+ dynamic-property deprecation; assigned conditionally in __construct().
+	public $optional_closing_array = array();
 	protected $optional_closing_tags = array(
 		// Not optional, see
 		// https://www.w3.org/TR/html/textlevel-semantics.html#the-b-element

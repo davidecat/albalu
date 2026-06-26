@@ -363,8 +363,12 @@ class ProductsManager
     }
 
 
-    public function render_back_in_stock_placeholder() 
+    public function render_back_in_stock_placeholder()
     {
+        $settings = $this->api_manager->get_settings();
+        if (empty($settings[SendinblueClient::IS_BACK_IN_STOCK_ENABLED])) {
+            return;
+        }
         ?>
         <div id="sib-back-in-stock-form-placeholder"></div>
         <script>

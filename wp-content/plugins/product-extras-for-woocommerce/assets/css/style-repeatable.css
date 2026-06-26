@@ -11,4 +11,5 @@
 }
 .pewc-cloned-group .pewc-remove-clone {
 	display: block;
+	z-index: 1;
 }

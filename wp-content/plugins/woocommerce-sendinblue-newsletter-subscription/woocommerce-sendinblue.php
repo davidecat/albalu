@@ -6,7 +6,7 @@
  * Author: Brevo
  * Text Domain: woocommerce-sendinblue-newsletter-subscription
  * Domain Path: /languages
- * Version: 4.0.53
+ * Version: 4.0.55
  * Author URI: https://www.brevo.com/?r=wporg
  * Requires at least: 4.3
  * Tested up to: 6.9.1
@@ -47,7 +47,7 @@ define('SENDINBLUE_WC_SETTINGS', 'sendinblue_woocommerce_user_connection_setting
 define('SENDINBLUE_WC_EMAIL_SETTINGS', 'sendinblue_woocommerce_email_options_settings');
 define('SENDINBLUE_WC_VERSION_SENT', 'sendinblue_woocommerce_version_sent');
 define('API_KEY_V3_OPTION_NAME', 'sib_wc_api_key_v3');
-define('SENDINBLUE_WC_PLUGIN_VERSION', '4.0.53');
+define('SENDINBLUE_WC_PLUGIN_VERSION', '4.0.55');
 define('SENDINBLUE_WORDPRESS_SHOP_VERSION', $GLOBALS['wp_version']);
 define('SENDINBLUE_WOOCOMMERCE_UPDATE', 'sendinblue_plugin_update_call_apiv3');
 define('SENDINBLUE_REDIRECT', 'sendinblue_woocommerce_redirect');
@@ -127,7 +127,21 @@ function update_woocom_email_settings()
 
 function sendinblue_woocommerce_load()
 {
-    do_action('update_to_sendinblue_new_plugin');
+    load_plugin_textdomain( SENDINBLUE_WC_TEXTDOMAIN , false, dirname(plugin_basename(__FILE__)) . '/languages');
+    if (is_multisite() && is_network_admin()) {
+        $transient_key = 'sendinblue_wc_network_update_' . SENDINBLUE_WC_PLUGIN_VERSION;
+        if (!get_site_transient($transient_key)) {
+            $sites = get_sites(array('fields' => 'ids', 'number' => 0));
+            foreach ($sites as $site_id) {
+                switch_to_blog($site_id);
+                do_action('update_to_sendinblue_new_plugin');
+                restore_current_blog();
+            }
+            set_site_transient($transient_key, true, DAY_IN_SECONDS);
+        }
+    } else {
+        do_action('update_to_sendinblue_new_plugin');
+    }
     $api_manager = new ApiManager();
     $api_manager->add_hooks();
     update_woocom_email_settings();
@@ -156,7 +170,6 @@ function sendinblue_woocommerce_init()
         wp_redirect(add_query_arg('page', 'sendinblue', admin_url('admin.php')));
     }
 
-    load_plugin_textdomain( SENDINBLUE_WC_TEXTDOMAIN , false, dirname(plugin_basename(__FILE__)) . '/languages');
     update_plugin_information();
     $admin_manager = new AdminManager();
     $admin_manager->run();
@@ -268,6 +281,9 @@ add_action(
         }
 
         global $wp_list_table;
+        if ( ! isset( $wp_list_table ) || ! ( $wp_list_table instanceof WP_List_Table ) ) {
+            return;
+        }
         $colspan = $wp_list_table->get_column_count();
         ?>
         <tr class="plugin-update-tr">

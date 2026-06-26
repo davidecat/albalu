@@ -58,6 +58,7 @@
 					this.attach_events();
 
 					$( 'form.cart .qty' ).on( 'change input keyup paste', this.trigger_quantity_condition_check );
+					$( 'body' ).on( 'pewc_qty_changed', this.trigger_quantity_condition_check );
 					$( 'body' ).on( 'pewc_reset_field_condition', this.trigger_field_reset_condition_check );
 
 					// since 3.11.9
@@ -68,10 +69,17 @@
 					$( 'body' ).on( 'pewc_reset_fields', this.reset_fields );
 
 					if( typeof pewc_cost_triggers !== 'undefined' && pewc_cost_triggers.length > 0 ) {
-						var cost_interval = setInterval(
-							this.trigger_cost_condition_check,
-							pewc_vars.conditions_timer
-						);
+						if( pewc_vars.event_driven_conditions === 'yes' ) {
+							// 4.3.5: instead of polling every 500ms, re-check cost-dependent conditions
+							// whenever the total price changes. pewc_after_update_total_js fires after
+							// every total recalculation, covering all field types that affect cost.
+							$( 'body' ).on( 'pewc_after_update_total_js', this.trigger_cost_condition_check );
+						} else {
+							var cost_interval = setInterval(
+								this.trigger_cost_condition_check,
+								pewc_vars.conditions_timer
+							);
+						}
 					}
 
 					// 3.27.9, trigger on page load if we have fields dependent on quantity
@@ -281,15 +289,29 @@
 								// 3.26.5
 								pewc_conditions.check_triggered_fields( $( field ), field_value, triggers_for, parent );
 
-								// Iterate through each field that is conditional on the updated field
-								//for( var g in triggers_for ) {
-								//	conditions_obtain = pewc_conditions.check_field_conditions( triggers_for[g], field_value, parent );
-								//	var action = $( '.pewc-field-' + triggers_for[g] ).attr( 'data-field-conditions-action' );
-								//	pewc_conditions.assign_field_classes( conditions_obtain, action, triggers_for[g], parent );
-								//}
 							}
 
 						});
+
+						// 4.3.13, catch fields that gained pewc-reset-me during the condition sweep above
+						// (e.g. a hidden field used as a condition source gets pewc-reset-me via get_field_value,
+						// but reset_fields() has already run so it would never be processed otherwise)
+						// this could happen if a field both have pewc-condition-trigger and pewc-field-triggers-condition?
+						if ( $( '.pewc-reset-me' ).length > 0 ) {
+							// check if we need to re-run? avoids looping
+							var rerun = false;
+							$( '.pewc-reset-me' ).each(function(){
+								// default could be blank or have a value
+								if ( $( this ).attr( 'data-field-value' ) != $( this ).attr( 'data-default-value' ) ) {
+									rerun = true;
+									return;
+								}
+							});
+							if ( rerun ) {
+								pewc_conditions.reset_fields();
+							}
+						}
+
 					}, 100
 				);
 
@@ -486,7 +508,12 @@
 						});
 						return field_value;
 					} else {
-						return $( field ).find( 'input:radio:checked' ).val();
+						if ( $( field ).find( 'input:radio:checked' ).length > 0 ) {
+							return $( field ).find( 'input:radio:checked' ).val();
+						} else {
+							// 4.3.5, if no Swatch radio is selected, return a blank string so that you can use <field> Is <blank> as a condition
+							return '';
+						}
 					}
 				} else if( field_type == 'checkbox' ) {
 					if( $( field ).find( 'input' ).prop( 'checked' ) ) {
@@ -618,7 +645,9 @@
 
 			trigger_fields_within_hidden_groups: function( group_id ) {
 
-				$( '#pewc-group-' + group_id ).find( '.pewc-field-triggers-condition' ).each( function() {
+				// 4.3.13, added .pewc-condition-trigger (i.e. fields used in group conditions) so that if the parent group is hidden, it is also reset
+				$( '#pewc-group-' + group_id ).find( '.pewc-field-triggers-condition, .pewc-condition-trigger' ).each( function() {
+
 					// Check each field in this group, in case of conditions on the fields
 					var field = $( '.pewc-field-' + $( this ).attr( 'data-field-id' ) );
 					var parent = pewc_conditions.get_field_parent( field );
@@ -630,19 +659,16 @@
 						parent = $( field ).closest( '.pewc-group-wrap' );
 					}
 
+					// get_field_value() is where the field is reset if it or its parent is hidden
 					var field_value = pewc_conditions.get_field_value( $( field ).attr( 'data-field-id' ), $( field ).attr( 'data-field-type' ), parent );
-					var triggers_for = JSON.parse( $( field ).attr( 'data-triggers-for' ) );
 
-					// 3.26.5
-					pewc_conditions.check_triggered_fields( $( field ), field_value, triggers_for, parent );
+					// 4.3.13, add a wrapper condition to avoid error e.g. pewc-condition-trigger fields don't have data-triggers-for but data-trigger-groups instead
+					if ( $( field ).attr( 'data-triggers-for' ) != undefined ) {
+						var triggers_for = JSON.parse( $( field ).attr( 'data-triggers-for' ) );
 
-					// Iterate through each field that is conditional on the updated field
-					//for( var g in triggers_for ) {
-					//	conditions_obtain = pewc_conditions.check_field_conditions( triggers_for[g], field_value, parent );
-					//	var group = $( '.pewc-field-' + triggers_for[g] ).closest( '.pewc-group-wrap' );
-					//	var action = $( '.pewc-field-' + triggers_for[g] ).attr( 'data-field-conditions-action' );
-					//	pewc_conditions.assign_field_classes( conditions_obtain, action, triggers_for[g], parent );
-					//}
+						// 3.26.5
+						pewc_conditions.check_triggered_fields( $( field ), field_value, triggers_for, parent );
+					}
 
 				});
 
@@ -858,7 +884,10 @@
 							if ( default_value != selected_value ) {
 								// find index of the default value
 								select_option_index = $( 'select#' + select_box_id + ' option[value="' + default_value.replace( /"/g, '\\"' ) + '"]').index();
-								$( '#' + select_box_id + '_select_box' ).ddslick( 'select', {index: select_option_index} );
+								if ( select_option_index >= 0 ) {
+									// 4.3.5, added condition above in case default_value no longer exists
+									$( '#' + select_box_id + '_select_box' ).ddslick( 'select', {index: select_option_index} );
+								}
 							}
 						} else if ( select_option_index > 0 ) {
 							// reset to the first value
@@ -909,9 +938,15 @@
 					$( field ).addClass( 'pewc-active-field' );
 				}
 				// 3.12.2
-				if ( $( field ).attr( 'data-field-value') == '' && $( field ).attr( 'data-field-price' ) != 0 ) {
+				if ( $( field ).attr( 'data-field-value') == '' ) {
 					// maybe also reset price
-					$( field ).attr( 'data-field-price', 0 );
+					if ( $( field ).attr( 'data-field-price' ) != 0 ) {
+						$( field ).attr( 'data-field-price', 0 );
+					}
+					if ( $( field ).attr( 'data-selected-option-price' ) != undefined ) {
+						// 4.3.12, also reset selected option price
+						$( field ).attr( 'data-selected-option-price', 0 );
+					}
 				}
 				// we force update_total_js so that the summary panel is also updated
 			// Skip during a batch reset — reset_fields() fires this once after all fields are done.

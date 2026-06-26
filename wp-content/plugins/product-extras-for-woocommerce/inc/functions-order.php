@@ -115,11 +115,13 @@ function pewc_add_custom_data_to_order( $item, $cart_item_key, $values, $order )
 			}
 
 			if( ! empty( $values['composite_image'] ) ) {
-				$item->add_meta_data( apply_filters( 'pewc_composite_image_label', __( 'Composite image', 'pewc' ) ), $values['composite_image'], true );
+				$composite_image = apply_filters( 'pewc_filter_composite_image_link', '<a href="' . $values['composite_image'] . '" target="_blank">' . __( 'View', 'woocommerce' ) . '</a>', $values['composite_image'] );
+				$item->add_meta_data( apply_filters( 'pewc_composite_image_label', __( 'Composite image', 'pewc' ) ), $composite_image, true );
 			}
 
 			if( ! empty( $values['apaou_composite_image_url'] ) ) {
-				$item->add_meta_data( apply_filters( 'pewc_composite_preview_label', __( 'Composite preview', 'pewc' ) ), $values['apaou_composite_image_url'], true );
+				$apaou_composite_image = apply_filters( 'apaou_filter_composite_image_link', '<a href="' . $values['apaou_composite_image_url'] . '" target="_blank">' . __( 'View', 'woocommerce' ) . '</a>', $values['apaou_composite_image_url'] );
+				$item->add_meta_data( apply_filters( 'pewc_composite_preview_label', __( 'Composite preview', 'pewc' ) ), $apaou_composite_image, true );
 			}
 			
 			// This is all the add-on fields saved as an array

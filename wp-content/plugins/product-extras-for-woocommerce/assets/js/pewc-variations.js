@@ -2,7 +2,7 @@
 
 	$(document).ready(function() {
 
-		$( 'body' ).find( '.pewc-variable-child-product-wrapper select' ).each( function() {
+		$( 'body' ).find( '.pewc-variable-child-product-wrapper select.pewc-variable-child-select' ).each( function() {
 			update_variation( $( this ) );
 			// 3.26.3, update column thumbnail with the default variant
 			update_column_thumbnail( $( this ) );
@@ -203,15 +203,24 @@
 				$( swatch ).find( 'img' ).addClass( 'active-swatch' );
 				var update_selected_id = $( wrapper ).find( 'input.pewc-child-variant' ).val( variation_id );
 				var image = $( swatch ).find( 'img' ).attr( 'src' );
+				var image_srcset = $( swatch ).find( 'img' ).attr( 'srcset' );
 				var viewer_image = $( swatch ).attr( 'data-viewer-image' );
 				var price = $( swatch ).attr( 'data-option-cost' );
 				var name = $( swatch ).attr( 'data-name' );
 				var sku = $( swatch ).attr( 'data-sku' );
 				if( image ) {
-					$( wrapper ).find( '.pewc-child-thumb img' ).attr( 'src', image );
+					$( wrapper ).find( '.pewc-child-thumb img' )
+						.attr( 'src', image )
+						.attr( 'srcset', '' ); // 4.3.9, we clear this in case the image does not have a srcset, set below
+				}
+				if ( image_srcset ) {
+					// 4.3.9, sometimes the thumb doesn't change because the original srcset has a value
+					$( wrapper ).find( '.pewc-child-thumb img' ).attr( 'srcset', image_srcset );
 				}
 				if( viewer_image ) {
-					$( wrapper ).find( '.pewc-viewer-thumb img' ).attr( 'src', viewer_image );
+					$( wrapper ).find( '.pewc-viewer-thumb img' )
+						.attr( 'src', viewer_image )
+						.attr( 'srcset', '' ); // 4.3.9
 				}
 				if( price ) {
 					$( wrapper ).find( '.pewc-child-name input' ).attr( 'data-option-cost', price );
@@ -300,6 +309,195 @@
 		};
 
 		grid.init();
+
+		// aou-products-column-new
+		var column_attributes = {
+
+			init: function(){
+				if ( $( '.pewc-product-column-attribute' ).length > 0 ) {
+					$( '.pewc-product-column-attribute' ).on( 'change', function( e ){
+						// an attribute is selected, check if all possible attributes have been selected already
+						var wrapper = $( this ).closest( '.pewc-product-column-attributes' );
+						column_attributes.check_child_product_attributes( wrapper );
+					});
+					// on page load, check all attributes to hide the Clear button if needed
+					$( '.pewc-product-column-attributes' ).each( function(){
+						column_attributes.check_child_product_attributes( $( this ) );
+					});
+					$( '.pewc_reset_variations' ).on( 'click', function( e ){
+						e.preventDefault();
+						column_attributes.reset_child_product_attributes( $( this ).closest( '.pewc-radio-checkbox-image-wrapper' ) );
+					});
+				}
+			},
+
+			check_child_product_attributes: function ( wrapper ) {
+				var child_wrapper = $( wrapper ).closest( '.pewc-radio-checkbox-image-wrapper' );
+				var num_attributes = $( wrapper ).find( '.pewc-product-column-attribute' ).length;
+				var post_data = { 
+					action: 'pewc_column_validate_variation',
+					product_id: $( child_wrapper ).find( '.pewc-column-form-field' ).val()
+				};
+				var selected_count = 0;
+
+				$( wrapper ).find( '.pewc-product-column-attribute' ).each( function(){
+					if ( $( this ).val() != '' ) {
+						// this has a value
+						post_data[ $( this ).data( 'attribute_name' ) ] = $( this ).val();
+						selected_count++;
+					} else {
+						// this does not have a value, stop now
+						return false;
+					}
+				});
+
+				var reset_button = $( wrapper ).closest( '.pewc-column-attributes-select' ).find( '.pewc_reset_variations' );
+				var column_add_wrapper = $( child_wrapper ).find( '.pewc-column-add-wrapper' );
+				
+				if ( selected_count === num_attributes ) {
+					// validate variation
+					$( wrapper ).block({
+						message: null,
+						overlayCSS:  {
+							backgroundColor: '#fff',
+							opacity:         0.6,
+							cursor:          'wait'
+						},
+					});
+					$.ajax({
+						type: 'POST',
+						url: pewc_vars.ajaxurl,
+						data: post_data,
+						success: function( variation ) {
+							$( wrapper ).unblock();
+							reset_button.show();
+							// logic from WC
+							if (
+								! variation || 
+								! variation.is_purchasable ||
+								! variation.is_in_stock ||
+								! variation.variation_is_visible
+							) {
+								// product cannot be purchased
+								column_attributes.reset_child_product_inputs( child_wrapper );
+							} else {
+								// allow purchase
+								column_add_wrapper.show();
+								column_attributes.update_child_product_inputs( child_wrapper, variation );
+							}
+							// this is here so that out of stock texts are also displayed?
+							var column_description = '';
+							if ( variation.variation_description ) {
+								column_description += variation.variation_description;
+							}
+							if ( variation.price_html ) {
+								column_description += variation.price_html;
+							}
+							if ( variation.availability_html ) {
+								column_description += variation.availability_html;
+							}
+							$( child_wrapper ).find( '.pewc-column-description' ).html( column_description );
+
+							// also update column with thumbnail of selected variation if it exists
+							column_attributes.update_column_thumbnail( child_wrapper, variation );
+						}
+					});
+				} else if ( selected_count > 0 ) {
+					$( child_wrapper ).find( '.pewc-column-description' ).html( '' );
+					column_attributes.reset_child_product_inputs( child_wrapper );
+					reset_button.show();
+				} else {
+					$( child_wrapper ).find( '.pewc-column-description' ).html( '' );
+					column_attributes.reset_child_product_inputs( child_wrapper );
+					reset_button.hide();
+				}
+			},
+
+			reset_child_product_attributes: function ( child_wrapper ) {
+
+				// reset attributes
+				$( child_wrapper ).find( '.pewc-product-column-attribute' ).each( function(){
+					$( this ).prop( 'selectedIndex', 0 ).trigger( 'change' );
+				});
+
+			},
+
+			update_child_product_inputs: function( child_wrapper, variation ) {
+
+				var child_id = $( child_wrapper ).data( 'option-id' );
+				var child_variant = $( child_wrapper ).find( 'input[name="pewc_child_variants_' + child_id + '"]' );
+				child_variant
+					.attr( 'data-variation-name', variation.pewc_variation_name )
+					.attr( 'data-option-cost', variation.display_price )
+					.val( variation.variation_id );
+				if ( $( child_wrapper ).find( 'input.pewc-child-quantity-field' ).length > 0 ) {
+					$( child_wrapper ).find( 'input.pewc-child-quantity-field' )
+						.attr( 'min', variation.min_qty )
+						.attr( 'max', variation.max_qty );
+				}
+				if ( $( child_wrapper ).hasClass( 'checked' ) ) {
+					$( 'body' ).trigger( 'pewc_force_update_total_js' ); // so that the price and summary is updated
+				}
+
+			},
+
+			reset_child_product_inputs: function( child_wrapper ) {
+
+				var child_id = $( child_wrapper ).data( 'option-id' );
+				var variant_id = $( child_wrapper ).find( 'input[name="pewc_child_variants_' + child_id + '"]' );
+				if ( variant_id.val() != '' ) {
+					if ( $( child_wrapper ).find( 'input.pewc-child-quantity-field' ).length > 0 ) {
+						$( child_wrapper ).find( 'input.pewc-child-quantity-field' )
+							.attr( 'min', 0 )
+							.attr( 'max', '' );
+					}
+					// click the Remove button
+					if ( $( child_wrapper ).find( '.pewc-add-button.pewc-added' ).is( ':visible' ) ) {
+						$( child_wrapper ).find( '.pewc-add-button.pewc-added' ).trigger( 'click' );
+					}
+					variant_id.val( '' );
+				}
+				// hide the Add button
+				$( child_wrapper ).find( '.pewc-column-add-wrapper' ).hide();
+
+				// reset column thumbnail
+				column_attributes.update_column_thumbnail( child_wrapper );
+
+			},
+
+			update_column_thumbnail: function( child_wrapper, variation=false ) {
+
+				var column_image = $( child_wrapper ).find( 'label img.attachment-thumbnail' );
+				if ( column_image.length < 1 ) {
+					// maybe product does not have a main image
+					column_image = $( child_wrapper ).find( 'label img.woocommerce-placeholder' );
+				}
+
+				if ( variation && variation.image && variation.image.src ) {
+					// save original image
+					if ( $( column_image ).attr( 'data-original-column-image' ) == undefined ) {
+						$( column_image ).attr( 'data-original-column-image', $( column_image ).attr( 'src' ) );
+						$( column_image ).attr( 'data-original-column-image-srcset', $( column_image ).attr( 'srcset' ) );
+					}
+					if ( variation.image.src ) {
+						$( column_image ).attr( 'src', variation.image.src );
+					}
+					if ( variation.image.srcset ) {
+						$( column_image ).attr( 'srcset', variation.image.srcset );
+					} else {
+						$( column_image ).attr( 'srcset', '' );
+					}
+				} else {
+					// put back original image
+					if ( $( column_image ).attr( 'data-original-column-image' ) != undefined ) {
+						$( column_image ).attr( 'src', $( column_image ).attr( 'data-original-column-image' ) );
+						$( column_image ).attr( 'srcset', $( column_image ).attr( 'data-original-column-image-srcset' ) );
+					}
+				}
+			}
+
+		};
+		column_attributes.init();
 
 		function pewc_get_wc_price( price ) {
 			var return_html, price_html, formatted_price;

@@ -52,9 +52,13 @@ if ( empty( $service_options ) ) {
 					}
 
 					if ( 'black' === (string) $setting['value'] ) {
-						$value = 'Dark';
+						$value = __( 'Dark', 'iubenda' );
 					} elseif ( 'white' === (string) $setting['value'] ) {
-						$value = 'Light';
+						$value = __( 'Light', 'iubenda' );
+					} elseif ( 'automatic' === (string) $setting['value'] ) {
+						$value = __( 'Automatic', 'iubenda' );
+					} elseif ( 'manual' === (string) $setting['value'] ) {
+						$value = __( 'Manual', 'iubenda' );
 					} else {
 						$value = $setting['value'];
 					}

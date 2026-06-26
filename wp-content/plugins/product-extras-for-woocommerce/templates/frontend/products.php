@@ -1,7 +1,8 @@
 <?php
 /**
  * A products field template
- * @since 2.2.0
+ * @since	2.2.0
+ * @version	4.3.12
  * @package WooCommerce Product Add-Ons Ultimate
  */
 
@@ -20,12 +21,17 @@ if( isset( $item['child_products'] ) ) {
 	$index = 0;
 	// Set the allow_none parameter according to whether the field is required or not
 	// allow_none means that child products can be deleted from the cart without deleting the parent product
-	$allow_none = empty( $item['required'] ) ? true : false;
+	$allow_none = empty( $item['field_required'] ) ? true : false;
 	$file = 'products/products-' . $layout . '.php';
 	$path = pewc_include_frontend_template( $file );
 	include( $path ); ?>
 	<input type="hidden" name="<?php echo esc_attr( $id ); ?>_quantities" value="<?php echo esc_attr( $item['products_quantities'] ); ?>">
-	<?php $allow_none = ! empty( $item['allow_none'] ) ? 1 : 0; ?>
+	<?php
+	// 4.3.12, $item['allow_none'] is now always empty, so this always returned 0.
+	// This means that removing non-required independent products also remove the parent
+	//$allow_none = ! empty( $item['allow_none'] ) ? 1 : 0;
+	
+	?>
 	<input type="hidden" name="<?php echo esc_attr( $id ); ?>_allow_none" value="<?php echo esc_attr( $allow_none ); ?>">
 	<?php $min_products = ! empty( $item['min_products'] ) ? absint( $item['min_products'] ) : ''; ?>
 	<input type="hidden" name="<?php echo esc_attr( $id ); ?>_min_products" value="<?php echo esc_attr( $min_products ); ?>">

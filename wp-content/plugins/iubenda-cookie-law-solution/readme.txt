@@ -4,8 +4,8 @@ Donate link:
 Tags: privacy policy, terms and conditions, cookie banner, GDPR, CCPA, cookie consent, rgpd, dsgvo, gdpr compliance, lgpd, cpra, privacy notice
 Requires at least: 5.0
 Requires PHP: 7.0.0
-Tested up to: 6.9
-Stable tag: 3.13.1
+Tested up to: 7.0
+Stable tag: 3.13.2
 License: MIT License
 License URI: http://opensource.org/licenses/MIT
 The solution for GDPR compliance + more. Get your cookie banner, privacy policy, terms and conditions and handle cookie consent in just one plugin.
@@ -265,6 +265,11 @@ The Brazilian General Data Protection Law, the ***Lei Geral de Proteção de Dad
 * * *
 
 == Changelog ==
+
+= 3.13.2 =
+* Support WordPress 7.0
+* Fixed: PHP deprecated notice for wp_sanitize_script_attributes() on WordPress 7.0+
+* Fixed: PHP 8.1/8.2 deprecation notices (null passed to string functions and dynamic property creation)
 
 = 3.13.1 =
 * Fixed: Site ID extraction for unified embed format (JEEG)
@@ -915,6 +920,7 @@ The Brazilian General Data Protection Law, the ***Lei Geral de Proteção de Dad
 
 == Upgrade Notice ==
 
-= 3.13.1 =
-* Fixed: Site ID extraction for unified embed format (JEEG)
-* Improved: Added request-level caching for unified embed configuration lookups
+= 3.13.2 =
+* Support WordPress 7.0
+* Fixed: PHP deprecated notice for wp_sanitize_script_attributes() on WordPress 7.0+
+* Fixed: PHP 8.1/8.2 deprecation notices (null passed to string functions and dynamic property creation)

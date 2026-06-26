@@ -31,22 +31,18 @@ defined('ABSPATH') || exit;
  * righe relative a wp-block-library / global-styles.
  * ==================================================================== */
 // ---- BLOCCO 1 START ----
-/*
 add_action( 'wp_enqueue_scripts', function() {
 	if ( is_admin() ) return;
 
-	// Dashicons: solo se serve la admin bar
 	if ( ! is_user_logged_in() || ! is_admin_bar_showing() ) {
 		wp_dequeue_style( 'dashicons' );
 	}
 
-	// Gutenberg block library — non usata sul frontend di questo tema
 	wp_dequeue_style( 'wp-block-library' );
 	wp_dequeue_style( 'wp-block-library-theme' );
 	wp_dequeue_style( 'global-styles' );
 	wp_dequeue_style( 'classic-theme-styles' );
 }, 100 );
-*/
 // ---- BLOCCO 1 END ----
 
 
@@ -61,7 +57,6 @@ add_action( 'wp_enqueue_scripts', function() {
  * aggiungi le condizioni mancanti.
  * ==================================================================== */
 // ---- BLOCCO 2 START ----
-/*
 add_filter( 'woocommerce_enqueue_styles', function( $styles ) {
 	if ( ! is_woocommerce() && ! is_cart() && ! is_checkout() && ! is_account_page() ) {
 		return array();
@@ -76,7 +71,6 @@ add_action( 'wp_enqueue_scripts', function() {
 		wp_dequeue_style( 'wc-blocks-vendors-style' );
 	}
 }, 100 );
-*/
 // ---- BLOCCO 2 END ----
 
 
@@ -97,12 +91,10 @@ add_action( 'wp_enqueue_scripts', function() {
  * PEWC, mobile menu, AJAX add-to-cart, modali, swiper, cookie banner,
  * tracking pixel.
  * ==================================================================== */
-// ---- BLOCCO 3 START ----
-/*
+// ---- BLOCCO 3 START (solo PEWC — jQuery footer/migrate restano commentati) ----
 add_action( 'wp_enqueue_scripts', function() {
 	if ( is_admin() ) return;
 
-	// PEWC — solo sulle pagine prodotto singolo
 	if ( ! is_product() ) {
 		wp_dequeue_style( 'pewc-style' );
 		wp_dequeue_style( 'pewc-dropzone' );
@@ -114,87 +106,217 @@ add_action( 'wp_enqueue_scripts', function() {
 		wp_dequeue_script( 'jquery-ui-core' );
 	}
 }, 100 );
-
-add_action( 'wp_default_scripts', function( $scripts ) {
-	if ( is_admin() ) return;
-
-	// Rimuovi jquery-migrate
-	if ( ! empty( $scripts->registered['jquery'] ) ) {
-		$scripts->registered['jquery']->deps = array_diff(
-			$scripts->registered['jquery']->deps,
-			array( 'jquery-migrate' )
-		);
-	}
-
-	// Sposta jQuery in footer
-	foreach ( array( 'jquery', 'jquery-core', 'jquery-migrate' ) as $handle ) {
-		if ( isset( $scripts->registered[ $handle ] ) ) {
-			$scripts->registered[ $handle ]->extra['group'] = 1;
-		}
-	}
-} );
-*/
 // ---- BLOCCO 3 END ----
 
-// Force font-display: swap on Font Awesome and preload critical font
+// Force font-display: swap on Font Awesome 7 (must match Bootscore FA version)
 add_action( 'wp_head', function() {
 	$fa_path = get_template_directory_uri() . '/assets/fontawesome/webfonts/';
 
-	// Preload critical solid font
 	echo '<link rel="preload" href="' . esc_url( $fa_path . 'fa-solid-900.woff2' ) . '" as="font" type="font/woff2" crossorigin>' . "\n";
-
-	// Override Font Awesome @font-face with font-display: swap
 	?>
 	<style>
 	@font-face {
-		font-family: "Font Awesome 6 Free";
+		font-family: "Font Awesome 7 Free";
 		font-style: normal;
 		font-weight: 900;
 		font-display: swap;
-		src: url("<?php echo esc_url( $fa_path ); ?>fa-solid-900.woff2") format("woff2"),
-			 url("<?php echo esc_url( $fa_path ); ?>fa-solid-900.ttf") format("truetype");
+		src: url("<?php echo esc_url( $fa_path ); ?>fa-solid-900.woff2") format("woff2");
 	}
 	@font-face {
-		font-family: "Font Awesome 6 Free";
+		font-family: "Font Awesome 7 Free";
 		font-style: normal;
 		font-weight: 400;
 		font-display: swap;
-		src: url("<?php echo esc_url( $fa_path ); ?>fa-regular-400.woff2") format("woff2"),
-			 url("<?php echo esc_url( $fa_path ); ?>fa-regular-400.ttf") format("truetype");
+		src: url("<?php echo esc_url( $fa_path ); ?>fa-regular-400.woff2") format("woff2");
 	}
 	@font-face {
-		font-family: "Font Awesome 6 Brands";
+		font-family: "Font Awesome 7 Brands";
 		font-style: normal;
 		font-weight: 400;
 		font-display: swap;
-		src: url("<?php echo esc_url( $fa_path ); ?>fa-brands-400.woff2") format("woff2"),
-			 url("<?php echo esc_url( $fa_path ); ?>fa-brands-400.ttf") format("truetype");
+		src: url("<?php echo esc_url( $fa_path ); ?>fa-brands-400.woff2") format("woff2");
 	}
 	</style>
 	<?php
 }, 1 );
 
+// Child theme replaces parent main.css — avoid loading both (~49KB duplicate)
+add_action( 'wp_enqueue_scripts', function() {
+	$styles = wp_styles();
+	if ( ! isset( $styles->registered['main'] ) ) {
+		return;
+	}
+	$src = $styles->registered['main']->src;
+	if ( str_contains( $src, '/themes/bootscore/' ) ) {
+		wp_dequeue_style( 'main' );
+		wp_deregister_style( 'main' );
+	}
+}, 15 );
+
+// Non-render-blocking Swiper CSS
+add_filter( 'style_loader_tag', function( $tag, $handle ) {
+	if ( 'swiper-css' === $handle ) {
+		$tag = str_replace( "media='all'", "media='print' onload=\"this.media='all'\"", $tag );
+		$tag = str_replace( 'media="all"', 'media="print" onload="this.media=\'all\'"', $tag );
+	}
+	return $tag;
+}, 10, 2 );
+
+/**
+ * Pages that need Swiper (sliders / product carousels).
+ */
+function albalu_needs_swiper() {
+	if ( is_front_page() || is_product() || is_shop() || is_product_category() || is_product_tag() ) {
+		return true;
+	}
+
+	global $post;
+	if ( ! $post instanceof WP_Post ) {
+		return false;
+	}
+
+	if ( has_shortcode( $post->post_content, 'bs-swiper-card-product' ) ) {
+		return true;
+	}
+
+	return (bool) preg_match( '/\b(swiper|creations-swiper|testimonial-swiper|product-slider)\b/', $post->post_content );
+}
+
+/**
+ * Logo attachment ID (cached). Upload: wp-content/uploads/2024/05/albalu-logo-web.png
+ */
+function albalu_get_logo_attachment_id() {
+	static $logo_id = null;
+	if ( null !== $logo_id ) {
+		return $logo_id;
+	}
+
+	$logo_id = (int) get_theme_mod( 'albalu_logo_attachment_id', 0 );
+	if ( ! $logo_id ) {
+		$logo_id = (int) attachment_url_to_postid( home_url( '/wp-content/uploads/2024/05/albalu-logo-web.png' ) );
+	}
+
+	return $logo_id;
+}
+
+/**
+ * Optimized header logo markup with srcset for LCP.
+ */
+function albalu_get_logo_img( $max_height = 80 ) {
+	$logo_id     = albalu_get_logo_attachment_id();
+	$max_height  = (int) $max_height;
+	$intrinsic_w = 600;
+	$intrinsic_h = 288;
+
+	if ( $logo_id ) {
+		$meta = wp_get_attachment_metadata( $logo_id );
+		if ( ! empty( $meta['width'] ) && ! empty( $meta['height'] ) ) {
+			$intrinsic_w = (int) $meta['width'];
+			$intrinsic_h = (int) $meta['height'];
+		}
+	}
+
+	$display_width = (int) round( $max_height * ( $intrinsic_w / $intrinsic_h ) );
+
+	$attrs = array(
+		'class'         => 'albalu-site-logo',
+		'alt'           => 'Albalù Bomboniere Logo',
+		'fetchpriority' => 'high',
+		'loading'       => 'eager',
+		'decoding'      => 'async',
+		'width'         => $display_width,
+		'height'        => $max_height,
+		'sizes'         => $display_width . 'px',
+		'style'         => sprintf( 'max-height: %dpx; width: auto; height: auto;', $max_height ),
+	);
+
+	if ( $logo_id ) {
+		$size = $max_height <= 60 ? 'medium' : 'large';
+		return wp_get_attachment_image( $logo_id, $size, false, $attrs );
+	}
+
+	return sprintf(
+		'<img src="%s" alt="%s" class="%s" style="%s" width="%d" height="%d" sizes="%s" fetchpriority="high" loading="eager" decoding="async">',
+		esc_url( home_url( '/wp-content/uploads/2024/05/albalu-logo-web.png' ) ),
+		esc_attr( $attrs['alt'] ),
+		esc_attr( $attrs['class'] ),
+		esc_attr( $attrs['style'] ),
+		$display_width,
+		$max_height,
+		esc_attr( $attrs['sizes'] )
+	);
+}
+
+/**
+ * Preload LCP image: logo sitewide, main product image on single product.
+ */
+add_action( 'wp_head', function() {
+	if ( is_product() ) {
+		$product = wc_get_product( get_the_ID() );
+		if ( $product ) {
+			$image_id = $product->get_image_id();
+			if ( $image_id ) {
+				$src = wp_get_attachment_image_url( $image_id, 'woocommerce_single' );
+				if ( $src ) {
+					echo '<link rel="preload" as="image" href="' . esc_url( $src ) . '" fetchpriority="high">' . "\n";
+					return;
+				}
+			}
+		}
+	}
+
+	$logo_id = albalu_get_logo_attachment_id();
+	if ( $logo_id ) {
+		$src = wp_get_attachment_image_url( $logo_id, 'medium' );
+	} else {
+		$src = home_url( '/wp-content/uploads/2024/05/albalu-logo-web.png' );
+	}
+
+	if ( $src ) {
+		echo '<link rel="preload" as="image" href="' . esc_url( $src ) . '" fetchpriority="high">' . "\n";
+	}
+}, 0 );
+
+// Product gallery: prioritize main image, lazy-load thumbnails
+add_filter( 'woocommerce_gallery_image_html_attachment_image_params', function( $params, $attachment_id, $image_size ) {
+	if ( ! is_product() ) {
+		return $params;
+	}
+
+	global $product;
+	if ( ! $product ) {
+		return $params;
+	}
+
+	if ( (int) $attachment_id === (int) $product->get_image_id() ) {
+		$params['fetchpriority'] = 'high';
+		$params['loading']       = 'eager';
+	} else {
+		$params['loading'] = 'lazy';
+	}
+
+	return $params;
+}, 10, 3 );
+
 
 add_action('wp_enqueue_scripts', 'bootscore_child_enqueue_styles');
 function bootscore_child_enqueue_styles() {
 
-  // Compiled main.css
   $modified_bootscoreChildCss = date('YmdHi', filemtime(get_stylesheet_directory() . '/assets/css/main.css'));
   wp_enqueue_style('main', get_stylesheet_directory_uri() . '/assets/css/main.css', array('parent-style'), $modified_bootscoreChildCss);
 
-  // style.css
   wp_enqueue_style('parent-style', get_template_directory_uri() . '/style.css');
 
-  // Enqueue Swiper CSS
-  wp_enqueue_style('swiper-css', 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css', [], '11.0.0');
+  if ( albalu_needs_swiper() ) {
+    wp_enqueue_style('swiper-css', 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css', [], '11.0.0');
+    wp_enqueue_script('swiper-js', 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js', [], '11.0.0', true);
+    $swiper_dep = array('jquery', 'swiper-js');
+  } else {
+    $swiper_dep = array('jquery');
+  }
 
-  // Enqueue Swiper JS
-  wp_enqueue_script('swiper-js', 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js', [], '11.0.0', true);
-  
-  // custom.js
-  // Get modification time. Enqueue file with modification date to prevent browser from loading cached scripts when file content changes. 
   $modificated_CustomJS = date('YmdHi', filemtime(get_stylesheet_directory() . '/assets/js/custom.js'));
-  wp_enqueue_script('custom-js', get_stylesheet_directory_uri() . '/assets/js/custom.js', array('jquery', 'swiper-js'), $modificated_CustomJS, true);
+  wp_enqueue_script('custom-js', get_stylesheet_directory_uri() . '/assets/js/custom.js', $swiper_dep, $modificated_CustomJS, true);
 }
 
 add_filter('bootscore/skip_cart', '__return_false');

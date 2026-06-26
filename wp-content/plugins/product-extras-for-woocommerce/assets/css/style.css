@@ -1,7 +1,8 @@
 ul.pewc-product-extra-groups,
 ul.pewc-product-extra-groups li {
 	list-style: none !important;
-	margin-left: 0
+	margin-left: 0;
+	padding-left: 0;
 }
 #left-area ul.pewc-product-extra-groups,
 #left-area ul.pewc-product-extra-groups li ul {
@@ -10,6 +11,7 @@ ul.pewc-product-extra-groups li {
 }
 .pewc-product-extra-groups li {
 	margin-bottom: 1em;
+	margin-left: 0
 }
 .single-product form.cart .pewc-product-extra-groups li input[type="text"],
 .single-product form.cart .pewc-product-extra-groups li input[type="file"] {
@@ -19,6 +21,10 @@ ul.pewc-product-extra-groups li {
 .single-product form.cart .pewc-product-extra-groups td input[type="checkbox"] {
 	width: auto;
 	margin-right: 1em
+}
+.pewc-group-heading {
+	font-weight: bold;
+	font-size: 1.5em;
 }
 .pewc-group small {
 	display: block;
@@ -50,7 +56,8 @@ h4.pewc-field-label .dashicons.tooltip {
 	font-family: dashicons;
 	font-size: 20px;
 	line-height: 1;
-	opacity: 1
+	opacity: 1;
+	pointer-events: auto;
 }
 .pewc-group-checkbox label {
 	display: inline;
@@ -987,6 +994,16 @@ li .pewc-calculation-field-wrapper {
 	display: -webkit-flex;
 	display: flex;
 }
+.pewc-column-wrapper .pewc-column-variants-wrapper.pewc-column-attributes-select {
+	flex-wrap: wrap;
+	margin-bottom: 1em;
+}
+.pewc-product-column-attributes {
+	margin: 0;
+}
+.pewc-column-attributes-select a.pewc_reset_variations {
+	line-height: 20px;
+}
 select.pewc-variable-child-select {
 	margin-bottom: 1em
 }
@@ -1066,7 +1083,9 @@ input[type=number].pewc-child-quantity-field {
 	display: flex;
 }
 .products-quantities-one-only .pewc-checkbox-desc-wrapper,
-.products-quantities-one-only .pewc-radio-desc-wrapper {
+.products-quantities-one-only .pewc-radio-desc-wrapper,
+.products-quantities-linked .pewc-checkbox-desc-wrapper,
+.products-quantities-linked .pewc-radio-desc-wrapper {
 	display: block;
 }
 .products-quantities-independent .pewc-radio-image-desc {
@@ -1223,15 +1242,25 @@ ul.pewc-product-extra-groups .pewc-item .pewc-checkboxes-list-wrapper label,
 	position: absolute;
 	top: 0;
 	left: 0;
+	right: 0;
 	z-index: 2;
 	height: 100%;
 }
 .pewc-image-layer img {
 	height: 100% !important;
+	margin-left: auto !important;
+	margin-right: auto !important;
 }
 /* this is needed by layered images when product has a gallery */
 body.pewc-has-extra-fields .woocommerce-product-gallery__wrapper {
 	height: 100%;
+}
+/* Some themes create a stacking context on an ancestor with an explicit z-index, which traps
+   z-index:-1 children and makes them invisible. z-index:0 on the wrapper creates an isolated
+   stacking context so image preview layers sit behind the product photo but remain visible. */
+.woocommerce-product-gallery__wrapper {
+	position: relative;
+	z-index: 0;
 }
 /* Child swatches */
 .pewc-swatches-child-product-outer {
@@ -2110,4 +2139,288 @@ span.pewc-plusminus-wrapper input[type="number"]::-webkit-outer-spin-button {
 .pewc-plusminus-btn:disabled {
 	opacity: 0.4;
 	cursor: default;
+}
+
+/* Theme style adjustments */
+input[type="text"].pewc-form-field,
+input[type="number"].pewc-form-field,
+textarea.pewc-form-field {
+    width: 100%;
+}
+table.dz-preview td {
+    border: 0 !important
+}
+table.dz-preview td.dz-details {
+    padding: 4px 10px !important
+}
+.pewc-group-heading-wrapper h3 {
+    margin-bottom: 1em;
+}
+.pewc-field-label {
+    margin-bottom: 0.5em;
+}
+.woocommerce table th.pewc-summary-panel-label {
+    text-align: left;
+}
+.woocommerce table th.pewc-summary-panel-price {
+    text-align: right;
+}
+
+/* Theme adjustments */
+
+/* Astra */
+.theme-astra.pewc-preset-style .pewc-radio-form-label span.pewc-theme-element:after,
+.theme-astra.pewc-preset-style .pewc-radio-list-label-wrapper span.pewc-theme-element:after,
+.theme-astra.pewc-preset-style .pewc-radio-wrapper span.pewc-theme-element:after {
+    top: 8px;
+    left: 8px;
+}
+.theme-astra.pewc-preset-style .pewc-item-checkbox .pewc-item-field-wrapper span.pewc-theme-element:after,
+.theme-astra.pewc-preset-style .pewc-item-checkbox-group .pewc-item-field-wrapper span.pewc-theme-element:after,
+.theme-astra.pewc-preset-style .pewc-checkbox-form-label span.pewc-theme-element:after,
+.theme-astra.pewc-preset-style .pewc-item-checkbox span.pewc-theme-element:after,
+.theme-astra.pewc-preset-style .pewc-checkbox-wrapper span.pewc-theme-element:after {
+    left: 10px;
+    top: 7px;
+}
+.ast-article-single .pewc-item img {
+    box-shadow: none;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+}
+.theme-astra div.product form.cart table.pewc-summary-panel-table,
+.theme-astra div.product form.cart table th,
+.theme-astra div.product form.cart table td,
+.theme-astra div.product form.cart table th.pewc-summary-panel-label {
+    border: 0;
+}
+.theme-astra div.product form.cart table.pewc-summary-panel-table thead th {
+    border-bottom: 1px solid var(--ast-border-color);
+}
+.theme-astra div.product form.cart table th.pewc-summary-panel-label,
+.theme-astra div.product form.cart table tr.pewc-summary-panel-group-title th {
+    text-align: left;
+    padding-left: 0;
+}
+.theme-astra div.product form.cart table th.pewc-summary-panel-price,
+.theme-astra div.product form.cart table th#pewc-summary-panel-subtotal,
+.theme-astra div.product form.cart table td.pewc-summary-panel-price {
+    text-align: right;
+    padding-right: 0;
+}
+.theme-astra.pewc-hide-quantity div.product form.cart div.quantity {
+    display: none
+}
+.theme-astra .pewc-plusminus-btn {
+    color: #333
+}
+
+/* Blocksy */
+.theme-blocksy.pewc-preset-style .pewc-radio-form-label span.pewc-theme-element:after,
+.theme-blocksy.pewc-preset-style .pewc-radio-list-label-wrapper span.pewc-theme-element:after,
+.theme-blocksy.pewc-preset-style .pewc-radio-wrapper span.pewc-theme-element:after {
+    top: 8px;
+    left: 8px;
+}
+.theme-blocksy.pewc-preset-style .pewc-item-checkbox .pewc-item-field-wrapper span.pewc-theme-element:after,
+.theme-blocksy.pewc-preset-style .pewc-item-checkbox-group .pewc-item-field-wrapper span.pewc-theme-element:after,
+.theme-blocksy.pewc-preset-style .pewc-checkbox-form-label span.pewc-theme-element:after,
+.theme-blocksy.pewc-preset-style .pewc-item-checkbox span.pewc-theme-element:after,
+.theme-blocksy.pewc-preset-style .pewc-checkbox-wrapper span.pewc-theme-element:after {
+    left: 10px;
+    top: 7px;
+}
+.theme-blocksy.pewc-hide-quantity form.cart .ct-cart-actions {
+    gap: 0
+}
+.theme-blocksy.pewc-hide-quantity form.cart .quantity {
+    width: 0
+}
+.theme-blocksy.pewc-hide-quantity form.cart .quantity span {
+    display: none
+}
+.theme-blocksy .pewc-failed-validation,
+.theme-blocksy .pewc-product-extra-groups > li.pewc-failed-validation {
+    margin-bottom: 2em;
+}
+.theme-blocksy div.product form.cart table th.pewc-summary-panel-label,
+.theme-blocksy div.product form.cart table tr.pewc-summary-panel-group-title th {
+    text-align: left;
+    padding-left: 0;
+}
+/* ::before arrow cuts away the previous step's arrow — matches page bg */
+.theme-blocksy .pewc-steps-wrapper .pewc-tab:before {
+    border-left-color: #FAFBFC;
+}
+/* ::after arrow continues the step's background colour */
+.theme-blocksy .pewc-steps-wrapper .pewc-tab:after {
+    border-left: solid 30px #FAFBFC;
+}
+
+/* Bricks */
+.theme-bricks.pewc-preset-style .pewc-radio-form-label span.pewc-theme-element:after,
+.theme-bricksy.pewc-preset-style .pewc-radio-list-label-wrapper span.pewc-theme-element:after,
+.theme-bricks.pewc-preset-style .pewc-radio-wrapper span.pewc-theme-element:after {
+    top: 8px;
+    left: 8px;
+}
+.theme-bricks.pewc-preset-style .pewc-item-checkbox .pewc-item-field-wrapper span.pewc-theme-element:after,
+.theme-bricks.pewc-preset-style .pewc-item-checkbox-group .pewc-item-field-wrapper span.pewc-theme-element:after {
+    left: 10px;
+    top: 7px;
+}
+.theme-bricks.pewc-hide-quantity .quantity .action {
+    display: none;
+}
+
+/* Divi */
+.theme-Divi .pewc-summary-panel-wrapper table {
+	border-collapse: collapse;
+	width: 100%;
+}
+
+/* Flatsome */
+.entry-summary .pewc-product-extra-groups li {
+	margin-left: 0
+}
+.theme-flatsome.pewc-preset-style .pewc-radio-form-label span.pewc-theme-element:after,
+.theme-flatsome.pewc-preset-style .pewc-radio-list-label-wrapper span.pewc-theme-element:after,
+.theme-flatsome.pewc-preset-style .pewc-radio-wrapper span.pewc-theme-element:after {
+    top: 8px;
+    left: 8px;
+}
+.theme-flatsome.pewc-preset-style .pewc-item-checkbox .pewc-item-field-wrapper span.pewc-theme-element:after,
+.theme-flatsome.pewc-preset-style .pewc-item-checkbox-group .pewc-item-field-wrapper span.pewc-theme-element:after,
+.theme-flatsome.pewc-preset-style .pewc-checkbox-form-label span.pewc-theme-element:after,
+.theme-flatsome.pewc-preset-style .pewc-item-checkbox span.pewc-theme-element:after,
+.theme-flatsome.pewc-preset-style .pewc-checkbox-wrapper span.pewc-theme-element:after {
+    left: 10px;
+    top: 6px;
+}
+.theme-flatsome.pewc-hide-quantity .quantity.buttons_added {
+    display: none;
+}
+
+/* Hello Elementor */
+.theme-hello-elementor.pewc-preset-style .pewc-radio-form-label span.pewc-theme-element:after,
+.theme-hello-elementor.pewc-preset-style .pewc-radio-list-label-wrapper span.pewc-theme-element:after,
+.theme-hello-elementor.pewc-preset-style .pewc-radio-wrapper span.pewc-theme-element:after {
+    top: 8px;
+    left: 8px;
+}
+.theme-hello-elementor.pewc-preset-style .pewc-item-checkbox .pewc-item-field-wrapper span.pewc-theme-element:after,
+.theme-hello-elementor.pewc-preset-style .pewc-item-checkbox-group .pewc-item-field-wrapper span.pewc-theme-element:after,
+.theme-hello-elementor.pewc-preset-style .pewc-checkbox-form-label span.pewc-theme-element:after,
+.theme-hello-elementor.pewc-preset-style .pewc-item-checkbox span.pewc-theme-element:after,
+.theme-hello-elementor.pewc-preset-style .pewc-checkbox-wrapper span.pewc-theme-element:after {
+    left: 10px;
+    top: 7px;
+}
+.theme-hello-elementor.pewc-preset-style .pewc-product-extra-groups li label {
+    line-height: 24px;
+}
+.theme-hello-elementor .related.products {
+	clear: left;
+}
+.theme-hello-elementor button.pewc-plusminus-btn {
+    padding: 0
+}
+
+.theme-hello-elementor div.product form.cart table.pewc-summary-panel-table,
+.theme-hello-elementor div.product form.cart table th,
+.theme-hello-elementor div.product form.cart table td,
+.theme-hello-elementor div.product form.cart table th.pewc-summary-panel-label {
+    border: 0;
+}
+.theme-hello-elementor div.product form.cart table.pewc-summary-panel-table thead th {
+    border-bottom: 1px solid var(--ast-border-color);
+}
+.theme-hello-elementor div.product form.cart table th.pewc-summary-panel-label,
+.theme-hello-elementor div.product form.cart table tr.pewc-summary-panel-group-title th,
+.theme-hello-elementor div.product form.cart table td.pewc-summary-panel-label {
+    text-align: left;
+	padding-left: 15px;
+}
+.theme-hello-elementor div.product form.cart table th.pewc-summary-panel-price,
+.theme-hello-elementor div.product form.cart table th#pewc-summary-panel-subtotal,
+.theme-hello-elementor div.product form.cart table td.pewc-summary-panel-price {
+    text-align: right;
+}
+
+/* Shoptimizer */
+.theme-shoptimizer.pewc-preset-style .pewc-radio-form-label span.pewc-theme-element:after,
+.theme-shoptimizer.pewc-preset-style .pewc-radio-list-label-wrapper span.pewc-theme-element:after,
+.theme-shoptimizer.pewc-preset-style .pewc-radio-wrapper span.pewc-theme-element:after {
+    top: 8px;
+    left: 8px;
+}
+.theme-shoptimizer.pewc-preset-style .pewc-item-checkbox .pewc-item-field-wrapper span.pewc-theme-element:after,
+.theme-shoptimizer.pewc-preset-style .pewc-item-checkbox-group .pewc-item-field-wrapper span.pewc-theme-element:after,
+.theme-shoptimizer.pewc-preset-style .pewc-checkbox-form-label span.pewc-theme-element:after,
+.theme-shoptimizer.pewc-preset-style .pewc-item-checkbox span.pewc-theme-element:after,
+.theme-shoptimizer.pewc-preset-style .pewc-checkbox-wrapper span.pewc-theme-element:after {
+    left: 10px;
+    top: 6px;
+}
+.theme-shoptimizer.pewc-hide-quantity .qty,
+.theme-shoptimizer.pewc-hide-quantity .quantity-nav {
+    display: none;
+}
+.theme-shoptimizer.pewc-hide-quantity .cart .single_add_to_cart_button {
+    margin-left: 0;
+}
+.theme-shoptimizer .pewc-steps-wrapper .pewc-tab {
+    background: #d8d8d8;
+}
+.theme-shoptimizer .pewc-steps-wrapper .pewc-tab.active-tab {
+    background: #b0b0b0;
+}
+/* ::before arrow cuts away the previous step's arrow — matches page bg */
+.theme-shoptimizer .pewc-steps-wrapper .pewc-tab:before {
+    border-left-color: #f8f8f8;
+}
+/* ::after arrow continues the step's background colour */
+.theme-shoptimizer .pewc-steps-wrapper .pewc-tab:after {
+    border-left: solid 30px #d8d8d8;
+}
+.theme-shoptimizer .pewc-steps-wrapper .pewc-tab.active-tab:after {
+    border-left: solid 30px #b0b0b0;
+}
+.theme-shoptimizer.pewc-swatch-grid.pewc-radio-images-wrapper:not(.pewc-components-wrapper),
+.theme-shoptimizer.pewc-swatch-grid .pewc-checkboxes-images-wrapper:not(.pewc-components-wrapper) {
+    grid-gap: 5px;
+}
+.theme-shoptimizer .pewc-failed-validation,
+.theme-shoptimizer .pewc-product-extra-groups > li.pewc-failed-validation {
+    padding: 1em
+}
+.theme-shoptimizer div.product form.cart table td.pewc-summary-panel-price {
+	padding-right: 0
+}
+
+/* Woodmart */
+.theme-woodmart.pewc-preset-style .pewc-radio-form-label span.pewc-theme-element:after,
+.theme-woodmart.pewc-preset-style .pewc-radio-list-label-wrapper span.pewc-theme-element:after,
+.theme-woodmart.pewc-preset-style .pewc-radio-wrapper span.pewc-theme-element:after {
+    top: 8px;
+    left: 8px;
+}
+.theme-woodmart.pewc-preset-style .pewc-item-checkbox .pewc-item-field-wrapper span.pewc-theme-element:after,
+.theme-woodmart.pewc-preset-style .pewc-item-checkbox-group .pewc-item-field-wrapper span.pewc-theme-element:after,
+.theme-woodmart.pewc-preset-style .pewc-checkbox-form-label span.pewc-theme-element:after,
+.theme-woodmart.pewc-preset-style .pewc-item-checkbox span.pewc-theme-element:after,
+.theme-woodmart.pewc-preset-style .pewc-checkbox-wrapper span.pewc-theme-element:after,
+.theme-woodmart.pewc-preset-style .pewc-radio-wrapper span.pewc-theme-element:after {
+    left: 10px;
+    top: 7px;
+}
+.theme-woodmart .pewc-select-wrapper {
+    border: 0;
+    padding: 0
+}
+.theme-woodmart.pewc-hide-quantity .quantity {
+    display: none;
+}
+.theme-woodmart button.pewc-plusminus-btn {
+    padding: 0
 }

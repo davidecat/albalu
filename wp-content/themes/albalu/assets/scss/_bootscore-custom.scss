@@ -17,6 +17,14 @@
   background-color: var(--bg-albalu-warm);
 }
 
+.site-header .navbar-brand .albalu-site-logo {
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  object-fit: contain;
+}
+
 // Chi Siamo - Hero section
 .chi-hero {
   position: relative;

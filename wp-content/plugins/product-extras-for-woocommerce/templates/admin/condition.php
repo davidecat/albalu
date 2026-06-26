@@ -145,7 +145,10 @@ if( ! empty( $item['condition_field'] ) ) {
 					}
 				} else {
 					// 3.27.1, moved here. Products field doesn't have this setting
-					$allow_multiple = get_post_meta( $cond_field_id, 'allow_multiple', true );
+					// 4.3.11, use pewc_create_item_object so allow_multiple is read from all_params when available, avoiding stale individual postmeta
+					// $allow_multiple = get_post_meta( $cond_field_id, 'allow_multiple', true );
+					$cond_field_item = pewc_create_item_object( $cond_field_id );
+					$allow_multiple = ! empty( $cond_field_item['allow_multiple'] );
 				}
 
 				// 3.26.2, commented out products and product categories, because it is causing issues in the Edit Product page, where Is Not is always reverting to Is (see pewc_set_rules() in assets/js/admin-fields.js). 'Contains' doesn't get activated anyway, the options are always Is/Is Not, so let's just comment this out. They can add multiple lines for multiple products

@@ -145,7 +145,7 @@ class Cookie_Solution_Generator {
 			$after_configuration .= '<script type="text/javascript" src="//cdn.iubenda.com/cs/gpp/stub.js"></script>';
 		}
 
-		$cs_configuration['banner']['position'] = str_replace( 'full-', '', iub_array_get( $args, 'position' ) );
+		$cs_configuration['banner']['position'] = str_replace( 'full-', '', (string) iub_array_get( $args, 'position' ) );
 
 		$banner_style = (string) iub_array_get( $args, 'banner_style' );
 		if ( 'light' === $banner_style ) {

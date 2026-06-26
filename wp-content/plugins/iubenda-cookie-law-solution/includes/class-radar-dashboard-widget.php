@@ -41,7 +41,7 @@ class Radar_Dashboard_Widget {
 		// Add the dashboard widget.
 		wp_add_dashboard_widget(
 			'iubenda-compliance-status',
-			'iubenda Compliance Status',
+			__( 'iubenda Compliance Status', 'iubenda' ),
 			array( $this, 'get_widget_html' )
 		);
 

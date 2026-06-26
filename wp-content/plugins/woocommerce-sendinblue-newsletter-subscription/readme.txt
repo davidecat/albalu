@@ -168,6 +168,16 @@ If you need some assistance, you can post an issue in the Support tab, or send u
 
 == Changelog ==
 
+= 4.0.55 =
+* Plugin Update Event support for multistore.
+* Decimal quantity support in order sync.
+
+= 4.0.54 =
+* Resolved an issue where contacts were being automatically unsubscribed after opting in through third-party forms. 
+* Updated default newsletter opt-in checkbox label and added translations for French.
+* Enhanced compatibility with WooCommerce's High-Performance Order Storage (HPOS) in Block Checkout, ensuring more reliable order syncing and contact updates.
+* Plugin performance enhancements.
+
 = 4.0.53 =
 * Technical improvements related to Dismissible banner
 

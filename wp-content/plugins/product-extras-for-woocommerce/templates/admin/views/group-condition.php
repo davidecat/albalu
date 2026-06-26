@@ -106,8 +106,11 @@ if( ! empty( $conditions ) ) {
 
 			<div>
 				<?php $class = "pewc-condition-rule pewc-condition-select";
-				$rules = pewc_get_rules();			
-				$allow_multiple = get_post_meta( $cond_field_id, 'allow_multiple', true );
+				$rules = pewc_get_rules();
+				// 4.3.11, use pewc_create_item_object so allow_multiple is read from all_params when available, avoiding stale individual postmeta
+				// $allow_multiple = get_post_meta( $cond_field_id, 'allow_multiple', true );
+				$cond_field_item = pewc_create_item_object( $cond_field_id );
+				$allow_multiple = ! empty( $cond_field_item['allow_multiple'] );
 				if( $condition_field_type == 'products' && isset( $item['products_layout'] ) && ( $item['products_layout'] == 'checkboxes' || $item['products_layout'] == 'checkboxes-list' || $item['products_layout'] == 'column' ) ) {
 					$allow_multiple = true;
 				}

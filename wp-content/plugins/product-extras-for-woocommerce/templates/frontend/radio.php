@@ -1,7 +1,8 @@
 <?php
 /**
  * A radio button template
- * @since 2.0.0
+ * @since	2.0.0
+ * @version	4.3.11
  * @package WooCommerce Product Add-Ons Ultimate
  */
 
@@ -74,7 +75,7 @@ if( isset( $item['field_options'] ) ) {
 		}
 
 		$option_attributes = apply_filters( 'pewc_radio_option_attributes', '', $item, $option_value, $key, $option_index );
-		$option_attribute_string = pewc_get_option_attribute_string();
+		$option_attribute_string = pewc_get_option_attribute_string( $option_attributes ); // 4.3.11, pass $option_attributes into function. Formulas in prices uses the pewc_radio_option_attributes filter
 		$option_attribute_string = apply_filters( 'pewc_option_attribute_string', $option_attribute_string, $item, $option_value, $option_index );
 
 		$radio = sprintf(

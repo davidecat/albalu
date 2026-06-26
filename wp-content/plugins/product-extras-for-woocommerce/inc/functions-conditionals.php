@@ -699,14 +699,15 @@ add_action( 'pewc_after_product_fields', 'pewc_print_condition_script' );
  * @param $posted		$_POST
  * @return Boolean		True if field is visible, false if field is hidden
  */
-function pewc_get_conditional_field_visibility( $id, $item, $items, $product_id, $posted=array(), $variation_id=null, $cart_item_data=array(), $quantity=0, $group_id=false, $group=false ) {
+function pewc_get_conditional_field_visibility( $id, $item, $items, $product_id, $posted=array(), $variation_id=null, $cart_item_data=array(), $quantity=0, $group_id=false, $group=false, $visible_fields=array() ) {
 
 	if( empty( $posted ) ) {
 		$posted = $_POST;
 	}
 
 	// Check if the field is in a hidden group
-	if( ! pewc_is_group_visible( $group_id, $group, $posted ) ) {
+	// 4.3.13, added $visible_fields
+	if( ! pewc_is_group_visible( $group_id, $group, $posted, $visible_fields ) ) {
 		return false;
 	}
 
@@ -1629,7 +1630,7 @@ function pewc_get_conditional_field_visibility( $id, $item, $items, $product_id,
  * Returns whether a group is visible based on conditions
  * @since 3.8.0
  */
-function pewc_is_group_visible( $group_id, $group, $posted ) {
+function pewc_is_group_visible( $group_id, $group, $posted, $visible_fields=array() ) {
 
 	// Check for 'Always add to order' parameter
 	$always_include = pewc_get_group_include_in_order( $group_id );
@@ -1666,6 +1667,13 @@ function pewc_is_group_visible( $group_id, $group, $posted ) {
 		}
 
 		$field_value = isset( $posted[$field_id] ) ? $posted[$field_id] : false;
+		if ( ! empty( $visible_fields ) && ! in_array( $field_id, $visible_fields ) ) {
+			// 4.3.13, $visible_fields only get values when in pewc_validate_cart_item_data()
+			// if this field is not in $visible_fields, this field is hidden, reset to false
+			// this maybe fixes an issue where a field with default value will match a group condition even if the field is inside a hidden group
+			$field_value = false;
+		}
+
 		if ( false === $field_value && isset( $posted[$field_id.'_child_product'] ) )
 			$field_value = $posted[$field_id.'_child_product']; // this is for conditions based on child products
 

@@ -155,8 +155,10 @@ function pewc_enqueue_scripts() {
 		'product_gallery'			=> apply_filters( 'pewc_product_gallery', '.images' ),
 		'product_img_wrap'			=> apply_filters( 'pewc_product_img_wrap', '.woocommerce-product-gallery__image, .woocommerce-product-gallery__image--placeholder' ),
 		'product_img_zoom'			=> apply_filters( 'pewc_product_img_zoom', 'img.zoomImg' ), // 3.27.3
+		'product_img_zoom_src'		=> apply_filters( 'pewc_product_img_zoom_src', 'src' ), // 4.3.12
 		'calculations_timer'		=> apply_filters( 'pewc_calculations_timer', 0 ),
 		'conditions_timer'			=> apply_filters( 'pewc_conditions_timer', 0 ),
+		'event_driven_conditions'	=> pewc_event_driven_conditions(),
 		'remove_spaces'				=> apply_filters( 'pewc_remove_spaces_in_text', 'no' ),
 		'math_round'				=> apply_filters( 'pewc_math_round', 'no' ),
 		'disable_button_calcs'		=> apply_filters( 'pewc_disable_button_calcs', 'no' ),
@@ -427,11 +429,12 @@ function pewc_product_extra_fields() {
 				$parent_field_id = $cart_item['product_extras']['products']['parent_field_id'];
 
 				// Get the child field IDs
-				foreach( $cart_item['product_extras']['products']['child_products'] as $child_field_id=>$child_field_data ) {
+				// 4.3.12, commented out because $child_fields gets built anyway below?
+				//foreach( $cart_item['product_extras']['products']['child_products'] as $child_field_id=>$child_field_data ) {
 					// This builds an array of child products belonging to each Products field
 					// E.g. pewc_group_4850_4866 => array( 525 => 525 )
-					$child_fields[$child_field_data['field_id']][$child_field_id] = $child_field_id;
-				}
+					//$child_fields[$child_field_data['field_id']][$child_field_id] = $child_field_id;
+				//}
 
 				foreach( $cart as $child_cart_item_key=>$child_cart_item ) {
 
@@ -545,7 +548,8 @@ function pewc_product_extra_fields() {
 					}
 
 					if( $group_title ) {
-						echo apply_filters( 'pewc_filter_group_title', sprintf( '<h3>%s</h3>', esc_html( $group_title ) ), $group, $group_id );
+						$group_title_tag = get_option( 'pewc_group_title_tag', 'h3' );
+						echo apply_filters( 'pewc_filter_group_title', sprintf( '<%1$s class="pewc-group-heading">%2$s</%1$s>', tag_escape( $group_title_tag ), esc_html( $group_title ) ), $group, $group_id );
 					}
 					$group_class = '';
 					if( isset( $group['meta']['group_required'] ) ) {
@@ -568,9 +572,10 @@ function pewc_product_extra_fields() {
 							'pewc_filter_group_description',
 							sprintf(
 								'<p class="pewc-group-description">%s</p>',
-								wp_kses_post( $description ),
-								$group
-							)
+								wp_kses_post( $description )
+							),
+							$group,
+							$description
 						);
 					}
 

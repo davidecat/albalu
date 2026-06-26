@@ -52,55 +52,78 @@ if( isset( $item['field_rows'] ) ) {
 	<div class="<?php echo join( ' ', $radio_wrapper_classes ); ?>">
 
   	<?php if( ! empty( $item['field_cl_options'] ) ) {
-			// Use this to track the next day to check
-		$count_the_days = 0;
-		$is_first_option = true;
-		$last_rendered_date = null;
 
-		foreach( $item['field_cl_options'] as $option_index=>$list_item ) {
-
-			$date = new DateTime();
-
+		// Pre-resolve all option dates so we can look ahead: if an option's resolved date
+		// matches the next option's date (e.g. Option 0 shifts forward past the cutoff to
+		// land on the same day as Option 1), skip the earlier option rather than the later one.
+		$resolved_options = array();
+		$is_first_pre = true;
+		foreach( $item['field_cl_options'] as $option_index => $list_item ) {
 			if( ! isset( $list_item['value'] ) || $list_item['value'] === false ) {
-				// If the offset isn't specified, skip
 				continue;
-			} else {
-				// This is the number of days ahead of the current day, e.g. 0 is the current day, 1 is the day after the current day
-				$offset = absint( $list_item['value'] );
 			}
+			$offset = absint( $list_item['value'] );
+			$count  = $is_first_pre ? $offset + $base_offset : $offset;
+			$is_first_pre = false;
 
-			// Only shift the first rendered option when past the latest time; all others keep their original offsets
-			$is_first_rendered_option = $is_first_option;
-			$count_the_days = $is_first_rendered_option ? $offset + $base_offset : $offset;
-			$is_first_option = false;
-
-			// Count forward $count_the_days *available* days (skipping blocked weekdays and blocked dates).
-			// offset=0 → first available day on or after today.
-			// offset=N → Nth available day after today.
-			// Example: offset=2, Sat+Sun blocked, today is Thursday 26th → Monday 30th.
-			if( $count_the_days === 0 ) {
-				// Find the first available day starting from today
-				while( ! pewc_is_calendar_list_date_allowed( $date, $weekdays, $blocked_dates ) ) {
-					$date->modify( '+1 day' );
+			$d = new DateTime();
+			if( $count === 0 ) {
+				while( ! pewc_is_calendar_list_date_allowed( $d, $weekdays, $blocked_dates ) ) {
+					$d->modify( '+1 day' );
 				}
 			} else {
-				$available_days_counted = 0;
-				while( $available_days_counted < $count_the_days ) {
-					$date->modify( '+1 day' );
-					if( pewc_is_calendar_list_date_allowed( $date, $weekdays, $blocked_dates ) ) {
-						$available_days_counted++;
+				$counted = 0;
+				while( $counted < $count ) {
+					$d->modify( '+1 day' );
+					if( pewc_is_calendar_list_date_allowed( $d, $weekdays, $blocked_dates ) ) {
+						$counted++;
 					}
 				}
 			}
-			$option_date = $date;
+			$resolved_options[] = array(
+				'option_index' => $option_index,
+				'list_item'    => $list_item,
+				'date'         => $d,
+				'ymd'          => $d->format( 'Y-m-d' ),
+			);
+		}
 
-			// Skip this option if it resolves to the same date as the previously rendered option
+		// Build render list: drop any entry whose resolved date equals the following entry's date.
+		$render_options  = array();
+		$resolved_count  = count( $resolved_options );
+		for( $ri = 0; $ri < $resolved_count; $ri++ ) {
+			$next_ymd = isset( $resolved_options[ $ri + 1 ] ) ? $resolved_options[ $ri + 1 ]['ymd'] : null;
+			if( $next_ymd !== null && $resolved_options[ $ri ]['ymd'] === $next_ymd ) {
+				continue;
+			}
+			$render_options[] = $resolved_options[ $ri ];
+		}
+
+		$is_first_option = true;
+		$last_rendered_date = null;
+
+		foreach( $render_options as $resolved ) {
+
+			$option_index = $resolved['option_index'];
+			$list_item    = $resolved['list_item'];
+			$option_date  = $resolved['date'];
+
+			if( ! isset( $list_item['value'] ) || $list_item['value'] === false ) {
+				continue;
+			} else {
+				$offset = absint( $list_item['value'] );
+			}
+
+			$is_first_rendered_option = $is_first_option;
+			$is_first_option = false;
+
+			// Skip this option if it resolves to the same or earlier date as the previously rendered option
 			if( $last_rendered_date !== null && $option_date->format( 'Y-m-d' ) <= $last_rendered_date->format( 'Y-m-d' ) ) {
 				continue;
 			}
 			$last_rendered_date = clone $option_date;
 
-			$nice_day = $option_date->format( 'D' );
+			$nice_day = wp_date( 'D', $option_date->getTimestamp() );
 			$nice_date = $option_date->format( 'j' );
 
 			$wrapper_classes = array(
@@ -148,7 +171,7 @@ if( isset( $item['field_rows'] ) ) {
 				join( ' ', apply_filters( 'pewc_calendar_list_wrapper_classes', $wrapper_classes, $offset, $price, $option_index ) ),
 				$hour,
 				$minute,
-				$date->format('Y-m-d')
+				$option_date->format('Y-m-d')
 			);
 
 			printf(

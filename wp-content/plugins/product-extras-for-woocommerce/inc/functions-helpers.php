@@ -56,6 +56,12 @@ function pewc_filter_body_classes( $classes ) {
 	if ( 'yes' === pewc_enable_plus_minus_buttons( isset( $post->ID ) ? $post->ID : 0 ) ) {
 		$classes[] = 'pewc-plus-minus-enabled';
 	}
+	if( isset( $post->ID ) && 'product' == get_post_type( $post->ID ) ) {
+		$product = wc_get_product( $post->ID );
+		if( $product && pewc_hide_quantity( $product ) ) {
+			$classes[] = 'pewc-hide-quantity';
+		}
+	}
 	return $classes;
 }
 add_filter( 'body_class', 'pewc_filter_body_classes' );
@@ -542,6 +548,7 @@ function pewc_get_field_params( $field_id=null ) {
 		'quantity_override',
 		'replace_main_image',
 		'layered_images',
+		'main_image_scale',
 		'parent_swatch_id',
 		'field_swatchwidth',
 		'field_class',
@@ -1245,7 +1252,7 @@ function pewc_get_products_for_cats( $categories ) {
 
 	$args = array(
 		'status'		=> 'publish',
-		'type'			=> ['simple','variable'],
+		'type'			=> ['simple','variable','simple_booking'],
 		'orderby' 		=> 'menu_order',
 		'order' 		=> 'ASC',
 		'limit'			=> apply_filters( 'pewc_products_for_cats_limit', 99 ),
@@ -1845,7 +1852,7 @@ function pewc_get_swatch_thumbnail_size( $item ) {
  */
 function pewc_get_quantity_layout() {
 
-	$layout = get_option( 'pewc_quantity_layout', 'grid' );
+	$layout = get_option( 'pewc_quantity_layout', 'block' );
 	return apply_filters( 'pewc_quantity_layout', $layout );
 
 }
@@ -1932,26 +1939,60 @@ function pewc_set_child_quantity_default( $post_id ) {
 }
 
 /**
- * Optimise conditions?
+ * Get the active performance optimization mode.
+ * Reads the new unified setting, falling back gracefully to the legacy individual options.
+ * @since 4.3.5
+ */
+function pewc_get_performance_optimization() {
+	$mode = get_option( 'pewc_performance_optimization', '' );
+	if ( $mode !== '' ) {
+		return $mode;
+	}
+	// Legacy fallback: derive mode from the old individual checkboxes.
+	$opt_calc = get_option( 'pewc_optimise_calculations', 'yes' );
+	$opt_cond = get_option( 'pewc_optimise_conditions', 'no' );
+	if ( $opt_calc === 'yes' && $opt_cond === 'yes' ) {
+		return 'timebased_both';
+	} elseif ( $opt_calc === 'yes' ) {
+		return 'timebased_calculations';
+	} elseif ( $opt_cond === 'yes' ) {
+		return 'timebased_conditions';
+	}
+	return 'none';
+}
+
+/**
  * @since 3.8.7
  */
 function pewc_conditions_timer( $time ) {
-	$optimise = get_option( 'pewc_optimise_conditions', 'no' );
-	if( $optimise == 'yes' ) {
+	$mode = pewc_get_performance_optimization();
+	if ( $mode === 'timebased_conditions' || $mode === 'timebased_both' ) {
 		$time = 500;
+	} elseif ( $mode === 'event_driven' ) {
+		// Use 1 to enable the optimised JS code path without starting any polling interval.
+		$time = 1;
 	}
 	return $time;
 }
 add_filter( 'pewc_conditions_timer', 'pewc_conditions_timer' );
 
 /**
- * Optimise conditions?
+ * @since 4.3.5
+ */
+function pewc_event_driven_conditions() {
+	return pewc_get_performance_optimization() === 'event_driven' ? 'yes' : 'no';
+}
+
+/**
  * @since 3.8.7
  */
 function pewc_calculations_timer( $time ) {
-	$optimise = get_option( 'pewc_optimise_calculations', 'yes' );
-	if( $optimise == 'yes' ) {
+	$mode = pewc_get_performance_optimization();
+	if ( $mode === 'timebased_calculations' || $mode === 'timebased_both' ) {
 		$time = 500;
+	} elseif ( $mode === 'event_driven' ) {
+		// Use 1 to enable the optimised JS code path without starting any polling interval.
+		$time = 1;
 	}
 	return $time;
 }

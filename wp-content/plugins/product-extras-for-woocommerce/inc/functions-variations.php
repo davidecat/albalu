@@ -78,3 +78,52 @@ add_filter( 'pewc_get_conditional_field_visibility', 'pewc_variation_field_visib
 function pewc_column_layout_replace_thumbnail( $item=false, $child_product_id=false ) {
 	return apply_filters( 'pewc_column_layout_replace_thumbnail', true, $item, $child_product_id );
 }
+
+/**
+ * Display variable products using the Column layout with each attribute as a separate dropdown box
+ * @since aou-products-column-new
+ */
+function pewc_product_column_show_attributes_select( $item, $child_product ) {
+
+	return apply_filters( 'pewc_product_column_show_attributes_select', false, $item, $child_product );
+
+}
+
+/**
+ * Validate selected attributes. Copied from WC_AJAX::get_variation()
+ * @since aou-products-column-new
+ */
+function pewc_column_validate_variation() {
+
+	ob_start();
+
+	// phpcs:disable WordPress.Security.NonceVerification.Missing
+	if ( ! class_exists( 'WC_Data_Store' ) || empty( $_POST['product_id'] ) ) {
+		wp_die();
+	}
+
+	$variable_product = wc_get_product( absint( $_POST['product_id'] ) );
+
+	if ( ! $variable_product ) {
+		wp_die();
+	}
+
+	$data_store   = WC_Data_Store::load( 'product' );
+	$variation_id = $data_store->find_matching_product_variation( $variable_product, wp_unslash( $_POST ) );
+	$variation    = $variation_id ? $variable_product->get_available_variation( $variation_id ) : false;
+	if ( $variation ) {
+		// add the variation name to the data to return, to be used in the summary
+		$varproduct = wc_get_product( $variation_id );
+		//$formatted_name = $varproduct->get_formatted_name();
+		//$formatted_name = wc_get_formatted_variation( $varproduct, true, true ); 
+		$formatted_name = $varproduct->get_name();
+		$variation['pewc_variation_name'] = apply_filters( 'pewc_variation_name_variable_child_select', $formatted_name, $varproduct );
+		if ( apply_filters( 'pewc_hide_variation_description', false ) ) {
+			unset( $variation['variation_description'] );
+		}
+	}
+	wp_send_json( $variation );
+
+}
+add_action( 'wp_ajax_nopriv_pewc_column_validate_variation', 'pewc_column_validate_variation' );
+add_action( 'wp_ajax_pewc_column_validate_variation', 'pewc_column_validate_variation' );

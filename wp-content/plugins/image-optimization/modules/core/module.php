@@ -418,7 +418,7 @@ class Module extends Module_Base {
 
 						link.href = '<?php echo esc_js( $page_url ); ?>';
 						link.innerText = '<?php echo esc_js( __( 'Bulk Optimization', 'image-optimization' ) ); ?>';
-						link.className = 'button is-primary image-optimizer__button image-optimizer__button--pink';
+						link.className = 'button button-compact is-primary image-optimizer__button image-optimizer__button--pink';
 
 						targetButton.insertAdjacentElement( 'afterend', link );
 					}

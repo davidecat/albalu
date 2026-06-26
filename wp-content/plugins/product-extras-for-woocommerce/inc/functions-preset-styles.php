@@ -156,6 +156,7 @@ function pewc_get_preset_styles( $style, $colour ) {
 	.pewc-preset-style .pewc-checkbox-form-label label,
 	.pewc-preset-style .pewc-radio-form-label label,
 	.pewc-preset-style .pewc-option-list .pewc-item-field-wrapper label,
+	.pewc-preset-style 	.pewc-item-checkbox-group .pewc-item-field-wrapper label,
 	.pewc-preset-style .pewc-checkboxes-list-desc-wrapper,
 	.pewc-preset-style .pewc-radio-list-desc-wrapper,
 	.pewc-preset-style .pewc-option-list td label {
