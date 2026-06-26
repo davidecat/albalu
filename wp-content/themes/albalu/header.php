@@ -111,11 +111,31 @@ defined('ABSPATH') || exit;
         <div class="row align-items-center d-none d-lg-flex">
             <!-- Left: Search -->
             <div class="col-4">
+                <?php
+                $albalu_current_event = isset($_GET['event']) ? sanitize_text_field(wp_unslash($_GET['event'])) : '';
+                $albalu_events        = function_exists('albalu_get_search_events') ? albalu_get_search_events() : array();
+                ?>
                 <form role="search" method="get" class="search-form position-relative" action="<?= esc_url(home_url('/')); ?>">
-                    <div class="input-group">
-                        <input type="search" class="form-control border-end-0 border ps-3 rounded-0" placeholder="Cerca..." value="<?= get_search_query(); ?>" name="s" style="box-shadow: none; border-color: #ddd;" />
-                        <button class="btn btn-outline-secondary border-start-0 border bg-white text-dark rounded-0" type="submit" style="border-color: #ddd;" aria-label="Cerca"><i class="fas fa-search"></i></button>
-                    </div>
+                    <?php if (!empty($albalu_events)) : ?>
+                        <label class="small fw-medium mb-1 d-block" for="albalu-search-event-select">Cerca in:</label>
+                        <div class="d-flex gap-2 align-items-stretch">
+                            <select name="event" id="albalu-search-event-select" class="form-select form-select-sm rounded-0" style="max-width: 130px; border-color: #ddd; box-shadow: none;">
+                                <option value="">Tutti</option>
+                                <?php foreach ($albalu_events as $slug => $label) : ?>
+                                    <option value="<?= esc_attr($slug); ?>" <?php selected($albalu_current_event, $slug); ?>><?= esc_html($label); ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                            <div class="input-group flex-grow-1">
+                                <input type="search" class="form-control border-end-0 border ps-3 rounded-0" placeholder="Cerca..." value="<?= get_search_query(); ?>" name="s" style="box-shadow: none; border-color: #ddd;" />
+                                <button class="btn btn-outline-secondary border-start-0 border bg-white text-dark rounded-0" type="submit" style="border-color: #ddd;" aria-label="Cerca"><i class="fas fa-search"></i></button>
+                            </div>
+                        </div>
+                    <?php else : ?>
+                        <div class="input-group">
+                            <input type="search" class="form-control border-end-0 border ps-3 rounded-0" placeholder="Cerca..." value="<?= get_search_query(); ?>" name="s" style="box-shadow: none; border-color: #ddd;" />
+                            <button class="btn btn-outline-secondary border-start-0 border bg-white text-dark rounded-0" type="submit" style="border-color: #ddd;" aria-label="Cerca"><i class="fas fa-search"></i></button>
+                        </div>
+                    <?php endif; ?>
                 </form>
             </div>
 
@@ -320,13 +340,30 @@ defined('ABSPATH') || exit;
 
   <!-- Mobile Search Overlay -->
   <div id="mobile-search-overlay" class="mobile-search-overlay">
-    <div class="mobile-search-overlay__inner d-flex align-items-center px-3">
-      <form role="search" method="get" class="flex-grow-1" action="<?= esc_url(home_url('/')); ?>">
-        <input type="search" class="mobile-search-overlay__input" placeholder="Cerca..." value="<?= get_search_query(); ?>" name="s" autofocus />
-      </form>
-      <button type="button" class="btn btn-link text-dark p-0 ms-3" id="mobile-search-close" aria-label="Chiudi">
-        <i class="fas fa-times fa-lg"></i>
-      </button>
+    <?php
+    $albalu_current_event_mobile = isset($_GET['event']) ? sanitize_text_field(wp_unslash($_GET['event'])) : '';
+    $albalu_events_mobile        = function_exists('albalu_get_search_events') ? albalu_get_search_events() : array();
+    ?>
+    <div class="mobile-search-overlay__inner px-3">
+      <div class="d-flex align-items-center">
+        <form role="search" method="get" class="flex-grow-1" action="<?= esc_url(home_url('/')); ?>">
+          <input type="search" class="mobile-search-overlay__input" placeholder="Cerca..." value="<?= get_search_query(); ?>" name="s" autofocus />
+          <?php if (!empty($albalu_events_mobile)) : ?>
+            <div class="mt-2">
+              <label class="small fw-medium mb-1 d-block">Cerca in:</label>
+              <select name="event" class="form-select form-select-sm rounded-pill bg-light" style="border-color: #EAE3E0; box-shadow: none;">
+                <option value="">Tutti</option>
+                <?php foreach ($albalu_events_mobile as $slug => $label) : ?>
+                  <option value="<?= esc_attr($slug); ?>" <?php selected($albalu_current_event_mobile, $slug); ?>><?= esc_html($label); ?></option>
+                <?php endforeach; ?>
+              </select>
+            </div>
+          <?php endif; ?>
+        </form>
+        <button type="button" class="btn btn-link text-dark p-0 ms-3 align-self-start" id="mobile-search-close" aria-label="Chiudi" style="margin-top: 8px;">
+          <i class="fas fa-times fa-lg"></i>
+        </button>
+      </div>
     </div>
   </div>
 

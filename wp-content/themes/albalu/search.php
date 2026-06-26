@@ -25,6 +25,22 @@ do_action( 'woocommerce_before_main_content' );
 		);
 		?>
 	</h1>
+	<?php
+	$albalu_event       = isset( $_GET['event'] ) ? sanitize_text_field( wp_unslash( $_GET['event'] ) ) : '';
+	$albalu_events_list = function_exists( 'albalu_get_search_events' ) ? albalu_get_search_events() : array();
+	if ( ! empty( $albalu_event ) && isset( $albalu_events_list[ $albalu_event ] ) ) :
+		$reset_url = remove_query_arg( 'event' );
+		?>
+		<p class="mb-0 mt-2">
+			<span class="badge rounded-pill bg-primary text-white px-3 py-2">
+				<i class="fas fa-filter me-1"></i>
+				Filtro: <?php echo esc_html( $albalu_events_list[ $albalu_event ] ); ?>
+				<a href="<?php echo esc_url( $reset_url ); ?>" class="text-white text-decoration-none ms-2" aria-label="Rimuovi filtro">
+					<i class="fas fa-times"></i>
+				</a>
+			</span>
+		</p>
+	<?php endif; ?>
 </header>
 
 <?php

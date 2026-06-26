@@ -952,15 +952,53 @@ add_filter( 'woocommerce_reset_variations_link', '__return_empty_string', 9999 )
 
 //7. WooCommerce/Generale: mostra solo prodotti nei risultati di ricerca
 //------------------- START ---------------------
-/* Mostra solo i prodotti nei risultati di ricerca */
+/* Eventi disponibili come filtro nella search bar (slug => label).
+   Modificare slug per matchare le categorie WooCommerce reali. */
+function albalu_get_search_events() {
+	return array(
+		'bomboniere-e-confettate-nascita-battesimo' => 'Battesimo',
+		'bomboniere-comunione-e-confettate'         => 'Comunione',
+		'bomboniere-e-confettate-cresima'           => 'Cresima',
+		'bomboniere-e-confettate-laurea'            => 'Laurea',
+		'bomboniere-e-confettate-matrimonio'        => 'Matrimonio',
+		'bomboniere-e-confettate-anniversario'      => 'Anniversario',
+		'compleanno'                                => 'Compleanno',
+		'natale'                                    => 'Natale',
+	);
+}
+
+/* Mostra solo i prodotti nei risultati di ricerca + filtro per evento */
 function search_only_products($query) {
-	if (!is_admin() && $query->is_search()) {
-		$query->set('post_type', 'product');
-		$query->set('wc_query', 'product_query');
+	if ( is_admin() || ! $query->is_search() || ! $query->is_main_query() ) {
+		return $query;
 	}
+
+	$query->set( 'post_type', 'product' );
+	$query->set( 'wc_query', 'product_query' );
+
+	// Filtro per evento (categoria prodotto)
+	if ( ! empty( $_GET['event'] ) ) {
+		$event_slug = sanitize_text_field( wp_unslash( $_GET['event'] ) );
+		$events     = albalu_get_search_events();
+		if ( isset( $events[ $event_slug ] ) ) {
+			$tax_query = $query->get( 'tax_query' );
+			if ( ! is_array( $tax_query ) ) {
+				$tax_query = array();
+			}
+			$tax_query[] = array(
+				'taxonomy'         => 'product_cat',
+				'field'            => 'slug',
+				'terms'            => $event_slug,
+				'include_children' => true,
+			);
+			$query->set( 'tax_query', $tax_query );
+		}
+	}
+
 	return $query;
 }
 add_filter('pre_get_posts','search_only_products');
+
 //------------------- END ---------------------
 
 //7b. Separa sottocategorie dai prodotti nelle pagine categoria
@@ -1445,11 +1483,14 @@ add_filter( 'wpseo_schema_product', function( $data ) {
 			}
 
 			$variant = array(
-				'@type'          => 'Product',
-				'name'           => $var_product->get_name(),
-				'description'    => wp_strip_all_tags( $var_desc ),
-				'sku'            => $var_product->get_sku(),
-				'productGroupID' => (string) $product->get_id(),
+				'@type'       => 'Product',
+				'name'        => $var_product->get_name(),
+				'description' => wp_strip_all_tags( $var_desc ),
+				'sku'         => $var_product->get_sku(),
+				'isVariantOf' => array(
+					'@type'          => 'ProductGroup',
+					'productGroupID' => (string) $product->get_id(),
+				),
 				'offers' => array(
 					'@type'         => 'Offer',
 					'url'           => $var_product->get_permalink(),
