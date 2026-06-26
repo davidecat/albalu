@@ -1611,6 +1611,7 @@ add_filter( 'wpseo_schema_product', function( $data ) {
 				'sku'         => $var_product->get_sku(),
 				'isVariantOf' => array(
 					'@type'          => 'ProductGroup',
+					'name'           => $product->get_name(),
 					'productGroupID' => (string) $product->get_id(),
 				),
 				'offers' => array(
