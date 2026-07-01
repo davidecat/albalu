@@ -224,8 +224,24 @@ jQuery(function ($) {
     });
 
     // Meta Pixel: classic WooCommerce AJAX add-to-cart (Meta plugin v3.7+ only hooks Store API).
-    $(document.body).on('added_to_cart', function (e, fragments, hash, $button) {
-        var productId = $button && ($button.data('variation_id') || $button.data('product_id'));
+    function resolveAddToCartProductId($button) {
+        var $btn = ($button && $button.length) ? $button : $('form.cart .single_add_to_cart_button').first();
+        var productId = $btn.data('variation_id') || $btn.data('product_id');
+
+        if (!productId && $btn.length) {
+            var $form = $btn.closest('form.cart, form.variations_form');
+            var variationId = $form.find('input[name="variation_id"]').val();
+            if (variationId && variationId !== '0') {
+                productId = variationId;
+            } else if ($form.length) {
+                productId = $form.data('product_id');
+            }
+        }
+
+        return productId;
+    }
+
+    function fireMetaAddToCart(productId) {
         if (!productId) {
             return;
         }
@@ -244,6 +260,10 @@ jQuery(function ($) {
         } else if (typeof fbq === 'function') {
             fbq('track', 'AddToCart', params);
         }
+    }
+
+    $(document.body).on('added_to_cart', function (e, fragments, hash, $button) {
+        fireMetaAddToCart(resolveAddToCartProductId($button));
     });
 
     // Gallery lightbox: open carousel at clicked slide
