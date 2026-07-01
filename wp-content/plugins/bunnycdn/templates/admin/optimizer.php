@@ -1,6 +1,6 @@
 <?php
 // bunny.net WordPress Plugin
-// Copyright (C) 2024-2025 BunnyWay d.o.o.
+// Copyright (C) 2024-2026 BunnyWay d.o.o.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -33,11 +33,11 @@ if (!defined('ABSPATH')) {
     <section class="bn-section bn-section-hero bn-p-5">
         <div>
             <h1>Bunny Optimizer</h1>
-            <h2>What is Bunny Optimizer?</h2>
-            <p>Automatically optimize your images, CSS files, and JavaScript files to improve your website performance. Reduce load times and increase conversion rates in just a few clicks. No coding, or server reconfiguration required.</p>
+            <h2>Faster website. Made simple.</h2>
+            <p>Bunny Optimizer automatically optimizes your images, CSS, and JavaScript files to improve website performance and reduce load times. Enable powerful front-end optimizations in just a few clicks, with no coding or server configuration required.</p>
             <a href="https://bunny.net/optimizer/" target="_blank" class="bn-link bn-link--external">More Information</a>
         </div>
-        <img src="<?php echo esc_attr($this->assetUrl('optimizer-header.svg')) ?>" alt="">
+        <img src="<?php echo esc_attr($this->assetUrl('images/header-optimizer.png')) ?>" alt="">
     </section>
     <div class="bn-px-5">
         <section class="bn-section bn-px-0">

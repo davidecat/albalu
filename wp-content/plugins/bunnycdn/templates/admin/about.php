@@ -1,6 +1,6 @@
 <?php
 // bunny.net WordPress Plugin
-// Copyright (C) 2024-2025 BunnyWay d.o.o.
+// Copyright (C) 2024-2026 BunnyWay d.o.o.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -39,6 +39,11 @@ if (!defined('ABSPATH')) {
             <div class="bn-block__title">Bunny CDN</div>
             <p>Take advantage of a simple pay-as-you-go pricing model where you're only charged for the traffic you deliver. Pricing starts as low as <strong>$1 per month</strong>.</p>
             <a href="https://bunny.net/pricing/cdn/" target="_blank" class="bn-link bn-link--blue bn-link--chain">Learn more about CDN Pricing</a>
+        </section>
+        <section class="bn-block bn-mt-5">
+            <div class="bn-block__title">Bunny Shield</div>
+            <p>Security shouldn’t be a luxury. Get peace of mind with powerful protection at every stage. Grow at your own pace with transparent pricing and zero hidden costs.</p>
+            <a href="https://bunny.net/pricing/#bunny-shield" target="_blank" class="bn-link bn-link--blue bn-link--chain">Learn more about Shield Pricing</a>
         </section>
         <section class="bn-block bn-mt-5">
             <div class="bn-block__title">Bunny Storage</div>

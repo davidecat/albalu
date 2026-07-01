@@ -1,6 +1,6 @@
 <?php
 // bunny.net WordPress Plugin
-// Copyright (C) 2024-2025 BunnyWay d.o.o.
+// Copyright (C) 2024-2026 BunnyWay d.o.o.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -42,14 +42,11 @@ if (!defined('ABSPATH')) {
     <section class="bn-section bn-section-hero bn-p-5">
         <div>
             <h1>Bunny Offloader</h1>
-            <p class="bn-text-200-regular">
-                Automatically move content from your WordPress platform to Bunny Storage, our high-performance and cost-effective
-                cloud storage service for optimal latency, global replication, and maximum throughput. After activating it,
-                any new content you upload to WordPress will automatically be transferred to Bunny Storage, providing your
-                users with up to 5x faster download speeds compared to traditional object storage solutions.
-            </p>
+            <h2>Your media files on Bunny Storage</h2>
+            <p class="bn-text-200-regular">Bunny Offloader automatically transfers your WordPress media files to Bunny Storage for faster delivery, reduced server load, and scalable global storage. New uploads are seamlessly offloaded and replicated across multiple regions for high performance and reliability.</p>
+            <a href="https://docs.bunny.net/integrations/wordpress/offloader" target="_blank" class="bn-link bn-link--external">More Information</a>
         </div>
-        <img src="<?php echo esc_attr($this->assetUrl('offloader-header.svg')) ?>" alt="">
+        <img src="<?php echo esc_attr($this->assetUrl('images/header-offloader.png')) ?>" alt="">
     </section>
     <?php if ($showApiKeyAlert): ?>
         <div class="alert red bn-m-5">Could not connect to api.bunny.net. Please make sure the API key is correct.</div>

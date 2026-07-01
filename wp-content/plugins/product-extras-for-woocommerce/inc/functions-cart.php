@@ -469,7 +469,8 @@ function pewc_add_cart_item_data( $cart_item_data, $product_id, $variation_id, $
 						 * @since 3.7.13
 						 */
 						// 4.3.9, allow 0 values
-						if( ( ! empty( $_POST[$id] ) || 0 == $_POST[$id] || apply_filters( 'pewc_allow_empty_field_values', false, $item ) ) && $is_visible ) {
+						// 4.3.15, allow 0 values by using filter instead
+						if( ( ! empty( $_POST[$id] ) /*|| 0 == $_POST[$id]*/ || apply_filters( 'pewc_allow_empty_field_values', false, $item ) ) && $is_visible ) {
 
 							$field_price = pewc_get_field_price( $item, $product, true ); // pass true for cart price (inc or exc tax)
 

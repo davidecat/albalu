@@ -3,7 +3,7 @@ Contributors: Gareth Harris
 Tags: add-ons, ecommerce
 Requires at least: 4.7
 Tested up to: 7.0
-Stable tag: 4.3.14
+Stable tag: 4.3.15
 Allow your users to customise products through additional fields
 
 == Description ==
@@ -23,6 +23,14 @@ WooCommerce Product Add Ons Ultimate allows your users to customise products thr
 1.
 
 == Changelog ==
+
+= 4.3.15, 24 June 2026 =
+* Added: pr_restrict_pages_plugin_update filter
+* Fixed: 'Add to Quote' button gets replaced with incorrect text when 'Display the Add to Cart button' and 'Disable Add to Cart button' settings are enabled
+* Fixed: group conditions don't work when using User Role or Log-In Status with other field types
+* Updated: only allow zero values in the cart when using pewc_allow_empty_field_values filter
+* Updated: clear transients used by Product Categories fields when adding or updating any product
+* Updated: German, French, Italian and Spanish translations
 
 = 4.3.14, 18 June 2026 =
 * Fixed: Select and Select Box field prices not multiplied by the number of booking units when 'Price per unit' is enabled in Bookings for WooCommerce

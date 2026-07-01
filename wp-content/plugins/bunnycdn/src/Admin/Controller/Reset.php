@@ -1,7 +1,7 @@
 <?php
 
 // bunny.net WordPress Plugin
-// Copyright (C) 2024-2025 BunnyWay d.o.o.
+// Copyright (C) 2024-2026 BunnyWay d.o.o.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -70,6 +70,18 @@ class Reset implements ControllerInterface
             check_admin_referer('bunnycdn-save-reset');
             \Bunny\Wordpress\Config\Reset::clearTokenAuthenticationCachedKeys();
             $successMessage = 'The Token Authentication cache was cleared.';
+        }
+        if (!empty($_POST['reset_shield_waf']) && 'yes' === $_POST['reset_shield_waf']) {
+            check_admin_referer('bunnycdn-save-reset');
+            $cdnConfig = $this->container->getCdnConfig();
+            $pullzoneId = $cdnConfig->getPullzoneId();
+            if (null === $pullzoneId) {
+                $error = 'Could not reset the Shield WAF rules.';
+            } else {
+                $shieldConfig = $this->container->getApiClient()->getShieldDetails($pullzoneId);
+                $this->container->getApiClient()->resetShieldWafRules($shieldConfig->getShieldZoneId());
+            }
+            $successMessage = 'The Shield WAF rules were reset.';
         }
         $formUrl = $this->container->getSectionUrl('reset', ['noheader' => 1]);
         $this->container->renderTemplateFile('reset.php', ['canReset' => $canReset, 'formUrl' => $formUrl, 'error' => $error, 'successMessage' => $successMessage, 'isAgencyMode' => $isAgencyMode], ['cssClass' => 'reset']);

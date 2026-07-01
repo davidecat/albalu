@@ -1,6 +1,6 @@
 <?php
 // bunny.net WordPress Plugin
-// Copyright (C) 2024-2025 BunnyWay d.o.o.
+// Copyright (C) 2024-2026 BunnyWay d.o.o.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -29,11 +29,12 @@ if (!defined('ABSPATH')) {
 <div class="container bg-gradient bn-p-0 bn-pb-5">
     <section class="bn-section bn-section-hero bn-p-5">
         <div>
-            <h1>Bunny Storage</h1>
-            <h2>What is Content Offloading?</h2>
-            <p>Improve your website performance and user experience. Reduce load times and increase conversion rates in just a few clicks. Get hopping in under 5 minutes without writing a single line of code.</p>
+            <h1>Bunny Offloader</h1>
+            <h2>Your media files on Bunny Storage</h2>
+            <p class="bn-text-200-regular">Bunny Offloader automatically transfers your WordPress media files to Bunny Storage for faster delivery, reduced server load, and scalable global storage. New uploads are seamlessly offloaded and replicated across multiple regions for high performance and reliability.</p>
+            <a href="https://docs.bunny.net/integrations/wordpress/offloader" target="_blank" class="bn-link bn-link--external">More Information</a>
         </div>
-        <img src="<?php echo esc_attr($this->assetUrl('offloader-header.svg')) ?>" alt="">
+        <img src="<?php echo esc_attr($this->assetUrl('images/header-offloader.png')) ?>" alt="">
     </section>
     <div class="bn-m-5">
         <div class="alert red">

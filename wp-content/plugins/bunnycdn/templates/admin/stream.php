@@ -1,6 +1,6 @@
 <?php
 // bunny.net WordPress Plugin
-// Copyright (C) 2024-2025 BunnyWay d.o.o.
+// Copyright (C) 2024-2026 BunnyWay d.o.o.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -36,10 +36,11 @@ if (!defined('ABSPATH')) {
     <section class="bn-section bn-section-hero">
         <div>
             <h1>Stream</h1>
-            <p>Deliver videos without buffering to your customers through our global network. Automatically transcode and serve the best option to your viewers, without even leaving your WordPress admin dashboard.</p>
+            <h2>A better way to deliver videos</h2>
+            <p>Bunny Stream helps you deliver fast, buffer-free video playback through our global edge network. Automatically encode videos for adaptive streaming and manage your video library directly from the WordPress dashboard.</p>
             <a href="https://bunny.net/stream/" target="_blank" class="bn-link bn-link--external">More Information</a>
         </div>
-        <img src="<?php echo esc_attr($this->assetUrl('stream-header.svg')) ?>" alt="">
+        <img src="<?php echo esc_attr($this->assetUrl('images/header-stream.png')) ?>" alt="">
     </section>
     <div class="bn-px-5">
         <?php if (true === $showSuccess): ?>

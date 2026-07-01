@@ -1,6 +1,6 @@
 <?php
 // bunny.net WordPress Plugin
-// Copyright (C) 2024-2025 BunnyWay d.o.o.
+// Copyright (C) 2024-2026 BunnyWay d.o.o.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -32,11 +32,11 @@ if (!defined('ABSPATH')) {
     <section class="bn-section bn-section-hero">
         <div>
             <h1>Bunny Fonts</h1>
-            <h2>What are Bunny Fonts?</h2>
-            <p>Bunny Fonts is an open-source, privacy-first web font platform designed to put privacy back into the internet. With a zero-tracking and no-logging policy, Bunny Fonts helps you stay fully GDPR compliant and puts your user's personal data into their own hands.</p>
+            <h2>Choose Privacy. Use Bunny Fonts.</h2>
+            <p>Bunny Fonts is a privacy-first web font platform built to help you stay GDPR compliant without compromising performance. Serve fonts with zero tracking, no logging, and fast global delivery while keeping your users’ data private.</p>
             <a href="https://bunny.net/fonts/" target="_blank" class="bn-link bn-link--external">More Information</a>
         </div>
-        <img src="<?php echo esc_attr($this->assetUrl('fonts-header.svg')) ?>" alt="">
+        <img src="<?php echo esc_attr($this->assetUrl('images/header-fonts.png')) ?>" alt="">
     </section>
     <div class="bn-px-5">
         <section class="bn-section bn-px-0">

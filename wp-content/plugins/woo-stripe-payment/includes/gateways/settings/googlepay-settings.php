@@ -1,27 +1,7 @@
 <?php
+defined( 'ABSPATH' ) || exit;
 
 return array(
-	'desc1'            => array(
-		'type'        => 'description',
-		'description' => '<p><a target="_blank" href="https://pay.google.com/business/console">' . __( 'GPay Business Console', 'woo-stripe-payment' ) .
-		                 '</a></p>' .
-		                 '<p><a target="_blank" href="https://paymentplugins.com/documentation/stripe/googlepay/testing/">Testing GPay</a></p>' .
-		                 __( 'When test mode is enabled, Google Pay will work without a merchant ID, allowing you to capture the necessary screenshots the Google API team needs to approve your integration request.',
-			                 'woo-stripe-payment' ),
-	),
-	'desc2'            => array(
-		'type'        => 'description',
-		'description' => sprintf(
-			'<p>%s</p>',
-			sprintf(
-				__( 'If you don\'t want to request a Google Merchant ID, you can use the %1$sPayment Request Gateway%2$s which has a Google Pay integration through Stripe.',
-					'woo-stripe-payment' ),
-				'<a target="_blank" href="' .
-				admin_url( 'admin.php?page=wc-settings&tab=checkout&section=stripe_payment_request' ) . '">',
-				'</a>'
-			)
-		),
-	),
 	'enabled'          => array(
 		'title'       => __( 'Enabled', 'woo-stripe-payment' ),
 		'type'        => 'checkbox',
@@ -34,13 +14,13 @@ return array(
 		'type'  => 'title',
 		'title' => __( 'General Settings', 'woo-stripe-payment' ),
 	),
-	'merchant_id'      => array(
+	/*'merchant_id'      => array(
 		'type'        => 'text',
 		'title'       => __( 'Merchant ID', 'woo-stripe-payment' ),
 		'default'     => '',
 		'description' => __( 'Your Google Merchant ID is given to you by the Google API team once you register for Google Pay. While testing in TEST mode you can leave this value blank and Google Pay will work.',
 			'woo-stripe-payment' ),
-	),
+	),*/
 	'title_text'       => array(
 		'type'        => 'text',
 		'title'       => __( 'Title', 'woo-stripe-payment' ),
@@ -55,12 +35,12 @@ return array(
 		'description' => __( 'Leave blank if you don\'t want a description to show for the gateway.', 'woo-stripe-payment' ),
 		'desc_tip'    => true,
 	),
-	'notice_enabled'   => array(
-		'title'       => __( 'Show Payment Notice', 'woo-stripe-payment' ),
+	'all_browsers'     => array(
+		'title'       => __( 'Enable On All Browsers', 'woo-stripe-payment' ),
 		'type'        => 'checkbox',
 		'default'     => 'yes',
-		'description' => __( 'When enabled, a notice with additional payment instructions is shown in the payment method section of the checkout shortcode.', 'woo-stripe-payment' ),
-		'desc_tip'    => true
+		'desc_tip'    => true,
+		'description' => __( 'If enabled, Google Pay will be available on all supported browsers, not just Chrome.', 'woo-stripe-payment' )
 	),
 	'method_format'    => array(
 		'title'       => __( 'Credit Card Display', 'woo-stripe-payment' ),
@@ -89,12 +69,13 @@ return array(
 		'title'       => __( 'Payment Sections', 'woo-stripe-payment' ),
 		'class'       => 'wc-enhanced-select',
 		'options'     => array(
-			'product'         => __( 'Product Page', 'woo-stripe-payment' ),
-			'cart'            => __( 'Cart Page', 'woo-stripe-payment' ),
-			'mini_cart'       => __( 'Mini Cart', 'woo-stripe-payment' ),
-			'checkout_banner' => __( 'Express Checkout', 'woo-stripe-payment' ),
+			'checkout'         => __( 'Checkout', 'woo-stripe-payment' ),
+			'product'          => __( 'Product Page', 'woo-stripe-payment' ),
+			'cart'             => __( 'Cart Page', 'woo-stripe-payment' ),
+			'mini_cart'        => __( 'Mini Cart', 'woo-stripe-payment' ),
+			'express_checkout' => __( 'Express Checkout', 'woo-stripe-payment' )
 		),
-		'default'     => array( 'product', 'cart' ),
+		'default'     => array( 'checkout', 'product', 'cart' ),
 		'description' => $this->get_payment_section_description(),
 	),
 	'order_status'     => array(
@@ -107,13 +88,13 @@ return array(
 		'description' => __( 'This is the status of the order once payment is complete. If <b>Default</b> is selected, then WooCommerce will set the order status automatically based on internal logic which states if a product is virtual and downloadable then status is set to complete. Products that require shipping are set to Processing. Default is the recommended setting as it allows standard WooCommerce code to process the order status.',
 			'woo-stripe-payment' ),
 	),
-	'merchant_name'    => array(
+	/*'merchant_name'    => array(
 		'type'        => 'text',
 		'title'       => __( 'Merchant Name', 'woo-stripe-payment' ),
 		'default'     => get_bloginfo( 'name' ),
 		'description' => __( 'The name of your business as it appears on the Google Pay payment sheet.', 'woo-stripe-payment' ),
 		'desc_tip'    => true,
-	),
+	),*/
 	'icon'             => array(
 		'title'       => __( 'Icon', 'woo-stripe-payment' ),
 		'type'        => 'select',
@@ -131,7 +112,7 @@ return array(
 		'type'  => 'title',
 		'title' => __( 'Button Options', 'woo-stripe-payment' ),
 	),
-	'button_color'     => array(
+	'button_theme'     => array(
 		'title'       => __( 'Button Color', 'woo-stripe-payment' ),
 		'type'        => 'select',
 		'class'       => 'gpay-button-option button-color',
@@ -142,7 +123,7 @@ return array(
 		'default'     => 'black',
 		'description' => __( 'The button color of the GPay button.', 'woo-stripe-payment' ),
 	),
-	'button_style'     => array(
+	'button_type'      => array(
 		'title'       => __( 'Button Style', 'woo-stripe-payment' ),
 		'type'        => 'select',
 		'class'       => 'gpay-button-option button-style',
@@ -175,7 +156,7 @@ return array(
 		'type'              => 'number',
 		'title'             => __( 'Button Height', 'woo-stripe-payment' ),
 		'class'             => 'gpay-button-option button-height',
-		'default'           => 40,
+		'default'           => 50,
 		'custom_attributes' => [
 			'min'  => 40,
 			'max'  => 55,

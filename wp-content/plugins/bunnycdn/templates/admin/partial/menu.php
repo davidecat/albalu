@@ -1,6 +1,6 @@
 <?php
 // bunny.net WordPress Plugin
-// Copyright (C) 2024-2025 BunnyWay d.o.o.
+// Copyright (C) 2024-2026 BunnyWay d.o.o.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -35,10 +35,15 @@ if (!defined('ABSPATH')) {
  * @return string
  */
 $getUrlSafe = function (string $section): string {
-    return add_query_arg([
-        'page' => 'bunnycdn',
-        'section' => $section,
-    ], admin_url('admin.php'));
+    $args = ['page' => 'bunnycdn'];
+    $parts = explode('/', $section, 2);
+    $args['section'] = $parts[0];
+
+    if (2 === count($parts)) {
+        $args['subsection'] = $parts[1];
+    }
+
+    return add_query_arg($args, admin_url('admin.php'));
 };
 
 ?>

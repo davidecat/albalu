@@ -1,7 +1,7 @@
 <?php
 
 // bunny.net WordPress Plugin
-// Copyright (C) 2024-2025 BunnyWay d.o.o.
+// Copyright (C) 2024-2026 BunnyWay d.o.o.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -143,6 +143,12 @@ namespace {
             return '[bunnycdn_stream_video error: invalid shortcode]';
         }
         $options = [];
+        // token authentication
+        if (isset($params['tokenauth']) && is_string($params['tokenauth'])) {
+            if ('true' === $params['tokenauth'] || '1' === $params['tokenauth']) {
+                $options['token_authentication'] = true;
+            }
+        }
         // other parameters: [bunnycdn_stream_video loop=true autoplay=false]
         foreach (\BUNNYCDN_STREAM_VIDEO_OPTIONS as $key => $type) {
             // shortcode params are lowered
@@ -224,7 +230,7 @@ namespace {
         $iframeUrl = 'https://player.mediadelivery.net/embed/'.$libraryId.'/'.$videoId.'?'.http_build_query($urlParams);
         $html = '<div class="'.join(' ', $classNames).'">';
         $html .= '<div style="position:relative;padding-top:56.25%;" class="bunny-stream-video">';
-        $html .= '<iframe src="'.$iframeUrl.'" loading="lazy" style="border:0;position:absolute;top:0;height:100%;width:100%;" allow="accelerometer;gyroscope;autoplay;encrypted-media;picture-in-picture;" allowfullscreen="true"></iframe>';
+        $html .= '<iframe src="'.$iframeUrl.'" loading="lazy" style="border:0;position:absolute;top:0;height:100%;width:100%;" allow="accelerometer;gyroscope;autoplay;encrypted-media;picture-in-picture;fullscreen" allowfullscreen="true"></iframe>';
         $html .= '</div>';
         $html .= '</div>';
 
@@ -260,7 +266,7 @@ namespace {
      */
     function bunnycdn_cron_schedules(array $schedules): array
     {
-        $schedules['minute'] = ['interval' => 1, 'display' => esc_html__('Every Minute')];
+        $schedules['minute'] = ['interval' => 60, 'display' => esc_html__('Every Minute')];
 
         return $schedules;
     }

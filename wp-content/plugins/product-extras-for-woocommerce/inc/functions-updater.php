@@ -21,11 +21,14 @@ if( ! class_exists( 'PEWC_SL_Plugin_Updater' ) ) {
 
 function pewc_plugin_updater( $license_key='' ) {
 
-	global $pagenow;
-	if( ! $license_key && ( ! isset( $pagenow ) || ( $pagenow != 'plugins.php' &&  $pagenow != 'update-core.php' ) ) ) {
-		// Only look for updates on the plugins or update pages
-		return;
+	if( apply_filters( 'pr_restrict_pages_plugin_update', true ) ) {
+		global $pagenow;
+		if( ! $license_key && ( ! isset( $pagenow ) || ( $pagenow != 'plugins.php' &&  $pagenow != 'update-core.php' ) ) ) {
+			// Only look for updates on the plugins or update pages
+			return;
+		}
 	}
+	
 
 	if( ! $license_key ) {
 		$license_key = trim( get_option( 'pewc_license_key' ) );

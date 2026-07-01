@@ -1,6 +1,6 @@
 <?php
 // bunny.net WordPress Plugin
-// Copyright (C) 2024-2025 BunnyWay d.o.o.
+// Copyright (C) 2024-2026 BunnyWay d.o.o.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -39,11 +39,11 @@ if (!defined('ABSPATH')) {
     <section class="bn-section bn-section-hero">
         <div>
             <h1>Bunny CDN</h1>
-            <h2>What is Bunny CDN?</h2>
-            <p>Bunny CDN helps you accelerate your website and supercharge your web presence. Through a network of over 100 global datacenters, Bunny CDN stores your files right next to your users and delivers them with lightning speed.</p>
+            <h2>Performance like never before</h2>
+            <p>Bunny CDN helps you accelerate your website and deliver a faster experience to visitors worldwide. Powered by a global network of more than 100 edge locations, Bunny CDN caches your content closer to your users and serves it with exceptional speed, reliability, and performance.</p>
             <a href="https://bunny.net/cdn/" target="_blank" class="bn-link bn-link--external">More Information</a>
         </div>
-        <img src="<?php echo esc_attr($this->assetUrl('cdn-header.svg')) ?>" alt="">
+        <img src="<?php echo esc_attr($this->assetUrl('images/header-cdn.png')) ?>" alt="">
     </section>
     <?php if ($showApiKeyAlert): ?>
         <div class="alert red bn-m-5">Could not connect to api.bunny.net. Please make sure the API key is correct.</div>

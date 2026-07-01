@@ -1346,11 +1346,13 @@ add_filter( 'pewc_child_product_title', 'pewc_add_child_product_stock_status', 1
  * Delete transient when a Product Category is updated
  * @since 4.1.4
  */
-function pewc_edited_product_cart( $term_id, $tt_id ) {
+function pewc_edited_product_cat( $term_id=false, $tt_id=false ) {
 
 	global $wpdb;
 
 	$wpdb->query('DELETE FROM ' . $wpdb->options . ' WHERE option_name LIKE "%pewc_categories_field_products_%"');
 
 }
-add_action( 'edited_product_cat', 'pewc_edited_product_cart', 10, 2 );
+add_action( 'edited_product_cat', 'pewc_edited_product_cat', 10, 2 );
+// 4.3.15, also clear transients when a product is saved (i.e. adding and updating)
+add_action( 'woocommerce_process_product_meta', 'pewc_edited_product_cat' );

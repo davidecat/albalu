@@ -1978,37 +1978,53 @@
 
 		if ( button.length < 1 ) return; // do nothing
 
-		if ( disabled ) {
-			// always disable button
-			button.attr( 'disabled', true );
-			if ( ! button.hasClass( disable_class ) ) {
-				button.addClass( disable_class );
+		// 4.3.14, it is possible to have more than one button e.g. Add to Quote button
+		button.each( function(){
+			var curr_button = $( this );
+			if ( disabled ) {
+				// always disable button
+				curr_button.attr( 'disabled', true );
+				if ( ! curr_button.hasClass( disable_class ) ) {
+					curr_button.addClass( disable_class );
 
-				// 3.21.5
-				var button_text = pewc_vars.calculating_text;
-				if ( caller === 'upload' ) {
-					button_text = pewc_vars.uploading_text;
+					// 3.21.5
+					var button_text = pewc_vars.calculating_text;
+					if ( caller === 'upload' ) {
+						button_text = pewc_vars.uploading_text;
+					}
+					pewc_update_add_to_cart_button_text( curr_button, button_text, disabled );
 				}
-				pewc_update_add_to_cart_button_text( button, button_text );
+			} else {
+				// remove the disable_class added by the caller when it enabled it previously
+				curr_button.removeClass( disable_class );
+				// if we're trying to enable the add-to-cart button, check first if it hasn't been disabled by other plugins (example, by the calculation table)
+				if ( curr_button.attr( 'class' ).indexOf( 'pewc-disabled-by' ) == -1 ) {
+					// our special class was not found, safe to enable again
+					curr_button.attr( 'disabled', false );
+					var default_text = pewc_vars.default_add_to_cart_text;
+					if ( curr_button.attr( 'data-pewc-orig-button-text' ) ) {
+						default_text = curr_button.attr( 'data-pewc-orig-button-text' );
+					}
+					pewc_update_add_to_cart_button_text( curr_button, default_text );
+				}
 			}
-		} else {
-			// remove the disable_class added by the caller when it enabled it previously
-			button.removeClass( disable_class );
-			// if we're trying to enable the add-to-cart button, check first if it hasn't been disabled by other plugins (example, by the calculation table)
-			if ( button.attr( 'class' ).indexOf( 'pewc-disabled-by' ) == -1 ) {
-				// our special class was not found, safe to enable again
-				button.attr( 'disabled', false );
-				pewc_update_add_to_cart_button_text( button, pewc_vars.default_add_to_cart_text );
-			}
-		}
+		});
 
 	}
 	$( 'body' ).on( 'pewc_toggle_add_to_cart_button', pewc_toggle_add_to_cart_button );
 
-	function pewc_update_add_to_cart_button_text( button, button_text ) {
+	function pewc_update_add_to_cart_button_text( button, button_text, disabled=false ) {
 		if ( button.is( 'button' ) ) {
+			if ( disabled && ! button.attr( 'data-pewc-orig-button-text' ) ) {
+				// 4.3.14, save first the original text e.g. could be Add to Quote
+				button.attr( 'data-pewc-orig-button-text', button.text() );
+			}
 			button.text( button_text );
 		} else {
+			if ( disabled && ! button.attr( 'data-pewc-orig-button-text' ) ) {
+				// 4.3.14, save first the original text
+				button.attr( 'data-pewc-orig-button-text', button.val() );
+			}
 			button.val( button_text ); // maybe an input type submit button
 		}
 	}

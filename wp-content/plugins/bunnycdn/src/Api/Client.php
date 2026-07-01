@@ -1,7 +1,7 @@
 <?php
 
 // bunny.net WordPress Plugin
-// Copyright (C) 2024-2025 BunnyWay d.o.o.
+// Copyright (C) 2024-2026 BunnyWay d.o.o.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -88,7 +88,7 @@ class Client
     private function request(string $method, string $uri, ?string $body = null): array
     {
         $options = ['headers' => []];
-        if ('POST' === $method) {
+        if (in_array($method, ['POST', 'PUT', 'PATCH'], true)) {
             $options['headers']['Content-Type'] = 'application/json';
             $options['body'] = $body;
         }
@@ -309,6 +309,9 @@ class Client
         $rows = $this->request('GET', sprintf('pullzone?search=%s', $originUrl));
         $result = [];
         foreach ($rows['Items'] as $data) {
+            if (0 !== $data['OriginType']) {
+                continue;
+            }
             if ($data['OriginUrl'] !== $originUrl) {
                 continue;
             }
@@ -427,5 +430,144 @@ class Client
         }
 
         return array_map(fn ($item) => Stream\Video::fromApiResponse($item), $data['items']);
+    }
+
+    public function getShieldDetails(int $pullzoneId): Pullzone\Shield
+    {
+        $data = $this->request('GET', sprintf('shield/shield-zone/get-by-pullzone/%d', $pullzoneId));
+        if (null === $data['data'] && 'not_found_or_unauthorised_access.shieldzone' === $data['error']['errorKey']) {
+            $data = $this->request('POST', 'shield/shield-zone', json_encode(['pullZoneId' => $pullzoneId, 'shieldZone' => [
+                'planType' => 0,
+                'wafProfileId' => 1,
+                // wordpress
+                'learningMode' => false,
+                'wafExecutionMode' => 0,
+            ]], \JSON_THROW_ON_ERROR));
+        }
+        $wafEngine = $this->request('GET', 'shield/waf/engine-config');
+        $buildArgs = ['shieldZoneId' => $data['data']['shieldZoneId'], 'wafEnabled' => $data['data']['wafEnabled'], 'wafExecutionMode' => $data['data']['wafExecutionMode'], 'wafDisabledRules' => $data['data']['wafDisabledRules'], 'wafLogonlyRules' => $data['data']['wafLogOnlyRules'], 'ddosChallengeWindow' => $data['data']['dDoSChallengeWindow'], 'ddosSensitivity' => $data['data']['dDoSShieldSensitivity']];
+        foreach ($wafEngine['data'] as $item) {
+            if ('detection_paranoia_level' === $item['name']) {
+                $buildArgs['wafDetectionLevel'] = (int) $item['valueEncoded'];
+                continue;
+            }
+            if ('executing_paranoia_level' === $item['name']) {
+                $buildArgs['wafExecutionLevel'] = (int) $item['valueEncoded'];
+                continue;
+            }
+            if ('blocking_paranoia_level' === $item['name']) {
+                $buildArgs['wafBlockingLevel'] = (int) $item['valueEncoded'];
+                continue;
+            }
+        }
+        if (isset($data['data']['wafEngineConfig']) && is_array($data['data']['wafEngineConfig'])) {
+            /** @var array{name: string, valueEncoded: int}[] $wafEngineConfig */
+            $wafEngineConfig = $data['data']['wafEngineConfig'];
+            foreach ($wafEngineConfig as $item) {
+                if ('detection_paranoia_level' === $item['name']) {
+                    $buildArgs['wafDetectionLevel'] = (int) $item['valueEncoded'];
+                    continue;
+                }
+                if ('executing_paranoia_level' === $item['name']) {
+                    $buildArgs['wafExecutionLevel'] = (int) $item['valueEncoded'];
+                    continue;
+                }
+                if ('blocking_paranoia_level' === $item['name']) {
+                    $buildArgs['wafBlockingLevel'] = (int) $item['valueEncoded'];
+                    continue;
+                }
+            }
+        }
+
+        return new Pullzone\Shield($buildArgs);
+    }
+
+    /**
+     * @return array<array-key, array<array-key, mixed>>
+     */
+    public function getShieldWafRules(int $shieldZoneId): array
+    {
+        return $this->request('GET', sprintf('shield/waf/rules/%d', $shieldZoneId));
+    }
+
+    /**
+     * @return array<array-key, array<array-key, mixed>>
+     */
+    public function getShieldWafRulesTriggered(int $shieldZoneId): array
+    {
+        $data = $this->request('GET', sprintf('shield/waf/rules/review-triggered/%d', $shieldZoneId));
+        $rules = [];
+        foreach ($data['triggeredRules'] as $rule) {
+            $lastTimestamp = 0;
+            $urls = [];
+            foreach (array_keys($rule['topTargetedUrls']) as $url) {
+                $urls[] = $url;
+            }
+            foreach ($rule['ruleLogs'] as $log) {
+                if ($log['timestamp'] > $lastTimestamp) {
+                    $lastTimestamp = $log['timestamp'];
+                }
+            }
+            $rules[] = ['id' => $rule['ruleId'], 'description' => $rule['ruleDescription'], 'lastTimestamp' => (int) floor($lastTimestamp / 1000), 'urls' => $urls];
+        }
+
+        return $rules;
+    }
+
+    public function savePullzoneShield(int $pullzoneId, Pullzone\Shield $shieldConfig): void
+    {
+        $data = ['shieldZoneId' => $shieldConfig->getShieldZoneId(), 'shieldZone' => ['shieldZoneId' => $shieldConfig->getShieldZoneId(), 'wafEnabled' => $shieldConfig->isWafEnabled(), 'wafExecutionMode' => $shieldConfig->getWafExecutionMode(), 'wafDisabledRules' => $shieldConfig->getWafDisabledRules(), 'wafLogOnlyRules' => $shieldConfig->getWafLogOnlyRules(), 'wafEngineConfig' => [['name' => 'detection_paranoia_level', 'valueEncoded' => sprintf('%d', $shieldConfig->getWafDetectionLevel())], ['name' => 'executing_paranoia_level', 'valueEncoded' => sprintf('%d', $shieldConfig->getWafExecutionLevel())], ['name' => 'blocking_paranoia_level', 'valueEncoded' => sprintf('%d', $shieldConfig->getWafBlockingLevel())]], 'dDoSChallengeWindow' => $shieldConfig->getDDoSChallengeWindow(), 'dDoSShieldSensitivity' => $shieldConfig->getDDoSSensitivity()]];
+        $body = json_encode($data, \JSON_THROW_ON_ERROR);
+        $this->request('PATCH', 'shield/shield-zone', $body);
+    }
+
+    public function saveShieldTriggeredRule(int $shieldZoneId, string $ruleId, int $action): void
+    {
+        $this->request('POST', sprintf('shield/waf/rules/review-triggered/%d', $shieldZoneId), json_encode(['ruleId' => $ruleId, 'action' => $action], \JSON_THROW_ON_ERROR));
+    }
+
+    public function resetShieldWafRules(int $shieldZoneId): void
+    {
+        $this->request('PATCH', 'shield/shield-zone', json_encode(['shieldZoneId' => $shieldZoneId, 'shieldZone' => [
+            'planType' => 0,
+            'wafProfileId' => 1,
+            // wordpress
+            'learningMode' => false,
+            'wafExecutionMode' => 0,
+            // log
+            'wafDisabledRules' => [],
+            'wafLogOnlyRules' => [],
+        ]], \JSON_THROW_ON_ERROR));
+    }
+
+    public function getShieldStatistics(int $shieldZoneId): Pullzone\ShieldStatistics
+    {
+        $chartDdosLogged = [];
+        $chartDdosBlocked = [];
+        $chartDdosChallenged = [];
+        $chartDdosVerified = [];
+        $chartWafTriggers = [];
+        $data = $this->request('GET', sprintf('shield/metrics/overview/%d', $shieldZoneId));
+        foreach ($data['data']['dDoSOverviewPastTwentyEightDays'] as $key => $info) {
+            $date = \DateTime::createFromFormat('d-m-Y', $key);
+            if (false === $date) {
+                continue;
+            }
+            $dateStr = $date->format('Y-m-d');
+            $chartDdosLogged[] = [$dateStr, $info['loggedRequests']];
+            $chartDdosBlocked[] = [$dateStr, $info['blockedRequests']];
+            $chartDdosChallenged[] = [$dateStr, $info['challengedRequests']];
+            $chartDdosVerified[] = [$dateStr, $info['verifiedRequests']];
+        }
+        foreach ($data['data']['overviewPastTwentyEightDays'] as $key => $info) {
+            $date = \DateTime::createFromFormat('d-m-Y', $key);
+            if (false === $date) {
+                continue;
+            }
+            $dateStr = $date->format('Y-m-d');
+            $chartWafTriggers[] = [$dateStr, $info['wafTriggeredRules']];
+        }
+
+        return new Pullzone\ShieldStatistics($chartDdosLogged, $chartDdosBlocked, $chartDdosChallenged, $chartDdosVerified, $chartWafTriggers);
     }
 }

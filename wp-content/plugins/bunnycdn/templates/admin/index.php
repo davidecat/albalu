@@ -1,6 +1,6 @@
 <?php
 // bunny.net WordPress Plugin
-// Copyright (C) 2024-2025 BunnyWay d.o.o.
+// Copyright (C) 2024-2026 BunnyWay d.o.o.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@ if (!defined('ABSPATH')) {
 ?>
 <div class="container no-nav bn-p-0">
     <section class="bn-section bg-gradient-reverse welcome">
-        <img src="<?php echo esc_attr($this->assetUrl('homepage-welcome.png')) ?>" alt="">
+        <img src="<?php echo esc_attr($this->assetUrl('images/homepage-welcome.png')) ?>" alt="">
         <h2>Start your <strong>14-Day FREE</strong> Trial</h2>
         <a href="<?php echo $registerUrlSafe ?>" target="_blank" class="bunnycdn-button bunnycdn-button--primary bunnycdn-button--xxl">Create An Account</a>
         <p>Already have an account? <a href="<?php echo $loginUrlSafe ?>">Log in</a>.</p>
@@ -40,57 +40,62 @@ if (!defined('ABSPATH')) {
     </section>
     <section class="bn-section columns-2">
         <div class="bn-text-center">
-            <img src="<?php echo esc_attr($this->assetUrl('homepage-cdn.svg')) ?>" alt="">
+            <img src="<?php echo esc_attr($this->assetUrl('images/header-cdn.png')) ?>" alt="">
         </div>
         <div>
             <h3>Bunny CDN</h3>
-            <h4>Hop ahead of the competition</h4>
-            <p>
-                Hop on a lightning fast global content delivery network with 123 PoPs and deliver consistent experience
-                to everyone, no matter where in the world they are!
-            </p>
+            <h4>Performance like never before</h4>
+            <p>Accelerate your website with lightning-fast global content delivery and intelligent edge caching built to maximize performance, speed, and reliability for visitors around the world.</p>
         </div>
     </section>
     <section class="bn-section columns-2">
         <div class="bn-text-center">
-            <img src="<?php echo esc_attr($this->assetUrl('homepage-optimizer.svg')) ?>" alt="">
+            <img src="<?php echo esc_attr($this->assetUrl('images/header-shield.png')) ?>" alt="">
         </div>
         <div>
-            <h3>Bunny Optimizer</h3>
-            <h4>Image optimization. Made easy.</h4>
-            <p>
-                Automatically reduce the size of your images by up to 80%, and resize them to best fit the screen of your
-                user's devices. Compress and minify your CSS and JavaScript files and make your website truly hop.
-            </p>
+            <h3>Bunny Shield</h3>
+            <h4>Security simplified</h4>
+            <p>Protect your website with advanced Web Application Firewall (WAF) and DDoS mitigation designed to block attacks, reduce malicious traffic, and keep your services online.</p>
         </div>
     </section>
     <section class="bn-section columns-2">
         <div class="bn-text-center">
-            <img src="<?php echo esc_attr($this->assetUrl('homepage-offloader.svg')) ?>" alt="">
+            <img src="<?php echo esc_attr($this->assetUrl('images/header-offloader.png')) ?>" alt="">
         </div>
         <div>
             <h3>Bunny Offloader</h3>
-            <h4>Simplified Storage Offloading & Replication</h4>
-            <p>
-                Automatically move content from your WordPress platform to Bunny Storage, our high-performance and
-                cost-effective cloud storage service for optimal latency, global replication, and maximum throughput.
-                After activating it, any new content you upload to WordPress will automatically be transferred to Bunny
-                Storage, providing your users with up to 5x faster download speeds compared to traditional object storage
-                solutions.
-            </p>
+            <h4>Your media files on Bunny Storage</h4>
+            <p>Automatically offload your WordPress media library to Bunny Storage for faster file delivery, lower server usage, and scalable global storage built for high performance.</p>
         </div>
     </section>
     <section class="bn-section columns-2">
         <div class="bn-text-center">
-            <img src="<?php echo esc_attr($this->assetUrl('homepage-fonts.svg')) ?>" alt="">
+            <img src="<?php echo esc_attr($this->assetUrl('images/header-optimizer.png')) ?>" alt="">
+        </div>
+        <div>
+            <h3>Bunny Optimizer</h3>
+            <h4>Faster website. Made simple.</h4>
+            <p>Automatically optimize images, CSS, and JavaScript files to improve website performance, reduce page load times, and deliver a faster browsing experience to your visitors.</p>
+        </div>
+    </section>
+    <section class="bn-section columns-2">
+        <div class="bn-text-center">
+            <img src="<?php echo esc_attr($this->assetUrl('images/header-stream.png')) ?>" alt="">
+        </div>
+        <div>
+            <h3>Bunny Stream</h3>
+            <h4>A better way to deliver videos</h4>
+            <p>Deliver smooth, buffer-free video playback with automatic video encoding, adaptive streaming, and global delivery directly integrated into your WordPress dashboard.</p>
+        </div>
+    </section>
+    <section class="bn-section columns-2">
+        <div class="bn-text-center">
+            <img src="<?php echo esc_attr($this->assetUrl('images/header-fonts.png')) ?>" alt="">
         </div>
         <div>
             <h3>Bunny Fonts</h3>
-            <h4>Take control of your fonts</h4>
-            <p>
-                Push your privacy to the next level. Prevent your users from being tracked by 3rd party websites and
-                simplify GDPR compliance!
-            </p>
+            <h4>Choose Privacy. Use Bunny Fonts.</h4>
+            <p>Serve privacy-first web fonts with zero tracking, no logging, and fast global delivery while helping your website stay fully GDPR-compliant.</p>
         </div>
     </section>
 </div>

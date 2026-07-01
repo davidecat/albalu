@@ -1,9 +1,9 @@
 === bunny.net - WordPress CDN Plugin ===
 Contributors: bunnycdn
-Tags: cdn, content delivery network, performance, bandwidth, stream, video
+Tags: cdn, performance, video
 Requires at least: 6.7
-Tested up to: 6.9
-Stable tag: 3.0.1
+Tested up to: 7.0
+Stable tag: 3.1.0
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -17,7 +17,8 @@ Benefit from global delivery with optimal latency, automatically transfer your m
 
 == This plugin relies on the following bunny.net services ==
 
-* [Bunny CDN](https://bunny.net/cdn) - Substitutes existing static content links with CDN links to improve loading times;
+* [Bunny CDN](https://bunny.net/cdn/) - Substitutes existing static content links with CDN links to improve loading times;
+* [Bunny Shield](https://bunny.net/shield/) - Protects your website with built-in WAF and DDoS mitigation to block attacks and keep your services online;
 * [Bunny Optimizer](https://bunny.net/optimizer/) - Compresses files and images to reduce file size;
 * [Bunny Offloader](https://bunny.net/blog/new-bunnynet-plugin-changes-the-wordpress-performance-game/) - Transfers media files to Bunny Storage with multi-region replication;
 * [Bunny Stream](https://bunny.net/stream/) - Upload and embed videos once, deliver everywhere;
@@ -51,6 +52,13 @@ Replace `197133` with your Stream Library ID and `dc48a09e-d9bb-420a-83d7-72dc23
 All the [Embed parameters](https://docs.bunny.net/docs/stream-embedding-videos#supported-parameters) are supported.
 
 == Changelog ==
+
+= 3.1.0 =
+* Added support for Bunny Shield;
+* offloader: fix cron schedule;
+* stream: support `tokenAuth=true` for the bunnycdn_stream_video shortcode;
+* stream: add translation calls to video block;
+* Tested with WordPress 7.0;
 
 = 3.0.1 =
 * offloader: improve performance around delay checks;
@@ -256,7 +264,7 @@ WARNING: There are breaking changes to Video libraries using custom HTML. [Read 
 
 = Minified files =
 
-`assets/echarts.min.js`: https://github.com/apache/echarts/blob/5.6.0/dist/echarts.min.js
+`assets/echarts.min.js`: https://github.com/apache/echarts/blob/6.0.0/dist/echarts.min.js
 
 == Screenshots ==
 

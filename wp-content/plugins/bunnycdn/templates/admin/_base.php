@@ -1,6 +1,6 @@
 <?php
 // bunny.net WordPress Plugin
-// Copyright (C) 2024-2025 BunnyWay d.o.o.
+// Copyright (C) 2024-2026 BunnyWay d.o.o.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -31,6 +31,7 @@ if (!defined('ABSPATH')) {
 $menuPrimary = [
     'overview' => __('Overview', 'bunnycdn'),
     'cdn' => 'CDN',
+    'shield' => 'Shield',
     'offloader' => 'Offloader',
     'optimizer' => 'Optimizer',
     'stream' => 'Stream',
@@ -41,6 +42,7 @@ $menuPrimary = [
 $isAgencyMode = 'agency' === $mode;
 if ($isAgencyMode) {
     unset($menuPrimary['overview']);
+    unset($menuPrimary['shield']);
     unset($menuPrimary['offloader']);
     unset($menuPrimary['optimizer']);
     unset($menuPrimary['stream']);

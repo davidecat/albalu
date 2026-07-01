@@ -1,7 +1,7 @@
 <?php
 
 // bunny.net WordPress Plugin
-// Copyright (C) 2024-2025 BunnyWay d.o.o.
+// Copyright (C) 2024-2026 BunnyWay d.o.o.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -102,6 +102,19 @@ class Container
     public function renderMenuHtml(iterable $items, string $cssClass = ''): string
     {
         return $this->renderPartialFile('menu.php', ['items' => $items, 'current' => sanitize_key($_GET['section'] ?? ''), 'cssClass' => $cssClass]);
+    }
+
+    /**
+     * @param array<string, string> $items
+     */
+    public function renderSubMenuHtml(iterable $items, string $cssClass = ''): string
+    {
+        $current = sanitize_key($_GET['section'] ?? '');
+        if (strlen($current) > 0 && isset($_GET['subsection']) && strlen($_GET['subsection']) > 0) {
+            $current = $current.'/'.sanitize_key($_GET['subsection']);
+        }
+
+        return $this->renderPartialFile('menu.php', ['items' => $items, 'current' => $current, 'cssClass' => $cssClass]);
     }
 
     public function assetUrl(string $asset): string

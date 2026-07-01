@@ -366,6 +366,16 @@
 				}
 				for( var i in conditions ) {
 					var condition = conditions[i];
+
+					// 4.3.15, user-role and log-in-status have no DOM element — PHP evaluated them server-side
+					// before rendering the group. If the group is in the DOM, those conditions already passed.
+					if ( condition.field === 'user-role' || condition.field === 'log-in-status' ) {
+						if ( match === 'any' ) {
+							return true;
+						}
+						continue;
+					}
+
 					// Cache the condition field element once to avoid repeated full-document scans per condition
 					var condition_field_el = $( '.' + condition.field );
 					if( ! condition.field_type ) {

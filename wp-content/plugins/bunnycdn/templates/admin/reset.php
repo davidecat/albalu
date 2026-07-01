@@ -1,6 +1,6 @@
 <?php
 // bunny.net WordPress Plugin
-// Copyright (C) 2024-2025 BunnyWay d.o.o.
+// Copyright (C) 2024-2026 BunnyWay d.o.o.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -45,11 +45,11 @@ if (!defined('ABSPATH')) {
         <?php if (false === $isAgencyMode): ?>
         <section class="bn-section">
             <form method="POST" autocomplete="off">
-                <p><?php echo esc_html__('This operation will convert plugin into the Agency Mode. All local configurations will not be touched and the bunny.net services will continue to work, but you will not be able to Purge Cache or see Bunny CDN statistics, neither administrate Bunny Optimizer or Bunny Offloader directly from WordPress.', 'bunnycdn') ?></p>
+                <p><?php echo esc_html__('This operation will convert plugin into the Agency Mode. All local configurations will not be touched and the bunny.net services will continue to work, but you will not be able to Purge Cache or see Bunny CDN statistics, neither administrate Bunny Shield, Bunny Optimizer or Bunny Offloader directly from WordPress.', 'bunnycdn') ?></p>
                 <button type="button" class="bunnycdn-button bunnycdn-button--secondary bn-mt-4" id="convert-agency-mode-btn"><?php echo esc_html__('Convert to Agency Mode', 'bunnycdn') ?></button>
                 <input type="hidden" name="convert_agency_mode" value="yes">
-                <?php echo wp_nonce_field('bunnycdn-save-reset') ?>
                 <input type="hidden" name="convert_agency_mode_confirmed" value="0" id="modal-convert-agency-mode-confirmed">
+                <?php wp_nonce_field('bunnycdn-save-reset') ?>
             </form>
         </section>
         <?php endif; ?>
@@ -74,7 +74,15 @@ if (!defined('ABSPATH')) {
                 </ol>
                 <button type="submit" class="bunnycdn-button bunnycdn-button--secondary bn-mt-4" id="reset-stream-token-authentication-btn"><?php echo esc_html__('Reset Token Authentication keys', 'bunnycdn') ?></button>
                 <input type="hidden" name="reset_stream_token_authentication" value="yes">
-                <?php echo wp_nonce_field('bunnycdn-save-reset') ?>
+                <?php wp_nonce_field('bunnycdn-save-reset') ?>
+            </form>
+        </section>
+        <section class="bn-section">
+            <form method="POST" autocomplete="off">
+                <p><?php echo esc_html__('This operation will reset the WAF rules configuration back to the initial WordPress profile, and switching to Logging mode.', 'bunnycdn') ?></p>
+                <button type="submit" class="bunnycdn-button bunnycdn-button--secondary bn-mt-4" id="reset-shield-waf-btn"><?php echo esc_html__('Reset WAF rules', 'bunnycdn') ?></button>
+                <input type="hidden" name="reset_shield_waf" value="yes">
+                <?php wp_nonce_field('bunnycdn-save-reset') ?>
             </form>
         </section>
         <section class="bn-section bn-section--no-divider">
@@ -86,8 +94,8 @@ if (!defined('ABSPATH')) {
             <form method="POST" autocomplete="off">
                 <button type="button" class="bunnycdn-button bunnycdn-button--primary bn-mt-4" id="reset-btn"><?php echo esc_html__('Reset bunny.net plugin', 'bunnycdn') ?></button>
                 <input type="hidden" name="reset" value="yes">
-                <?php echo wp_nonce_field('bunnycdn-save-reset') ?>
                 <input type="hidden" name="reset_confirmed" value="0" id="modal-reset-confirmed">
+                <?php wp_nonce_field('bunnycdn-save-reset') ?>
             </form>
         </section>
     <?php else: ?>
