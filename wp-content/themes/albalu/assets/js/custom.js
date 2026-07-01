@@ -223,6 +223,29 @@ jQuery(function ($) {
         $wrap.find('.testimonial-read-more').removeClass('d-none');
     });
 
+    // Meta Pixel: classic WooCommerce AJAX add-to-cart (Meta plugin v3.7+ only hooks Store API).
+    $(document.body).on('added_to_cart', function (e, fragments, hash, $button) {
+        var productId = $button && ($button.data('variation_id') || $button.data('product_id'));
+        if (!productId) {
+            return;
+        }
+
+        var params = {
+            content_ids: [String(productId)],
+            content_type: 'product',
+            currency: typeof wc_add_to_cart_params !== 'undefined' && wc_add_to_cart_params.currency
+                ? wc_add_to_cart_params.currency
+                : 'EUR'
+        };
+
+        if (typeof window.FacebookSignals !== 'undefined' &&
+            typeof window.FacebookSignals.trackEvent === 'function') {
+            window.FacebookSignals.trackEvent('AddToCart', params);
+        } else if (typeof fbq === 'function') {
+            fbq('track', 'AddToCart', params);
+        }
+    });
+
     // Gallery lightbox: open carousel at clicked slide
     $('.gallery-lightbox-modal').on('show.bs.modal', function (e) {
         var trigger = $(e.relatedTarget);
