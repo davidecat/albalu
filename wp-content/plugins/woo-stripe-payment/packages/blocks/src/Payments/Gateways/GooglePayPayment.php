@@ -17,26 +17,23 @@ class GooglePayPayment extends AbstractStripePayment {
 
 	public function get_payment_method_data() {
 		return wp_parse_args( array(
-			'icon'            => $this->get_payment_method_icon(),
-			'editorIcons'     => array(
+			'icon'        => $this->get_payment_method_icon(),
+			'editorIcons' => array(
 				'long'  => $this->assets_api->assets_url( 'assets/img/gpay_button_buy_black.svg' ),
 				'short' => $this->assets_api->assets_url( 'assets/img/gpay_button_black.svg' )
 			),
-			'totalPriceLabel' => __( 'Total', 'woo-stripe-payment' ),
-			'buttonStyle'     => array(
-				'buttonColor'    => $this->payment_method->get_option( 'button_color' ),
-				'buttonType'     => $this->payment_method->get_option( 'button_style' ),
-				'buttonSizeMode' => 'fill',
-				'buttonRadius'   => (int) $this->payment_method->get_option( 'button_radius', 4 ),
-				'buttonLocale'   => $this->payment_method->get_payment_button_locale()
-			),
-			'button'          => [
-				'type'   => $this->get_setting( 'button_type', 'buy' ),
+			'button'      => [
+				'type'   => $this->get_setting( 'button_type_checkout', 'buy' ),
 				'theme'  => $this->get_setting( 'button_theme', 'black' ),
 				'height' => $this->get_setting( 'button_height', 40 ),
 				'radius' => $this->get_setting( 'button_radius', 4 ) . 'px',
 			],
-			'displayRule'     => \wc_string_to_bool( $this->get_setting( 'all_browsers', 'yes' ) ) ? 'always' : 'auto'
+			'buttonTypes' => [
+				'checkout'         => $this->get_setting( 'button_type_checkout', 'buy' ),
+				'express_checkout' => $this->get_setting( 'button_type_express_checkout', 'buy' ),
+				'cart'             => $this->get_setting( 'button_type_cart', 'buy' ),
+			],
+			'displayRule' => \wc_string_to_bool( $this->get_setting( 'all_browsers', 'yes' ) ) ? 'always' : 'auto'
 		), parent::get_payment_method_data() );
 	}
 

@@ -31,7 +31,7 @@ class WC_Payment_Gateway_Stripe_GooglePay extends WC_Payment_Gateway_Stripe {
 		$this->method_description = __( 'Google Pay gateway that integrates with your Stripe account.', 'woo-stripe-payment' );
 		$this->has_digital_wallet = true;
 		parent::__construct( ...$args );
-		$this->icon               = $this->assets->assets_url( 'img/' . $this->get_option( 'icon' ) . '.svg' );
+		$this->icon = $this->assets->assets_url( 'img/' . $this->get_option( 'icon' ) . '.svg' );
 	}
 
 	public function init_supports() {
@@ -98,7 +98,14 @@ class WC_Payment_Gateway_Stripe_GooglePay extends WC_Payment_Gateway_Stripe {
 					'height' => (int) $this->get_option( 'button_height', 40 ),
 					'radius' => $this->get_option( 'button_radius', 4 ) . 'px',
 					'theme'  => $this->get_option( 'button_theme', 'black' ),
-					'type'   => $this->get_option( 'button_type', 'buy' )
+					'type'   => $this->get_option( 'button_type_checkout', 'buy' )
+				],
+				'buttonTypes'  => [
+					'checkout'         => $this->get_option( 'button_type_checkout', 'buy' ),
+					'express_checkout' => $this->get_option( 'button_type_express_checkout', 'buy' ),
+					'cart'             => $this->get_option( 'button_type_cart', 'buy' ),
+					'product'          => $this->get_option( 'button_type_product', 'buy' ),
+					'minicart'         => $this->get_option( 'button_type_cart', 'buy' )
 				],
 				'display_rule' => \wc_string_to_bool( $this->get_option( 'all_browsers', 'yes' ) ) ? 'always' : 'auto'
 			]

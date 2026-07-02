@@ -47,6 +47,7 @@ return array(
     'PaymentPlugins\\Stripe\\Blocks\\Payments\\Gateways\\KlarnaPayment' => $baseDir . '/packages/blocks/src/Payments/Gateways/KlarnaPayment.php',
     'PaymentPlugins\\Stripe\\Blocks\\Payments\\Gateways\\KonbiniPayment' => $baseDir . '/packages/blocks/src/Payments/Gateways/KonbiniPayment.php',
     'PaymentPlugins\\Stripe\\Blocks\\Payments\\Gateways\\LinkPayment' => $baseDir . '/packages/blocks/src/Payments/Gateways/LinkPayment.php',
+    'PaymentPlugins\\Stripe\\Blocks\\Payments\\Gateways\\MBWayPayment' => $baseDir . '/packages/blocks/src/Payments/Gateways/MBWayPayment.php',
     'PaymentPlugins\\Stripe\\Blocks\\Payments\\Gateways\\MobilePayPayment' => $baseDir . '/packages/blocks/src/Payments/Gateways/MobilePayPayment.php',
     'PaymentPlugins\\Stripe\\Blocks\\Payments\\Gateways\\MultibancoPayment' => $baseDir . '/packages/blocks/src/Payments/Gateways/MultibancoPayment.php',
     'PaymentPlugins\\Stripe\\Blocks\\Payments\\Gateways\\OXXOPayment' => $baseDir . '/packages/blocks/src/Payments/Gateways/OXXOPayment.php',

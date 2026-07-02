@@ -29,7 +29,7 @@ class WC_Payment_Gateway_Stripe_Afterpay extends WC_Payment_Gateway_Stripe_Local
 		$this->method_title       = __( 'Afterpay (Stripe) by Payment Plugins', 'woo-stripe-payment' );
 		$this->method_description = __( 'Afterpay gateway that integrates with your Stripe account.', 'woo-stripe-payment' );
 		parent::__construct( ...$args );
-		$this->icon = stripe_wc()->assets_url( 'img/afterpay.svg' );
+		$this->icon = $this->assets->assets_url( 'img/' . $this->get_option( 'icon' ) . '.svg' );
 	}
 
 	public function get_order_button_text( $text ) {
@@ -86,11 +86,10 @@ class WC_Payment_Gateway_Stripe_Afterpay extends WC_Payment_Gateway_Stripe_Local
 				'title'       => __( 'Message Sections', 'woo-stripe-payment' ),
 				'class'       => 'wc-enhanced-select',
 				'options'     => array(
-					'checkout'  => __( 'Checkout page', 'woo-stripe-payment' ),
-					'product'   => __( 'Product Page', 'woo-stripe-payment' ),
-					'cart'      => __( 'Cart Page', 'woo-stripe-payment' ),
-					'mini_cart' => __( 'Mini Cart', 'woo-stripe-payment' ),
-					'shop'      => __( 'Shop/Category Page', 'woo-stripe-payment' )
+					'checkout' => __( 'Checkout page', 'woo-stripe-payment' ),
+					'product'  => __( 'Product Page', 'woo-stripe-payment' ),
+					'cart'     => __( 'Cart Page', 'woo-stripe-payment' ),
+					'shop'     => __( 'Shop/Category Page', 'woo-stripe-payment' )
 				),
 				'default'     => array(),
 				'description' => __( 'These are the additional sections where the Afterpay messaging will be enabled. You can control individual products via the Edit product page.',

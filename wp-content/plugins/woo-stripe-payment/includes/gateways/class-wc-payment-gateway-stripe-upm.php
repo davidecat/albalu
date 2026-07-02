@@ -25,7 +25,9 @@ class WC_Payment_Gateway_Stripe_UPM extends WC_Payment_Gateway_Stripe {
 		'stripe_payment_request',
 		'stripe_link_checkout',
 		'paypal',
-		'customer_balance'
+		'customer_balance',
+		'giropay',
+		'sofort'
 	];
 
 	protected $supports_save_payment_method = true;
@@ -723,6 +725,13 @@ class WC_Payment_Gateway_Stripe_UPM extends WC_Payment_Gateway_Stripe {
 			$args['payment_method_configuration'] = $this->get_payment_method_configuration( wc_stripe_order_mode( $order ) );
 			if ( ! $intent ) {
 				$args['automatic_payment_methods'] = array( 'enabled' => true );
+			}
+		} else if ( $this->payment_method_type === 'link' ) {
+			// This resolves https://github.com/paymentplugins/woo-stripe-payment/issues/17
+			if ( ! in_array( 'card', $args['payment_method_types'] ) ) {
+				if ( $this->is_enabled_payment_method( 'stripe_cc' ) ) {
+					$args['payment_method_types'][] = 'card';
+				}
 			}
 		}
 	}

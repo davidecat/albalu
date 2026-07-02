@@ -2,7 +2,7 @@
 defined( 'ABSPATH' ) || exit;
 
 return array(
-	'enabled'              => array(
+	'enabled'                      => array(
 		'title'       => __( 'Enabled', 'woo-stripe-payment' ),
 		'type'        => 'checkbox',
 		'default'     => 'no',
@@ -10,32 +10,32 @@ return array(
 		'desc_tip'    => true,
 		'description' => __( 'If enabled, your site can accept Apple Pay payments through Stripe.', 'woo-stripe-payment' ),
 	),
-	'general_settings'     => array(
+	'general_settings'             => array(
 		'type'  => 'title',
 		'title' => __( 'General Settings', 'woo-stripe-payment' ),
 	),
-	'title_text'           => array(
+	'title_text'                   => array(
 		'type'        => 'text',
 		'title'       => __( 'Title', 'woo-stripe-payment' ),
 		'default'     => __( 'Apple Pay', 'woo-stripe-payment' ),
 		'desc_tip'    => true,
 		'description' => __( 'Title of the Apple Pay gateway' ),
 	),
-	'description'          => array(
+	'description'                  => array(
 		'title'       => __( 'Description', 'woo-stripe-payment' ),
 		'type'        => 'text',
 		'default'     => '',
 		'description' => __( 'Leave blank if you don\'t want a description to show for the gateway.', 'woo-stripe-payment' ),
 		'desc_tip'    => true,
 	),
-	'all_browsers'         => array(
+	'all_browsers'                 => array(
 		'title'       => __( 'Enable On All Browsers', 'woo-stripe-payment' ),
 		'type'        => 'checkbox',
 		'default'     => 'yes',
 		'desc_tip'    => true,
 		'description' => __( 'If enabled, Apple Pay will be available on all supported browsers, not just Safari.', 'woo-stripe-payment' )
 	),
-	'method_format'        => array(
+	'method_format'                => array(
 		'title'       => __( 'Credit Card Display', 'woo-stripe-payment' ),
 		'type'        => 'select',
 		'class'       => 'wc-enhanced-select',
@@ -45,7 +45,7 @@ return array(
 		'desc_tip'    => true,
 		'description' => __( 'This option allows you to customize how the credit card will display for your customers on orders, subscriptions, etc.' ),
 	),
-	'charge_type'          => array(
+	'charge_type'                  => array(
 		'type'        => 'select',
 		'title'       => __( 'Charge Type', 'woo-stripe-payment' ),
 		'default'     => 'capture',
@@ -57,7 +57,7 @@ return array(
 		'desc_tip'    => true,
 		'description' => __( 'This option determines whether the customer\'s funds are captured immediately or authorized and can be captured at a later date.', 'woo-stripe-payment' ),
 	),
-	'payment_sections'     => array(
+	'payment_sections'             => array(
 		'type'        => 'multiselect',
 		'title'       => __( 'Payment Sections', 'woo-stripe-payment' ),
 		'class'       => 'wc-enhanced-select',
@@ -71,7 +71,7 @@ return array(
 		'default'     => array( 'checkout', 'product', 'cart' ),
 		'description' => $this->get_payment_section_description(),
 	),
-	'order_status'         => array(
+	'order_status'                 => array(
 		'type'        => 'select',
 		'title'       => __( 'Order Status', 'woo-stripe-payment' ),
 		'default'     => 'default',
@@ -81,11 +81,11 @@ return array(
 		'description' => __( 'This is the status of the order once payment is complete. If <b>Default</b> is selected, then WooCommerce will set the order status automatically based on internal logic which states if a product is virtual and downloadable then status is set to complete. Products that require shipping are set to Processing. Default is the recommended setting as it allows standard WooCommerce code to process the order status.',
 			'woo-stripe-payment' ),
 	),
-	'button_section'       => array(
+	'button_section'               => array(
 		'type'  => 'title',
 		'title' => __( 'Button Settings', 'woo-stripe-payment' ),
 	),
-	'button_theme'         => array(
+	'button_theme'                 => array(
 		'type'        => 'select',
 		'title'       => __( 'Button Style', 'woo-stripe-payment' ),
 		'class'       => 'wc-enhanced-select',
@@ -97,7 +97,7 @@ return array(
 		),
 		'description' => __( 'This is the style for all Apple Pay buttons presented on your store.', 'woo-stripe-payment' ),
 	),
-	'button_height'        => array(
+	'button_height'                => array(
 		'title'             => __( 'Button Height', 'woo-stripe-payment' ),
 		'type'              => 'number',
 		'default'           => 50,
@@ -111,7 +111,7 @@ return array(
 			return max( 40, min( 55, $value ) );
 		}
 	),
-	'button_radius'        => array(
+	'button_radius'                => array(
 		'title'             => __( 'Button Radius', 'woo-stripe-payment' ),
 		'type'              => 'number',
 		'class'             => 'button-radius',
@@ -125,7 +125,7 @@ return array(
 			return absint( $value );
 		}
 	),
-	'button_type_checkout' => array(
+	'button_type_checkout'         => array(
 		'title'   => __( 'Checkout button type', 'woo-stripe-payment' ),
 		'type'    => 'select',
 		'options' => array(
@@ -135,7 +135,17 @@ return array(
 		),
 		'default' => 'plain',
 	),
-	'button_type_cart'     => array(
+	'button_type_express_checkout' => array(
+		'title'   => __( 'Express Checkout button type', 'woo-stripe-payment' ),
+		'type'    => 'select',
+		'options' => array(
+			'plain'     => __( 'Standard Button', 'woo-stripe-payment' ),
+			'buy'       => __( 'Buy with Apple Pay', 'woo-stripe-payment' ),
+			'check-out' => __( 'Checkout with Apple Pay', 'woo-stripe-payment' )
+		),
+		'default' => 'plain',
+	),
+	'button_type_cart'             => array(
 		'title'   => __( 'Cart button type', 'woo-stripe-payment' ),
 		'type'    => 'select',
 		'options' => array(
@@ -145,7 +155,7 @@ return array(
 		),
 		'default' => 'plain',
 	),
-	'button_type_product'  => array(
+	'button_type_product'          => array(
 		'title'   => __( 'Product button type', 'woo-stripe-payment' ),
 		'type'    => 'select',
 		'options' => array(

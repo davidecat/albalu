@@ -125,6 +125,7 @@ class ComposerStaticInit4ca810f773c97847475818af916fad5a
         'PaymentPlugins\\Stripe\\Blocks\\Payments\\Gateways\\KlarnaPayment' => __DIR__ . '/../..' . '/packages/blocks/src/Payments/Gateways/KlarnaPayment.php',
         'PaymentPlugins\\Stripe\\Blocks\\Payments\\Gateways\\KonbiniPayment' => __DIR__ . '/../..' . '/packages/blocks/src/Payments/Gateways/KonbiniPayment.php',
         'PaymentPlugins\\Stripe\\Blocks\\Payments\\Gateways\\LinkPayment' => __DIR__ . '/../..' . '/packages/blocks/src/Payments/Gateways/LinkPayment.php',
+        'PaymentPlugins\\Stripe\\Blocks\\Payments\\Gateways\\MBWayPayment' => __DIR__ . '/../..' . '/packages/blocks/src/Payments/Gateways/MBWayPayment.php',
         'PaymentPlugins\\Stripe\\Blocks\\Payments\\Gateways\\MobilePayPayment' => __DIR__ . '/../..' . '/packages/blocks/src/Payments/Gateways/MobilePayPayment.php',
         'PaymentPlugins\\Stripe\\Blocks\\Payments\\Gateways\\MultibancoPayment' => __DIR__ . '/../..' . '/packages/blocks/src/Payments/Gateways/MultibancoPayment.php',
         'PaymentPlugins\\Stripe\\Blocks\\Payments\\Gateways\\OXXOPayment' => __DIR__ . '/../..' . '/packages/blocks/src/Payments/Gateways/OXXOPayment.php',

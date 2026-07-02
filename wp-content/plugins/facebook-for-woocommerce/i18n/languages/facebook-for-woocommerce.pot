@@ -2,14 +2,14 @@
 # This file is distributed under the same license as the Meta for WooCommerce plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: Meta for WooCommerce 3.7.3\n"
+"Project-Id-Version: Meta for WooCommerce 3.7.4\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/facebook-for-woocommerce\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-06-24T14:29:33+00:00\n"
+"POT-Creation-Date: 2026-06-25T13:04:57+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: facebook-for-woocommerce\n"
@@ -1014,36 +1014,36 @@ msgstr ""
 msgid "20 minutes"
 msgstr ""
 
-#: includes/Admin/WhatsApp_Integration_Settings.php:89
-#: includes/Admin/WhatsApp_Integration_Settings.php:114
+#: includes/Admin/WhatsApp_Integration_Settings.php:94
+#: includes/Admin/WhatsApp_Integration_Settings.php:153
 msgid "WhatsApp for WooCommerce"
 msgstr ""
 
-#: includes/Admin/WhatsApp_Integration_Settings.php:90
+#: includes/Admin/WhatsApp_Integration_Settings.php:95
 msgid "WhatsApp"
 msgstr ""
 
-#: includes/Admin/WhatsApp_Integration_Settings.php:197
+#: includes/Admin/WhatsApp_Integration_Settings.php:236
 msgid "WhatsApp Utility Connection Error"
 msgstr ""
 
-#: includes/Admin/WhatsApp_Integration_Settings.php:198
+#: includes/Admin/WhatsApp_Integration_Settings.php:237
 msgid "There was an error loading the WhatsApp Utility Message Integration. Please try reloading the page or resetting your settings."
 msgstr ""
 
-#: includes/Admin/WhatsApp_Integration_Settings.php:206
+#: includes/Admin/WhatsApp_Integration_Settings.php:245
 msgid "Reload Page"
 msgstr ""
 
-#: includes/Admin/WhatsApp_Integration_Settings.php:211
+#: includes/Admin/WhatsApp_Integration_Settings.php:250
 msgid "Are you sure you want to reset WhatsApp settings? This action cannot be undone and you will have to re-onboard."
 msgstr ""
 
-#: includes/Admin/WhatsApp_Integration_Settings.php:213
+#: includes/Admin/WhatsApp_Integration_Settings.php:252
 msgid "Reset Settings"
 msgstr ""
 
-#: includes/Admin/WhatsApp_Integration_Settings.php:230
+#: includes/Admin/WhatsApp_Integration_Settings.php:269
 msgid "Error resetting settings. Please try again or contact support."
 msgstr ""
 

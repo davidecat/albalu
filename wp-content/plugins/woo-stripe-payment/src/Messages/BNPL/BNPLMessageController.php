@@ -190,6 +190,10 @@ class BNPLMessageController {
 			return;
 		}
 
+		if ( ! did_action( 'woocommerce_shop_loop' ) ) {
+			$this->add_shop_script_data();
+		}
+
 		if ( $this->get_location( 'bnpl_shop_location', 'below_price' ) === $location ) {
 			printf(
 				'<div id="wc-stripe-bnpl-shop-msg-%d" class="wc-stripe-bnpl-shop-message"></div>',

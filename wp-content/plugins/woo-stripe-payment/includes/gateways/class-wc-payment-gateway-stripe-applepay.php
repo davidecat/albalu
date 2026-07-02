@@ -32,7 +32,7 @@ class WC_Payment_Gateway_Stripe_ApplePay extends WC_Payment_Gateway_Stripe {
 		$this->method_description = __( 'Apple Pay gateway that integrates with your Stripe account.', 'woo-stripe-payment' );
 		$this->has_digital_wallet = true;
 		parent::__construct( ...$args );
-		$this->icon               = $this->assets->assets_url( 'img/applepay.svg' );
+		$this->icon = $this->assets->assets_url( 'img/applepay.svg' );
 	}
 
 	public function get_checkout_script_handles() {
@@ -82,7 +82,14 @@ class WC_Payment_Gateway_Stripe_ApplePay extends WC_Payment_Gateway_Stripe {
 					'height' => (int) $this->get_option( 'button_height', 40 ),
 					'radius' => $this->get_option( 'button_radius', 4 ) . 'px',
 					'theme'  => $this->get_option( 'button_theme', 'black' ),
-					'type'   => $this->get_button_type(),
+					'type'   => $this->get_option( 'button_type_checkout', 'plain' )
+				],
+				'buttonTypes'  => [
+					'checkout'         => $this->get_option( 'button_type_checkout' ),
+					'express_checkout' => $this->get_option( 'button_type_express_checkout', 'plain' ),
+					'cart'             => $this->get_option( 'button_type_cart', 'plain' ),
+					'product'          => $this->get_option( 'button_type_product', 'plain' ),
+					'minicart'         => $this->get_option( 'button_type_cart', 'plain' )
 				],
 				'display_rule' => \wc_string_to_bool( $this->get_option( 'all_browsers', 'yes' ) ) ? 'always' : 'auto'
 			]

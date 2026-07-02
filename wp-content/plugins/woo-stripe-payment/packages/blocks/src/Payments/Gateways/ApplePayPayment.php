@@ -19,10 +19,15 @@ class ApplePayPayment extends AbstractStripePayment {
 	public function get_payment_method_data() {
 		return wp_parse_args( [
 			'button'      => [
-				'type'   => $this->payment_method->get_option( 'button_type_checkout' ),
+				'type'   => $this->get_setting( 'button_type_checkout', 'plain' ),
 				'theme'  => $this->get_setting( 'button_theme', 'black' ),
 				'height' => $this->get_setting( 'button_height', 40 ),
 				'radius' => $this->get_setting( 'button_radius', 4 ) . 'px',
+			],
+			'buttonTypes' => [
+				'checkout'         => $this->get_setting( 'button_type_checkout', 'plain' ),
+				'express_checkout' => $this->get_setting( 'button_type_express_checkout', 'plain' ),
+				'cart'             => $this->get_setting( 'button_type_cart', 'plain' ),
 			],
 			'editorIcon'  => $this->assets_api->assets_url( 'assets/img/apple_pay_button_black.svg' ),
 			'displayRule' => \wc_string_to_bool( $this->get_setting( 'all_browsers', 'yes' ) ) ? 'always' : 'auto'

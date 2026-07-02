@@ -83,7 +83,8 @@ class PaymentGatewaysController {
 				'WC_Payment_Gateway_Stripe_Link',
 				'WC_Payment_Gateway_Stripe_Billie',
 				'WC_Payment_Gateway_Stripe_Satispay',
-				'WC_Payment_Gateway_Stripe_Scalapay'
+				'WC_Payment_Gateway_Stripe_Scalapay',
+				'WC_Payment_Gateway_Stripe_MBWay'
 			)
 		);
 	}
