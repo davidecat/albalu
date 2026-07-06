@@ -20,6 +20,263 @@ defined('ABSPATH') || exit;
  * Testa in produzione 24h prima di passare al blocco successivo.
  * ==================================================================== */
 
+/* Preconnect/dns-prefetch per 3rd party (Iubenda, Brevo, GTM, FB, Pinterest, Cloudflare CDN) */
+add_action( 'wp_head', function() {
+	$hosts = array(
+		'https://cs.iubenda.com',
+		'https://cdn.iubenda.com',
+		'https://cdn.brevo.com',
+		'https://www.googletagmanager.com',
+		'https://connect.facebook.net',
+		'https://assets.pinterest.com',
+	);
+	foreach ( $hosts as $h ) {
+		echo '<link rel="preconnect" href="' . esc_url( $h ) . '" crossorigin>' . "\n";
+	}
+
+	/* Preload immagine hero LCP su home (foreground image è il vero LCP mobile) */
+	if ( is_front_page() && function_exists( 'get_field' ) ) {
+		$sections = get_field( 'chi_siamo_sections', get_option( 'page_on_front' ) );
+		if ( is_array( $sections ) ) {
+			foreach ( $sections as $s ) {
+				if ( isset( $s['acf_fc_layout'] ) && $s['acf_fc_layout'] === 'hero_home_page' && ! empty( $s['enabled'] ) ) {
+					// Foreground image = vero LCP mobile
+					$fg = $s['foreground_image'] ?? '';
+					if ( is_array( $fg ) ) {
+						$fg_url = $fg['url'] ?? '';
+					} elseif ( is_numeric( $fg ) ) {
+						$fg_url = wp_get_attachment_image_url( (int) $fg, 'medium_large' );
+					} else {
+						$fg_url = $fg;
+					}
+					if ( $fg_url ) {
+						echo '<link rel="preload" as="image" fetchpriority="high" href="' . esc_url( $fg_url ) . '">' . "\n";
+					}
+					// Background image (secondario)
+					$bg = $s['background_image'] ?? '';
+					if ( is_array( $bg ) ) {
+						$bg_url = $bg['url'] ?? '';
+					} elseif ( is_numeric( $bg ) ) {
+						$bg_url = wp_get_attachment_image_url( (int) $bg, 'full' );
+					} else {
+						$bg_url = $bg;
+					}
+					if ( $bg_url ) {
+						echo '<link rel="preload" as="image" href="' . esc_url( $bg_url ) . '">' . "\n";
+					}
+					break;
+				}
+			}
+		}
+	}
+}, 1 );
+
+/* Defer/async strategico script 3rd party e WooCommerce non-critical */
+add_filter( 'script_loader_tag', function( $tag, $handle, $src ) {
+	if ( is_admin() ) return $tag;
+
+	// Script che DEVONO restare sync (jQuery core + PEWC + Bootstrap dipendenze)
+	$never_defer = array(
+		'jquery', 'jquery-core', 'jquery-migrate',
+		'pewc-script', 'pewc-conditions', 'pewc-dropzone',
+		'wc-add-to-cart-variation',
+	);
+	if ( in_array( $handle, $never_defer, true ) ) return $tag;
+
+	// Async solo per 3rd party non-critical (NO Iubenda che gestisce cookie consent, NO FB/Pinterest tracking)
+	$async_patterns = array(
+		'trustindex',
+		'brevo.com/js',
+		'sibautomation',
+	);
+	foreach ( $async_patterns as $p ) {
+		if ( strpos( $src, $p ) !== false ) {
+			if ( strpos( $tag, ' async' ) === false && strpos( $tag, ' defer' ) === false ) {
+				return str_replace( '<script ', '<script async ', $tag );
+			}
+			return $tag;
+		}
+	}
+
+	// Defer per WooCommerce non-critical (handle reali WC)
+	$defer_handles = array(
+		'wc-cart-fragments',
+		'wc-jquery-blockui',
+		'wc-js-cookie',
+		'wc-add-to-cart',
+	);
+	if ( in_array( $handle, $defer_handles, true ) ) {
+		if ( strpos( $tag, ' defer' ) === false && strpos( $tag, ' async' ) === false ) {
+			return str_replace( '<script ', '<script defer ', $tag );
+		}
+	}
+
+	return $tag;
+}, 10, 3 );
+
+// Rimuovi jquery-migrate (browser moderni non ne hanno bisogno, -5KB blocking)
+add_action( 'wp_default_scripts', function( $scripts ) {
+	if ( is_admin() ) return;
+	if ( ! empty( $scripts->registered['jquery'] ) ) {
+		$scripts->registered['jquery']->deps = array_diff(
+			$scripts->registered['jquery']->deps,
+			array( 'jquery-migrate' )
+		);
+	}
+} );
+
+/**
+ * Rimuovi Stripe/PayPal "pay-later messaging" da pagine prodotto singolo.
+ * Risparmio: 34KB inline Stripe + 16KB inline PayPal = 50KB parsing.
+ * Il checkout mantiene tutti gli script (non tocchiamo).
+ */
+add_action( 'wp_enqueue_scripts', function() {
+	if ( is_admin() ) return;
+
+	// Solo su pagina prodotto singolo (non su cart/checkout/account)
+	if ( is_product() ) {
+		wp_dequeue_script( 'wc-stripe-product' );
+		wp_dequeue_script( 'wc-ppcp-product' );
+		wp_dequeue_script( 'wc-stripe-bnpl-messages' );
+		wp_dequeue_script( 'wc-ppcp-paylater-messages' );
+	}
+}, 999 );
+
+/**
+ * Rimuovi WP Emoji script/style (browser moderni gestiscono emoji nativamente).
+ * Risparmio: ~3KB inline JS + 1 external script.
+ */
+remove_action( 'wp_head',             'print_emoji_detection_script', 7 );
+remove_action( 'wp_print_styles',     'print_emoji_styles'                );
+remove_action( 'admin_print_scripts', 'print_emoji_detection_script'       );
+remove_action( 'admin_print_styles',  'print_emoji_styles'                );
+remove_filter( 'the_content_feed',    'wp_staticize_emoji'                );
+remove_filter( 'comment_text_rss',    'wp_staticize_emoji'                );
+remove_filter( 'wp_mail',             'wp_staticize_emoji_for_email'       );
+add_filter( 'tiny_mce_plugins', function( $plugins ) {
+	return is_array( $plugins ) ? array_diff( $plugins, array( 'wpemoji' ) ) : array();
+});
+
+/* Emoji CSS sizing + width/height inline (per non fare CLS) */
+add_action( 'wp_head', function() {
+	echo '<style>img.wp-smiley,img.emoji{display:inline-block!important;height:1em!important;width:1em!important;min-width:1em!important;min-height:1em!important;margin:0 .07em!important;vertical-align:-.1em!important;background:none!important;box-sizing:content-box}</style>';
+}, 1 );
+add_action( 'template_redirect', function() {
+	if ( is_admin() || is_feed() || wp_doing_ajax() ) return;
+	ob_start( function( $html ) {
+		return str_replace(
+			'<img draggable="false" role="img" class="emoji"',
+			'<img width="16" height="16" draggable="false" role="img" class="emoji"',
+			$html
+		);
+	} );
+}, 999 );
+
+/**
+ * Delay JS: 3rd party non-critical caricati SOLO dopo prima interazione utente.
+ * Riduce TBT mobile drasticamente.
+ * ESCLUSI: Iubenda (cookie consent), GTM (già consent-driven).
+ */
+add_filter( 'script_loader_tag', function( $tag, $handle, $src ) {
+	if ( is_admin() ) return $tag;
+
+	// Domain patterns da delayare
+	$delay_patterns = array(
+		'connect.facebook.net',
+		'assets.pinterest.com',
+		'trustindex.io',
+		'cdn.brevo.com',
+		'sibautomation.com',
+		'sibforms.com',
+	);
+	foreach ( $delay_patterns as $p ) {
+		if ( strpos( $src, $p ) !== false ) {
+			// Trasforma in lazy: cambia src -> data-albalu-src, aggiungi type
+			$tag = preg_replace(
+				'/<script\s/',
+				'<script type="albalu/lazy" data-albalu-src="' . esc_attr( $src ) . '" ',
+				$tag,
+				1
+			);
+			// Rimuovi il src originale
+			$tag = preg_replace( '/\ssrc=(["\'])' . preg_quote( $src, '/' ) . '\1/', '', $tag );
+			// Async non ha senso su script lazy
+			$tag = str_replace( ' async', '', $tag );
+			$tag = str_replace( ' defer', '', $tag );
+			return $tag;
+		}
+	}
+	return $tag;
+}, 15, 3 );
+
+/**
+ * Loader delay JS: aspetta prima interazione utente e attiva script lazy.
+ */
+add_action( 'wp_footer', function() {
+	?>
+	<script>
+	(function() {
+		var loaded = false;
+		function loadDelayed() {
+			if ( loaded ) return; loaded = true;
+			document.querySelectorAll('script[type="albalu/lazy"]').forEach(function(s) {
+				var n = document.createElement('script');
+				if ( s.dataset.albaluSrc ) n.src = s.dataset.albaluSrc;
+				if ( s.async ) n.async = true;
+				if ( s.defer ) n.defer = true;
+				// Copia altri attributi rilevanti (id, class)
+				for ( var i = 0; i < s.attributes.length; i++ ) {
+					var a = s.attributes[i];
+					if ( ['type','data-albalu-src'].indexOf( a.name ) === -1 ) {
+						n.setAttribute( a.name, a.value );
+					}
+				}
+				s.parentNode.insertBefore( n, s );
+				s.parentNode.removeChild( s );
+			});
+			['touchstart','mousemove','scroll','keydown','wheel'].forEach(function(e) {
+				window.removeEventListener( e, loadDelayed, { passive: true } );
+			});
+		}
+		['touchstart','mousemove','scroll','keydown','wheel'].forEach(function(e) {
+			window.addEventListener( e, loadDelayed, { passive: true } );
+		});
+		setTimeout( loadDelayed, 5000 );
+	})();
+	</script>
+	<?php
+}, 999 );
+
+/**
+ * LCP fix: aggiungi fetchpriority=high alla prima immagine gallery su pagina prodotto.
+ * L'immagine prodotto è il vero LCP su mobile (non il logo header).
+ */
+add_filter( 'woocommerce_single_product_image_thumbnail_html', function( $html, $attachment_id ) {
+	static $first = true;
+	if ( ! is_product() || ! $first ) {
+		return $html;
+	}
+	$first = false;
+	// Aggiungi fetchpriority=high all'img (solo se non presente)
+	if ( strpos( $html, 'fetchpriority' ) === false ) {
+		$html = preg_replace( '/<img\b/', '<img fetchpriority="high"', $html, 1 );
+	}
+	// Cambia loading="lazy" in loading="eager"
+	$html = str_replace( 'loading="lazy"', 'loading="eager"', $html );
+	return $html;
+}, 10, 2 );
+
+/**
+ * Rimuovi fetchpriority=high dal logo header su pagina prodotto e home (non deve competere con LCP).
+ */
+add_filter( 'wp_get_attachment_image_attributes', function( $attr, $attachment ) {
+	if ( ! is_product() && ! is_front_page() ) return $attr;
+	if ( ! empty( $attr['class'] ) && strpos( $attr['class'], 'albalu-site-logo' ) !== false ) {
+		unset( $attr['fetchpriority'] );
+	}
+	return $attr;
+}, 10, 2 );
+
 
 /* ====================================================================
  * BLOCCO 1 — SICURO (rischio basso)
@@ -153,9 +410,17 @@ add_action( 'wp_enqueue_scripts', function() {
 	}
 }, 15 );
 
-// Non-render-blocking Swiper CSS
+// Non-render-blocking CSS non critical
+// Nota: FontAwesome NON qui (icone above-the-fold causano CLS)
 add_filter( 'style_loader_tag', function( $tag, $handle ) {
-	if ( 'swiper-css' === $handle ) {
+	$non_critical = array(
+		'swiper-css',
+		'swiper-min-css',
+		'swiper-style-css',
+		'joinchat',           // WhatsApp button (below fold)
+		'wc-blocks-style',    // Woo blocks (non-carrello)
+	);
+	if ( in_array( $handle, $non_critical, true ) ) {
 		$tag = str_replace( "media='all'", "media='print' onload=\"this.media='all'\"", $tag );
 		$tag = str_replace( 'media="all"', 'media="print" onload="this.media=\'all\'"', $tag );
 	}
@@ -248,22 +513,19 @@ function albalu_get_logo_img( $max_height = 80 ) {
 }
 
 /**
- * Preload LCP image: logo sitewide, main product image on single product.
+ * Preload LCP image: main product image on single product.
+ * Home ha preload dedicato del hero foreground (vero LCP mobile).
+ * Su altre pagine: logo senza fetchpriority (non è LCP).
  */
 add_action( 'wp_head', function() {
 	if ( is_product() ) {
-		$product = wc_get_product( get_the_ID() );
-		if ( $product ) {
-			$image_id = $product->get_image_id();
-			if ( $image_id ) {
-				$src = wp_get_attachment_image_url( $image_id, 'woocommerce_single' );
-				if ( $src ) {
-					echo '<link rel="preload" as="image" href="' . esc_url( $src ) . '" fetchpriority="high">' . "\n";
-					return;
-				}
-			}
-		}
+		// Su mobile il vero LCP potrebbe essere il titolo H1 non l'immagine.
+		// Nessun preload immagine — l'img gallery ha già fetchpriority=high inline via filter.
+		return;
 	}
+
+	// Su home il vero LCP è il foreground hero (preload gestito altrove). Non preloadare il logo.
+	if ( is_front_page() ) return;
 
 	$logo_id = albalu_get_logo_attachment_id();
 	if ( $logo_id ) {
@@ -271,9 +533,8 @@ add_action( 'wp_head', function() {
 	} else {
 		$src = home_url( '/wp-content/uploads/2024/05/albalu-logo-web.png' );
 	}
-
 	if ( $src ) {
-		echo '<link rel="preload" as="image" href="' . esc_url( $src ) . '" fetchpriority="high">' . "\n";
+		echo '<link rel="preload" as="image" href="' . esc_url( $src ) . '">' . "\n";
 	}
 }, 0 );
 
@@ -307,12 +568,15 @@ function bootscore_child_enqueue_styles() {
 
   wp_enqueue_style('parent-style', get_template_directory_uri() . '/style.css');
 
-  if ( albalu_needs_swiper() ) {
-    wp_enqueue_style('swiper-css', 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css', [], '11.0.0');
-    wp_enqueue_script('swiper-js', 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js', [], '11.0.0', true);
-    $swiper_dep = array('jquery', 'swiper-js');
-  } else {
+  // Swiper è già fornito dal plugin bs-swiper (dequeue solo se non serve, no CDN duplicate)
+  if ( ! albalu_needs_swiper() ) {
+    wp_dequeue_style( 'swiper-min-css' );
+    wp_dequeue_style( 'swiper-style-css' );
+    wp_dequeue_script( 'swiper-min-js' );
+    wp_dequeue_script( 'swiper-init-js' );
     $swiper_dep = array('jquery');
+  } else {
+    $swiper_dep = array('jquery', 'swiper-min-js');
   }
 
   $modificated_CustomJS = date('YmdHi', filemtime(get_stylesheet_directory() . '/assets/js/custom.js'));
