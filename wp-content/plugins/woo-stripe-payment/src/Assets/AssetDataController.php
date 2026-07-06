@@ -173,7 +173,8 @@ class AssetDataController {
 			if ( $product instanceof \WP_Post && $product->post_type === 'product' ) {
 				$product = wc_get_product( $product->ID );
 			}
-			$args = [];
+			if ( $product instanceof \WC_Product ) {
+				$args = [];
 				if ( $product instanceof \WC_Product_Variable ) {
 					$selected_attributes = [];
 					foreach ( array_keys( $product->get_variation_attributes() ) as $attribute_name ) {
@@ -188,6 +189,7 @@ class AssetDataController {
 					}
 				}
 				$this->asset_data->add( 'product', $this->transformer->transform_product( $product, $args ) );
+			}
 		}
 
 		if ( $this->context->is_order_pay() ) {

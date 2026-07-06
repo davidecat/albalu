@@ -69,7 +69,7 @@ class LinkIntegration {
 
 	/**
 	 * @param array                 $args
-	 * @param \Stripe\PaymentIntent $intent
+	 * @param \PaymentPlugins\Vendor\Stripe\PaymentIntent $intent
 	 * @param \WC_Order             $order
 	 *
 	 * @return array

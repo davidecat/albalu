@@ -53,7 +53,7 @@ abstract class WC_Stripe_Payment extends \PaymentPlugins\Stripe\Payments\Abstrac
 	 * @param float    $amount
 	 * @param WC_Order $order
 	 *
-	 * @return \Stripe\Charge
+	 * @return \PaymentPlugins\Vendor\Stripe\Charge
 	 */
 	public abstract function capture_charge( $amount, $order );
 
@@ -65,7 +65,7 @@ abstract class WC_Stripe_Payment extends \PaymentPlugins\Stripe\Payments\Abstrac
 
 	/**
 	 *
-	 * @param \Stripe\Charge $charge
+	 * @param \PaymentPlugins\Vendor\Stripe\Charge $charge
 	 */
 	public abstract function get_payment_method_from_charge( $charge );
 
@@ -100,7 +100,7 @@ abstract class WC_Stripe_Payment extends \PaymentPlugins\Stripe\Payments\Abstrac
 	 * Perform post payment processes
 	 *
 	 * @param WC_Order       $order
-	 * @param \Stripe\Charge $charge
+	 * @param \PaymentPlugins\Vendor\Stripe\Charge $charge
 	 *
 	 * @since 3.1.7
 	 */

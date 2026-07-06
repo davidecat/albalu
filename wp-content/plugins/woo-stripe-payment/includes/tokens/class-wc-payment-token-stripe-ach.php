@@ -34,7 +34,7 @@ class WC_Payment_Token_Stripe_ACH extends WC_Payment_Token_Stripe_Local {
 		} elseif ( isset( $details['ach_debit'] ) ) {
 			// Plaid used this property
 			$bank = $details['ach_debit'];
-		} elseif ( $details instanceof \Stripe\BankAccount ) {
+		} elseif ( $details instanceof \PaymentPlugins\Vendor\Stripe\BankAccount ) {
 			$bank = $details;
 		}
 		$this->set_brand( $bank['bank_name'] );

@@ -39,7 +39,7 @@ class WC_Payment_Token_Stripe_CC extends WC_Payment_Token_Stripe {
 			if ( isset( $details['card'] ) ) {
 				$card = $details['card'];
 			}
-			if ( $details instanceof \Stripe\Card ) {
+			if ( $details instanceof \PaymentPlugins\Vendor\Stripe\Card ) {
 				$card = $details;
 			}
 			$this->set_brand( $card['brand'] );

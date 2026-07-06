@@ -3,7 +3,7 @@ Contributors: Gareth Harris
 Tags: add-ons, ecommerce
 Requires at least: 4.7
 Tested up to: 7.0
-Stable tag: 4.3.15
+Stable tag: 4.3.16
 Allow your users to customise products through additional fields
 
 == Description ==
@@ -23,6 +23,9 @@ WooCommerce Product Add Ons Ultimate allows your users to customise products thr
 1.
 
 == Changelog ==
+
+= 4.3.16, 2 July 2026 =
+* Fixed: Calculation fields with conditions that set the product price sometimes becomes zero when using 'Time-based Calculations and Conditions'
 
 = 4.3.15, 24 June 2026 =
 * Added: pr_restrict_pages_plugin_update filter

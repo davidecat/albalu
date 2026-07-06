@@ -22,7 +22,7 @@ trait WC_Stripe_Payment_Intent_Trait {
 
 	/**
 	 *
-	 * @param \Stripe\PaymentIntent $intent
+	 * @param \PaymentPlugins\Vendor\Stripe\PaymentIntent $intent
 	 * @param WC_Order              $order
 	 */
 	public function get_payment_intent_checkout_url( $intent, $order, $type = 'payment_intent' ) {
@@ -90,7 +90,7 @@ trait WC_Stripe_Payment_Intent_Trait {
 	}
 
 	/**
-	 * @param \Stripe\PaymentIntent $intent
+	 * @param \PaymentPlugins\Vendor\Stripe\PaymentIntent $intent
 	 * @param WC_Order              $order
 	 */
 	public function get_payment_intent_confirmation_args( $intent, $order ) {

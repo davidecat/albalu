@@ -92,10 +92,10 @@ class PaymentGateways {
 	/**
 	 * Maybe setup the WooFunnels upsell if the charge has not been captured.
 	 *
-	 * @param \Stripe\Charge $charge
+	 * @param \PaymentPlugins\Vendor\Stripe\Charge $charge
 	 * @param \WC_Order      $order
 	 */
-	public function maybe_setup_upsell( \Stripe\Charge $charge, \WC_Order $order ) {
+	public function maybe_setup_upsell( \PaymentPlugins\Vendor\Stripe\Charge $charge, \WC_Order $order ) {
 		$payment_method = $order->get_payment_method();
 		if ( ! $charge->captured && $this->is_supported_gateway( $payment_method ) ) {
 			$payment_gateway = $this->get_wfocu_payment_gateway( $payment_method );

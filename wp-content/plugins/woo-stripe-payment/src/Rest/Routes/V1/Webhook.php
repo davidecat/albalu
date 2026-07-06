@@ -55,7 +55,7 @@ class Webhook extends AbstractRoute {
 		}
 
 		try {
-			$event = \Stripe\Webhook::constructEvent(
+			$event = \PaymentPlugins\Vendor\Stripe\Webhook::constructEvent(
 				$payload,
 				$header,
 				$webhook_secret,
@@ -71,7 +71,7 @@ class Webhook extends AbstractRoute {
 			\do_action( 'wc_stripe_webhook_' . $type, $event->data->object, $request, $event );
 
 			return \apply_filters( 'wc_stripe_webhook_response', [], $event, $request );
-		} catch ( \Stripe\Exception\SignatureVerificationException $e ) {
+		} catch ( \PaymentPlugins\Vendor\Stripe\Exception\SignatureVerificationException $e ) {
 			\wc_stripe_log_error( sprintf(
 				__( 'Invalid signature received. Verify that your webhook secret is correct. Error: %s', 'woo-stripe-payment' ),
 				$e->getMessage()

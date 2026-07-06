@@ -1147,7 +1147,7 @@ function wc_stripe_get_currencies() {
  * convert the order_id from the metadata of the Stripe object.
  *
  * @param int                 $order_id
- * @param \Stripe\ApiResource $object
+ * @param \PaymentPlugins\Vendor\Stripe\ApiResource $object
  *
  * @since   3.1.3
  */

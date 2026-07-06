@@ -2,14 +2,14 @@
 # This file is distributed under the same license as the Payment Plugins for Stripe WooCommerce plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: Payment Plugins for Stripe WooCommerce 4.0.3\n"
+"Project-Id-Version: Payment Plugins for Stripe WooCommerce 4.0.4\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/woo-stripe-payment\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-06-28T06:27:41+00:00\n"
+"POT-Creation-Date: 2026-07-02T15:49:31+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: woo-stripe-payment\n"
@@ -278,8 +278,7 @@ msgid "Stripe Gateway"
 msgstr ""
 
 #: includes/admin/class-wc-stripe-admin-menus.php:23
-#: src/Admin/DashboardPage.php:26
-#: src/Admin/DashboardPage.php:27
+#: src/Admin/DashboardPage.php:23
 msgid "Stripe by Payment Plugins"
 msgstr ""
 
@@ -1512,7 +1511,7 @@ msgstr ""
 msgid ""
 "By providing your bank account details and confirming this payment, you agree to this \n"
 "\t\tDirect Debit Request and the %1$sDirect Debit Request service agreement%2$s, and authorise Stripe Payments Australia Pty Ltd ACN 160 180 343 Direct \n"
-"\t\tDebit User ID number 507156 (\"Stripe\") to debit your account through the Bulk Electronic Clearing System (BECS) on behalf of %3$s \n"
+"\t\tDebit User ID number 507156 (\"PaymentPlugins\\Vendor\\Stripe\") to debit your account through the Bulk Electronic Clearing System (BECS) on behalf of %3$s \n"
 "\t\t(the \"Merchant\") for any amounts separately communicated to you by the Merchant. You certify that you are either an account holder or an \n"
 "\t\tauthorised signatory on the account listed above."
 msgstr ""
@@ -1631,11 +1630,11 @@ msgstr ""
 msgid "Credit card gateway that integrates with your Stripe account."
 msgstr ""
 
-#: includes/gateways/class-wc-payment-gateway-stripe-cc.php:291
+#: includes/gateways/class-wc-payment-gateway-stripe-cc.php:297
 msgid "Only the Stripe payment form and inline form can be used while Link is enabled."
 msgstr ""
 
-#: includes/gateways/class-wc-payment-gateway-stripe-cc.php:302
+#: includes/gateways/class-wc-payment-gateway-stripe-cc.php:308
 #: packages/blocks/src/Payments/Gateways/CreditCardPayment.php:56
 msgid "Save Card"
 msgstr ""
@@ -3127,31 +3126,31 @@ msgstr ""
 msgid "Please click the %s button before placing your order."
 msgstr ""
 
-#: includes/wc-stripe-webhook-functions.php:54
+#: includes/wc-stripe-webhook-functions.php:45
 msgid "payment_intent.succeeded webhook received. Payment has been completed."
 msgstr ""
 
-#: includes/wc-stripe-webhook-functions.php:150
+#: includes/wc-stripe-webhook-functions.php:131
 #, php-format
 msgid "Order refunded in Stripe. Amount: %s"
 msgstr ""
 
-#: includes/wc-stripe-webhook-functions.php:188
+#: includes/wc-stripe-webhook-functions.php:159
 #, php-format
 msgid "A dispute has been created for charge %1$s. Dispute status: %2$s."
 msgstr ""
 
-#: includes/wc-stripe-webhook-functions.php:223
+#: includes/wc-stripe-webhook-functions.php:186
 #, php-format
 msgid "Dispute %1$s has been closed. Result: %2$s."
 msgstr ""
 
-#: includes/wc-stripe-webhook-functions.php:265
+#: includes/wc-stripe-webhook-functions.php:223
 #, php-format
 msgid "A review has been opened for charge %1$s. Reason: %2$s."
 msgstr ""
 
-#: includes/wc-stripe-webhook-functions.php:299
+#: includes/wc-stripe-webhook-functions.php:257
 #, php-format
 msgid "A review has been closed for charge %1$s. Reason: %2$s."
 msgstr ""
@@ -3400,35 +3399,35 @@ msgstr ""
 msgid "%1$s - Order %2$s - One Time offer"
 msgstr ""
 
-#: src/Admin/DashboardPage.php:51
+#: src/Admin/DashboardPage.php:37
 msgid "Connect your Stripe account"
 msgstr ""
 
-#: src/Admin/DashboardPage.php:52
+#: src/Admin/DashboardPage.php:37
 msgid "Your payments dashboard will appear here once your Stripe account is connected. Add your API keys on the API Settings page to get started."
 msgstr ""
 
-#: src/Admin/DashboardPage.php:53
+#: src/Admin/DashboardPage.php:37
 msgid "Go to Settings"
 msgstr ""
 
-#: src/Admin/DashboardPage.php:54
+#: src/Admin/DashboardPage.php:37
 msgid "Read the configuration guide"
 msgstr ""
 
-#: src/Admin/DashboardPage.php:55
+#: src/Admin/DashboardPage.php:37
 msgid "Not connected"
 msgstr ""
 
-#: src/Admin/DashboardPage.php:56
+#: src/Admin/DashboardPage.php:37
 msgid "Live mode"
 msgstr ""
 
-#: src/Admin/DashboardPage.php:56
+#: src/Admin/DashboardPage.php:37
 msgid "Test mode"
 msgstr ""
 
-#: src/Installments/InstallmentController.php:142
+#: src/Installments/InstallmentController.php:120
 msgid "Installments:"
 msgstr ""
 
@@ -3479,7 +3478,7 @@ msgstr ""
 msgid "The selected payment method is invalid. Please select a different payment method."
 msgstr ""
 
-#: src/Payments/Gateways/AbstractGateway.php:226
+#: src/Payments/Gateways/AbstractGateway.php:190
 msgid "See more"
 msgstr ""
 

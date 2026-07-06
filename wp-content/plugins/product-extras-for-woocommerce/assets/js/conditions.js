@@ -916,7 +916,12 @@
 					var action = $( field ).find( '.pewc-action' ).val();
 					if( pewc_vars.conditions_timer > 0 ) {
 						if( action == 'price' ) {
-							$( '#pewc_calc_set_price' ).val( 0 );
+							// 4.3.16: skip resetting #pewc_calc_set_price when calculations are timer-based —
+							// the recalculate() interval restores the correct value, and writing 0 here
+							// causes flickering and a zero price in the cart.
+							if ( pewc_vars.calculations_timer < 1 ) {
+								$( '#pewc_calc_set_price' ).val( 0 );
+							}
 							$( field ).find( '.pewc-calculation-value' ).val( 0 ).trigger( 'change' );
 						} else {
 							$( field ).find( '.pewc-calculation-value' ).val( 0 );

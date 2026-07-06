@@ -19,7 +19,7 @@ class OrderMetadata {
 	/**
 	 * @param \WC_Order                  $order
 	 * @param \WC_Payment_Gateway_Stripe $payment_method
-	 * @param \Stripe\Charge             $charge
+	 * @param \PaymentPlugins\Vendor\Stripe\Charge             $charge
 	 * @param \WC_Payment_Token_Stripe   $token
 	 *
 	 * @return void
