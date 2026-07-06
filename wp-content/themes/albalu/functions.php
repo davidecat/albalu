@@ -62,7 +62,10 @@ add_action( 'wp_head', function() {
 						$bg_url = $bg;
 					}
 					if ( $bg_url ) {
-						echo '<link rel="preload" as="image" href="' . esc_url( $bg_url ) . '">' . "\n";
+						// L'hero background è il vero LCP su mobile (area maggiore del foreground).
+						// Query string rimossa: il CSS inline usa l'URL raw ACF — devono combaciare
+						// o il browser scarica la risorsa due volte.
+						echo '<link rel="preload" as="image" fetchpriority="high" href="' . esc_url( strtok( $bg_url, '?' ) ) . '">' . "\n";
 					}
 					break;
 				}
@@ -159,7 +162,17 @@ add_filter( 'tiny_mce_plugins', function( $plugins ) {
 
 /* Emoji CSS sizing + width/height inline (per non fare CLS) */
 add_action( 'wp_head', function() {
-	echo '<style>img.wp-smiley,img.emoji{display:inline-block!important;height:1em!important;width:1em!important;min-width:1em!important;min-height:1em!important;margin:0 .07em!important;vertical-align:-.1em!important;background:none!important;box-sizing:content-box}</style>';
+	echo '<style>img.wp-smiley,img.emoji{display:inline-block!important;height:1em!important;width:1em!important;min-width:1em!important;min-height:1em!important;margin:0 .07em!important;vertical-align:-.1em!important;background:none!important;box-sizing:content-box}
+/* Iubenda banner: fixed = zero layout shift (audit CWV #2) */
+#iubenda-cs-banner{position:fixed!important}
+/* Gallery pre-init: mostra solo la prima immagine finche flexslider non parte (evita CLS della summary) */
+.woocommerce-product-gallery__wrapper>.woocommerce-product-gallery__image:nth-child(n+2){display:none}
+.woocommerce-product-gallery .flex-viewport .woocommerce-product-gallery__image:nth-child(n+2){display:block}
+/* Mobile: blocca altezza gallery (immagini quadrate) — flexslider init non sposta la summary */
+@media (max-width:991.98px){body.single-product .woocommerce-product-gallery{aspect-ratio:1/1;overflow:hidden}}
+/* Gallery visibile subito: WC la nasconde con opacity:0 fino a init JS, ritardando LCP di secondi.
+   Sicuro perche pre-init mostriamo solo la prima immagine in box a altezza fissa. */
+.woocommerce-product-gallery{opacity:1!important}</style>';
 }, 1 );
 add_action( 'template_redirect', function() {
 	if ( is_admin() || is_feed() || wp_doing_ajax() ) return;
@@ -243,6 +256,24 @@ add_action( 'wp_footer', function() {
 		});
 		setTimeout( loadDelayed, 5000 );
 	})();
+	// Megamenu: carica le immagini solo alla prima interazione col menu
+	(function() {
+		var done = false;
+		function loadMenuImgs() {
+			if ( done ) return; done = true;
+			document.querySelectorAll('img.albalu-menu-img[data-albalu-src]').forEach(function(img) {
+				img.src = img.dataset.albaluSrc;
+				img.removeAttribute('data-albalu-src');
+			});
+		}
+		document.querySelectorAll('.navbar, .dropdown, #offcanvas-navbar').forEach(function(el) {
+			['mouseenter','touchstart','focusin'].forEach(function(e) {
+				el.addEventListener( e, loadMenuImgs, { passive: true, once: false } );
+			});
+		});
+		// Fallback: dopo il load completo della pagina (banda ormai libera)
+		window.addEventListener('load', function() { setTimeout( loadMenuImgs, 2500 ); });
+	})();
 	</script>
 	<?php
 }, 999 );
@@ -292,6 +323,15 @@ add_action( 'wp_enqueue_scripts', function() {
 	if ( is_admin() ) return;
 
 	if ( ! is_user_logged_in() || ! is_admin_bar_showing() ) {
+		// PEWC 4.3.16 dichiara dashicons come dipendenza di pewc-style:
+		// NON deregistrare (salterebbe pewc-style), ma strippare la dipendenza.
+		// Il frontend PEWC non usa glifi dashicons (solo l'admin).
+		$styles = wp_styles();
+		foreach ( $styles->registered as $handle => $style ) {
+			if ( ! empty( $style->deps ) && in_array( 'dashicons', $style->deps, true ) ) {
+				$styles->registered[ $handle ]->deps = array_diff( $style->deps, array( 'dashicons' ) );
+			}
+		}
 		wp_dequeue_style( 'dashicons' );
 	}
 
@@ -299,7 +339,7 @@ add_action( 'wp_enqueue_scripts', function() {
 	wp_dequeue_style( 'wp-block-library-theme' );
 	wp_dequeue_style( 'global-styles' );
 	wp_dequeue_style( 'classic-theme-styles' );
-}, 100 );
+}, PHP_INT_MAX );
 // ---- BLOCCO 1 END ----
 
 
@@ -369,7 +409,8 @@ add_action( 'wp_enqueue_scripts', function() {
 add_action( 'wp_head', function() {
 	$fa_path = get_template_directory_uri() . '/assets/fontawesome/webfonts/';
 
-	echo '<link rel="preload" href="' . esc_url( $fa_path . 'fa-solid-900.woff2' ) . '" as="font" type="font/woff2" crossorigin>' . "\n";
+	// Preload FA rimosso: 111KB che competevano con l'immagine LCP su mobile.
+	// font-display:swap garantisce comunque il render; le icone appaiono poco dopo.
 	?>
 	<style>
 	@font-face {
@@ -492,7 +533,7 @@ function albalu_get_logo_img( $max_height = 80 ) {
 		'width'         => $display_width,
 		'height'        => $max_height,
 		'sizes'         => $display_width . 'px',
-		'style'         => sprintf( 'max-height: %dpx; width: auto; height: auto;', $max_height ),
+		'style'         => sprintf( 'height: %dpx; width: %dpx;', $max_height, $display_width ),
 	);
 
 	if ( $logo_id ) {
@@ -563,8 +604,10 @@ add_filter( 'woocommerce_gallery_image_html_attachment_image_params', function( 
 add_action('wp_enqueue_scripts', 'bootscore_child_enqueue_styles');
 function bootscore_child_enqueue_styles() {
 
-  $modified_bootscoreChildCss = date('YmdHi', filemtime(get_stylesheet_directory() . '/assets/css/main.css'));
-  wp_enqueue_style('main', get_stylesheet_directory_uri() . '/assets/css/main.css', array('parent-style'), $modified_bootscoreChildCss);
+  // Usa la versione minificata se esiste (rigenerare con: npx csso-cli main.css -o main.min.css)
+  $albalu_css_file = file_exists( get_stylesheet_directory() . '/assets/css/main.min.css' ) ? '/assets/css/main.min.css' : '/assets/css/main.css';
+  $modified_bootscoreChildCss = date('YmdHi', filemtime(get_stylesheet_directory() . $albalu_css_file));
+  wp_enqueue_style('main', get_stylesheet_directory_uri() . $albalu_css_file, array('parent-style'), $modified_bootscoreChildCss);
 
   wp_enqueue_style('parent-style', get_template_directory_uri() . '/style.css');
 

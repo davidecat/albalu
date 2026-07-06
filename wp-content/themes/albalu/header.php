@@ -289,14 +289,14 @@ defined('ABSPATH') || exit;
                                     <?php if (!empty($data['img1'])) : ?>
                                     <div class="col-6">
                                         <div class="ratio ratio-1x1 bg-white">
-                                            <img src="<?= esc_url($data['img1']); ?>" class="img-fluid object-fit-cover" alt="<?= esc_attr($name); ?> 1">
+                                            <img src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-albalu-src="<?= esc_url($data['img1']); ?>" class="img-fluid object-fit-cover albalu-menu-img" alt="<?= esc_attr($name); ?> 1" decoding="async">
                                         </div>
                                     </div>
                                     <?php endif; ?>
                                     <?php if (!empty($data['img2'])) : ?>
                                     <div class="col-6">
                                         <div class="ratio ratio-1x1 bg-white">
-                                            <img src="<?= esc_url($data['img2']); ?>" class="img-fluid object-fit-cover" alt="<?= esc_attr($name); ?> 2">
+                                            <img src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-albalu-src="<?= esc_url($data['img2']); ?>" class="img-fluid object-fit-cover albalu-menu-img" alt="<?= esc_attr($name); ?> 2" decoding="async">
                                         </div>
                                     </div>
                                     <?php endif; ?>

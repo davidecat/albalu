@@ -96,7 +96,7 @@
     <!-- Bottom Footer -->
     <div class="container footer-bottom">
         <div class="text-center mb-3 payment-icons">
-            <img src="/wp-content/uploads/2024/06/pagamenti-placeholder-1.png" alt="Metodi di Pagamento" class="img-fluid">
+            <img src="/wp-content/uploads/2024/06/pagamenti-placeholder-1.png" alt="Metodi di Pagamento" class="img-fluid" width="384" height="30" loading="lazy">
         </div>
         <div class="text-center footer-copyright mb-2">
             Copyright &copy; <?= date('Y'); ?> – <strong>Alba Solving Srl</strong> – Contrada Parco snc, 70038 Terlizzi (BA) | Tel. 353 382 1875 – E-mail: <!--email_off-->info@albalu.it<!--/email_off--> | P. IVA 08393440725 – N. REA 623746
