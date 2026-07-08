@@ -288,6 +288,28 @@ add_action( 'wp_footer', function() {
 }, 999 );
 
 /**
+ * TBT prodotto: defer sulla catena PEWC + jQuery UI via WP script strategy.
+ * L'API nativa rifiuta il defer da sola se un handle ha inline script
+ * incompatibili o dipendenti non-defer — degrado sicuro.
+ * jQuery core resta sync (troppi inline script lo usano).
+ */
+add_action( 'wp_enqueue_scripts', function() {
+	if ( is_admin() || ! function_exists( 'wp_script_add_data' ) ) return;
+	$defer_handles = array(
+		'pewc-script',
+		'pewc-conditions',
+		'pewc-dropzone',
+		'jquery-ui-core',
+		'jquery-ui-datepicker',
+		'underscore',
+		'wp-util',
+	);
+	foreach ( $defer_handles as $h ) {
+		wp_script_add_data( $h, 'strategy', 'defer' );
+	}
+}, 1000 );
+
+/**
  * LCP fix: aggiungi fetchpriority=high alla prima immagine gallery su pagina prodotto.
  * L'immagine prodotto è il vero LCP su mobile (non il logo header).
  */
