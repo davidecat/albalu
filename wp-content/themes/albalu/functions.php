@@ -177,11 +177,20 @@ add_action( 'wp_head', function() {
 add_action( 'template_redirect', function() {
 	if ( is_admin() || is_feed() || wp_doing_ajax() ) return;
 	ob_start( function( $html ) {
-		return str_replace(
+		// Emoji: dimensioni esplicite (CLS)
+		$html = str_replace(
 			'<img draggable="false" role="img" class="emoji"',
 			'<img width="16" height="16" draggable="false" role="img" class="emoji"',
 			$html
 		);
+		// Iubenda sync: async (era sync render-blocking da ~1300ms; il codice embed
+		// incollato nelle impostazioni del plugin non ha async)
+		$html = preg_replace(
+			'#<script(\s[^>]*src="https://cs\.iubenda\.com/sync/[^"]+"[^>]*)>#',
+			'<script async$1>',
+			$html
+		);
+		return $html;
 	} );
 }, 999 );
 
