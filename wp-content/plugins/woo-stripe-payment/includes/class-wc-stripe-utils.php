@@ -44,7 +44,7 @@ class WC_Stripe_Utils {
 
 	/**
 	 * @param \PaymentPlugins\Vendor\Stripe\BalanceTransaction $balance_transaction
-	 * @param \WC_Order                  $order
+	 * @param \WC_Order                                        $order
 	 *
 	 * @return void
 	 */
@@ -64,8 +64,8 @@ class WC_Stripe_Utils {
 
 	/**
 	 * @param \PaymentPlugins\Vendor\Stripe\Charge $charge
-	 * @param \WC_Order      $order
-	 * @param bool           $save
+	 * @param \WC_Order                            $order
+	 * @param bool                                 $save
 	 */
 	public static function add_balance_transaction_to_order( $charge, $order, $save = false ) {
 		if ( isset( $charge->balance_transaction ) && is_object( $charge->balance_transaction ) ) {
@@ -101,7 +101,7 @@ class WC_Stripe_Utils {
 
 	/**
 	 * @param \PaymentPlugins\Vendor\Stripe\BalanceTransaction $balance_transaction
-	 * @param \WC_Order                  $order
+	 * @param \WC_Order                                        $order
 	 */
 	public static function update_balance_transaction( $balance_transaction, $order, $save = false, $payment_balance = null ) {
 		if ( $balance_transaction->reporting_category === 'partial_capture_reversal' ) {

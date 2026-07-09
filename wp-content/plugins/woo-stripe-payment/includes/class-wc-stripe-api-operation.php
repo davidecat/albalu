@@ -45,9 +45,9 @@ class WC_Stripe_API_Operation {
 
 	/**
 	 *
-	 * @param WC_Stripe_Gateway    $gateway
+	 * @param WC_Stripe_Gateway                          $gateway
 	 * @param \PaymentPlugins\Vendor\Stripe\StripeClient $client
-	 * @param string               $property
+	 * @param string                                     $property
 	 *
 	 * @throws InvalidArgumentException
 	 */
@@ -157,7 +157,11 @@ class WC_Stripe_API_Operation {
 				if ( $idx !== null ) {
 					$params       = $args[ $idx ] ?? [];
 					$params       = is_array( $params ) ? $params : [];
-					$params       = $this->add_expanded_properties( $params, [ 'latest_charge', 'latest_charge.refunds', 'payment_method' ] );
+					$params       = $this->add_expanded_properties( $params, [
+						'latest_charge',
+						'latest_charge.refunds',
+						'payment_method'
+					] );
 					$args[ $idx ] = $this->sanitize_intent_params( $params, $method );
 				}
 				break;

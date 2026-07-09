@@ -99,7 +99,7 @@ abstract class WC_Stripe_Payment extends \PaymentPlugins\Stripe\Payments\Abstrac
 	/**
 	 * Perform post payment processes
 	 *
-	 * @param WC_Order       $order
+	 * @param WC_Order                             $order
 	 * @param \PaymentPlugins\Vendor\Stripe\Charge $charge
 	 *
 	 * @since 3.1.7

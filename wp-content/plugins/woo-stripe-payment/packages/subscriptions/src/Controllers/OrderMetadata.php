@@ -13,14 +13,17 @@ class OrderMetadata {
 
 	private function initialize() {
 		add_action( 'wc_stripe_save_order_meta', [ $this, 'save_order_metadata' ], 10, 4 );
-		add_action( 'woocommerce_subscriptions_paid_for_failed_renewal_order', [ $this, 'maybe_update_payment_method' ], 10, 2 );
+		add_action( 'woocommerce_subscriptions_paid_for_failed_renewal_order', [
+			$this,
+			'maybe_update_payment_method'
+		], 10, 2 );
 	}
 
 	/**
-	 * @param \WC_Order                  $order
-	 * @param \WC_Payment_Gateway_Stripe $payment_method
-	 * @param \PaymentPlugins\Vendor\Stripe\Charge             $charge
-	 * @param \WC_Payment_Token_Stripe   $token
+	 * @param \WC_Order                            $order
+	 * @param \WC_Payment_Gateway_Stripe           $payment_method
+	 * @param \PaymentPlugins\Vendor\Stripe\Charge $charge
+	 * @param \WC_Payment_Token_Stripe             $token
 	 *
 	 * @return void
 	 * @throws \WC_Data_Exception

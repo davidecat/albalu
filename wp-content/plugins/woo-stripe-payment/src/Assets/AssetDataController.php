@@ -219,11 +219,15 @@ class AssetDataController {
 		$this->asset_data->add( 'publicKey', wc_stripe_get_publishable_key() );
 		$this->asset_data->add( 'mode', wc_stripe_mode() );
 		$this->asset_data->add( 'sdkParams', [
-			'stripeAccount' => wc_stripe_get_account_id(),
-			'apiVersion'    => wc_stripe_get_container()->get( 'API_VERSION' ),
-			'betas'         => [
+			'stripeAccount'  => wc_stripe_get_account_id(),
+			'betas'          => [
 				'deferred_intent_blik_beta_1',
 				'disable_deferred_intent_client_validation_beta_1'
+			],
+			'developerTools' => [
+				'assistant' => [
+					'enabled' => false
+				]
 			]
 		] );
 		$this->asset_data->add( 'addressLocales', wp_json_encode( WC()->countries->get_country_locale() ) );

@@ -1,1 +1,0 @@
-System.register([],function(e,t){"use strict";return{execute:function(){var e=document.createElement("style");e.textContent=".woo-product-feed-pro-table tr[id^=custom_attributes__] .checkbox-field{cursor:pointer}.woo-product-feed-pro-table tr[id^=custom_attributes__] .checkbox-field:disabled{cursor:not-allowed;opacity:.5}\n/*$vite$:1*/",document.head.appendChild(e)}}});

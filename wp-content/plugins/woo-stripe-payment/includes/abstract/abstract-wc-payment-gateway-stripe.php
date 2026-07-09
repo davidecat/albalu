@@ -300,13 +300,17 @@ abstract class WC_Payment_Gateway_Stripe extends AbstractLegacyGateway {
 	}
 
 	public function get_payment_element_options() {
-		return array();
+		return [
+			'layout' => [
+				'type' => 'tabs'
+			]
+		];
 	}
 
 	/**
 	 * Save the Stripe data to the order.
 	 *
-	 * @param WC_Order       $order
+	 * @param WC_Order                             $order
 	 * @param \PaymentPlugins\Vendor\Stripe\Charge $charge
 	 */
 	public function save_order_meta( $order, $charge ) {
@@ -322,10 +326,10 @@ abstract class WC_Payment_Gateway_Stripe extends AbstractLegacyGateway {
 		$order->update_meta_data( WC_Stripe_Constants::PAYMENT_METHOD_TOKEN, $token->get_token() );
 
 		/**
-		 * @param WC_Order                  $order
-		 * @param WC_Payment_Gateway_Stripe $this
-		 * @param \PaymentPlugins\Vendor\Stripe\Charge            $charge
-		 * @param \WC_Payment_Token         $token
+		 * @param WC_Order                             $order
+		 * @param WC_Payment_Gateway_Stripe            $this
+		 * @param \PaymentPlugins\Vendor\Stripe\Charge $charge
+		 * @param \WC_Payment_Token                    $token
 		 *
 		 * @since 3.2.7
 		 */
@@ -468,9 +472,9 @@ abstract class WC_Payment_Gateway_Stripe extends AbstractLegacyGateway {
 					);
 
 					/**
-					 * @var WC_Order                   $order
-					 * @var \PaymentPlugins\Vendor\Stripe\Charge             $charge
-					 * @Var \WC_Payment_Gateway_Stripe $this
+					 * @var WC_Order                             $order
+					 * @var \PaymentPlugins\Vendor\Stripe\Charge $charge
+					 * @Var \WC_Payment_Gateway_Stripe           $this
 					 */
 					$result = apply_filters( 'wc_stripe_capture_charge_failed', $result, $order, $amount, $this );
 				}
@@ -516,7 +520,7 @@ abstract class WC_Payment_Gateway_Stripe extends AbstractLegacyGateway {
 
 	/**
 	 *
-	 * @param string             $method_id
+	 * @param string                                   $method_id
 	 * @param \PaymentPlugins\Vendor\Stripe\Card|array $method_details
 	 */
 	public function get_payment_token( $method_id, $method_details = null ) {

@@ -17,6 +17,8 @@ class ContextHandler {
 
 	const ADD_PAYMENT_METHOD = 'add_payment_method';
 
+	const PAYMENT_METHODS = 'payment_methods';
+
 	const PRODUCT = 'product';
 
 	const ORDER_RECEIVED = 'order_received';
@@ -63,6 +65,8 @@ class ContextHandler {
 				} else {
 					$this->context = self::CHECKOUT;
 				}
+			} elseif ( function_exists( 'is_payment_methods_page' ) && is_payment_methods_page() ) {
+				$this->context = self::PAYMENT_METHODS;
 			} elseif ( is_add_payment_method_page() ) {
 				$this->context = self::ADD_PAYMENT_METHOD;
 			} elseif ( is_cart() ) {
@@ -74,6 +78,8 @@ class ContextHandler {
 			} elseif ( is_account_page() ) {
 				$this->context = self::ACCOUNT;
 			} elseif ( $this->is_checkout_block() ) {
+				$this->context = self::CHECKOUT;
+			} elseif ( $this->is_checkout_shortcode() ) {
 				$this->context = self::CHECKOUT;
 			} elseif ( $this->is_cart_block() ) {
 				$this->context = self::CART;
@@ -153,9 +159,7 @@ class ContextHandler {
 	public function is_checkout_shortcode() {
 		$id = get_queried_object_id();
 
-		return $this->is_checkout()
-		       && \is_int( $id )
-		       && wc_post_content_has_shortcode( 'woocommerce_checkout' );
+		return \is_int( $id ) && wc_post_content_has_shortcode( 'woocommerce_checkout' );
 	}
 
 	public function is_checkout_block() {

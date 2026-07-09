@@ -1,1 +1,1 @@
-<?php return array('dependencies' => array('wc-stripe-blocks-vendors', 'react', 'wc-settings', 'wc-stripe-blocks-components', 'wc-stripe-blocks-express-checkout', 'wc-stripe-blocks-utils', 'wp-api-fetch', 'wp-element', 'wp-i18n', 'wp-url'), 'version' => '035db68a02414d72c7c4');
+<?php return array('dependencies' => array('wc-stripe-blocks-vendors', 'react', 'wc-settings', 'wc-stripe-blocks-components', 'wc-stripe-blocks-express-checkout', 'wc-stripe-blocks-utils', 'wp-api-fetch', 'wp-element', 'wp-i18n', 'wp-url'), 'version' => '63e983a446e8795ec3ba');

@@ -49,6 +49,7 @@ class Module extends Module_Base {
 			'Not_Connected',
 			'Not_Connected_Modal',
 			'Renewal_Notice',
+			'Notificator',
 		];
 	}
 
@@ -281,6 +282,8 @@ class Module extends Module_Base {
 				'isConnectOnFly' => self::is_connect_on_fly(),
 				'isConnected' => $module->connect_instance->is_connected(),
 				'isElementorOne' => self::is_elementor_one(),
+				'hasElementorOneSubscription' => self::has_elementor_one_subscription(),
+				'isMigrationPopupDismissed' => (bool) Settings::get( Settings::MIGRATION_POPUP_DISMISSED ),
 				'currentPage' => get_current_screen()->base,
 				'isActivated' => $module->connect_instance->is_activated(),
 				'isUrlMismatch' => ! $module->connect_instance->is_valid_home_url(),
@@ -336,6 +339,15 @@ class Module extends Module_Base {
 		}
 
 		return Connect_Module::get_connect()->get_config( 'app_type' ) !== Config::APP_TYPE;
+	}
+
+	/**
+	 * Check if user generally has an active Elementor One subscription.
+	 * @return bool
+	 */
+	public static function has_elementor_one_subscription(): bool {
+		$one_facade = \ElementorOne\Admin\Helpers\Utils::get_one_connect();
+		return $one_facade && $one_facade->utils()->is_connected();
 	}
 
 	public static function on_deactivation(): void {

@@ -1146,7 +1146,7 @@ function wc_stripe_get_currencies() {
  * Allows 3rd parties to
  * convert the order_id from the metadata of the Stripe object.
  *
- * @param int                 $order_id
+ * @param int                                       $order_id
  * @param \PaymentPlugins\Vendor\Stripe\ApiResource $object
  *
  * @since   3.1.3

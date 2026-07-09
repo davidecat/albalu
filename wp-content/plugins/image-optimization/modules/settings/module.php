@@ -74,6 +74,10 @@ class Module extends Module_Base {
 					],
 				],
 			],
+			'migration_popup_dismissed' => [
+				'type' => 'boolean',
+				'default' => false,
+			],
 		];
 	}
 

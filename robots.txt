@@ -6,6 +6,8 @@ Disallow: /wp-admin/
 Disallow: /*?e-page-*
 Disallow: /*/feed/
 Disallow: /feed/
+Disallow: /*add-to-cart=*
+
 Allow: /wp-admin/admin-ajax.php
 
 User-agent: *

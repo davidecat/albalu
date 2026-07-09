@@ -76,7 +76,7 @@ abstract class WC_Payment_Gateway_Stripe_Local_Payment extends WC_Payment_Gatewa
 	/**
 	 *
 	 * @param \PaymentPlugins\Vendor\Stripe\Source $source
-	 * @param WC_Order       $order
+	 * @param WC_Order                             $order
 	 */
 	public function get_source_redirect_url( $source, $order ) {
 		return $source->redirect->url;

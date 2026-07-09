@@ -237,7 +237,7 @@ class WC_Payment_Gateway_Stripe_UPM extends WC_Payment_Gateway_Stripe {
 	}
 
 	/**
-	 * @param                            $method_id
+	 * @param                                                  $method_id
 	 * @param \PaymentPlugins\Vendor\Stripe\PaymentMethod|null $method_details
 	 *
 	 * @return void|\WC_Payment_Token_Stripe
@@ -483,9 +483,9 @@ class WC_Payment_Gateway_Stripe_UPM extends WC_Payment_Gateway_Stripe {
 	}
 
 	/**
-	 * @param \WC_Stripe_Account_Settings $account_settings
-	 * @param \PaymentPlugins\Vendor\Stripe\Account             $account
-	 * @param string                      $mode
+	 * @param \WC_Stripe_Account_Settings           $account_settings
+	 * @param \PaymentPlugins\Vendor\Stripe\Account $account
+	 * @param string                                $mode
 	 *
 	 * @return void
 	 * @throws \PaymentPlugins\Vendor\Stripe\Exception\ApiErrorException

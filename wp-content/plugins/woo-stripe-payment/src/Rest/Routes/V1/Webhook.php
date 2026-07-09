@@ -43,10 +43,10 @@ class Webhook extends AbstractRoute {
 			throw new \Exception( 'Invalid request payload.' );
 		}
 
-		$mode            = $json_payload['livemode'] == true ? 'live' : 'test';
-		$webhook_id_key  = "webhook_id_{$mode}";
-		$webhook_id      = \stripe_wc()->api_settings->get_option( $webhook_id_key );
-		$webhook_secret  = \stripe_wc()->api_settings->get_option( 'webhook_secret_' . $mode );
+		$mode           = $json_payload['livemode'] == true ? 'live' : 'test';
+		$webhook_id_key = "webhook_id_{$mode}";
+		$webhook_id     = \stripe_wc()->api_settings->get_option( $webhook_id_key );
+		$webhook_secret = \stripe_wc()->api_settings->get_option( 'webhook_secret_' . $mode );
 
 		// If the webhook ID exists and doesn't match the ID from the notification, skip processing.
 		// This handles Stripe accounts with multiple webhooks configured.

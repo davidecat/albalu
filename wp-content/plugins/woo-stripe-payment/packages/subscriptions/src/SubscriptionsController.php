@@ -213,9 +213,9 @@ class SubscriptionsController {
 	}
 
 	/**
-	 * @param array                      $result
-	 * @param \WC_Payment_Gateway_Stripe $gateway
-	 * @param \PaymentPlugins\Vendor\Stripe\SetupIntent        $setup_intent
+	 * @param array                                     $result
+	 * @param \WC_Payment_Gateway_Stripe                $gateway
+	 * @param \PaymentPlugins\Vendor\Stripe\SetupIntent $setup_intent
 	 *
 	 * @return array
 	 */

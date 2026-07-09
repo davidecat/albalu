@@ -23,7 +23,7 @@ trait WC_Stripe_Payment_Intent_Trait {
 	/**
 	 *
 	 * @param \PaymentPlugins\Vendor\Stripe\PaymentIntent $intent
-	 * @param WC_Order              $order
+	 * @param WC_Order                                    $order
 	 */
 	public function get_payment_intent_checkout_url( $intent, $order, $type = 'payment_intent' ) {
 		return sprintf(
@@ -91,7 +91,7 @@ trait WC_Stripe_Payment_Intent_Trait {
 
 	/**
 	 * @param \PaymentPlugins\Vendor\Stripe\PaymentIntent $intent
-	 * @param WC_Order              $order
+	 * @param WC_Order                                    $order
 	 */
 	public function get_payment_intent_confirmation_args( $intent, $order ) {
 		$args = array(
