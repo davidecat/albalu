@@ -84,24 +84,36 @@ HTML;
 }
 
 function wrap_quantity_addtocart() {
-	$script = <<<'JS'
-jQuery(function($) {
-	var $forms = $('form.cart');
-	$forms.each(function(){
-		var $form = $(this);
-		if ($form.find('.quantity-addtocart-wrapper').length) return;
-		var $qty = $form.find('.quantity').first();
-		var $btn = $form.find('.single_add_to_cart_button').first();
-		if ($qty.length && $btn.length) {
-			$qty.add($btn).wrapAll('<div class="quantity-addtocart-wrapper"></div>');
+	// Stampa diretta in wp_footer: con la strategy defer di WC 10.9+
+	// wp_add_inline_script('wc-single-product') non viene più stampato.
+	// Auto-riparante: PEWC (deferito) ricostruisce l'area add-to-cart dopo
+	// il ready, quindi il wrap viene rifatto a window.load e su eventi PEWC.
+	if ( ! is_product() ) return;
+	?>
+	<script>
+	(function($) {
+		function albaluWrapQty() {
+			$('form.cart').each(function(){
+				var $form = $(this);
+				var $qty = $form.find('.quantity').first();
+				var $btn = $form.find('.single_add_to_cart_button').first();
+				if (!$qty.length || !$btn.length) return;
+				var $wrap = $form.find('.quantity-addtocart-wrapper').first();
+				if ($wrap.length && $wrap.has($qty[0]).length && $wrap.has($btn[0]).length) return;
+				if ($wrap.length) {
+					$wrap.children().first().unwrap();
+				}
+				$qty.add($btn).wrapAll('<div class="quantity-addtocart-wrapper"></div>');
+			});
 		}
-	});
-	$('.elementor-widget-jet-single-add-to-cart .quantity, .elementor-widget-jet-single-add-to-cart .single_add_to_cart_button').wrapAll('<div class="quantity-addtocart-wrapper"></div>');
-});
-JS;
-	wp_add_inline_script('wc-single-product', $script);
+		$(albaluWrapQty);
+		$(window).on('load', albaluWrapQty);
+		$('body').on('pewc_after_update_total_js pewc_conditions_checked', albaluWrapQty);
+	})(jQuery);
+	</script>
+	<?php
 }
-add_action( 'woocommerce_after_add_to_cart_form', 'wrap_quantity_addtocart' );
+add_action( 'wp_footer', 'wrap_quantity_addtocart', 60 );
 
 function albalu_add_inline_styles_single_product() {
 	if ( ! is_product() ) return;
