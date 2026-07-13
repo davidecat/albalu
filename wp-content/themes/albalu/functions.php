@@ -1422,8 +1422,8 @@ function albalu_get_search_events() {
 		'bomboniere-e-confettate-laurea'            => 'Laurea',
 		'bomboniere-e-confettate-matrimonio'        => 'Matrimonio',
 		'bomboniere-e-confettate-anniversario'      => 'Anniversario',
-		'compleanno'                                => 'Compleanno',
-		'natale'                                    => 'Natale',
+		'bomboniere-e-confettate-compleanno'        => 'Compleanno',
+		'decorazioni-natalizie-palline-presepi-e-regali-di-natale' => 'Natale',
 	);
 }
 
