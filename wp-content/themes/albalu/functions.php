@@ -1414,16 +1414,18 @@ add_filter( 'woocommerce_reset_variations_link', '__return_empty_string', 9999 )
 //------------------- START ---------------------
 /* Eventi disponibili come filtro nella search bar (slug => label).
    Modificare slug per matchare le categorie WooCommerce reali. */
+/* Eventi filtro ricerca: term_id => label. Gli ID sono stabili anche se
+   gli slug delle categorie vengono rinominati per SEO. */
 function albalu_get_search_events() {
 	return array(
-		'bomboniere-e-confettate-nascita-battesimo' => 'Battesimo',
-		'bomboniere-comunione-e-confettate'         => 'Comunione',
-		'bomboniere-e-confettate-cresima'           => 'Cresima',
-		'bomboniere-e-confettate-laurea'            => 'Laurea',
-		'bomboniere-e-confettate-matrimonio'        => 'Matrimonio',
-		'bomboniere-e-confettate-anniversario'      => 'Anniversario',
-		'bomboniere-e-confettate-compleanno'        => 'Compleanno',
-		'decorazioni-natalizie-palline-presepi-e-regali-di-natale' => 'Natale',
+		2771 => 'Battesimo',
+		2772 => 'Comunione',
+		2773 => 'Cresima',
+		2775 => 'Laurea',
+		2776 => 'Matrimonio',
+		2777 => 'Anniversario',
+		2774 => 'Compleanno',
+		4649 => 'Natale',
 	);
 }
 
@@ -1436,19 +1438,19 @@ function search_only_products($query) {
 	$query->set( 'post_type', 'product' );
 	$query->set( 'wc_query', 'product_query' );
 
-	// Filtro per evento (categoria prodotto)
+	// Filtro per evento (categoria prodotto, per term_id)
 	if ( ! empty( $_GET['event'] ) ) {
-		$event_slug = sanitize_text_field( wp_unslash( $_GET['event'] ) );
-		$events     = albalu_get_search_events();
-		if ( isset( $events[ $event_slug ] ) ) {
+		$event_id = absint( $_GET['event'] );
+		$events   = albalu_get_search_events();
+		if ( $event_id && isset( $events[ $event_id ] ) ) {
 			$tax_query = $query->get( 'tax_query' );
 			if ( ! is_array( $tax_query ) ) {
 				$tax_query = array();
 			}
 			$tax_query[] = array(
 				'taxonomy'         => 'product_cat',
-				'field'            => 'slug',
-				'terms'            => $event_slug,
+				'field'            => 'term_id',
+				'terms'            => $event_id,
 				'include_children' => true,
 			);
 			$query->set( 'tax_query', $tax_query );
