@@ -1438,24 +1438,33 @@ function search_only_products($query) {
 	$query->set( 'post_type', 'product' );
 	$query->set( 'wc_query', 'product_query' );
 
-	// Filtro per evento (categoria prodotto, per term_id)
-	if ( ! empty( $_GET['event'] ) ) {
-		$event_id = absint( $_GET['event'] );
-		$events   = albalu_get_search_events();
-		if ( $event_id && isset( $events[ $event_id ] ) ) {
-			$tax_query = $query->get( 'tax_query' );
-			if ( ! is_array( $tax_query ) ) {
-				$tax_query = array();
-			}
-			$tax_query[] = array(
-				'taxonomy'         => 'product_cat',
-				'field'            => 'term_id',
-				'terms'            => $event_id,
-				'include_children' => true,
-			);
-			$query->set( 'tax_query', $tax_query );
-		}
+	// Filtro per evento (categoria prodotto, per term_id).
+	// Con "Tutti" (nessun evento) la ricerca copre SOLO gli articoli generici,
+	// cioè quelli fuori dalle categorie evento del filtro (sottocategorie incluse).
+	$events    = albalu_get_search_events();
+	$event_id  = ! empty( $_GET['event'] ) ? absint( $_GET['event'] ) : 0;
+	$tax_query = $query->get( 'tax_query' );
+	if ( ! is_array( $tax_query ) ) {
+		$tax_query = array();
 	}
+
+	if ( $event_id && isset( $events[ $event_id ] ) ) {
+		$tax_query[] = array(
+			'taxonomy'         => 'product_cat',
+			'field'            => 'term_id',
+			'terms'            => $event_id,
+			'include_children' => true,
+		);
+	} else {
+		$tax_query[] = array(
+			'taxonomy'         => 'product_cat',
+			'field'            => 'term_id',
+			'terms'            => array_keys( $events ),
+			'operator'         => 'NOT IN',
+			'include_children' => true,
+		);
+	}
+	$query->set( 'tax_query', $tax_query );
 
 	return $query;
 }
