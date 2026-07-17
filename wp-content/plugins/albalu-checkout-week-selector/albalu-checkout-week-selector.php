@@ -34,17 +34,17 @@ function albalu_ws_get_weeks_options() {
 
 		// Skip weeks that overlap with closure periods:
 		// - 23 December to 6 January (Christmas/New Year)
-		// - All of August
+		// - Chiusura estiva 2026: SOLO la settimana 10-16 agosto (ferragosto)
 		$skip = false;
+
+		if ( $monday->format( 'Y-m-d' ) === '2026-08-10' ) {
+			$skip = true;
+		}
+
 		$check = clone $monday;
-		for ( $d = 0; $d < 7; $d++ ) {
+		for ( $d = 0; $d < 7 && ! $skip; $d++ ) {
 			$m = (int) $check->format( 'n' );
 			$day = (int) $check->format( 'j' );
-			// August
-			if ( $m === 8 ) {
-				$skip = true;
-				break;
-			}
 			// 23 Dec - 31 Dec
 			if ( $m === 12 && $day >= 23 ) {
 				$skip = true;
