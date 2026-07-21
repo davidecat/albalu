@@ -298,7 +298,9 @@ add_action( 'wp_enqueue_scripts', function() {
 	$defer_handles = array(
 		'pewc-script',
 		'pewc-conditions',
-		'pewc-dropzone',
+		// 'pewc-dropzone' NO: PEWC stampa inline "Dropzone.autoDiscover/options"
+		// che usa il globale subito — la libreria deve restare bloccante
+		// sulle pagine con campo upload.
 		'jquery-ui-core',
 		'jquery-ui-datepicker',
 		'underscore',
