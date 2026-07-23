@@ -1474,6 +1474,55 @@ add_filter('pre_get_posts','search_only_products');
 
 //------------------- END ---------------------
 
+//7a. SEO: rimuovi dal breadcrumb le categorie madri che reindirizzano (301)
+//------------------- START ---------------------
+/* Le madri delle 6 pagine vincenti reindirizzano alla sottocategoria stessa:
+   linkarle nel breadcrumb (visibile e schema) = auto-link a un 301.
+   Term ID stabili delle madri reindirizzate. */
+function albalu_redirected_parent_cat_ids() {
+	return array( 2771, 2773, 2774, 2775, 2776, 2777 );
+}
+
+function albalu_redirected_parent_cat_urls() {
+	static $urls = null;
+	if ( null !== $urls ) {
+		return $urls;
+	}
+	$urls = array();
+	foreach ( albalu_redirected_parent_cat_ids() as $tid ) {
+		$link = get_term_link( (int) $tid, 'product_cat' );
+		if ( ! is_wp_error( $link ) ) {
+			$urls[] = untrailingslashit( $link );
+		}
+	}
+	return $urls;
+}
+
+/* Breadcrumb visibile (WooCommerce): [ [name, url], ... ] */
+add_filter( 'woocommerce_get_breadcrumb', function( $crumbs ) {
+	$skip = albalu_redirected_parent_cat_urls();
+	if ( empty( $skip ) ) {
+		return $crumbs;
+	}
+	return array_values( array_filter( $crumbs, function( $crumb ) use ( $skip ) {
+		$url = isset( $crumb[1] ) ? untrailingslashit( $crumb[1] ) : '';
+		return '' === $url || ! in_array( $url, $skip, true );
+	} ) );
+}, 20 );
+
+/* Schema BreadcrumbList (Yoast): [ [url, text], ... ] */
+add_filter( 'wpseo_breadcrumb_links', function( $links ) {
+	$skip = albalu_redirected_parent_cat_urls();
+	if ( empty( $skip ) ) {
+		return $links;
+	}
+	return array_values( array_filter( $links, function( $link ) use ( $skip ) {
+		$url = isset( $link['url'] ) ? untrailingslashit( $link['url'] ) : '';
+		return '' === $url || ! in_array( $url, $skip, true );
+	} ) );
+}, 20 );
+//------------------- END ---------------------
+
 //7b. Separa sottocategorie dai prodotti nelle pagine categoria
 //------------------- START ---------------------
 /* Rimuove l'inserimento automatico delle sottocategorie nel loop prodotti.

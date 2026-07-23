@@ -68,6 +68,9 @@ get_header();
                     'taxonomy'   => 'product_cat',
                     'parent'     => $parent_id,
                     'hide_empty' => true,
+                    // Categorie che reindirizzano (301): mai mostrarle come card
+                    // 2780 = bomboniere-comunione (reindirizza alla madre stessa)
+                    'exclude'    => array( 2780 ),
                 ) );
 
                 if ( ! empty( $subcategories ) && ! is_wp_error( $subcategories ) ) {
