@@ -1832,6 +1832,8 @@ function albalu_faq_shortcode() {
         return '';
     }
 
+    $schema_items = array();
+
     ob_start();
     ?>
     <div class="albalu-faq-section bg-albalu-warm">
@@ -1840,6 +1842,16 @@ function albalu_faq_shortcode() {
                 $q = get_sub_field( 'faq-question' );
                 $a = get_sub_field( 'faq-answer' );
                 if ( ! $q ) continue;
+                if ( $a ) {
+                    $schema_items[] = array(
+                        '@type'          => 'Question',
+                        'name'           => wp_strip_all_tags( $q ),
+                        'acceptedAnswer' => array(
+                            '@type' => 'Answer',
+                            'text'  => wp_kses_post( wpautop( $a ) ),
+                        ),
+                    );
+                }
             ?>
             <div class="albalu-faq-item">
                 <p class="albalu-faq-question"><?php echo esc_html( $q ); ?></p>
@@ -1851,6 +1863,14 @@ function albalu_faq_shortcode() {
             <?php endwhile; ?>
         </div>
     </div>
+
+    <?php if ( ! empty( $schema_items ) ) : ?>
+    <script type="application/ld+json"><?php echo wp_json_encode( array(
+        '@context'   => 'https://schema.org',
+        '@type'      => 'FAQPage',
+        'mainEntity' => $schema_items,
+    ), JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE ); ?></script>
+    <?php endif; ?>
 
     <style>
         .albalu-faq-section {
