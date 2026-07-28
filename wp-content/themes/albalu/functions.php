@@ -1593,7 +1593,7 @@ add_action( 'woocommerce_after_shop_loop', function() {
 	}
 	?>
 	<section class="albalu-cat-faq mt-5 mb-4" id="faq">
-		<style>.albalu-cat-faq-answer{color:#3f494f;font-size:15px;line-height:1.8rem}</style>
+		<style>.albalu-cat-faq{color:#3f494f}.albalu-cat-faq-answer{font-size:15px;line-height:1.8rem}</style>
 		<h2 class="mb-5">Domande Frequenti (FAQ)</h2>
 		<?php foreach ( $faqs as $f ) : ?>
 			<div class="albalu-cat-faq-item mb-5">
