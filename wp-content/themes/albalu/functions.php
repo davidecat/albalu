@@ -1593,9 +1593,9 @@ add_action( 'woocommerce_after_shop_loop', function() {
 	}
 	?>
 	<section class="albalu-cat-faq mt-5 mb-4" id="faq">
-		<h2 class="mb-4">Domande Frequenti (FAQ)</h2>
+		<h2 class="mb-5">Domande Frequenti (FAQ)</h2>
 		<?php foreach ( $faqs as $f ) : ?>
-			<div class="albalu-cat-faq-item mb-4">
+			<div class="albalu-cat-faq-item mb-5">
 				<h3 class="fw-bold mb-2"><?php echo esc_html( $f['q'] ); ?></h3>
 				<div class="albalu-cat-faq-answer"><?php echo wp_kses_post( $f['a'] ); ?></div>
 			</div>
