@@ -1523,6 +1523,88 @@ add_filter( 'wpseo_breadcrumb_links', function( $links ) {
 }, 20 );
 //------------------- END ---------------------
 
+//7c. FAQ categoria: sezione sopra il footer + schema FAQPage nell'head
+//------------------- START ---------------------
+/* Legge il repeater ACF "faqpage-category" della categoria corrente.
+   Cache statica: usato sia dal render (footer) sia dallo schema (head). */
+function albalu_get_category_faqs() {
+	static $faqs = null;
+	if ( null !== $faqs ) {
+		return $faqs;
+	}
+	$faqs = array();
+	if ( ! is_product_category() || ! function_exists( 'have_rows' ) ) {
+		return $faqs;
+	}
+	$term = get_queried_object();
+	if ( ! $term || is_wp_error( $term ) ) {
+		return $faqs;
+	}
+	if ( have_rows( 'faqpage-category', $term ) ) {
+		while ( have_rows( 'faqpage-category', $term ) ) {
+			the_row();
+			$q = get_sub_field( 'faqpage-category-question' );
+			$a = get_sub_field( 'faqpage-category-answer' );
+			if ( $q && $a ) {
+				$faqs[] = array( 'q' => $q, 'a' => $a );
+			}
+		}
+	}
+	return $faqs;
+}
+
+/* Schema FAQPage nell'head (solo pagine categoria con FAQ compilate) */
+add_action( 'wp_head', function() {
+	$faqs = albalu_get_category_faqs();
+	if ( empty( $faqs ) ) {
+		return;
+	}
+	$term_link = get_term_link( get_queried_object() );
+	if ( is_wp_error( $term_link ) ) {
+		return;
+	}
+	$main_entity = array();
+	foreach ( $faqs as $f ) {
+		$main_entity[] = array(
+			'@type'          => 'Question',
+			'name'           => wp_strip_all_tags( $f['q'] ),
+			'acceptedAnswer' => array(
+				'@type' => 'Answer',
+				'text'  => wp_kses_post( $f['a'] ),
+			),
+		);
+	}
+	$schema = array(
+		'@context'         => 'https://schema.org',
+		'@type'            => 'FAQPage',
+		'@id'              => $term_link . '#faq',
+		'inLanguage'       => 'it-IT',
+		'mainEntityOfPage' => array( '@id' => $term_link ),
+		'mainEntity'       => $main_entity,
+	);
+	echo '<script type="application/ld+json">' . wp_json_encode( $schema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE ) . '</script>' . "\n";
+}, 8 );
+
+/* Sezione FAQ visibile: dopo la description della categoria, sopra il footer */
+add_action( 'woocommerce_after_shop_loop', function() {
+	$faqs = albalu_get_category_faqs();
+	if ( empty( $faqs ) ) {
+		return;
+	}
+	?>
+	<section class="albalu-cat-faq mt-5 mb-4" id="faq">
+		<h2 class="fw-normal mb-4">Domande Frequenti (FAQ)</h2>
+		<?php foreach ( $faqs as $f ) : ?>
+			<div class="albalu-cat-faq-item mb-4">
+				<h3 class="fw-bold fs-4 mb-2"><?php echo esc_html( $f['q'] ); ?></h3>
+				<div class="albalu-cat-faq-answer"><?php echo wp_kses_post( $f['a'] ); ?></div>
+			</div>
+		<?php endforeach; ?>
+	</section>
+	<?php
+}, 25 );
+//------------------- END ---------------------
+
 //7b. Separa sottocategorie dai prodotti nelle pagine categoria
 //------------------- START ---------------------
 /* Rimuove l'inserimento automatico delle sottocategorie nel loop prodotti.
