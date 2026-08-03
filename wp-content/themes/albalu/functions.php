@@ -1188,16 +1188,21 @@ function albalu_pewc_sync_price() {
 
 		function updatePrice(saleGrandTotalRaw) {
 			var qty = parseFloat($('form.cart .quantity .qty').val()) || 1;
+			if (qty < 1) qty = 1;
+
+			// Il prezzo sotto lo SKU è sempre per singola unità:
+			// PEWC passa il totale già moltiplicato per la quantità.
+			var saleUnit = saleGrandTotalRaw / qty;
 
 			if (isOnSale && currentRegularBase > 0) {
-				var addonsWithQty = saleGrandTotalRaw - (currentSaleBase * qty);
-				var regularGrandTotal = (currentRegularBase * qty) + addonsWithQty;
+				var addonsUnit  = saleUnit - currentSaleBase;
+				var regularUnit = currentRegularBase + addonsUnit;
 
-				var regFmt  = pewc_wc_price(regularGrandTotal.toFixed(pewc_vars.decimals));
-				var saleFmt = pewc_wc_price(saleGrandTotalRaw.toFixed(pewc_vars.decimals));
+				var regFmt  = pewc_wc_price(regularUnit.toFixed(pewc_vars.decimals));
+				var saleFmt = pewc_wc_price(saleUnit.toFixed(pewc_vars.decimals));
 				$mainPrice.html('<del>' + regFmt + '</del> <ins>' + saleFmt + '</ins>');
 			} else {
-				var fmt = pewc_wc_price(saleGrandTotalRaw.toFixed(pewc_vars.decimals));
+				var fmt = pewc_wc_price(saleUnit.toFixed(pewc_vars.decimals));
 				$mainPrice.html(fmt);
 			}
 		}
