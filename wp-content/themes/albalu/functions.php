@@ -1444,6 +1444,9 @@ function search_only_products($query) {
 
 	$query->set( 'post_type', 'product' );
 	$query->set( 'wc_query', 'product_query' );
+	// Stesso numero di prodotti per pagina degli archivi (la ricerca usa
+	// posts_per_page di WP, non loop_shop_per_page).
+	$query->set( 'posts_per_page', (int) apply_filters( 'loop_shop_per_page', 72 ) );
 
 	// Filtro per evento (categoria prodotto, per term_id).
 	// Con "Tutti" (nessun evento) la ricerca copre SOLO gli articoli generici,
