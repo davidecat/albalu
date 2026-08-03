@@ -1618,6 +1618,24 @@ add_action( 'woocommerce_after_shop_loop', function() {
 add_action( 'wp_loaded', function() {
 	remove_filter( 'woocommerce_product_loop_start', 'woocommerce_maybe_show_product_subcategories' );
 } );
+
+/* Le pagine categoria mostrano SOLO i prodotti assegnati direttamente,
+   non quelli delle sottocategorie (che restano raggiungibili dalle card).
+   Agisce su parse_tax_query: la clausola della categoria corrente è
+   generata da WP dal queried object, non passa da pre_get_posts. */
+add_action( 'parse_tax_query', function( $query ) {
+	if ( is_admin() || ! $query->is_main_query() ) {
+		return;
+	}
+	if ( ! $query->is_tax( 'product_cat' ) || empty( $query->tax_query->queries ) ) {
+		return;
+	}
+	foreach ( $query->tax_query->queries as &$clause ) {
+		if ( is_array( $clause ) && isset( $clause['taxonomy'] ) && 'product_cat' === $clause['taxonomy'] ) {
+			$clause['include_children'] = false;
+		}
+	}
+} );
 //------------------- END ---------------------
 
 //8. Product Add-ons: shortcode in descrizione gruppo
