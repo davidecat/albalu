@@ -11,96 +11,6 @@ if( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Get all the product extra fields for a product or group
- * Use this to populate the field parameter in conditionals
- * @param $group 		Group data
- * @param $is_ajax		Are we loading add-ons via AJAX?
- * @param $product_id	Only passed from product page
- * @return Array
- */
-function pewc_get_all_fields( $group=false, $is_ajax=false, $product_id=false ) {
-
-	$fields = array( 'not-selected' => __( ' -- Select a field -- ', 'pewc' ) );
-
-	if( $is_ajax || ( isset( $_GET['post'] ) && get_post_type( $_GET['post'] ) == 'product' ) ) {
-
-		// Product
-		if( ! $product_id ) {
-			$product_id = $_GET['post'];
-		}
-
-		$groups = pewc_get_extra_fields( $product_id );
-
-		if( $groups ) {
-			foreach( $groups as $group ) {
-				if( ! empty( $group['items'] ) ) {
-					foreach( $group['items'] as $item ) {
-						$label = ! empty( $item['field_label'] ) ? $item['field_label'] : __( '[no label]', 'pewc' );
-						if( ! empty( $item['id'] ) ) {
-							$fields[$item['id']] = $label;
-						}
-					}
-				}
-			}
-		}
-
-	} else if( isset( $_GET['post'] ) && get_post_type( $_GET['post'] ) == 'pewc_group' ) {
-
-		// Group
-		if( ! empty( $group ) ) {
-			foreach( $group as $item ) {
-				$label = ! empty( $item['field_label'] ) ? $item['field_label'] : __( '[no label]', 'pewc' );
-				$fields[$item['id']] = $label;
-			}
-		}
-
-	} else if( $group ) {
-
-		// If $group is passed, we are on the global extras
-		// @since 2.2.3 use all global fields
-		// Check if we've migrated @since 3.0
-		if( ! pewc_has_migrated() ) {
-			// Pre 3.0
-			$globals = get_option( 'pewc_global_extras' );
-			if( $globals ) {
-				foreach( $globals as $group ) {
-					foreach( $group['items'] as $item_key=>$item ) {
-						$label = ! empty( $item['field_label'] ) ? $item['field_label'] : __( '[no label]', 'pewc' );
-						$fields[$item['id']] = $label;
-					}
-				}
-			}
-		} else {
-
-			// Post 3.0
-			$group_order = pewc_get_global_group_order();;
-			if( $group_order ) {
-				// pewc_display_product_groups expects an array with the group_id as the key
-				$new_order = explode( ',', $group_order );
-				$combined_order = array_combine( $new_order, $new_order );
-				foreach( $combined_order as $group_id ) {
-					$group['items'] = pewc_get_group_fields( $group_id );
-					foreach( $group['items'] as $item_key=>$item ) {
-						$label = ! empty( $item['field_label'] ) ? $item['field_label'] : __( '[no label]', 'pewc' );
-						$fields[$item['id']] = $label;
-					}
-				}
-			}
-
-		}
-
-	}
-
-	$fields['cost'] = __( 'Cost', 'pewc' );
-	$fields['quantity'] = __( 'Quantity', 'pewc' );
-	$fields['log-in-status'] = __( 'Status', 'pewc' );
-	$fields['user-role'] = __( 'User Role', 'pewc' ); // 3.22.0
-
-	return apply_filters( 'pewc_conditional_fields', $fields );
-
-}
-
-/**
  * Conditional actions
  * @return Array
  */
@@ -130,13 +40,13 @@ function pewc_get_matches() {
  */
 function pewc_get_rules() {
 	$rules = array(
-		'is'									=> __( 'Is', 'pewc' ),
-		'is-not'							=> __( 'Is Not', 'pewc' ),
-		'contains'						=> __( 'Contains', 'pewc' ),
+		'is'					=> __( 'Is', 'pewc' ),
+		'is-not'				=> __( 'Is Not', 'pewc' ),
+		'contains'				=> __( 'Contains', 'pewc' ),
 		'does-not-contain'		=> __( 'Does Not Contain', 'pewc' ),
-		'cost-equals'					=> __( 'Equals', 'pewc' ),
-		'cost-greater'				=> __( 'Greater Than', 'pewc' ),
-		'cost-less'						=> __( 'Less Than', 'pewc' ),
+		'cost-equals'			=> __( 'Equals', 'pewc' ),
+		'cost-greater'			=> __( 'Greater Than', 'pewc' ),
+		'cost-less'				=> __( 'Less Than', 'pewc' ),
 		'greater-than-equals'	=> '>=',
 		'less-than-equals'		=> '<='
 	);
@@ -845,7 +755,7 @@ function pewc_get_conditional_field_visibility( $id, $item, $items, $product_id,
 					// $posted[$field] is the value of the field on which the condition depends
 					if ( $has_repeatable && $field_type == 'checkbox' && empty( $posted[$field][$repeatable_index] ) ) {
 
-						// aou-repeatable-conditions-checkbox, we check repeated checkboxes differently
+						// 4.2.0, we check repeated checkboxes differently
 						$rules_obtain = false;
 						break;
 
@@ -872,7 +782,7 @@ function pewc_get_conditional_field_visibility( $id, $item, $items, $product_id,
 
 					if ( $has_repeatable && $field_type == 'checkbox' && ! empty( $posted[$field][$repeatable_index] ) ) {
 
-						// aou-repeatable-conditions-checkbox, we check repeated checkboxes differently
+						// 4.2.0, we check repeated checkboxes differently
 						$rules_obtain = false;
 						break;
 
@@ -1287,7 +1197,7 @@ function pewc_get_conditional_field_visibility( $id, $item, $items, $product_id,
 
 					if ( $has_repeatable && $field_type == 'checkbox' ) {
 
-						// aou-repeatable-conditions-checkbox, we check repeated checkboxes differently
+						// 4.2.0, we check repeated checkboxes differently
 						// this needs to be inside or it will satisfy the next condition (is_array($posted_field))
 						if ( ! empty( $posted[$field][$repeatable_index] ) ) {
 							$rules_obtain = true;
@@ -1306,7 +1216,7 @@ function pewc_get_conditional_field_visibility( $id, $item, $items, $product_id,
 
 					if ( $has_repeatable && $field_type == 'checkbox' ) {
 
-						// aou-repeatable-conditions-checkbox, we check repeated checkboxes differently
+						// 4.2.0, we check repeated checkboxes differently
 						// this needs to be inside or it will satisfy the next condition (is_array($posted_field))
 						if ( empty( $posted[$field][$repeatable_index] ) ) {
 							$rules_obtain = true;

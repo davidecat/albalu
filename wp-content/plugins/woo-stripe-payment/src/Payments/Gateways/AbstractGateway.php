@@ -179,11 +179,8 @@ abstract class AbstractGateway extends \WC_Payment_Gateway {
 	 * @return string
 	 */
 	public function get_saved_payment_method_option_html( $token, $checked = true ) {
-		$brand     = strtolower( $token->get_brand( 'edit' ) );
-		$icon_dir  = $token instanceof \WC_Payment_Token_Stripe_CC ? 'img/cards' : 'img';
-		$icon_file = sprintf( '%s/%s.svg', $icon_dir, $brand );
-		$icon_url  = $this->assets->assets_url( $icon_file );
-		$classes   = 'woocommerce-SavedPaymentMethods-token wc-stripe-saved-method';
+		$icon_url = $this->assets->assets_url( $token->get_icon_file() );
+		$classes  = 'woocommerce-SavedPaymentMethods-token wc-stripe-saved-method';
 		if ( $checked ) {
 			$classes .= ' selected';
 		}

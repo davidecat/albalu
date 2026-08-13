@@ -269,29 +269,6 @@ function pewc_save_product_extra_options( $post_id ) {
 						// Save group meta
 						if( ! $field_id ) {
 
-							$condition_action = ! empty( $_POST['_product_extra_groups_' . $group_id]['condition_action'] ) ? $_POST['_product_extra_groups_' . $group_id]['condition_action'] : false;
-							$condition_match = ! empty( $_POST['_product_extra_groups_' . $group_id]['condition_match'] ) ? $_POST['_product_extra_groups_' . $group_id]['condition_match'] : false;
-							$condition_field = ! empty( $_POST['_product_extra_groups_' . $group_id]['condition_field'] ) ? array_values( $_POST['_product_extra_groups_' . $group_id]['condition_field'] ) : false;
-							$condition_rule = ! empty( $_POST['_product_extra_groups_' . $group_id]['condition_rule'] ) ? array_values( $_POST['_product_extra_groups_' . $group_id]['condition_rule'] ) : false;
-							$condition_value = ! empty( $_POST['_product_extra_groups_' . $group_id]['condition_value'] ) ? array_values( $_POST['_product_extra_groups_' . $group_id]['condition_value'] ) : false;
-							$condition_field_type = ! empty( $_POST['_product_extra_groups_' . $group_id]['condition_field_type'] ) ? array_values( $_POST['_product_extra_groups_' . $group_id]['condition_field_type'] ) : false;
-
-							// Combine this into one array
-							$conditions = array();
-							if( $condition_field ) {
-								foreach( $condition_field as $index=>$field ) {
-									if ( empty( $condition_field[$index] ) || 'not-selected' == $condition_field[$index] ) {
-										continue; // skip incomplete conditions
-									}
-									$conditions[] = array(
-										'field'				=> $condition_field[$index],
-										'rule'				=> $condition_rule[$index],
-										'value'				=> $condition_value[$index],
-										'field_type'		=> $condition_field_type[$index]
-									);
-								}
-							}
-
 							// Set the group meta data
 							update_post_meta( $group_id, 'group_title', sanitize_text_field( $_POST['_product_extra_groups_' . $group_id]['meta']['group_title'] ) );
 							update_post_meta( $group_id, 'group_description', wp_kses_post( $_POST['_product_extra_groups_' . $group_id]['meta']['group_description'] ) );
@@ -320,6 +297,29 @@ function pewc_save_product_extra_options( $post_id ) {
 							}
 							update_post_meta( $group_id, 'repeatable_limit', sanitize_text_field( $_POST['_product_extra_groups_' . $group_id]['meta']['repeatable_limit'] ) );
 
+							// 4.4.0, moved here so that condition actions are together
+							$condition_action = ! empty( $_POST['_product_extra_groups_' . $group_id]['condition_action'] ) ? $_POST['_product_extra_groups_' . $group_id]['condition_action'] : false;
+							$condition_match = ! empty( $_POST['_product_extra_groups_' . $group_id]['condition_match'] ) ? $_POST['_product_extra_groups_' . $group_id]['condition_match'] : false;
+							$condition_field = ! empty( $_POST['_product_extra_groups_' . $group_id]['condition_field'] ) ? array_values( $_POST['_product_extra_groups_' . $group_id]['condition_field'] ) : false;
+							$condition_rule = ! empty( $_POST['_product_extra_groups_' . $group_id]['condition_rule'] ) ? array_values( $_POST['_product_extra_groups_' . $group_id]['condition_rule'] ) : false;
+							$condition_value = ! empty( $_POST['_product_extra_groups_' . $group_id]['condition_value'] ) ? array_values( $_POST['_product_extra_groups_' . $group_id]['condition_value'] ) : false;
+							$condition_field_type = ! empty( $_POST['_product_extra_groups_' . $group_id]['condition_field_type'] ) ? array_values( $_POST['_product_extra_groups_' . $group_id]['condition_field_type'] ) : false;
+
+							// Combine this into one array
+							$conditions = array();
+							if( $condition_field ) {
+								foreach( $condition_field as $index=>$field ) {
+									if ( empty( $condition_field[$index] ) || 'not-selected' == $condition_field[$index] ) {
+										continue; // skip incomplete conditions
+									}
+									$conditions[] = array(
+										'field'				=> $condition_field[$index],
+										'rule'				=> $condition_rule[$index],
+										'value'				=> $condition_value[$index],
+										'field_type'		=> $condition_field_type[$index]
+									);
+								}
+							}
 							update_post_meta( $group_id, 'condition_action', $condition_action );
 							update_post_meta( $group_id, 'condition_match', $condition_match );
 							update_post_meta( $group_id, 'conditions', $conditions );

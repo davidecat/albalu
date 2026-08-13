@@ -75,6 +75,11 @@ jQuery( function( $ ) {
 
     $( 'body' ).trigger( 'update_field_names_object' );
 
+	// 4.4.0, allow our script to re-initialize fields to attach events?
+	$( 'body' ).on( 'pewc_actions_re_init_conditions', function( e ){
+		pewc_actions.init_conditions( true );
+	});
+
   });
 
   // Media uploader
@@ -84,9 +89,9 @@ jQuery( function( $ ) {
   var pewc_actions = {
 
     /**
-		 * Initialize field and group actions
-		 */
-		init: function() {
+	 * Initialize field and group actions
+	 */
+	init: function() {
 
       $( document.body ).on( 'click', '.add_new_group', this.add_new_group );
       $( document.body ).on( 'click', '.pewc-group-meta-actions .duplicate', this.duplicate_group );
@@ -109,29 +114,14 @@ jQuery( function( $ ) {
       $( document.body ).on( 'click', '.add_new_cl_row', this.add_new_cl_row );
       $( document.body ).on( 'click', '.remove-row', this.remove_row );
 
-      $( document.body ).on( 'click', '.add_new_condition', this.add_new_condition );
-      $( document.body ).on( 'change', '.pewc-condition-field', this.change_condition_field );
-	  $( document.body ).on( 'change', '.pewc-condition-rule', this.change_condition_rule_attributes );
-      $( document.body ).on( 'click', '.remove-condition', this.remove_condition );
-      $( document.body ).on( 'click', '.pewc-allow-multiple', this.toggle_allow_multiple );
-
-      $( document.body ).on( 'click', '.add_new_group_condition', this.add_new_group_condition );
-
       $( document.body ).on( 'change', '.pewc-field-products_layout', this.update_products_layout );
       $( document.body ).on( 'change', '.pewc-field-products_quantities', this.update_products_quantities );
+	  $( document.body ).on( 'click', '.pewc-allow-multiple', this.toggle_allow_multiple );
 	  
       $( document.body ).on( 'change', '.pewc-field-action', this.update_field_action );
 
       $( document.body ).on( 'click', '.pewc-field-per-character', this.toggle_per_char );
       $( document.body ).on( 'keyup input change paste', '.pewc-field-default', this.set_default_field );
-
-      $( document.body ).on( 'update_field_names_object', this.update_field_names_object );
-      $( document.body ).on( 'update_conditional_fields', this.update_conditional_fields );
-
-      $( document.body ).on( 'focusout', '.pewc-field-option-value', this.update_field_names_object );
-      $( document.body ).on( 'focusout', '.pewc-field-label', this.update_field_names_object );
-    	$( document.body ).on( 'change', '.pewc-field-type', this.update_field_names_object );
-    	$( document.body ).on( 'focusout', '.product-extra-option-wrapper input', this.update_field_names_object );
 
       $( document.body ).on( 'refresh_group_order', this.refresh_group_order );
 
@@ -141,11 +131,40 @@ jQuery( function( $ ) {
 
 	  $( '.pewc-layered-images' ).on( 'change', this.toggle_layer_image_settings ); // 4.3.8
 
-      $( document.body ).trigger( 'update_field_names_object' );
+	  this.init_conditions();
+	  //$( document.body ).trigger( 'update_field_names_object' );
 
-		},
+	},
 
-    /**
+	/**
+	 * Separated this into its own function so that we can re-initialize it
+	 * @since 4.4.0
+	 */
+	init_conditions: function( reinit=false ) {
+		$( document.body )
+			.off( 'click', '.add_new_condition', this.add_new_condition )
+			.on( 'click', '.add_new_condition', this.add_new_condition );
+		$( document.body )
+			.off( 'click', '.remove-condition' )
+			.on( 'click', '.remove-condition', this.remove_condition );
+		$( document.body )
+			.off( 'click', '.add_new_group_condition', this.add_new_group_condition )
+			.on( 'click', '.add_new_group_condition', this.add_new_group_condition );
+		$( document.body )
+			.off( 'change', '.pewc-condition-field', this.change_condition_field )
+			.on( 'change', '.pewc-condition-field', this.change_condition_field );
+		$( document.body ).on( 'change', '.pewc-condition-rule', this.change_condition_rule_attributes );
+
+		$( document.body ).on( 'update_field_names_object', this.update_field_names_object );
+		$( document.body ).on( 'update_conditional_fields', this.update_conditional_fields );
+		$( document.body ).on( 'focusout', '.pewc-field-option-value', this.update_field_names_object );
+		$( document.body ).on( 'focusout', '.pewc-field-label', this.update_field_names_object );
+		$( document.body ).on( 'change', '.pewc-field-type', this.update_field_names_object );
+		$( document.body ).on( 'focusout', '.product-extra-option-wrapper input', this.update_field_names_object );
+		$( document.body ).trigger( 'update_field_names_object' );
+	},
+
+	/**
 	 * Add new group
 	 */
 	add_new_group: function( e ) {
@@ -339,7 +358,7 @@ jQuery( function( $ ) {
 		 */
     remove_group: function( e ) {
 
-      e.preventDefault;
+      e.preventDefault();
 
       // Avoid name conflicts with other plugins
       if( ! $( this ).hasClass( 'table-panel' ) ) {
@@ -648,7 +667,7 @@ jQuery( function( $ ) {
 	 */
     remove_field: function( e ) {
 
-    		e.preventDefault;
+    		e.preventDefault();
     		var r = confirm( pewc_obj.delete_field );
     		if( r == true ) {
           var panel, security;
@@ -754,7 +773,24 @@ jQuery( function( $ ) {
   		$( button ).attr('disabled','true');
   		// $(button).parent().find('.spinner').css('visibility','visible');
   		var form = $('#pewc_global_settings_form').serializeArray();
-  		$.ajax({
+
+		// aou-ajax-condition, when using AJAX condition, some conditions might have duplicates e.g. hidden input field
+		// only dedupe condition_field/condition_rule/condition_value names, keeping the last occurrence of each
+		var isConditionField = /\[condition_field\]|\[condition_rule\]|\[condition_value\]/;
+		var lastIndexByName = {};
+		form.forEach(function( field, index ) {
+			if ( isConditionField.test( field.name ) ) {
+				lastIndexByName[ field.name ] = index;
+			}
+		});
+		form = form.filter(function( field, index ) {
+			if ( ! isConditionField.test( field.name ) ) {
+				return true;
+			}
+			return lastIndexByName[ field.name ] === index;
+		});
+
+		$.ajax({
   			type: 'POST',
   			url: ajaxurl,
         // contentType: 'application/json',
@@ -852,7 +888,7 @@ jQuery( function( $ ) {
 	 */
 	remove_option: function( e ) {
 
-      e.preventDefault;
+      e.preventDefault();
   		var r = confirm( pewc_obj.delete_option );
   		if( r == true ) {
   			var field_item = $(this).closest('.field-item');
@@ -953,7 +989,7 @@ jQuery( function( $ ) {
 		 */
 		remove_row: function( e ) {
 
-      e.preventDefault;
+      e.preventDefault();
   		var r = confirm( pewc_obj.delete_option );
   		if( r == true ) {
   			$(this).closest( '.product-extra-row-wrapper' ).fadeOut(
@@ -985,7 +1021,12 @@ jQuery( function( $ ) {
   		}
   		if( isNaN( condition_count ) ) {
   			condition_count = 0;
-  			$(this).closest('.pewc-fields-conditionals').find('.product-extra-action-match-row').css( 'display', 'grid' );
+			var action_match = $(this).closest('.pewc-fields-conditionals').find('.product-extra-action-match-row');
+  			action_match.css( 'display', 'grid' );
+			if ( action_match.hasClass( 'pewc-ajax-condition-row' ) ) {
+				// click the Edit button so that the dropdown fields are displayed
+				action_match.find( '.update-condition' ).trigger( 'click' );
+			}
   		}
 
   		var clone_condition = $('.new-conditional-row').clone().insertBefore( $(this).parent() );
@@ -1001,8 +1042,8 @@ jQuery( function( $ ) {
   			.attr('id','condition_field_' + group_id + '_' + item_id + '_' + condition_count )
   			.attr('data-group-id', group_id)
   			.attr('data-item-id', item_id)
-  			.attr('data-condition-id', condition_count)
-  			.val('');
+  			.attr('data-condition-id', condition_count);
+  			//.val(''); // 4.4.0, commented out because the select field displays blank instead of the first option when adding a new condition
 
   		// If we're in global, just get fields from current group
 
@@ -1011,6 +1052,13 @@ jQuery( function( $ ) {
   		var select_id = '#condition_field_' + group_id + '_' + item_id + '_' + condition_count;
   		var option_value = 'pewc_group_' + group_id + '_' + item_id;
   		$(select_id + ' option[value="' + option_value + '"]').remove();
+
+		// aou-ajax-condition, remove the optgroup if that was the only field left in it (e.g. current group in a global set)
+  		$(select_id).find('optgroup').each(function() {
+  			if( $(this).find('option').length === 0 ) {
+  				$(this).remove();
+  			}
+  		});
 
   		$(clone_condition)
   			.find('.pewc-condition-rule')
@@ -1038,16 +1086,16 @@ jQuery( function( $ ) {
 		if( $( this ).hasClass( 'pewc-group-condition-field' ) ) {
 			is_group = true;
 			condition_field = $( '#condition_field_' + group_id + '_' + condition_id ).val();
-				condition_rule = $( '#condition_rule_' + group_id + '_' + condition_id ).val();
+			condition_rule = $( '#condition_rule_' + group_id + '_' + condition_id ).val();
 		} else {
 			var item_id = $(this).attr( 'data-item-id' );
 			condition_field = $( '#condition_field_' + group_id + '_' + item_id + '_' + condition_id ).val();
-				condition_rule = $( '#condition_rule_' + group_id + '_' + item_id + '_' + condition_id ).val();
+			condition_rule = $( '#condition_rule_' + group_id + '_' + item_id + '_' + condition_id ).val();
 		}
 
   		// var condition_field = $( '#condition_field_' + group_id + '_' + item_id + '_' + condition_id ).val();
   		// var condition_rule = $( '#condition_rule_' + group_id + '_' + item_id + '_' + condition_id ).val();
-  		if( condition_field != null && condition_field != 'not-selected' && condition_rule != 'not-selected' ) {
+		if( condition_field != null && condition_field != 'not-selected' && condition_rule != 'not-selected' ) {
   			// Show the value field
   			var value_field;
   			// Find the field type of the selected field
@@ -1069,6 +1117,9 @@ jQuery( function( $ ) {
 			//pewc_add_value_field( select, field_id, field_type, value_field, '' );
   			//pewc_set_rule_field( select, field_type );
 
+			// 4.4.0, if we added a global field from a differet global group, and groups are displayed as post types, then fields with options will be empty, we need to popuplate them via AJAX?
+			$( 'body' ).trigger( 'pewc_ajax_add_value_field', [ select ] );
+
   		} else {
   			// Hide the value field
   		}
@@ -1080,7 +1131,7 @@ jQuery( function( $ ) {
 	 */
 	remove_condition: function( e ) {
 
-      e.preventDefault;
+      e.preventDefault();
       var wrapper = $( this ).closest( '.pewc-fields-conditionals' );
   		var r = confirm( 'Delete this condition?' );
   		if( r == true ) {
@@ -1172,7 +1223,12 @@ jQuery( function( $ ) {
   		}
   		if( isNaN( condition_count ) ) {
   			condition_count = 0;
-  			$( group ).find('.product-extra-action-match-row').css( 'display', 'grid' );
+  			var action_match = $( group ).find('.product-extra-action-match-row');
+  			action_match.css( 'display', 'grid' );
+  			if ( action_match.hasClass( 'pewc-ajax-condition-row' ) ) {
+  				// 4.4.0, click the Edit button so that the dropdown fields are displayed
+  				action_match.find( '.update-condition' ).trigger( 'click' );
+  			}
   		}
 
   		var clone_condition = $( '.new-conditional-row' ).clone().insertBefore( $(this).parent() );
@@ -1185,8 +1241,8 @@ jQuery( function( $ ) {
   			.attr('name','_product_extra_groups_' + group_id + '[condition_field][' + condition_count + ']')
   			.attr('id','condition_field_' + group_id + '_' + condition_count )
   			.attr('data-group-id', group_id)
-  			.attr('data-condition-id', condition_count)
-  			.val('');
+  			.attr('data-condition-id', condition_count);
+  			//.val(''); // 4.4.0, commented out because the select field displays blank instead of the first option when adding a new condition
 
   		// If we're in global, just get fields from current group
 
@@ -1218,7 +1274,7 @@ jQuery( function( $ ) {
 	 * Update the products_layout field
 	 */
     update_products_layout: function( e ) {
-      e.preventDefault;
+      e.preventDefault();
       var layout = $(this).val();
       var wrapper = $(this).closest('.field-item');
       $(wrapper).removeClass( function(index, className) {
@@ -1284,7 +1340,7 @@ jQuery( function( $ ) {
 	 * Update the products_quantities field
 	 */
     update_products_quantities: function( e ) {
-      e.preventDefault;
+      e.preventDefault();
   		var quantities = $(this).val();
   		var wrapper = $(this).closest('.field-item');
   		$(wrapper).removeClass( function(index, className) {
@@ -1297,7 +1353,7 @@ jQuery( function( $ ) {
 	 * Toggle the per character checkbox
 	 */
 	toggle_per_char: function( e ) {
-      e.preventDefault;
+      e.preventDefault();
       var wrapper = $( this ).closest( '.field-item' ).toggleClass( 'per-char-selected' );
     },
 
@@ -1305,7 +1361,7 @@ jQuery( function( $ ) {
 	 * Update the default fields(s) value
 	 */
 	set_default_field: function( e ) {
-      e.preventDefault;
+      e.preventDefault();
       // If the field is a checkbox, set the default value depending on whether it's checked or not
       if( $( this ).hasClass( 'pewc-field-default-field-checkbox' ) ) {
         var field_status = '';
@@ -1323,7 +1379,7 @@ jQuery( function( $ ) {
 	 */
     change_field_type: function( e ) {
 
-		e.preventDefault;
+		e.preventDefault();
   		var field_type = $( this ).val();
 		$( this ).attr( 'data-field-type', field_type );
 		var wrapper = $( this ).closest( '.field-item' );
@@ -1374,7 +1430,12 @@ jQuery( function( $ ) {
   				var group_id = $( this ).closest( '.group-row' ).attr( 'data-group-id' );
   				var field_id = $( this ).closest( 'li.field-item' ).attr( 'data-item-id' );
   				var label = '[no label]';
-  				if( $( this ).val() != '' ) {
+
+				// 4.4.0, use admin label in conditions
+				var field_admin_label = $( this ).closest( 'li.field-item' ).find( '.pewc-field-admin_label' );
+				if ( field_admin_label && field_admin_label.val() != '' ) {
+					label = field_admin_label.val();
+				} else if( $( this ).val() != '' ) {
   					label = $( this ).val();
   				}
   				var type = $( 'body' ).find( '#field_type_' + group_id + '_' + field_id ).attr( 'data-field-type' );
@@ -1395,7 +1456,7 @@ jQuery( function( $ ) {
   				} else if( type=='products' ) {
   					// Update data-options
   					var selected_products = $( this ).closest( 'li.field-item' ).find( '.pewc-field-child_products' ).val();
-  					$( this ).closest( 'li.field-item' ).find( '.pewc-data-options' ).attr( 'data-options',JSON.stringify(selected_products));
+					$( this ).closest( 'li.field-item' ).find( '.pewc-data-options' ).attr( 'data-options',JSON.stringify(selected_products));
   					// Get all possible values for the select field
   					all_fields[group_id][field_id] = {'label': label, 'type': type, 'options': selected_products};
   				} else if( type=='product-categories' ) {
@@ -1514,7 +1575,6 @@ jQuery( function( $ ) {
 
 	// 4.3.8
 	toggle_layer_image_settings: function( e ) {
-		console.log($(this));
 		var is_enabled = $( this ).prop( 'checked' );
 		var main_image_scale = $( this ).closest( '.pewc-swatch-extras' ).find( '.product-extra-field-main-image-scale' );
 		if ( is_enabled ) {
@@ -1528,12 +1588,14 @@ jQuery( function( $ ) {
 
   pewc_actions.init();
 
-  	$( 'body' ).on( 'click', '.pewc-group-meta-heading, .pewc-global-set-wrap, .pewc-actions .collapse', function( e ) {
-		e.preventDefault;
+  	// 4.4.0, removed .pewc-global-set-wrap from this selector - it wrapped the whole Global Add-Ons form, so the preventDefault() below was blocking clicks on every descendant, including the global rule checkboxes
+	// this was exposed after I fixed the e.preventDefault() calls (previous e.preventDefault; no parentheses)
+  	$( 'body' ).on( 'click', '.pewc-group-meta-heading, .pewc-actions .collapse', function( e ) {
+		e.preventDefault();
 		$( this ).closest( '.field-table' ).toggleClass( 'collapse-panel' );
 	});
 	$( 'body' ).on( 'click', '.pewc-field-meta-heading, .pewc-field-actions .collapse-field', function( e ) {
-		e.preventDefault;
+		e.preventDefault();
 		$( this ).closest( '.field-item' ).toggleClass( 'collapsed-field' );
 	});
   	$( 'body' ).on( 'keyup','.pewc-group-title', function() {
@@ -1596,7 +1658,8 @@ jQuery( function( $ ) {
                     text: options[i]
                   }));
                 }
-                $(condition_value_field).val(selected);
+				// note: selected might be undefined
+				$(condition_value_field).val( selected );
               }
               // Replace Is/Not Is for fields that allow multiple selections
               $( '.pewc-condition-rule' ).each(function( i, v ) {
@@ -1639,18 +1702,35 @@ jQuery( function( $ ) {
     // Get the first option
     // var option_value = $( '.new-conditional-row .pewc-condition-field.pewc-condition-select' ).find( 'option:first-of-type' ).html();
     var options = '<option value="not-selected">'+pewc_obj.select_text+'</option>';
+
 	// get original list of all attributes before getting removed
 	var global_attributes = $( '.new-conditional-row .pewc-condition-field.pewc-condition-select optgroup#pewc-all-attributes-optgroup' ).html();
-    // Remove all current options except the first one
+
+	// 4.4.0, if this exists, these are other global groups when using 'Display groups as post type', or the Edit Product page
+	if ( $( '.new-conditional-row .pewc-condition-field.pewc-condition-select optgroup.pewc-global-group-optgroup' ).length > 0 ) {
+		// save them first before getting removed?
+		$( '.new-conditional-row .pewc-condition-field.pewc-condition-select optgroup.pewc-global-group-optgroup' ).each(function(){
+			options += this.outerHTML;
+		});
+	}
+
+	// Remove all current options except the first one
     $( '.new-conditional-row .pewc-condition-field.pewc-condition-select option' ).remove();
     $( '.new-conditional-row .pewc-condition-field.pewc-condition-select optgroup' ).remove();
     // Read new set of options from object
     for( var group in all_fields ) {
       var group_name = $( '#group-' + group + ' .pewc-group-title' ).val();
-      if( ! group_name ) group_name = '[No group title]';
+      if( ! group_name ) {
+		// 4.4.0, for global groups displayed as post type, get the page title
+		if ( $( 'body' ).hasClass( 'post-type-pewc_group' ) && $( '#title' ).val() != '' ) {
+			group_name = $( '#title' ).val();
+		}
+		if ( ! group_name ) group_name = '[No group title]';
+	  }
       options_by_group[group] = '<option value="not-selected">'+pewc_obj.select_text+'</option>';
       var items = all_fields[group];
-      options += '<optgroup label="' + group_name + ' #' + group + '">';
+	  // 4.4.0, added data-group-id
+      options += '<optgroup label="' + group_name + ' #' + group + '" data-group-id="' + group + '">';
       for( var field in items ) {
         if( ! items.hasOwnProperty(field) ) continue;
         if( items[field].type == 'information' ) continue;
@@ -1667,14 +1747,19 @@ jQuery( function( $ ) {
 		// 3.11.9. do this for variable products only (maybe including variable subscriptions)
 		// find all attributes
 		var attribute_options = '';
-		$( '#product_attributes .woocommerce_attribute.taxonomy').each(function(){
-			var taxonomy = $( this ).attr( 'data-taxonomy' );
-			if ( taxonomy != '' ) {
-				var attribute_name = $( this ).find( 'h3 .attribute_name' ).text();
-				if ( attribute_name == '' ) attribute_name = taxonomy;
-				attribute_options += '<option data-type="attribute" value="' + taxonomy + '">' + attribute_name + '</option>';
-			}
-		})
+
+		if ( $( '#product_attributes .woocommerce_attribute.taxonomy').length > 0 ) {
+			// taxonomy attributes
+			$( '#product_attributes .woocommerce_attribute.taxonomy').each(function(){
+				var taxonomy = $( this ).attr( 'data-taxonomy' );
+				if ( taxonomy != '' ) {
+					var attribute_name = $( this ).find( 'h3 .attribute_name' ).text();
+					if ( attribute_name == '' ) attribute_name = taxonomy;
+					attribute_options += '<option data-type="attribute" value="' + taxonomy + '">' + attribute_name + '</option>';
+				}
+			});
+		}
+
 		if ( attribute_options != '' ) {
 			options += '<optgroup id="pewc-attributes-optgroup" label="Attributes">';
 			options += attribute_options;
@@ -1704,6 +1789,13 @@ jQuery( function( $ ) {
     // Update the new condition select field
     $( '.new-conditional-row .pewc-condition-field.pewc-condition-select' ).append( options );
 
+	// 4.4.0, remove any optgroups left with no options (e.g. groups whose fields were all filtered out)
+    $( '.new-conditional-row .pewc-condition-field.pewc-condition-select' ).find( 'optgroup' ).each(function() {
+      if ( $( this ).find( 'option' ).length === 0 ) {
+        $( this ).remove();
+      }
+    });
+
     // Now update all the condition select fields in use
     $( 'body' ).find( '.group-row .pewc-condition-field.pewc-condition-select' ).each(function() {
       // Update the field with the new options
@@ -1723,6 +1815,13 @@ jQuery( function( $ ) {
 
       // Ensure that a field can't be a condition of itself
       $( this ).find( 'option[value="pewc_group_' + group_id + '_' + field_id + '"]' ).remove();
+
+	  // 4.4.0, remove any optgroups left with no options after the removals above
+      $( this ).find( 'optgroup' ).each(function() {
+        if ( $( this ).find( 'option' ).length === 0 ) {
+          $( this ).remove();
+        }
+      });
 
       // Set correct option to selected
       $( this ).val( selected );
@@ -1877,6 +1976,10 @@ jQuery( function( $ ) {
 		}
 		if( field_type == 'select' || field_type == 'select-box' || field_type == 'radio' || field_type == 'image_swatch' || field_type == 'products' || field_type == 'product-categories' || field_type == 'checkbox_group' ) {
 			var options = pewc_populate_select_value_field( $(field).val() );
+			// 4.3.19, add empty string that can be used in conditions
+			if ( options.length > 0 && options.indexOf( '' ) == -1 ) {
+				options.unshift( '' );
+			}
 			for(var i=0; i < options.length; i++ ) {
 				$(clone_value).append($('<option>', {
 					value: options[i],
@@ -1916,8 +2019,8 @@ jQuery( function( $ ) {
 		}
 	}
 
-  // Set the conditional rule field
-  function pewc_set_rule_field( select, field_type ) {
+	// Set the conditional rule field
+	function pewc_set_rule_field( select, field_type ) {
 		// Decide whether to show is/is not or contains/does not contain
 		var row = $( select ).closest( '.product-extra-conditional-row' );
 		var rule = $( row ).find( '.pewc-condition-rule' );
@@ -1935,18 +2038,22 @@ jQuery( function( $ ) {
 
     } else {
 
-      // var field_type_id = $( field ).closest( '.product-extra-conditional-row' ).find( '.pewc-condition-field' ).val();
-      var field_type_id = $( field ).closest( '.product-extra-conditional-row' ).find( '.pewc-condition-field' ).attr( 'data-value' );
+		var conditional_row = $( field ).closest( '.product-extra-conditional-row' );
+      // var field_type_id = conditional_row.find( '.pewc-condition-field' ).val();
+      var field_type_id = conditional_row.find( '.pewc-condition-field' ).attr( 'data-value' );
       var field_type = $( '#' + field_type_id ).find( '.pewc-field-type' ).attr( 'data-field-type' );
       if( field_type_id == 'cost' || field_type_id == 'quantity' ) {
         field_type = field_type_id;
-      }
+      } else if ( field_type == undefined ) {
+		// aou-ajax-condition, maybe this is a global field, get from attribute instead
+		field_type = conditional_row.find( '.pewc-condition-field option:selected' ).attr( 'data-type' );
+	  }
 	  var is_attribute = false;
-	  if ( $( field ).closest( '.product-extra-conditional-row' ).find( '.pewc-condition-field option:selected' ).attr( 'data-type' ) == 'attribute' ) {
+	  if ( conditional_row.find( '.pewc-condition-field option:selected' ).attr( 'data-type' ) == 'attribute' ) {
 		is_attribute = true;
 	  }
 
-      $( field ).closest( '.product-extra-conditional-row' ).find( '.pewc-hidden-field-type' ).val( field_type );
+      conditional_row.find( '.pewc-hidden-field-type' ).val( field_type );
 
       var is_number_field = false;
       if( is_cost.indexOf( 'cost' ) > -1 || is_cost.indexOf( 'quantity' ) > -1 || field_type == 'calculation' || field_type == 'number' || field_type == 'upload' || field_type == 'quantity' ) {
@@ -2009,8 +2116,15 @@ jQuery( function( $ ) {
 	//$( field ).trigger( 'change' ); // 3.11.9. let's trigger this because the attribute condition needs change_condition_rule_attributes to be triggered
   }
 
-  // Check if our field type allows multiple selections
+	// Check if our field type allows multiple selections
 	function pewc_has_multiple( field ) {
+
+		// 4.4.0
+		var selected_option = $( field ).find( 'option:selected' );
+		if ( selected_option.hasClass( 'pewc-other-global-fields' ) && selected_option.hasClass( 'pewc-has-multiple' ) ) {
+			return true;
+		}
+
 		var parent_field_id = $(field).val(); // The id of the field that we are dependent on
 		var parent_field_type = $('#' + parent_field_id).find('.pewc-field-type').val();
 
@@ -2027,6 +2141,7 @@ jQuery( function( $ ) {
 			}
 		}
 		return false;
+
 	}
 
   	// Populate a dynamically added select field
@@ -2070,7 +2185,7 @@ jQuery( function( $ ) {
 			var all_attribute_values_array = JSON.parse( all_attribute_values );
 			var attribute_values = all_attribute_values_array[attribute];
 
-			if ( attribute_values.length > 0 ) {
+			if ( attribute_values ) {
 				for ( var i in attribute_values ) {
 					if ( product_attributes_array.length < 1 || product_attributes_array.includes( attribute_values[i].id ) ) {
 						// only push values if product_attributes_array is empty (maybe we're in global) or if the attribute is used by the product

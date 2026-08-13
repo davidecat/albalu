@@ -2,7 +2,9 @@
 import { computed } from 'vue';
 import { useRulesStore } from '../../stores/rulesStore';
 import { useValidation } from '../../composables/useValidation';
+import { useConditionUpsell } from '../../composables/useConditionUpsell';
 import { getValidationClasses, getContainerValidationClasses, hasValidationErrors } from '../../helpers/validation';
+import { getValuePlaceholder } from '../../helpers/placeholder';
 import type { RuleItemProps } from '../../types';
 import AttributeSelect from '../common/AttributeSelect.vue';
 import ConditionSelect from '../common/ConditionSelect.vue';
@@ -12,6 +14,7 @@ import ValueInput from '../common/ValueInput.vue';
 const props = defineProps<RuleItemProps>();
 const store = useRulesStore();
 const { getFieldErrors } = useValidation('rules');
+const { conditionForceUpdateKey, isConditionGated } = useConditionUpsell();
 
 // Type guard to check if data is an object (field data) vs string (logic data)
 const isFieldData = (data: any): data is { condition?: string; value?: string; case_sensitive?: boolean; attribute?: string; action?: string } => {
@@ -32,6 +35,8 @@ const showCaseSensitive = computed(() => {
   const noCaseSensitiveConditions = ['is_empty', 'is_not_empty'];
   return condition && !noCaseSensitiveConditions.includes(condition);
 });
+
+const valuePlaceholder = computed(() => getValuePlaceholder(props.item.data));
 
 // Validation
 const fieldErrors = computed(() => {
@@ -55,6 +60,10 @@ const updateFieldValue = (value: string) => {
 };
 
 const updateFieldCondition = (value: string) => {
+  // Gate Elite-only conditions behind the upgrade modal on non-Elite sites.
+  if (isConditionGated(value)) {
+    return;
+  }
   store.updateRuleFieldData(props.ruleId, props.groupId, props.item.id, { condition: value });
 };
 
@@ -119,6 +128,7 @@ const updateCaseSensitive = (event: Event) => {
           <div class="adt-tw-col-span-12 sm:adt-tw-col-span-3 adt-rule-condition-container">
             <ConditionSelect
               v-if="isFieldData(item.data)"
+              :key="`condition-${props.item.id}-${conditionForceUpdateKey}`"
               :model-value="item.data.condition || ''"
               placeholder="Select condition"
               select-class="adt-rule-condition-select adt-tw-w-full adt-tw-max-w-full adt-tw-px-2 adt-tw-py-1 adt-tw-border adt-tw-border-gray-300 adt-tw-rounded-md adt-tw-text-sm adt-tw-focus-ring-2 adt-tw-focus-ring-blue-500 adt-tw-focus-border-blue-500 adt-tw-focus-outline-none adt-tw-transition-all"
@@ -132,7 +142,7 @@ const updateCaseSensitive = (event: Event) => {
             <ValueInput
               v-if="isFieldData(item.data) && showValueInput"
               :model-value="typeof item.data.value === 'boolean' ? '' : (item.data.value || '')"
-              :placeholder="(item.data.attribute === 'categories' || item.data.attribute === 'raw_categories') ? 'Select category' : 'Enter value'"
+              :placeholder="valuePlaceholder"
               :attribute="item.data.attribute || ''"
               :categories="store.categories"
               :input-class="getFieldErrorClasses('adt-filter-value-input adt-tw-w-full adt-tw-max-w-full adt-tw-px-2 adt-tw-py-1 adt-tw-border adt-tw-border-gray-300 adt-tw-rounded-md adt-tw-text-sm adt-tw-focus-ring-2 adt-tw-focus-ring-blue-500 adt-tw-focus-border-blue-500 adt-tw-focus-outline-none adt-tw-transition-all')"

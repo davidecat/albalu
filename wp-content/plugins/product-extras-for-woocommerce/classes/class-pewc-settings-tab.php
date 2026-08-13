@@ -90,6 +90,10 @@ if( ! class_exists( 'PEWC_Settings_Tab' ) ) {
 
 				$settings = pewc_get_optimised_validation_settings();
 
+			} else if( $current_section == 'pewc_conditions' ) {
+
+				$settings = pewc_get_conditions_settings();
+
 			}
 
 			return $settings;
@@ -112,10 +116,11 @@ if( ! class_exists( 'PEWC_Settings_Tab' ) ) {
 					'pewc_uploads' => __( 'Uploads', 'pewc' )
 				);
 
-				$sections['pewc_image'] = __( 'Swatches', 'pewc' );
-				$sections['pewc_products'] = __( 'Products', 'pewc' );
-				$sections['pewc_calculations'] = __( 'Calculations', 'pewc' );
-				$sections['pewc_integrations'] = __( 'Integrations', 'pewc' );
+				$sections['pewc_image'] 		= __( 'Swatches', 'pewc' );
+				$sections['pewc_products'] 		= __( 'Products', 'pewc' );
+				$sections['pewc_calculations'] 	= __( 'Calculations', 'pewc' );
+				$sections['pewc_conditions'] 	= __( 'Conditions', 'pewc' );
+				$sections['pewc_integrations'] 	= __( 'Integrations', 'pewc' );
 				$sections['pewc_optimised_validation'] = __( 'Validation', 'pewc' );
 
 				if ( ! defined( 'PR_HIDE_LICENSE' ) ) {
@@ -155,13 +160,19 @@ if( ! class_exists( 'PEWC_Settings_Tab' ) ) {
 		 * Custom setting for EDD SL licence key
 		 */
 		public function licence_key() {
-			$key = get_option( 'pewc_license_key' ); ?>
+			$key_from_constant = defined( 'PEWC_LICENSE_KEY' ) && PEWC_LICENSE_KEY;
+			$key = $key_from_constant ? PEWC_LICENSE_KEY : get_option( 'pewc_license_key' ); ?>
 			<tr valign="top">
 				<th scope="row" class="titledesc">
 					<?php _e( 'Licence key', 'pewc' ); ?>
 				</th>
 				<td class="forminp forminp-text">
-					<input name="pewc_license_key" id="pewc_license_key" type="password" style="" value="<?php echo $key; ?>" class="" placeholder="">
+					<?php if( $key_from_constant ) { ?>
+						<input name="pewc_license_key" id="pewc_license_key" type="password" style="" value="" class="" placeholder="<?php esc_attr_e( '(Preset)', 'pewc' ); ?>" disabled="disabled">
+						<p class="description"><?php _e( 'The license key is defined by a constant and cannot be changed here.', 'pewc' ); ?></p>
+					<?php } else { ?>
+						<input name="pewc_license_key" id="pewc_license_key" type="password" style="" value="<?php echo esc_attr( $key ); ?>" class="" placeholder="">
+					<?php } ?>
 				</td>
 			</tr>
 			<tr valign="top">

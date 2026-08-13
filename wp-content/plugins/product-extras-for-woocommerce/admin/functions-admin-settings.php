@@ -227,34 +227,6 @@ function pewc_get_general_settings() {
 			'id' => 'pewc_global_title'
 		),
 
-		'pewc_conditions_title' => array(
-			'name'     => __( 'Conditions', 'pewc' ),
-			'type'     => 'title',
-			'desc'     => '',
-			'id'       => 'pewc_conditions_title'
-		),
-		'pewc_reset_fields' => array(
-			'name'		=> __( 'Reset field values', 'pewc' ),
-			'type'		=> 'checkbox',
-			'desc_tip'	=> true,
-			'desc'		=> __( 'Reset field values to null when fields are hidden through a condition.', 'pewc' ),
-			'id'			=> 'pewc_reset_fields',
-			'default'	=> 'no',
-			'std'			=> 'no'
-		),
-		'pewc_disable_hidden_fields' => array(
-			'name'		=> __( 'Display hidden fields as disabled', 'pewc' ),
-			'type'		=> 'checkbox',
-			'desc_tip'	=> true,
-			'desc'		=> __( 'If a field is hidden by a condition, select this option to make it visible but disabled', 'pewc' ),
-			'id'		=> 'pewc_disable_hidden_fields',
-			'default'	=> 'no'
-		),
-		'gconditions_section_end' => array(
-			'type' => 'sectionend',
-			'id' => 'pewc_conditions_title'
-		),
-
 		'labels_section_title' => array(
 			'name'     => __( 'Labels', 'pewc' ),
 			'type'     => 'title',
@@ -907,6 +879,26 @@ function pewc_get_calculations_settings() {
 			'std'			=> 'no'
 		),
 
+		// 4.4.0
+		'pewc_recalculate_cart' => array(
+			'name'		=> __( 'Recalculate Calculation fields in cart (beta)', 'pewc' ),
+			'type'		=> 'checkbox',
+			'desc_tip'	=> true,
+			'desc'		=> __( 'Recalculate Calculation fields in cart when a product quantity is updated. Only works if a formula has the {quantity} tag.', 'pewc' ),
+			'id'		=> 'pewc_recalculate_cart',
+			'default'	=> 'no',
+			'std'		=> 'no'
+		),
+		'pewc_validate_calculation_fields' => array(
+			'name'		=> __( 'Validate Calculation fields (beta)', 'pewc' ),
+			'type'		=> 'checkbox',
+			'desc_tip'	=> true,
+			'desc'		=> __( 'Validate Calculation fields before a product is added to the cart.', 'pewc' ),
+			'id'		=> 'pewc_validate_calculation_fields',
+			'default'	=> 'no',
+			'std'		=> 'no'
+		),
+
 		'calculations_section_end' => array(
 			'type' => 'sectionend',
 			'id' => 'pewc_calculations_title'
@@ -1115,5 +1107,53 @@ function pewc_get_optimised_validation_settings() {
 	);
 
 	return apply_filters( 'pewc_optimised_validation_settings', $settings );
+
+}
+
+/**
+ * Get settings for Conditions
+ * @since 4.4.0
+ */
+function pewc_get_conditions_settings() {
+
+	$settings = array(
+		'conditions_title' => array(
+			'name'     => __( 'Conditions', 'pewc' ),
+			'type'     => 'title',
+			'desc'     => '',
+			'id'       => 'pewc_conditions_title'
+		),
+		'pewc_reset_fields' => array(
+			'name'		=> __( 'Reset field values', 'pewc' ),
+			'type'		=> 'checkbox',
+			'desc_tip'	=> true,
+			'desc'		=> __( 'Reset field values to null when fields are hidden through a condition.', 'pewc' ),
+			'id'			=> 'pewc_reset_fields',
+			'default'	=> 'no',
+			'std'			=> 'no'
+		),
+		'pewc_disable_hidden_fields' => array(
+			'name'		=> __( 'Display hidden fields as disabled', 'pewc' ),
+			'type'		=> 'checkbox',
+			'desc_tip'	=> true,
+			'desc'		=> __( 'If a field is hidden by a condition, select this option to make it visible but disabled.', 'pewc' ),
+			'id'		=> 'pewc_disable_hidden_fields',
+			'default'	=> 'no'
+		),
+		'pewc_ajax_conditions' => array(
+			'name'		=> __( 'Use AJAX conditions', 'pewc' ),
+			'type'		=> 'checkbox',
+			'desc_tip'	=> true,
+			'desc'		=> __( "Use AJAX when loading and managing conditions in the backend. Improves performance. Also allows you to use fields in other groups when 'Display groups as post type' is enabled", 'pewc' ),
+			'id'		=> 'pewc_ajax_conditions',
+			'default'	=> 'no'
+		),
+		'conditions_section_end' => array(
+			'type' => 'sectionend',
+			'id' => 'pewc_conditions_title'
+		),
+	);
+
+	return apply_filters( 'pewc_conditions_settings', $settings );
 
 }

@@ -99,7 +99,13 @@ if( ! isset( $group ) ) $group = array(); ?>
 				</label>
 			</div>
 			<div class="product-extra-field-inner pewc-fields-conditionals">
-				<?php include( PEWC_DIRNAME . '/templates/admin/views/group-condition.php' ); ?>
+				<?php
+				if ( pewc_use_ajax_conditions() ) {
+					// 4.4.0
+					include( PEWC_DIRNAME . '/templates/admin/views/group-ajax-condition.php' );
+				} else {
+					include( PEWC_DIRNAME . '/templates/admin/views/group-condition.php' );
+				} ?>
 			</div>
 		</div>
 

@@ -2,6 +2,7 @@
 //phpcs:disable
 use AdTribes\PFP\Helpers\Helper;
 use AdTribes\PFP\Helpers\Product_Feed_Helper;
+use AdTribes\PFP\Classes\Product_Data;
 use AdTribes\PFP\Classes\Shipping_Data;
 use AdTribes\PFP\Factories\Product_Feed;
 use AdTribes\PFP\Helpers\Formatting;
@@ -15,7 +16,7 @@ class WooSEA_Get_Products {
     /**
      * Maximum number of <photoUrl> children rendered inside a Merkandi <photos> element.
      *
-     * @since 13.6.0
+     * @since 13.5.5
      * @var int
      */
     const MERKANDI_MAX_PHOTOS = 7;
@@ -778,7 +779,7 @@ class WooSEA_Get_Products {
         }
 
         // Check if file exists, if it does: delete it first so we can create a new updated one
-        if ( file_exists( $file ) && $header == 'true' && $feed->total_products_processed == 0 ) {
+        if ( $header == 'true' && $feed->is_first_write_of_run() && file_exists( $file ) ) {
             unlink( $file );
         }
 
@@ -813,7 +814,7 @@ class WooSEA_Get_Products {
         // Some channels need their own feed config and XML namespace declarations (such as Google shopping)
         if ( $feed_config['taxonomy'] == 'google_shopping' ) {
             $namespace = array( 'g' => 'http://base.google.com/ns/1.0' );
-            if ( ( $header == 'true' ) && ( $feed->total_products_processed == 0 ) ) {
+            if ( ( $header == 'true' ) && $feed->is_first_write_of_run() ) {
                 $xml = new SimpleXMLElement( '<?xml version="1.0" encoding="UTF-8"?><rss xmlns:g="http://base.google.com/ns/1.0"></rss>' );
                 $xml->addAttribute( 'version', '2.0' );
                 $xml->addChild( 'channel' );
@@ -841,10 +842,7 @@ class WooSEA_Get_Products {
                 }
 
                 // Load XML without LIBXML_NOCDATA to preserve CDATA sections during batch processing.
-                $xml = simplexml_load_file( $file, 'SimpleXMLElement' );
-                if ( false === $xml ) {
-                    throw new \Exception( 'Failed to parse temporary XML feed file: ' . basename( $file ) );
-                }
+                $xml = Product_Feed_Helper::load_xml_feed_file( $file );
 
                 $aantal = count( $products );
 
@@ -955,7 +953,14 @@ class WooSEA_Get_Products {
                                                 $section_name_start   = str_replace( 'Pa ', '', $section_name_start );
                                                 $section_name_start   = str_replace( 'pa ', '', $section_name_start );
                                                 $section_name_start   = str_replace( '-', ' ', $section_name_start );
-                                                $section_name_start   = str_replace( 'Custom attributes ', '', $section_name_start );
+                                                // Strip the leading "Custom attributes" group-label prefix case-insensitively.
+                                                // It arrives in two casings: "Custom attributes ..." (capital C, plain path)
+                                                // or "custom attributes ..." (lowercase, the section/|| path — ucfirst() only
+                                                // capitalised the leading section token, which has since been removed). A
+                                                // case-sensitive str_replace missed the lowercase form, leaking the prefix
+                                                // into g:attribute_name. Anchor to the start so a real attribute name that
+                                                // merely contains the phrase is never altered.
+                                                $section_name_start   = preg_replace( '/^custom attributes\s+/i', '', $section_name_start );
                                                 $product_detail_name  = $this->add_xml_child_with_escaped_entities( $product_detail, 'g:attribute_name', ucfirst( $section_name_start ), $namespace['g'] );
                                                 $product_detail_value = $this->add_xml_child_with_escaped_entities( $product_detail, 'g:attribute_value', $product_detail_value, $namespace['g'] );
                                             }
@@ -963,20 +968,39 @@ class WooSEA_Get_Products {
                                     } elseif ( preg_match( '/g:consumer_notice/i', $k ) ) {
                                         if ( ! empty( $v ) ) {
                                             $notice = $product->addChild( 'consumer_notice', '', $namespace['g'] );
-                                            if ( str_contains( $v, 'prop 65' ) ) {
-                                                $notice_type = $notice->addChild( 'g:notice_type', 'prop 65', $namespace['g'] );
-                                                $v           = trim( str_replace( 'prop 65', '', $v ) );
-                                            } elseif ( str_contains( $v, 'safety warning' ) ) {
-                                                $notice_type = $notice->addChild( 'g:notice_type', 'safety warning', $namespace['g'] );
-                                                $v           = trim( str_replace( 'safety warning', '', $v ) );
-                                            } elseif ( str_contains( $v, 'legal disclaimer' ) ) {
-                                                $notice_type = $notice->addChild( 'g:notice_type', 'legal disclaimer', $namespace['g'] );
-                                                $v           = trim( str_replace( 'legal disclaimer', '', $v ) );
-                                            } else {
-                                                // No notice type set so we assume it is a safety warning
-                                                $notice_type = $notice->addChild( 'g:notice_type', 'safety warning', $namespace['g'] );
+
+                                            /*
+                                             * Google's Universal Commerce Protocol requires underscore enum
+                                             * values for notice_type ( prop_65 / safety_warning / legal_disclaimer ).
+                                             * Recognise both the space and underscore form of each type
+                                             * ( case-insensitively ), emit the UCP value, and strip the matched
+                                             * token from the notice message.
+                                             */
+                                            $notice_types = array(
+                                                'prop_65'          => array( 'prop_65', 'prop 65' ),
+                                                'safety_warning'   => array( 'safety_warning', 'safety warning' ),
+                                                'legal_disclaimer' => array( 'legal_disclaimer', 'legal disclaimer' ),
+                                            );
+
+                                            // Default per UCP when no recognisable type token is present. The
+                                            // type is a leading prefix on the mapped value, so match only at the
+                                            // start ( case-insensitively ) and strip just that prefix — anchoring
+                                            // the same way the g:attribute_name handling above does — so a message
+                                            // that merely contains the phrase is never altered.
+                                            $notice_type_value = 'safety_warning';
+                                            $trimmed_notice    = ltrim( $v );
+                                            foreach ( $notice_types as $ucp_value => $tokens ) {
+                                                foreach ( $tokens as $token ) {
+                                                    if ( stripos( $trimmed_notice, $token ) === 0 ) {
+                                                        $notice_type_value = $ucp_value;
+                                                        $v                 = trim( substr( $trimmed_notice, strlen( $token ) ) );
+                                                        break 2;
+                                                    }
+                                                }
                                             }
-                                            $notice_type = $this->add_xml_child_with_escaped_entities( $notice, 'g:notice_message', $v, $namespace['g'] );
+
+                                            $notice->addChild( 'g:notice_type', $notice_type_value, $namespace['g'] );
+                                            $this->add_xml_child_with_escaped_entities( $notice, 'g:notice_message', $v, $namespace['g'] );
                                         }
                                     } elseif ( $k == 'g:installment' ) {
                                         if ( ! empty( $v ) ) {
@@ -984,6 +1008,21 @@ class WooSEA_Get_Products {
                                             $installment        = $product->addChild( $k, '', $namespace['g'] );
                                             $installment_months = $this->add_xml_child_with_escaped_entities( $installment, 'g:months', $installment_split[0], $namespace['g'] );
                                             $installment_amount = $this->add_xml_child_with_escaped_entities( $installment, 'g:amount', $installment_split[1], $namespace['g'] );
+                                        }
+                                    } elseif ( $k == 'g:subscription_cost' ) {
+                                        if ( ! empty( $v ) ) {
+                                            // Google's subscription_cost is a nested attribute. The value
+                                            // arrives as a colon-delimited "period:period_length:amount"
+                                            // string (Google's own text format, e.g. "month:3:50.00 USD");
+                                            // split it into the nested period / period_length / amount
+                                            // children. Limit 3 so a stray ':' in the amount is preserved.
+                                            $subscription_split = explode( ':', $v, 3 );
+                                            if ( count( $subscription_split ) === 3 && '' !== trim( $subscription_split[2] ) ) {
+                                                $subscription_cost = $product->addChild( $k, '', $namespace['g'] );
+                                                $this->add_xml_child_with_escaped_entities( $subscription_cost, 'g:period', trim( $subscription_split[0] ), $namespace['g'] );
+                                                $this->add_xml_child_with_escaped_entities( $subscription_cost, 'g:period_length', trim( $subscription_split[1] ), $namespace['g'] );
+                                                $this->add_xml_child_with_escaped_entities( $subscription_cost, 'g:amount', trim( $subscription_split[2] ), $namespace['g'] );
+                                            }
                                         }
                                     } elseif ( $k == 'g:color' || $k == 'g:size' || $k == 'g:material' ) {
                                         if ( ! empty( $v ) ) {
@@ -1014,7 +1053,7 @@ class WooSEA_Get_Products {
                                         $v = $this->woosea_recursive_trim( $v );
                                         $k = trim( $k );
 
-                                        $this->woosea_write_individual_product_to_xml( $product, $k, $v, $feed_config, $channel_attributes, $feed );
+                                        $this->woosea_write_individual_product_to_xml( $product, $k, $v, $feed_config, $channel_attributes, $feed, $value );
                                     }
                                 }
                             }
@@ -1032,7 +1071,7 @@ class WooSEA_Get_Products {
         } else {
             $date = new \WC_DateTime( 'now', new \DateTimeZone( 'UTC' ) );
             $date = Formatting::date_iso8601( $date );
-            if ( ( $header == 'true' ) && ( $feed->total_products_processed == 0 ) || ! file_exists( $file ) ) {
+            if ( ( $header == 'true' ) && $feed->is_first_write_of_run() || ! file_exists( $file ) ) {
                 if ( $feed_config['name'] == 'Yandex' ) {
                     $main_currency = get_woocommerce_currency();
 
@@ -1043,7 +1082,19 @@ class WooSEA_Get_Products {
                     $shop = $xml->addChild( 'shop' );
                     $shop->addChild( 'name', htmlspecialchars( $feed->title ) );
                     $this->add_xml_child_with_escaped_entities( $shop, 'company', get_bloginfo() );
-                    $this->add_xml_child_with_escaped_entities( $shop, 'url', home_url() );
+                    /**
+                     * Filters the channel-level link/url element for non-Google product feeds.
+                     *
+                     * Shared by the Yandex, Zap.co.il, Salidzini.lv and Pinterest RSS Board feed
+                     * formats. Returns home_url() unless a callback overrides it (e.g. the WPML
+                     * translation addon returns the per-language domain during feed generation).
+                     *
+                     * @since 13.5.6
+                     *
+                     * @param string $url  The default channel link ( home_url() ).
+                     * @param object $feed The feed object.
+                     */
+                    $this->add_xml_child_with_escaped_entities( $shop, 'url', apply_filters( 'adt_pfp_feed_channel_link', home_url(), $feed ) );
                     // $shop->addChild('platform', 'WooCommerce');
                     $currencies = $shop->addChild( 'currencies' );
                     $currency   = $currencies->addChild( 'currency' );
@@ -1120,7 +1171,7 @@ class WooSEA_Get_Products {
                     $xml = new SimpleXMLElement( '<?xml version="1.0" encoding="utf-8"?><STORE></STORE>' );
                     $xml->addChild( 'datetime', $date );
                     $xml->addChild( 'title', htmlspecialchars( $feed->title ) );
-                    $this->add_xml_child_with_escaped_entities( $xml, 'link', home_url() );
+                    $this->add_xml_child_with_escaped_entities( $xml, 'link', apply_filters( 'adt_pfp_feed_channel_link', home_url(), $feed ) );
                     $xml->addChild( 'description', 'WooCommerce Product Feed PRO - This product feed is created with the free Advanced Product Feed PRO for WooCommerce plugin from AdTribes.io. For all your support questions check out our FAQ on https://www.adtribes.io or e-mail to: support@adtribes.io ' );
                     $xml->addChild( 'agency', 'AdTribes.io' );
                     $xml->addChild( 'email', 'support@adtribes.io' );
@@ -1129,7 +1180,7 @@ class WooSEA_Get_Products {
                     $xml = new SimpleXMLElement( '<?xml version="1.0" encoding="utf-8"?><root></root>' );
                     $xml->addChild( 'datetime', $date );
                     $xml->addChild( 'title', htmlspecialchars( $feed->title ) );
-                    $this->add_xml_child_with_escaped_entities( $xml, 'link', home_url() );
+                    $this->add_xml_child_with_escaped_entities( $xml, 'link', apply_filters( 'adt_pfp_feed_channel_link', home_url(), $feed ) );
                     $xml->addChild( 'description', 'WooCommerce Product Feed PRO - This product feed is created with the free Advanced Product Feed PRO for WooCommerce plugin from AdTribes.io. For all your support questions check out our FAQ on https://www.adtribes.io or e-mail to: support@adtribes.io ' );
                     $xml->addChild( 'agency', 'AdTribes.io' );
                     $xml->addChild( 'email', 'support@adtribes.io' );
@@ -1188,10 +1239,7 @@ class WooSEA_Get_Products {
                     throw new \Exception( 'Temporary feed file is not valid XML: ' . basename( $file ) );
                 }
 
-                $xml = simplexml_load_file( $file );
-                if ( false === $xml ) {
-                    throw new \Exception( 'Failed to parse temporary XML feed file: ' . basename( $file ) );
-                }
+                $xml = Product_Feed_Helper::load_xml_feed_file( $file );
 
                 $aantal = count( $products );
 
@@ -1231,7 +1279,7 @@ class WooSEA_Get_Products {
                         $productz = $xml->addChild( 'channel' );
                         $productz = $this->add_xml_child_with_escaped_entities( $xml->channel, 'title', get_bloginfo( 'name' ) );
                         $productz = $xml->channel->addChild( 'description', htmlspecialchars( $feed->title ) );
-                        $productz = $this->add_xml_child_with_escaped_entities( $xml->channel, 'link', home_url() );
+                        $productz = $this->add_xml_child_with_escaped_entities( $xml->channel, 'link', apply_filters( 'adt_pfp_feed_channel_link', home_url(), $feed ) );
                         $productz = $xml->channel->addChild( 'generator', 'Product Feed Pro for WooCommerce by AdTribes.io' );
                         $productz = $xml->channel->addChild( 'lastBuildDate', $date );
                         $atom_link = $xml->channel->addChild( 'atom:link', '', 'http://www.w3.org/2005/Atom' );
@@ -1488,7 +1536,7 @@ class WooSEA_Get_Products {
                                  * Wholesale/Elite integrations can populate this from quantity-based
                                  * price rules. Empty by default (flat <price> is used).
                                  *
-                                 * @since 13.6.0
+                                 * @since 13.5.5
                                  *
                                  * @param array  $tiers The pricing tiers. Empty by default.
                                  * @param array  $value The mapped product data (includes sku, id, price, etc.).
@@ -1506,7 +1554,7 @@ class WooSEA_Get_Products {
                                 $k = trim( $k );
                                 $v = $this->woosea_recursive_trim( $v );
 
-                                $this->woosea_write_individual_product_to_xml( $product, $k, $v, $feed_config, $channel_attributes, $feed );
+                                $this->woosea_write_individual_product_to_xml( $product, $k, $v, $feed_config, $channel_attributes, $feed, $value );
                             }
                         }
                     }
@@ -1950,8 +1998,9 @@ class WooSEA_Get_Products {
      * @param array $feed_config
      * @param array $channel_attributes
      * @param object $feed
+     * @param array $product_data The mapped product data array (used for Mall.sk VARIABLE_PARAMS).
      */
-    private function woosea_write_individual_product_to_xml( $product, $k, $v, $feed_config, $channel_attributes, $feed ) {
+    private function woosea_write_individual_product_to_xml( $product, $k, $v, $feed_config, $channel_attributes, $feed, $product_data = array() ) {
         /**
          * General filter for any attribute to allow external handling (e.g., for OpenAI or future feeds).
          * 
@@ -2162,9 +2211,9 @@ class WooSEA_Get_Products {
                         $this->add_xml_child_with_escaped_entities( $productp, 'VAL', $v );
                     }
                 } elseif ( ( $feed_config['name'] == 'Mall.sk' ) && ( $k == 'VARIABLE_PARAMS' ) ) {
-                    if ( isset( $value['ITEMGROUP_ID'] ) ) {
+                    if ( isset( $product_data['ITEMGROUP_ID'] ) ) {
                         $productvp          = $product->addChild( 'VARIABLE_PARAMS' );
-                        $product_variations = new WC_Product_Variation( $value['ID'] );
+                        $product_variations = new WC_Product_Variation( $product_data['ID'] );
                         if ( is_object( $product_variations ) ) {
                             $variations = $product_variations->get_variation_attributes( false );
                             foreach ( $variations as $k => $v ) {
@@ -2197,10 +2246,8 @@ class WooSEA_Get_Products {
                     $productp = $product->addChild( 'MEDIA' );
                     $this->add_xml_child_with_escaped_entities( $productp, 'URL', $v );
                     $productp->addChild( 'MAIN', 'false' );
-                } elseif ( ( ( $feed_config['name'] == 'Zbozi.cz' ) || ( $feed_config['name'] == 'Heureka.cz' ) ) && ( $k == 'DELIVERY' ) ) {
-                    $delivery       = $product->addChild( 'DELIVERY' );
-                    $delivery_split = explode( '##', $v );
-                    $nr_split       = count( $delivery_split );
+                } elseif ( ( ( $feed_config['name'] == 'Zbozi.cz' ) || ( $feed_config['name'] == 'Heureka.cz' ) || ( $feed_config['name'] == 'Heureka.sk' ) ) && ( $k == 'DELIVERY' ) ) {
+                    $delivery = $product->addChild( 'DELIVERY' );
 
                     $zbozi_delivery_id = array(
                         0  => 'CESKA_POSTA_BALIKOVNA',
@@ -2236,30 +2283,70 @@ class WooSEA_Get_Products {
                         30 => 'VLASTNI_PREPRAVA',
                     );
 
-                    if ( $nr_split == 7 ) {
-                        $delivery_id_split    = explode( ' ', $delivery_split[2] );
-                        $delivery_price_split = explode( '||', $delivery_split[3] );
-                        $delivery_id          = $delivery->addChild( 'DELIVERY_ID', htmlspecialchars( $delivery_id_split[0] ) );
-
-                        $delivery_price_split[0] = str_replace( 'EUR', '', $delivery_price_split[0] );
-                        $delivery_price_split[0] = str_replace( 'CZK', '', $delivery_price_split[0] );
-
-                        $delivery_price     = $delivery->addChild( 'DELIVERY_PRICE', trim( htmlspecialchars( $delivery_price_split[0] ) ) );
-                        $delivery_price_cod = $delivery->addChild( 'DELIVERY_PRICE_COD', trim( htmlspecialchars( $delivery_split[6] ) ) );
-                    } elseif ( $nr_split > 1 ) {
-                        $zbozi_split = explode( ' ', $delivery_split[2] );
-                        foreach ( $zbozi_split as $zbozi_id ) {
-                            if ( in_array( $zbozi_id, $zbozi_delivery_id ) ) {
-                                $delivery_split[2] = $zbozi_id;
+                    // Parse the WOOSEA_*##-encoded shipping string into structured
+                    // delivery methods. Format: "WOOSEA_KEY##value:WOOSEA_KEY##value||..."
+                    // where "||" separates shipping methods and ":" separates the fields
+                    // within a method. This replaces the earlier positional parsing that
+                    // only produced a DELIVERY_PRICE_COD when the "##" count was exactly 7
+                    // (the coincidental 2-method case) and mangled the price otherwise —
+                    // standalone local pickup (WC 8.3+ Checkout block) adds address fields
+                    // that break that assumption. See issues #973 and #974.
+                    $delivery_methods = array();
+                    foreach ( explode( '||', $v ) as $delivery_method_str ) {
+                        if ( '' === trim( $delivery_method_str ) ) {
+                            continue;
+                        }
+                        $delivery_method_fields = array();
+                        foreach ( explode( ':', $delivery_method_str ) as $delivery_field_str ) {
+                            $delivery_field_parts = explode( '##', $delivery_field_str, 2 );
+                            if ( count( $delivery_field_parts ) === 2 ) {
+                                $delivery_method_fields[ $delivery_field_parts[0] ] = $delivery_field_parts[1];
                             }
                         }
+                        if ( ! empty( $delivery_method_fields ) ) {
+                            $delivery_methods[] = $delivery_method_fields;
+                        }
+                    }
 
-                        $delivery_split[3] = str_replace( 'EUR', '', $delivery_split[3] );
-                        $delivery_split[3] = str_replace( 'CZK', '', $delivery_split[3] );
+                    if ( ! empty( $delivery_methods ) ) {
+                        $first_delivery_method = $delivery_methods[0];
 
-                        $delivery_id     = $delivery->addChild( 'DELIVERY_ID', htmlspecialchars( $delivery_split[2] ) );
-                        $del_price_split = explode( ' ', trim( $delivery_split[3] ) );
-                        $delivery_id     = $delivery->addChild( 'DELIVERY_PRICE', trim( htmlspecialchars( $delivery_split[3] ) ) );
+                        // DELIVERY_ID: prefer a recognised carrier code found in the
+                        // service name, otherwise fall back to its first token.
+                        $delivery_service  = $first_delivery_method['WOOSEA_SERVICE'] ?? '';
+                        $delivery_id_value = '';
+                        foreach ( explode( ' ', $delivery_service ) as $delivery_service_token ) {
+                            if ( in_array( $delivery_service_token, $zbozi_delivery_id, true ) ) {
+                                $delivery_id_value = $delivery_service_token;
+                                break;
+                            }
+                        }
+                        if ( '' === $delivery_id_value ) {
+                            $delivery_service_tokens = explode( ' ', trim( $delivery_service ) );
+                            $delivery_id_value       = $delivery_service_tokens[0];
+                        }
+                        // Omit DELIVERY_ID entirely when the method carries no service
+                        // name, mirroring how DELIVERY_PRICE_COD is omitted when absent.
+                        if ( '' !== $delivery_id_value ) {
+                            $delivery->addChild( 'DELIVERY_ID', htmlspecialchars( $delivery_id_value ) );
+                        }
+
+                        // Prepare a delivery price for output: strip currency labels,
+                        // escape entities, and trim. Shared by DELIVERY_PRICE and
+                        // DELIVERY_PRICE_COD so both go through the same transformation.
+                        $prepare_delivery_price = function ( $price ) {
+                            return trim( htmlspecialchars( str_replace( array( 'EUR', 'CZK' ), '', $price ) ) );
+                        };
+
+                        // DELIVERY_PRICE: the first method's price, stripped of currency labels.
+                        $delivery->addChild( 'DELIVERY_PRICE', $prepare_delivery_price( $first_delivery_method['WOOSEA_PRICE'] ?? '' ) );
+
+                        // DELIVERY_PRICE_COD: the second method's price is treated as the
+                        // cash-on-delivery price, preserving the historical behaviour where
+                        // a second shipping method encoded the COD / pickup price.
+                        if ( isset( $delivery_methods[1]['WOOSEA_PRICE'] ) ) {
+                            $delivery->addChild( 'DELIVERY_PRICE_COD', $prepare_delivery_price( $delivery_methods[1]['WOOSEA_PRICE'] ) );
+                        }
                     }
                 } elseif ( ( $feed_config['name'] == 'Yandex' ) && ( preg_match( '/picture/i', $k ) ) ) {
                     // do nothing, was added already
@@ -2375,7 +2462,7 @@ class WooSEA_Get_Products {
      * and every other field as a plain (entity-escaped) child. Empty values are
      * skipped so the feed never contains blank tags.
      *
-     * @since 13.6.0
+     * @since 13.5.5
      *
      * @param object $product The product XML element.
      * @param string $k       The attribute key (feed tag name).
@@ -2434,7 +2521,7 @@ class WooSEA_Get_Products {
      * <qTo> and <price> sub-tags as required by the Merkandi spec. When this is
      * used the flat <price> tag is omitted by the caller.
      *
-     * @since 13.6.0
+     * @since 13.5.5
      *
      * @param object $product The product XML element.
      * @param array  $tiers   List of tiers: array( 'qFrom' => int, 'qTo' => int, 'price' => string ).
@@ -2666,7 +2753,7 @@ class WooSEA_Get_Products {
         }
 
         // Check if file exists, if it does: delete it first so we can create a new updated one
-        if ( ( file_exists( $file ) ) && ( $feed->total_products_processed == 0 ) && ( $header == 'true' ) ) {
+        if ( ( $header == 'true' ) && $feed->is_first_write_of_run() && file_exists( $file ) ) {
             @unlink( $file );
         }
 
@@ -2683,8 +2770,11 @@ class WooSEA_Get_Products {
         // Append or write to file
         $fp = fopen( $file, 'a+' );
 
-        // Set proper UTF encoding BOM for CSV files
-        if ( $header == 'true' && ! preg_match( '/fruugo/i', $fields ) ) {
+        // Set proper UTF encoding BOM for CSV files.
+        // Pinterest's CSV parser reads the BOM as part of the first column header
+        // (e.g. "\xEF\xBB\xBFid" instead of "id"), so it cannot find the required
+        // "id" field and aborts ingestion with Error 9156. Exclude it like Fruugo.
+        if ( $header == 'true' && ! preg_match( '/fruugo|pinterest/i', $fields ) ) {
             fputs( $fp, $bom = chr( 0xEF ) . chr( 0xBB ) . chr( 0xBF ) );
         }
 
@@ -2840,9 +2930,16 @@ class WooSEA_Get_Products {
      *
      * @since 13.3.5 Updated the parameters to feed id.
      * @since 13.4.1 Add offset and batch size parameters.
+     * @since 13.5.7 Batches page with a keyset cursor ($feed->batch_cursor) instead of
+     *               LIMIT/OFFSET; $offset is only a fallback for a run started before
+     *               the cursor existed.
      *
      * @param Product_Feed $feed The product feed instance.
-     * @param int          $offset The offset of the batch.
+     * @param int          $offset The offset of the batch. Only used as a fallback, on either of the
+     *                             two triggers that disable the cursor: the feed has no batch cursor
+     *                             yet (first batch of a run, or a run started before the cursor
+     *                             existed), or a filter changed the query's orderby away from the
+     *                             ( post_date DESC, ID DESC ) order the cursor is built on.
      * @param int          $batch_size The batch size.
      */
     public function woosea_get_products( $feed, $offset = 0, $batch_size = 0 ) {
@@ -2850,10 +2947,18 @@ class WooSEA_Get_Products {
             return;
         }
 
-        $nr_products_processed = $feed->total_products_processed;
-        $file_format           = $feed->file_format;
-        $feed_channel          = $feed->channel;
-        $feed_mappings         = $feed->mappings;
+        $file_format   = $feed->file_format;
+        $feed_channel  = $feed->channel;
+        $feed_mappings = $feed->mappings;
+
+        // Resolve once per batch, before anything touches the file: the first batch
+        // of a run starts the feed file - truncating whatever the last run left and
+        // writing the header - and every later batch appends to it. Asking here
+        // rather than only inside the writers means the answer is settled even for
+        // the writers that ask behind a file_exists() check, which on the very
+        // first batch would otherwise skip the question and leave the file
+        // unclaimed for the next batch to truncate.
+        $starts_feed_file = $feed->is_first_write_of_run();
 
         /**
          * Filter the feed attributes before processing products.
@@ -2896,7 +3001,10 @@ class WooSEA_Get_Products {
             $jsonl_writer = \AdTribes\PFP\Classes\Feed_Writers\Feed_Writer_JSONL::instance();
             $file         = $jsonl_writer->write_feed( array(), $feed, true );
         } elseif ( $file_format != 'xml' ) {
-            if ( ! empty( $feed_attributes ) && $nr_products_processed == 0 ) {
+            // The header row belongs to the batch that starts the file, which is the
+            // same batch that truncates it - keep both decisions on one predicate so
+            // a truncated file can never end up without its header.
+            if ( ! empty( $feed_attributes ) && $starts_feed_file ) {
                 $attr = '';
                 foreach ( $feed_attributes as $feed_attribute ) {
                     $attr .= "'" . $feed_attribute['attribute'] . "'";
@@ -2972,7 +3080,6 @@ class WooSEA_Get_Products {
         $preview_target_count = 0;
         $preview_found_count = 0;
         $preview_batch_size = 50;
-        $preview_query_offset = 0;
         $preview_max_queries = 20; // Prevent infinite loops (50 * 20 = 1000 products max)
         $preview_query_count = 0;
 
@@ -2982,7 +3089,6 @@ class WooSEA_Get_Products {
             $preview_batch_size = apply_filters( 'adt_product_feed_preview_batch_size', 50, $feed );
             $preview_max_queries = apply_filters( 'adt_product_feed_preview_max_queries', 20, $feed );
             $posts_per_page = $preview_batch_size;
-            $preview_query_offset = $offset;
         } else {
             $posts_per_page = $batch_size;
         }
@@ -3003,15 +3109,53 @@ class WooSEA_Get_Products {
             ? \AdTribes\PFP\Helpers\Image_Size_Validator::get_min_dimensions( $feed_channel )
             : array( 'width' => 0, 'height' => 0 );
 
+        // Batch pagination cursor (keyset pagination).
+        //
+        // The catalogue is walked in (post_date DESC, ID DESC) order and every batch
+        // resumes strictly after the last row of the previous one. LIMIT/OFFSET is not
+        // safe here: post_date is not unique - variations created in bulk share it down
+        // to the second - so rows with an equal post_date form tie groups whose internal
+        // order is not guaranteed to be the same in two separate queries. A tie group
+        // straddling a batch boundary could then be returned by both batches (duplicated
+        // in the feed) or by neither (silently missing from the feed).
+        //
+        // Only a well-formed cursor is honoured; anything else falls back to the offset
+        // below, so a run already in flight when the plugin was updated still resumes
+        // from where it was instead of starting over.
+        //
+        // Preview mode never seeds the cursor from the feed and never persists it back,
+        // but it is not cursor-free: the local $batch_cursor is advanced after every
+        // query below, so a multi-query preview pages its 2nd and later iterations by
+        // cursor rather than by offset. That is deliberate - it gives preview the same
+        // tie-group correctness as a real run - and it is why the ! $use_cursor offset
+        // branch stops firing once a preview goes past its first query.
+        $batch_cursor = array();
+        if ( ! $is_preview_mode && Product_Data::is_valid_cursor( $feed->batch_cursor ) ) {
+            $batch_cursor = array(
+                'date' => (string) $feed->batch_cursor['date'],
+                'id'   => (int) $feed->batch_cursor['id'],
+            );
+        }
+
+        // The order the cursor is built on. A cursor only means anything while the query
+        // still sorts by these columns, which is checked after the query args filter.
+        $keyset_orderby = array(
+            'date' => 'DESC',
+            'ID'   => 'DESC',
+        );
+
         // Main product query loop - will iterate multiple times in preview mode if needed
         do {
             // Construct WP query
             $wp_query = array(
                 'post_type'              => $post_type,
                 'posts_per_page'         => $posts_per_page,
-                'offset'                 => $is_preview_mode ? $preview_query_offset : $offset,
                 'post_status'            => 'publish',
-                'orderby'                => 'date',
+                // A total order: post_date on its own is not unique, so ID breaks the
+                // ties and makes the row order identical for every query of the run.
+                'orderby'                => $keyset_orderby,
+                // Redundant while orderby carries its own direction, but kept so a filter
+                // that replaces orderby with a single column still sorts descending.
                 'order'                  => 'desc',
                 'fields'                 => 'ids',
                 'no_found_rows'          => true,
@@ -3021,7 +3165,13 @@ class WooSEA_Get_Products {
                 'suppress_filters'       => false,
                 'custom_query'           => 'adt_published_products_and_variations', // Custom flag to trigger the filter
                 'post_password'          => '',
+                // Resume point for this batch. @see Product_Data::apply_batch_cursor().
+                Product_Data::BATCH_CURSOR_QUERY_ARG => $batch_cursor,
             );
+
+            if ( $offset > 0 ) {
+                $wp_query['offset'] = $offset;
+            }
 
             /**
              * Filter the WP_Query arguments for getting products.
@@ -3032,6 +3182,78 @@ class WooSEA_Get_Products {
              * @param Product_Feed $feed     The product feed instance.
              */
             $wp_query = apply_filters( 'adt_product_feed_get_products_query_args', $wp_query, $feed );
+
+            // Exactly one pagination mechanism may be in play. The cursor skips rows by
+            // their (post_date, ID) sort key, so it is only sound while the query is still
+            // sorted that way: if a filter re-ordered the query, or there is no cursor yet
+            // (first batch, or a run that started before this file was updated), fall back
+            // to LIMIT/OFFSET.
+            //
+            // The sort directions are upper-cased before comparing because WP_Query treats
+            // 'desc' and 'DESC' as the same thing - a filter that rebuilds the same order in
+            // lowercase must keep the cursor, not silently revert the run to OFFSET paging.
+            // The column keys are compared as they are, since WP_Query matches those against
+            // its own whitelist strictly ('id' is not 'ID' to it either).
+            //
+            // Only scalars are cast: the cast itself is load-bearing (it keeps PHP 8.1 from
+            // deprecating strtoupper( null )), but a filter that set a direction to an array
+            // would make it emit an "Array to string conversion" warning on the way to the
+            // fallback. Left as-is, a non-scalar simply fails the match, quietly.
+            $query_orderby = isset( $wp_query['orderby'] ) ? $wp_query['orderby'] : null;
+            $use_cursor    = ! empty( $batch_cursor )
+                && is_array( $query_orderby )
+                && array_map(
+                    static function ( $direction ) {
+                        return is_scalar( $direction ) ? strtoupper( (string) $direction ) : $direction;
+                    },
+                    $query_orderby
+                ) === $keyset_orderby;
+
+            // A cursor that exists but cannot be used means a filter re-ordered the query and
+            // this batch drops back to the LIMIT/OFFSET paging the cursor replaced. Say so:
+            // the symptom - rows duplicated or missing around a batch boundary - is otherwise
+            // invisible, and looks identical to "no cursor yet" from the outside.
+            //
+            // Rate-limited to one entry per feed per hour. The trigger is a filter, so it
+            // holds for every batch of the run: logging it per batch would put N-1 identical
+            // lines in front of everything else in the log. The transient outlives a single
+            // run on purpose - this describes a standing misconfiguration, not an event.
+            //
+            // The transient rate-limits the log entry, but reading it is itself two
+            // uncached queries without a persistent object cache, and this block can run
+            // more than once per process: Action Scheduler may work through several of a
+            // feed's batches in one request, and a preview pages in a loop. One check per
+            // feed per process is enough - after the first, this process either wrote the
+            // transient or found it already set.
+            static $cursor_notice_checked = array();
+
+            if ( ! empty( $batch_cursor ) && ! $use_cursor && empty( $cursor_notice_checked[ $feed->id ] )
+                && 'yes' === get_option( 'adt_enable_logging', 'no' )
+            ) {
+                $cursor_notice_checked[ $feed->id ] = true;
+
+                $cursor_notice_key = 'adt_cursor_disabled_notice_' . $feed->id;
+
+                if ( false === get_transient( $cursor_notice_key ) ) {
+                    set_transient( $cursor_notice_key, 1, HOUR_IN_SECONDS );
+
+                    $logger = new \WC_Logger();
+                    $logger->add(
+                        'Product Feed Pro by AdTribes.io',
+                        sprintf(
+                            'Batch cursor disabled for feed #%d: the "adt_product_feed_get_products_query_args" filter changed the query orderby away from ( post_date DESC, ID DESC ), so this run falls back to LIMIT/OFFSET paging.',
+                            $feed->id
+                        ),
+                        'warning'
+                    );
+                }
+            }
+
+            if ( $use_cursor ) {
+                unset( $wp_query['offset'] );
+            } else {
+                unset( $wp_query[ Product_Data::BATCH_CURSOR_QUERY_ARG ] );
+            }
 
             $prods = new WP_Query( $wp_query );
 
@@ -3047,8 +3269,17 @@ class WooSEA_Get_Products {
                 \AdTribes\PFP\Helpers\Image_Size_Validator::prime_caches_for_products( $prods->posts );
             }
 
+            // Last row this query walked, in query order. Reset per query so an empty
+            // result leaves the cursor where it was.
+            $batch_last_id = 0;
+
         while ( $prods->have_posts() ) :
             $prods->the_post();
+
+            // Every row that is walked advances the resume point, including the ones
+            // skipped further down by the feed filters - a skipped row must not be
+            // fetched again by the next batch.
+            $batch_last_id = (int) get_the_ID();
 
             $attr_line   = '';
             $catname     = array();
@@ -3132,6 +3363,9 @@ class WooSEA_Get_Products {
             $product_data['visibility']              = $catalog_visibility;
             $product_data['boolean_true']            = 'true';
             $product_data['boolean_false']           = 'false';
+
+            // WooCommerce base country (used by e.g. the OpenAI feed target_countries/store_country fields).
+            $product_data['base_country']            = WC()->countries->get_base_country();
 
             // Site URL 
             $product_data['site_url'] = get_site_url();
@@ -3582,7 +3816,7 @@ class WooSEA_Get_Products {
             unset( $virtual );
 
             $product_data['menu_order'] = get_post_field( 'menu_order', $product_data['id'] );
-            $product_data['currency']   = apply_filters( 'adt_product_data_currency', get_woocommerce_currency() );
+            $product_data['currency']   = Product_Feed_Helper::get_product_data_currency();
 
             if ( $product->is_on_sale() ) {
                 $sales_price_date_from                     = Formatting::format_date( $product->get_date_on_sale_from(), $feed );
@@ -4072,7 +4306,7 @@ class WooSEA_Get_Products {
                 ) ) ||
 
                 // Check for specific channel types that require shipping
-                in_array( $feed_channel['fields'], [ 'trovaprezzi', 'idealo', 'customfeed' ], true )
+                in_array( $feed_channel['fields'], [ 'trovaprezzi', 'idealo', 'customfeed', 'zbozi', 'heureka' ], true )
             );
 
             // Fetch shipping data only once if required
@@ -4751,8 +4985,10 @@ class WooSEA_Get_Products {
                         $custom_kk = str_replace( 'attribute_', '', $custom_kk );
                         $new_key   = 'custom_attributes_' . $custom_kk;
 
-                        // In order to make the mapping work again, replace var by product
-                        $new_key = str_replace( 'var', 'product', $new_key );
+                        // #567: do NOT re-enable the str_replace( 'var', 'product' ) below - it corrupts
+                        // any variation meta key containing 'var' (e.g. ..._variation_1 -> ..._productiation_1),
+                        // so the value no longer matches the raw custom_attributes_ mapping key and is dropped.
+                        // $new_key = str_replace( 'var', 'product', $new_key );
                         if ( ! empty( $custom_value ) ) {
                             $product_data[ $new_key ] = $custom_value;
                         }
@@ -4799,7 +5035,9 @@ class WooSEA_Get_Products {
                         $new_key_m      = 'custom_attributes_' . $custom_kk_m;
 
                         if ( ! is_array( $custom_value_m ) ) {
-                            // In order to make the mapping work again, replace var by product
+                            // #567: do NOT re-enable the str_replace( 'var', 'product' ) below - it corrupts
+                            // any meta key containing 'var', so the value no longer matches the raw
+                            // custom_attributes_ mapping key and is dropped.
                             // $new_key_m = str_replace("var","product",$new_key_m);
                             if ( ! key_exists( $new_key_m, $product_data ) && ( ! empty( $custom_value_m ) ) ) {
                                 if ( is_array( $custom_value_m ) ) {
@@ -5569,7 +5807,8 @@ class WooSEA_Get_Products {
                                                     } elseif ( $k == 'service' ) {
                                                         $shipping_str .= ':WOOSEA_SERVICE##' . sanitize_text_field( $v );
                                                     } elseif ( $k == 'postal_code' ) {
-                                                        $shipping_str .= ':WOOSEA_POSTAL_CODE##' . sanitize_text_field( $v );
+                                                        $formatted_postal_code = Product_Feed_Helper::format_shipping_postal_code( $v, isset( $value['country'] ) ? $value['country'] : '' );
+                                                        $shipping_str          .= ':WOOSEA_POSTAL_CODE##' . sanitize_text_field( $formatted_postal_code );
                                                     } elseif ( $k == 'price' ) {
                                                         $shipping_str .= ':WOOSEA_PRICE##' . sanitize_text_field( $attr_value['prefix'] ) . sanitize_text_field( $v ) . sanitize_text_field( $attr_value['suffix'] );
                                                     } elseif ( $k == 'min_transit_time' ) {
@@ -5637,6 +5876,15 @@ class WooSEA_Get_Products {
                                                 $xml_product[ $attr_attribute . "_$ga" ] = "$attr_value[prefix]" . $attr_data_value . "$attr_value[suffix]";
                                             } elseif ( $attr_attribute == 'g:product_detail' ) {
                                                 $xml_product[ $attr_attribute . "_$ga" ] = "$attr_value[prefix]||" . $attr_map_from . '#' . $attr_data_value . "$attr_value[suffix]";
+                                            } elseif ( str_contains( $attr_attribute, 'g:additional_image_link' ) ) {
+                                                // Skip empty additional image slots. When the product has no image
+                                                // for this slot but a prefix/suffix is configured, the composed
+                                                // value (e.g. "?gla090723_04") is non-empty and slips past the
+                                                // output-stage empty guard, emitting an invalid node. Mirror the
+                                                // guard already applied on the first-occurrence path below.
+                                                if ( $attr_data_value !== '' ) {
+                                                    $xml_product[ $attr_attribute . "_$ca_extra" ] = "$attr_value[prefix]" . $attr_data_value . "$attr_value[suffix]";
+                                                }
                                             } else {
                                                 $xml_product[ $attr_attribute . "_$ca_extra" ] = "$attr_value[prefix]" . $attr_data_value . "$attr_value[suffix]";
                                             }
@@ -5735,11 +5983,33 @@ class WooSEA_Get_Products {
         wp_reset_query();
         wp_reset_postdata();
 
+            // Advance the cursor to the last row this query walked. The query itself only
+            // selected IDs, so the sort key of that one row is read here - a single read
+            // per batch, not per product.
+            //
+            // In practice this is a cache hit rather than a query: the row loop above ran
+            // wc_get_product() on this same ID, which primes WP's post cache. That is an
+            // optimisation, not a requirement - if the cache is ever cold the worst case is
+            // one extra single-row lookup per batch.
+            if ( $batch_last_id > 0 ) {
+                $batch_last_date = get_post_field( 'post_date', $batch_last_id, 'raw' );
+
+                if ( ! empty( $batch_last_date ) ) {
+                    $batch_cursor = array(
+                        'date' => $batch_last_date,
+                        'id'   => $batch_last_id,
+                    );
+                }
+            }
+
+            // Keep the fallback paging moving too, so a preview whose query was re-ordered
+            // by a filter still advances over its queries instead of re-reading one window.
+            if ( ! $use_cursor ) {
+                $offset += $last_query_post_count;
+            }
+
             // Preview mode: Check if we need to query more products
             if ( $is_preview_mode ) {
-                // Update offset for next query
-                $preview_query_offset += $preview_batch_size;
-
                 // Continue querying if:
                 // 1. We haven't found enough products yet
                 // 2. We haven't exceeded max queries
@@ -5774,6 +6044,13 @@ class WooSEA_Get_Products {
                 unset( $xml_piece );
             }
             unset( $products );
+        }
+
+        // Hand the resume point to the next batch of this run. Preview mode pages
+        // entirely within this request, so it keeps its cursor local and never persists
+        // it onto the feed.
+        if ( ! $is_preview_mode ) {
+            $feed->batch_cursor = $batch_cursor;
         }
 
         $feed->save();

@@ -7,6 +7,8 @@ Disallow: /*?e-page-*
 Disallow: /*/feed/
 Disallow: /feed/
 Disallow: /*add-to-cart=*
+Disallow: /*pr_prod_strat=*
+Disallow: /*pr_rec_id=*
 
 Allow: /wp-admin/admin-ajax.php
 

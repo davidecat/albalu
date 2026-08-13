@@ -13,11 +13,13 @@ use AdTribes\PFP\Factories\Product_Feed_Query;
 use AdTribes\PFP\Factories\Product_Feed;
 use AdTribes\PFP\Classes\Google_Product_Taxonomy_Fetcher;
 use AdTribes\PFP\Classes\Notices;
+use AdTribes\PFP\Classes\Setup_Checklist;
 
 // Updates.
 use AdTribes\PFP\Updates\Version_13_3_5_Update;
 use AdTribes\PFP\Updates\Version_13_4_8_Update;
 use AdTribes\PFP\Updates\Version_13_5_5_Update;
+use AdTribes\PFP\Updates\Version_13_5_6_Update;
 
 /**
  * Activation class.
@@ -96,6 +98,16 @@ class Activation extends Abstract_Class {
          */
         ( new Version_13_5_5_Update() )->run();
 
+        /***************************************************************************
+         * Version 13.5.6 Update
+         ***************************************************************************
+         *
+         * Renames stored OpenAI feed output-field keys to the GA spec names so
+         * existing OpenAI feeds become spec-compliant without a manual re-save
+         * (issue #985).
+         */
+        ( new Version_13_5_6_Update() )->run();
+
         // Update current installed plugin version.
         update_site_option( ADT_PFP_OPTION_INSTALLED_VERSION, Helper::get_plugin_version() );
 
@@ -119,6 +131,10 @@ class Activation extends Abstract_Class {
          */
         if ( ! get_option( 'woosea_first_activation' ) ) {
             update_option( 'woosea_first_activation', time(), false );
+
+            // Opt fresh installs into the Manage Feeds "Getting Started" setup
+            // checklist. Non-autoloaded, matching the plugin option convention.
+            update_option( Setup_Checklist::OPTION_ELIGIBLE, 'yes', false );
         }
 
         if ( ! get_option( 'woosea_count_activation' ) ) {

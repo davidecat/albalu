@@ -67,7 +67,12 @@ if( ! class_exists( 'PEWC_Product_Extra_Post_Type' ) ) {
 					$deps[] = 'jquery-tiptip';
 				}
 
-				wp_enqueue_style( 'pewc-admin-style', trailingslashit( PEWC_PLUGIN_URL ) . 'assets/css/admin-style.css', array(), $version );
+				// 4.3.17, the original stylesheet contains a copy of WooCommerce's styles which conflicts with the newer WC version's stylesheet
+				// In the updated admin-style.css, the copy of WC's style has been removed, but allow customers to revert back to the original
+				// in case there is an unforeseen side effect?
+				$admin_css_file = ! apply_filters( 'pewc_use_original_admin_stylesheet', false ) ? 'admin-style.css' : 'admin-style-old.css';
+
+				wp_enqueue_style( 'pewc-admin-style', trailingslashit( PEWC_PLUGIN_URL ) . 'assets/css/' . $admin_css_file, array(), $version );
 				wp_register_script( 'pewc-admin-script', trailingslashit( PEWC_PLUGIN_URL ) . 'assets/js/' . $admin_js_file, $deps, $version, true ); // 3.26.18
 				//wp_register_script( 'pewc-admin-script', trailingslashit( PEWC_PLUGIN_URL ) . 'assets/js/' . $admin_js_file, array( 'jquery', 'jquery-ui-sortable', 'jquery-ui-datepicker', 'select2', 'jquery-tiptip', 'wc-enhanced-select' ), $version, true );
 				$params = array(

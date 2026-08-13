@@ -257,7 +257,11 @@ abstract class WC_Stripe_Payment extends \PaymentPlugins\Stripe\Payments\Abstrac
 	 * @param WC_Order $order
 	 */
 	public function add_order_description( &$args, $order ) {
-		$args['description'] = sprintf( __( 'Order %1$s from %2$s', 'woo-stripe-payment' ), $order->get_order_number(), get_bloginfo( 'name' ) );
+		$args['description'] = sprintf(
+			__( 'Order %1$s from %2$s', 'woo-stripe-payment' ),
+			$order->get_order_number(),
+			wp_specialchars_decode( get_bloginfo( 'name' ), ENT_QUOTES )
+		);
 	}
 
 	/**

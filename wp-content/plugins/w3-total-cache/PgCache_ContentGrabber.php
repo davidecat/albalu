@@ -854,19 +854,10 @@ class PgCache_ContentGrabber {
 		}
 
 		if ( isset( $response_headers['kv']['location'] ) ) {
-			/**
-			 * Dont cache query-string normalization redirects (e.g. from wp core) when cache key is normalized,
-			 * since that cause redirect loop.
-			 */
+			$this->cache_reject_reason = 'Redirect response';
+			$this->process_status      = 'miss_redirect';
 
-			if (
-				$this->_get_page_key( $this->_page_key_extension ) === $this->_get_page_key(
-					$this->_page_key_extension,
-					$response_headers['kv']['location']
-				)
-			) {
-				$this->cache_reject_reason = 'Normalization redirect';
-				$this->process_status      = 'miss_normalization_redirect';
+			if ( ! $this->_enhanced_mode ) {
 				return false;
 			}
 		}
@@ -1703,6 +1694,18 @@ class PgCache_ContentGrabber {
 
 		$key_urlpart = $this->_get_page_key_urlpart( $key_urlpart, $page_key_extension );
 
+		// Disk Enhanced / nginx-memcached URL part refused (e.g. parent-directory segments).
+		if (
+			false === $key_urlpart
+			|| (
+				'' === $key_urlpart
+				&& ( $this->_enhanced_mode || $this->_nginx_memcached )
+				&& empty( $page_key_extension['group'] )
+			)
+		) {
+			return '';
+		}
+
 		// key extension.
 		$key_extension = '';
 		$extensions    = array( 'useragent', 'referrer', 'cookie', 'encryption' );
@@ -1766,7 +1769,7 @@ class PgCache_ContentGrabber {
 	 *     @type string $w3tc_group Optional. Group identifier for the page key.
 	 * }
 	 *
-	 * @return string The normalized URL part of the cache key.
+	 * @return string|false The normalized URL part of the cache key, or false when refused.
 	 */
 	private function _get_page_key_urlpart( $w3tc_key, $page_key_extension ) {
 		// remove fragments.
@@ -1779,17 +1782,25 @@ class PgCache_ContentGrabber {
 			if ( $this->_enhanced_mode || $this->_nginx_memcached ) {
 				$extra = '';
 
-				// URL decode.
-				$w3tc_key = urldecode( $w3tc_key );
-
-				// replace double slashes.
-				$w3tc_key = preg_replace( '~[/\\\]+~', '/', $w3tc_key );
+				// Collapse repeated forward slashes only. Do not urldecode or
+				// promote backslashes to separators — those manufacture path
+				// components the web server never validated.
+				$w3tc_key = preg_replace( '~/+~', '/', $w3tc_key );
 
 				// replace index.php.
 				$w3tc_key = str_replace( '/index.php', '/', $w3tc_key );
 
 				// remove querystring.
 				$w3tc_key = preg_replace( '~\?.*$~', '', $w3tc_key );
+
+				if (
+					! \is_string( $w3tc_key )
+					|| false !== \strpos( $w3tc_key, "\0" )
+					|| false !== \strpos( $w3tc_key, '..' )
+					|| false !== \strpos( $w3tc_key, '\\' )
+				) {
+					return false;
+				}
 
 				// make sure one slash is at the end.
 				if ( '/' === substr( $w3tc_key, strlen( $w3tc_key ) - 1, 1 ) ) {

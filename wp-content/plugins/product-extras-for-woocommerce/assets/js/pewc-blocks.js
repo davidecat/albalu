@@ -16,12 +16,23 @@ function pewc_blocks_init_cart() {
 		},
 		itemName: function( defaultValue, extensions, args ) {
 			// Return early if not in cart, or if item does not have add-ons
-			if ( args?.context !== 'cart' || 'undefined' === typeof extensions.pewc_data || 'undefined' === typeof extensions.pewc_data.edit_html ) {
+			if ( args?.context !== 'cart' || 'undefined' === typeof extensions.pewc_data ) {
 				return defaultValue;
 			}
 
+			var value = defaultValue;
+
+			// 4.3.20, indent child products, to match classic cart behaviour
+			if ( 'undefined' !== typeof extensions.pewc_data.indent_html ) {
+				value = extensions.pewc_data.indent_html + value;
+			}
+
 			// add the [Edit options] text
-			return defaultValue + extensions.pewc_data.edit_html;
+			if ( 'undefined' !== typeof extensions.pewc_data.edit_html ) {
+				value = value + extensions.pewc_data.edit_html;
+			}
+
+			return value;
 		},
 		cartItemClass: function( value, extensions, args ) {
 			// Return early if not in the Cart or Checkout (summary) page

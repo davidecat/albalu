@@ -199,6 +199,12 @@ if( ! empty( $item['condition_field'] ) ) {
 									// 3.0+
 									$field_options = get_post_meta( $cond_field_id, 'child_products', true );
 								}
+
+								// 4.3.19, add a blank option for child products
+								if ( ! empty( $field_options ) && ! in_array( '', $field_options ) ) {
+									array_unshift( $field_options, '' );
+								}
+
 							}
 							else{
 								// 3.9.7+

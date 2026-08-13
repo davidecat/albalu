@@ -48,7 +48,7 @@ function pewc_update_cart_item_data_for_calc_fields( $cart_item_data, $item, $gr
 
 		// from templates/frontend/calculation.php
 		preg_match_all( "|{field_(.*)}|U", $item['formula'], $all_fields, PREG_PATTERN_ORDER );
-		if( ! empty( $all_fields[1]) ) {
+		if( ! empty( $all_fields[1] ) ) {
 			$cart_item_data['product_extras']['groups'][$group_id][$field_id]['all_fields'] = $all_fields[1]; // array?
 		}
 	
@@ -114,11 +114,13 @@ function pewc_recalculate_calculation_fields_in_cart( $cart_item_key, $quantity,
 	);
 
 	// product values
+	$product = $cart_item['data'];
+	$product_id = $product->is_type( 'variation' ) ? $product->get_parent_id() : $product->get_id();
 	$pewc_global_values['product_price'] = $original_price;
-	$pewc_global_values['product_width'] = $cart_item['data']->get_width();
-	$pewc_global_values['product_length'] = $cart_item['data']->get_length();
-	$pewc_global_values['product_height'] = $cart_item['data']->get_height();
-	$pewc_global_values['product_weight'] = $cart_item['data']->get_weight();
+	$pewc_global_values['product_width'] = $product->get_width();
+	$pewc_global_values['product_length'] = $product->get_length();
+	$pewc_global_values['product_height'] = $product->get_height();
+	$pewc_global_values['product_weight'] = $product->get_weight();
 
 	// AOU vars
 	$pewc_global_values['variable_1'] = get_option( 'pewc_variable_1', 0 );
@@ -130,6 +132,9 @@ function pewc_recalculate_calculation_fields_in_cart( $cart_item_key, $quantity,
 	if ( ! empty( $global_calc_vars ) && is_array( $global_calc_vars ) && count( $global_calc_vars ) > 1 ) {
 		$pewc_global_values['global_calc_vars'] = $global_calc_vars;
 	}
+
+	// 4.4.0, allow Advanced Calculations to add ACF fields support
+	$pewc_global_values = apply_filters( 'pewc_filter_calculation_global_values', $pewc_global_values, $product_id );
 
 	// save global values inside $other_values so that we can pass them inside our function
 	$other_values['pewc_global_values'] = $pewc_global_values;
@@ -181,7 +186,7 @@ function pewc_recalculate_calculation_fields_in_cart( $cart_item_key, $quantity,
 	}
 
 	$all_replaced = false;
-	$counter = 0;
+	//$counter = 0;
 
 	// Loop through only our quantity-dependent calc fields, then use the calc components array to find other fields affected by the change
 	// pewc_evaluate_calc_field_formula() is recursive
@@ -289,8 +294,10 @@ add_filter( 'woocommerce_update_cart_validation', 'pewc_block_qty_calculation_ca
  * Returns true if the cart item's product has a qty-action calculation field,
  * or false otherwise.  Quantity-controlled items must not allow arbitrary changes.
  *
- * Queries field meta directly (bypassing group filters) so that security checks
- * cannot be circumvented by conditional display rules that hide the calculation group.
+ * Resolves the product's own groups plus matching global groups directly via
+ * pewc_filter_product_extra_groups(), bypassing the rest of the 'pewc_filter_product_extra_groups'
+ * filter chain (see 4.3.18 note below) so that login/role-based conditional display rules
+ * cannot hide the calculation field from this check.
  *
  * @param array $cart_item
  * @return bool
@@ -311,60 +318,44 @@ function pewc_cart_item_has_qty_calc_field( $cart_item ) {
 		return $cache[ $product_id ];
 	}
 
-	// Collect all field IDs that belong to this product's groups (product-level and global).
-	// We query groups directly without going through pewc_get_extra_fields() so that
-	// conditional display filters cannot hide the calculation field from this check.
-	$all_group_id_strings = array();
-
-	$product_group_ids = pewc_get_group_order( $product_id );
-	if ( ! empty( $product_group_ids ) ) {
-		$all_group_id_strings[] = $product_group_ids;
+	// 4.3.18, resolve this product's own groups plus only the global groups whose targeting
+	// rules/status/language actually match this product, instead of every global group on the
+	// site. Previously a qty-action calc field in a global group that wasn't even applied to
+	// this product would still block quantity updates for it.
+	// We call pewc_filter_product_extra_groups() directly (the function, not apply_filters())
+	// so we get that correct global group matching from pewc_filter_product_extra_groups() in
+	// inc/functions-global-extras.php, but WITHOUT running the rest of the
+	// 'pewc_filter_product_extra_groups' filter chain - specifically pewc_hide_groups_by_condition()
+	// in inc/functions-conditionals.php, which hides groups/fields based on the current visitor's
+	// login status or user role. If that ran here, a qty calc field could disappear from this
+	// check for a visitor who doesn't currently meet its login/role condition, letting a crafted
+	// quantity bypass the block. Calling the function directly keeps that hole closed while still
+	// fixing the global-group targeting bug.
+	if ( pewc_has_migrated() ) {
+		$product_extra_groups = pewc_get_pewc_groups( $product_id );
+	} else {
+		$product_extra_groups = get_post_meta( $product_id, '_product_extra_groups', true );
 	}
 
-	// Also include global groups so we detect qty calc fields defined site-wide.
-	if ( function_exists( 'pewc_get_global_group_order' ) ) {
-		$global_group_ids = pewc_get_global_group_order();
-		if ( ! empty( $global_group_ids ) ) {
-			$all_group_id_strings[] = $global_group_ids;
+	$all_groups = pewc_filter_product_extra_groups( $product_extra_groups, $product_id );
+
+	if ( empty( $all_groups ) || ! is_array( $all_groups ) ) {
+		$cache[ $product_id ] = false;
+		return false;
+	}
+
+	foreach ( $all_groups as $group ) {
+		if ( empty( $group['items'] ) || ! is_array( $group['items'] ) ) {
+			continue;
 		}
-	}
-
-	if ( empty( $all_group_id_strings ) ) {
-		$cache[ $product_id ] = false;
-		return false;
-	}
-
-	$group_id_array = array_filter( array_map( 'intval', explode( ',', implode( ',', $all_group_id_strings ) ) ) );
-	if ( empty( $group_id_array ) ) {
-		$cache[ $product_id ] = false;
-		return false;
-	}
-
-	// Gather all field IDs from all groups for this product.
-	$all_field_ids = array();
-	foreach ( $group_id_array as $gid ) {
-		$field_ids = get_post_meta( $gid, 'field_ids', true );
-		if ( ! empty( $field_ids ) && is_array( $field_ids ) ) {
-			$all_field_ids = array_merge( $all_field_ids, $field_ids );
-		}
-	}
-
-	if ( empty( $all_field_ids ) ) {
-		$cache[ $product_id ] = false;
-		return false;
-	}
-
-	// Batch-prime meta cache so we're doing one SQL query, not one per field.
-	update_meta_cache( 'post', $all_field_ids );
-
-	foreach ( $all_field_ids as $field_id ) {
-		$all_params = get_post_meta( $field_id, 'all_params', true );
-		if (
-			! empty( $all_params['field_type'] ) && $all_params['field_type'] === 'calculation' &&
-			! empty( $all_params['formula_action'] ) && $all_params['formula_action'] === 'qty'
-		) {
-			$cache[ $product_id ] = true;
-			return true;
+		foreach ( $group['items'] as $item ) {
+			if (
+				! empty( $item['field_type'] ) && $item['field_type'] === 'calculation' &&
+				! empty( $item['formula_action'] ) && $item['formula_action'] === 'qty'
+			) {
+				$cache[ $product_id ] = true;
+				return true;
+			}
 		}
 	}
 
@@ -404,18 +395,23 @@ function pewc_get_qty_calculation_expected( $cart_item ) {
 
 	$original_price = isset( $cart_item['product_extras']['original_price'] ) ? $cart_item['product_extras']['original_price'] : 0;
 
+	$pewc_global_values = array(
+		'quantity'       => $cart_item['quantity'],
+		'product_price'  => $original_price,
+		'product_width'  => $product->get_width(),
+		'product_length' => $product->get_length(),
+		'product_height' => $product->get_height(),
+		'product_weight' => $product->get_weight(),
+		'variable_1'     => get_option( 'pewc_variable_1', 0 ),
+		'variable_2'     => get_option( 'pewc_variable_2', 0 ),
+		'variable_3'     => get_option( 'pewc_variable_3', 0 ),
+	);
+
+	// 4.4.0, allow Advanced Calculations to add ACF fields support
+	$pewc_global_values = apply_filters( 'pewc_filter_calculation_global_values', $pewc_global_values, $product_id );
+
 	$other_values = array(
-		'pewc_global_values' => array(
-			'quantity'       => $cart_item['quantity'],
-			'product_price'  => $original_price,
-			'product_width'  => $product->get_width(),
-			'product_length' => $product->get_length(),
-			'product_height' => $product->get_height(),
-			'product_weight' => $product->get_weight(),
-			'variable_1'     => get_option( 'pewc_variable_1', 0 ),
-			'variable_2'     => get_option( 'pewc_variable_2', 0 ),
-			'variable_3'     => get_option( 'pewc_variable_3', 0 ),
-		),
+		'pewc_global_values' => $pewc_global_values,
 	);
 
 	foreach ( $all_groups as $group ) {
@@ -438,6 +434,7 @@ function pewc_get_qty_calculation_expected( $cart_item ) {
 				'type'          => 'calculation',
 				'formula'       => $item['formula'],
 				'formula_action'=> 'qty',
+				'formula_round'	=> $item['formula_round'] ?? '', // 4.3.21
 				'decimal_places'=> $item['decimal_places'] ?? '',
 				'value'         => $item['value'] ?? '',
 				'all_fields'    => $matched[1] ?? array(),
@@ -503,9 +500,7 @@ function pewc_store_api_qty_calculation_maximum( $value, $product, $cart_item ) 
 add_filter( 'woocommerce_store_api_product_quantity_maximum', 'pewc_store_api_qty_calculation_maximum', 10, 3 );
 
 /**
- * Evaluates a single calc field, recursive
- * To-do: ACF fields
- * Look Up Table - issue if one of the axis is referencing another calc field
+ * Evaluates a single calc field or field with formulas in prices, recursive
  * @since 3.11.4
  */
 function pewc_evaluate_calc_field_formula( $fields, $field_id, $other_values, $all_replaced = true, $traversed = array() ) {
@@ -513,7 +508,39 @@ function pewc_evaluate_calc_field_formula( $fields, $field_id, $other_values, $a
 	$item = $fields[$field_id];
 
 	if ( empty( $item['evaluated_formula'] ) ) {
-		$item['evaluated_formula'] = $item['formula']; // start with the original
+		$item['evaluated_formula'] = ''; // start with blank
+		if ( 'calculation' === $item['type'] ) {
+			$item['evaluated_formula'] = ! empty( $item['formula'] ) ? $item['formula'] : '';
+		} else {
+			// 4.4.0
+			if ( ! empty( $item['field_price'] ) && pewc_price_has_formula( $item['field_price'] ) ) {
+				$item['evaluated_formula'] = $item['field_price'];
+			}
+			if ( ! empty( $item['field_options'] ) ) {
+				$all_fields = ! empty( $item['all_fields'] ) ? $item['all_fields'] : array();
+				// check if each option price has a formula?
+				foreach ( $item['field_options'] as $option_index => $option ) {
+					//if ( pewc_price_has_formula( $option['price'] ) ) {
+						// add this option to the field's entire formula, but we need the option's calculated price in case some used field_123_option_price
+						// we also add this option even if it doesn't have a formula in case the field has a formula in its price?
+						if ( empty( $item['evaluated_formula'] ) ) {
+							$item['evaluated_formula'] = ! empty( $item['field_price'] ) ? $item['field_price'] : 0;
+						}
+						// ;;;pewc;;; maybe a unique splitter?
+						$item['evaluated_formula'] .= ';;;pewc;;;' . $option['price'];
+						// add this option's all_fields
+						if ( ! empty( $option['all_fields'] ) ) {
+							foreach( $option['all_fields'] as $opall ) {
+								if ( ! in_array( $opall, $all_fields ) ) {
+									$all_fields[] = $opall;
+								}
+							}
+						}
+					//}
+				}
+				$item['all_fields'] = $all_fields;
+			}
+		}
 	}
 
 	if ( pewc_formula_is_evaluated( $item['evaluated_formula'] ) ) {
@@ -523,7 +550,7 @@ function pewc_evaluate_calc_field_formula( $fields, $field_id, $other_values, $a
 		return array( $fields, $other_values, $traversed ); // prevent infinite loop?
 	}
 
-	if ( '{look_up_table}' === $item['formula'] && ! pewc_formula_is_evaluated( $item['evaluated_formula'] ) ) {
+	if ( ! pewc_formula_is_evaluated( $item['evaluated_formula'] ) && ! empty( $item['formula'] ) && '{look_up_table}' === $item['formula'] ) {
 		// evaluate look up table... this should return evaluated_formula with the value found in the look up table
 		// all_fields and pewc_global_values should be skipped, and we go directly to the bottom part of this functiom
 		$item = pewc_evaluate_look_up_table( $item, $fields );
@@ -541,12 +568,26 @@ function pewc_evaluate_calc_field_formula( $fields, $field_id, $other_values, $a
 			}
 			else {
 				// a value has not been set yet, get the value directly from $groups, and also save it in $other_values
-				if ( strpos( $field_id2, '_option_price' ) !== false ) {
+				if ( strpos( $field_id2, '_option_value' ) !== false ) {
+
+					// 4.4.0
+					$clean_field_id = str_replace( '_option_value', '', $field_id2 );
+					// we use field_option_price to determine that this is a valid field to use _option_value on?
+					if ( ! empty( $fields[$clean_field_id]['field_option_price'] ) && is_numeric( $fields[$clean_field_id]['value'] ) ) {
+						$the_value = $fields[$clean_field_id]['value'];
+					}
+					else $the_value = 0;
+
+				} else if ( strpos( $field_id2, '_option_price' ) !== false ) {
 
 					$clean_field_id = str_replace( '_option_price', '', $field_id2 );
-					if ( ! empty( $fields[$clean_field_id]['value_without_price']) ) {
+					//if ( ! empty( $fields[$clean_field_id]['value_without_price']) ) {
 						// value_without_price is usually used by fields with options, because 'value' would contain an HTML price
-						$the_value = $fields[$clean_field_id]['value_without_price'];
+					//	$the_value = $fields[$clean_field_id]['value_without_price'];
+					//}
+					// 4.4.0, value_without_price could be text, causing error in WC_Eval_Math
+					if ( ! empty( $fields[$clean_field_id]['field_option_price'] ) ) {
+						$the_value = $fields[$clean_field_id]['field_option_price'];
 					}
 					else $the_value = 0;
 
@@ -555,6 +596,10 @@ function pewc_evaluate_calc_field_formula( $fields, $field_id, $other_values, $a
 					$clean_field_id = str_replace( '_field_price', '', $field_id2 );
 					if ( ! empty( $fields[$clean_field_id]['price'] ) ) {
 						$the_value = $fields[$clean_field_id]['price'];
+						if ( ! empty( $fields[$clean_field_id]['multiply'] ) && ! empty( $fields[$clean_field_id]['value'] ) && ( 'number' === $fields[$clean_field_id]['type'] || 'name_price' === $fields[$clean_field_id]['type'] ) ) {
+							// 4.4.0, respect the multiply setting
+							$the_value *= (float) $fields[$clean_field_id]['value'];
+						}
 					}
 					else $the_value = 0;
 
@@ -566,6 +611,29 @@ function pewc_evaluate_calc_field_formula( $fields, $field_id, $other_values, $a
 						$tmp_field = $fields[$clean_field_id];
 						if ( $tmp_field['type'] == 'upload' && ! empty( $tmp_field['files'] ) && is_array( $tmp_field['files'] ) ) {
 							$the_value = count( $tmp_field['files'] );
+						}
+					}
+
+				} else if ( strpos( $field_id2, '_pdf_count' ) !== false ) {
+
+					$clean_field_id = str_replace( '_pdf_count', '', $field_id2 );
+					$the_value = 0; // default to 0
+					if ( isset( $fields[$clean_field_id] ) ) {
+						$tmp_field = $fields[$clean_field_id];
+						if ( $tmp_field['type'] == 'upload' ) {
+							if ( isset( WC()->session ) ){
+								$uploaded_files = WC()->session->get( 'uploaded_files_' . $clean_field_id );
+								if ( ! empty( $uploaded_files ) ) {
+									$uploaded_files = json_decode( $uploaded_files, true );
+									$pdf_count = 0;
+									foreach( $uploaded_files as $index => $file ) {
+										if ( ! empty( $file['pdf_count'] ) ) {
+											$pdf_count += (int) $file['pdf_count'];
+										}
+									}
+									$the_value = $pdf_count;
+								}
+							}
 						}
 					}
 
@@ -635,15 +703,41 @@ function pewc_evaluate_calc_field_formula( $fields, $field_id, $other_values, $a
 		// all values in the formula has been replaced, update value?
 		// to-do: what if this calc field only references number fields, could be a waste of computation
 		include_once WC()->plugin_path() . '/includes/libraries/class-wc-eval-math.php';
-		$eval_value = WC_Eval_Math::evaluate( $item['evaluated_formula'] );
-		// set decimal place if it exists
-		if ( ! empty( $item['decimal_places'] ) ) {
-			$eval_value = wc_format_decimal( $eval_value, $item['decimal_places'] );
+		$eval_value = 0;
+		$evaluated_formula = explode( ';;;pewc;;;', $item['evaluated_formula'] );
+		foreach ( $evaluated_formula as $eval_index => $eval_for ) {
+			// suppress PHP deprecated warning, WC_Eval_Math doesn't like parentheses in their formulas as of WC 10.8.1
+			$evald = ! is_numeric( $eval_for ) ? @WC_Eval_Math::evaluate( $eval_for ) : $eval_for;
+			$eval_value += $evald;
+			//$evaluated_formula[$eval_index] = '(' . $evald . ')'; // we save it because we will pass it later?
 		}
-		$item['value'] = $eval_value;
-		if ( ! empty($item['formula_action']) && ( $item['formula_action'] == 'cost' || $item['formula_action'] == 'price' ) ) {
-			$item['price'] = $eval_value;
+
+		if ( 'calculation' === $item['type'] && ! empty( $item['formula_action'] ) ) {
+			// 4.3.21, round the value if needed to match the value passed from the frontend
+			if ( ! empty( $item['formula_round'] ) ) {
+				if ( 'ceil' === $item['formula_round'] ) {
+					$eval_value = ceil( $eval_value );
+				} else if ( 'floor' === $item['formula_round'] ) {
+					$eval_value = floor( $eval_value );
+				}
+			}
+			// set decimal place if it exists
+			if ( ! empty( $item['decimal_places'] ) ) {
+				$eval_value = wc_format_decimal( $eval_value, $item['decimal_places'] );
+			}
+			if ( $item['formula_action'] == 'cost' || $item['formula_action'] == 'price' ) {
+				$item['price'] = $eval_value;
+			}
+			// Update Quantity needs this
+			$item['value'] = $eval_value; // moved here so that we consider the changes by Calc fields
+		} else {
+			// for formulas in prices, we consider the decimal place from WC setting
+			// we do result.toFixed( parseFloat( decimals ) ) in evaluate_formula in pewc.js, so we do something similar in PHP to avoid differences
+			// number_format rounds numbers, so 4.155 becomes 4.16, but in pewc.js 4.155 becomes 4.15
+			$eval_value = sprintf( '%.' . wc_get_price_decimals() . 'f', $eval_value );
 		}
+
+		$item['evaluated_formula'] = $eval_value; // used in comparing values for formulas in prices
 		$other_values[$field_id] = $eval_value; // save this new value
 
 		if ( ! empty( $item['triggers'] ) ) {
@@ -702,7 +796,8 @@ function pewc_evaluate_look_up_table( $item, $fields ) {
 		// the source field for y is not evaluated yet, so go back for now?
 		return $item;
 	}
-	if ( $x_field && $y_field && $x_field['type'] != 'calculation' && $y_field['type'] != 'calculation' ) {
+	// 4.4.0, added ! empty( $item['value'] )
+	if ( $x_field && $y_field && $x_field['type'] != 'calculation' && $y_field['type'] != 'calculation' && ! empty( $item['value'] ) ) {
 		// these look up table's axes are not referencing any calc fields, so maybe no chance the value has changed, so just evaluate to the current value?
 		$item['evaluated_formula'] = $item['value'];
 		return $item;
@@ -809,5 +904,365 @@ function pewc_formula_is_evaluated( $formula ) {
  * @since 3.11.4
  */
 function pewc_enabled_calc_in_cart() {
-	return apply_filters( 'pewc_enable_calc_in_cart', false );
+	return apply_filters( 'pewc_enable_calc_in_cart', 'yes' === get_option( 'pewc_recalculate_cart', 'no' ) );
+}
+
+/**
+ * Check if we want to validate calculation fields and prices with formulas before they are added to the cart
+ * @since 4.4.0
+ */
+function pewc_enabled_validate_formulas() {
+	$enable_validate = 'yes' === get_option( 'pewc_validate_calculation_fields', 'no' ) && ! pewc_missing_requirements_validate_calculation_fields();
+	return apply_filters( 'pewc_enable_validate_formulas', $enable_validate );
+}
+
+/**
+ * Save some data into session for validation of formulas later
+ * @since 4.4.0
+ */
+function pewc_save_data_for_formulas( $passed, $posted, $item, $product_id, $quantity, $variation_id=null ) {
+
+	// if pewc_formulas_in_prices_enabled() is false, pewc_get_field_price() won't return the correct value
+	// commented out pewc_formulas_in_prices_enabled() because data won't be saved if it's disabled, then validation won't run
+	if ( ! isset( WC()->session ) || ! WC()->session->has_session() /*|| ! pewc_formulas_in_prices_enabled()*/ || ! pewc_enabled_validate_formulas() ) {
+		return $passed;
+	}
+
+	if ( ! $passed ) {
+		// this has already failed validation, don't continue
+		WC()->session->__unset( 'pewc_data_for_formulas' );
+		return $passed;
+	}
+
+	$product = wc_get_product( $product_id );
+	if ( ! is_a( $product, 'WC_Product' ) ) {
+		WC()->session->__unset( 'pewc_data_for_formulas' );
+		return $passed;
+	}
+
+	if (
+		empty( $item['id'] ) || 
+		empty( $posted[$item['id']] ) || 
+		empty( $item['field_type'] ) || 
+		(
+			'upload' === $item['field_type'] && 
+			empty( $_FILES ) && 
+			empty( $posted['pewc_file_data'][$item['field_id']] )
+		) 
+	) {
+		// this field does not have a value, this means it can't affect calculation values, right?
+		// don't clear the session because we may need them for other fields
+		return $passed;
+	}
+
+	$data_for_formulas = WC()->session->get( 'pewc_data_for_formulas' );
+	$has_formulas = false;
+	$field = array();
+	//$field['value'] = ! empty( $posted[$item['id']] ) ? $posted[$item['id']] : '';
+	$field['value'] = $posted[$item['id']];
+
+	if ( 'calculation' === $item['field_type'] && ! empty( $item['formula'] ) ) {
+		$has_formulas = true;
+		$field = $item; // I think we need everything for Calculation fields to be safe
+		preg_match_all( "|{field_(.*)}|U", $item['formula'], $all_fields, PREG_PATTERN_ORDER );
+		if( ! empty( $all_fields[1] ) ) {
+			$field['all_fields'] = $all_fields[1]; // array?
+		}
+	} else {
+		// either calculated price or prices with taxes?
+		$field['price'] = (float) pewc_get_field_price( $item, wc_get_product( $product_id ), true );
+
+		// check if fields have formulas in field prices or option prices or both
+		if ( pewc_price_has_formula( $item['field_price'] ) ) {
+			$has_formulas = true;
+			preg_match_all( "|{field_(.*)}|U", $item['field_price'], $all_fields, PREG_PATTERN_ORDER );
+			if( ! empty( $all_fields[1] ) ) {
+				$field['all_fields'] = $all_fields[1]; // array?
+			}
+		}
+		$field['field_price'] = $item['field_price'];
+
+		if ( ! empty( $item['field_options'] ) ) {
+			$option_value = ! empty( $posted[$item['id']] ) ? $posted[$item['id']] : '';
+			if ( is_array( $option_value ) ) {
+				$option_value = pewc_stripslashes_from_options( $option_value );
+			} else {
+				$option_value = stripslashes( $option_value );
+			}
+			$field_options = array();
+			foreach ( $item['field_options'] as $option_index => $option ) {
+				if ( ! empty( $option['price'] ) && 
+					(
+						( is_array( $option_value ) && in_array( $option['value'], $option_value ) ) || 
+						( ! is_array( $option_value ) && $option['value'] == $option_value )
+					)
+				) {
+					// this is a selected option, save all settings?
+					$field_options[$option_index] = $option;
+					// get option price. If this option has a formula, the calculated formula from $_POST is returned
+					$option_price = pewc_get_option_price( $option, $item, $product, true, $option_index );
+					// add to field price
+					$field['price'] += $option_price;
+
+					if ( 'select' === $item['field_type'] || 'radio' === $item['field_type'] ) {
+						$field['field_option_price'] = $option_price;
+						$field['field_option_price_original'] = $option['price']; // this could have a formula
+					}
+
+					$field_options[$option_index]['option_price'] = $option_price;
+					if ( pewc_price_has_formula( $option['price'] ) ) {
+						if ( ! $has_formulas ) $has_formulas = true;
+						preg_match_all( "|{field_(.*)}|U", $option['price'], $all_fields, PREG_PATTERN_ORDER );
+						if( ! empty( $all_fields[1] ) ) {
+							$field_options[$option_index]['all_fields'] = $all_fields[1]; // array
+						}
+					}
+				}
+			}
+			if ( ! empty( $field_options ) ) {
+				$field['field_options'] = $field_options;
+			}
+		}
+
+		// for uploads
+		if ( 'upload' === $item['field_type'] ) {
+			// we save it as 'files' so that it the evaluate function can count it for _number_uploads
+			if ( 'yes' === pewc_enable_ajax_upload() && ! empty( $posted['pewc_file_data'][$item['field_id']] ) ) {
+				$pewc_file_data = stripslashes( $posted['pewc_file_data'][$item['field_id']] );
+				$field['files'] = json_decode( $pewc_file_data, true );
+			} else if ( ! empty( $_FILES ) ) {
+				$field['files'] = $_FILES;
+			}
+		}
+	}
+
+	if ( $has_formulas ) {
+		if ( ! isset( $data_for_formulas['has_formulas'] ) ) {
+			$data_for_formulas['has_formulas'] = true;
+		}
+		$field['has_formula'] = true;
+		$field['field_label'] = ! empty( $item['field_label'] ) ? $item['field_label'] : $item['id'];
+	}
+	// fields list
+	if ( ! empty( $data_for_formulas['fields'] ) ) {
+		$fields = $data_for_formulas['fields'];
+	} else {
+		$fields = array();
+	}
+	$field['id'] = $item['id'];
+	$field['type'] = $item['field_type'];
+	$field['multiply'] = ! empty( $item['multiply'] ) ? $item['multiply'] : false;
+
+	$fields[$item['field_id']] = $field;
+	$data_for_formulas['fields'] = $fields;
+
+	$data_for_formulas = apply_filters( 'pewc_filter_data_for_formulas', $data_for_formulas, $posted, $item, $product_id, $quantity, $variation_id );
+
+	WC()->session->set( 'pewc_data_for_formulas', $data_for_formulas );
+
+	return $passed;
+}
+add_filter( 'pewc_filter_validate_cart_item_status', 'pewc_save_data_for_formulas', 99, 6 );
+
+/**
+ * Validate all fields with formulas
+ * @since 4.4.0
+ */
+function pewc_validate_cart_item_formulas( $passed, $product_id, $quantity, $variation_id=null, $cart_item_data=array() ) {
+
+	if ( ! isset( WC()->session ) || ! WC()->session->has_session() /*|| ! pewc_formulas_in_prices_enabled()*/ || ! pewc_enabled_validate_formulas() ) {
+		return $passed;
+	}
+
+	if ( ! $passed ) {
+		// this has already failed validation, don't continue
+		WC()->session->__unset( 'pewc_data_for_formulas' );
+		return $passed;
+	}
+
+	$data_for_formulas = WC()->session->get( 'pewc_data_for_formulas' );
+	if ( ! isset( $data_for_formulas['has_formulas'] ) || empty( $data_for_formulas['fields'] ) ) {
+		WC()->session->__unset( 'pewc_data_for_formulas' );
+		return $passed;
+	}
+
+	$product = wc_get_product( $product_id );
+	if ( ! is_a( $product, 'WC_Product' ) ) {
+		WC()->session->__unset( 'pewc_data_for_formulas' );
+		return $passed;
+	}
+
+	$other_values = array(); // save other add-on field values here (i.e. non-calc, global vars, etc)
+
+	// set up global values
+	$pewc_global_values = array(
+		'quantity' => $quantity
+	);
+
+	$original_price = $product->get_price();
+
+	$pewc_global_values = array(
+		'quantity'       => $quantity,
+		'product_price'  => $original_price,
+		'product_width'  => $product->get_width(),
+		'product_length' => $product->get_length(),
+		'product_height' => $product->get_height(),
+		'product_weight' => $product->get_weight(),
+		'variable_1'     => get_option( 'pewc_variable_1', 0 ),
+		'variable_2'     => get_option( 'pewc_variable_2', 0 ),
+		'variable_3'     => get_option( 'pewc_variable_3', 0 ),
+	);
+
+	// 4.4.0, allow Advanced Calculations to add ACF fields support. Also filtered by Bookings and Better Variations to process their own tags
+	$pewc_global_values = apply_filters( 'pewc_filter_calculation_global_values', $pewc_global_values, $product_id );
+
+	$other_values = array(
+		'pewc_global_values' => $pewc_global_values,
+	);
+
+	// AOU global calc vars (custom vars by customer)
+	$global_calc_vars = apply_filters( 'pewc_calculation_global_calculation_vars', false );
+	if ( ! empty( $global_calc_vars ) && is_array( $global_calc_vars ) && count( $global_calc_vars ) > 1 ) {
+		$other_values['pewc_global_values']['global_calc_vars'] = $global_calc_vars;
+	}
+
+	$fields = $data_for_formulas['fields'];
+	$all_replaced = false;
+	foreach ( $fields as $field_id => $field ) {
+		if ( ! empty( $field['has_formula'] ) ) {
+			list( $fields, $other_values, $all_replaced ) = pewc_evaluate_calc_field_formula( $fields, $field_id, $other_values );
+		}
+	}
+	if ( $all_replaced ) {
+		// check if all fields with formuls and calculation fields matches?
+		foreach ( $fields as $field_id => $field ) {
+			if ( 'calculation' === $field['type'] ) {
+				if ( ! empty( $field['formula_action'] ) && ( 'cost' === $field['formula_action'] || 'price' === $field['formula_action'] ) ) {
+					if ( empty( $_POST[$field['id']] ) || $_POST[$field['id']] != $field['price'] ) {
+						// evaluated price is not the same as the posted price?
+						pewc_add_calculation_notice( $field_id, $fields, $product );
+						// clean up before returning
+						//WC()->session->__unset( 'pewc_data_for_formulas' );
+						// fail immediately
+						//return false;
+						$passed = false;
+					}
+				}
+			} else if ( ! empty( $field['has_formula'] ) ) {
+				// field or option price has formula
+				if ( $field['evaluated_formula'] != $field['price'] ) {
+					// evaluated price is not the same as the posted price?
+					pewc_add_calculation_notice( $field_id, $fields, $product );
+					// clean up before returning
+					//WC()->session->__unset( 'pewc_data_for_formulas' );
+					// fail immediately
+					//return false;
+					$passed = false;
+				}
+			}
+		}
+	} else {
+		// find the fields that have unevaluated formulas and add an error message
+		foreach ( $fields as $field_id => $field ) {
+			if ( ! empty( $field['evaluated_formula'] ) && ! pewc_formula_is_evaluated( $field['evaluated_formula'] ) ) {
+				pewc_add_calculation_notice( $field_id, $fields, $product );
+				$passed = false;
+			}
+		}
+	}
+
+	// clean up before returning
+	WC()->session->__unset( 'pewc_data_for_formulas' );
+
+	return $passed;
+
+}
+add_filter( 'woocommerce_add_to_cart_validation', 'pewc_validate_cart_item_formulas', 99, 5 );
+
+/**
+ * Add an error notice if a calculation field or a field with formulas in prices fail validation
+ * @since 4.4.0
+ */
+function pewc_add_calculation_notice( $field_id, $fields, $product ) {
+
+	$field = $fields[$field_id];
+	$message = apply_filters( 'pewc_filter_formula_validation_error_text',
+		sprintf(
+			__("There was an error in calculating the price for %s. Please contact the website administrator about the issue.", 'pewc' ),
+			$field['field_label']
+		),
+		$field,
+		$product
+	);
+	if ( ! wc_has_notice( $message, 'error' ) ) {
+		wc_add_notice(
+			$message,
+			'error',
+			array( 'pewc_field_id' => $field_id )
+		);
+		// log error for debugging
+		pewc_error_log( 'Error in evaluating formulas in prices. Field:' . $field_id . ', All Fields:' . print_r($fields, true) . ', $_POST:' . print_r($_POST, true) );
+	}
+
+}
+
+/**
+ * Disable Validate Calculation fields checkbox if they need to update some plugins to the latest version
+ * @since 4.4.0
+ */
+function pewc_maybe_disable_validate_calculation_fields( $settings ) {
+
+	if ( ! empty( $settings['pewc_validate_calculation_fields'] ) ) {
+		$update = pewc_update_requirements_validate_calculation_fields();
+
+		if ( ! empty( $update ) ) {
+			$settings['pewc_validate_calculation_fields']['desc'] .= __( ' The following plugin(s) need to be updated to the latest version in order to use this feature: ', 'pewc' );
+			$settings['pewc_validate_calculation_fields']['desc'] .= implode( ', ', $update );
+			$custom_attributes = ! empty( $settings['pewc_validate_calculation_fields']['custom_attributes'] ) ? $settings['pewc_validate_calculation_fields']['custom_attributes'] : array();
+			if ( ! isset( $custom_attributes['disabled'] ) || $custom_attributes['disabled'] != 'disabled' ) {
+				$custom_attributes['disabled'] = 'disabled';
+			}
+			$settings['pewc_validate_calculation_fields']['custom_attributes'] = $custom_attributes;
+		}
+	}
+	return $settings;
+
+}
+add_filter( 'pewc_calculations_settings', 'pewc_maybe_disable_validate_calculation_fields', 10, 1 );
+
+/**
+ * Check if we have plugins that need to be updated
+ * @since 4.4.0
+ */
+function pewc_missing_requirements_validate_calculation_fields() {
+
+	$update = pewc_update_requirements_validate_calculation_fields();
+	
+	return ! empty( $update );
+
+}
+
+/**
+ * Get a list of installed plugins that are missing the required functions
+ * @since 4.4.0
+ */
+function pewc_update_requirements_validate_calculation_fields() {
+
+	$update = array();
+
+	if ( defined( 'ACAOU_PLUGIN_VERSION' ) && ! function_exists( 'acaou_pewc_add_acf_fields' ) ) {
+		$update[] = 'WooCommerce Product Add-Ons Ultimate Advanced Calculations';
+	}
+	if ( defined( 'WCPAUAU_PLUGIN_VERSION' ) && ! function_exists( 'wcpauau_save_pdf_page_count_to_session' ) ) {
+		$update[] = 'WooCommerce Product Add-Ons Ultimate Advanced Uploads';
+	}
+	if ( defined( 'WCBVP_PLUGIN_VERSION' ) && ! function_exists( 'wcbvp_pewc_filter_calculation_global_values' ) ) {
+		$update[] = 'WooCommerce Better Variations';
+	}
+	if ( defined( 'BFWC_PLUGIN_VERSION' ) && ! function_exists( 'bfwc_pewc_calculation_global_values' ) ) {
+		$update[] = 'Bookings for WooCommerce';
+	}
+
+	return $update;
+
 }

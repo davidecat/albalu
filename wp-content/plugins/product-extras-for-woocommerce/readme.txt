@@ -3,7 +3,7 @@ Contributors: Gareth Harris
 Tags: add-ons, ecommerce
 Requires at least: 4.7
 Tested up to: 7.0
-Stable tag: 4.3.16
+Stable tag: 4.4.0
 Allow your users to customise products through additional fields
 
 == Description ==
@@ -23,6 +23,39 @@ WooCommerce Product Add Ons Ultimate allows your users to customise products thr
 1.
 
 == Changelog ==
+
+= 4.4.0, 5 August 2026 =
+* Added: 'Recalculate Calculation fields in cart' setting
+* Added: 'Validate Calculation fields' setting
+* Added: 'Use AJAX conditions' setting - performance improvement
+* Fixed: calculation of expected quantity does not consider 'Round Result' setting
+* Fixed: Calculation fields not getting triggered if it has a condition that is dependent on a Swatch field with a default value
+
+= 4.3.20, 29 July 2026 =
+* Fixed: attribute values not loaded in admin conditions if no public products are attached to the attribute
+* Fixed: add-on data are displayed twice on the Edit Order page if an order has child products and 'Display child products as metadata' was disabled when the order was placed
+* Fixed: Log In Status not working in field conditions when combined with other field types
+* Fixed: 'per character' label not showing up for Text Preview fields
+* Fixed: Summary subtotal is incorrect if product quantity is greater than 1
+* Fixed: 'Indent child products' not working in WooCommerce Blocks Cart
+* Updated: license updater to correctly read changelog
+
+= 4.3.19, 22 July 2026 =
+* Fixed: default value sometimes not getting put back when displaying a Swatch field previously hidden by conditions
+* Fixed: 'Price per booking unit' not working for Checkbox Group and Radio Group fields
+* Updated: added a blank option when using Products fields in conditions
+
+= 4.3.18, 15 July 2026 =
+* Added: PEWC_LICENSE_KEY constant
+* Fixed: product quantity in cart could not be changed if a global group has a Calculation field that updates the quantity, even if the group is not used by the product
+* Updated: disable Add to Cart button when counting the pages of an uploaded PDF file
+* Updated: do not load the Dropzone HTML template if a product does not have an Upload field
+* Updated: prevent continuous reset of hidden fields when their condition references a field's default value
+
+= 4.3.17, 9 July 2026 =
+* Added: pewc_use_original_admin_stylesheet filter
+* Updated: escape some characters that has special meaning in Excel when exporting add-on fields by order
+* Updated: ensure user can't order more parent products than child product stock allows. Only applies to products with 'Linked' quantities
 
 = 4.3.16, 2 July 2026 =
 * Fixed: Calculation fields with conditions that set the product price sometimes becomes zero when using 'Time-based Calculations and Conditions'

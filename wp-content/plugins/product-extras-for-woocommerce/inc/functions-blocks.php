@@ -145,6 +145,10 @@ function pewc_item_data_callback( $cart_item ) {
 
 	if ( ! empty( $cart_item['product_extras']['products']['child_field'] ) ) {
 		// this is a child product
+		if ( pewc_indent_child_product() == 'yes' ) {
+			// 4.3.20, indent child products in WC Blocks Cart, to match classic cart behaviour
+			$pewc_data['indent_html'] = apply_filters( 'pewc_indent_markup', '<span style="padding-left: 15px"></span>' );
+		}
 		if ( 'yes' === get_option( 'pewc_hide_child_products_cart', 'no' ) ) {
 			// 3.26.20, hide product in the cart. If this is triggered, the steps below is no longer needed?
 			$pewc_data['key'] .= ' ' . 'pewc-hidden-child-product';
@@ -184,6 +188,10 @@ function pewc_item_schema_callback() {
 		),
 		'edit_html' => array(
 			'description' => __( 'Edit options link HTML', 'pewc' ),
+			'type'        => 'string',
+		),
+		'indent_html' => array(
+			'description' => __( 'Indent markup for child products', 'pewc' ),
 			'type'        => 'string',
 		),
 		'uploaded_files' => array(

@@ -853,63 +853,83 @@ function pewc_get_all_calculation_components( $groups ) {
 		foreach( $groups as $group_id=>$group ) {
 			if( $group['items'] ) {
 				foreach( $group['items'] as $field_id=>$field ) {
+
+					// 4.4.0, we also add formulas in prices so that they work in Event-driven calculations
+					$formula = false;
+
 					if( isset( $field['field_type'] ) && $field['field_type'] == 'calculation' ) {
 						$formula = isset( $field['formula'] ) ? $field['formula'] : false;
 						$formula = str_replace( '_field_price', '', $formula );
-
-						if( $formula ) {
-
-							if( $formula == '{look_up_table}' ) {
-
-								// Find the elements for the look up table
-								$lookup_fields = apply_filters( 'pewc_calculation_look_up_fields', array() );
-
-								if( isset( $lookup_fields[$field_id][1] ) ) {
-									$component_id = $lookup_fields[$field_id][1];
-									if( isset( $components[$field_id] ) ) {
-										$components[$component_id][] = $field_id;
-									} else {
-										$components[$component_id] = array( $field_id );
+					} else if ( pewc_formulas_in_prices_enabled() ) {
+						if ( ! empty( $field['field_price'] ) && pewc_price_has_formula( $field['field_price'] ) ) {
+							$formula = $field['field_price'];
+						}
+						if ( ! empty( $item['field_options'] ) ) {
+							foreach ( $item['field_options'] as $field_option ) {
+								if ( ! empty( $field_option['price'] ) && pewc_price_has_formula( $field_option['price'] ) ) {
+									// add this to the formula string?
+									if ( false === $formula ) {
+										$formula = '';
 									}
+									$formula .= ';;;pewc;;;' . $field_option['price'];
 								}
-								if( isset( $lookup_fields[$field_id][2] ) ) {
-									$component_id = $lookup_fields[$field_id][2];
-									if( isset( $components[$field_id] ) ) {
-										$components[$component_id][] = $field_id;
-									} else {
-										$components[$component_id] = array( $field_id );
-									}
+							}
+						}
+					}
+
+					if( $formula ) {
+
+						if( $formula == '{look_up_table}' ) {
+
+							// Find the elements for the look up table
+							$lookup_fields = apply_filters( 'pewc_calculation_look_up_fields', array() );
+
+							if( isset( $lookup_fields[$field_id][1] ) ) {
+								$component_id = $lookup_fields[$field_id][1];
+								if( isset( $components[$component_id] ) ) {
+									$components[$component_id][] = $field_id;
+								} else {
+									$components[$component_id] = array( $field_id );
 								}
-
-							} else {
-
-								// Component field ID => Calculation field ID
-								$last_pos = 0;
-								$opening_pos = 0;
-								$positions = array();
-
-								while( ( $last_pos = strpos( $formula, 'field_', $last_pos ) ) !== false ) {
-							    $positions[] = $last_pos;
-									$closing_pos = strpos( $formula, '}', $last_pos );
-									$component_id = substr( $formula, $last_pos, $closing_pos-$last_pos );
-									$component_id = str_replace( array( 'field_', '_option_price', '_field_price' ), '', $component_id );
-
-									// $components works like this:
-									// $component_id is the input field => $field_id is the field containing the calculation
-
-									if( isset( $components[$field_id] ) ) {
-										$components[$component_id][] = $field_id;
-									} else {
-										$components[$component_id] = array( $field_id );
-									}
-									$last_pos = $last_pos + strlen( 'field_' );
+							}
+							if( isset( $lookup_fields[$field_id][2] ) ) {
+								$component_id = $lookup_fields[$field_id][2];
+								if( isset( $components[$component_id] ) ) {
+									$components[$component_id][] = $field_id;
+								} else {
+									$components[$component_id] = array( $field_id );
 								}
+							}
 
+						} else {
+
+							// Component field ID => Calculation field ID
+							$last_pos = 0;
+							$opening_pos = 0;
+							$positions = array();
+
+							while( ( $last_pos = strpos( $formula, 'field_', $last_pos ) ) !== false ) {
+							$positions[] = $last_pos;
+								$closing_pos = strpos( $formula, '}', $last_pos );
+								$component_id = substr( $formula, $last_pos, $closing_pos-$last_pos );
+								// we put _field_price first because if we put field_ fiest it would replace the 2 field_ in {field_123_field_price}
+								$component_id = str_replace( array( '_field_price', 'field_', '_option_price', ), '', $component_id );
+
+								// $components works like this:
+								// $component_id is the input field => $field_id is the field containing the calculation
+
+								if( isset( $components[$component_id] ) ) {
+									$components[$component_id][] = $field_id;
+								} else {
+									$components[$component_id] = array( $field_id );
+								}
+								$last_pos = $last_pos + strlen( 'field_' );
 							}
 
 						}
 
 					}
+
 				}
 			}
 		}

@@ -1,3 +1,46 @@
+= 13.5.7 (2026-08-04) =
+* Bug Fix: Added Custom Attributes: Variation Product Meta Data Not Appearing in Generated Product Feed
+* Bug Fix: Feed generation silently drops rows because batch pagination orders by non-unique post_date
+* Bug Fix: Google Shopping feed sends invalid postal_code format for Local Pickup (GB/CA)
+* Bug Fix: Mall.sk: VARIABLE_PARAMS node missing from feed when mapped to Plugin Calculation
+* Bug Fix: Stuck-feed guard misfires against in-flight batches, producing duplicate (and dropped) products in scheduled feed generation
+* Bug Fix: Sync Product Feed cannot restore real feeds — 13.4.8 prefix migration skipped copying cron_projects when a blank adt_cron_projects already existed
+* Bug Fix: TikTok Product Catalog feed exports prices with locale decimal separator instead of ISO 4217 format
+* Bug Fix: Unauthenticated info disclosure via missing capability check on filters-rules REST read route
+* Bug Fix: WP Super Cache integration writes to the wrong option, so feed files aren't actually excluded from caching
+* Bug Fix: Zbozi.cz / Heureka: DELIVERY tag always outputs as empty <DELIVERY/> when shipping is configured
+* Bug Fix: Zbozi.cz / Heureka: DELIVERY_PRICE_COD missing when local pickup configured via WooCommerce Checkout block
+* Bug Fix: g:consumer_notice emits non-UCP notice_type enum values (spaces, not underscores)
+* Feature: Add WordPress Abilities API support (13 abilities) — Product Feed PRO (Free)
+* Feature: Add a post-install Setup Checklist (Getting Started) to Manage Feeds
+* Improvement: Adaptive batch sizing for feed generation (self-tuning by host time budget + memory)
+* Improvement: Add `adt_general_feed_settings_after_shipping_countries` action hook to feed General tab
+* Improvement: Export/Import: add an extension hook so add-ons can register their own feed props for export
+* Improvement: Rules Builder: support Elite Truncate/Combine Fields actions and In List condition
+* Improvement: WPML Domain Mode: non-Google feed channel links lack a filter hook (raw home_url())
+
+= 13.5.6 (2026-07-08) =
+* Bug Fix: "Upgrade To Elite" link visible on plugins page when Elite plugin is already active
+* Bug Fix: Bug: "Update plugin" link in version-requirement notice fails with "link has expired" (wrong nonce action)
+* Bug Fix: Custom Feed channel generates an empty feed (zero products) for a non-base currency
+* Bug Fix: Empty g:additional_image_link nodes in feed when URL suffix is configured
+* Bug Fix: Pinterest CSV feed ingestion fails with Error 9156 — UTF-8 BOM in CSV header
+* Bug Fix: Pinterest XML feed rejected by Pinterest Data Source — incorrect element names (g:title, g:description, g:link)
+* Bug Fix: Product filter fields missing from Google Merchant Promotions Feed when using specific_products
+* Bug Fix: g:product_detail — "Custom attributes" prefix not stripped from g:attribute_name
+* Bug Fix: money_off_amount field outputs wrong element name in Google Merchant Promotions feed
+* Bug Fix: promotion_destination required field missing from Google Merchant Promotions Feed channel attributes
+* Improvement: Add Regenerate Action Schedulers feature to recover broken feed refresh schedules
+* Improvement: Add adt_pfp_help_menu_items action to the Help dropdown for add-on extensions
+* Improvement: Filters & Rules: add Elite upsell for the Character Count condition type
+* Improvement: Filters & Rules: add adt_pfp_evaluate_filters_rules_condition hook for custom condition types
+* Improvement: Include libxml parse error details in batch XML load failure log
+* Improvement: Make OpenAI product feed channel compliant with OpenAI's GA feed spec
+* Improvement: Multisite: Version_*_Update migrations skip blogs #2..N (network-global version gate)
+* Improvement: Re-branding: Apply the 2026 AdTribes rebrand foundation (tokens, colors, logo, header)
+* Improvement: Support nested g:subscription_cost output in the Google Shopping XML writer
+* Improvement: Unify adt_pfp_get_filters_rules_attributes filter signature across REST + deprecated trait call sites
+
 = 13.5.5 (2026-06-09) =
 * Bug Fix: "Clear custom attributes cache" button shows misleading error on second click
 * Bug Fix: AddToCart event never fires — woosea_add_cart.js not enqueued and AJAX handler missing
@@ -25,7 +68,7 @@
 = 13.5.4 (2026-05-04) =
 * Bug Fix: Feed filename case mismatch on scheduled update
 * Bug Fix: Feed statistics show no product count for JSONL/gzip feeds
-* Bug Fix: Local Pickup Shipping Method Not Showing In Feed
+* Bug Fix: Local pickup shipping method not showing in feed
 * Bug Fix: The attribute taxonomy appears under incorrect group in the feed editor
 * Bug Fix: ViewContent sends content_ids as integers instead of strings for variable product parent pages
 * Bug Fix: adt_ plugin-internal meta keys flood WooCommerce product editor "Custom Fields" dropdown

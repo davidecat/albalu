@@ -7,7 +7,15 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  * Allows plugins to use their own update API.
  *
  * @author Easy Digital Downloads
- * @version 1.9.2
+ * @version 1.9.2-PR
+ *
+ * Changes:
+ * - get_version_from_remote(): force $request->slug to match $this->slug, since
+ *   the store's response may not return a bare slug, which broke matching in
+ *   plugins_api_filter() (e.g. the "View details" link on the Plugins page).
+ * - Added clear_update_cache(), gated behind the `pewc_sl_clear_update_cache`
+ *   filter, to force-clear cached version info and the update_plugins transient
+ *   on demand.
  */
 class PEWC_SL_Plugin_Updater {
 
@@ -44,6 +52,13 @@ class PEWC_SL_Plugin_Updater {
 		$this->wp_override              = isset( $_api_data['wp_override'] ) ? (bool) $_api_data['wp_override'] : false;
 		$this->beta                     = ! empty( $this->api_data['beta'] ) ? true : false;
 		$this->failed_request_cache_key = 'edd_sl_failed_http_' . md5( $this->api_url );
+
+		// Allows forcing a one-off clear of this plugin's cached update/version-info
+		// data (e.g. after a slug or store-side data change), without waiting for
+		// the normal cache timeouts to lapse. Off by default.
+		if ( apply_filters( 'pewc_sl_clear_update_cache', false, $this->slug ) ) {
+			$this->clear_update_cache();
+		}
 
 		$edd_plugin_data[ $this->slug ] = $this->api_data;
 
@@ -597,6 +612,14 @@ class PEWC_SL_Plugin_Updater {
 			}
 		}
 
+		// The store's response may not return a bare slug (e.g. it may send the
+		// full plugin basename instead). Force it to match $this->slug so that
+		// plugins_api_filter() correctly recognises requests for this plugin
+		// (e.g. the "View details" link on the Plugins page).
+		if ( $request ) {
+			$request->slug = $this->slug;
+		}
+
 		return $request;
 	}
 
@@ -672,6 +695,26 @@ class PEWC_SL_Plugin_Updater {
 		$string = $this->slug . $this->api_data['license'] . $this->beta;
 
 		return 'edd_sl_' . md5( serialize( $string ) );
+	}
+
+	/**
+	 * Clears this plugin's cached version info and WordPress's own update
+	 * transient, so stale data (e.g. an outdated slug from before a fix) can't
+	 * keep being served until the normal cache timeouts lapse.
+	 *
+	 * Not called automatically; enable via the `pewc_sl_clear_update_cache`
+	 * filter, e.g.:
+	 *
+	 *     add_filter( 'pewc_sl_clear_update_cache', '__return_true' );
+	 *
+	 * @since 4.3.20
+	 */
+	private function clear_update_cache() {
+		global $wpdb;
+
+		$wpdb->query( $wpdb->prepare( "DELETE FROM {$wpdb->options} WHERE option_name LIKE %s", $wpdb->esc_like( 'edd_sl_' ) . '%' ) );
+
+		delete_site_transient( 'update_plugins' );
 	}
 
 }

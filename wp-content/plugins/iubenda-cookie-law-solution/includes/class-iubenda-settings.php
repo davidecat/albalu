@@ -18,6 +18,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 class Iubenda_Settings {
 	const IUB_QG_API_KEY = 'c52997770b2613f6b0d8b6becffeff8d8071a6ab';
 
+	const IUB_QG_API_KEY_EXTENDIFY = 'd127c7bf8484d01b2d36d228126e35db8dec6e75';
+
 	const IUB_QG_RESPONSE = 'iubenda_quick_generator_response';
 
 	/**
@@ -1305,6 +1307,14 @@ class Iubenda_Settings {
 		$iub_api_key = get_option( 'iubenda_api_key' );
 		if ( $iub_api_key ) {
 			return trim( sanitize_text_field( wp_unslash( $iub_api_key ) ) );
+		}
+
+		// If Extendify is active, use its dedicated API key instead of the general default.
+		if ( ! function_exists( 'is_plugin_active' ) ) {
+			include_once ABSPATH . 'wp-admin/includes/plugin.php';
+		}
+		if ( is_plugin_active( 'extendify/extendify.php' ) ) {
+			return self::IUB_QG_API_KEY_EXTENDIFY;
 		}
 
 		// If the API key is not set in $_SERVER or $_ENV or in DB, use the predefined constant.

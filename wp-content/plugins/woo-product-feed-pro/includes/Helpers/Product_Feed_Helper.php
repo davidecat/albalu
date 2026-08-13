@@ -142,6 +142,34 @@ class Product_Feed_Helper {
     }
 
     /**
+     * Determine whether a legacy cron_projects value holds at least one real feed.
+     *
+     * A "real" feed is any entry carrying a non-empty `project_hash`. Blank,
+     * hashless placeholder entries (which some migration paths create) do not
+     * count. Used to decide whether the prefixed `adt_cron_projects` option can be
+     * trusted, or whether the unprefixed `cron_projects` should be used instead.
+     *
+     * @since 13.5.7
+     * @access public
+     *
+     * @param mixed $projects The (maybe-unserialized) cron_projects value.
+     * @return bool True if at least one entry has a non-empty project_hash.
+     */
+    public static function has_valid_projects( $projects ) {
+        if ( ! is_array( $projects ) ) {
+            return false;
+        }
+
+        foreach ( $projects as $project_data ) {
+            if ( is_array( $project_data ) && ! empty( $project_data['project_hash'] ) ) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
      * Count total product feed projects.
      *
      * @since 13.3.5
@@ -243,7 +271,16 @@ class Product_Feed_Helper {
             $batch_size = intval( $batch_size_option );
         }
 
-        return $batch_size;
+        /**
+         * Filter the batch size for feed generation.
+         *
+         * @since 13.5.7
+         *
+         * @param int          $batch_size         The batch size.
+         * @param Product_Feed $feed               The product feed instance.
+         * @param int          $published_products The total number of published products.
+         */
+        return (int) apply_filters( 'adt_product_feed_batch_size', $batch_size, $feed, $published_products );
     }
 
     /**
@@ -785,5 +822,156 @@ class Product_Feed_Helper {
         }
 
         return false;
+    }
+
+    /**
+     * Resolve the per-product currency code used in feed output.
+     *
+     * Single source for the `adt_product_data_currency` filter result so callers
+     * (the product-data builder and channel feed classes) don't duplicate the
+     * expression and drift.
+     *
+     * @since 13.5.6
+     * @access public
+     *
+     * @return string The currency code (ISO 4217).
+     */
+    public static function get_product_data_currency() {
+        return (string) apply_filters( 'adt_product_data_currency', get_woocommerce_currency() );
+    }
+
+    /**
+     * Load a temporary XML feed file during batch processing, capturing libxml parse detail.
+     *
+     * Wraps simplexml_load_file() with libxml internal-error capture so a parse failure can
+     * report the actual libxml error plus a context snippet (via get_libxml_error_detail())
+     * instead of just the filename. The libxml internal-error state is saved and restored on
+     * both the success and failure paths so other XML operations are unaffected. CDATA is
+     * preserved (LIBXML_NOCDATA is intentionally not passed).
+     *
+     * @since 13.5.6
+     * @access public
+     *
+     * @param string $file Absolute path to the temporary XML feed file.
+     * @return \SimpleXMLElement The parsed XML.
+     * @throws \Exception When the file cannot be parsed, with the libxml detail appended.
+     */
+    public static function load_xml_feed_file( $file ) {
+        $libxml_previous = libxml_use_internal_errors( true );
+        libxml_clear_errors();
+
+        $xml = simplexml_load_file( $file );
+        if ( false === $xml ) {
+            $parse_detail = self::get_libxml_error_detail( $file );
+            libxml_clear_errors();
+            libxml_use_internal_errors( $libxml_previous );
+            // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- Exception message is logged as plain text (WC logger / feed error_message), not HTML output; escaping would corrupt the diagnostic XML snippet. Output is escaped at display time.
+            throw new \Exception( 'Failed to parse temporary XML feed file: ' . basename( $file ) . $parse_detail );
+        }
+
+        libxml_clear_errors();
+        libxml_use_internal_errors( $libxml_previous );
+
+        return $xml;
+    }
+
+    /**
+     * Build a human-readable detail string from the most recent libxml parse errors.
+     *
+     * The caller must enable libxml internal errors (and clear the buffer) before the failing
+     * parse. Reads the first captured error and appends a short snippet of the offending file
+     * content around the failure column, so XML feed parse failures are diagnosable straight
+     * from the feed error log without external tools.
+     *
+     * @since 13.5.6
+     * @access private
+     *
+     * @param string $file Absolute path to the XML file that failed to parse.
+     * @return string Detail string beginning with ' — ', or '' when no libxml error is available.
+     */
+    private static function get_libxml_error_detail( $file ) {
+        $xml_errors = libxml_get_errors();
+        if ( empty( $xml_errors ) ) {
+            return '';
+        }
+
+        $first        = reset( $xml_errors );
+        $parse_detail = sprintf( ' — %s (line %d, col %d)', trim( $first->message ), $first->line, $first->column );
+
+        // Append a short context snippet around the failure so the bad markup is visible.
+        // Read only a bounded ~120-byte window around the error column rather than the whole
+        // offending line: generated feed XML is frequently minified onto a single line, so
+        // reading "the line" would otherwise pull the entire (multi-MB) file into memory.
+        // Seek to the line, take its byte offset, then byte-seek to the window. ($first->line
+        // is 1-based; SplFileObject::seek() is 0-based.) Best-effort, cold-path only.
+        if ( $first->line > 0 ) {
+            try {
+                $reader = new \SplFileObject( $file, 'r' );
+                $reader->seek( $first->line - 1 );              // Position at the offending line.
+                $line_start = (int) $reader->ftell();           // Absolute byte offset of that line.
+                $reader->fseek( $line_start + max( 0, $first->column - 60 ) );
+                $snippet = trim( (string) $reader->fread( 120 ) );
+                $reader  = null; // Release the file handle.
+
+                if ( '' !== $snippet ) {
+                    $parse_detail .= ' — context: "...' . $snippet . '..."';
+                }
+            } catch ( \Exception $e ) {
+                // Snippet is best-effort: keep the message-only detail if the file can no
+                // longer be opened for reading. Never let the snippet read mask the real
+                // "failed to parse" exception the caller is about to throw.
+                unset( $e );
+            }
+        }
+
+        return $parse_detail;
+    }
+
+    /**
+     * Format a postal code for the feed shipping block's postal_code sub-attribute.
+     *
+     * Google Merchant Center (and Facebook, which mirrors Google's shipping format)
+     * rejects the full alphanumeric postal code for GB and CA in the shipping block —
+     * it only accepts the outward/area portion. Sending the full postcode causes an
+     * "Invalid ZIP code [postal_code]" error that limits the row's visibility.
+     *
+     * - GB: outward code — the part before the space (e.g. "LE7 2HA" -> "LE7"). When the
+     *       space is missing, a full postcode (5-7 chars) has the 3-char inward code
+     *       stripped (e.g. "LE72HA" -> "LE7"); an already-outward code (2-4 chars, e.g.
+     *       "SW1A") is returned unchanged so a merchant's manual mitigation is preserved.
+     * - CA: Forward Sortation Area — the first three characters (e.g. "K1A 0B1" -> "K1A").
+     * - Any other country is returned unchanged.
+     *
+     * @since 13.5.7
+     * @access public
+     *
+     * @param string $postcode The raw postal code.
+     * @param string $country  The ISO 3166-1 alpha-2 country code for the location.
+     * @return string The postal code formatted for the shipping block.
+     */
+    public static function format_shipping_postal_code( $postcode, $country ) {
+        $postcode = trim( (string) $postcode );
+        if ( '' === $postcode ) {
+            return $postcode;
+        }
+
+        $country = strtoupper( trim( (string) $country ) );
+
+        if ( 'GB' === $country ) {
+            $normalized = strtoupper( $postcode );
+            $space_pos  = strpos( $normalized, ' ' );
+            if ( false !== $space_pos ) {
+                return trim( substr( $normalized, 0, $space_pos ) );
+            }
+            $compact = str_replace( ' ', '', $normalized );
+            return strlen( $compact ) > 4 ? substr( $compact, 0, -3 ) : $compact;
+        }
+
+        if ( 'CA' === $country ) {
+            $compact = strtoupper( str_replace( ' ', '', $postcode ) );
+            return substr( $compact, 0, 3 );
+        }
+
+        return $postcode;
     }
 }

@@ -22,7 +22,7 @@ if( ! defined( 'ABSPATH' ) ) {
 
 			foreach ( $all_attributes as $cond_attribute ) {
 				$key = 'pa_'.$cond_attribute->attribute_name;
-				$attr_terms = get_terms( $key );
+				$attr_terms = get_terms( array( 'taxonomy' => $key, 'hide_empty' => false ) ); // 4.3.20, load even empty or attributes attached only to private products
 
 				if ( ! empty( $attr_terms ) && ! is_wp_error( $attr_terms ) ) {
 					$all_attributes_string .= '<option data-type="attribute" value="' . esc_attr( $key ) . '">' . esc_html( $cond_attribute->attribute_label ) . '</option>';
@@ -40,6 +40,18 @@ if( ! defined( 'ABSPATH' ) ) {
 				echo '<optgroup id="pewc-all-attributes-optgroup" label="Attributes">';
 				echo $all_attributes_string;
 				echo '</optgroup>';
+			}
+		}
+
+		if ( pewc_use_ajax_conditions() ) {
+			// 4.4.0
+			if ( pewc_enable_groups_as_post_types() && $group_id && 'pewc_group' === get_post_type( $group_id ) ) {
+				// if groups are displayed as post type, load all global groups in the initial select field
+				// this field gets cleared on page load via update_conditional_fields() in admin-fields.js
+				pewc_output_other_global_groups( $group_id );
+			} else if ( ! empty( $_GET['post'] ) && 'product' === get_post_type( $_GET['post'] ) ) {
+				$product_id = (int) $_GET['post'];
+				pewc_output_global_groups_for_product( $product_id );
 			}
 		}
 		?>
@@ -79,5 +91,10 @@ if ( ! empty( $all_attributes_array ) ) {
 $all_roles_array = pewc_get_all_roles();
 if ( ! empty( $all_roles_array ) ) {
 	echo '<input type="hidden" id="pewc_all_roles_json" value="' . esc_attr( json_encode( $all_roles_array ) ) . '">';
+}
+
+// 4.4.0, create nonce for loading conditions
+if ( pewc_use_ajax_conditions() ) {
+	wp_nonce_field( 'pewc_ajax_condition_nonce', 'pewc_ajax_condition_nonce' );
 }
 ?>

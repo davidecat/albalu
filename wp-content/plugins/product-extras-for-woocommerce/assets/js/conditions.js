@@ -421,13 +421,22 @@
 
 				for( var i in conditions ) {
 					var condition = conditions[i];
+
+					// 4.3.20, user-role and log-in-status have no DOM element — PHP evaluated them server-side
+					// before rendering this field. If the field is in the DOM, those conditions already passed.
+					if ( condition.field === 'user-role' || condition.field === 'log-in-status' ) {
+						if ( match === 'any' ) {
+							return true;
+						}
+						continue;
+					}
+
 					if ( condition.field == 'cost' ) {
 						// 3.21.7
 						var field_value = $( '#pewc_total_calc_price' ).val();
 					} else if ( condition.field == 'quantity' ) {
 						var field_value = $( 'form.cart .quantity input.qty' ).val();
 					} else if ( condition.field.substring(0, 3) == 'pa_' ){
-						//var attribute_field = $( '#' + condition.field );
 						// 4.1.2, use encodeURIComponent to support attribute slugs with special chars e.g. Greek letters. We use [id=""] so that we don't need to escape special chars
 						var attribute_field = $( '[id="' + encodeURIComponent( condition.field ).toLowerCase() + '"]' );
 						var field_value = $( attribute_field ).val();
@@ -482,7 +491,13 @@
 
 				// since 3.11.5
 				if ( field.hasClass( 'pewc-hidden-field') || field.closest( '.pewc-group-wrap' ).hasClass( 'pewc-group-hidden' ) ) {
-					if ( ! field.hasClass( 'pewc-reset-me' ) ) {
+					// 4.3.18, only flag for reset if the field isn't already sitting at its default value.
+					// Without this check, a field whose show/hide condition permanently evaluates to
+					// "hidden" (e.g. it depends on a sibling field that never changes) gets re-flagged
+					// pewc-reset-me and pushed through reset_fields() on every condition sweep - cost
+					// updates, quantity changes, any sibling field change - forever, even though
+					// there's nothing left to reset.
+					if ( ! field.hasClass( 'pewc-reset-me' ) && field.attr( 'data-field-value' ) != field.attr( 'data-default-value' ) ) {
 						field.addClass( 'pewc-reset-me' ); // so that we can reset
 					}
 					return ''; // field is hidden so return a blank value
@@ -604,6 +619,12 @@
 					group_selector = '.pewc-group-wrap-' + group_id;
 				}
 
+				// 4.3.18, only flag pewc-reset-group on the visible->hidden transition. Previously this
+				// was added unconditionally every time a group evaluated to hidden, and reset_fields()
+				// never clears the class - so a group that stays permanently hidden (its condition never
+				// flips) had every field inside it reset over and over on every condition sweep.
+				var was_already_hidden = $( group_selector ).hasClass( 'pewc-group-hidden' );
+
 				if( conditions_obtain ) {
 					if( action == 'show' ) {
 						$( group_selector ).removeClass( 'pewc-group-hidden' );
@@ -611,13 +632,23 @@
 						$( group_selector ).removeClass( 'pewc-reset-group' );
 						$( tab_selector ).removeClass( 'pewc-reset-group' );
 					} else {
-						$( group_selector ).addClass( 'pewc-group-hidden pewc-reset-group' );
-						$( tab_selector ).addClass( 'pewc-group-hidden pewc-reset-group' );
+						// 4.3.18
+						$( group_selector ).addClass( 'pewc-group-hidden' );
+						$( tab_selector ).addClass( 'pewc-group-hidden' );
+						if ( ! was_already_hidden ) {
+							$( group_selector ).addClass( 'pewc-reset-group' );
+							$( tab_selector ).addClass( 'pewc-reset-group' );
+						}
 					}
 				} else {
 					if( action == 'show' ) {
-						$( group_selector ).addClass( 'pewc-group-hidden pewc-reset-group' );
-						$( tab_selector ).addClass( 'pewc-group-hidden pewc-reset-group' );
+						// 4.3.18
+						$( group_selector ).addClass( 'pewc-group-hidden' );
+						$( tab_selector ).addClass( 'pewc-group-hidden' );
+						if ( ! was_already_hidden ) {
+							$( group_selector ).addClass( 'pewc-reset-group' );
+							$( tab_selector ).addClass( 'pewc-reset-group' );
+						}
 
 						// $( group_selector ).find( '.pewc-field-triggers-condition' ).each( function() {
 							// Check each field in this group, in case of conditions on the fields
@@ -790,6 +821,7 @@
 			},
 
 			// improvement: maybe don't apply default_values here, which can cause issues in the backend if field is hidden, and another field is dependent on the hidden field
+			// we now have put_back_default(), move some of these processes as issues arise?
 			reset_field_value: function( field ) {
 
 				// Iterate through all fields with pewc-reset-me class
@@ -797,7 +829,7 @@
 				var checks = ['checkbox', 'checkbox_group', 'radio'];
 				var field_type = $( field ).attr( 'data-field-type' );
 				var default_value = $( field ).attr( 'data-default-value' );
-				$( field ).attr( 'data-field-value', default_value );
+				//$( field ).attr( 'data-field-value', default_value ); // 4.3.21, moved to put_back_default
 
 				if( inputs.includes( field_type ) ) {
 					// 3.21.1, the trigger is needed by Text Preview, but could cause an infinite loop, so we check if the default value has already been added
@@ -807,17 +839,27 @@
 				} else if( field_type == 'image_swatch' ) {
 					// 3.17.2 version, removes the swatch from the main image if swatch field is hidden
 					$( field ).find( '.pewc-radio-image-wrapper, .pewc-checkbox-image-wrapper' ).each(function(){
-						if ( $(this).hasClass( 'checked' ) ) {
+						// 4.3.21, let's use put_back_default when an image_swatch is displayed. So here we just uncheck everything?
+						$( this ).removeClass( 'checked' );
+						$( this ).find( 'input' ).prop( 'checked', false );
+						// 4.3.19, skip the remove+re-add click cascade when a wrapper already matches the default,
+						// otherwise the redundant click desyncs the wrapper's checked class from the input's real
+						// checked state and causes an infinite condition-check loop for fields already at default
+						// 4.3.21, the code below is moved to put_back_default_swatch(), triggered only when a Swatch field becomes visible
+						/*var matches_default = $(this).find( 'input' ).val() == default_value;
+						if ( $(this).hasClass( 'checked' ) && ! matches_default ) {
 							$(this).removeClass( 'checked' ); // needed for swatch fields where "allow multiple" is enabled
 							$(this).trigger( 'click' ); // this triggers the update_add_on_image() function in pewc.js
 						}
-						if ( $(this).find( 'input' ).val() == default_value ) {
-							// this field has a default value, add checked class back
-							$(this).addClass( 'checked' );
-							$(this).trigger( 'click' ); // 3.24.8, added to trigger swatches with conditions and layers
+						if ( matches_default ) {
+							if ( ! $(this).hasClass( 'checked' ) ) {
+								// this field has a default value, add checked class back
+								$(this).addClass( 'checked' );
+								$(this).trigger( 'click' ); // 3.24.8, added to trigger swatches with conditions and layers
+							}
 						} else {
 							$(this).find( 'input' ).prop( 'checked', false );
-						}
+						}*/
 					});
 					// 3.24.6, maybe remove the layer if we're resetting anyway? So that when the field is shown again, the layer doesn't contain the last selection
 					if ( default_value === '' && $( field ).hasClass( 'pewc-layered-image' ) ) {
@@ -1089,12 +1131,16 @@
 				var field = $( '.pewc-item.' + pewc_id );
 				if ( field.length > 0 && ! field.hasClass( 'pewc-hidden-field' ) && ! field.closest( '.pewc-group-wrap' ).hasClass( 'pewc-group-hidden' ) && field.attr( 'data-default-value' ) != undefined && field.attr( 'data-default-value' ) != '' ) {
 					var default_value = field.attr( 'data-default-value' );
+					$( field ).attr( 'data-field-value', default_value ); // 4.3.21, moved here from reset_field_value
 
 					if ( 'checkbox' === field.attr( 'data-field-type' ) && 'checked' === default_value ) {
 						field.find( 'input#' + pewc_id ).prop( 'checked', true ).trigger( 'change' );
 					} else if ( 'products' === field.attr( 'data-field-type' ) || 'product-categories' === field.attr( 'data-field-type' ) ) {
 						// 3.27.2
 						pewc_conditions.put_back_default_products( field, default_value );
+					} else if ( 'image_swatch' === field.attr( 'data-field-type' ) ) {
+						// 4.3.21
+						pewc_conditions.put_back_default_swatch( field, default_value );
 					}
 				}
 
@@ -1127,6 +1173,26 @@
 				}
 
 			},
+
+			// 4.3.21
+			put_back_default_swatch: function( field, default_value ) {
+
+				$( field ).find( '.pewc-radio-image-wrapper, .pewc-checkbox-image-wrapper' ).each(function(){
+					var matches_default = $(this).find( 'input' ).val() == default_value;
+					if ( $(this).hasClass( 'checked' ) && ! matches_default ) {
+						$(this).removeClass( 'checked' ); // needed for swatch fields where "allow multiple" is enabled
+						$(this).trigger( 'click' ); // this triggers the update_add_on_image() function in pewc.js
+					}
+					if ( matches_default ) {
+						if ( ! $(this).hasClass( 'checked' ) ) {
+							// this field has a default value, add checked class back
+							//$(this).addClass( 'checked' ); // commented out because this can be added after the click trigger below? This was also causing an where the checked class is being removed by the click below if Allow Multiple is enabled
+							$(this).trigger( 'click' ); // trigger swatches with conditions and layers
+						}
+					}
+				});
+
+			}
 
 		}
 

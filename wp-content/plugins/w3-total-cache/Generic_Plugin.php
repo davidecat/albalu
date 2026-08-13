@@ -560,46 +560,52 @@ class Generic_Plugin {
 	public function admin_bar_menu() {
 		global $wp_admin_bar;
 
+		$is_full_admin = \current_user_can( 'manage_options' );
+
 		/**
-		 * Hard floor at `manage_options` so the `w3tc_capability_admin_bar`
-		 * filter cannot downgrade the admin bar to lower-capability users
-		 * (consistent with the floor applied at every other
-		 * `w3tc_capability_*` filter site).
+		 * Full Performance menu for manage_options; otherwise a purge-only
+		 * subset when the user has a filterable purge capability.
+		 *
+		 * @since 2.10.4
 		 */
-		if ( ! \current_user_can( 'manage_options' ) ) {
+		if ( ! $is_full_admin && ! Util_Capability::user_can_purge_anything() ) {
 			return;
 		}
 
-		$base_capability = apply_filters( 'w3tc_capability_admin_bar', 'manage_options' );
+		$base_capability = Util_Capability::sanitize_capability(
+			\apply_filters( 'w3tc_capability_admin_bar', 'manage_options' )
+		);
 
-		if ( current_user_can( $base_capability ) ) {
-			$w3tc_modules = Dispatcher::component( 'ModuleStatus' );
+		if ( ! $is_full_admin && ! \current_user_can( $base_capability ) && ! Util_Capability::user_can_purge_anything() ) {
+			return;
+		}
 
-			$menu_items = array();
+		$w3tc_modules = Dispatcher::component( 'ModuleStatus' );
+		$menu_items   = array();
 
-			$menu_items['00010.generic'] = array(
-				'id'    => 'w3tc',
-				'title' => sprintf(
-					'<span class="w3tc-icon ab-icon"></span><span class="ab-label">%s</span>',
-					__( 'Performance', 'w3-total-cache' )
-				),
-				'href'  => network_admin_url( 'admin.php?page=w3tc_dashboard' ),
-			);
+		$menu_items['00010.generic'] = array(
+			'id'    => 'w3tc',
+			'title' => sprintf(
+				'<span class="w3tc-icon ab-icon"></span><span class="ab-label">%s</span>',
+				__( 'Performance', 'w3-total-cache' )
+			),
+			'href'  => $is_full_admin
+				? network_admin_url( 'admin.php?page=w3tc_dashboard' )
+				: false,
+		);
 
-			$current_page = Util_Request::get_string( 'page', 'w3tc_dashboard' );
-
-			if ( $w3tc_modules->plugin_is_enabled() ) {
+		if ( $w3tc_modules->plugin_is_enabled() ) {
+			if ( $is_full_admin || Util_Capability::can_flush_all() ) {
 				$menu_items['10010.generic'] = array(
 					'id'     => 'w3tc_flush_all',
 					'parent' => 'w3tc',
 					'title'  => __( 'Purge All Caches', 'w3-total-cache' ),
-					'href'   => Util_Nonce::admin_nonce_url(
-						network_admin_url( 'admin.php?page=' . $current_page . '&w3tc_flush_all' ),
-						'w3tc_flush_all'
-					),
+					'href'   => Util_Capability::purge_action_url( 'w3tc_flush_all' ),
 				);
+			}
 
-				// Add menu item to flush all cached except Cloudflare.
+			// Cloudflare except-cf and Purge Modules: full admin only.
+			if ( $is_full_admin ) {
 				if (
 					$this->_config->get_boolean( 'cdnfsd.enabled' ) &&
 					'cloudflare' === $this->_config->get_string( 'cdnfsd.engine' ) &&
@@ -626,26 +632,37 @@ class Generic_Plugin {
 						),
 					);
 				}
+			}
 
-				if ( ! is_admin() ) {
+			if ( ! is_admin() ) {
+				$post_id = (int) Util_Environment::detect_post_id();
+
+				if ( $post_id > 0 && ( $is_full_admin || Util_Capability::can_flush_post_id( $post_id ) ) ) {
 					$menu_items['10020.generic'] = array(
 						'id'     => 'w3tc_flush_current_page',
 						'parent' => 'w3tc',
 						'title'  => __( 'Purge Current Page', 'w3-total-cache' ),
-						'href'   => Util_Nonce::admin_nonce_url(
-							network_admin_url( 'admin.php?page=w3tc_dashboard&amp;w3tc_flush_post&amp;post_id=' . Util_Environment::detect_post_id() . '&force=true' ),
-							'w3tc_flush_post'
+						'href'   => Util_Capability::purge_action_url(
+							'w3tc_flush_post',
+							array(
+								'post_id' => $post_id,
+								'force'   => 'true',
+							)
 						),
 					);
 				}
+			}
 
+			if ( $is_full_admin ) {
 				$menu_items['20010.generic'] = array(
 					'id'     => 'w3tc_flush',
 					'parent' => 'w3tc',
 					'title'  => __( 'Purge Modules', 'w3-total-cache' ),
 				);
 			}
+		}
 
+		if ( $is_full_admin ) {
 			$menu_items['30000.generic'] = array(
 				'id'     => 'w3tc_feature_showcase',
 				'parent' => 'w3tc',
@@ -697,41 +714,70 @@ class Generic_Plugin {
 					'title'  => __( 'Debug: Overlays', 'w3-total-cache' ),
 				);
 			}
+		}
 
-			$menu_items = apply_filters( 'w3tc_admin_bar_menu', $menu_items );
+		$menu_items = \apply_filters( 'w3tc_admin_bar_menu', $menu_items );
 
-			$w3tc_keys = array_keys( $menu_items );
-			asort( $w3tc_keys );
-
-			foreach ( $w3tc_keys as $w3tc_key ) {
-				$capability = apply_filters(
-					'w3tc_capability_admin_bar_' . $menu_items[ $w3tc_key ]['id'],
-					$base_capability
-				);
-
-				if ( current_user_can( $capability ) ) {
-					$wp_admin_bar->add_menu( $menu_items[ $w3tc_key ] );
+		/**
+		 * Non-admins: keep allowlisted purge items whose href targets a
+		 * filterable purge action (extensions may reuse an allowlisted id
+		 * with a dashboard-only link).
+		 *
+		 * @since 2.10.4
+		 */
+		if ( ! $is_full_admin ) {
+			$menu_items = \array_filter(
+				$menu_items,
+				static function ( $item ) {
+					return \is_array( $item ) && Util_Capability::is_allowed_purge_admin_bar_item( $item );
 				}
+			);
+		}
+
+		$w3tc_keys = \array_keys( $menu_items );
+		\asort( $w3tc_keys );
+
+		foreach ( $w3tc_keys as $w3tc_key ) {
+			$item_id = $menu_items[ $w3tc_key ]['id'];
+
+			if ( 'w3tc' === $item_id ) {
+				$default_cap = $is_full_admin
+					? $base_capability
+					: Util_Capability::admin_bar_parent_capability();
+			} elseif ( 'w3tc_flush_all' === $item_id ) {
+				$default_cap = Util_Capability::flush_all_capability();
+			} elseif ( 'w3tc_flush_current_page' === $item_id ) {
+				$default_cap = Util_Capability::flush_post_capability();
+			} else {
+				$default_cap = $base_capability;
 			}
 
-			if ( ! is_admin() && ! is_null( $this->frontend_notice ) && ! empty( $this->frontend_notice['messages'] ) ) {
-				$sanitized_messages = array_map( 'wp_strip_all_tags', $this->frontend_notice['messages'] );
-				$w3tc_label         = esc_html( wp_html_excerpt( implode( ' ', $sanitized_messages ), 120, '…' ) );
+			$capability = Util_Capability::sanitize_capability(
+				\apply_filters( 'w3tc_capability_admin_bar_' . $item_id, $default_cap )
+			);
 
-				if ( '' !== $w3tc_label ) {
-					$wp_admin_bar->add_menu(
-						array(
-							'id'     => 'w3tc_frontend_notice',
-							'parent' => 'top-secondary',
-							'title'  => $w3tc_label . '<span class="w3tc-frontend-notice-dismiss" role="button" aria-label="' . esc_attr__( 'Dismiss notice', 'w3-total-cache' ) . '">&times;</span>',
-							'href'   => false,
-							'meta'   => array(
-								'class' => 'w3tc-frontend-notice w3tc-frontend-notice-' . $this->frontend_notice['type'],
-								'title' => $w3tc_label,
-							),
-						)
-					);
-				}
+			if ( \current_user_can( $capability ) ) {
+				$wp_admin_bar->add_menu( $menu_items[ $w3tc_key ] );
+			}
+		}
+
+		if ( $is_full_admin && ! is_admin() && ! is_null( $this->frontend_notice ) && ! empty( $this->frontend_notice['messages'] ) ) {
+			$sanitized_messages = array_map( 'wp_strip_all_tags', $this->frontend_notice['messages'] );
+			$w3tc_label         = esc_html( wp_html_excerpt( implode( ' ', $sanitized_messages ), 120, '…' ) );
+
+			if ( '' !== $w3tc_label ) {
+				$wp_admin_bar->add_menu(
+					array(
+						'id'     => 'w3tc_frontend_notice',
+						'parent' => 'top-secondary',
+						'title'  => $w3tc_label . '<span class="w3tc-frontend-notice-dismiss" role="button" aria-label="' . esc_attr__( 'Dismiss notice', 'w3-total-cache' ) . '">&times;</span>',
+						'href'   => false,
+						'meta'   => array(
+							'class' => 'w3tc-frontend-notice w3tc-frontend-notice-' . $this->frontend_notice['type'],
+							'title' => $w3tc_label,
+						),
+					)
+				);
 			}
 		}
 	}
@@ -938,12 +984,28 @@ class Generic_Plugin {
 			return $buffer;
 		}
 
+		$is_rest_request = $this->is_rest_ob_request();
+		if ( $is_rest_request && ! $this->should_ob_process_rest() ) {
+			return $buffer;
+		}
+
 		if ( $this->is_wp_die && ! apply_filters( 'w3tc_process_wp_die', false, $buffer ) ) { // phpcs:ignore Generic.CodeAnalysis.EmptyStatement.DetectedIf
 			// wp_die is dynamic output (usually fatal errors), dont process it.
+		} elseif ( $is_rest_request ) {
+			// REST caching enabled: pagecache only — skip HTML processors on JSON.
+			$buffer = Util_Bus::do_ob_callbacks(
+				array( 'pagecache' ),
+				$buffer
+			);
 		} else {
 			$buffer = apply_filters( 'w3tc_process_content', $buffer );
 
-			if ( Util_Content::can_print_comment( $buffer ) ) {
+			/**
+			 * The buffer is also flushed when a request aborts before the WordPress load completes.
+			 * Building the footer comment then would translate strings before the text domain is
+			 * available, so the comment is only added once the load has reached init.
+			 */
+			if ( \did_action( 'init' ) && Util_Content::can_print_comment( $buffer ) ) {
 				/**
 				 * Add footer comment
 				 */
@@ -1050,12 +1112,44 @@ class Generic_Plugin {
 		}
 
 		/**
+		 * Skip REST API requests unless page-cache REST caching is enabled.
+		 * Uses URL detection because REST_REQUEST is defined later (parse_request).
+		 */
+		if ( $this->is_rest_ob_request() && ! $this->should_ob_process_rest() ) {
+			return false;
+		}
+
+		/**
 		 * Do not skip output buffering based on User-Agent: the value is client-controlled.
 		 * A request claiming "W3 Total Cache" would previously bypass ob_callback, skipping
 		 * page-cache processing and emitting W3TC_DYNAMIC_SECURITY in unprocessed mfunc/mclude.
 		 */
 
 		return true;
+	}
+
+	/**
+	 * Whether the current request looks like a REST API call for OB gating.
+	 *
+	 * @since 2.10.3
+	 *
+	 * @return bool
+	 */
+	private function is_rest_ob_request() {
+		$request_uri = isset( $_SERVER['REQUEST_URI'] ) ? esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ) ) : '';
+
+		return (bool) Util_Environment::is_rest_request( $request_uri );
+	}
+
+	/**
+	 * Whether REST responses should run through the page-cache OB path.
+	 *
+	 * @since 2.10.3
+	 *
+	 * @return bool
+	 */
+	private function should_ob_process_rest() {
+		return 'cache' === $this->_config->get_string( 'pgcache.rest' );
 	}
 
 	/**

@@ -23,15 +23,15 @@ function pewc_plugin_updater( $license_key='' ) {
 
 	if( apply_filters( 'pr_restrict_pages_plugin_update', true ) ) {
 		global $pagenow;
-		if( ! $license_key && ( ! isset( $pagenow ) || ( $pagenow != 'plugins.php' &&  $pagenow != 'update-core.php' ) ) ) {
-			// Only look for updates on the plugins or update pages
-			return;
+		if( ! $license_key && ( ! isset( $pagenow ) || ( $pagenow != 'plugins.php' &&  $pagenow != 'update-core.php' && $pagenow != 'plugin-install.php' ) ) ) {
+			// Only look for updates on the plugins, update, or plugin-install (View Details) pages
+			// return;
 		}
 	}
 	
 
 	if( ! $license_key ) {
-		$license_key = trim( get_option( 'pewc_license_key' ) );
+		$license_key = defined( 'PEWC_LICENSE_KEY' ) ? trim( PEWC_LICENSE_KEY ) : trim( get_option( 'pewc_license_key' ) );
 	}
 
 	$beta_tester = get_option( 'pewc_beta_testing', 'no' );
@@ -66,7 +66,7 @@ add_action( 'admin_init', 'pewc_activate_license' );
  * Activate the license
  */
 function pewc_daily_check_license() {
-	$license = trim( get_option( 'pewc_license_key' ) );
+	$license = defined( 'PEWC_LICENSE_KEY' ) ? trim( PEWC_LICENSE_KEY ) : trim( get_option( 'pewc_license_key' ) );
 	pewc_do_license_activation( $license );
 }
 // Changed to weekly 3.7.7
@@ -217,7 +217,7 @@ function pewc_deactivate_license() {
 	}
 
 	// retrieve the license from the database
-	$license = trim( get_option( 'pewc_license_key' ) );
+	$license = defined( 'PEWC_LICENSE_KEY' ) ? trim( PEWC_LICENSE_KEY ) : trim( get_option( 'pewc_license_key' ) );
 
 	// data to send in our API request
 	$api_params = array(

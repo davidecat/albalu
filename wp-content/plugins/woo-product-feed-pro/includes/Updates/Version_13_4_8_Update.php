@@ -7,46 +7,27 @@
 
 namespace AdTribes\PFP\Updates;
 
-use AdTribes\PFP\Abstracts\Abstract_Class;
+use AdTribes\PFP\Abstracts\Abstract_Update;
+use AdTribes\PFP\Helpers\Product_Feed_Helper;
 
 /**
  * Class Version_13_4_8_Update
  *
+ * Gating/idempotency live in Abstract_Update; update() only writes a prefixed
+ * option when it does not already exist, so a one-time re-run is a no-op.
+ *
  * @since 13.4.8
  */
-class Version_13_4_8_Update extends Abstract_Class {
+class Version_13_4_8_Update extends Abstract_Update {
 
     /**
-     * Holds the version number.
+     * Per-blog option name flagging this migration as complete.
      *
-     * @since 13.4.8
-     * @access protected
+     * @since 13.5.6
      *
      * @var string
      */
-    protected $version = '13.4.8';
-
-    /**
-     * Whether to force update the options.
-     *
-     * @since 13.4.8
-     * @access protected
-     *
-     * @var bool
-     */
-    protected $force_update = false;
-
-    /**
-     * Constructor.
-     *
-     * @since 13.4.8
-     * @access public
-     *
-     * @param bool $force_update Whether to force update the options.
-     */
-    public function __construct( $force_update = false ) {
-        $this->force_update = $force_update;
-    }
+    const MIGRATION_FLAG = 'adt_pfp_update_13_4_8_done';
 
     /**
      * Migrate unprefixed options to prefixed versions.
@@ -140,39 +121,32 @@ class Version_13_4_8_Update extends Abstract_Class {
         foreach ( $options_to_migrate as $old_option => $new_option_config ) {
             $old_value = get_option( $old_option );
 
+            // Nothing to copy if the old option was never set.
+            if ( false === $old_value ) {
+                continue;
+            }
+
             // Handle both array and string formats for backward compatibility.
             $new_option = is_array( $new_option_config ) ? $new_option_config['value'] : $new_option_config;
             $autoload   = is_array( $new_option_config ) ? $new_option_config['autoload'] : true;
 
-            // If the old option exists and the new one doesn't, migrate the value.
-            if ( false !== $old_value && false === get_option( $new_option ) ) {
-                update_option( $new_option, $old_value, $autoload );
-            }
-        }
-    }
+            $new_value = get_option( $new_option );
 
-    /**
-     * Run the class.
-     *
-     * @since 13.4.8
-     */
-    public function run() {
-        if (
-            (
-                version_compare( get_site_option( ADT_PFP_OPTION_INSTALLED_VERSION ), $this->version, '<=' ) ||
-                ! get_site_option( ADT_PFP_OPTION_INSTALLED_VERSION )
-            ) || $this->force_update
-        ) {
-            if ( is_multisite() ) {
-                global $wpdb;
-                $blog_ids = $wpdb->get_col( "SELECT blog_id FROM {$wpdb->blogs}" );
-                foreach ( $blog_ids as $blog_id ) {
-                    switch_to_blog( $blog_id );
-                    $this->update();
-                    restore_current_blog();
-                }
-            } else {
-                $this->update();
+            // By default, only copy when the prefixed option does not yet exist.
+            $should_migrate = false === $new_value;
+
+            // Harden the cron_projects copy: a pre-existing but blank/hashless
+            // adt_cron_projects (created by an earlier CPT migration path) must not
+            // block copying the real feeds still held in the unprefixed
+            // cron_projects. Overwrite it when the legacy option has real feeds and
+            // the prefixed one does not. See #1028.
+            if ( ! $should_migrate && 'cron_projects' === $old_option ) {
+                $should_migrate = Product_Feed_Helper::has_valid_projects( maybe_unserialize( $old_value ) )
+                    && ! Product_Feed_Helper::has_valid_projects( maybe_unserialize( $new_value ) );
+            }
+
+            if ( $should_migrate ) {
+                update_option( $new_option, $old_value, $autoload );
             }
         }
     }

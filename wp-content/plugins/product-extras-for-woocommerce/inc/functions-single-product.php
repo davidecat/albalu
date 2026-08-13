@@ -507,6 +507,7 @@ function pewc_product_extra_fields() {
 		$number_teaser_fields = pewc_get_number_teaser_fields();
 		$count_fields = 0;
 		$group_index = 0;
+		$has_upload_field = false; // 4.3.18
 
 		// 3.22.0, build a new array with repeated groups
 		$all_groups = pewc_build_groups_array_with_repeated( $product_extra_groups );
@@ -640,6 +641,8 @@ function pewc_product_extra_fields() {
 										$quantity_field_values = array( 1 );
 									}
 
+								} else if ( $item['field_type'] == 'upload' ) {
+									$has_upload_field = true; // 4.3.18
 								}
 
 								// Ensure checkbox default is retained
@@ -818,6 +821,12 @@ function pewc_product_extra_fields() {
 
 			$group_index++;
 
+		}
+
+		if ( ! $has_upload_field && is_single() ) {
+			// 4.3.18, don't load the upload template if the product does not have an Upload field
+			// only do this on the single product page for now, so that Uploads still works with PTU
+			remove_action( 'wp_footer', 'pewc_dropzone_template' );
 		}
 
 		/**
@@ -1590,7 +1599,8 @@ function pewc_field_label( $item, $id, $group_layout='ul' ) {
 			);
 
 			$price_label .= '<span class="pewc-field-price"> ' . $formatted_price;
-			if( ! empty( $item['per_character'] ) && ( $item['field_type'] == 'text' || $item['field_type'] == 'textarea' ) ) {
+			// 4.3.20, added advanced-preview (Text Preview) to the condition
+			if( ! empty( $item['per_character'] ) && ( $item['field_type'] == 'text' || $item['field_type'] == 'textarea' || $item['field_type'] == 'advanced-preview' ) ) {
 				$price_label .= ' <span class="pewc-per-character-label">' . __( 'per character', 'pewc' ) . '</span>';
 			}
 			$price_label .= '</span>';

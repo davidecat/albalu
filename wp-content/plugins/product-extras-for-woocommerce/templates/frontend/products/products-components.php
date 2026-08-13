@@ -1,7 +1,8 @@
 <?php
 /**
  * A products field template for the components layout
- * @since 3.25.0
+ * @since	3.25.0
+ * @version	4.3.17
  * @package WooCommerce Product Add-Ons Ultimate
  */
 
@@ -166,6 +167,9 @@ if( ! empty( $item['products_quantities'] ) ) {
 
 		$quantity_field = apply_filters( 'pewc_filter_quantity_field', $quantity_field, $max, $child_product_id, $id, $quantity_field_value, $disabled );
 
+		// 4.3.17
+		$data_stock = ! empty( $available_stock ) ? $available_stock : '';
+
 		printf(
 			'<div class="%s">',
 			join( ' ', $wrapper_classes )
@@ -176,9 +180,10 @@ if( ! empty( $item['products_quantities'] ) ) {
 		
 		// Open label
 		printf(
-			'<label for="%s"><input data-option-cost="%s" data-field-label="%s" type="%s" name="%s[]" id="%s" class="pewc-checkbox-form-field" value="%s" %s %s>',
+			'<label for="%s"><input data-option-cost="%s" data-stock="%s" data-field-label="%s" type="%s" name="%s[]" id="%s" class="pewc-checkbox-form-field" value="%s" %s %s>',
 			esc_attr( $checkbox_id ),
 			esc_attr( $option_cost ),
+			esc_attr( $data_stock ),
 			get_the_title( $child_product_id ),
 			esc_attr( $input_type ),
 			esc_attr( $field_name ),

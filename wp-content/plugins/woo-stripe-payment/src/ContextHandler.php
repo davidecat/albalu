@@ -25,7 +25,7 @@ class ContextHandler {
 
 	const SHOP = 'shop';
 
-	const ACCOUNT = 'shop';
+	const ACCOUNT = 'account';
 
 	/**
 	 * @var string
@@ -37,11 +37,19 @@ class ContextHandler {
 	 */
 	private $order;
 
+	/**
+	 * @var bool
+	 */
+	private $initialized = false;
+
 	public function __construct() {
 		add_action( 'wp', [ $this, 'initialize' ] );
 		add_action( 'init', function () {
 			if ( function_exists( '\is_ajax' ) && \is_ajax() ) {
-				add_action( 'woocommerce_before_calculate_totals', [ $this, 'initialize' ] );
+				add_action( 'woocommerce_before_calculate_totals', function () {
+					$this->initialized = false;
+					$this->initialize();
+				} );
 			}
 		} );
 	}
@@ -55,6 +63,20 @@ class ContextHandler {
 	}
 
 	public function initialize() {
+		if ( $this->initialized ) {
+			return;
+		}
+		/**
+		 * The main query/$post global are only guaranteed to be fully resolved once the 'wp' action
+		 * has fired (WP::main() runs query_posts()/register_globals() before firing it). If this runs
+		 * earlier - e.g. via is_context()'s lazy call, before 'wp' fires - don't lock the result in
+		 * permanently; let a later, reliable call retry instead of getting stuck with whatever an
+		 * unreliable early environment resolved (or failed to resolve).
+		 */
+		if ( did_action( 'wp' ) ) {
+			$this->initialized = true;
+		}
+
 		global $post;
 		if ( ! $this->context ) {
 			if ( is_checkout() ) {
@@ -73,7 +95,7 @@ class ContextHandler {
 				$this->context = self::CART;
 			} elseif ( is_product() || ( $post && ! empty( $post->post_content ) && strstr( $post->post_content, '[product_page' ) ) ) {
 				$this->context = self::PRODUCT;
-			} elseif ( is_shop() ) {
+			} elseif ( is_shop() || is_product_taxonomy() ) {
 				$this->context = self::SHOP;
 			} elseif ( is_account_page() ) {
 				$this->context = self::ACCOUNT;
@@ -165,7 +187,7 @@ class ContextHandler {
 	public function is_checkout_block() {
 		$id = get_queried_object_id();
 
-		return \is_int( $id )
+		return is_singular() && $id > 0
 		       && class_exists( '\WC_Blocks_Utils' )
 		       && \WC_Blocks_Utils::has_block_in_page( $id, 'woocommerce/checkout' );
 	}
@@ -177,7 +199,7 @@ class ContextHandler {
 	public function is_cart_block() {
 		$id = get_queried_object_id();
 
-		return \is_int( $id )
+		return is_singular() && $id > 0
 		       && class_exists( '\WC_Blocks_Utils' )
 		       && \WC_Blocks_Utils::has_block_in_page( $id, 'woocommerce/cart' );
 	}
@@ -189,7 +211,7 @@ class ContextHandler {
 	public function is_product_block() {
 		$id = get_queried_object_id();
 
-		return \is_int( $id )
+		return is_singular() && $id > 0
 		       && class_exists( '\WC_Blocks_Utils' )
 		       && \WC_Blocks_Utils::has_block_in_page( $id, 'woocommerce/single-product' );
 	}

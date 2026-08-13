@@ -104,6 +104,12 @@ if ( ! function_exists( 'gtm4wp_amp_running' ) ) {
  * IP address for tracking purposes. Therefore function has been changed to only use the safe server variable and a user option to allow one
  * specific custom HTTP header.
  *
+ * Note that the custom header value is still NOT authenticated. Narrowing the choice to one operator-configured header removes the guesswork
+ * an attacker had with a header list, but the header itself remains client supplied - only REMOTE_ADDR is observed by the server. For
+ * X-Forwarded-For the list below is scanned left to right, and proxies that append (nginx proxy_add_x_forwarded_for, AWS ALB, Cloudflare)
+ * put the address they observed on the right, so the entry returned here is the one the client chose rather than the one the proxy vouched
+ * for. Treat the result as analytics data, never as an input to an access decision.
+ *
  * The function will translate the given custom header to a PHP server varibale, no need to directly input the PHP form of the header.
  * If custom the header is not found, the function will fall back to REMOTE_ADDR.
  *
@@ -115,7 +121,11 @@ function gtm4wp_get_user_ip( $use_custom_header = '' ) {
 
 	if ( '' !== $use_custom_header ) {
 		$custom_header = strtoupper( str_replace( '-', '_', $use_custom_header ) );
-		if ( preg_match( '/[A-Z0-9_]+/', $custom_header ) ) {
+		// Anchored on purpose: the unanchored version this replaces matched any string
+		// CONTAINING one allowed character, so it accepted every input and validated
+		// nothing. Any value that produced a working $_SERVER key consists only of
+		// allowed characters anyway, so working setups are unaffected.
+		if ( preg_match( '/^[A-Z0-9_]+$/', $custom_header ) ) {
 			$custom_header = 'HTTP_' . $custom_header;
 		} else {
 			$custom_header = '';
@@ -124,8 +134,12 @@ function gtm4wp_get_user_ip( $use_custom_header = '' ) {
 
 	if ( ( '' !== $custom_header ) && ( ! empty( $_SERVER[ $custom_header ] ) ) ) {
 		if ( 'HTTP_X_FORWARDED_FOR' === $custom_header ) {
-			// X-Forwarded-For is a comma+space separated list of IPs.
+			// X-Forwarded-For is a comma+space separated list of IPs, so each entry
+			// has to be trimmed before it is validated: without that, every entry
+			// after the first carries a leading space and fails filter_var().
 			foreach ( explode( ',', sanitize_text_field( wp_unslash( $_SERVER[ $custom_header ] ) ) ) as $ip ) {
+				$ip = trim( $ip );
+
 				if ( filter_var( $ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE ) !== false ) {
 					return $ip;
 				}
@@ -201,6 +215,37 @@ function gtm4wp_get_sanitize_script_block_rules() {
 }
 
 /**
+ * Safely outputs an inline script block.
+ *
+ * The block is sanitized with wp_kses() so only the allow-listed <script>
+ * tag and its attributes survive. wp_kses() also entity-encodes every bare
+ * ampersand (& becomes &amp;), which would break JavaScript operators such
+ * as && and query string separators such as &l=, so the ampersand - and
+ * only the ampersand - is restored afterwards.
+ *
+ * Earlier versions ran htmlspecialchars_decode() over the whole block, which
+ * also turned &quot;, &lt;, &gt; and &#039; back into raw ", <, > and '
+ * characters. Inside a <script> element the browser never HTML-decodes
+ * entities, so those escaped sequences are already inert and decoding them
+ * only re-enabled string/tag break-outs from values escaped with esc_js() or
+ * esc_attr() (e.g. the site search term reaching the data layer as &quot;).
+ * Leaving everything but the ampersand encoded keeps such values safe while
+ * the trusted JavaScript still runs.
+ *
+ * @param string     $block The full script block including the <script> tags.
+ * @param array|null $rules Optional wp_kses() rule set override.
+ * @return void
+ */
+function gtm4wp_print_script_block( $block, $rules = null ) {
+	$sanitized = wp_kses(
+		$block,
+		null === $rules ? gtm4wp_get_sanitize_script_block_rules() : $rules
+	);
+
+	echo str_replace( '&amp;', '&', $sanitized ); //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- wp_kses() sanitized above; only the ampersand entity is restored so inline JS operators and URLs stay valid.
+}
+
+/**
  * Populate main data layer outputted in the <head> before the GTM container snippet.
  *
  * @param array $data_layer Array of key-value pairs that will be outputed as a JSON object into the dataLayer global JavaScript variable.
@@ -258,11 +303,11 @@ function gtm4wp_add_basic_datalayer_data( $data_layer ) {
 	}
 
 	if ( $gtm4wp_options[ GTM4WP_OPTION_INCLUDE_VISITOR_IP ] ) {
-		$data_layer['visitorIP'] = esc_js( gtm4wp_get_user_ip( $gtm4wp_options[ GTM4WP_OPTION_INCLUDE_VISITOR_IP_HEADER ] ) );
+		$data_layer['visitorIP'] = gtm4wp_get_user_ip( $gtm4wp_options[ GTM4WP_OPTION_INCLUDE_VISITOR_IP_HEADER ] );
 	}
 
 	if ( $gtm4wp_options[ GTM4WP_OPTION_INCLUDE_POSTTITLE ] ) {
-		$data_layer['pageTitle'] = htmlspecialchars( wp_strip_all_tags( wp_title( '|', false, 'right' ) ) );
+		$data_layer['pageTitle'] = wp_strip_all_tags( wp_title( '|', false, 'right' ) );
 	}
 
 	if ( is_singular() ) {
@@ -437,7 +482,7 @@ function gtm4wp_add_basic_datalayer_data( $data_layer ) {
 		$data_layer['pagePostType'] = 'search-results';
 
 		if ( $gtm4wp_options[ GTM4WP_OPTION_INCLUDE_SEARCHDATA ] ) {
-			$data_layer['siteSearchTerm'] = htmlspecialchars( get_search_query() );
+			$data_layer['siteSearchTerm'] = get_search_query();
 			$data_layer['siteSearchFrom'] = '';
 			if ( ! empty( $_SERVER['HTTP_REFERER'] ) ) {
 				$referer_url_parts            = explode( '?', esc_url_raw( wp_unslash( $_SERVER['HTTP_REFERER'] ) ) );
@@ -545,13 +590,13 @@ function gtm4wp_add_basic_datalayer_data( $data_layer ) {
 	}
 
 	if ( $gtm4wp_options[ GTM4WP_OPTION_INCLUDE_MISCGEOCF ] && isset( $_SERVER['HTTP_CF_IPCOUNTRY'] ) ) {
-		$data_layer['geoCloudflareCountryCode'] = esc_js( sanitize_text_field( wp_unslash( $_SERVER['HTTP_CF_IPCOUNTRY'] ) ) );
+		$data_layer['geoCloudflareCountryCode'] = sanitize_text_field( wp_unslash( $_SERVER['HTTP_CF_IPCOUNTRY'] ) );
 	}
 
 	if ( $gtm4wp_options[ GTM4WP_OPTION_INCLUDE_WEATHER ] || $gtm4wp_options[ GTM4WP_OPTION_INCLUDE_MISCGEO ] ) {
 		if ( $gtm4wp_options[ GTM4WP_OPTION_INCLUDE_WEATHER ] ) {
-			$data_layer['weatherCategory']    = esc_js( __( '(no weather data available)', 'duracelltomi-google-tag-manager' ) );
-			$data_layer['weatherDescription'] = esc_js( __( '(no weather data available)', 'duracelltomi-google-tag-manager' ) );
+			$data_layer['weatherCategory']    = __( '(no weather data available)', 'duracelltomi-google-tag-manager' );
+			$data_layer['weatherDescription'] = __( '(no weather data available)', 'duracelltomi-google-tag-manager' );
 			$data_layer['weatherTemp']        = 0;
 			$data_layer['weatherPressure']    = 0;
 			$data_layer['weatherWindSpeed']   = 0;
@@ -560,14 +605,14 @@ function gtm4wp_add_basic_datalayer_data( $data_layer ) {
 		}
 
 		if ( $gtm4wp_options[ GTM4WP_OPTION_INCLUDE_MISCGEO ] ) {
-			$data_layer['geoCountryCode'] = esc_js( __( '(no geo data available)', 'duracelltomi-google-tag-manager' ) );
-			$data_layer['geoCountryName'] = esc_js( __( '(no geo data available)', 'duracelltomi-google-tag-manager' ) );
-			$data_layer['geoRegionCode']  = esc_js( __( '(no geo data available)', 'duracelltomi-google-tag-manager' ) );
-			$data_layer['geoRegionName']  = esc_js( __( '(no geo data available)', 'duracelltomi-google-tag-manager' ) );
-			$data_layer['geoCity']        = esc_js( __( '(no geo data available)', 'duracelltomi-google-tag-manager' ) );
-			$data_layer['geoZipcode']     = esc_js( __( '(no geo data available)', 'duracelltomi-google-tag-manager' ) );
-			$data_layer['geoLatitude']    = esc_js( __( '(no geo data available)', 'duracelltomi-google-tag-manager' ) );
-			$data_layer['geoLongitude']   = esc_js( __( '(no geo data available)', 'duracelltomi-google-tag-manager' ) );
+			$data_layer['geoCountryCode'] = __( '(no geo data available)', 'duracelltomi-google-tag-manager' );
+			$data_layer['geoCountryName'] = __( '(no geo data available)', 'duracelltomi-google-tag-manager' );
+			$data_layer['geoRegionCode']  = __( '(no geo data available)', 'duracelltomi-google-tag-manager' );
+			$data_layer['geoRegionName']  = __( '(no geo data available)', 'duracelltomi-google-tag-manager' );
+			$data_layer['geoCity']        = __( '(no geo data available)', 'duracelltomi-google-tag-manager' );
+			$data_layer['geoZipcode']     = __( '(no geo data available)', 'duracelltomi-google-tag-manager' );
+			$data_layer['geoLatitude']    = __( '(no geo data available)', 'duracelltomi-google-tag-manager' );
+			$data_layer['geoLongitude']   = __( '(no geo data available)', 'duracelltomi-google-tag-manager' );
 		}
 
 		$client_ip = gtm4wp_get_user_ip( $gtm4wp_options[ GTM4WP_OPTION_INCLUDE_VISITOR_IP_HEADER ] );
@@ -614,6 +659,25 @@ function gtm4wp_add_basic_datalayer_data( $data_layer ) {
 }
 
 /**
+ * Stores the gtm4wp_last_weatherstatus diagnostic cookie.
+ *
+ * gtm4wp_wp_loaded() runs on the wp_loaded hook, which can fire after another plugin, the
+ * theme or a displayed PHP notice has already started the HTTP response. Calling setcookie()
+ * at that point raises a "Cannot modify header information - headers already sent" warning, so
+ * skip the write once headers are on their way out.
+ *
+ * @param string $message Human readable status describing the last geo/weather API call.
+ * @return void
+ */
+function gtm4wp_set_weatherstatus_cookie( $message ) {
+	if ( headers_sent() ) {
+		return;
+	}
+
+	setcookie( 'gtm4wp_last_weatherstatus', $message, 0, '/', '', false, true );
+}
+
+/**
  * Function executed during wp_loaded.
  * Loads geo and weather data to be processed later.
  *
@@ -623,6 +687,20 @@ function gtm4wp_add_basic_datalayer_data( $data_layer ) {
  */
 function gtm4wp_wp_loaded() {
 	global $gtm4wp_options;
+
+	/**
+	 * The geo/weather lookups below issue blocking external HTTP requests and set a cookie,
+	 * so they should only run for regular front-end page views. Admin, AJAX, cron and REST
+	 * requests neither render the data layer nor should pay for a remote call, and they are
+	 * also the contexts where headers are most likely already sent by the time wp_loaded fires.
+	 */
+	$rest_prefix     = trailingslashit( rest_get_url_prefix() );
+	$request_uri     = isset( $_SERVER['REQUEST_URI'] ) ? wp_unslash( $_SERVER['REQUEST_URI'] ) : '';
+	$is_rest_request = ( '' !== $request_uri ) && ( false !== strpos( $request_uri, $rest_prefix ) );
+
+	if ( is_admin() || wp_doing_ajax() || wp_doing_cron() || $is_rest_request ) {
+		return;
+	}
 
 	/**
 	 * GeoIP functionality can be disabled per user by setting the block_gtm4wp_geoip cookie to either "true", "on", "yes" or "1".
@@ -675,22 +753,22 @@ function gtm4wp_wp_loaded() {
 
 							if ( is_object( $weatherdata ) ) {
 								set_transient( 'gtm4wp-weatherdata-' . esc_attr( $client_ip ), $weatherdata, 60 * 60 );
-								setcookie( 'gtm4wp_last_weatherstatus', 'Weather data loaded.', 0, '/', '', false, true );
+								gtm4wp_set_weatherstatus_cookie( 'Weather data loaded.' );
 							}
 						} else {
 							if ( is_wp_error( $weatherdata ) ) {
-								setcookie( 'gtm4wp_last_weatherstatus', 'Openweathermap.org request error: ' . $weatherdata->get_error_message(), 0, '/', '', false, true );
+								gtm4wp_set_weatherstatus_cookie( 'Openweathermap.org request error: ' . $weatherdata->get_error_message() );
 							} else {
-								setcookie( 'gtm4wp_last_weatherstatus', 'Openweathermap.org returned status code: ' . $weatherdata['response']['code'], 0, '/', '', false, true );
+								gtm4wp_set_weatherstatus_cookie( 'Openweathermap.org returned status code: ' . $weatherdata['response']['code'] );
 							}
 						}
 					}
 				}
 			} else {
 				if ( is_wp_error( $gtm4wp_geodata ) ) {
-					setcookie( 'gtm4wp_last_weatherstatus', 'ipstack.com request error: ' . $gtm4wp_geodata->get_error_message(), 0, '/', '', false, true );
+					gtm4wp_set_weatherstatus_cookie( 'ipstack.com request error: ' . $gtm4wp_geodata->get_error_message() );
 				} else {
-					setcookie( 'gtm4wp_last_weatherstatus', 'ipstack.com returned status code: ' . $gtm4wp_geodata['response']['code'], 0, '/', '', false, true );
+					gtm4wp_set_weatherstatus_cookie( 'ipstack.com returned status code: ' . $gtm4wp_geodata['response']['code'] );
 				}
 			}
 		}
@@ -900,12 +978,7 @@ function gtm4wp_wp_footer() {
 	}
 </script>";
 
-			echo htmlspecialchars_decode( //phpcs:ignore
-				wp_kses(
-					$script_tag,
-					gtm4wp_get_sanitize_script_block_rules()
-				)
-			);
+			gtm4wp_print_script_block( $script_tag );
 
 			unset( $_COOKIE['gtm4wp_user_logged_in'] );
 		}
@@ -926,12 +999,7 @@ function gtm4wp_wp_footer() {
 	}
 </script>";
 
-			echo htmlspecialchars_decode( //phpcs:ignore
-				wp_kses(
-					$script_tag,
-					gtm4wp_get_sanitize_script_block_rules()
-				)
-			);
+			gtm4wp_print_script_block( $script_tag );
 
 			unset( $_COOKIE['gtm4wp_user_registered'] );
 		}
@@ -991,7 +1059,7 @@ function gtm4wp_wp_header_top( $echo = true ) {
 		}
 
 		if ( is_array( $js_var_value ) ) {
-			$js_var_value = wp_json_encode( $js_var_value );
+			$js_var_value = wp_json_encode( $js_var_value, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_QUOT | JSON_HEX_APOS );
 		}
 
 		if ( is_null( $js_var_value ) ) {
@@ -1047,13 +1115,14 @@ function gtm4wp_wp_header_top( $echo = true ) {
 
 	if ( ! gtm4wp_amp_running() ) {
 		if ( $echo ) {
-			echo wp_kses(
+			gtm4wp_print_script_block(
 				$_gtm_top_content,
 				array(
 					'script' => array(
 						'data-cfasync'            => array(),
 						'data-pagespeed-no-defer' => array(),
 						'data-cookieconsent'      => array(),
+						'nonce'                   => array(),
 					),
 				)
 			);
@@ -1136,7 +1205,7 @@ function gtm4wp_wp_header_begin( $echo = true ) {
 		$gtm4wp_datalayer_data = (array) apply_filters( GTM4WP_WPFILTER_COMPILE_DATALAYER, $gtm4wp_datalayer_data );
 
 		$script_tag .= '
-	var dataLayer_content = ' . wp_json_encode( $gtm4wp_datalayer_data, JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK ) . ';';
+	var dataLayer_content = ' . wp_json_encode( $gtm4wp_datalayer_data, JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_QUOT | JSON_HEX_APOS ) . ';';
 
 		$script_tag .= '
 	' . esc_js( $gtm4wp_datalayer_name ) . '.push( dataLayer_content );';
@@ -1145,12 +1214,7 @@ function gtm4wp_wp_header_begin( $echo = true ) {
 	$script_tag .= '
 </script>';
 
-	echo htmlspecialchars_decode( //phpcs:ignore
-		wp_kses(
-			$script_tag,
-			gtm4wp_get_sanitize_script_block_rules()
-		)
-	);
+	gtm4wp_print_script_block( $script_tag );
 
 	do_action( GTM4WP_WPACTION_AFTER_DATALAYER );
 
@@ -1166,12 +1230,7 @@ function gtm4wp_wp_header_begin( $echo = true ) {
 	console.warn && console.warn("[GTM4WP] Data layer codes are active but GTM container must be loaded using custom coding !!!");
 </script>';
 
-		echo htmlspecialchars_decode( //phpcs:ignore
-			wp_kses(
-				$script_tag,
-				gtm4wp_get_sanitize_script_block_rules()
-			)
-		);
+		gtm4wp_print_script_block( $script_tag );
 	}
 
 	$disabled_roles = explode( ',', (string) $gtm4wp_options[ GTM4WP_OPTION_NOGTMFORLOGGEDIN ] );
@@ -1189,12 +1248,7 @@ function gtm4wp_wp_header_begin( $echo = true ) {
 	console.warn && console.warn("[GTM4WP] Data layer codes are active but GTM container code is omitted !!!");
 </script>';
 
-					echo htmlspecialchars_decode( //phpcs:ignore
-						wp_kses(
-							$script_tag,
-							gtm4wp_get_sanitize_script_block_rules()
-						)
-					);
+					gtm4wp_print_script_block( $script_tag );
 				}
 
 				break;
@@ -1220,12 +1274,7 @@ function gtm4wp_wp_header_begin( $echo = true ) {
 		});
 </script>';
 
-		echo htmlspecialchars_decode( //phpcs:ignore
-			wp_kses(
-				$script_tag,
-				gtm4wp_get_sanitize_script_block_rules()
-			)
-		);
+		gtm4wp_print_script_block( $script_tag );
 	}
 
 	if ( ( '' !== $gtm4wp_options[ GTM4WP_OPTION_GTM_CODE ] ) && $output_container_code ) {
@@ -1264,12 +1313,7 @@ j=d.createElement(s),dl=l!=\'dataLayer\'?\'&l=\'+l:\'\';j.async=true;j.src=
 })(window,document,\'script\',\'' . esc_js( $gtm4wp_datalayer_name ) . '\',\'' . esc_js( $one_gtm_id ) . '\');
 </script>';
 
-			echo htmlspecialchars_decode( //phpcs:ignore
-				wp_kses(
-					$script_tag,
-					gtm4wp_get_sanitize_script_block_rules()
-				)
-			);
+			gtm4wp_print_script_block( $script_tag );
 		} // end foreach $_gtm_codes
 	} // end if container code output possible
 
@@ -1387,7 +1431,7 @@ function gtm4wp_fire_additional_datalayer_pushes() {
 
 		if ( array_key_exists( 'datalayer_object', $one_event ) ) {
 			$datalayer_push_code .= '
-	' . esc_js( $gtm4wp_datalayer_name ) . '.push(' . wp_json_encode( $one_event['datalayer_object'], JSON_UNESCAPED_UNICODE ) . ');';
+	' . esc_js( $gtm4wp_datalayer_name ) . '.push(' . wp_json_encode( $one_event['datalayer_object'], JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_QUOT | JSON_HEX_APOS ) . ');';
 		}
 
 		if ( array_key_exists( 'js_after', $one_event ) ) {

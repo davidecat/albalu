@@ -65,6 +65,17 @@ class Rules extends Abstract_Filters_Rules {
                 'value' => 'exclude',
                 'label' => __( 'Exclude Attribute (Elite)', 'woo-product-feed-pro' ),
             ),
+            // Truncate and Combine Fields are Elite features. Pro lists them with an
+            // `(Elite)` suffix as an upsell; Elite strips the suffix and applies them
+            // (mirrors the `Set Attribute (Elite)` / `Exclude Attribute (Elite)` actions).
+            array(
+                'value' => 'truncate',
+                'label' => __( 'Truncate to Character Limit (Elite)', 'woo-product-feed-pro' ),
+            ),
+            array(
+                'value' => 'combine_fields',
+                'label' => __( 'Combine Fields (Elite)', 'woo-product-feed-pro' ),
+            ),
         );
 
         /**
@@ -360,7 +371,25 @@ class Rules extends Abstract_Filters_Rules {
                 return ! empty( $data_value );
         }
 
-        return false;
+        /**
+         * Filter the evaluation result of a condition the core switch does not handle.
+         *
+         * Lets add-ons evaluate custom condition types (e.g. character count) that they
+         * register via the `adt_pfp_get_filters_rules_conditions` filter. Return a boolean
+         * to resolve the condition; return the passed-through `null` to fall back to the
+         * core default (unhandled rule conditions do not match).
+         *
+         * @since 13.5.6
+         *
+         * @param bool|null $result         Null when the core switch did not handle the condition.
+         * @param string    $condition      The condition operator.
+         * @param string    $data_value     The product field value (already cast to string and case-normalised).
+         * @param string    $rule_value     The rule's comparison value.
+         * @param bool      $case_sensitive Whether the comparison is case-sensitive.
+         */
+        $result = apply_filters( 'adt_pfp_evaluate_filters_rules_condition', null, $condition, $data_value, $rule_value, $case_sensitive );
+
+        return is_bool( $result ) ? $result : false;
     }
 
     /**

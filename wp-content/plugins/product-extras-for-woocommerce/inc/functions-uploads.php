@@ -113,13 +113,17 @@ function pewc_ajax_upload_script( $id, $field, $multiply_price ) {
 											// If this is a PDF and the option is enabled, count the pages
 											if( pewc_vars.pdf_count == 'yes' && received_files[f].type == 'application/pdf' ) {
 												$( file.previewElement ).find( '.dz-success-mark' ).append( '<div class="pewc-counting-pdf-pages-text">' + pewc_vars.counting_pages_text + '</div>' ); // 3.26.5
+												<?php if( pewc_disable_add_to_cart_upload() ) { ?>
+													$( 'body' ).trigger( 'pewc_toggle_add_to_cart_button', [ true, 'pdf_count' ] ); // 4.3.18, disable while counting PDF pages
+												<?php } ?>
 												$.ajax({
 													type: 'POST',
 													url: pewc_vars.ajaxurl,
 													data: {
 														action: 'wcpauau_get_pdf_page_count',
 														path: received_files[f].file,
-														name: received_files[f].name
+														name: received_files[f].name,
+														field_id: '<?php echo $field['field_id']; ?>'
 													},
 													success: function( response ) {
 														$( file.previewElement ).find( '.pewc-counting-pdf-pages-text' ).remove(); // 3.26.5
@@ -139,6 +143,9 @@ function pewc_ajax_upload_script( $id, $field, $multiply_price ) {
 														$( '#field_' + field_id + '_pdf_count' ).val( current_count );
 														// 3.25.5, trigger calculation, so that the calc field that is using the pdf page count updates its value
 														$( 'body' ).trigger( 'pewc_trigger_calculations' );
+														<?php if( pewc_disable_add_to_cart_upload() ) { ?>
+															$( 'body' ).trigger( 'pewc_toggle_add_to_cart_button', [ false, 'pdf_count' ] ); // 4.3.18, enable
+														<?php } ?>
 														if ( response.data.error != '' ) {
 															alert( 'There was an error in getting the PDF page count: ' + response.data.error );
 														}
@@ -212,25 +219,28 @@ function pewc_ajax_upload_script( $id, $field, $multiply_price ) {
 						var field_id = <?php echo $field['field_id']; ?>;
 						if( pewc_vars.pdf_count == 'yes' && file.type == 'application/pdf' ) {
 							var page_counts = $( '#field_' + field_id + '_pdf_count' ).attr( 'data-counts' );
-							page_counts = JSON.parse( page_counts );
-							var page_count = 0;
-							for( p in page_counts ) {
-								var element = page_counts[p];
-								if( element.name == file.name ) {
-									page_count = parseInt( element.count );
+							if ( page_counts != undefined ) {
+								page_counts = JSON.parse( page_counts );
+								var page_count = 0;
+								for( p in page_counts ) {
+									var element = page_counts[p];
+									if( element.name == file.name ) {
+										page_count = parseInt( element.count );
+									}
 								}
+								if( isNaN( page_count ) ) page_count = 0;
+								var current_count = parseInt( $( '#field_' + field_id + '_pdf_count' ).val() );
+								var new_count = current_count - page_count;
+								$( '#field_' + field_id + '_pdf_count' ).val( new_count ).trigger( 'change' );
 							}
-							if( isNaN( page_count ) ) page_count = 0;
-							var current_count = parseInt( $( '#field_' + field_id + '_pdf_count' ).val() );
-							var new_count = current_count - page_count;
-							$( '#field_' + field_id + '_pdf_count' ).val( new_count ).trigger( 'change' );
 							// $( 'body' ).trigger( 'pewc_trigger_calculations' );
 						}
 						var remove_data = {
 							action: 'pewc_dropzone_remove',
 							file: file.name,
 							pewc_file_upload: $( '#pewc_file_upload' ).val(),
-							file_data: $( '#<?php echo esc_attr( $id ); ?>_file_data' ).val()
+							file_data: $( '#<?php echo esc_attr( $id ); ?>_file_data' ).val(),
+							field_id: '<?php echo $field['field_id']; ?>'
 						};
 						if ( file.wcpauau_from_cropper != undefined && file.wcpauau_from_cropper == 'yes' ) {
 							remove_data['wcpauau_from_cropper'] = 'yes'; // 3.18.2
@@ -260,13 +270,13 @@ function pewc_ajax_upload_script( $id, $field, $multiply_price ) {
 								$( 'body' ).trigger( 'pewc_image_removed', [ '<?php echo esc_attr( $id ); ?>' ]);
 							},
 							error: function( xhr, statusText, errorThrown ) {
-								// aou-improvements-4.3.5, when remove fails. File is removed from Dropzone anyway but not on the server, fail silently for now?
+								// 4.3.5, when remove fails. File is removed from Dropzone anyway but not on the server, fail silently for now?
 								$( '.dropzone.dz-clickable' ).unblock();
 							},
 						});
 					});
 					this.on( 'error', function( file, response, xhr ) {
-						// aou-improvements-4.3.5, when upload fails
+						// 4.3.5, when upload fails
 						var message = ( response && response.data ) ? response.data : response;
 						var errorEl = file.previewElement.querySelector('[data-dz-errormessage]');
     					if ( errorEl ) errorEl.textContent = message;
@@ -439,6 +449,9 @@ function pewc_ajax_upload_script_repeatable( $id, $field, $multiply_price ) {
 											// If this is a PDF and the option is enabled, count the pages
 											if( pewc_vars.pdf_count == 'yes' && received_files[f].type == 'application/pdf' ) {
 												$( file.previewElement ).find( '.dz-success-mark' ).append( '<div class="pewc-counting-pdf-pages-text">' + pewc_vars.counting_pages_text + '</div>' ); // 3.26.5
+												<?php if( pewc_disable_add_to_cart_upload() ) { ?>
+													$( 'body' ).trigger( 'pewc_toggle_add_to_cart_button', [ true, 'pdf_count' ] ); // 4.3.18, disable while counting PDF pages
+												<?php } ?>
 												$.ajax({
 													type: 'POST',
 													url: pewc_vars.ajaxurl,
@@ -465,6 +478,9 @@ function pewc_ajax_upload_script_repeatable( $id, $field, $multiply_price ) {
 														$( '#field_' + field_id + '_pdf_count' ).val( current_count );
 														// 3.25.5, trigger calculation, so that the calc field that is using the pdf page count updates its value
 														$( 'body' ).trigger( 'pewc_trigger_calculations' );
+														<?php if( pewc_disable_add_to_cart_upload() ) { ?>
+															$( 'body' ).trigger( 'pewc_toggle_add_to_cart_button', [ false, 'pdf_count' ] ); // 4.3.18, enable
+														<?php } ?>
 														if ( response.data.error != '' ) {
 															alert( 'There was an error in getting the PDF page count: ' + response.data.error );
 														}
@@ -587,13 +603,13 @@ function pewc_ajax_upload_script_repeatable( $id, $field, $multiply_price ) {
 								$( 'body' ).trigger( 'pewc_image_removed', [ pewc_id ]);
 							},
 							error: function( xhr, statusText, errorThrown ) {
-								// aou-improvements-4.3.5, when remove fails. File is removed from Dropzone anyway but not on the server, fail silently for now?
+								// 4.3.5, when remove fails. File is removed from Dropzone anyway but not on the server, fail silently for now?
 								$( '.dropzone.dz-clickable' ).unblock();
 							},
 						});
 					});
 					this.on( 'error', function( file, response ) {
-						// aou-improvements-4.3.5, when upload fails
+						// 4.3.5, when upload fails
 						var message = ( response && response.data ) ? response.data : response;
 						var errorEl = file.previewElement.querySelector('[data-dz-errormessage]');
     					if ( errorEl ) errorEl.textContent = message;
@@ -700,16 +716,16 @@ function pewc_disable_add_to_cart_upload() {
  */
 function pewc_save_uploaded_files_to_session( $uploaded_files, $field_id ) {
 	// Make sure WooCommerce session is already set
-	if ( isset(WC()->session) && WC()->session->has_session() ) {
+	if ( isset( WC()->session ) && WC()->session->has_session() ) {
 		$field_id = @floor( $field_id ); // integer only
 		if ( ! empty( $uploaded_files ) ) {
 			// save
 			// if AJAX upload is enabled, $uploaded_files is a JSON string (pewc_file_data). Else, $uploaded_files is an array of $_FILES
-			WC()->session->set( 'uploaded_files_'.$field_id, $uploaded_files );
+			WC()->session->set( 'uploaded_files_' . $field_id, $uploaded_files );
 		}
 		else {
 			// remove from session
-			WC()->session->__unset( 'uploaded_files_'.$field_id );
+			WC()->session->__unset( 'uploaded_files_' . $field_id );
 		}
 	}
 }

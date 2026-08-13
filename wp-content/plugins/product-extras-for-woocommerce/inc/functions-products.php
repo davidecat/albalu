@@ -1356,3 +1356,63 @@ function pewc_edited_product_cat( $term_id=false, $tt_id=false ) {
 add_action( 'edited_product_cat', 'pewc_edited_product_cat', 10, 2 );
 // 4.3.15, also clear transients when a product is saved (i.e. adding and updating)
 add_action( 'woocommerce_process_product_meta', 'pewc_edited_product_cat' );
+
+/**
+ * Ensure user can't order more parent products than child product stock allows
+ * Only applies to child product with 'Linked' quantities
+ * @since 4.3.17
+ */
+function pewc_set_main_qty_max_from_child_stock() {
+	?>
+	<script>
+	( function( $ ) {
+		function pewc_update_main_qty_max_from_child_stock() {
+			var lowestStock = null;
+
+			$( '.products-quantities-linked' ).each( function() {
+
+				// Checked inputs (checkbox/radio) with data-stock
+				$( this ).find( 'input[data-stock]:checked' ).each( function() {
+					var stock = parseInt( $( this ).attr( 'data-stock' ), 10 );
+					if ( ! isNaN( stock ) && stock > 0 ) {
+						lowestStock = ( lowestStock === null ) ? stock : Math.min( lowestStock, stock );
+					}
+				} );
+
+				// Selected option with data-stock inside a select
+				$( this ).find( 'select' ).each( function() {
+					var $selected = $( this ).find( 'option:selected[data-stock]' );
+					if ( $selected.length ) {
+						var stock = parseInt( $selected.attr( 'data-stock' ), 10 );
+						if ( ! isNaN( stock ) && stock > 0 ) {
+							lowestStock = ( lowestStock === null ) ? stock : Math.min( lowestStock, stock );
+						}
+					}
+				} );
+
+			} );
+
+			var $qtyField = $( 'form.cart .quantity input[type=number]' );
+
+			if ( lowestStock !== null ) {
+				$qtyField.attr( 'max', lowestStock );
+				if ( parseInt( $qtyField.val(), 10 ) > lowestStock ) {
+					$qtyField.val( lowestStock );
+				}
+			} else {
+				$qtyField.removeAttr( 'max' );
+			}
+		}
+
+		$( document ).ready( pewc_update_main_qty_max_from_child_stock );
+
+		$( 'body' ).on(
+			'change click',
+			'.products-quantities-linked input[data-stock], .products-quantities-linked select',
+			pewc_update_main_qty_max_from_child_stock
+		);
+	} )( jQuery );
+	</script>
+	<?php
+}
+add_action( 'wp_footer', 'pewc_set_main_qty_max_from_child_stock' );

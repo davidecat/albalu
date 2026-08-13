@@ -583,6 +583,10 @@ function pewc_add_cart_item_data( $cart_item_data, $product_id, $variation_id, $
 							// Filtered by Bookings to include per unit cost for extras
 							$price = apply_filters( 'pewc_filter_cart_item_data_price', $price, $cart_item_data, $item, $group_id, $field_id );
 
+							// 4.4.0
+							$option_price_visibility = ! empty( $item['option_price_visibility'] ) ? $item['option_price_visibility'] : false;
+							$field_option_price = false;
+
 							// Find any additional cost for options and select fields
 							if( ! empty( $item['field_options'] ) && in_array( $field_type, pewc_field_has_options() ) ) {
 
@@ -661,18 +665,23 @@ function pewc_add_cart_item_data( $cart_item_data, $product_id, $variation_id, $
 
 									} else if( ! empty( $option['price'] ) && $option['value'] == stripslashes( $option_value ) ) {
 
-										if ( isset( $item['option_price_visibility'] ) && $item['option_price_visibility'] === 'value' ) {
+										// 4.4.0, commented out, moved below because we need to save the option price
+										//if ( isset( $item['option_price_visibility'] ) && $item['option_price_visibility'] === 'value' ) {
 											// option is used for value only on Calculation fields, so don't add to the totals
-											continue;
-										}
+										//	continue;
+										//}
 
 										// third argument $cart_price added on 3.9.5. Return price as to be displayed on the cart (inc or exc tax)
 										$option_price = pewc_get_option_price( $option, $item, $product, true, $option_index );
 
-										// $option_price = pewc_maybe_include_tax( $product, $option_price );
-
 										if( $is_percentage ) {
 											$option_price = pewc_calculate_percentage_price( $option_price, $product );
+										}
+
+										// 4.4.0
+										$field_option_price = $option_price;
+										if ( 'value' === $option_price_visibility ) {
+											continue;
 										}
 
 										if( ! $is_flat_rate ) {
@@ -763,6 +772,14 @@ function pewc_add_cart_item_data( $cart_item_data, $product_id, $variation_id, $
 								'price_visibility' => isset( $item['price_visibility'] ) ? $item['price_visibility'] : '',
 								'field_visibility' => isset( $item['field_visibility'] ) ? $item['field_visibility'] : '',
 							);
+
+							// 4.4.0
+							if ( $option_price_visibility ) {
+								$cart_item_field_data['option_price_visibility'] = $option_price_visibility;
+								if ( false !== $field_option_price ) {
+									$cart_item_field_data['field_option_price'] = $field_option_price;
+								}
+							}
 
 							// 3.25.5, used when displaying multiplied Name Your Price field
 							if ( ! empty( $item['multiply'] ) ) {
@@ -1735,7 +1752,8 @@ function pewc_validate_cart_item_data( $passed, $product_id, $quantity, $variati
 
 					}
 
-					$passed = apply_filters( 'pewc_filter_validate_cart_item_status', $passed, $_POST, $item );
+					// 4.4.0, added $product_id, $quantity, $variation_id
+					$passed = apply_filters( 'pewc_filter_validate_cart_item_status', $passed, $_POST, $item, $product_id, $quantity, $variation_id );
 
 				}
 
@@ -2703,7 +2721,8 @@ function pewc_validate_cart_item_data_upload( $passed, $is_required, $item, $lab
 		// Required field
 		wc_add_notice( apply_filters( 'pewc_filter_validation_notice', esc_html( $label ) . __( ' is a required upload field.', 'pewc' ), $label, $item ), 'error' );
 		// Delete the uploaded session in case he added something before
-		pewc_save_uploaded_files_to_session( '', $item['field_id'] );
+		// 4.4.0, don't delete the uploads from the session anymore?
+		//pewc_save_uploaded_files_to_session( '', $item['field_id'] );
 		$upload_passed = $passed = false;
 		return $passed; // no need to continue
 
@@ -2716,8 +2735,16 @@ function pewc_validate_cart_item_data_upload( $passed, $is_required, $item, $lab
 	// We have passed validation for files, save now. If empty $files is passed into pewc_save_uploaded_files_to_session, saved data is removed
 	// 3.20.1, allow other files to be saved even if $upload_passed = false
 	if( pewc_enable_ajax_upload() == 'yes' ) {
-		// AJAX upload, perhaps save $_POST['pewc_file_data'][$item['field_id']]
-		$pewc_file_data = stripslashes( $_POST['pewc_file_data'][$item['field_id']] );
+		// 4.4.0
+		$pewc_file_data = '';
+		if ( isset( WC()->session ) ) {
+			// retrieve the update data from session
+			$pewc_file_data = WC()->session->get( 'uploaded_files_' . $item['field_id'] );
+		}
+		if ( empty( $pewc_file_data ) ) {
+			// get from $_POST instead
+			$pewc_file_data = stripslashes( $_POST['pewc_file_data'][$item['field_id']] );
+		}
 
 		if ( ! $upload_passed && ! empty( $f_index_remove ) ) {
 			// we have some uploads that failed and need to be removed
@@ -2750,7 +2777,7 @@ function pewc_validate_cart_item_data_upload( $passed, $is_required, $item, $lab
 						$pfd_arr[$key]['quantity'] = $quantity;
 					}
 				}
-				$pewc_file_data = json_encode($pfd_arr);
+				$pewc_file_data = json_encode( $pfd_arr );
 			}
 		}
 

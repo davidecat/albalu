@@ -424,10 +424,24 @@ function pewc_dropzone_upload() {
 
 	if( ! empty( $_FILES ) ) {
 
-		$existing_file_data = $_POST['file_data'];
+		// 4.4.0
 		$existing_files = array();
+		$existing_file_data = '';
+		$field_id = (int) $_POST['field_id'];
+
+		if ( isset( WC()->session ) ) {
+			// retrieve the update data from session
+			$existing_file_data = WC()->session->get( 'uploaded_files_' . $field_id );
+		}
+		if ( empty( $existing_file_data ) ) {
+			// this wasn't in the session, use the post data instead
+			$existing_file_data = stripslashes( $_POST['file_data'] );
+		}
 		if( $existing_file_data ) {
-			$existing_files = json_decode( stripslashes( $existing_file_data ) );
+			$existing_files = json_decode( $existing_file_data );
+			if ( is_null( $existing_files ) ) {
+				$existing_files = array(); // array_merge doesn't like null values
+			}
 		}
 
 		$base_url = get_site_url();
@@ -552,6 +566,9 @@ function pewc_dropzone_upload() {
 		remove_filter( 'sanitize_file_name', 'pewc_rename_uploaded_file2' ); // 3.13.7
 	}
 
+	// 4.4.0
+	pewc_save_uploaded_files_to_session( json_encode( $uploaded_files ), $field_id );
+
 	wp_send_json_success( array( 'files' => $uploaded_files, 'count' => count( $uploaded_files ) ) );
 
 	die();
@@ -578,10 +595,21 @@ function pewc_dropzone_remove() {
 	add_filter( 'upload_dir', 'pewc_set_upload_dir' );
 
 	$remove_file_name = $_POST['file'];
-	$existing_file_data = $_POST['file_data'];
 	$existing_files = array();
+	$existing_file_data = '';
+
+	// 4.4.0
+	$field_id = (int) $_POST['field_id'];
+	if ( isset( WC()->session ) ) {
+		// retrieve the update data from session
+		$existing_file_data = WC()->session->get( 'uploaded_files_' . $field_id );
+	}
+	if ( empty( $existing_file_data ) ) {
+		// this wasn't in the session, use the post data instead
+		$existing_file_data = stripslashes( $_POST['file_data'] );
+	}
 	if( $existing_file_data ) {
-		$existing_files = json_decode( stripslashes( $existing_file_data ) );
+		$existing_files = json_decode( $existing_file_data );
 	}
 
 	$base_url = get_site_url();
@@ -618,6 +646,13 @@ function pewc_dropzone_remove() {
 	}
 
 	remove_filter( 'upload_dir', 'pewc_set_upload_dir' );
+
+	// 4.4.0
+	pewc_save_uploaded_files_to_session( json_encode( $existing_files ), $field_id );
+
+	if ( empty( $existing_files ) ) {
+		$existing_files = array(); // so that count() works
+	}
 
 	wp_send_json_success( array( 'files' => $existing_files, 'count' => count( $existing_files ) ) );
 

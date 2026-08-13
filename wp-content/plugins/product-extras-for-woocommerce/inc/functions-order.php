@@ -63,7 +63,7 @@ function pewc_add_custom_data_to_order( $item, $cart_item_key, $values, $order )
 									if ( ! empty( $field['files'] ) && pewc_replace_backslashes_in_file_paths() ) {
 										foreach ( $field['files'] as $index => $file ) {
 											if ( pewc_is_cloned_field( $field['id'] ) ) {
-												// aou-repeatable-conditions-upload, avoid overwriting the original group's file data
+												// 4.2.0, avoid overwriting the original group's file data
 												$clone_index = pewc_get_repeatable_index_from_field_id( $field['id'] );
 												$values['product_extras']['cloned_groups'][$group_id][$clone_index][$field_id]['files'][$index]['file'] = str_replace( '\\', '/', $file['file'] );
 											} else {
@@ -75,7 +75,7 @@ function pewc_add_custom_data_to_order( $item, $cart_item_key, $values, $order )
 									// 3.21.7, product_extras was already created for an order. Since WC 9.4.2, it might get overwritten with the product_extras from here
 									if ( ! empty( $field['files'] ) && 'yes' === $order->get_meta( 'pewc_product_extras_created' ) && ( pewc_get_rename_uploads() || 'yes' === pewc_get_pewc_organise_uploads() ) ) {
 										if ( pewc_is_cloned_field( $field['id'] ) ) {
-											// aou-repeatable-conditions-upload, avoid overwriting the original group's file data
+											// 4.2.0, avoid overwriting the original group's file data
 											$clone_index = pewc_get_repeatable_index_from_field_id( $field['id'] );
 											$values['product_extras']['cloned_groups'][$group_id][$clone_index][$field_id]['files'] = pewc_rename_uploaded_files( $field['files'], $order->get_id(), $field, $product_id );
 										} else {
@@ -516,7 +516,7 @@ function pewc_create_product_extra( $order_id ) {
 
 					// Rename any uploads if appropriate
 					if ( ! empty( $product_extras['cloned_groups'] ) ) {
-						// aou-repeatable-conditions-upload
+						// 4.2.0
 						$renamed = pewc_rename_uploaded_files_item_meta( $order_item, true );
 						$product_extras['groups'] = $renamed['groups'];
 						$product_extras['cloned_groups'] = $renamed['cloned_groups'];
@@ -581,7 +581,7 @@ function pewc_create_product_extra( $order_id ) {
 											'price' => $field['price']
 										);
 
-										// aou-repeatable-conditions-upload, Upload fields don't have values, only files
+										// 4.2.0, Upload fields don't have values, only files
 										if ( ! empty( $field['value'] ) ) {
 											$new_field['value'] = $field['value'];
 										}
@@ -618,7 +618,7 @@ add_action( 'woocommerce_checkout_order_processed', 'pewc_create_product_extra',
  */
 function pewc_rename_uploaded_files_item_meta( $item, $has_repeatable=false ) {
 
-	// aou-repeatable-conditions-upload, added $has_repeatable condition, so that we can return renamed Upload fields from cloned groups
+	// 4.2.0, added $has_repeatable condition, so that we can return renamed Upload fields from cloned groups
 
 	if( isset( $item['product_extras']['groups'] ) ) {
 
@@ -640,7 +640,7 @@ function pewc_rename_uploaded_files_item_meta( $item, $has_repeatable=false ) {
 				$uploaded_files = array();
 			}
 
-			// aou-repeatable-conditions-upload
+			// 4.2.0
 			$all_groups = pewc_rebuild_cart_item_data( $item['product_extras'], 'order' );
 			//foreach( $new_item_meta['groups'] as $group_id=>$group )
 			foreach ( $all_groups as $group ) {
@@ -794,7 +794,7 @@ function pewc_rename_uploaded_files_item_meta( $item, $has_repeatable=false ) {
 			// Update the meta
 			wc_update_order_item_meta( $item_id, 'product_extras', $new_item_meta );
 			if ( $has_repeatable ) {
-				// aou-repeatable-conditions-upload
+				// 4.2.0
 				return array( 'groups' => $new_item_meta['groups'], 'cloned_groups' => $new_item_meta['cloned_groups'] );
 			} else {
 				return $new_item_meta['groups'];
@@ -805,7 +805,7 @@ function pewc_rename_uploaded_files_item_meta( $item, $has_repeatable=false ) {
 	}
 
 	if ( $has_repeatable ) {
-		// aou-repeatable-conditions-upload
+		// 4.2.0
 		return array( 'groups' => $item['product_extras']['groups'], 'cloned_groups' => $item['product_extras']['cloned_groups'] );
 	} else {
 		return $item['product_extras']['groups'];

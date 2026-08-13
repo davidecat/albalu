@@ -106,8 +106,14 @@ function wc_stripe_process_create_refund( $charge ) {
 		 * @var \PaymentPlugins\Stripe\Client\StripeClient $client
 		 */
 		$client   = wc_stripe_get_container()->get( \PaymentPlugins\Stripe\Client\StripeClient::class );
-		$response = $client->mode( $order )->refunds->all( array( 'charge' => $charge->id ) );
-		$refunds  = $response->data;
+		$response = $client->mode( $charge )->refunds->all( array( 'charge' => $charge->id ) );
+		if ( is_wp_error( $response ) ) {
+			throw new Exception( sprintf( 'Could not retrieve refunds for charge %s. Error: %s', $charge->id, $response->get_error_message() ) );
+		}
+		$refunds = $response->data;
+		if ( empty( $refunds ) || ! is_array( $refunds ) ) {
+			return;
+		}
 		usort( $refunds, function ( $a, $b ) {
 			// sort so refund with most recent created timestamp is first
 			return $a->created < $b->created ? 1 : - 1;

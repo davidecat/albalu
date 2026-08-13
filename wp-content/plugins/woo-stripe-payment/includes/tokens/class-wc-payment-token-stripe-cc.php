@@ -89,6 +89,10 @@ class WC_Payment_Token_Stripe_CC extends WC_Payment_Token_Stripe {
 		return sprintf( '%s', str_replace( ' ', '', strtolower( $this->get_prop( 'brand' ) ) ) );
 	}
 
+	public function get_icon_file() {
+		return sprintf( 'img/cards/%s.svg', strtolower( $this->get_brand( 'edit' ) ) );
+	}
+
 	public function get_card_type( $context = 'view' ) {
 		return $this->get_brand( $context );
 	}

@@ -162,7 +162,18 @@ class AssetDataController {
 	private function add_default_data() {
 		global $product;
 
-		if ( WC()->cart ) {
+		/**
+		 * cart/customer data reflects the current visitor's cart contents and personal details, so
+		 * it's only added on pages that actually need it, rather than broadcasting it site-wide.
+		 * Mini-cart gateway buttons (Apple Pay/Google Pay/Link) can render on any page though, so
+		 * cart data is also added whenever any gateway has mini-cart enabled - customer data isn't
+		 * needed there, since those buttons collect billing/shipping via their own native sheet.
+		 *
+		 * order-pay needs cart data too, even though billing/shipping details are sourced from the
+		 * separate order data added below - BaseController::isPaymentMethodAvailable() unconditionally
+		 * reads Cart.isPaymentMethodAvailable(), which was never ported to fall back to order data.
+		 */
+		if ( WC()->cart && ( $this->is_cart_relevant_page() || $this->context->is_order_pay() || $this->has_minicart_gateways_enabled() ) ) {
 			$this->asset_data->add( 'cart', $this->transformer->transform_cart( WC()->cart ) );
 		}
 
@@ -230,16 +241,56 @@ class AssetDataController {
 				]
 			]
 		] );
-		$this->asset_data->add( 'addressLocales', wp_json_encode( WC()->countries->get_country_locale() ) );
-		$this->asset_data->add( 'errorMessages', wc_stripe_get_error_messages() );
+		// addressLocales is only consumed by CheckoutFields::isValidAddress(), which only runs in
+		// checkout/express-checkout contexts - product/cart/mini-cart pages get billing/shipping
+		// directly from the wallet (Apple Pay/Google Pay/Link), so no locale validation is needed there.
+		if ( $this->context->is_checkout() ) {
+			$this->asset_data->add( 'addressLocales', wp_json_encode( WC()->countries->get_country_locale() ) );
+		} else {
+			$this->asset_data->add( 'addressLocales', wp_json_encode( new \stdClass() ) );
+		}
+		// errorMessages and requiredFields are only consumed by gateway instance code
+		// (BaseGateway.js / AbstractExpressGateway.js), so both are dead weight on any page
+		// where no gateway is actually rendering. Checkout/order-pay/add-payment-method always
+		// have a gateway present; product/cart only if a gateway is actually rendering a button
+		// there; mini-cart gateways can render (and trigger a payment attempt) from any page.
+		$has_payment_gateway_context = $this->context->is_checkout()
+		                                || $this->context->is_order_pay()
+		                                || $this->context->is_add_payment_method()
+		                                || ( $this->context->is_product() && $this->payment_registry->get_product_payment_gateways() )
+		                                || ( $this->context->is_cart() && $this->payment_registry->get_cart_payment_gateways() )
+		                                || $this->has_minicart_gateways_enabled();
 
-		// Add required fields data
-		$this->asset_data->add( 'requiredFields', $this->get_required_fields() );
+		if ( $has_payment_gateway_context ) {
+			$this->asset_data->add( 'errorMessages', wc_stripe_get_error_messages() );
+			$this->asset_data->add( 'requiredFields', $this->get_required_fields() );
+		}
 
-		if ( WC()->customer ) {
+		// customer data is only ever consumed by BaseGateway.js's isAddPaymentMethod() branches.
+		if ( WC()->customer && $this->context->is_add_payment_method() ) {
 			$customer = WC()->customer;
 			$this->asset_data->add( 'customer', $this->transformer->transform_customer( $customer ) );
 		}
+	}
+
+	/**
+	 * @return bool
+	 */
+	private function is_cart_relevant_page() {
+		return $this->context->has_context( [
+			ContextHandler::PRODUCT,
+			ContextHandler::CART,
+			ContextHandler::CHECKOUT,
+			ContextHandler::SHOP,
+			ContextHandler::ADD_PAYMENT_METHOD,
+		] );
+	}
+
+	/**
+	 * @return bool
+	 */
+	private function has_minicart_gateways_enabled() {
+		return ! empty( $this->payment_registry->get_minicart_payment_gateways() );
 	}
 
 	/**

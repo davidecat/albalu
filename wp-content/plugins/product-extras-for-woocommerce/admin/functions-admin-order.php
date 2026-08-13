@@ -28,6 +28,11 @@ function pewc_add_order_itemmeta_admin( $item_id, $item, $product ) {
 
 				foreach( $group as $field_id=>$field ) {
 
+					// 4.3.20, 'products' and 'product-categories' fields aren't always saved as item meta (see pewc_add_custom_data_to_order()), and are never rendered in the fallback list below anyway, so skip them here to avoid falsely triggering the legacy fallback display for the rest of the item
+					if ( isset( $field['type'] ) && ( $field['type'] == 'products' || $field['type'] == 'product-categories' ) ) {
+						continue;
+					}
+
 					$field_label = pewc_get_field_label_order_meta( $field, $item );
 					$check_meta = $item->get_meta( $field_label, true );
 
@@ -241,7 +246,7 @@ function pewc_attach_images_to_email( $attachments, $id, $order ) {
 					}
 				}
 
-				// aou-repeatable-conditions-upload, attach uploaded files from repeatable groups
+				// 4.2.0, attach uploaded files from repeatable groups
 				if ( ! empty( $product_extras['cloned_groups'] ) ) {
 					foreach( $product_extras['cloned_groups'] as $group_id => $group ) {
 						foreach ( $group as $clone_index => $fields ) {

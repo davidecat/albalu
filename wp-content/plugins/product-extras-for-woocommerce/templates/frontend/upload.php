@@ -34,7 +34,7 @@ if( ! $can_upload ) {
 	if( pewc_enable_ajax_upload() == 'yes' ) {
 		$pewc_file_data = pewc_get_uploaded_files_from_session( $item['field_id'], $item, $cart_item );
 
-		// aou-repeatable-conditions-uploads
+		// 4.2.0
 		$input_name_suffix = '';
 		if ( pewc_is_repeatable_field( $item ) ) {
 			$input_name_suffix = '[]'; // make the inputs an array

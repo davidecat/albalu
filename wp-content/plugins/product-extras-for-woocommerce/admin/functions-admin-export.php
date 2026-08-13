@@ -221,11 +221,24 @@ function pewc_generate_csv() {
 	header( "Content-Disposition: attachment; filename={$filename}" );
 	header( 'Expires: 0' );
 	header( 'Pragma: public' );
-	fputcsv( $fh, $header_row );
+
+	// 4.3.17, escape data with pewc_escape_csv_cell()
+	fputcsv( $fh, array_map( 'pewc_escape_csv_cell', $header_row ) );
 	foreach ( $data_rows as $data_row ) {
-		fputcsv( $fh, $data_row );
+		fputcsv( $fh, array_map( 'pewc_escape_csv_cell', $data_row ) );
 	}
 	fclose( $fh );
 	die();
 
+}
+
+/**
+ * Escape possible Excel data (=,+,-,@)
+ * @since 4.3.17
+ */
+function pewc_escape_csv_cell( $value ) {
+	if ( is_string( $value ) && preg_match( '/^[=+\-@\t\r]/', $value ) ) {
+		$value = "'" . $value;
+	}
+	return $value;
 }

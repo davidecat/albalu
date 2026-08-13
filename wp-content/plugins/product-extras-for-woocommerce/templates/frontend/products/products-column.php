@@ -1,7 +1,8 @@
 <?php
 /**
  * A products field template for the column layout
- * @since 2.6.0
+ * @since	2.6.0
+ * @version	4.3.17
  * @package WooCommerce Product Add-Ons Ultimate
  */
 
@@ -433,9 +434,12 @@ $selected_variations = apply_filters( 'pewc_products_column_selected_variations'
 			$variant_wrapper_class[] = 'pewc-column-attributes-select';
 		}
 
+		// 4.3.17, add data-stock, for simple products for now
+		$data_stock = ( ! empty( $available_stock ) && $child_product->get_type() == 'simple' ) ? $available_stock : '';
+
 	  $checkbox = sprintf(
 	    '<div class="%s" data-option-id="%s" data-manage-stock="%s">
-			<label for="%s"><input data-option-cost="%s" %s data-field-label="%s" type="checkbox" name="%s[]" id="%s" class="pewc-checkbox-form-field pewc-column-form-field" value="%s" %s %s>%s</label>
+			<label for="%s"><input data-option-cost="%s" data-stock="%s" %s data-field-label="%s" type="checkbox" name="%s[]" id="%s" class="pewc-checkbox-form-field pewc-column-form-field" value="%s" %s>%s</label>
 			<div class="pewc-checkbox-desc-wrapper">%s%s%s
 				<div class="%s">%s</div>%s
 				<p class="pewc-column-add-wrapper">%s</p>
@@ -446,12 +450,12 @@ $selected_variations = apply_filters( 'pewc_products_column_selected_variations'
 			$manage_stock,
 	    esc_attr( $checkbox_id ),
 	    esc_attr( $option_cost ),
+		esc_attr( $data_stock ),
 			$checked,
 			get_the_title( $child_product_id ),
 	    esc_attr( $field_name ),
 	    esc_attr( $checkbox_id ),
 	    esc_attr( $child_product_id ),
-			esc_attr( $checked ),
 			esc_attr( $disabled ),
 	    $image,
 			apply_filters( 'pewc_child_product_name', $name, $item, $available_stock, $child_product ),

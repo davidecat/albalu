@@ -15,7 +15,7 @@ define( 'GTM4WP_WPFILTER_EEC_ORDER_DATA', 'gtm4wp_eec_order_data' );
 define( 'GTM4WP_WPFILTER_ECC_PURCHASE_DATALAYER', 'gtm4wp_purchase_datalayer' );
 define( 'GTM4WP_WPFILTER_EEC_DATALAYER_PAGELOAD', 'gtm4wp_woocommerce_datalayer_on_pageload' );
 
-require_once dirname( __FILE__ ) . '/ecommerce-generic.php';
+require_once __DIR__ . '/ecommerce-generic.php';
 
 $gtm4wp_product_counter   = 0;
 $gtm4wp_last_widget_title = 'Sidebar Products';
@@ -236,60 +236,60 @@ function gtm4wp_woocommerce_get_raw_order_datalayer( $order, $order_items ) {
 			'order_number'         => $order->get_order_number(),
 			'order_key'            => $order->get_order_key(),
 
-			'payment_method'       => esc_js( $order->get_payment_method() ),
-			'payment_method_title' => esc_js( $order->get_payment_method_title() ),
+			'payment_method'       => $order->get_payment_method(),
+			'payment_method_title' => $order->get_payment_method_title(),
 
-			'shipping_method'      => esc_js( $order->get_shipping_method() ),
+			'shipping_method'      => $order->get_shipping_method(),
 
-			'status'               => esc_js( $order->get_status() ),
+			'status'               => $order->get_status(),
 
 			'coupons'              => implode( ', ', $order->get_coupon_codes() ),
 		),
 		'totals'     => array(
-			'currency'       => esc_js( $order->get_currency() ),
-			'discount_total' => esc_js( $order->get_discount_total() ),
-			'discount_tax'   => esc_js( $order->get_discount_tax() ),
-			'shipping_total' => esc_js( $order->get_shipping_total() ),
-			'shipping_tax'   => esc_js( $order->get_shipping_tax() ),
-			'cart_tax'       => esc_js( $order->get_cart_tax() ),
-			'total'          => esc_js( $order->get_total() ),
-			'total_tax'      => esc_js( $order->get_total_tax() ),
-			'total_discount' => esc_js( $order->get_total_discount() ),
-			'subtotal'       => esc_js( $order->get_subtotal() ),
+			'currency'       => $order->get_currency(),
+			'discount_total' => $order->get_discount_total(),
+			'discount_tax'   => $order->get_discount_tax(),
+			'shipping_total' => $order->get_shipping_total(),
+			'shipping_tax'   => $order->get_shipping_tax(),
+			'cart_tax'       => $order->get_cart_tax(),
+			'total'          => $order->get_total(),
+			'total_tax'      => $order->get_total_tax(),
+			'total_discount' => $order->get_total_discount(),
+			'subtotal'       => $order->get_subtotal(),
 			'tax_totals'     => $order->get_tax_totals(),
 		),
 		'customer'   => array(
 			'id'       => $order->get_customer_id(),
 
 			'billing'  => array(
-				'first_name'      => esc_js( $order->get_billing_first_name() ),
-				'first_name_hash' => esc_js( $billing_first_hash ),
-				'last_name'       => esc_js( $order->get_billing_last_name() ),
-				'last_name_hash'  => esc_js( $billing_last_hash ),
-				'company'         => esc_js( $order->get_billing_company() ),
-				'address_1'       => esc_js( $order->get_billing_address_1() ),
-				'address_2'       => esc_js( $order->get_billing_address_2() ),
-				'city'            => esc_js( $order->get_billing_city() ),
-				'state'           => esc_js( $order->get_billing_state() ),
-				'postcode'        => esc_js( $order->get_billing_postcode() ),
-				'country'         => esc_js( $order->get_billing_country() ),
-				'email'           => esc_js( $order->get_billing_email() ),
-				'emailhash'       => esc_js( $billing_email_hash ), // deprecated.
-				'email_hash'      => esc_js( $billing_email_hash ),
-				'phone'           => esc_js( $order->get_billing_phone() ),
-				'phone_hash'      => esc_js( $billing_phone_hash ),
+				'first_name'      => $order->get_billing_first_name(),
+				'first_name_hash' => $billing_first_hash,
+				'last_name'       => $order->get_billing_last_name(),
+				'last_name_hash'  => $billing_last_hash,
+				'company'         => $order->get_billing_company(),
+				'address_1'       => $order->get_billing_address_1(),
+				'address_2'       => $order->get_billing_address_2(),
+				'city'            => $order->get_billing_city(),
+				'state'           => $order->get_billing_state(),
+				'postcode'        => $order->get_billing_postcode(),
+				'country'         => $order->get_billing_country(),
+				'email'           => $order->get_billing_email(),
+				'emailhash'       => $billing_email_hash, // deprecated.
+				'email_hash'      => $billing_email_hash,
+				'phone'           => $order->get_billing_phone(),
+				'phone_hash'      => $billing_phone_hash,
 			),
 
 			'shipping' => array(
-				'first_name' => esc_js( $order->get_shipping_first_name() ),
-				'last_name'  => esc_js( $order->get_shipping_last_name() ),
-				'company'    => esc_js( $order->get_shipping_company() ),
-				'address_1'  => esc_js( $order->get_shipping_address_1() ),
-				'address_2'  => esc_js( $order->get_shipping_address_2() ),
-				'city'       => esc_js( $order->get_shipping_city() ),
-				'state'      => esc_js( $order->get_shipping_state() ),
-				'postcode'   => esc_js( $order->get_shipping_postcode() ),
-				'country'    => esc_js( $order->get_shipping_country() ),
+				'first_name' => $order->get_shipping_first_name(),
+				'last_name'  => $order->get_shipping_last_name(),
+				'company'    => $order->get_shipping_company(),
+				'address_1'  => $order->get_shipping_address_1(),
+				'address_2'  => $order->get_shipping_address_2(),
+				'city'       => $order->get_shipping_city(),
+				'state'      => $order->get_shipping_state(),
+				'postcode'   => $order->get_shipping_postcode(),
+				'country'    => $order->get_shipping_country(),
 			),
 
 		),
@@ -736,7 +736,6 @@ function gtm4wp_woocommerce_datalayer_filter_items( $data_layer ) {
 				$after_purchase_dl_push
 			);
 
-
 			if ( ! $do_not_flag_tracked_order ) {
 				$order->update_meta_data( '_ga_tracked', 1 );
 				$order->save();
@@ -796,11 +795,29 @@ function gtm4wp_woocommerce_datalayer_filter_items( $data_layer ) {
 				);
 			}
 
-			wc_enqueue_js(
-				'
-				window.gtm4wp_checkout_products = ' . wp_json_encode( $gtm4wp_checkout_products ) . ';
-				window.gtm4wp_checkout_value    = ' . (float) $gtm4wp_checkout_total . ';'
-			);
+			$gtm4wp_checkout_js = '
+				window.gtm4wp_checkout_products = ' . wp_json_encode( $gtm4wp_checkout_products, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_QUOT | JSON_HEX_APOS ) . ';
+				window.gtm4wp_checkout_value    = ' . (float) $gtm4wp_checkout_total . ';';
+
+			/*
+			 * wc_enqueue_js() is deprecated since WooCommerce 10.4 in favour of
+			 * wp_add_inline_script(), so prefer the WordPress function.
+			 *
+			 * An inline script can only be attached while its handle has not been
+			 * printed yet. This code runs on wp_head priority 10, after
+			 * wp_print_head_scripts() (priority 9), so on a site that filters the
+			 * tracker into the <head> instead of the footer the attach would come
+			 * too late and the checkout data would be lost. wp_add_inline_script()
+			 * also returns false when the handle is not registered at all. Fall
+			 * back to the WooCommerce queue in both cases: it is deprecated but
+			 * still supported, and it always prints in the footer.
+			 */
+			if (
+				wp_script_is( 'gtm4wp-woocommerce', 'done' )
+				|| ! wp_add_inline_script( 'gtm4wp-woocommerce', $gtm4wp_checkout_js, 'before' )
+			) {
+				wc_enqueue_js( $gtm4wp_checkout_js );
+			}
 		}
 	}
 
@@ -857,7 +874,7 @@ function gtm4wp_woocommerce_datalayer_filter_items( $data_layer ) {
 function gtm4wp_woocommerce_thankyou( $order_id ) {
 	global $gtm4wp_options, $gtm4wp_woocommerce_purchase_data_pushed, $gtm4wp_datalayer_name;
 
-	if ( function_exists('is_order_received_page') && is_order_received_page() ) {
+	if ( function_exists( 'is_order_received_page' ) && is_order_received_page() ) {
 		return;
 	}
 
@@ -936,15 +953,10 @@ function gtm4wp_woocommerce_thankyou( $order_id ) {
 		$script_tag = '
 ' . gtm4wp_generate_script_opening_tag() . '
 	window.' . esc_js( $gtm4wp_datalayer_name ) . ' = window.' . esc_js( $gtm4wp_datalayer_name ) . ' || [];
-	window.' . esc_js( $gtm4wp_datalayer_name ) . '.push(' . wp_json_encode( $data_layer ) . ');
+	window.' . esc_js( $gtm4wp_datalayer_name ) . '.push(' . wp_json_encode( $data_layer, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_QUOT | JSON_HEX_APOS ) . ');
 </script>';
 
-		echo htmlspecialchars_decode( //phpcs:ignore
-			wp_kses(
-				$script_tag,
-				gtm4wp_get_sanitize_script_block_rules()
-			)
-		);
+		gtm4wp_print_script_block( $script_tag );
 
 		if ( ! $do_not_flag_tracked_order ) {
 			$order->update_meta_data( '_ga_tracked', 1 );
@@ -1244,7 +1256,7 @@ function gtm4wp_woocommerce_after_template_part( $template_name ) {
 			esc_attr( wp_json_encode( $eec_product_array ) )
 		);
 
-		$gtm4wp_product_counter++;
+		++$gtm4wp_product_counter;
 
 		$productitem = str_replace( 'href="', $productlink_with_data, $productitem );
 	}
@@ -1466,7 +1478,7 @@ function gtm4wp_woocommerce_grouped_product_list_column_label( $labelvalue, $pro
 		'groupedproductlist'
 	);
 
-	$gtm4wp_grouped_product_ix++;
+	++$gtm4wp_grouped_product_ix;
 
 	if ( ! isset( $eec_product_array['item_brand'] ) ) {
 		$eec_product_array['item_brand'] = '';
@@ -1495,7 +1507,12 @@ function gtm4wp_woocommerce_grouped_product_list_column_label( $labelvalue, $pro
 function gtm4wp_woocommerce_add_productdata_to_wc_block( $content, $data, $product ) {
 	$product_data_tag = gtm4wp_woocommerce_get_product_list_item_extra_tag( $product, '', 0, $data->permalink );
 
-	return preg_replace( '/<li.+class=("|"[^"]+)wc-block-grid__product("|[^"]+")[^<]*>/i', '$0' . $product_data_tag, $content );
+	// The tag carries product data, and a preg_replace replacement expands $0/$n/\1
+	// into the matched text - which here contains quotes - so escape those sequences
+	// before they reach the replacement. The leading $0 re-emits the matched <li>.
+	$replacement = '$0' . addcslashes( (string) $product_data_tag, '\\$' );
+
+	return preg_replace( '/<li.+class=("|"[^"]+)wc-block-grid__product("|[^"]+")[^<]*>/i', $replacement, $content );
 }
 
 add_filter( GTM4WP_WPFILTER_COMPILE_DATALAYER, 'gtm4wp_woocommerce_datalayer_filter_items' );

@@ -2,14 +2,14 @@
 # This file is distributed under the same license as the Payment Plugins for Stripe WooCommerce plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: Payment Plugins for Stripe WooCommerce 4.0.6\n"
+"Project-Id-Version: Payment Plugins for Stripe WooCommerce 4.0.9\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/woo-stripe-payment\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-07-08T15:23:14+00:00\n"
+"POT-Creation-Date: 2026-08-06T21:34:54+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: woo-stripe-payment\n"
@@ -117,23 +117,23 @@ msgstr ""
 msgid "When the billing country matches one of these values, the payment method will be shown on the checkout page."
 msgstr ""
 
-#: includes/abstract/abstract-wc-payment-gateway-stripe-local-payment.php:293
+#: includes/abstract/abstract-wc-payment-gateway-stripe-local-payment.php:292
 #, php-format
 msgid "Gateway will appear when store currency is <strong>%s</strong>"
 msgstr ""
 
-#: includes/abstract/abstract-wc-payment-gateway-stripe-local-payment.php:296
+#: includes/abstract/abstract-wc-payment-gateway-stripe-local-payment.php:295
 #, php-format
 msgid " & billing country is not <strong>%s</strong>"
 msgstr ""
 
-#: includes/abstract/abstract-wc-payment-gateway-stripe-local-payment.php:298
-#: includes/abstract/abstract-wc-payment-gateway-stripe-local-payment.php:301
+#: includes/abstract/abstract-wc-payment-gateway-stripe-local-payment.php:297
+#: includes/abstract/abstract-wc-payment-gateway-stripe-local-payment.php:300
 #, php-format
 msgid " & billing country is <strong>%s</strong>"
 msgstr ""
 
-#: includes/abstract/abstract-wc-payment-gateway-stripe-local-payment.php:325
+#: includes/abstract/abstract-wc-payment-gateway-stripe-local-payment.php:324
 #, php-format
 msgid "Pay with %s"
 msgstr ""
@@ -190,42 +190,42 @@ msgid "We were not able to save your payment method. Reason: %s"
 msgstr ""
 
 #: includes/abstract/abstract-wc-payment-gateway-stripe.php:897
-#: includes/abstract/abstract-wc-stripe-payment.php:260
+#: includes/abstract/abstract-wc-stripe-payment.php:261
 #, php-format
 msgid "Order %1$s from %2$s"
 msgstr ""
 
-#: includes/abstract/abstract-wc-payment-gateway-stripe.php:1050
+#: includes/abstract/abstract-wc-payment-gateway-stripe.php:1052
 msgid "Cannot process payment"
 msgstr ""
 
-#: includes/abstract/abstract-wc-payment-gateway-stripe.php:1058
+#: includes/abstract/abstract-wc-payment-gateway-stripe.php:1060
 #, php-format
 msgid "Increase your conversion rate by offering %1$s on your Product and Cart pages, or at the top of the checkout page. <br/><strong>Note:</strong> you can control which products display %s by going to the product edit page."
 msgstr ""
 
-#: includes/abstract/abstract-wc-payment-gateway-stripe.php:1135
-#: includes/abstract/abstract-wc-payment-gateway-stripe.php:1166
-#: src/Transformers/DataTransformer.php:224
-#: src/Transformers/DataTransformer.php:294
+#: includes/abstract/abstract-wc-payment-gateway-stripe.php:1137
+#: includes/abstract/abstract-wc-payment-gateway-stripe.php:1168
+#: src/Transformers/DataTransformer.php:209
+#: src/Transformers/DataTransformer.php:279
 msgid "Shipping"
 msgstr ""
 
-#: includes/abstract/abstract-wc-payment-gateway-stripe.php:1143
-#: includes/abstract/abstract-wc-payment-gateway-stripe.php:1169
-#: src/Transformers/DataTransformer.php:248
-#: src/Transformers/DataTransformer.php:305
+#: includes/abstract/abstract-wc-payment-gateway-stripe.php:1145
+#: includes/abstract/abstract-wc-payment-gateway-stripe.php:1171
+#: src/Transformers/DataTransformer.php:233
+#: src/Transformers/DataTransformer.php:290
 msgid "Discount"
 msgstr ""
 
-#: includes/abstract/abstract-wc-payment-gateway-stripe.php:1146
-#: src/Transformers/DataTransformer.php:258
-#: src/Transformers/DataTransformer.php:329
+#: includes/abstract/abstract-wc-payment-gateway-stripe.php:1148
+#: src/Transformers/DataTransformer.php:243
+#: src/Transformers/DataTransformer.php:314
 msgid "Tax"
 msgstr ""
 
-#: includes/abstract/abstract-wc-payment-gateway-stripe.php:1176
-#: src/Transformers/DataTransformer.php:319
+#: includes/abstract/abstract-wc-payment-gateway-stripe.php:1178
+#: src/Transformers/DataTransformer.php:304
 msgid "Fees"
 msgstr ""
 
@@ -251,7 +251,7 @@ msgstr ""
 msgid "Transaction Id cannot be empty."
 msgstr ""
 
-#: includes/abstract/abstract-wc-stripe-payment.php:327
+#: includes/abstract/abstract-wc-stripe-payment.php:331
 #, php-format
 msgid "Error processing payment. Reason: %s"
 msgstr ""
@@ -374,13 +374,13 @@ msgstr ""
 
 #: includes/admin/meta-boxes/views/html-charge-data-subview.php:26
 #: includes/admin/settings/class-wc-stripe-api-settings.php:44
-#: src/Rest/Routes/V1/Admin/GatewaySettings.php:177
+#: src/Rest/Routes/V1/Admin/GatewaySettings.php:195
 msgid "Live"
 msgstr ""
 
 #: includes/admin/meta-boxes/views/html-charge-data-subview.php:26
 #: includes/admin/settings/class-wc-stripe-api-settings.php:43
-#: src/Rest/Routes/V1/Admin/GatewaySettings.php:177
+#: src/Rest/Routes/V1/Admin/GatewaySettings.php:195
 msgid "Test"
 msgstr ""
 
@@ -892,7 +892,7 @@ msgid "We make it easy to connect Stripe to your site. Click the Connect button 
 msgstr ""
 
 #: includes/admin/settings/class-wc-stripe-api-settings.php:87
-#: includes/admin/settings/class-wc-stripe-api-settings.php:427
+#: includes/admin/settings/class-wc-stripe-api-settings.php:448
 msgid "Test Publishable Key"
 msgstr ""
 
@@ -901,7 +901,7 @@ msgid "Your publishable key is used to initialize Stripe assets."
 msgstr ""
 
 #: includes/admin/settings/class-wc-stripe-api-settings.php:99
-#: includes/admin/settings/class-wc-stripe-api-settings.php:419
+#: includes/admin/settings/class-wc-stripe-api-settings.php:440
 msgid "Test Secret Key"
 msgstr ""
 
@@ -1003,12 +1003,12 @@ msgstr ""
 msgid "Your Stripe account has been connected to your WooCommerce store. You may now accept payments in Live and Test mode."
 msgstr ""
 
-#: includes/admin/settings/class-wc-stripe-api-settings.php:419
+#: includes/admin/settings/class-wc-stripe-api-settings.php:440
 #, php-format
 msgid "Live mode keys are not allowed in the \"%s field."
 msgstr ""
 
-#: includes/admin/settings/class-wc-stripe-api-settings.php:427
+#: includes/admin/settings/class-wc-stripe-api-settings.php:448
 #, php-format
 msgid "Live mode keys are not allowed in the \"%s\" field."
 msgstr ""
@@ -1631,11 +1631,11 @@ msgstr ""
 msgid "Credit card gateway that integrates with your Stripe account."
 msgstr ""
 
-#: includes/gateways/class-wc-payment-gateway-stripe-cc.php:297
+#: includes/gateways/class-wc-payment-gateway-stripe-cc.php:309
 msgid "Only the Stripe payment form and inline form can be used while Link is enabled."
 msgstr ""
 
-#: includes/gateways/class-wc-payment-gateway-stripe-cc.php:308
+#: includes/gateways/class-wc-payment-gateway-stripe-cc.php:320
 #: packages/blocks/src/Payments/Gateways/CreditCardPayment.php:56
 msgid "Save Card"
 msgstr ""
@@ -2176,7 +2176,7 @@ msgid "Error saving payment method configuration in Stripe. Reason: %s"
 msgstr ""
 
 #: includes/gateways/class-wc-payment-gateway-stripe-upm.php:710
-#: includes/tokens/class-wc-payment-token-stripe-cc.php:163
+#: includes/tokens/class-wc-payment-token-stripe-cc.php:167
 #: includes/tokens/class-wc-payment-token-stripe-local-payment.php:57
 msgid "n/a"
 msgstr ""
@@ -2222,7 +2222,7 @@ msgid "Title of the ACH gateway"
 msgstr ""
 
 #: includes/gateways/settings/ach-settings.php:38
-#: includes/tokens/class-wc-payment-token-stripe-ach.php:104
+#: includes/tokens/class-wc-payment-token-stripe-ach.php:149
 msgid "Bank Payment"
 msgstr ""
 
@@ -2746,7 +2746,7 @@ msgstr ""
 
 #: includes/tokens/class-wc-payment-token-stripe-ach.php:82
 #: includes/tokens/class-wc-payment-token-stripe-ach.php:87
-#: includes/tokens/class-wc-payment-token-stripe-cc.php:99
+#: includes/tokens/class-wc-payment-token-stripe-cc.php:103
 msgid "Type Ending In"
 msgstr ""
 
@@ -2760,49 +2760,49 @@ msgstr ""
 
 #: includes/tokens/class-wc-payment-token-stripe-ach.php:92
 #: includes/tokens/class-wc-payment-token-stripe-becs.php:63
-#: includes/tokens/class-wc-payment-token-stripe-cc.php:134
+#: includes/tokens/class-wc-payment-token-stripe-cc.php:138
 #: includes/tokens/class-wc-payment-token-stripe-local-payment.php:37
 #: includes/tokens/class-wc-payment-token-stripe-sepa.php:95
 msgid "Gateway Title"
 msgstr ""
 
 #: includes/tokens/class-wc-payment-token-stripe-becs.php:65
-#: includes/tokens/class-wc-payment-token-stripe-cc.php:101
+#: includes/tokens/class-wc-payment-token-stripe-cc.php:105
 #: includes/tokens/class-wc-payment-token-stripe-sepa.php:97
 msgid "{brand} ending in {last4}"
 msgstr ""
 
 #: includes/tokens/class-wc-payment-token-stripe-becs.php:68
-#: includes/tokens/class-wc-payment-token-stripe-cc.php:114
+#: includes/tokens/class-wc-payment-token-stripe-cc.php:118
 #: includes/tokens/class-wc-payment-token-stripe-sepa.php:100
 msgid "Type Last 4"
 msgstr ""
 
-#: includes/tokens/class-wc-payment-token-stripe-cc.php:104
+#: includes/tokens/class-wc-payment-token-stripe-cc.php:108
 msgid "Type Masked Number"
 msgstr ""
 
-#: includes/tokens/class-wc-payment-token-stripe-cc.php:109
+#: includes/tokens/class-wc-payment-token-stripe-cc.php:113
 msgid "Type Dash Masked Number"
 msgstr ""
 
-#: includes/tokens/class-wc-payment-token-stripe-cc.php:119
+#: includes/tokens/class-wc-payment-token-stripe-cc.php:123
 msgid "Type Dash & Last 4"
 msgstr ""
 
-#: includes/tokens/class-wc-payment-token-stripe-cc.php:124
+#: includes/tokens/class-wc-payment-token-stripe-cc.php:128
 msgid "Last Four"
 msgstr ""
 
-#: includes/tokens/class-wc-payment-token-stripe-cc.php:129
+#: includes/tokens/class-wc-payment-token-stripe-cc.php:133
 msgid "Card Type"
 msgstr ""
 
-#: includes/tokens/class-wc-payment-token-stripe-cc.php:143
+#: includes/tokens/class-wc-payment-token-stripe-cc.php:147
 msgid "Link by Stripe"
 msgstr ""
 
-#: includes/tokens/class-wc-payment-token-stripe-cc.php:146
+#: includes/tokens/class-wc-payment-token-stripe-cc.php:150
 msgid "Credit Card"
 msgstr ""
 
@@ -3131,27 +3131,27 @@ msgstr ""
 msgid "payment_intent.succeeded webhook received. Payment has been completed."
 msgstr ""
 
-#: includes/wc-stripe-webhook-functions.php:141
+#: includes/wc-stripe-webhook-functions.php:147
 #, php-format
 msgid "Order refunded in Stripe. Amount: %s"
 msgstr ""
 
-#: includes/wc-stripe-webhook-functions.php:179
+#: includes/wc-stripe-webhook-functions.php:185
 #, php-format
 msgid "A dispute has been created for charge %1$s. Dispute status: %2$s."
 msgstr ""
 
-#: includes/wc-stripe-webhook-functions.php:212
+#: includes/wc-stripe-webhook-functions.php:218
 #, php-format
 msgid "Dispute %1$s has been closed. Result: %2$s."
 msgstr ""
 
-#: includes/wc-stripe-webhook-functions.php:249
+#: includes/wc-stripe-webhook-functions.php:255
 #, php-format
 msgid "A review has been opened for charge %1$s. Reason: %2$s."
 msgstr ""
 
-#: includes/wc-stripe-webhook-functions.php:283
+#: includes/wc-stripe-webhook-functions.php:289
 #, php-format
 msgid "A review has been closed for charge %1$s. Reason: %2$s."
 msgstr ""
@@ -3351,7 +3351,7 @@ msgid "Pre-order payment authorized in Stripe. Payment method: %s"
 msgstr ""
 
 #: packages/preorders/src/PreOrdersController.php:88
-#: packages/subscriptions/src/SubscriptionsController.php:151
+#: packages/subscriptions/src/SubscriptionsController.php:162
 #, php-format
 msgid "Customer must manually complete payment for payment method %s"
 msgstr ""
@@ -3368,30 +3368,30 @@ msgstr ""
 msgid "Invalid order key."
 msgstr ""
 
-#: packages/subscriptions/src/SubscriptionsController.php:120
+#: packages/subscriptions/src/SubscriptionsController.php:131
 #, php-format
 msgid "Recurring payment for order failed. Reason: %s"
 msgstr ""
 
-#: packages/subscriptions/src/SubscriptionsController.php:137
+#: packages/subscriptions/src/SubscriptionsController.php:148
 msgid "Renewal payment initiated in Stripe. Waiting for the payment to clear."
 msgstr ""
 
-#: packages/subscriptions/src/SubscriptionsController.php:141
+#: packages/subscriptions/src/SubscriptionsController.php:152
 #, php-format
 msgid "Recurring payment captured in Stripe. Payment method: %s"
 msgstr ""
 
-#: packages/subscriptions/src/SubscriptionsController.php:145
+#: packages/subscriptions/src/SubscriptionsController.php:156
 #, php-format
 msgid "Recurring payment authorized in Stripe. Payment method: %s"
 msgstr ""
 
-#: packages/subscriptions/src/SubscriptionsController.php:296
+#: packages/subscriptions/src/SubscriptionsController.php:307
 msgid "Payment Method Token"
 msgstr ""
 
-#: packages/subscriptions/src/SubscriptionsController.php:300
+#: packages/subscriptions/src/SubscriptionsController.php:311
 msgid "Stripe Customer ID"
 msgstr ""
 
@@ -3479,7 +3479,7 @@ msgstr ""
 msgid "The selected payment method is invalid. Please select a different payment method."
 msgstr ""
 
-#: src/Payments/Gateways/AbstractGateway.php:198
+#: src/Payments/Gateways/AbstractGateway.php:195
 msgid "See more"
 msgstr ""
 
@@ -3507,69 +3507,69 @@ msgstr ""
 msgid "Unknown task: %s"
 msgstr ""
 
-#: src/Rest/Routes/V1/Admin/GatewaySettings.php:99
+#: src/Rest/Routes/V1/Admin/GatewaySettings.php:100
 #, php-format
 msgid "Error fetching domains for %s mode: %s"
 msgstr ""
 
-#: src/Rest/Routes/V1/Admin/GatewaySettings.php:120
+#: src/Rest/Routes/V1/Admin/GatewaySettings.php:121
 #, php-format
 msgid "Error creating domain %s for %s mode: %s"
 msgstr ""
 
-#: src/Rest/Routes/V1/Admin/GatewaySettings.php:123
+#: src/Rest/Routes/V1/Admin/GatewaySettings.php:125
 #, php-format
 msgid "Domain %s registered successfully. You can confirm in your Stripe Dashboard at %s."
 msgstr ""
 
-#: src/Rest/Routes/V1/Admin/GatewaySettings.php:131
+#: src/Rest/Routes/V1/Admin/GatewaySettings.php:132
 #, php-format
 msgid "Error updating domain %s for %s mode: %s"
 msgstr ""
 
-#: src/Rest/Routes/V1/Admin/GatewaySettings.php:133
+#: src/Rest/Routes/V1/Admin/GatewaySettings.php:135
 #, php-format
 msgid "Domain %s enabled successfully for %s mode."
 msgstr ""
 
-#: src/Rest/Routes/V1/Admin/GatewaySettings.php:148
+#: src/Rest/Routes/V1/Admin/GatewaySettings.php:166
 msgid "You must configure your secret key before creating webhooks."
 msgstr ""
 
-#: src/Rest/Routes/V1/Admin/GatewaySettings.php:162
+#: src/Rest/Routes/V1/Admin/GatewaySettings.php:180
 msgid "There is already a webhook configured for this site. If you want to delete the webhook, login to your Stripe Dashboard."
 msgstr ""
 
-#: src/Rest/Routes/V1/Admin/GatewaySettings.php:176
+#: src/Rest/Routes/V1/Admin/GatewaySettings.php:194
 #, php-format
 msgid "Webhook created in Stripe for %s environment. You can test your webhook by logging in to the Stripe dashboard"
 msgstr ""
 
-#: src/Rest/Routes/V1/Admin/GatewaySettings.php:211
+#: src/Rest/Routes/V1/Admin/GatewaySettings.php:229
 msgid "You must enter your API keys or connect the plugin before performing a connection test."
 msgstr ""
 
-#: src/Rest/Routes/V1/Admin/GatewaySettings.php:219
+#: src/Rest/Routes/V1/Admin/GatewaySettings.php:237
 #, php-format
 msgid "Mode: %s. Invalid secret key. Please check your entry."
 msgstr ""
 
-#: src/Rest/Routes/V1/Admin/GatewaySettings.php:238
+#: src/Rest/Routes/V1/Admin/GatewaySettings.php:256
 #, php-format
 msgid "Mode: %s. Invalid publishable key. Please check your entry."
 msgstr ""
 
-#: src/Rest/Routes/V1/Admin/GatewaySettings.php:251
+#: src/Rest/Routes/V1/Admin/GatewaySettings.php:269
 #, php-format
 msgid "Connection test to Stripe was successful. Mode: %s."
 msgstr ""
 
-#: src/Rest/Routes/V1/Admin/GatewaySettings.php:272
+#: src/Rest/Routes/V1/Admin/GatewaySettings.php:290
 #, php-format
 msgid "Error creating payment method configuration. Reason: %s"
 msgstr ""
 
-#: src/Rest/Routes/V1/Admin/GatewaySettings.php:295
+#: src/Rest/Routes/V1/Admin/GatewaySettings.php:313
 msgid "Error retrieving payment method config. Check logs for more details."
 msgstr ""
 
@@ -3636,16 +3636,20 @@ msgstr ""
 msgid "Stripe sends webhook notifications via the http POST method. You cannot test the webhook using a browser."
 msgstr ""
 
-#: src/Rest/Routes/V1/Webhook.php:76
+#: src/Rest/Routes/V1/Webhook.php:53
+msgid "Not authorized."
+msgstr ""
+
+#: src/Rest/Routes/V1/Webhook.php:81
 #, php-format
 msgid "Invalid signature received. Verify that your webhook secret is correct. Error: %s"
 msgstr ""
 
-#: src/Rest/Routes/V1/Webhook.php:79
+#: src/Rest/Routes/V1/Webhook.php:84
 msgid "Invalid signature received. Verify that your webhook secret is correct."
 msgstr ""
 
-#: src/Rest/Routes/V1/Webhook.php:82
+#: src/Rest/Routes/V1/Webhook.php:87
 #, php-format
 msgid "Error processing webhook. Message: %s Exception: %s"
 msgstr ""

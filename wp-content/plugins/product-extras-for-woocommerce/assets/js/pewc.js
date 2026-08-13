@@ -638,6 +638,11 @@
 							$( this ).attr( 'data-selected-option-price', selected_option_price );
 							added_price += parseFloat( selected_option_price );
 
+							// 4.3.19, per unit pricing (Bookings)
+							if ( $( this ).hasClass( 'pewc-per-unit-pricing' ) ) {
+								added_price = parseFloat( $('#num_units_int').val() ) * added_price;
+							}
+
 							// 3.26.7, by default, add-on field prices are multiplied against the quantity. There are cases we don't want to do this for repeatable fields
 							if ( $( this ).hasClass( 'pewc-repeatable-field' ) && ! $( this ).hasClass( 'pewc-multiply-repeatable' ) ) {
 								repeatable_prices += added_price; // we don't add this field's price to the total price so that repeatable prices are not multiplied with quantity
@@ -698,6 +703,12 @@
 							checkbox_value.push( $( this ).val() );
 							selected_counter++;
 						});
+
+						// 4.3.19, per unit pricing (Bookings)
+						if ( $( this ).hasClass( 'pewc-per-unit-pricing' ) ) {
+							checkbox_group_price = parseFloat( $('#num_units_int').val() ) * checkbox_group_price;
+						}
+
 						total_price += checkbox_group_price;
 
 						// Summary panel
@@ -1016,7 +1027,7 @@
 
 				});
 
-				// aou-products-column-new, for column layout with attributes select
+				// 4.3.5, for column layout with attributes select
 				if ( $( this ).find( '.pewc-column-attributes-select' ).length > 0 ) {
 					var child_id = $( this ).data( 'option-id' );
 					var child_variant = $( this ).find( 'input[name="pewc_child_variants_' + child_id + '"]' );
@@ -1247,10 +1258,11 @@
 		}
 
 		// Summary panel subtotal (3.9.8)
-		var subtotal = parseFloat( child_products_total ) + parseFloat( total_price ) + parseFloat( qty * product_price );
-		if( ! isNaN( subtotal ) ) {
-			$( '#pewc-summary-panel-subtotal' ).html( pewc_wc_price( subtotal.toFixed(pewc_vars.decimals) ) );
-		}
+		// 4.3.20, commented out, the total_price (add-on prices) here is not multiplied by the quantity. Maybe just use the grand_total (later below) for the summary subtotal?
+		//var subtotal = parseFloat( child_products_total ) + parseFloat( total_price ) + parseFloat( qty * product_price );
+		//if( ! isNaN( subtotal ) ) {
+		//	$( '#pewc-summary-panel-subtotal' ).html( pewc_wc_price( subtotal.toFixed(pewc_vars.decimals) ) );
+		//}
 
 		var total_grid_variations = $( '#pewc-grid-total-variations' ).val();
 
@@ -1345,9 +1357,14 @@
 			if ( isNaN( orig_grand_total ) || orig_grand_total == grand_total ) {
 				orig_grand_total = ''; // 3.21.7, let's clear this so that we know we don't need it
 			}
+
 			var base_price = grand_total;
 			grand_total = grand_total.toFixed( pewc_vars.decimals );
 			grand_total = pewc_wc_price( grand_total );
+
+			// 4.3.20, added here, grand_total formatted already
+			$( '#pewc-summary-panel-subtotal' ).html( grand_total );
+
 			if( pewc_vars.update_price == 'yes' ) {
 				update_product_price( grand_total, base_price, orig_grand_total );
 			}
@@ -1824,7 +1841,7 @@
 		}
 	});
 	$( 'body' ).on( 'click', '.products-quantities-independent .pewc-checkbox-form-field', function( e ) {
-		// aou-products-column-new, added 2nd condition
+		// 4.3.5, added 2nd condition
 		if( $( this ).closest( '.pewc-checkbox-images-wrapper' ).hasClass( 'pewc-force-quantity' ) || $( this ).closest( '.pewc-checkbox-image-wrapper' ).find( '.pewc-column-attributes-select' ).length > 0 ) {
 			e.stopPropagation();
 			e.preventDefault(); // 3.25.7, prevent the hidden input checkbox from being unchecked and deselected
@@ -1879,7 +1896,7 @@
 			return;
 		}
 
-		// aou-products-column-new, disable the click event for Column layout with attributes selection
+		// 4.3.5, disable the click event for Column layout with attributes selection
 		if ( $( wrapper ).find( '.pewc-column-attributes-select' ).length > 0 ) {
 			return;
 		}
@@ -1927,7 +1944,7 @@
 		}
 
 	}).on( 'click', '.pewc-radio-image-wrapper .pewc-radio-form-field', function( e ) {
-		// aou-products-column-new, disable the click event for Column layout with attributes selection
+		// 4.3.5, disable the click event for Column layout with attributes selection
 		var wrapper = $( this ).closest( '.pewc-radio-image-wrapper' );
 		if ( $( wrapper ).find( '.pewc-column-attributes-select' ).length > 0 ) {
 			return;
@@ -2733,13 +2750,16 @@
 									$( element ).find( '.dd-option-description' ).html( pewc_wc_price( optprice, true ) );
 								}
 							});
-							var selected_value = $( pewc_item ).find( '.dd-selected-value' ).val();
-							var select_option_index = 0;
-							select_option_index = $( 'select#' + field_id + ' option[value="' + selected_value.replace( /"/g, '\\"' ) + '"]').index();
-							optprice = parseFloat( $( 'input[name="' + field_id + '_option_' + select_option_index + '_price_calculated"]' ).val() );
-							if ( ! isNaN( optprice ) ) {
-								$( pewc_item ).find( '.dd-selected-description' ).html( pewc_wc_price( optprice, true ) );
-								$( pewc_item ).attr( 'data-selected-option-price', optprice );
+							// 4.4.0, added condition
+							if ( $( pewc_item ).find( '.dd-selected-value' ).length > 0 ) {
+								var selected_value = $( pewc_item ).find( '.dd-selected-value' ).val();
+								var select_option_index = 0;
+								select_option_index = $( 'select#' + field_id + ' option[value="' + selected_value.replace( /"/g, '\\"' ) + '"]').index();
+								optprice = parseFloat( $( 'input[name="' + field_id + '_option_' + select_option_index + '_price_calculated"]' ).val() );
+								if ( ! isNaN( optprice ) ) {
+									$( pewc_item ).find( '.dd-selected-description' ).html( pewc_wc_price( optprice, true ) );
+									$( pewc_item ).attr( 'data-selected-option-price', optprice );
+								}
 							}
 						}
 					}

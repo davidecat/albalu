@@ -48,6 +48,11 @@ class Webhook extends AbstractRoute {
 		$webhook_id     = \stripe_wc()->api_settings->get_option( $webhook_id_key );
 		$webhook_secret = \stripe_wc()->api_settings->get_option( 'webhook_secret_' . $mode );
 
+		if ( empty( $webhook_secret ) ) {
+			\wc_stripe_log_error( sprintf( 'Webhook secret is not configured for %s mode. Rejecting webhook notification.', $mode ) );
+			throw new \Exception( __( 'Not authorized.', 'woo-stripe-payment' ), 401 );
+		}
+
 		// If the webhook ID exists and doesn't match the ID from the notification, skip processing.
 		// This handles Stripe accounts with multiple webhooks configured.
 		if ( $webhook_id && isset( $json_payload['data']['object']['metadata']['webhook_id'] ) && $webhook_id !== $json_payload['data']['object']['metadata']['webhook_id'] ) {

@@ -755,7 +755,7 @@ add_action( 'pewc_open_group_inner', 'pewc_remove_cloned_group_button', 11, 3 );
 
 /**
  * Checks if a field is a cloned field, $field_id looks like this pewc_group_<group_id>_<field_id>_cloned_<clone_index>
- * @since aou-repeatable-conditions-upload
+ * @since 4.2.0
  */
 function pewc_is_cloned_field( $field_id ) {
 
@@ -765,7 +765,7 @@ function pewc_is_cloned_field( $field_id ) {
 
 /**
  * Get clone index from field_id (must pass pewc_is_cloned_field())
- * @since aou-repeatable-conditions-upload
+ * @since 4.2.0
  */
 function pewc_get_repeatable_index_from_field_id( $field_id ) {
 
