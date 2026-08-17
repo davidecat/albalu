@@ -1673,8 +1673,12 @@ function display_variation_sku() {
 		jQuery(function($) {
 			var parentSku = '" . esc_js( $parent_sku ) . "';
 			var parentDesc = $('.woocommerce-product-details__short-description').html();
+			var \$skuBox = $('#product-sku');
 			$(document).on('found_variation', 'form.cart', function( event, variation ) {
-				$('#product-sku span').text(variation.sku || parentSku);
+				var sku = variation.sku || parentSku;
+				\$skuBox.find('span').text(sku);
+				// Sui variabili senza SKU padre il blocco parte nascosto
+				\$skuBox.prop('hidden', ! sku);
 				if (variation.variation_description) {
 					$('.woocommerce-product-details__short-description').html(variation.variation_description);
 				} else {
@@ -1682,7 +1686,8 @@ function display_variation_sku() {
 				}
 			});
 			$(document).on('hide_variation', 'form.cart', function() {
-				$('#product-sku span').text(parentSku);
+				\$skuBox.find('span').text(parentSku);
+				\$skuBox.prop('hidden', ! parentSku);
 				$('.woocommerce-product-details__short-description').html(parentDesc);
 			});
 		});

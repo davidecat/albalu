@@ -22,9 +22,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 the_title( '<h1 class="product_title entry-title">', '</h1>' );
 
 global $product;
-if ( $product && wc_product_sku_enabled() && $product->get_sku() ) : ?>
-	<p class="product-sku my-1 pb-2 border-bottom" id="product-sku"><?php esc_html_e( 'SKU:', 'woocommerce' ); ?> <span><?php echo esc_html( $product->get_sku() ); ?></span></p>
-<?php endif;
+if ( $product && wc_product_sku_enabled() ) :
+	$albalu_sku = $product->get_sku();
+	// Sui variabili senza SKU padre il blocco serve comunque: lo popola il JS
+	// alla selezione della variante (resta nascosto finché non c'è uno SKU).
+	$albalu_sku_hidden = ( '' === $albalu_sku && $product->is_type( 'variable' ) );
+	if ( $albalu_sku || $albalu_sku_hidden ) : ?>
+		<p class="product-sku my-1 pb-2 border-bottom" id="product-sku"<?php echo $albalu_sku_hidden ? ' hidden' : ''; ?>><?php esc_html_e( 'SKU:', 'woocommerce' ); ?> <span><?php echo esc_html( $albalu_sku ); ?></span></p>
+	<?php endif;
+endif;
 
 if ( shortcode_exists( 'mostra-attributi-prodotto' ) ) {
 	echo do_shortcode( '[mostra-attributi-prodotto]' );
