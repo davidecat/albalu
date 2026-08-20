@@ -1529,6 +1529,14 @@ add_filter( 'wpseo_breadcrumb_links', function( $links ) {
 		return '' === $url || ! in_array( $url, $skip, true );
 	} ) );
 }, 20 );
+
+/* Rimuove l'archivio prodotti (pagina Negozio) dal breadcrumb Yoast:
+   il suo permalink è ?page_id=..., un livello inutile nella catena. */
+add_filter( 'wpseo_breadcrumb_indexables', function ( $indexables ) {
+	return array_filter( $indexables, function ( $i ) {
+		return ! ( $i->object_type === 'post-type-archive' && $i->object_sub_type === 'product' );
+	} );
+} );
 //------------------- END ---------------------
 
 //7c. FAQ categoria: sezione sopra il footer + schema FAQPage nell'head
