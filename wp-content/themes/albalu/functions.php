@@ -1537,6 +1537,41 @@ add_filter( 'wpseo_breadcrumb_indexables', function ( $indexables ) {
 		return ! ( $i->object_type === 'post-type-archive' && $i->object_sub_type === 'product' );
 	} );
 } );
+
+/* Breadcrumb visibile alimentato da Yoast: fonte unica per visibile e strutturato,
+   cosi' i due non possono piu' divergere. Sostituiamo i DATI, non il rendering:
+   il markup resta quello del tema (nav > ol.breadcrumb > li.breadcrumb-item), quindi
+   grafica e scroll orizzontale mobile restano invariati.
+   I crumb arrivano gia' ripuliti dai filtri qui sopra (madri 301 + archivio prodotti). */
+function albalu_yoast_crumbs() {
+	if ( ! function_exists( 'YoastSEO' ) ) {
+		return array();
+	}
+	$meta = YoastSEO()->meta->for_current_page();
+	if ( ! $meta || empty( $meta->breadcrumbs ) || ! is_array( $meta->breadcrumbs ) ) {
+		return array();
+	}
+	return $meta->breadcrumbs;
+}
+
+add_filter( 'woocommerce_get_breadcrumb', function( $crumbs ) {
+	$yoast = albalu_yoast_crumbs();
+	if ( count( $yoast ) < 2 ) {
+		return $crumbs; // Yoast assente o catena vuota: si tiene quella di WooCommerce
+	}
+	$out  = array();
+	$last = count( $yoast ) - 1;
+	foreach ( $yoast as $i => $crumb ) {
+		$text = isset( $crumb['text'] ) ? trim( (string) $crumb['text'] ) : '';
+		if ( '' === $text ) {
+			continue;
+		}
+		// L'ultimo e' la pagina corrente: senza link, come fa WooCommerce.
+		$url   = ( $i === $last || empty( $crumb['url'] ) ) ? '' : $crumb['url'];
+		$out[] = array( $text, $url );
+	}
+	return ( count( $out ) >= 2 ) ? $out : $crumbs;
+}, 5 );
 //------------------- END ---------------------
 
 //7c. FAQ categoria: sezione sopra il footer + schema FAQPage nell'head
@@ -2073,6 +2108,36 @@ add_filter( 'wpseo_schema_product', function( $data ) {
 		$product = wc_get_product( get_the_ID() );
 	}
 	if ( ! $product ) return $data;
+
+	/* Campo category: percorso completo della categoria primaria.
+	   Stessa fonte del breadcrumb (_yoast_wpseo_primary_product_cat), cosi' i due
+	   restano coerenti da soli. Accetta nomi e non URL: e' il posto dove far
+	   arrivare a Google il livello evento che il breadcrumb non puo' piu' esprimere
+	   (le categorie madri degli eventi fanno 301, vedi albalu_redirected_parent_cat_ids). */
+	$albalu_pid     = $product->get_id();
+	$albalu_primary = (int) get_post_meta( $albalu_pid, '_yoast_wpseo_primary_product_cat', true );
+	if ( ! $albalu_primary ) {
+		$albalu_terms = wp_get_post_terms( $albalu_pid, 'product_cat', array( 'fields' => 'ids' ) );
+		if ( ! empty( $albalu_terms ) && ! is_wp_error( $albalu_terms ) ) {
+			$albalu_primary = (int) $albalu_terms[0];
+		}
+	}
+	if ( $albalu_primary ) {
+		$albalu_path = array();
+		foreach ( array_reverse( get_ancestors( $albalu_primary, 'product_cat' ) ) as $albalu_anc_id ) {
+			$albalu_anc = get_term( $albalu_anc_id, 'product_cat' );
+			if ( $albalu_anc && ! is_wp_error( $albalu_anc ) ) {
+				$albalu_path[] = $albalu_anc->name;
+			}
+		}
+		$albalu_term = get_term( $albalu_primary, 'product_cat' );
+		if ( $albalu_term && ! is_wp_error( $albalu_term ) ) {
+			$albalu_path[] = $albalu_term->name;
+		}
+		if ( ! empty( $albalu_path ) ) {
+			$data['category'] = implode( ' > ', $albalu_path );
+		}
+	}
 
 	$price = (float) $product->get_price();
 	$shipping_cost = ( $price >= 149 ) ? '0' : '6.90';
