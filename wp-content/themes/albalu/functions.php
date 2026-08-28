@@ -2147,6 +2147,14 @@ add_filter( 'wpseo_schema_product', function( $data ) {
 	   (le categorie madri degli eventi fanno 301, vedi albalu_redirected_parent_cat_ids). */
 	$albalu_pid     = $product->get_id();
 	$albalu_primary = (int) get_post_meta( $albalu_pid, '_yoast_wpseo_primary_product_cat', true );
+	// Una primaria che punta a una categoria cancellata va trattata come assente,
+	// altrimenti il campo resterebbe vuoto pur avendo il prodotto le sue categorie.
+	if ( $albalu_primary ) {
+		$albalu_check = get_term( $albalu_primary, 'product_cat' );
+		if ( ! $albalu_check || is_wp_error( $albalu_check ) ) {
+			$albalu_primary = 0;
+		}
+	}
 	if ( ! $albalu_primary ) {
 		$albalu_terms = wp_get_post_terms( $albalu_pid, 'product_cat', array( 'fields' => 'ids' ) );
 		if ( ! empty( $albalu_terms ) && ! is_wp_error( $albalu_terms ) ) {
