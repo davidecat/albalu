@@ -1561,16 +1561,27 @@ add_filter( 'woocommerce_get_breadcrumb', function( $crumbs ) {
 	}
 	$out  = array();
 	$last = count( $yoast ) - 1;
+	$home = untrailingslashit( home_url() );
 	foreach ( $yoast as $i => $crumb ) {
 		$text = isset( $crumb['text'] ) ? trim( (string) $crumb['text'] ) : '';
 		if ( '' === $text ) {
 			continue;
 		}
+		$url = empty( $crumb['url'] ) ? '' : untrailingslashit( $crumb['url'] );
+		// Il crumb Home lo stampa gia' il tema (icona casetta nel wrap_before di
+		// bootscore, che infatti passa 'home' => '' a WooCommerce): saltarlo, o
+		// nella catena comparirebbe due volte.
+		if ( 0 === $i && $url === $home ) {
+			continue;
+		}
 		// L'ultimo e' la pagina corrente: senza link, come fa WooCommerce.
-		$url   = ( $i === $last || empty( $crumb['url'] ) ) ? '' : $crumb['url'];
+		if ( $i === $last ) {
+			$url = '';
+		}
 		$out[] = array( $text, $url );
 	}
-	return ( count( $out ) >= 2 ) ? $out : $crumbs;
+	// Almeno un crumb: le catene corte (categoria di primo livello) sono legittime.
+	return ( count( $out ) >= 1 ) ? $out : $crumbs;
 }, 5 );
 //------------------- END ---------------------
 
