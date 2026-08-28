@@ -1585,6 +1585,26 @@ add_filter( 'woocommerce_get_breadcrumb', function( $crumbs ) {
 }, 5 );
 //------------------- END ---------------------
 
+//7d. SEO: la pagina Negozio richiesta per ID va sulla home
+//------------------- START ---------------------
+/* https://www.albalu.it/?page_id=<id della pagina Negozio> finiva in 301 sul PRIMO
+   prodotto dell'archivio: non e' una destinazione scelta, e' quella che capita
+   (redirect_canonical di WordPress sulla query dell'archivio prodotti), quindi
+   cambia da sola quando cambia l'ordinamento. Mandare l'archivio di tutti i
+   prodotti su una singola scheda e' un segnale incoerente per Google.
+   La portiamo sulla home, come gia' fa /negozio/. */
+add_action( 'template_redirect', function() {
+	if ( is_admin() || empty( $_GET['page_id'] ) ) {
+		return;
+	}
+	$shop_id = (int) get_option( 'woocommerce_shop_page_id' );
+	if ( $shop_id && (int) $_GET['page_id'] === $shop_id ) {
+		wp_safe_redirect( home_url( '/' ), 301 );
+		exit;
+	}
+}, 1 ); // prima di redirect_canonical, che gira a priorita' 10
+//------------------- END ---------------------
+
 //7c. FAQ categoria: sezione sopra il footer + schema FAQPage nell'head
 //------------------- START ---------------------
 /* Legge il repeater ACF "faqpage-category" della categoria corrente.
