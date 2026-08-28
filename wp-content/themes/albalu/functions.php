@@ -1618,6 +1618,12 @@ function albalu_get_category_faqs() {
 	if ( ! is_product_category() || ! function_exists( 'have_rows' ) ) {
 		return $faqs;
 	}
+	// Solo in prima pagina: dalla 2 in poi sarebbero contenuto duplicato, sia la
+	// sezione visibile sia lo schema FAQPage. E' la stessa condizione con cui
+	// WooCommerce nasconde la description della categoria nelle pagine successive.
+	if ( 0 !== absint( get_query_var( 'paged' ) ) ) {
+		return $faqs;
+	}
 	$term = get_queried_object();
 	if ( ! $term || is_wp_error( $term ) ) {
 		return $faqs;
