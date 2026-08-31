@@ -132,7 +132,8 @@ if( ! defined( 'ABSPATH' ) ) {
         <div class="product-extra-field-inner">
 
             <?php pewc_checkbox_toggle( 'field_default', $checked, $group_id, $item_key, 'pewc-field-default pewc-field-default-field-checkbox', 'pewc-field-default-field-checkbox' ); ?>
-            <input type="number" class="pewc-field-item pewc-field-default pewc-field-default-field-number" name="<?php echo esc_attr( $base_name ); ?>[field_default]" step="<?php echo apply_filters( 'pewc_number_field_step', '1', $item ); ?>" value="<?php echo is_numeric( $default ) ? esc_attr( $default ) : ''; ?>" data-field-name="field_default">
+            <?php $default_step = ! empty( $item['field_step_value'] ) ? $item['field_step_value'] : '1'; ?>
+            <input type="number" class="pewc-field-item pewc-field-default pewc-field-default-field-number" name="<?php echo esc_attr( $base_name ); ?>[field_default]" step="<?php echo apply_filters( 'pewc_number_field_step', $default_step, $item ); ?>" value="<?php echo is_numeric( $default ) ? esc_attr( $default ) : ''; ?>" data-field-name="field_default">
             <input type="text" class="pewc-field-item pewc-field-default pewc-field-default-field-text" name="<?php echo esc_attr( $base_name ); ?>[field_default]" value="<?php echo esc_attr( $default ); ?>" data-field-name="field_default">
             <?php $default_hidden = isset( $item['field_default_hidden'] ) ? $item['field_default_hidden'] : ''; ?>
             <input type="hidden" class="pewc-field-item pewc-field-default pewc-field-default-hidden" name="<?php echo esc_attr( $base_name ); ?>[field_default_hidden]" value="<?php echo esc_attr( $default ); ?>" data-field-name="field_default_hidden">

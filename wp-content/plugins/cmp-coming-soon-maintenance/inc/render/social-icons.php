@@ -8,6 +8,7 @@ if ( get_option('niteoCS_socialmedia') ) {
 
     $socialmedia = stripslashes( get_option('niteoCS_socialmedia') );
     $socialmedia = json_decode( $socialmedia, true );
+    $socialmedia = is_array( $socialmedia ) ? $socialmedia : array();
     //sort social icons array by hidden, then order key
     uasort( $socialmedia  , array($this,'sort_social') );
 
@@ -23,12 +24,18 @@ if ( get_option('niteoCS_socialmedia') ) {
 
     foreach ( $socialmedia as $social ) {
 
-        if ( $social['hidden'] == '0' && $social['active'] == '1') {
-            $href = $social['url'];
-            $name = ucfirst($social['name']);
-            $icon = 'fab fa-' . $social['name'];
+        if ( !is_array( $social ) || !isset( $social['name'], $social['url'], $social['hidden'], $social['active'] ) ) {
+            continue;
+        }
 
-            switch ($social['name']) {
+        $social_key = sanitize_key( $social['name'] );
+
+        if ( $social['hidden'] === '0' && $social['active'] === '1' && $social_key !== '' ) {
+            $href = $social['url'];
+            $name = ucfirst($social_key);
+            $icon = 'fab fa-' . $social_key;
+
+            switch ($social_key) {
                 case 'envelope-o':
                     $href = 'mailto:'.$social['url'];
                     $name = __('Email', 'cmp-coming-soon-maintenance');
@@ -76,8 +83,8 @@ if ( get_option('niteoCS_socialmedia') ) {
             } 
 
             echo ( $mode == 'text' ) ? 
-                '<li class="social-child' . $liclass . '"><a href="'.esc_attr($href).'" target="top" class="social-'.$social['name'].'">'.$name.'</a></li>' : 
-                '<li class="social-child' . $liclass . '"><a href="'.esc_attr($href).'" target="top" class="social-'.$social['name'].'">'.$theme_html.'<i class="'.$icon.'" aria-hidden="true"></i></a></li>';
+                '<li class="social-child' . esc_attr( $liclass ) . '"><a href="'.esc_url($href).'" target="top" class="social-'.esc_attr($social_key).'">'.esc_html($name).'</a></li>' : 
+                '<li class="social-child' . esc_attr( $liclass ) . '"><a href="'.esc_url($href).'" target="top" class="social-'.esc_attr($social_key).'">'.$theme_html.'<i class="'.esc_attr($icon).'" aria-hidden="true"></i></a></li>';
         } 
     }
 

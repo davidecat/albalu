@@ -608,6 +608,13 @@ li.field-item {
 .field-type-select-box .pewc-select-field-only {
 	display: grid;
 }
+.pewc-replace-main-image-extras {
+	display: none;
+}
+.field-type-image_swatch .pewc-replace-main-image-extras,
+.field-type-select-box .pewc-replace-main-image-extras {
+	display: block;
+}
 .field-type-radio .pewc-option-fields-wrapper,
 .field-type-image_swatch .pewc-option-fields-wrapper,
 .field-type-select-box .pewc-option-fields-wrapper,

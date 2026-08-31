@@ -872,8 +872,7 @@ $types = [
 'icon' => 'dashicons-info'
 ]
 ];
-return '<div style="margin:20px 0px; padding:10px; '. $types[ $type ]['css'] .' border-radius: 5px">'
-. '<span class="dashicons '. $types[ $type ]['icon'] .'"></span> <strong>'. strtoupper($type) .'</strong>'
+return '<div style="margin:20px 0px; padding:15px; '. $types[ $type ]['css'] .' border-radius: 5px">'
 . ($newline_content ? '<br />' : "")
 . $content
 . '</div>';
@@ -924,7 +923,7 @@ $className = 'TrustindexPlugin_' . $forcePlatform;
 if (!class_exists($className)) {
 return wp_kses_post($this->frontEndErrorForAdmins(ucfirst($forcePlatform) . ' plugin is not active or not found!'));
 }
-$chosedPlatform = new $className($forcePlatform, $filePath, "do-not-care-13.3.1", "do-not-care-Widgets for Google Reviews", "do-not-care-Google");
+$chosedPlatform = new $className($forcePlatform, $filePath, "do-not-care-13.3.2", "do-not-care-Widgets for Google Reviews", "do-not-care-Google");
 $chosedPlatform->setNotificationParam('not-using-no-widget', 'active', false);
 if (!$chosedPlatform->is_noreg_linked()) {
 /* translators: %s: Platform name */
@@ -951,12 +950,15 @@ else {
 return wp_kses_post($this->frontEndErrorForAdmins(__('Your shortcode is deficient: Trustindex Widget ID is empty! Example: ', 'wp-reviews-plugin-for-google') . '<br /><code>['.$this->get_shortcode_name().' data-widget-id="478dcc2136263f2b3a3726ff"]</code>'));
 }
 }
-public function frontEndErrorForAdmins($text)
+public function frontEndErrorForAdmins($text, $title = '', $type = 'error')
 {
 if (!current_user_can('manage_options')) {
 return " ";
 }
-return self::get_alertbox('error', ' @ <strong>'. __('Trustindex plugin', 'wp-reviews-plugin-for-google') .'</strong> <i style="opacity: 0.65">('. __('This message is not be visible to visitors in public mode.', 'wp-reviews-plugin-for-google') .')</i><br /><br />'. $text, false);
+if ('' === $title) {
+$title = __('Trustindex plugin', 'wp-reviews-plugin-for-google');
+}
+return self::get_alertbox($type, '<strong>'.$title.'</strong><br />'.$text.'<br /><i style="opacity: 0.65">('. sprintf(__('This message is not be visible to visitors in public mode.') .')</i>', 'wp-reviews-plugin-for-google'), false);
 }
 
 
@@ -1173,7 +1175,7 @@ public static $widget_templates = array (
  'name' => 'Slider I. - with header',
  'type' => 'slider',
  'is-active' => true,
- 'is-popular' => false,
+ 'is-popular' => true,
  'is-top-rated-badge' => false,
  'params' => 
  array (
@@ -1197,7 +1199,7 @@ public static $widget_templates = array (
  'name' => 'Slider I. - with Top Rated header and photos',
  'type' => 'slider',
  'is-active' => false,
- 'is-popular' => true,
+ 'is-popular' => false,
  'is-top-rated-badge' => true,
  'params' => 
  array (
@@ -3258,7 +3260,7 @@ private static $widget_rating_texts = array (
  1 => 'onder gemiddeld',
  2 => 'gemiddeld',
  3 => 'goed',
- 4 => 'uitstekend',
+ 4 => 'uitstekende',
  ),
  'ar' => 
  array (
@@ -3538,7 +3540,7 @@ private static $widget_rating_texts = array (
  1 => 'Onder het gemiddelde',
  2 => 'Gemiddeld',
  3 => 'Goed',
- 4 => 'Uitstekend',
+ 4 => 'Uitstekende',
  ),
  'no' => 
  array (
@@ -6024,7 +6026,7 @@ return wp_kses_post(preg_replace('/\r\n|\r|\n/', "\n", trim(html_entity_decode($
 private function getProfileImageUrl($imageUrl, $layoutId, $sizeMultiply = 1) {
 
 $size = $this->getProfileImageSize($layoutId) * $sizeMultiply;
-$imageUrl = preg_replace('/([=-])(?:s\d+|w\d+-h\d+)(-|$)/', "$1w$size-h$size$2", $imageUrl);
+$imageUrl = preg_replace('/([=-])(?:s\d+|w\d+-h\d+)(-|$)/', "\$1w$size-h$size\$2", $imageUrl);
 return $imageUrl;
 }
 
@@ -6039,7 +6041,7 @@ private function getHeaderProfileImageSize($layoutId)
 {
 return 65;
 }
-public function renderWidgetFrontend($tiPublicId = null)
+public function renderWidgetFrontend($tiPublicId = null, $isManualEmbed = false)
 {
 $this->enqueueLoaderScript();
 if ($tiPublicId) {
@@ -6077,6 +6079,12 @@ $preContent .= '</template></pre>';
 $text = sprintf(__('There are no reviews on your %s platform.', 'wp-reviews-plugin-for-google'), ucfirst($this->getShortName()));
 
 return $this->frontEndErrorForAdmins($text);
+}
+if ($this->is_trustindex_connected()) {
+$title = __('You are still using the free widget below.', 'wp-reviews-plugin-for-google');
+$text = __('Switch to the Pro version by replacing the shortcode.', 'wp-reviews-plugin-for-google')
+.'<br /><a href="'.esc_url('https://admin.trustindex.io/widget').'" target="_blank" rel="noopener noreferrer">'.__('Find the shortcode in the widget list.', 'wp-reviews-plugin-for-google').'</a>';
+$preContent = $this->frontEndErrorForAdmins($text, $title, 'warning').$preContent;
 }
 }
 $attributesHtml = implode(' ', array_map(function($attribute, $value) {
@@ -6433,9 +6441,9 @@ $imageUrl = isset($pageDetails['avatar_url']) && $pageDetails['avatar_url'] ? $p
 $image2xUrl = $imageUrl;
 
 $size = $this->getHeaderProfileImageSize($styleId);
-$imageUrl = preg_replace('/([=-])(s\d+|w\d+-h\d+)/', "$1w$size-h$size", $imageUrl);
+$imageUrl = preg_replace('/([=-])(s\d+|w\d+-h\d+)/', "\$1w$size-h$size", $imageUrl);
 $size *= 2;
-$image2xUrl = preg_replace('/([=-])(s\d+|w\d+-h\d+)/', "$1w$size-h$size", $imageUrl);
+$image2xUrl = preg_replace('/([=-])(s\d+|w\d+-h\d+)/', "\$1w$size-h$size", $imageUrl);
 $profileImageListForButton = "";
 if ($reviews) {
 $max = $widgetTemplate['type'] === 'fomo' ? 3 : 5;

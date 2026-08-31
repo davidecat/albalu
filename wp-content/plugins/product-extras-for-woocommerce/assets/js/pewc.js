@@ -1444,6 +1444,25 @@
 			});
 			main_price = $( '.pewc-main-price.pewc-main-main-price' );
 		}
+
+		if ( $( '.pewc-variable-product' ).length > 0 && pewc_vars.original_variable_price_range ) {
+			// 4.4.1, this is a variable product, and we don't want to replace the variable price range until a variation has been selected
+			var variationId = $('.variations_form').find('input[name="variation_id"]').val();
+			if ( variationId && variationId !== '0' ) {
+				// fully selected, allow to proceed, but first save original if it does not exist yet
+				if ( ! main_price.attr( 'data-pewc-orig-price' ) ) {
+					main_price.attr( 'data-pewc-orig-price', main_price.html() )
+				}
+			} else {
+				// not selected / incomplete, return so that the price range is not touched. Put back original price range if it exists
+				if ( main_price.attr( 'data-pewc-orig-price' ) ) {
+					main_price.html( main_price.attr( 'data-pewc-orig-price' ) );
+					main_price.removeAttr( 'data-pewc-orig-price' );
+				}
+				return;
+			}
+		}
+
 		var suffix = main_price.find( '.woocommerce-price-suffix' ).html();
 		var label = main_price.find( '.wcfad-rule-label' ).html();
 		var before = main_price.find( '.pewc-label-before' ).html();
@@ -1716,6 +1735,12 @@
 
 	$('body').on('change input keyup paste click','.products-quantities-independent .pewc-child-quantity-field',function( e ) {
 		e.stopPropagation(); // this prevents the click event from bubbling up to the event attached to the layer
+
+		// 4.4.1, disable auto-select using a filter
+		if ( pewc_vars.disable_click_column_layout && $( this ).val() > 0 ) {
+			return;
+		}
+
 		if ( $( this ).closest( '.pewc-item' ).hasClass( 'pewc-item-products-select' ) ) {
 			// this is a Products select field
 			var selIndex = 0;
@@ -1842,11 +1867,17 @@
 	});
 	$( 'body' ).on( 'click', '.products-quantities-independent .pewc-checkbox-form-field', function( e ) {
 		// 4.3.5, added 2nd condition
-		if( $( this ).closest( '.pewc-checkbox-images-wrapper' ).hasClass( 'pewc-force-quantity' ) || $( this ).closest( '.pewc-checkbox-image-wrapper' ).find( '.pewc-column-attributes-select' ).length > 0 ) {
+		// 4.4.1, added 3rd condition
+		if(
+			$( this ).closest( '.pewc-checkbox-images-wrapper' ).hasClass( 'pewc-force-quantity' ) || 
+			$( this ).closest( '.pewc-checkbox-image-wrapper' ).find( '.pewc-column-attributes-select' ).length > 0 || 
+			pewc_vars.disable_click_column_layout
+		) {
 			e.stopPropagation();
 			e.preventDefault(); // 3.25.7, prevent the hidden input checkbox from being unchecked and deselected
 			return;
 		}
+
 		// this is triggered when clicking the child product's image
 		if( $(this).is(':checked') ){
 			var number = $(this).closest('.pewc-checkbox-wrapper').find('input[type=number]').val();
@@ -1897,7 +1928,8 @@
 		}
 
 		// 4.3.5, disable the click event for Column layout with attributes selection
-		if ( $( wrapper ).find( '.pewc-column-attributes-select' ).length > 0 ) {
+		// 4.4.1, disable the click using a filter
+		if ( $( wrapper ).find( '.pewc-column-attributes-select' ).length > 0 || pewc_vars.disable_click_column_layout ) {
 			return;
 		}
 
@@ -1945,8 +1977,9 @@
 
 	}).on( 'click', '.pewc-radio-image-wrapper .pewc-radio-form-field', function( e ) {
 		// 4.3.5, disable the click event for Column layout with attributes selection
+		// 4.4.1, disable the click using a filter
 		var wrapper = $( this ).closest( '.pewc-radio-image-wrapper' );
-		if ( $( wrapper ).find( '.pewc-column-attributes-select' ).length > 0 ) {
+		if ( $( wrapper ).find( '.pewc-column-attributes-select' ).length > 0 || pewc_vars.disable_click_column_layout ) {
 			return;
 		}
 		var is_image_swatch_checkbox = $( this ).closest( '.pewc-item' ).hasClass( 'pewc-item-image-swatch-checkbox' );

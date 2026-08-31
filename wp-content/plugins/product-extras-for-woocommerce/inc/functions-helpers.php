@@ -400,7 +400,7 @@ function pewc_get_group_fields( $group_id ) {
  * Before 3.0.0, field data was stored as a serialised array
  * This function just gets our post meta and formats it in an array so we can continue using pre-3.0 templates
  * @since	3.0.0
- * @version	4.3.0
+ * @version	4.4.1
  * @return Array
  */
 function pewc_create_item_object( $field_id ) {
@@ -425,19 +425,20 @@ function pewc_create_item_object( $field_id ) {
 			// 4.3.0, transient is now disabled by default. We need to detect if this page is not the Global Add-Ons page (i.e. Display groups as post type is disabled). This is for the toggle issue always remaining enabled because postmetas are not deleted when editing the product page
 			$is_global_product_addons = ! empty( $pagenow ) && 'admin.php' === $pagenow && ! empty( $_GET['page'] ) && 'global' === $_GET['page'];
 
+			// 4.4.1, created new variable
+			$use_all_params = ! empty( $all_params ) && 
+				(
+					pewc_enable_groups_as_post_types() || 
+					! $is_global_product_addons || 
+					is_product()
+				);
+
 			foreach ( $params as $param ) {
 				// 4.1.1, added the additional conditions because on the Edit Product page, the toggle settings don't get turned off if Display as post type is disabled
 				// This happens because we no longer delete_post_meta in admin/functions-custom-panel.php since 4.0. Also use $all_params on the frontend now, so that the backend settings match the frontend.
 				// Consider just deleting pewc_enable_groups_as_post_types() from the condition in the future, but need to test that extensively for effects especially on Global Add-Ons (groups as post type disabled) which still seems to use postmeta
 				// 4.3.0, use ! $is_global_product_addons instead
-				if (
-					! empty( $all_params ) && 
-					(
-						pewc_enable_groups_as_post_types() || 
-						! $is_global_product_addons || 
-						is_product()
-					)
-				) {
+				if ( $use_all_params ) {
 					$item[$param] = $all_params[$param] ?? '';
 				} else {
 					$value = get_post_meta( $field_id, $param, true );
@@ -553,6 +554,7 @@ function pewc_get_field_params( $field_id=null ) {
 		'field_swatchwidth',
 		'field_class',
 		'field_step',
+		'field_step_value',
 		'field_enable_range_slider',
 		'field_latest_hour',
 		'field_latest_minute',

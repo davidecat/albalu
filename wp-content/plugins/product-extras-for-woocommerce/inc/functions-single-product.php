@@ -151,6 +151,7 @@ function pewc_enqueue_scripts() {
 		'dequeue_tooltips'			=> apply_filters( 'pewc_dequeue_tooltips', false ),
 		'separator'					=> ' '.get_option( 'pewc_price_separator', false ).' ', // 3.21.2, pewc_add_on_price_separator() has HTML tags which is not needed when used in option texts
 		'update_price'				=> pewc_get_update_price_label(),
+		'original_variable_price_range' => apply_filters( 'pewc_original_variable_price_range', false ), // 4.4.1, don't replace variable price range until a variation has been selected
 		'disable_qty'				=> apply_filters( 'pewc_disable_child_quantities', true ),
 		'product_gallery'			=> apply_filters( 'pewc_product_gallery', '.images' ),
 		'product_img_wrap'			=> apply_filters( 'pewc_product_img_wrap', '.woocommerce-product-gallery__image, .woocommerce-product-gallery__image--placeholder' ),
@@ -300,6 +301,9 @@ function pewc_enqueue_scripts() {
 		if ( 'yes' === $vars['pdf_count'] ) {
 			$vars['counting_pages_text'] = __( 'Counting the number of pages...', 'pewc' );
 		}
+
+		// 4.4.1, disable click on column layout of Products field, only add by clicking the Add Button
+		$vars['disable_click_column_layout'] = apply_filters( 'pewc_disable_click_column_layout', false );
 
 		// 3.21.4, load separate script for AOU/FD compatibility
 		// 3.21.6, added dependency on wcfad-script, so that this is loaded after DPDR
@@ -2056,7 +2060,7 @@ function pewc_is_field_layered( $item ) {
  * @since 3.17.2
  */
 function pewc_fields_with_replace_main_image() {
-	$field_types = array( 'image_swatch' ); // only allow image_swatch for now. Other possible fields: 'checkbox', 'select-box', 
+	$field_types = array( 'image_swatch', 'select-box' ); // other possible fields: 'checkbox'
 	return $field_types;
 }
 

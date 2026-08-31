@@ -1,126 +1,141 @@
-=== Variation Swatches for WooCommerce – Make Product Choices Visual, Easy & Clickable ===
+=== Variation Swatches for WooCommerce – Color, Image & Size Swatches ===
 Contributors: brainstormforce
-Tags: WooCommerce variation swatches, variation swatches for WooCommerce, WooCommerce color swatches, WooCommerce image swatches, swatches plugin for variable products, WooCommerce product variations
+Tags: variation swatches, woocommerce variation swatches, woocommerce color swatches, variation swatches for woocommerce, woocommerce attribute swatches
 Requires at least: 5.4
-Tested up to: 6.8
-Stable tag: 1.0.13
-Requires PHP: 5.6
+Tested up to: 7.1
+Stable tag: 1.0.14
+Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Variation Swatches for WooCommerce is the easiest to use plugin to convert dropdown boxes into highly engaging variation swatches.
+Variation Swatches for WooCommerce replaces dropdowns with color, image & size swatches, helping shoppers decide faster and buy with confidence.
 
 == Description ==
 
-## Create a Visual Shopping Experience for Your Customers 🎨
+**Variation Swatches for WooCommerce** replaces boring product dropdowns with beautiful, clickable color swatches, image swatches, and size/label buttons, giving your shoppers an instant, visual way to pick product variations without confusion.
 
-Tired of outdated dropdowns on your WooCommerce store? With Variation Swatches for WooCommerce, you can replace boring select boxes with clickable color blocks, image thumbnails, or clean text labels—giving your shoppers a faster, clearer, and more engaging way to pick product variations.
+Trusted by 200,000+ active WooCommerce stores, this is the variation swatches plugin built by the team behind Brainstorm Force, the creators of Astra, Spectra, and CartFlows, trusted by millions of WordPress sites worldwide.
 
-Make your store look modern, improve user experience, and drive more conversions - without writing a single line of code.
-
-🎯 Boost conversion rates by making product options more accessible and intuitive.  
-🛍️ Create a polished store that aligns with your brand and boosts shopper confidence.  
-👉 [Try the Live Demo](https://bsf.io/variation-swatches-woo-demo) and experience it for yourself\!
-
-[youtube https://www.youtube.com/watch?v=j2UbKnuF7-Y]
-
-##🛒 Made for Store Owners Who Care About Experience & Sales
-
-### WooCommerce Store Owners with Variable Products
-
-Whether you're selling t-shirts in multiple sizes or handmade products in different materials, your shoppers will love the ease of use.
-
-### Clothing & Fashion Retailers
-
-Showcase color and size options visually with color swatches and labels, making fashion shopping smoother and more intuitive.
-
-### Handmade & Custom Product Sellers
-
-Showcase patterns, textures, or materials with image swatches that reflect the uniqueness of your products.
-
-### Stores Focused on User Experience
-
-Simplify variation selection and reduce cart abandonment with a modern, user-friendly interface.
-
-### Visual-First Brands
-
-Maintain a seamless brand experience by matching swatch styles to your store’s colors, fonts, and design.
-
-##🎥 See What Experts Are Saying
-
-Real reviews. Real results. Influencers and eCommerce pros love the user-friendly experience this plugin delivers:
-
-▶️ Learn how top WooCommerce experts are using this plugin to improve UX and conversions.
-
-[youtube https://www.youtube.com/watch?v=94OJz6lu_HE]
-
-▶️ Watch how Ferdy configures swatches in just minutes, perfect for beginners.
+Stop losing sales to clunky dropdown menus. When customers can see their options at a glance, color swatches, image thumbnails, size buttons, they make decisions faster, feel more confident, and complete their purchase. It takes just minutes to set up and requires zero coding.
 
 [youtube https://www.youtube.com/watch?v=mjXCkw7rt2Y]
 
-##🔧 Features That Improve Both Looks and Sales
+### Why Your Store Needs Variation Swatches for WooCommerce
 
-### Color, Image & Label Swatches
+Most WooCommerce stores rely on plain dropdown menus to show product variations. But dropdowns are slow, hard to scan, and visually uninspiring, especially on mobile.
 
-Turn product variation dropdowns into eye-catching swatches. Choose from color blocks, upload custom images (like textures or patterns), or use simple labels like “S”, “M”, “L”. Your customers get an intuitive, visual shopping experience that speeds up decision-making and lowers drop-offs.
+Variation Swatches for WooCommerce solves this instantly by converting every variation dropdown into a sleek, clickable swatch your customers will love.
 
-### Tooltips for Clarity
+✅ **More conversions**: Visual product options are faster to scan and easier to act on than dropdowns
+✅ **Better mobile shopping**: Touch-friendly swatches work beautifully on phones and tablets
+✅ **Zero code required**: Set up color swatches, image swatches, and size buttons from your admin panel in minutes
+✅ **Lightweight performance**: Built for speed; won't slow down your store or conflict with your theme
+✅ **Fully customizable**: Control swatch shape, size, spacing, border, and tooltip display globally or per-product
 
-No more guesswork. Enable tooltips that appear when a customer hovers over a swatch—so they always know what they’re selecting.
+## Key Features
+
+### Color Swatches for WooCommerce
+
+Replace color dropdown attributes with visual color swatches. Shoppers can see every available color option at a glance, no selecting blindly from a list. Supports solid colors, dual-color swatches, and custom hex values.
+
+### Image Swatches for WooCommerce
+
+Upload custom images for each variation attribute, perfect for showcasing fabric textures, material finishes, print patterns, or any variation that's better shown than described. When a customer hovers or selects an image swatch, the product image updates instantly.
+
+### Size & Label Swatches (Button Swatches)
+
+Convert size dropdowns and text attributes into clean, clickable button swatches. Display sizes like S / M / L / XL as buttons customers can tap, far faster than opening a dropdown menu. Ideal for fashion, apparel, and any store with multiple size variants.
 
 ### Auto-Convert Dropdowns to Swatches
 
-The plugin automatically detects variation dropdowns and converts them into swatches based on your global settings. No need to manually configure each product.
+The plugin automatically detects all variation dropdown fields and converts them to swatches based on your global settings, no manual setup per product required. Configure once, apply everywhere.
 
-### Global & Per-Product Swatches
+### Global & Per-Product Swatch Control
 
-Set default swatch styles for each attribute globally. Want more control? Override them on a per-product basis to match your store’s layout or campaign needs.
+Set default swatch styles for each attribute type globally across your entire store. Need different styling for one specific product? Override global settings per product with ease, giving you full flexibility without extra complexity.
 
-### Fast, Lightweight, and Fully Compatible
+### Tooltips for Every Swatch
 
-Built with performance in mind. Variation Swatches won’t bloat your site or clash with other tools. It works seamlessly with most WooCommerce-compatible themes and major plugins.
+Enable hover tooltips on color swatches and image swatches so customers always know exactly what they're selecting. Tooltips can display the attribute name, a thumbnail image, or both, reducing confusion and return rates.
 
-## ✅ Works with Your Favorite Themes & Plugins
+### Out-of-Stock Swatch Handling
 
-Variation Swatches works great with all popular themes, including:
+Control how out-of-stock variation swatches are displayed: blur them, cross them out, or hide them entirely. Prevent customers from selecting unavailable options and reduce frustration at the cart stage.
 
-* Astra,   
-* Spectra One,  
-* Blocksy,   
-* Kadence,   
-* GeneratePress,   
-* OceanWP,   
-* Hello Elementor,   
-* Storefront,   
-* Bricks Builder,  
-* Flatsome,  
-* Hestia,  
-* Neve,  
-* And Many More.
+### Shop Page & Archive Page Swatches
 
-Fully compatible with plugins like:
+Display color swatches and image swatches directly on your WooCommerce shop page, category pages, and archive pages, not just on single product pages. Customers can select product variations straight from the catalog, speeding up the path to purchase.
 
-* Spectra,  
-* Elementor,   
-* Beaver Builder,   
-* Brizy Builder  
-* Bricks Builder,  
-* Gutenberg,  
-* Oxygen Builder,  
-* CartFlows,   
-* OttoKit,   
-* SureForms,  
-* Cart Abandonment Recovery for WooCommerce.  
-* SureMembers,  
-* TutorLMS,  
-* LifterLMS,  
-* LearnPress,  
-* LearnDash,,  
-* MemberPress,  
-* PrestoPlayer,  
-* WooCommerce Subscriptions,   
-* WooCommerce Product Addons,   
-* And Many More.
+### Swatch Shape & Size Customization
+
+Choose between square and rounded swatch shapes. Control swatch dimensions, border width, border color, and spacing, all without writing any CSS. Match the swatch style exactly to your store's branding.
+
+## Who Can Benefit from Variation Swatches for WooCommerce
+
+### Clothing & Fashion Stores
+
+Show available colors and sizes as visual swatches instead of dropdowns. Make it easy for shoppers to find their size and pick their color, reducing hesitation and lowering return rates.
+
+### Handmade & Artisan Product Sellers
+
+Showcase unique textures, patterns, and materials with image swatches. Let your craftsmanship speak visually, no plain text dropdown can do what a swatch thumbnail can.
+
+### Home Decor & Furniture Retailers
+
+Display material options, finish choices, and fabric swatches as image thumbnails. Help customers visualize their purchase before they commit.
+
+### Electronics & Tech Stores
+
+Use label swatches to present storage capacity, color options, and configuration variants as clean, clickable buttons. Simplify complex variation selections.
+
+### Any WooCommerce Store with Variable Products
+
+If your store sells products with more than one variation, color, size, material, style, flavor, variation swatches will make the buying experience cleaner, faster, and more professional.
+
+## ✅ Works Great With Your Favorite Themes
+
+Variation Swatches for WooCommerce is compatible with all well-coded WooCommerce themes, including:
+
+* Astra
+* Spectra One
+* Blocksy
+* Kadence
+* GeneratePress
+* OceanWP
+* Hello Elementor
+* Storefront
+* Flatsome
+* Bricks Builder
+* Hestia
+* Neve
+* Divi
+* Avada
+* And many more
+
+## 🔌 Works Great With Your Favorite Plugins
+
+Variation Swatches for WooCommerce integrates seamlessly with:
+
+* **CartFlows**: Pair visual variation swatches with CartFlows' optimized checkout funnels for a complete high-conversion WooCommerce experience
+* **Modern Cart**: Display variation swatches alongside Modern Cart's slide-out cart for a seamless, visual shopping experience from product selection to checkout
+* **Cart Abandonment Recovery for WooCommerce**: Recover lost sales while giving shoppers the best possible variation selection experience
+* **Power Coupons**: Combine variation swatches with Power Coupons to offer targeted discounts on specific product variations and drive more conversions
+* **Spectra**: Build stunning product pages with Spectra blocks alongside visual swatches
+* **Elementor**: Design custom product layouts with Elementor and display swatches natively
+* **Beaver Builder**: Fully compatible with Beaver Builder page layouts
+* **Bricks Builder**: Works seamlessly within Bricks Builder templates
+* **Gutenberg**: Compatible with the native WordPress block editor
+* **Oxygen Builder**: Tested and supported with Oxygen Builder
+* **OttoKit**: Automate your WooCommerce workflows alongside variation swatches
+* **WooCommerce Subscriptions**: Supports variable subscription products
+* **WooCommerce Product Add-ons**: Compatible with product add-on configurations
+* **TutorLMS, LifterLMS, LearnDash, LearnPress**: Supported for course-related variable products
+* **MemberPress**: Compatible with variable membership products
+* **WPML & Polylang**: Multilingual ready; swatch attributes translate correctly
+
+## 🔒 Privacy & GDPR Compliance
+
+Variation Swatches for WooCommerce does not collect, store, or transmit any personal data from your visitors or customers. The plugin is fully GDPR compliant and adds no tracking or analytics to your store.
 
 == Installation ==
 
@@ -130,30 +145,79 @@ Fully compatible with plugins like:
 
 == Frequently Asked Questions ==
 
-= Will it work with my existing products and themes? = 
-Yes\! It works out of the box with any WooCommerce-compatible theme and variable product setup.
+= What are variation swatches for WooCommerce? =
+Variation swatches are visual, clickable alternatives to the default WooCommerce dropdown menus on variable product pages. Instead of selecting a color or size from a plain text list, customers click a color swatch, image thumbnail, or labeled button. This makes the shopping experience faster, clearer, and more engaging.
 
-= Can I show both color and image swatches? = 
-Absolutely. You can assign different types (color, image, label) for each attribute as needed.
+= How do I add color swatches to my WooCommerce products? =
+After installing and activating the plugin, go to **Products → Attributes** in your WordPress dashboard. Edit any attribute such as "Color" and change its Type to **Color Swatch**. Then edit each attribute term and assign a hex color value. The plugin will automatically display color swatches on all products using that attribute. No per-product setup is required.
 
-= Does it slow down my store? = 
-No – the plugin is built for speed and performance with minimal impact on site load times.
+= Can I show image swatches for WooCommerce product variations? =
+Yes. Set an attribute's Type to **Image Swatch** under Products → Attributes. Then upload a custom image to each attribute term. This works well for textures, patterns, and fabrics. You can also set the product variation's featured image to auto-populate as an image swatch to save setup time.
 
-= Is it compatible with page builders? = 
-Yes\! Works great with Elementor, Spectra, and most major page builders.
+= How do I replace WooCommerce dropdowns with size swatches or buttons? =
+Set your size attribute's display type to **Label** or **Button** in the attribute settings. The plugin will automatically replace the dropdown with clickable size buttons such as S, M, L, and XL. You can control button shape, size, and styling globally from the plugin settings.
 
-= I am new to Variation Swatches. Where can I find the documentation? = 
-[Click here](#) to access our comprehensive documentation. Have questions or need help with a specific feature? Here’s how to connect with us:
+= Do variation swatches display on the WooCommerce shop page and category pages? =
+Yes. The plugin supports displaying color, image, and label swatches directly on your shop page, category pages, and archive pages. Enable this from the global settings. Customers can select variations straight from the product catalog.
 
-* [Support](https://cartflows.com/support/)  
-* [Contact Us](https://cartflows.com/contact/)  
-* [Join the community](https://www.facebook.com/groups/cartflows/) 
+= Will this plugin slow down my WooCommerce store? =
+No. The plugin is built with performance as the priority. It loads lightweight assets only on pages where swatches are displayed. It does not add unnecessary scripts or styles across your site. It also works well with major caching and performance optimization tools.
+
+= Does this work with my WooCommerce theme? =
+Yes. The plugin is compatible with well-coded WooCommerce themes including Astra, Flatsome, Divi, Avada, OceanWP, Kadence, GeneratePress, Storefront, Blocksy, and Neve. In rare cases with heavily customized themes, minor CSS adjustments may be needed.
+
+= Can I customize the shape and size of the swatches? =
+Yes. From the plugin settings, you can choose square or rounded shapes, control swatch width and height, set border width and color, adjust spacing, and enable or disable tooltips. No coding is required. You can also override these settings on individual products.
+
+= How do I handle out-of-stock variation swatches? =
+You can choose how out-of-stock variations appear. Options include blurring the swatch, displaying a cross or strikethrough, or hiding it completely. This prevents customers from selecting unavailable options and improves the shopping experience.
+
+= Does this plugin work with WooCommerce variable and bundled products? =
+Yes. The plugin works with standard WooCommerce variable products and supports variation swatches inside bundled product setups. If you face compatibility issues with specific bundle plugins, support is available.
+
+= Can I set different swatch styles for different products? =
+Yes. You can define a global swatch style for your entire store. You can also override settings on individual products and customize swatch type, shape, and display.
+
+= Is this plugin compatible with page builders like Elementor and Spectra? =
+Yes. The plugin works with Elementor, Spectra, Bricks Builder, Beaver Builder, Oxygen Builder, and Gutenberg. Swatches render correctly inside custom layouts and templates.
+
+= Does this plugin work with WPML or Polylang? =
+Yes. The plugin is compatible with WPML and Polylang. Swatch labels and attributes translate correctly across languages.
+
+= What is the difference between color, image, and label swatches? =
+Color swatches show a solid color or dual-color block for each variation. This is best for product colors.
+Image swatches display custom thumbnail images. This works well for textures, patterns, and materials.
+Label or button swatches display text values as clickable buttons. This is commonly used for sizes or text-based attributes.
+You can mix different swatch types across attributes on the same product.
+
+= Is Variation Swatches for WooCommerce free? =
+Yes. This plugin is completely free. Core functionality such as color, image, and label swatches, tooltips, shop page display, out-of-stock handling, and global or per-product customization is available without any paid upgrade. It is developed and maintained by Brainstorm Force.
+
+= Where can I get support or report a bug? =
+You can reach the support team at [cartflows.com/support](https://cartflows.com/support). For security issues, use the responsible disclosure process at [brainstormforce.com/bug-bounty-program](https://brainstormforce.com/bug-bounty-program).
+
+= How do I configure WooCommerce attributes to use variation swatches? =
+Go to **Products → Attributes**. Edit any attribute and change the Type from "Select" to Color, Image, or Label. Save the attribute. Then edit its terms and assign colors or images to each value.
+
+= How can I report a security bug? =
+
+We take plugin security extremely seriously. If you discover a security vulnerability, please report it in a safe and responsible manner.
+
+You can report the issue through our [Bug Bounty Program](https://brainstormforce.com/bug-bounty-program/).
 
 == Screenshots ==
-1. Converts default dropdowns to Swatches
-2. Multiple options for swatches available
+1. Color swatches replacing WooCommerce dropdowns on the product page.
+2. Image swatches showing fabric textures and material patterns.
+3. Size and label swatches converting dropdowns into clickable buttons.
+4. Variation swatches displayed on shop and category pages.
+5. Global settings panel for swatch shape, size, tooltips, and stock behavior.
+6. Per-product swatch customization options.
 
 == Changelog ==
+
+= 1.0.14 – TUESDAY, 25th AUGUST 2026 =
+* Improvement - Added compatibility with WordPress 7.1.
+* Improvement - Updated the minimum required PHP version to 7.4.
 
 = 1.0.13 – THURSDAY, 24th APRIL 2025 =
 * New - Introduced a CartFlows info page to help users discover checkout optimization features.

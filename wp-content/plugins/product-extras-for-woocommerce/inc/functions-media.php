@@ -675,7 +675,7 @@ function pewc_dropzone_template() {
 						<div class="dz-filename"><span data-dz-name></span></div>
 						<div class="dz-progress"><span class="dz-upload" data-dz-uploadprogress></span></div>
 						<div class="dz-success-mark"><span><?php echo apply_filters( 'pewc_filter_upload_success_message', __( 'Uploaded', 'pewc' ) ); ?></span></div>
-						<div class="dz-error-mark"><span><?php echo apply_filters( 'pewc_filter_upload_failed_message', __( 'Failed', 'pewc' ) );; ?></span></div>
+						<div class="dz-error-mark"><span><?php echo apply_filters( 'pewc_filter_upload_failed_message', __( 'Failed', 'pewc' ) ); ?></span></div>
 						<div class="dz-error-message"><span data-dz-errormessage></span></div>
 						<div class="dz-size" data-dz-size></div>
 					</td>
@@ -820,7 +820,7 @@ function pewc_can_process_dropzone() {
 	$can_process = true;
 
 	if( ! isset( $_POST['pewc_file_upload'] ) || ! wp_verify_nonce( $_POST['pewc_file_upload'], 'pewc_file_upload' ) ) {
-		$can_process = __( 'Invalid nonce.', 'pewc' );
+		$can_process = __( 'Invalid nonce. Please refresh the page and try again.', 'pewc' );
 		return $can_process;
 	}
 

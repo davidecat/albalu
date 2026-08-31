@@ -3,7 +3,7 @@
  Plugin Name: 		CMP - Coming Soon & Maintenance Plugin
  Plugin URI: 		https://wordpress.org/plugins/cmp-coming-soon-maintenance/
  Description:       Display customizable landing page for Coming Soon, Maintenance & Under Construction page.
- Version:           4.1.17
+ Version:           4.1.18
  Author:            NiteoThemes
  Author URI:        https://www.niteothemes.com
  Text Domain:       cmp-coming-soon-maintenance
@@ -25,7 +25,6 @@ if (!class_exists('CMP_Coming_Soon_and_Maintenance')) :
 	 *
 	 * @since 2.8
 	 */
-	#[AllowDynamicProperties]
 	class CMP_Coming_Soon_and_Maintenance
 	{
 
@@ -35,6 +34,13 @@ if (!class_exists('CMP_Coming_Soon_and_Maintenance')) :
 		 * @var string $instance
 		 */
 		private static $instance;
+
+		/**
+		 * Settings renderer instance.
+		 *
+		 * @var cmp_render_settings
+		 */
+		public $render_settings;
 
 		/**
 		 * Main CMP_Coming_Soon_and_Maintenance Instance.
@@ -66,7 +72,7 @@ if (!class_exists('CMP_Coming_Soon_and_Maintenance')) :
 		// define constants
 		private function constants()
 		{
-			$this->define('CMP_VERSION', '4.1.17');
+			$this->define('CMP_VERSION', '4.1.18');
 			$this->define('CMP_DEBUG', FALSE);
 			$this->define('CMP_AUTHOR', 'NiteoThemes');
 			$this->define('CMP_AUTHOR_HOMEPAGE', 'https://niteothemes.com');
@@ -110,7 +116,6 @@ if (!class_exists('CMP_Coming_Soon_and_Maintenance')) :
 			add_action('wp_ajax_cmp_ajax_upload_font', array($this, 'cmp_ajax_upload_font'));
 			add_action('wp_ajax_cmp_ajax_export_settings', array($this, 'cmp_ajax_export_settings'));
 			add_action('wp_ajax_cmp_ajax_import_settings', array($this, 'cmp_ajax_import_settings'));
-			add_action('wp_ajax_nopriv_cmp_disable_comingsoon_ajax', array($this, 'cmp_disable_comingsoon_ajax'));
 			add_action('admin_head', array($this, 'cmp_admin_css'));
 			add_action('after_setup_theme', array($this, 'cmp_create_translation'), 10);
 			add_action('after_setup_theme', array($this, 'cmp_register_wpml_strings'), 20);
@@ -814,6 +819,21 @@ if (!class_exists('CMP_Coming_Soon_and_Maintenance')) :
 
 			$theme = $this->cmp_selectedTheme();
 
+			// Perform the configured countdown action on the server. Never rely on a
+			// public AJAX request to change this site-wide option.
+			if (
+				$this->cmp_active() === '1'
+				&& get_option('niteoCS_counter', '1') === '1'
+				&& get_option('niteoCS_countdown_action', 'no-action') === 'disable-cmp'
+			) {
+				$counter_date = absint(get_option('niteoCS_counter_date'));
+
+				if ($counter_date > 0 && $counter_date <= time()) {
+					update_option('niteoCS_status', '0');
+					$this->cmp_purge_cache();
+				}
+			}
+
 			// register html class for rendering of HTML elements in Themes
 			$html = new CMP_Coming_Soon_and_Maintenance_Render_HTML();
 
@@ -838,16 +858,28 @@ if (!class_exists('CMP_Coming_Soon_and_Maintenance')) :
 			}
 
 			// bypass CMP and set cookie for user defined period of time, if bypass is enabled,  bypass ID is set, and match CMP bypass settings
-			if (isset($_GET['cmp_bypass']) && $_GET['cmp_bypass'] == get_option('niteoCS_bypass_id') && get_option('niteoCS_bypass', '0') == '1') {
+			$bypass_id = (string) get_option('niteoCS_bypass_id', '');
+			$bypass_query = isset($_GET['cmp_bypass']) ? sanitize_text_field(wp_unslash($_GET['cmp_bypass'])) : '';
+
+			if ($bypass_id !== '' && $bypass_query !== '' && hash_equals($bypass_id, $bypass_query) && get_option('niteoCS_bypass', '0') === '1') {
 				nocache_headers();
 				header('Cache-Control: max-age=0; private');
-				setcookie('cmp_bypass', get_option('niteoCS_bypass_id'), time() + get_option('niteoCS_bypass_expire', 172800));
+				setcookie(
+					'cmp_bypass',
+					$bypass_id,
+					time() + absint(get_option('niteoCS_bypass_expire', 172800)),
+					COOKIEPATH ? COOKIEPATH : '/',
+					COOKIE_DOMAIN,
+					is_ssl(),
+					true
+				);
 				// exit CMP
 				return;
 			}
 
 			// if bypass Cookie is set, return
-			if (isset($_COOKIE['cmp_bypass']) && $_COOKIE['cmp_bypass'] == get_option('niteoCS_bypass_id') && get_option('niteoCS_bypass', '0') == '1') {
+			$bypass_cookie = isset($_COOKIE['cmp_bypass']) ? sanitize_text_field(wp_unslash($_COOKIE['cmp_bypass'])) : '';
+			if ($bypass_id !== '' && $bypass_cookie !== '' && hash_equals($bypass_id, $bypass_cookie) && get_option('niteoCS_bypass', '0') === '1') {
 				// exit CMP
 				return;
 			}
@@ -1160,7 +1192,10 @@ if (!class_exists('CMP_Coming_Soon_and_Maintenance')) :
 			$options = array();
 
 			global $wpdb;
-			$saved_options = $wpdb->get_results("SELECT * FROM $wpdb->options WHERE option_name LIKE 'niteoCS_%'", OBJECT);
+			$saved_options = $wpdb->get_results(
+				$wpdb->prepare("SELECT * FROM {$wpdb->options} WHERE option_name LIKE %s", $wpdb->esc_like('niteoCS_') . '%'),
+				OBJECT
+			);
 			$i = 0;
 			foreach ($saved_options as $option) {
 				$options[$i] = array('name' => $option->option_name, 'value' => get_option($option->option_name));
@@ -1196,40 +1231,6 @@ if (!class_exists('CMP_Coming_Soon_and_Maintenance')) :
 			}
 
 			return $downloadable_themes;
-		}
-
-		/**
-		 * Disable CMP Coming Soon Mode via AJAX
-		 *
-		 * @since 3.7.6
-		 * @access public
-		 * @return JSON
-		 */
-		public function cmp_disable_comingsoon_ajax()
-		{
-
-			$theme = $this->cmp_selectedTheme();
-
-			if (!in_array($theme, $this->cmp_builder_themes())) {
-				check_ajax_referer('cmp-coming-soon-maintenance-nonce', 'security');
-			}
-
-			$result = array('message' => 'error');
-
-			if (get_option('niteoCS_countdown_action', 'no-action') !== 'disable-cmp') {
-				echo json_encode($result);
-				wp_die();
-			}
-
-			if (!empty($_REQUEST['status']) && $_REQUEST['status'] === 'disable-cmp' && get_option('niteoCS_counter_date') < time()) {
-				update_option('niteoCS_status', '0');
-				$this->cmp_purge_cache();
-				$result = array('message' => 'success');
-			}
-
-			echo json_encode($result);
-
-			wp_die();
 		}
 
 		// theme updates function
@@ -1338,7 +1339,7 @@ if (!class_exists('CMP_Coming_Soon_and_Maintenance')) :
 		public function cmp_theme_upload($uploadedfile)
 		{
 
-			if (!current_user_can('administrator')) {
+			if (!current_user_can('install_plugins')) {
 				return false;
 			}
 
@@ -1586,7 +1587,7 @@ if (!class_exists('CMP_Coming_Soon_and_Maintenance')) :
 				// verify nonce
 				check_ajax_referer('cmp-coming-soon-ajax-secret', 'security');
 				// verify user rights
-				if (!current_user_can('publish_pages')) {
+				if (!current_user_can('manage_options')) {
 					die('Sorry, but this request is invalid');
 				}
 
@@ -1599,11 +1600,11 @@ if (!class_exists('CMP_Coming_Soon_and_Maintenance')) :
 				}
 			}
 
-			array_key_exists('feed', $params) 			? $feed 		= $params['feed'] 		: $feed = '';
-			array_key_exists('url', $params)			? $url 			= $params['url'] 		: $url = '';
-			array_key_exists('feat', $params)			? $feat 		= $params['feat'] 		: $feat = '';
-			array_key_exists('custom_str', $params)	? $custom_str 	= $params['custom_str'] : $custom_str = '';
-			array_key_exists('count', $params)			? $count 		= $params['count'] 		: $count = '1';
+			array_key_exists('feed', $params) 			? $feed 		= sanitize_key($params['feed']) 		: $feed = '';
+			array_key_exists('url', $params)			? $url 			= sanitize_text_field($params['url']) 		: $url = '';
+			array_key_exists('feat', $params)			? $feat 			= sanitize_key($params['feat']) 		: $feat = '';
+			array_key_exists('custom_str', $params)	? $custom_str 	= sanitize_text_field($params['custom_str']) : $custom_str = '';
+			array_key_exists('count', $params)			? $count 		= min(30, max(1, absint($params['count']))) 		: $count = 1;
 
 			switch ($feed) {
 					// specific unsplash photo by url/id
@@ -1630,7 +1631,7 @@ if (!class_exists('CMP_Coming_Soon_and_Maintenance')) :
 					}
 
 					// prepare query for single image
-					$api_query = 'photos/' . $id . '?';
+					$api_query = 'photos/' . rawurlencode($id) . '?';
 					break;
 
 					// random from user
@@ -1641,7 +1642,7 @@ if (!class_exists('CMP_Coming_Soon_and_Maintenance')) :
 					}
 
 					// prepare query for random photo from collection
-					$api_query = 'photos/random/?username=' . $custom_str . '&count=' . $count;
+					$api_query = 'photos/random/?username=' . rawurlencode($custom_str) . '&count=' . $count;
 					break;
 
 					// random from collection
@@ -1671,7 +1672,7 @@ if (!class_exists('CMP_Coming_Soon_and_Maintenance')) :
 					$search = str_replace(' ', ',', $url);
 
 					if ($search !== '') {
-						$search = 'query=' . $search . '&';
+						$search = 'query=' . rawurlencode($search) . '&';
 					}
 					// prepare query for random photo
 					$api_query = 'photos/random/?orientation=landscape&featured=' . $featured . '&' . $search . 'count=' . $count;
@@ -1947,7 +1948,7 @@ if (!class_exists('CMP_Coming_Soon_and_Maintenance')) :
 		public function niteo_export_csv()
 		{
 
-			if (!current_user_can('publish_pages')) {
+			if (!current_user_can('manage_options')) {
 				die('Sorry, but this request is invalid');
 			}
 
@@ -2271,16 +2272,16 @@ if (!class_exists('CMP_Coming_Soon_and_Maintenance')) :
 				// verify nonce
 				check_ajax_referer('cmp-coming-soon-ajax-secret', 'security');
 				// verify user rights
-				if (!current_user_can('publish_pages')) {
+				if (!current_user_can('manage_options')) {
 					die('Sorry, but this request is invalid');
 				}
 
 
 				// sanitize  $post
-				$theme_slug = sanitize_text_field($_POST['theme_slug']);
+				$theme_slug = sanitize_key(wp_unslash($_POST['theme_slug']));
 				$data = array('result' => 'true', 'author_homepage' => CMP_AUTHOR_HOMEPAGE, 'author' => CMP_AUTHOR);
 
-				if (!empty($theme_slug)) {
+				if (!empty($theme_slug) && in_array($theme_slug, $this->cmp_themes_available(), true)) {
 					$headers  = array('Theme Name', 'Description');
 					$theme_info = get_file_data(plugin_dir_path(__FILE__) . '/themes/' . $theme_slug . '.txt', $headers, '');
 
@@ -2389,25 +2390,34 @@ if (!class_exists('CMP_Coming_Soon_and_Maintenance')) :
 		{
 			global $wp;
 
-			$uri = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] : '';
-
-			$current_url = trailingslashit((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://"  . $uri);
+			$request_uri = isset($_SERVER['REQUEST_URI']) ? wp_unslash($_SERVER['REQUEST_URI']) : '/';
+			$current_url = esc_url_raw(home_url('/' . ltrim($request_uri, '/')));
 
 			$custom_login_url = get_option('niteoCS_custom_login_url', '');
 
-			// return early if login page or ajax call
-			if (fnmatch('*wp-login.php*', $current_url) || wp_doing_ajax()) {
+			$request_path = untrailingslashit('/' . ltrim((string) wp_parse_url($current_url, PHP_URL_PATH), '/'));
+			$login_path = untrailingslashit('/' . ltrim((string) wp_parse_url(site_url('wp-login.php'), PHP_URL_PATH), '/'));
+
+			// Return early only for the actual WordPress login endpoint or AJAX calls.
+			// Query-string values containing "wp-login.php" must not bypass CMP.
+			if ($request_path === $login_path || wp_doing_ajax()) {
 				return false;
 			}
 
 			// return early if custom login page
-			if ($custom_login_url !== '' && fnmatch('*' . $custom_login_url . '*', $current_url)) {
-				return false;
+			if ($custom_login_url !== '') {
+				$custom_login_path = wp_parse_url($custom_login_url, PHP_URL_PATH);
+				$custom_login_path = untrailingslashit('/' . ltrim((string) $custom_login_path, '/'));
+
+				if ($request_path === $custom_login_path) {
+					return false;
+				}
 			}
 
 			// WPS HIDE login integration
 			if (defined('WPS_HIDE_LOGIN_BASENAME')) {
-				if (fnmatch('*' . get_option('whl_page'), $current_url)) {
+				$wps_login_path = untrailingslashit('/' . ltrim((string) get_option('whl_page'), '/'));
+				if ($request_path === $wps_login_path) {
 					return false;
 				}
 			}
@@ -2552,7 +2562,7 @@ if (!class_exists('CMP_Coming_Soon_and_Maintenance')) :
 				// verify nonce
 				check_ajax_referer('cmp-coming-soon-ajax-secret', 'security');
 				// verify user rights
-				if (!current_user_can('publish_pages')) {
+				if (!current_user_can('manage_options')) {
 					die('Sorry, but this request is invalid');
 				}
 
@@ -2874,7 +2884,7 @@ if (!class_exists('CMP_Coming_Soon_and_Maintenance')) :
 				die('Sorry, but this request is invalid');
 			}
 
-			$size = $this->isMobile ? 'large' : 'large';
+			$size = 'large';
 
 			$post = array(
 				'img' 	=> '',
@@ -2908,6 +2918,9 @@ if (!class_exists('CMP_Coming_Soon_and_Maintenance')) :
 		function cmp_ajax_dismiss_activation_notice()
 		{
 			check_ajax_referer('cmp-coming-soon-maintenance-nonce', 'nonce');
+			if (!current_user_can('manage_options')) {
+				wp_die('Sorry, but this request is invalid', '', array('response' => 403));
+			}
 			// user has dismissed the welcome notice
 			update_option('niteoCS_activation_notice', true);
 			wp_die();
@@ -2927,7 +2940,7 @@ if (!class_exists('CMP_Coming_Soon_and_Maintenance')) :
 			check_ajax_referer('cmp-coming-soon-ajax-secret', 'security');
 
 			// verify user rights
-			if (!current_user_can('publish_pages')) {
+			if (!current_user_can('manage_options')) {
 				die('Sorry, but this request is invalid');
 			}
 
@@ -2991,7 +3004,10 @@ if (!class_exists('CMP_Coming_Soon_and_Maintenance')) :
 			$options[0] = 'CMP_EXPORT';
 
 			global $wpdb;
-			$saved_options = $wpdb->get_results("SELECT * FROM $wpdb->options WHERE option_name LIKE 'niteoCS_%'", OBJECT);
+			$saved_options = $wpdb->get_results(
+				$wpdb->prepare("SELECT * FROM {$wpdb->options} WHERE option_name LIKE %s", $wpdb->esc_like('niteoCS_') . '%'),
+				OBJECT
+			);
 			$i = 1;
 
 			foreach ($saved_options as $option) {
@@ -3061,7 +3077,7 @@ if (!class_exists('CMP_Coming_Soon_and_Maintenance')) :
 			check_ajax_referer('cmp-coming-soon-ajax-secret', 'security');
 
 			// verify user rights
-			if (!current_user_can('publish_pages')) {
+			if (!current_user_can('manage_options')) {
 				die('Sorry, but this request is invalid');
 			}
 
@@ -3097,47 +3113,86 @@ if (!class_exists('CMP_Coming_Soon_and_Maintenance')) :
 			check_ajax_referer('cmp-coming-soon-ajax-secret', 'security');
 
 			// verify user rights
-			if (!current_user_can('publish_pages')) {
-				die('Sorry, but this request is invalid');
+			if (!current_user_can('manage_options')) {
+				wp_send_json_error(array('message' => __('Sorry, but this request is invalid', 'cmp-coming-soon-maintenance')), 403);
 			}
 
-			$settings = json_decode(stripslashes($_POST['json']), true);
+			if (!isset($_POST['json']) || !is_string($_POST['json'])) {
+				wp_send_json_error(array('message' => __('Please insert valid JSON file and try again.', 'cmp-coming-soon-maintenance')), 400);
+			}
+
+			$settings = json_decode(wp_unslash($_POST['json']), true);
 
 			$result = array(
 				'result' => 'success',
 				'message' => __('All done!', 'cmp-coming-soon-maintenance')
 			);
 
-			if (json_last_error() == JSON_ERROR_NONE) {
-				if ($settings[0] === 'CMP_EXPORT') {
+			if (json_last_error() === JSON_ERROR_NONE && is_array($settings)) {
+				if (isset($settings[0]) && $settings[0] === 'CMP_EXPORT') {
 					// remove first value used for JSON CMP Settings check
 					unset($settings[0]);
 
-					// delete all current CMP Settings
-					global $wpdb;
-					$saved_options = $wpdb->get_results("SELECT * FROM $wpdb->options WHERE option_name LIKE 'niteoCS_%'", OBJECT);
+					// Only allow options within this plugin's own namespace to be written.
+					// This is a static, deterministic check (not based on what already
+					// happens to exist in wp_options) so imports still work on a fresh
+					// install or when migrating settings to a brand new site.
+					$validated_settings = array();
+
+					foreach ($settings as $setting) {
+						if (!is_array($setting) || count($setting) !== 1) {
+							$result = array(
+								'result' => 'error',
+								'message' => __('The settings file contains an invalid option.', 'cmp-coming-soon-maintenance')
+							);
+							break;
+						}
+
+						$name = key($setting);
+						if (!is_string($name) || strpos($name, 'niteoCS_') !== 0 || sanitize_key($name) !== strtolower($name)) {
+							$result = array(
+								'result' => 'error',
+								'message' => __('The settings file contains an option that cannot be imported.', 'cmp-coming-soon-maintenance')
+							);
+							break;
+						}
+
+						$validated_settings[] = array($name => $setting[$name]);
+					}
+
+					if ($result['result'] !== 'success') {
+						echo wp_json_encode($result);
+						wp_die();
+					}
+
+					// Delete only the options included in the strict allow-list.
 					foreach ($saved_options as $option) {
 						delete_option($option->option_name);
 					}
 
 					// import cmp settings from JSON structure
-					foreach ($settings as $setting) {
+					foreach ($validated_settings as $setting) {
 
 						$img_settings = array('niteoCS_banner_id', 'niteoCS_logo_id', 'niteoCS_seo_img_id', 'niteoCS_favicon_id', 'niteoCS_subs_img_id', 'niteoCS_subs_img_popup_id');
 
 						$name = key($setting);
 						$value = $setting[$name];
 
-						if (in_array($name, $img_settings)) {
+						if (in_array($name, $img_settings, true)) {
 
-							$urls = explode(',', $value);
+							$urls = is_string($value) ? array_filter(array_map('trim', explode(',', $value))) : array();
+							$attachment_ids = array();
 
-							if (is_array($urls)) {
-								foreach ($urls as $url) {
-									$value = $this->cmp_insert_attachment_from_url($url);
-									$value .= ',' . $value;
+							foreach ($urls as $url) {
+								$attachment_id = $this->cmp_insert_attachment_from_url($url);
+								if ($attachment_id) {
+									$attachment_ids[] = absint($attachment_id);
 								}
 							}
+
+							$value = implode(',', $attachment_ids);
+						} elseif ($name === 'niteoCS_socialmedia') {
+							$value = $this->cmp_sanitize_socialmedia($value);
 						}
 
 						update_option($name, $value);
@@ -3155,8 +3210,40 @@ if (!class_exists('CMP_Coming_Soon_and_Maintenance')) :
 				);
 			}
 
-			echo json_encode($result);
+			echo wp_json_encode($result);
 			wp_die();
+		}
+
+		/**
+		 * Sanitize the social-media JSON used by the settings screen and importer.
+		 *
+		 * @param string $value JSON-encoded social-media settings.
+		 * @return string Sanitized JSON.
+		 */
+		public function cmp_sanitize_socialmedia($value)
+		{
+			$socialmedia = json_decode((string) $value, true);
+			$sanitized = array();
+
+			if (!is_array($socialmedia)) {
+				return wp_json_encode($sanitized);
+			}
+
+			foreach ($socialmedia as $social) {
+				if (!is_array($social) || !isset($social['name'])) {
+					continue;
+				}
+
+				$sanitized[] = array(
+					'name'   => sanitize_key($social['name']),
+					'url'    => isset($social['url']) ? sanitize_text_field($social['url']) : '',
+					'active' => isset($social['active']) && (string) $social['active'] === '1' ? '1' : '0',
+					'hidden' => isset($social['hidden']) && (string) $social['hidden'] === '1' ? '1' : '0',
+					'order'  => isset($social['order']) ? absint($social['order']) : 0,
+				);
+			}
+
+			return wp_json_encode($sanitized);
 		}
 
 		/**
@@ -3174,15 +3261,29 @@ if (!class_exists('CMP_Coming_Soon_and_Maintenance')) :
 				include_once(ABSPATH . WPINC . '/class-http.php');
 			}
 
-			$http = new WP_Http();
-
-			$response = $http->request($url);
-
-			if (is_wp_error($response) || $response['response']['code'] != 200) {
+			$url = esc_url_raw($url, array('http', 'https'));
+			if (!$url || !wp_http_validate_url($url)) {
 				return false;
 			}
 
-			$upload = wp_upload_bits(basename($url), null, $response['body']);
+			$response = wp_safe_remote_get($url, array(
+				'timeout'             => 15,
+				'redirection'         => 3,
+				'limit_response_size' => 10 * MB_IN_BYTES,
+			));
+
+			if (is_wp_error($response) || wp_remote_retrieve_response_code($response) !== 200) {
+				return false;
+			}
+
+			$url_path = wp_parse_url($url, PHP_URL_PATH);
+			$file_name = sanitize_file_name(basename($url_path));
+			$file_type = wp_check_filetype($file_name);
+			if (empty($file_name) || empty($file_type['type']) || strpos($file_type['type'], 'image/') !== 0) {
+				return false;
+			}
+
+			$upload = wp_upload_bits($file_name, null, wp_remote_retrieve_body($response));
 
 			if (!empty($upload['error'])) {
 				return false;

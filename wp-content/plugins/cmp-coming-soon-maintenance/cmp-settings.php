@@ -294,7 +294,7 @@ if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 		update_option('niteoCS_soc_title', sanitize_text_field($_POST['niteoCS_soc_title']));
 	}
 	if (isset($_POST['niteoCS_socialmedia'])) {
-		update_option('niteoCS_socialmedia', sanitize_text_field($_POST['niteoCS_socialmedia']));
+		update_option('niteoCS_socialmedia', $this->cmp_sanitize_socialmedia(wp_unslash($_POST['niteoCS_socialmedia'])));
 	}
 
 

@@ -268,6 +268,7 @@ function pewc_save_globals() {
 			// 3.22.0, we need a var to keep track of this value so that we know if we need to delete this from postmeta
 			$repeatable_groups = array();
 			$repeatable_by_quantity = array();
+			$always_include_groups = array(); // 4.4.3
 
 			foreach( $form_obj as $item ) {
 
@@ -293,6 +294,10 @@ function pewc_save_globals() {
 						if ( ! isset( $repeatable_by_quantity[$group_id] ) ) {
 							$repeatable_by_quantity[$group_id] = false;
 						}
+						// 4.4.3
+						if ( ! isset( $always_include_groups[$group_id] ) ) {
+							$always_include_groups[$group_id] = false;
+						}
 					}
 
 					if( strpos( $name, 'group_title' ) !== false ) {
@@ -306,6 +311,11 @@ function pewc_save_globals() {
 					}
 					if( strpos( $name, 'group_class' ) !== false ) {
 						update_post_meta( $group_id, 'group_class', sanitize_text_field( $value ) ); // 3.21.1
+					}
+					// 4.4.3
+					if( strpos( $name, 'always_include' ) !== false ) {
+						update_post_meta( $group_id, 'always_include', true );
+						$always_include_groups[$group_id] = true; // so that we don't delete this postmeta later
 					}
 
 					// 3.22.0
@@ -373,8 +383,9 @@ function pewc_save_globals() {
 						}
 
 						// Delete the conditional rules transient
-						delete_transient( 'pewc_rules_transient_pewc_group_' . $group_id . '_' . $field_id );
-						delete_transient( 'pewc_item_object_' . $field_id );
+						// 4.4.1, commented out, no longer needed since we delete all transients in pewc_reset_all_transients() later?
+						//delete_transient( 'pewc_rules_transient_pewc_group_' . $group_id . '_' . $field_id );
+						//delete_transient( 'pewc_item_object_' . $field_id );
 
 						// Saving field data here
 						$fields_with_multiples = array( 'field_options', 'child_products', 'child_categories', 'field_rows', 'weekdays', 'field_cl_options' );
@@ -497,6 +508,14 @@ function pewc_save_globals() {
 					}
 				}
 			}
+			// 4.4.3
+			if ( ! empty( $always_include_groups ) ) {
+				foreach ( $always_include_groups as $aigroup_id => $is_always_include ) {
+					if ( ! $is_always_include ) {
+						delete_post_meta( $aigroup_id, 'always_include' );
+					}
+				}
+			}
 
 			if( $global_rules ) {
 				foreach( $global_rules as $key=>$value ) {
@@ -569,6 +588,21 @@ function pewc_save_globals() {
 		}
 
 		pewc_reset_all_transients( true ); // force reset
+
+		// 4.4.1, delete 'all_params' postmeta record, so that if they refresh the frontend product page after updating these,
+		// pewc_create_item_object() won't pull a possibly stale 'all_params' postmeta record
+		// all_params is used by 'Display groups as post type'. If we are here, then 'Display groups as post type is disabled'.
+		// It should be safe to delete it to avoid stale data when pewc_create_item_object() is called?
+		if( $has_migrated && $all_field_ids && apply_filters( 'pewc_remove_all_params_for_global_addons', false ) ) {
+			foreach( $all_field_ids as $group_id=>$ids ) {
+				if ( ! empty( $group_id ) && is_numeric( $group_id ) && ! empty( $ids ) ) {
+					foreach ( $ids as $field_id => $field_id2 ) {
+						delete_post_meta( $field_id, 'all_params' );
+						//pewc_create_item_object( $field_id, true );
+					}
+				}
+			}
+		}
 
 		wp_send_json( array( 'saved' => 1 ) );
 		exit;

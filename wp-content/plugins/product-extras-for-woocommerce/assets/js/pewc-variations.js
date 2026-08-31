@@ -47,7 +47,10 @@
 
 			// 3.26.11
 			var default_quantity = 1;
-			if ( $( quantity ).attr( 'data-default-quantity' ) > 0 ) {
+			if ( pewc_vars.disable_click_column_layout && $( quantity ).val() > default_quantity ) {
+				// 4.4.1, if the quantity is already greater than 1, don't change the quantity
+				default_quantity = $( quantity ).val();
+			} else if ( $( quantity ).attr( 'data-default-quantity' ) > 0 ) {
 				default_quantity = quantity.attr( 'data-default-quantity' );
 			}
 
@@ -79,6 +82,10 @@
 
 		$( '.pewc-variable-child-select' ).on( 'change click', function( e ) {
 			e.stopPropagation();
+			// 4.4.1, disable auto-select using a filter
+			if ( pewc_vars.disable_click_column_layout ) {
+				return;
+			}
 			var select = $( this );
 			// If we change the variation, then select the product
 			var checkbox = $( select ).closest( '.pewc-checkbox-image-wrapper' ).find( 'input[type=checkbox]' ).prop( 'checked' , true );

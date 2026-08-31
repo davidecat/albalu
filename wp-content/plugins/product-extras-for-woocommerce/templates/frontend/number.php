@@ -13,11 +13,15 @@ if( ! defined( 'ABSPATH' ) ) {
 
 $min = isset( $item['field_minval'] ) ? $item['field_minval'] : '0';
 $max = isset( $item['field_maxval'] ) ? $item['field_maxval'] : '';
-$decimals = ! empty ( $item['field_step'] ) ? $item['field_step'] : false;
-if( ! $decimals ) {
-	$step = '1';
+if( ! empty( $item['field_step_value'] ) ) {
+	$step = $item['field_step_value'];
 } else {
-	$step = pow( 10, 0 - absint( $decimals ) );
+	$decimals = ! empty ( $item['field_step'] ) ? $item['field_step'] : false;
+	if( ! $decimals ) {
+		$step = '1';
+	} else {
+		$step = pow( 10, 0 - absint( $decimals ) );
+	}
 }
 
 $product_id = $product->get_id();

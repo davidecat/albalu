@@ -30,6 +30,27 @@ if( ! defined( 'ABSPATH' ) ) {
 	</div>
 </div>
 
+<div class="pewc-fields-wrapper pewc-hide-if-not-pro pewc-replace-main-image-extras">
+
+	<div class="product-extra-field">
+		<div class="product-extra-field-inner">
+
+			<label class="pewc-checkbox-field-label" for="<?php echo esc_attr( $base_name ); ?>_replace_main_image">
+				<?php _e( 'Replace main image', 'pewc' ); ?>
+				<?php echo wc_help_tip( 'Enable this option to replace the main product image with the selected option\'s image', 'pewc' ); ?>
+			</label>
+
+		</div>
+		<div class="product-extra-field-inner">
+
+			<?php $replace_main_image = ! empty( $item['replace_main_image'] ); ?>
+			<?php pewc_checkbox_toggle( 'replace_main_image', $replace_main_image, $group_id, $item_key ); ?>
+
+		</div>
+	</div>
+
+</div>
+
 <div class="pewc-fields-wrapper pewc-radio-image-extras pewc-number-columns-wrapper no-gap">
 
 	<div class="product-extra-field">

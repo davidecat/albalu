@@ -948,6 +948,19 @@ if( ! class_exists( 'PEWC_Product_Extra_Post_Type' ) ) {
 		 */
 		public function save_group_metabox_data( $group_id ) {
 
+			// 4.4.1, moved here before the nonce checks to accommodate Quick Edit actions
+			if( get_post_type( $group_id ) != 'pewc_group' ) {
+				// Do groups separately
+				return;
+			}
+
+			// 4.4.1, we do this before the nonce checks because Quick Edit does not have pewc_meta_box_nonce
+			// Perhaps the user updated the title or the sort order using Quick Edit
+			if ( ! empty( $_POST['action'] ) && 'inline-save' === $_POST['action'] ) {
+				// Update the global group order
+				pewc_set_global_group_ids( $group_id );
+			}
+
 			// Check the nonce is set
 			if( ! isset( $_POST['pewc_metabox_nonce'] ) ) {
 				return;
@@ -955,11 +968,6 @@ if( ! class_exists( 'PEWC_Product_Extra_Post_Type' ) ) {
 
 			// Verify the nonce
 			if( ! wp_verify_nonce( $_POST['pewc_metabox_nonce'], 'save_metabox_data' ) ) {
-				return;
-			}
-
-			if( get_post_type( $group_id ) != 'pewc_group' ) {
-				// Do groups separately
 				return;
 			}
 

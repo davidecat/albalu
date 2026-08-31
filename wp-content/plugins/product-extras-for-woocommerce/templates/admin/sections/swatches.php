@@ -37,24 +37,7 @@ if( ! defined( 'ABSPATH' ) ) {
 
 		<div class="product-extra-field">
 			<div class="product-extra-field-inner">
-				
-				<label class="pewc-checkbox-field-label" for="<?php echo esc_attr( $base_name ); ?>_replace_main_image">
-					<?php _e( 'Replace main image', 'pewc' ); ?>
-					<?php echo wc_help_tip( 'Enable this option to replace the main product image with the selected swatch', 'pewc' ); ?>
-				</label>
 
-			</div>
-			<div class="product-extra-field-inner">
-
-				<?php $replace_main_image = ! empty( $item['replace_main_image'] ); ?>
-				<?php pewc_checkbox_toggle( 'replace_main_image', $replace_main_image, $group_id, $item_key ); ?>
-
-			</div>
-		</div>
-
-		<div class="product-extra-field">
-			<div class="product-extra-field-inner">
-				
 				<label class="pewc-checkbox-field-label" for="<?php echo esc_attr( $base_name ); ?>_layered_images">
 					<?php _e( 'Layer images?', 'pewc' ); ?>
 					<?php echo wc_help_tip( 'Enable this option to layer each selected swatch on the main image', 'pewc' ); ?>

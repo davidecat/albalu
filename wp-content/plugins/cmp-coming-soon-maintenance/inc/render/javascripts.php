@@ -430,8 +430,6 @@ if ( $counter_script && get_option('niteoCS_counter', '1') == '1') {
             var count = parseInt(document.getElementById('counter-day').textContent);
             var ms = 5;
             var day = countdown.dataset.date;
-            var cmp_nonce = '<?php echo wp_create_nonce( 'cmp-coming-soon-maintenance-nonce' ); ?>';
-            var cmp_status = '<?php echo esc_attr(get_option('niteoCS_countdown_action', 'no-action'));?>';
             var counter = setTimeout(timer, 2000);
             function timer() {
                 if ( count >= day ) {
@@ -455,23 +453,7 @@ if ( $counter_script && get_option('niteoCS_counter', '1') == '1') {
                 <?php 
                 if ( $countdown_action === 'redirect' || $countdown_action === 'disable-cmp') { ?>
                     if ( count == 0 ) {
-                        fetch( '<?php echo esc_url(admin_url( 'admin-ajax.php' ));?>', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8'
-                            },
-                            body: `action=cmp_disable_comingsoon_ajax&security=${cmp_nonce}&status=${cmp_status}`,
-                            credentials: 'same-origin'
-                        })
-                        .then(response => response.json())
-                        .then((data) => {
-                            if ( data.message === 'success' ) {
-                                setTimeout(() => {
-                                    window.location.reload();
-                                }, 1500);
-                            }
-                        })
-                        .catch(function(error) { console.log(error.message); });
+                        window.location.reload();
 
                     }
                     <?php
@@ -485,9 +467,6 @@ if ( $counter_script && get_option('niteoCS_counter', '1') == '1') {
     <script>
         document.addEventListener("DOMContentLoaded", function() { 
             var counter = document.getElementById("counter") ? document.getElementById("counter") : document.getElementById("cmp-counter");
-            var cmp_nonce = '<?php echo wp_create_nonce( 'cmp-coming-soon-maintenance-nonce' ); ?>';
-            var cmp_status = '<?php echo esc_attr(get_option('niteoCS_countdown_action', 'no-action'));?>';
-
             if ( !counter ) {
                 return;
             }
@@ -536,25 +515,8 @@ if ( $counter_script && get_option('niteoCS_counter', '1') == '1') {
                 if ( $countdown_action === 'redirect' || $countdown_action === 'disable-cmp') { ?>
 
                     if ( distance < 0 ) {
-                        fetch( '<?php echo esc_url(admin_url( 'admin-ajax.php' ));?>', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8'
-                            },
-                            body: `action=cmp_disable_comingsoon_ajax&security=${cmp_nonce}&status=${cmp_status}`,
-                            credentials: 'same-origin'
-                        })
-                        .then(response => response.json())
-                        .then((data) => {
-                            if ( data.message === 'success' ) {
-                                setTimeout(() => {
-                                    window.location.reload();
-                                }, 1500);
-                            }
-                        })
-                        .catch(function(error) { console.log(error.message); });
-
                         clearInterval(timerInt);
+                        window.location.reload();
 
                     }
                     <?php

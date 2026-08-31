@@ -822,8 +822,54 @@ li .pewc-calculation-field-wrapper {
 	}
 }
 .pewc-radio-list-wrapper.pewc-columns-1 .pewc-radio-wrapper,
-.pewc-checkboxes-list-wrapper.pewc-columns-1 .pewc-checkbox-wrapper {
+.pewc-checkboxes-list-wrapper.child-product-wrapper.pewc-columns-1 .pewc-checkbox-wrapper {
 	width:100%;
+}
+.child-product-wrapper.pewc-columns-1 .pewc-checkbox-wrapper label {
+	display: flex !important;
+	flex-wrap: nowrap !important;
+	align-items: center !important;
+	width: 100% !important;
+	gap: 10px;
+}
+.child-product-wrapper.pewc-columns-1 .pewc-checkbox-wrapper .pewc-checkboxes-list-desc-wrapper {
+	display: flex !important;
+	flex-direction: row !important;
+	align-items: center !important;
+	flex: 1 1 auto !important;
+	width: 100% !important;
+	gap: 10px;
+}
+.child-product-wrapper.pewc-columns-1 .pewc-checkbox-wrapper .pewc-checkboxes-list-desc {
+	display: flex !important;
+	flex-direction: row !important;
+	align-items: center !important;
+	flex-wrap: nowrap !important;
+	flex: 1 1 auto !important;
+	gap: 1em;
+	margin-bottom: 0
+}
+.child-product-wrapper.pewc-columns-1 .pewc-checkbox-wrapper.bfwc-booking-child-product .bfwc-child-slot-avail {
+	display: inline !important;
+	margin-top: 0 !important;
+	white-space: nowrap;
+}
+.child-product-wrapper.pewc-columns-1 .pewc-checkbox-wrapper.bfwc-booking-child-product .bfwc-pewc-child-product-title,
+.child-product-wrapper.pewc-columns-1 .pewc-checkbox-wrapper .pewc-child-product-price-label,
+.child-product-wrapper.pewc-columns-1 .pewc-checkbox-wrapper .pewc-separator {
+	white-space: nowrap;
+}
+.child-product-wrapper.pewc-columns-1 .pewc-checkbox-wrapper .pewc-separator {
+    margin: 0 -1em 0 0;
+}
+.child-product-wrapper.pewc-columns-1 .pewc-checkbox-wrapper .pewc-plusminus-wrapper {
+	flex: 0 0 auto !important;
+	width: auto !important;
+}
+.child-product-wrapper.pewc-columns-1 .pewc-checkbox-wrapper .pewc-child-quantity-field {
+	width: 60px !important;
+	flex: 0 0 60px !important;
+	min-width: 60px !important;
 }
 .pewc-checkboxes-list-wrapper .pewc-checkbox-wrapper,
 .pewc-radio-list-wrapper .pewc-radio-wrapper,
@@ -1131,6 +1177,12 @@ input[type=number].pewc-child-quantity-field {
 .pewc-item-products.pewc-hide-option-price .pewc-radio-image-desc .pewc-child-product-price-label,
 .pewc-item-product-categories.pewc-hide-option-price .pewc-radio-image-desc .pewc-separator,
 .pewc-item-product-categories.pewc-hide-option-price .pewc-radio-image-desc .pewc-child-product-price-label {
+	display: none;
+}
+.pewc-item-products.pewc-hide-option-price .pewc-separator,
+.pewc-item-products.pewc-hide-option-price .pewc-child-product-price-label,
+.pewc-item-product-categories.pewc-hide-option-price .pewc-separator,
+.pewc-item-product-categories.pewc-hide-option-price .pewc-child-product-price-label {
 	display: none;
 }
 /* Calendar List */
@@ -1755,12 +1807,16 @@ dl.variation dt:before {
     clear: left;
     display: table;
 }
-dl.variation dt,
+/**
+ * 4.4.3, commented out. float:left was first commented out in 4.3.1, but the remaining display:inline caused issues with other themes.
+ * Since float:left overrides display:inline anyway, let's remove them both, and have the current theme or WC handle these elements' style
+ */
+/*dl.variation dt,
 dl.variation dd,
 dl.variation p {
 	display: inline;
-	/*float: left;*/
-}
+	float: left;
+}*/
 dl.variation dd:empty {
 	margin-bottom: 0.5em;
 	clear:left;

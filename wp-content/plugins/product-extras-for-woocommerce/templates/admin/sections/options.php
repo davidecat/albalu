@@ -11,7 +11,7 @@ if( ! defined( 'ABSPATH' ) ) {
 } ?>
 	
 <div class="pewc-fields-wrapper">
-				
+
 	<?php
 	if( apply_filters( 'pewc_show_option_field_params', true, $item, $post_id ) ) {
 		include( PEWC_DIRNAME . '/templates/admin/views/option-fields.php' );

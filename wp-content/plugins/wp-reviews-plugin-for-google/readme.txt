@@ -2,8 +2,8 @@
 Contributors: trustindex
 Donate link: https://www.trustindex.io/prices/
 Tags: google, google places reviews, reviews, widget, google business
-Tested up to: 7.0
-Stable tag: 13.3.1
+Tested up to: 7.1
+Stable tag: 13.3.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 Plugin Name: Widgets for Google Reviews
@@ -12,7 +12,7 @@ Plugin URI: https://wordpress.org/plugins/wp-reviews-plugin-for-google/
 Author: Trustindex.io <support@trustindex.io>
 Author URI: https://www.trustindex.io/
 Text Domain: wp-reviews-plugin-for-google
-Version: 13.3.1
+Version: 13.3.2
 
 Embed Google reviews fast and easily into your WordPress site. Increase SEO, trust and sales using Google reviews.
 
@@ -67,7 +67,7 @@ The Google Reviews WordPress plugin offers various layouts and styles to choose 
 
 ### Get more features with our professional review software
 
-[Create a Free Account for More Features](https://www.trustindex.io/ti-redirect.php?a=sys-wp&c=google.php-r1)
+[Create a Free Account for More Features](https://www.trustindex.io/?a=sys&c=wp-google-r1)
 
 With the professional package, you’ll be able to display reviews from many of the top review websites, including Facebook, Yelp, Tripadvisor, and Airbnb. You’ll also be able to edit the widget image with a wide range of options, so you can cater to your demographic and increase the likelihood of conversion.
 
@@ -95,7 +95,7 @@ Here are the features included in the software:
 * Priority support
 * AMP support
 
-[Create a Free Account for More Features](https://www.trustindex.io/ti-redirect.php?a=sys-wp&c=google.php-r2)
+[Create a Free Account for More Features](https://www.trustindex.io/?a=sys&c=wp-google-r2)
 
 == Screenshots ==
 

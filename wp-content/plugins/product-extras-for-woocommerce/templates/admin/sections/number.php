@@ -58,6 +58,22 @@ if( ! defined( 'ABSPATH' ) ) {
 
 		<div class="product-extra-field">
 			<div class="product-extra-field-inner">
+				<?php $field_step_value = ! empty( $item['field_step_value'] ) ? $item['field_step_value'] : ''; ?>
+				<label>
+					<?php _e( 'Step', 'pewc' ); ?>
+					<?php echo wc_help_tip( 'An optional step value for the field, e.g. 0.5. Overrides Decimal places if set.', 'pewc' ); ?>
+				</label>
+			</div>
+			<div class="product-extra-field-inner">
+				<input type="number" step="any" min="0" class="pewc-field-item pewc-field-step-value" name="<?php echo esc_attr( $base_name ); ?>[field_step_value]" value="<?php echo esc_attr( $field_step_value ); ?>" data-field-name="field_step_value">
+			</div>
+		</div>
+
+	</div><!-- .pewc-fields-wrapper -->
+	<div class="pewc-fields-wrapper pewc-num-fields">
+
+		<div class="product-extra-field">
+			<div class="product-extra-field-inner">
 				<label class="pewc-checkbox-field-label" for="<?php echo esc_attr( $base_name ); ?>_multiply">
 					<?php _e( 'Multiply Price?', 'pewc' ); ?>
 					<?php echo wc_help_tip( 'Select this to multiply the value of the field by its price', 'pewc' ); ?>

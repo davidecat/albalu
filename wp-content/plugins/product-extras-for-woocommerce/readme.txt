@@ -2,8 +2,8 @@
 Contributors: Gareth Harris
 Tags: add-ons, ecommerce
 Requires at least: 4.7
-Tested up to: 7.0
-Stable tag: 4.4.0
+Tested up to: 7.1
+Stable tag: 4.4.3
 Allow your users to customise products through additional fields
 
 == Description ==
@@ -23,6 +23,27 @@ WooCommerce Product Add Ons Ultimate allows your users to customise products thr
 1.
 
 == Changelog ==
+
+= 4.4.3, 26 August 2026 =
+* Fixed: add-on fields are not displayed correctly on the cart on some themes
+* Fixed: 'Always Include in Order' not getting saved in Global Add-Ons
+* Fixed: deprecated jQuery notice in the Global Add-Ons page
+* Fixed: 'Group Class' and 'Always Include in Order' settings not copied when importing groups into a product
+* Fixed: Products fields with hidden option price now correctly hiding child product prices
+* Updated: when an AJAX upload fails, the error message now includes the error returned from the server
+* Updated: Products fields with list layouts automatically default to single column layout
+* Updated: Select Box fields can now replace main product image with selected option
+
+= 4.4.2, 19 August 2026 =
+* Added: 'Step' setting for Number fields
+* Fixed: product image does not appear inside the QuickView lightbox on some themes
+* Updated: Group Settings toggle state now persists across sessions
+
+= 4.4.1, 13 August 2026 =
+* Added: pewc_original_variable_price_range filter. Do not replace variable product price range until a variation is selected
+* Added: disable_click_column_layout filter
+* Added: pewc_remove_all_params_for_global_addons filter. The product page sometimes display outdated global add-on data when 'Display groups as post type' is disabled because an outdated all_params postmeta record exists
+* Fixed: sort order of Global Groups not updated on the frontend product page when using Quick Edit
 
 = 4.4.0, 5 August 2026 =
 * Added: 'Recalculate Calculation fields in cart' setting

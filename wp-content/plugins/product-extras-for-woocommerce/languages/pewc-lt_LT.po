@@ -1,361 +1,549 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: WooCommerce Product Add-Ons Ultimate\n"
-"Report-Msgid-Bugs-To: \n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/product-extras-"
+"for-woocommerce\n"
+"POT-Creation-Date: 2026-08-26T10:45:15+00:00\n"
+"PO-Revision-Date: 2019-02-01 14:40+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
+"Language: lt\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2018-12-11 17:08+0000\n"
-"PO-Revision-Date: 2019-02-01 14:40+0200\n"
-"Language: lt\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"(n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Poedit 1.7.6\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-Flags-xgettext: --add-comments=translators:\n"
 "X-Poedit-WPHeader: product-extras-for-woocommerce.php\n"
 "X-Poedit-SourceCharset: UTF-8\n"
-"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"X-Poedit-KeywordsList: "
+"__;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: *.js\n"
 
-#: classes/class-pewc-product-extra-post-type.php:74
-msgid "Delete this group?"
-msgstr ""
-
-#: classes/class-pewc-product-extra-post-type.php:75
-msgid "Delete this field? Deleting this field will also delete any conditions associated with it."
-msgstr ""
-
-#: classes/class-pewc-product-extra-post-type.php:76
-msgid "Delete this option?"
-msgstr ""
-
-#: classes/class-pewc-product-extra-post-type.php:77
-#: templates/admin/condition.php:242
-#: templates/admin/new-conditional-row.php:70
-#: templates/admin/views/group-condition.php:196
-msgid "Checked"
-msgstr ""
-
-#: classes/class-pewc-product-extra-post-type.php:78
-msgid "This field is used in a condition. Changing its field type may affect the condition. Continue?"
-msgstr ""
-
-#: classes/class-pewc-product-extra-post-type.php:79
-msgid "copy"
-msgstr ""
-
-#: classes/class-pewc-product-extra-post-type.php:80
-#: inc/functions-conditionals.php:23
-msgid " -- Select a field -- "
-msgstr ""
-
-#: classes/class-pewc-product-extra-post-type.php:110
-msgid "Add "
-msgstr ""
-
-#: classes/class-pewc-product-extra-post-type.php:111
-msgid "Add New "
-msgstr ""
-
-#: classes/class-pewc-product-extra-post-type.php:112
-#: classes/class-pewc-product-extra-post-type.php:171
-#: classes/class-pewc-product-extra-post-type.php:215
-msgid "Edit"
-msgstr ""
-
-#: classes/class-pewc-product-extra-post-type.php:113
-msgid "Edit "
-msgstr ""
-
-#: classes/class-pewc-product-extra-post-type.php:114
-msgid "New "
-msgstr ""
-
-#: classes/class-pewc-product-extra-post-type.php:115
-#: classes/class-pewc-product-extra-post-type.php:116
-msgid "View "
-msgstr ""
-
-#: classes/class-pewc-product-extra-post-type.php:117
-msgid "Search "
-msgstr ""
-
-#: classes/class-pewc-product-extra-post-type.php:118
-#: classes/class-pewc-product-extra-post-type.php:177
-#: classes/class-pewc-product-extra-post-type.php:221
-msgid "None found"
-msgstr ""
-
-#: classes/class-pewc-product-extra-post-type.php:119
-#: classes/class-pewc-product-extra-post-type.php:178
-#: classes/class-pewc-product-extra-post-type.php:222
-msgid "None found in trash"
-msgstr ""
-
-#: classes/class-pewc-product-extra-post-type.php:120
-msgid "Parent "
-msgstr ""
-
-#: admin/functions-fields.php:509
-#: admin/functions-fields.php:528
-#: classes/class-pewc-product-extra-post-type.php:212
-#: classes/class-pewc-product-extra-post-type.php:510
-#: templates/admin/field-item.php:69
-msgid "Field"
-msgstr ""
-
-#: classes/class-pewc-product-extra-post-type.php:511
-msgid "Value"
-msgstr ""
-
-#: classes/class-pewc-product-extra-post-type.php:512
-#: templates/admin/sections/calendar-list.php:44
-#: templates/admin/views/option-fields-new.php:30
-#: templates/admin/views/option-fields.php:41
-msgid "Price"
-msgstr ""
-
-#: classes/class-pewc-product-extra-post-type.php:1076
-msgid "Order"
-msgstr ""
-
-#: admin/functions-admin-export.php:60
-#: classes/class-pewc-product-extra-post-type.php:1077
-msgid "Product"
-msgstr ""
-
-#: classes/class-pewc-product-extra-post-type.php:1078
-msgid "User"
-msgstr ""
-
-#: admin/functions-admin-post-types.php:42
-#: admin/functions-custom-panel.php:477
-#: classes/class-pewc-product-extra-post-type.php:1079
-#: classes/class-pewc-settings-tab.php:106
-#: templates/admin/field-item.php:89
-msgid "Date"
-msgstr ""
-
 #. Plugin Name of the plugin
-#: product-extras-for-woocommerce.php
-#: admin/functions-admin-menu.php:54
-#: admin/functions-admin-settings.php:869
-#: inc/functions-updater.php:273
-#: inc/functions-updater.php:288
+#: admin/functions-admin-menu.php:54 admin/functions-admin-settings.php:920
+#: inc/functions-updater.php:276 inc/functions-updater.php:291
 msgid "WooCommerce Product Add-Ons Ultimate"
-msgstr ""
+msgstr "WooCommerce Product Add-Ons Ultimate"
 
-#: admin/functions-admin-settings.php:875
-msgid "License key"
+#. Plugin URI of the plugin
+msgid ""
+"https://pluginrepublic.com/wordpress-plugins/woocommerce-product-add-ons-"
+"ultimate/"
 msgstr ""
+"https://pluginrepublic.com/wordpress-plugins/woocommerce-product-add-ons-"
+"ultimate/"
 
-#: admin/functions-admin-settings.php:878
-msgid "Enter your license key here. You should have received a key with the email containing the plugin download link."
+#. Description of the plugin
+msgid "Add extra fields to WooCommerce products"
+msgstr "Pridėkite papildomus laukus prie WooCommerce produktų"
+
+#. Author of the plugin
+msgid "Plugin Republic"
+msgstr "Plugin Republic"
+
+#. Author URI of the plugin
+msgid "https://pluginrepublic.com/"
+msgstr "https://pluginrepublic.com/"
+
+#: admin/customizer.php:32
+msgid "Product Add-Ons Ultimate"
+msgstr "Product Add-Ons Ultimate"
+
+#: admin/customizer.php:38 admin/functions-admin-settings.php:231
+msgid "Labels"
+msgstr "Etiketės"
+
+#: admin/customizer.php:47
+msgid "Styles"
+msgstr "Stiliai"
+
+#: admin/customizer.php:56
+msgid "Swatches and Products"
+msgstr "Pavyzdžiai ir produktai"
+
+#: admin/customizer.php:65 admin/functions-admin-settings.php:182
+#: classes/class-pewc-product-extra-post-type.php:172
+msgid "Groups"
+msgstr "Grupės"
+
+#: admin/customizer.php:83
+msgid "Preset styles"
+msgstr "Iš anksto nustatyti stiliai"
+
+#: admin/customizer.php:89
+msgid "Inherit from theme"
+msgstr "Paveldėti iš temos"
+
+#: admin/customizer.php:94
+msgid "Simple"
+msgstr "Paprastas"
+
+#: admin/customizer.php:111
+msgid "Accent colour"
+msgstr "Akcentinė spalva"
+
+#: admin/customizer.php:132
+msgid "Fields Wrapper Margin Left"
+msgstr "Laukų apvalkalo kairioji paraštė"
+
+#: admin/customizer.php:152
+msgid "Fields Wrapper Margin Bottom"
+msgstr "Laukų apvalkalo apatinė paraštė"
+
+#: admin/customizer.php:172
+msgid "Fields Wrapper Padding"
+msgstr "Laukų apvalkalo vidinis tarpas"
+
+#: admin/customizer.php:191
+msgid "Fields Wrapper Background Colour"
+msgstr "Laukų apvalkalo fono spalva"
+
+#: admin/customizer.php:212
+msgid "Field Margin Left"
+msgstr "Lauko kairioji paraštė"
+
+#: admin/customizer.php:232
+msgid "Field Margin Bottom"
+msgstr "Lauko apatinė paraštė"
+
+#: admin/customizer.php:252
+msgid "Field Padding (Top and Bottom)"
+msgstr "Lauko vidinis tarpas (viršus ir apačia)"
+
+#: admin/customizer.php:272
+msgid "Field Padding (Left and Right)"
+msgstr "Lauko vidinis tarpas (kairė ir dešinė)"
+
+#: admin/customizer.php:292
+msgid "Field Background Colour"
+msgstr "Lauko fono spalva"
+
+#: admin/customizer.php:312
+msgid "Text Colour"
+msgstr "Teksto spalva"
+
+#: admin/customizer.php:331
+msgid "Full Width Text Fields "
+msgstr "Viso pločio teksto laukai "
+
+#: admin/customizer.php:350
+msgid "Full Width Number Fields "
+msgstr "Viso pločio skaičių laukai "
+
+#: admin/customizer.php:369
+msgid "Textarea Height"
+msgstr "Teksto srities aukštis"
+
+#: admin/customizer.php:393
+msgid "Full Width Select Fields "
+msgstr "Viso pločio pasirinkimo laukai "
+
+#: admin/customizer.php:412
+msgid "Display Label on Own Line"
+msgstr "Rodyti etiketę atskiroje eilutėje"
+
+#: admin/customizer.php:435
+msgid "Hide the Group Title"
+msgstr "Slėpti grupės pavadinimą"
+
+#: admin/customizer.php:455
+msgid "Standard Layout"
+msgstr "Standartinis išdėstymas"
+
+#: admin/customizer.php:475
+msgid "Title Colour"
+msgstr "Pavadinimo spalva"
+
+#: admin/customizer.php:494
+msgid "Title Font Size"
+msgstr "Pavadinimo šrifto dydis"
+
+#: admin/customizer.php:513
+msgid "Description Colour"
+msgstr "Aprašymo spalva"
+
+#: admin/customizer.php:532
+msgid "Description Font Size"
+msgstr "Aprašymo šrifto dydis"
+
+#: admin/customizer.php:552
+msgid "Accordion Layout"
+msgstr "Akordeono išdėstymas"
+
+#: admin/customizer.php:572
+msgid "Title Background"
+msgstr "Pavadinimo fonas"
+
+#: admin/customizer.php:591
+msgid "Icon Colour"
+msgstr "Piktogramos spalva"
+
+#: admin/customizer.php:610
+msgid "Icon Size"
+msgstr "Piktogramos dydis"
+
+#: admin/customizer.php:630
+msgid "Steps Layout"
+msgstr "Žingsnių išdėstymas"
+
+#: admin/customizer.php:650 admin/customizer.php:785
+#: templates/admin/group-settings.php:46
+msgid "Tabs"
+msgstr "Skirtukai"
+
+#: admin/customizer.php:669 admin/customizer.php:804
+msgid "Active Tab"
+msgstr "Aktyvus skirtukas"
+
+#: admin/customizer.php:688
+msgid "Next Button"
+msgstr "Mygtukas „Kitas“"
+
+#: admin/customizer.php:707
+msgid "Previous Button"
+msgstr "Mygtukas „Ankstesnis“"
+
+#: admin/customizer.php:726
+msgid "Button Text Color"
+msgstr "Mygtuko teksto spalva"
+
+#: admin/customizer.php:746
+msgid "Tabs Layout"
+msgstr "Skirtukų išdėstymas"
+
+#: admin/customizer.php:766
+msgid "Justify Tabs"
+msgstr "Lygiuoti skirtukus per visą plotį"
+
+#: admin/customizer.php:863 admin/functions-admin-settings.php:279
+#: templates/frontend/price-subtotals.php:15
+msgid "Product total"
+msgstr "Pagrindinė prekė"
+
+#: admin/customizer.php:874 admin/functions-admin-settings.php:287
+#: templates/frontend/price-subtotals.php:23
+msgid "Options total"
+msgstr "Papildomos prekės"
+
+#: admin/customizer.php:885 admin/functions-admin-settings.php:295
+#: templates/frontend/price-subtotals.php:32
+msgid "Flat rate total"
+msgstr "Fiksuoto tarifo bendra suma"
+
+#: admin/customizer.php:896 admin/functions-admin-settings.php:303
+#: templates/frontend/price-subtotals.php:41
+msgid "Grand total"
+msgstr "Iš viso"
+
+#: admin/customizer.php:907
+msgid "Enable summary panel"
+msgstr "Įjungti suvestinės skydelį"
+
+#: admin/customizer.php:917 admin/functions-admin-settings.php:238
+#: admin/functions-custom-panel.php:517
+msgid "Price label"
+msgstr "Kainos etiketė"
+
+#: admin/customizer.php:927 admin/functions-admin-settings.php:245
+#: admin/functions-custom-panel.php:525
+msgid "Price label display"
+msgstr "Kainos etiketės rodymas"
+
+#: admin/customizer.php:932 admin/functions-admin-settings.php:253
+#: admin/functions-custom-panel.php:529
+msgid "Before price"
+msgstr "Prieš kainą"
+
+#: admin/customizer.php:933 admin/functions-admin-settings.php:254
+#: admin/functions-custom-panel.php:530
+msgid "After price"
+msgstr "Po kainos"
+
+#: admin/customizer.php:934 admin/functions-admin-settings.php:255
+#: admin/functions-custom-panel.php:531
+msgid "Hide price"
+msgstr "Slėpti kainą"
+
+#: admin/customizer.php:942 admin/functions-admin-settings.php:260
+msgid "Display totals fields"
+msgstr "Rodyti bendrų sumų laukus"
+
+#: admin/customizer.php:947
+msgid "Show totals"
+msgstr "Rodyti bendras sumas"
+
+#: admin/customizer.php:948
+msgid "Hide totals"
+msgstr "Slėpti bendras sumas"
+
+#: admin/customizer.php:949
+msgid "Total only"
+msgstr "Tik bendra suma"
+
+#: admin/customizer.php:957 admin/functions-admin-settings.php:274
+msgid "Product total label"
+msgstr "Produkto bendros sumos etiketė"
+
+#: admin/customizer.php:967 admin/functions-admin-settings.php:282
+msgid "Options total label"
+msgstr "Parinkčių bendros sumos etiketė"
+
+#: admin/customizer.php:977 admin/functions-admin-settings.php:290
+msgid "Flat rate total label"
+msgstr "Fiksuoto tarifo bendros sumos etiketė"
+
+#: admin/customizer.php:987 admin/functions-admin-settings.php:298
+msgid "Grand total label"
+msgstr "Galutinės sumos etiketė"
+
+#: admin/customizer.php:1028
+msgid "Show Inputs on Products Field"
+msgstr "Rodyti įvesties laukus produktų lauke"
+
+#: admin/customizer.php:1048
+msgid "Products Highlight Colour"
+msgstr "Produktų paryškinimo spalva"
+
+#: admin/customizer.php:1068
+msgid "Swatch Border Width"
+msgstr "Pavyzdžio rėmelio storis"
+
+#: admin/customizer.php:1088
+msgid "Swatch Border Padding"
+msgstr "Pavyzdžio rėmelio vidinis tarpas"
+
+#: admin/customizer.php:1107
+msgid "Enable Circular Swatches"
+msgstr "Įjungti apvalius pavyzdžius"
+
+#: admin/customizer.php:1127
+msgid "Color Swatch Width"
+msgstr "Spalvos pavyzdžio plotis"
+
+#: admin/customizer.php:1147
+msgid "Color Swatch Height"
+msgstr "Spalvos pavyzdžio aukštis"
+
+#: admin/customizer.php:1166
+msgid "Use Grid Layout"
+msgstr "Naudoti tinklelio išdėstymą"
+
+#: admin/customizer.php:1185
+msgid "Swatch Image Size"
+msgstr "Pavyzdžio paveikslėlio dydis"
+
+#: admin/customizer.php:1205
+msgid "Product Quantity Layout"
+msgstr "Produkto kiekio išdėstymas"
+
+#: admin/customizer.php:1210
+msgid "Grid"
+msgstr "Tinklelis"
+
+#: admin/customizer.php:1211
+msgid "Block"
+msgstr "Blokas"
+
+#: admin/customizer.php:1227
+msgid "Show Product Names as Tooltips"
+msgstr "Rodyti produktų pavadinimus kaip paaiškinimus"
+
+#: admin/functions-admin-cleanup-files.php:57
+#: admin/functions-admin-cleanup-files.php:58
+msgid "Clean Up Files"
+msgstr "Failų valymas"
+
+#: admin/functions-admin-cleanup-files.php:74
+msgid "Clean Up Uploaded Files"
+msgstr "Įkeltų failų valymas"
+
+#: admin/functions-admin-cleanup-files.php:77
+msgid "Scanning directories..."
+msgstr "Skenuojami katalogai..."
+
+#: admin/functions-admin-cleanup-files.php:80
+msgid "No directories found"
+msgstr "Katalogų nerasta"
+
+#: admin/functions-admin-cleanup-files.php:83
+msgid "Getting all files that are older than [before_date]... [percentage]"
+msgstr "Gaunami visi failai, senesni nei [before_date]... [percentage]"
+
+#: admin/functions-admin-cleanup-files.php:86
+msgid ""
+"Scanning has finished for files older than [before_date]. Number of files to "
+"be deleted: [files_to_delete]"
 msgstr ""
+"Failų, senesnių nei [before_date], skenavimas baigtas. Trinamų failų "
+"skaičius: [files_to_delete]"
 
-#: admin/functions-admin-settings.php:467
-msgid "Users must be logged in to upload"
+#: admin/functions-admin-cleanup-files.php:89
+msgid "Deleting files older than [before_date]... [percentage]"
+msgstr "Trinami failai, senesni nei [before_date]... [percentage]"
+
+#: admin/functions-admin-cleanup-files.php:92
+msgid ""
+"Clean up done for files older than [before_date]. Number of files deleted: "
+"[total_deleted]"
 msgstr ""
+"Failų, senesnių nei [before_date], valymas baigtas. Ištrintų failų skaičius: "
+"[total_deleted]"
 
-#: admin/functions-admin-settings.php:470
-msgid "For security reasons, it is strongly recommended that you require users to be logged in before allowing them to upload files."
+#: admin/functions-admin-cleanup-files.php:93
+msgid "Done"
+msgstr "Atlikta"
+
+#: admin/functions-admin-cleanup-files.php:101
+msgid "Confirm delete? This cannot be undone."
+msgstr "Patvirtinti trynimą? Šio veiksmo anuliuoti negalėsite."
+
+#: admin/functions-admin-cleanup-files.php:102
+#: admin/functions-admin-import-export-aou.php:48
+#: admin/functions-admin-import-export-aou.php:120
+#: templates/admin/views/group-ajax-condition.php:204
+msgid "Cancel"
+msgstr "Atšaukti"
+
+#: admin/functions-admin-cleanup-files.php:105
+msgid "Deleted files:"
+msgstr "Ištrinti failai:"
+
+#: admin/functions-admin-cleanup-files.php:121
+msgid "Delete uploaded files for all Completed orders? This cannot be undone."
 msgstr ""
+"Ištrinti įkeltus failus iš visų užbaigtų užsakymų? Šio veiksmo anuliuoti "
+"negalėsite."
 
-#: admin/functions-admin-settings.php:476
-msgid "Max file size (MB)"
-msgstr ""
+#: admin/functions-admin-cleanup-files.php:122
+msgid "Delete uploaded files from Completed orders"
+msgstr "Ištrinti įkeltus failus iš užbaigtų užsakymų"
 
-#: admin/functions-admin-settings.php:479
-msgid "The max file size for uploads (in MB)"
-msgstr ""
+#: admin/functions-admin-cleanup-files.php:129
+msgid "Delete files uploaded before date:"
+msgstr "Ištrinti failus, įkeltus iki datos:"
 
-#: admin/functions-admin-settings.php:27
-msgid "Hide zero prices"
-msgstr ""
+#: admin/functions-admin-cleanup-files.php:132
+msgid "Scan files to delete"
+msgstr "Skenuoti trinamus failus"
 
-#: admin/functions-admin-settings.php:30
-msgid "Hide prices in the cart for extras which don't have a cost."
-msgstr ""
+#: admin/functions-admin-cleanup-files.php:134
+#: templates/admin/field-meta-actions.php:18
+#: templates/admin/group-meta-actions.php:20
+msgid "Delete"
+msgstr "Trinti"
 
-#: admin/functions-admin-settings.php:46
-msgid "Ignore tax setting"
-msgstr ""
+#: admin/functions-admin-cleanup-files.php:156
+msgid "All uploaded files in Completed orders have been deleted."
+msgstr "Visi įkelti failai užbaigtuose užsakymuose buvo ištrinti."
 
-#: admin/functions-admin-settings.php:49
-msgid "Ignore the WooCommerce \"Display prices in the shop\" setting which determines whether prices are displaying including or excluding tax."
-msgstr ""
+#: admin/functions-admin-cleanup-files.php:162
+msgid "Some files have not been deleted because of an error."
+msgstr "Kai kurie failai nebuvo ištrinti dėl klaidos."
 
-#: classes/class-pewc-settings-tab.php:138
-#: classes/class-pewc-settings-tab.php:146
-msgid "Upgrade"
-msgstr ""
+#: admin/functions-admin-cleanup-files.php:168
+#: admin/functions-admin-order.php:615
+msgid "Invalid nonce. No files were deleted."
+msgstr "Neteisingas nonce. Failai nebuvo ištrinti."
 
-#: inc/functions-cart.php:1465
-#: inc/functions-cart.php:1482
-#: inc/functions-cart.php:1530
-#: inc/functions-cart.php:1813
-#: inc/functions-cart.php:1821
-#: inc/functions-cart.php:2479
-#: inc/functions-cart.php:2502
-#: inc/functions-cart.php:2569
-#: inc/functions-cart.php:2660
-#: inc/functions-cart.php:2671
-#: inc/functions-cart.php:2712
-#: inc/functions-js-validation.php:54
-msgid " is a required field."
-msgstr ""
+#: admin/functions-admin-cleanup-files.php:204
+msgid "No Completed orders with uploaded files were found."
+msgstr "Nerasta užbaigtų užsakymų su įkeltais failais."
 
-#: inc/functions-cart.php:2509
-#: inc/functions-js-validation.php:187
-msgid ": minimum number of characters: "
-msgstr ""
+#: admin/functions-admin-cleanup-files.php:335
+#: admin/functions-admin-cleanup-files.php:387
+#: admin/functions-admin-conditions.php:326
+msgid "Invalid nonce. Please refresh page then try again."
+msgstr "Neteisingas nonce. Atnaujinkite puslapį ir bandykite dar kartą."
 
-#: inc/functions-cart.php:2512
-#: inc/functions-js-validation.php:191
-msgid ": maximum number of characters: "
-msgstr ""
+#: admin/functions-admin-cleanup-files.php:342
+#: admin/functions-admin-cleanup-files.php:394
+msgid "Invalid request. Some parameters are missing."
+msgstr "Neteisinga užklausa. Trūksta kai kurių parametrų."
 
-#: inc/functions-cart.php:2593
-#: inc/functions-js-validation.php:171
-msgid ": minimum value is "
-msgstr ""
+#: admin/functions-admin-cleanup-files.php:350
+#: admin/functions-admin-cleanup-files.php:402
+msgid "Invalid date format: "
+msgstr "Neteisingas datos formatas: "
 
-#: inc/functions-cart.php:2596
-#: inc/functions-js-validation.php:178
-msgid ": maximum value is "
-msgstr ""
+#: admin/functions-admin-cleanup-files.php:363
+#: admin/functions-admin-cleanup-files.php:415
+msgid "Invalid directory: "
+msgstr "Neteisingas katalogas: "
 
-#: inc/functions-cart.php:2794
-msgid ": File size too large."
-msgstr ""
+#: admin/functions-admin-conditions.php:20
+msgid "True"
+msgstr "Taip"
 
-#: inc/functions-cart.php:2804
-#: inc/functions-cart.php:2849
-msgid " is a required upload field."
-msgstr ""
+#: admin/functions-admin-conditions.php:21
+msgid "False"
+msgstr "Ne"
 
-#: inc/functions-cart.php:2832
-#: inc/functions-media.php:217
-#: inc/functions-media.php:231
-#: inc/functions-media.php:259
-msgid "File not valid."
-msgstr ""
+#: admin/functions-admin-conditions.php:87
+#: classes/class-pewc-product-extra-post-type.php:85
+msgid " -- Select a field -- "
+msgstr " -- Pasirinkite lauką -- "
 
-#: inc/functions-cart.php:1807
-msgid " must have a quantity entered."
-msgstr ""
-
-#: inc/functions-cart.php:2038
-msgid "Flat rate cost"
-msgstr ""
-
-#: inc/functions-conditionals.php:38
-#: inc/functions-conditionals.php:52
-#: inc/functions-conditionals.php:68
-#: inc/functions-conditionals.php:84
+#: admin/functions-admin-conditions.php:108
+#: admin/functions-admin-conditions.php:123
+#: admin/functions-admin-conditions.php:142
+#: admin/functions-admin-conditions.php:159
 msgid "[no label]"
-msgstr ""
+msgstr "[nėra etiketės]"
 
-#: inc/functions-conditionals.php:109
-msgid "Hide this field if"
-msgstr ""
+#: admin/functions-admin-conditions.php:169
+msgid "Cost"
+msgstr "Kaina"
 
-#: inc/functions-conditionals.php:110
-msgid "Show this field if"
-msgstr ""
+#: admin/functions-admin-conditions.php:170 inc/functions-blocks.php:123
+#: inc/functions-cart.php:1948 inc/functions-order.php:200
+#: inc/functions-order.php:325 inc/functions-order.php:747
+#: inc/functions-products.php:807
+#: templates/frontend/products/products-checkboxes-list.php:111
+#: templates/frontend/products/products-checkboxes.php:136
+#: templates/frontend/products/products-column.php:400
+#: templates/frontend/products/products-components.php:152
+#: templates/frontend/products/products-grid.php:169
+#: templates/frontend/products/products-swatches.php:317
+msgid "Quantity"
+msgstr "Kiekis"
 
-#: inc/functions-conditionals.php:121
-msgid "All rules match"
-msgstr ""
+#: admin/functions-admin-conditions.php:171
+msgid "Logged In"
+msgstr "Prisijungęs"
 
-#: inc/functions-conditionals.php:122
-msgid "Any rule matches"
-msgstr ""
+#: admin/functions-admin-conditions.php:172
+msgid "User Role"
+msgstr "Naudotojo vaidmuo"
 
-#: inc/functions-conditionals.php:133
-msgid "Is"
-msgstr ""
+#: admin/functions-admin-conditions.php:216
+#: admin/functions-admin-conditions.php:266
+#: admin/functions-admin-import-export-aou.php:88
+#: admin/functions-admin-import-export-aou.php:107
+#: admin/functions-admin-post-types.php:168
+#: admin/functions-admin-settings.php:211
+msgid "Global"
+msgstr "Globalus"
 
-#: inc/functions-conditionals.php:134
-msgid "Is Not"
-msgstr ""
+#: admin/functions-admin-export.php:21 admin/functions-admin-export.php:22
+msgid "Export Orders"
+msgstr "Eksportuoti užsakymus"
 
-#: admin/functions-custom-panel.php:106
-#: classes/class-pewc-product-extra-post-type.php:169
-msgid "Add Group"
-msgstr ""
+#: admin/functions-admin-export.php:32
+msgid "Export Product Add-Ons by Order"
+msgstr "Eksportuoti Product Add-Ons pagal užsakymą"
 
-#: admin/functions-custom-panel.php:181
-#: classes/class-pewc-product-extra-post-type.php:168
-#: templates/admin/new-group.php:22
-msgid "Group"
+#: admin/functions-admin-export.php:33
+msgid ""
+"Click the Export button to export all your Product Add-Ons from orders to a "
+"csv file which you can then open with Excel or other spreadsheet software."
 msgstr ""
-
-#: admin/metaboxes.php:115
-#: templates/admin/group.php:47
-msgid "Group Description"
-msgstr ""
-
-#: admin/functions-admin-settings.php:181
-#: admin/metaboxes.php:156
-#: admin/metaboxes.php:277
-#: classes/class-pewc-product-extra-post-type.php:199
-#: classes/class-pewc-product-extra-post-type.php:211
-#: templates/admin/group.php:178
-msgid "Fields"
-msgstr ""
-
-#: classes/class-pewc-product-extra-post-type.php:213
-#: classes/class-pewc-product-extra-post-type.php:771
-#: templates/admin/group.php:192
-msgid "Add Field"
-msgstr ""
-
-#: admin/functions-custom-panel.php:474
-msgid "Checkbox"
-msgstr ""
-
-#: admin/functions-custom-panel.php:479
-msgid "Name Your Price"
-msgstr ""
-
-#: admin/functions-custom-panel.php:480
-#: templates/admin/field-item.php:88
-msgid "Number"
-msgstr ""
-
-#: admin/functions-custom-panel.php:483
-msgid "Radio Group"
-msgstr ""
-
-#: admin/functions-custom-panel.php:484
-#: templates/admin/sections/products.php:110
-msgid "Select"
-msgstr ""
-
-#: admin/functions-custom-panel.php:487
-#: templates/admin/field-item.php:87
-msgid "Text"
-msgstr ""
-
-#: admin/functions-custom-panel.php:488
-msgid "Textarea"
-msgstr ""
-
-#: admin/functions-custom-panel.php:489
-msgid "Upload"
-msgstr ""
-
-#: admin/functions-custom-panel.php:500
-msgid "All required fields"
-msgstr ""
-
-#: admin/functions-custom-panel.php:501
-msgid "All required fields if first field complete"
-msgstr ""
+"Spustelėkite mygtuką „Eksportuoti“, kad eksportuotumėte visus savo Product "
+"Add-Ons iš užsakymų į csv failą, kurį vėliau galėsite atidaryti su Excel ar "
+"kita skaičiuoklių programa."
 
 #: admin/functions-admin-export.php:35
 #: admin/functions-admin-import-export-aou.php:119
@@ -363,416 +551,63 @@ msgstr ""
 #: admin/functions-admin-import-export-aou.php:401
 #: admin/functions-admin-import.php:26
 msgid "Export"
-msgstr ""
+msgstr "Eksportuoti"
 
-#: admin/functions-admin-export.php:54
-#: admin/metaboxes.php:18
+#: admin/functions-admin-export.php:52 admin/metaboxes.php:210
+msgid "Product Add On ID"
+msgstr "Product Add-On ID"
+
+#: admin/functions-admin-export.php:53
+msgid "Product Add On Date"
+msgstr "Product Add-On data"
+
+#: admin/functions-admin-export.php:54 admin/metaboxes.php:18
 msgid "User ID"
-msgstr ""
+msgstr "Naudotojo ID"
 
-#: admin/functions-admin-export.php:55
-#: admin/metaboxes.php:26
+#: admin/functions-admin-export.php:55 admin/metaboxes.php:26
 msgid "User Name"
-msgstr ""
+msgstr "Naudotojo vardas"
 
 #: admin/functions-admin-export.php:56
 msgid "Email"
-msgstr ""
+msgstr "El. paštas"
 
 #: admin/functions-admin-export.php:57
 msgid "Phone Number"
-msgstr ""
+msgstr "Telefono numeris"
 
 #: admin/functions-admin-export.php:58
 msgid "Address"
-msgstr ""
+msgstr "Adresas"
 
-#: admin/functions-admin-export.php:59
-#: admin/metaboxes.php:61
+#: admin/functions-admin-export.php:59 admin/metaboxes.php:61
 msgid "Order ID"
-msgstr ""
+msgstr "Užsakymo ID"
 
-#: admin/functions-admin-export.php:62
-#: admin/metaboxes.php:187
+#: admin/functions-admin-export.php:60
+#: classes/class-pewc-product-extra-post-type.php:1093
+msgid "Product"
+msgstr "Produktas"
+
+#: admin/functions-admin-export.php:61
+msgid "Product Add On Content"
+msgstr "Product Add-On turinys"
+
+#: admin/functions-admin-export.php:62 admin/metaboxes.php:187
 msgid "Notes"
-msgstr ""
+msgstr "Pastabos"
 
-#: admin/functions-admin-export.php:63
-#: admin/metaboxes.php:194
-#: classes/class-pewc-settings-tab.php:164
-#: classes/class-pewc-settings-tab.php:250
-#: classes/class-pewc-settings-tab.php:306
-#: inc/functions-conditionals.php:96
+#: admin/functions-admin-export.php:63 admin/metaboxes.php:194
+#: classes/class-pewc-settings-tab.php:180
+#: classes/class-pewc-settings-tab.php:266
+#: classes/class-pewc-settings-tab.php:322
 msgid "Status"
-msgstr ""
-
-#: admin/functions-admin-import-export-aou.php:200
-#: inc/functions-global-extras.php:29
-#: inc/functions-global-extras.php:30
-msgid "Global Add-Ons"
-msgstr ""
-
-#: inc/functions-global-extras.php:170
-msgid "Save Global Add-Ons"
-msgstr ""
-
-#: classes/class-pewc-product-extra-post-type.php:634
-#: inc/functions-global-extras.php:578
-msgid "On all products"
-msgstr ""
-
-#: classes/class-pewc-product-extra-post-type.php:647
-#: inc/functions-global-extras.php:583
-msgid "By product"
-msgstr ""
-
-#: classes/class-pewc-product-extra-post-type.php:671
-#: inc/functions-global-extras.php:589
-msgid "By category"
-msgstr ""
-
-#: inc/functions-percentages.php:40
-#: inc/functions-single-product.php:1566
-msgid "per character"
-msgstr ""
-
-#: admin/functions-admin-settings.php:630
-#: admin/functions-custom-panel.php:481
-#: classes/class-pewc-settings-tab.php:111
-#: inc/functions-pro-helpers.php:21
-#: templates/admin/field-item.php:85
-msgid "Products"
-msgstr ""
-
-#: admin/functions-custom-panel.php:475
-#: inc/functions-pro-helpers.php:23
-msgid "Checkbox Group"
-msgstr ""
-
-#: admin/customizer.php:863
-#: admin/functions-admin-settings.php:307
-#: templates/frontend/price-subtotals.php:15
-msgid "Product total"
-msgstr "Pagrindinė prekė"
-
-#: admin/customizer.php:874
-#: admin/functions-admin-settings.php:315
-#: templates/frontend/price-subtotals.php:23
-msgid "Options total"
-msgstr "Papildomos prekės"
-
-#: admin/customizer.php:885
-#: admin/functions-admin-settings.php:323
-#: templates/frontend/price-subtotals.php:32
-msgid "Flat rate total"
-msgstr ""
-
-#: admin/customizer.php:896
-#: admin/functions-admin-settings.php:331
-#: templates/frontend/price-subtotals.php:41
-msgid "Grand total"
-msgstr "Iš viso"
-
-#: inc/functions-single-product.php:1646
-#: inc/functions-single-product.php:1663
-msgid "Min"
-msgstr ""
-
-#: inc/functions-single-product.php:1657
-#: inc/functions-single-product.php:1670
-msgid "Max"
-msgstr ""
-
-#: inc/functions-single-product.php:1665
-#: inc/functions-single-product.php:1672
-msgid "characters"
-msgstr ""
-
-#: inc/functions-single-product.php:1679
-msgid "Max file size"
-msgstr ""
-
-#: inc/functions-single-product.php:1683
-msgid "Permitted file types"
-msgstr ""
-
-#: admin/metaboxes.php:34
-msgid "User Email"
-msgstr ""
-
-#: admin/metaboxes.php:42
-msgid "User Phone Number"
-msgstr ""
-
-#: admin/metaboxes.php:53
-#: templates/admin/sections/calculations.php:205
-msgid "Product ID"
-msgstr ""
-
-#: admin/metaboxes.php:69
-msgid "Item Cost"
-msgstr ""
-
-#: admin/metaboxes.php:77
-msgid "Order Total"
-msgstr ""
-
-#: admin/metaboxes.php:85
-msgid "Order Notes"
-msgstr ""
-
-#: admin/metaboxes.php:198
-msgid "Accept"
-msgstr ""
-
-#: admin/metaboxes.php:199
-msgid "Reject"
-msgstr ""
-
-#: admin/metaboxes.php:223
-msgid "User Details"
-msgstr ""
-
-#: admin/metaboxes.php:232
-msgid "Order Details"
-msgstr ""
-
-#: admin/metaboxes.php:250
-msgid "Additional Information"
-msgstr ""
-
-#: product-extras-for-woocommerce.php:61
-msgid "WooCommerce Product Add-Ons Ultimate requires WooCommerce version 3.0.0 minimum. Please upgrade your version of WooCommerce."
-msgstr ""
-
-#: inc/functions-repeatable.php:747
-#: templates/frontend/products/products-column.php:381
-#: templates/frontend/upload.php:59
-msgid "Remove"
-msgstr ""
-
-#: templates/admin/condition.php:256
-#: templates/admin/new-condition.php:46
-#: templates/admin/views/group-condition-new.php:46
-#: templates/admin/views/group-condition.php:211
-msgid "Add Condition"
-msgstr ""
-
-#: templates/admin/sections/general.php:21
-msgid "Field Label"
-msgstr ""
-
-#: templates/admin/sections/general.php:45
-msgid "Field Type"
-msgstr ""
-
-#: templates/admin/sections/pricing.php:20
-#: templates/admin/views/role-based-prices.php:52
-msgid "Field Price"
-msgstr ""
-
-#: templates/admin/views/option-fields-new.php:27
-msgid "Option"
-msgstr ""
-
-#: templates/admin/views/option-fields-new.php:47
-#: templates/admin/views/option-fields.php:77
-msgid "Add Option"
-msgstr ""
-
-#: templates/admin/views/option-fields-new.php:54
-#: templates/admin/views/option-fields.php:91
-msgid "First field is instruction only"
-msgstr ""
-
-#: templates/admin/sections/options.php:30
-msgid "Min Number"
-msgstr ""
-
-#: templates/admin/sections/options.php:47
-msgid "Max Number"
-msgstr ""
-
-#: templates/admin/sections/products.php:19
-msgid "Child Products"
-msgstr ""
-
-#: templates/admin/sections/products.php:96
-msgid "Products Layout"
-msgstr ""
-
-#: templates/admin/sections/products.php:150
-msgid "Products Quantities"
-msgstr ""
-
-#: templates/admin/sections/products.php:159
-msgid "Independent"
-msgstr ""
-
-#: templates/admin/sections/products.php:160
-msgid "Linked"
-msgstr ""
-
-#: templates/admin/sections/products.php:161
-msgid "One only"
-msgstr ""
-
-#: templates/admin/sections/products.php:131
-msgid "Select Field Placeholder"
-msgstr ""
-
-#: templates/admin/sections/display.php:39
-msgid "Number Columns"
-msgstr ""
-
-#: templates/admin/sections/display.php:61
-msgid "Hide Labels?"
-msgstr ""
-
-#: templates/admin/sections/general.php:110
-msgid "Required Field?"
-msgstr ""
-
-#: templates/admin/sections/pricing.php:73
-msgid "Flat Rate?"
-msgstr ""
-
-#: templates/admin/sections/pricing.php:92
-msgid "Percentage?"
-msgstr ""
-
-#: templates/admin/sections/pricing.php:38
-msgid "Price Per Character?"
-msgstr ""
-
-#: templates/admin/sections/text.php:82
-msgid "Only Allow Alphanumeric?"
-msgstr ""
-
-#: templates/admin/sections/text.php:95
-msgid "Only Charge Alphanumeric?"
-msgstr ""
-
-#: templates/admin/sections/number.php:21
-msgid "Min Value"
-msgstr ""
-
-#: templates/admin/sections/number.php:34
-msgid "Max Value"
-msgstr ""
-
-#: templates/admin/sections/number.php:62
-msgid "Multiply Price?"
-msgstr ""
-
-#: templates/admin/sections/date.php:37
-msgid "Min date today?"
-msgstr ""
-
-#: templates/admin/sections/date.php:51
-msgid "Min date"
-msgstr ""
-
-#: templates/admin/sections/date.php:67
-msgid "Max date"
-msgstr ""
-
-#: inc/functions-single-product.php:67
-#: templates/admin/sections/general.php:127
-msgid "Default"
-msgstr ""
-
-#: templates/admin/sections/general.php:165
-msgid "Field Image"
-msgstr ""
-
-#: templates/admin/sections/general.php:183
-msgid "Field Description"
-msgstr ""
-
-#: admin/functions-admin-settings.php:231
-#: templates/admin/field-item.php:98
-#: templates/admin/sections/conditions.php:17
-msgid "Conditions"
-msgstr ""
-
-#: templates/admin/field-meta-actions.php:14
-msgid "Drag"
-msgstr ""
-
-#: templates/admin/field-meta-actions.php:15
-#: templates/admin/group-meta-actions.php:15
-msgid "Collapse / Expand"
-msgstr ""
-
-#: templates/admin/field-meta-actions.php:17
-#: templates/admin/group-meta-actions.php:19
-msgid "Duplicate"
-msgstr ""
-
-#: admin/functions-admin-cleanup-files.php:134
-#: templates/admin/field-meta-actions.php:18
-#: templates/admin/group-meta-actions.php:20
-msgid "Delete"
-msgstr ""
-
-#: templates/admin/global-rule.php:22
-#: templates/admin/new-global-rule.php:21
-msgid "Display this group if:"
-msgstr ""
-
-#: admin/metaboxes.php:145
-#: templates/admin/global-rule.php:28
-msgid "All the selected rules are met"
-msgstr ""
-
-#: admin/metaboxes.php:146
-#: templates/admin/global-rule.php:29
-msgid "Any of the selected rules are met"
-msgstr ""
-
-#: admin/functions-admin-post-types.php:41
-#: classes/class-pewc-product-extra-post-type.php:621
-#: templates/admin/global-rule.php:53
-#: templates/admin/new-global-rule.php:39
-msgid "Rule"
-msgstr ""
-
-#: classes/class-pewc-product-extra-post-type.php:622
-#: templates/admin/global-rule.php:54
-#: templates/admin/new-global-rule.php:40
-msgid "With"
-msgstr ""
-
-#: templates/admin/group-settings.php:31
-#: templates/admin/group-settings.php:39
-msgid "Display groups as"
-msgstr ""
-
-#: admin/functions-admin-settings.php:122
-#: admin/metaboxes.php:125
-#: templates/admin/group-settings.php:42
-#: templates/admin/group.php:70
-msgid "Standard"
-msgstr ""
-
-#: templates/admin/group-settings.php:43
-msgid "Accordion"
-msgstr ""
-
-#: admin/customizer.php:650
-#: admin/customizer.php:785
-#: templates/admin/group-settings.php:46
-msgid "Tabs"
-msgstr ""
-
-#: templates/admin/import-groups.php:17
-msgid "Search for a product&hellip;"
-msgstr ""
-
-#: templates/admin/import-groups.php:37
-msgid "Imported groups will appear after any groups already registered to this product."
-msgstr ""
+msgstr "Būsena"
+
+#: admin/functions-admin-import-export-aou.php:44
+msgid "Import/Export Add-Ons"
+msgstr "Importuoti / eksportuoti priedus"
 
 #: admin/functions-admin-import-export-aou.php:45
 #: admin/functions-admin-import-export-aou.php:293
@@ -781,480 +616,7 @@ msgstr ""
 #: admin/functions-admin-import-export-aou.php:343
 #: templates/admin/import-groups.php:42
 msgid "Import Groups"
-msgstr ""
-
-#: classes/class-pewc-product-extra-post-type.php:217
-msgid "New Field"
-msgstr ""
-
-#: templates/admin/new-global-rule.php:26
-msgid "All the rules are met"
-msgstr ""
-
-#: templates/admin/new-global-rule.php:27
-msgid "Any of the rules are met"
-msgstr ""
-
-#: classes/class-pewc-product-extra-post-type.php:173
-msgid "New Group"
-msgstr ""
-
-#: templates/frontend/upload.php:22
-msgid "You need to be logged in to upload files"
-msgstr ""
-
-#. Description of the plugin
-#: product-extras-for-woocommerce.php
-msgid "Add extra fields to WooCommerce products"
-msgstr ""
-
-#. Plugin URI of the plugin
-#: product-extras-for-woocommerce.php
-msgid "https://pluginrepublic.com/wordpress-plugins/woocommerce-product-add-ons-ultimate/"
-msgstr ""
-
-#. Author of the plugin
-#: product-extras-for-woocommerce.php
-msgid "Plugin Republic"
-msgstr ""
-
-#. Author URI of the plugin
-#: product-extras-for-woocommerce.php
-msgid "https://pluginrepublic.com/"
-msgstr ""
-
-#: admin/customizer.php:32
-msgid "Product Add-Ons Ultimate"
-msgstr ""
-
-#: admin/customizer.php:38
-#: admin/functions-admin-settings.php:259
-msgid "Labels"
-msgstr ""
-
-#: admin/customizer.php:47
-msgid "Styles"
-msgstr ""
-
-#: admin/customizer.php:56
-msgid "Swatches and Products"
-msgstr ""
-
-#: admin/customizer.php:65
-#: admin/functions-admin-settings.php:182
-#: classes/class-pewc-product-extra-post-type.php:167
-msgid "Groups"
-msgstr ""
-
-#: admin/customizer.php:83
-msgid "Preset styles"
-msgstr ""
-
-#: admin/customizer.php:89
-msgid "Inherit from theme"
-msgstr ""
-
-#: admin/customizer.php:94
-msgid "Simple"
-msgstr ""
-
-#: admin/customizer.php:111
-msgid "Accent colour"
-msgstr ""
-
-#: admin/customizer.php:132
-msgid "Fields Wrapper Margin Left"
-msgstr ""
-
-#: admin/customizer.php:152
-msgid "Fields Wrapper Margin Bottom"
-msgstr ""
-
-#: admin/customizer.php:172
-msgid "Fields Wrapper Padding"
-msgstr ""
-
-#: admin/customizer.php:191
-msgid "Fields Wrapper Background Colour"
-msgstr ""
-
-#: admin/customizer.php:212
-msgid "Field Margin Left"
-msgstr ""
-
-#: admin/customizer.php:232
-msgid "Field Margin Bottom"
-msgstr ""
-
-#: admin/customizer.php:252
-msgid "Field Padding (Top and Bottom)"
-msgstr ""
-
-#: admin/customizer.php:272
-msgid "Field Padding (Left and Right)"
-msgstr ""
-
-#: admin/customizer.php:292
-msgid "Field Background Colour"
-msgstr ""
-
-#: admin/customizer.php:312
-msgid "Text Colour"
-msgstr ""
-
-#: admin/customizer.php:331
-msgid "Full Width Text Fields "
-msgstr ""
-
-#: admin/customizer.php:350
-msgid "Full Width Number Fields "
-msgstr ""
-
-#: admin/customizer.php:369
-msgid "Textarea Height"
-msgstr ""
-
-#: admin/customizer.php:393
-msgid "Full Width Select Fields "
-msgstr ""
-
-#: admin/customizer.php:412
-msgid "Display Label on Own Line"
-msgstr ""
-
-#: admin/customizer.php:435
-msgid "Hide the Group Title"
-msgstr ""
-
-#: admin/customizer.php:455
-msgid "Standard Layout"
-msgstr ""
-
-#: admin/customizer.php:475
-msgid "Title Colour"
-msgstr ""
-
-#: admin/customizer.php:494
-msgid "Title Font Size"
-msgstr ""
-
-#: admin/customizer.php:513
-msgid "Description Colour"
-msgstr ""
-
-#: admin/customizer.php:532
-msgid "Description Font Size"
-msgstr ""
-
-#: admin/customizer.php:552
-msgid "Accordion Layout"
-msgstr ""
-
-#: admin/customizer.php:572
-msgid "Title Background"
-msgstr ""
-
-#: admin/customizer.php:591
-msgid "Icon Colour"
-msgstr ""
-
-#: admin/customizer.php:610
-msgid "Icon Size"
-msgstr ""
-
-#: admin/customizer.php:630
-msgid "Steps Layout"
-msgstr ""
-
-#: admin/customizer.php:669
-#: admin/customizer.php:804
-msgid "Active Tab"
-msgstr ""
-
-#: admin/customizer.php:688
-msgid "Next Button"
-msgstr ""
-
-#: admin/customizer.php:707
-msgid "Previous Button"
-msgstr ""
-
-#: admin/customizer.php:726
-msgid "Button Text Color"
-msgstr ""
-
-#: admin/customizer.php:746
-msgid "Tabs Layout"
-msgstr ""
-
-#: admin/customizer.php:766
-msgid "Justify Tabs"
-msgstr ""
-
-#: admin/customizer.php:907
-msgid "Enable summary panel"
-msgstr ""
-
-#: admin/customizer.php:917
-#: admin/functions-admin-settings.php:266
-#: admin/functions-custom-panel.php:514
-msgid "Price label"
-msgstr ""
-
-#: admin/customizer.php:927
-#: admin/functions-admin-settings.php:273
-#: admin/functions-custom-panel.php:522
-msgid "Price label display"
-msgstr ""
-
-#: admin/customizer.php:932
-#: admin/functions-admin-settings.php:281
-#: admin/functions-custom-panel.php:526
-msgid "Before price"
-msgstr ""
-
-#: admin/customizer.php:933
-#: admin/functions-admin-settings.php:282
-#: admin/functions-custom-panel.php:527
-msgid "After price"
-msgstr ""
-
-#: admin/customizer.php:934
-#: admin/functions-admin-settings.php:283
-#: admin/functions-custom-panel.php:528
-msgid "Hide price"
-msgstr ""
-
-#: admin/customizer.php:942
-#: admin/functions-admin-settings.php:288
-msgid "Display totals fields"
-msgstr ""
-
-#: admin/customizer.php:947
-msgid "Show totals"
-msgstr ""
-
-#: admin/customizer.php:948
-msgid "Hide totals"
-msgstr ""
-
-#: admin/customizer.php:949
-msgid "Total only"
-msgstr ""
-
-#: admin/customizer.php:957
-#: admin/functions-admin-settings.php:302
-msgid "Product total label"
-msgstr ""
-
-#: admin/customizer.php:967
-#: admin/functions-admin-settings.php:310
-msgid "Options total label"
-msgstr ""
-
-#: admin/customizer.php:977
-#: admin/functions-admin-settings.php:318
-msgid "Flat rate total label"
-msgstr ""
-
-#: admin/customizer.php:987
-#: admin/functions-admin-settings.php:326
-msgid "Grand total label"
-msgstr ""
-
-#: admin/customizer.php:1028
-msgid "Show Inputs on Products Field"
-msgstr ""
-
-#: admin/customizer.php:1048
-msgid "Products Highlight Colour"
-msgstr ""
-
-#: admin/customizer.php:1068
-msgid "Swatch Border Width"
-msgstr ""
-
-#: admin/customizer.php:1088
-msgid "Swatch Border Padding"
-msgstr ""
-
-#: admin/customizer.php:1107
-msgid "Enable Circular Swatches"
-msgstr ""
-
-#: admin/customizer.php:1127
-msgid "Color Swatch Width"
-msgstr ""
-
-#: admin/customizer.php:1147
-msgid "Color Swatch Height"
-msgstr ""
-
-#: admin/customizer.php:1166
-msgid "Use Grid Layout"
-msgstr ""
-
-#: admin/customizer.php:1185
-msgid "Swatch Image Size"
-msgstr ""
-
-#: admin/customizer.php:1205
-msgid "Product Quantity Layout"
-msgstr ""
-
-#: admin/customizer.php:1210
-msgid "Grid"
-msgstr ""
-
-#: admin/customizer.php:1211
-msgid "Block"
-msgstr ""
-
-#: admin/customizer.php:1227
-msgid "Show Product Names as Tooltips"
-msgstr ""
-
-#: admin/functions-admin-cleanup-files.php:57
-#: admin/functions-admin-cleanup-files.php:58
-msgid "Clean Up Files"
-msgstr ""
-
-#: admin/functions-admin-cleanup-files.php:74
-msgid "Clean Up Uploaded Files"
-msgstr ""
-
-#: admin/functions-admin-cleanup-files.php:77
-msgid "Scanning directories..."
-msgstr ""
-
-#: admin/functions-admin-cleanup-files.php:80
-msgid "No directories found"
-msgstr ""
-
-#: admin/functions-admin-cleanup-files.php:83
-msgid "Getting all files that are older than [before_date]... [percentage]"
-msgstr ""
-
-#: admin/functions-admin-cleanup-files.php:86
-msgid "Scanning has finished for files older than [before_date]. Number of files to be deleted: [files_to_delete]"
-msgstr ""
-
-#: admin/functions-admin-cleanup-files.php:89
-msgid "Deleting files older than [before_date]... [percentage]"
-msgstr ""
-
-#: admin/functions-admin-cleanup-files.php:92
-msgid "Clean up done for files older than [before_date]. Number of files deleted: [total_deleted]"
-msgstr ""
-
-#: admin/functions-admin-cleanup-files.php:93
-msgid "Done"
-msgstr ""
-
-#: admin/functions-admin-cleanup-files.php:101
-msgid "Confirm delete? This cannot be undone."
-msgstr ""
-
-#: admin/functions-admin-cleanup-files.php:102
-#: admin/functions-admin-import-export-aou.php:48
-#: admin/functions-admin-import-export-aou.php:120
-msgid "Cancel"
-msgstr ""
-
-#: admin/functions-admin-cleanup-files.php:105
-msgid "Deleted files:"
-msgstr ""
-
-#: admin/functions-admin-cleanup-files.php:121
-msgid "Delete uploaded files for all Completed orders? This cannot be undone."
-msgstr ""
-
-#: admin/functions-admin-cleanup-files.php:122
-msgid "Delete uploaded files from Completed orders"
-msgstr ""
-
-#: admin/functions-admin-cleanup-files.php:129
-msgid "Delete files uploaded before date:"
-msgstr ""
-
-#: admin/functions-admin-cleanup-files.php:132
-msgid "Scan files to delete"
-msgstr ""
-
-#: admin/functions-admin-cleanup-files.php:156
-msgid "All uploaded files in Completed orders have been deleted."
-msgstr ""
-
-#: admin/functions-admin-cleanup-files.php:162
-msgid "Some files have not been deleted because of an error."
-msgstr ""
-
-#: admin/functions-admin-cleanup-files.php:168
-#: admin/functions-admin-order.php:610
-msgid "Invalid nonce. No files were deleted."
-msgstr ""
-
-#: admin/functions-admin-cleanup-files.php:204
-msgid "No Completed orders with uploaded files were found."
-msgstr ""
-
-#: admin/functions-admin-cleanup-files.php:335
-#: admin/functions-admin-cleanup-files.php:387
-msgid "Invalid nonce. Please refresh page then try again."
-msgstr ""
-
-#: admin/functions-admin-cleanup-files.php:342
-#: admin/functions-admin-cleanup-files.php:394
-msgid "Invalid request. Some parameters are missing."
-msgstr ""
-
-#: admin/functions-admin-cleanup-files.php:350
-#: admin/functions-admin-cleanup-files.php:402
-msgid "Invalid date format: "
-msgstr ""
-
-#: admin/functions-admin-cleanup-files.php:363
-#: admin/functions-admin-cleanup-files.php:415
-msgid "Invalid directory: "
-msgstr ""
-
-#: admin/functions-admin-conditions.php:20
-msgid "True"
-msgstr ""
-
-#: admin/functions-admin-conditions.php:21
-msgid "False"
-msgstr ""
-
-#: admin/functions-admin-export.php:21
-#: admin/functions-admin-export.php:22
-msgid "Export Orders"
-msgstr ""
-
-#: admin/functions-admin-export.php:32
-msgid "Export Product Add-Ons by Order"
-msgstr ""
-
-#: admin/functions-admin-export.php:33
-msgid "Click the Export button to export all your Product Add-Ons from orders to a csv file which you can then open with Excel or other spreadsheet software."
-msgstr ""
-
-#: admin/functions-admin-export.php:52
-#: admin/metaboxes.php:210
-msgid "Product Add On ID"
-msgstr ""
-
-#: admin/functions-admin-export.php:53
-msgid "Product Add On Date"
-msgstr ""
-
-#: admin/functions-admin-export.php:61
-msgid "Product Add On Content"
-msgstr ""
-
-#: admin/functions-admin-import-export-aou.php:44
-msgid "Import/Export Add-Ons"
-msgstr ""
+msgstr "Importuoti grupes"
 
 #: admin/functions-admin-import-export-aou.php:46
 #: admin/functions-admin-import-export-aou.php:100
@@ -1262,2132 +624,3162 @@ msgstr ""
 #: admin/functions-admin-import-export-aou.php:316
 #: admin/functions-admin-import-export-aou.php:383
 msgid "Export Groups"
-msgstr ""
+msgstr "Eksportuoti grupes"
 
 #: admin/functions-admin-import-export-aou.php:47
 msgid "Export Selected Group(s)"
-msgstr ""
+msgstr "Eksportuoti pasirinktą(-as) grupę(-es)"
 
 #: admin/functions-admin-import-export-aou.php:81
 msgid "Import Add-On Groups"
-msgstr ""
+msgstr "Importuoti priedų grupes"
 
 #: admin/functions-admin-import-export-aou.php:83
-msgid "Choose whether to import groups from one or more products or from existing global groups. You'll be able to select which groups to import. All fields within the groups will also be imported."
+msgid ""
+"Choose whether to import groups from one or more products or from existing "
+"global groups. You'll be able to select which groups to import. All fields "
+"within the groups will also be imported."
 msgstr ""
+"Pasirinkite, ar importuoti grupes iš vieno ar kelių produktų, ar iš esamų "
+"globalių grupių. Galėsite pasirinkti, kurias grupes importuoti. Taip pat bus "
+"importuoti visi grupių laukai."
 
 #: admin/functions-admin-import-export-aou.php:87
 #: admin/functions-admin-import-export-aou.php:106
 msgid "Product(s)"
-msgstr ""
-
-#: admin/functions-admin-import-export-aou.php:88
-#: admin/functions-admin-import-export-aou.php:107
-#: admin/functions-admin-post-types.php:168
-#: admin/functions-admin-settings.php:211
-msgid "Global"
-msgstr ""
+msgstr "Produktas(-ai)"
 
 #: admin/functions-admin-import-export-aou.php:101
 msgid "Groups: "
-msgstr ""
+msgstr "Grupės: "
 
 #: admin/functions-admin-import-export-aou.php:103
-msgid "Choose where to export these groups to - either to specific products or to global groups. All fields within your selected groups will also be exported."
+msgid ""
+"Choose where to export these groups to - either to specific products or to "
+"global groups. All fields within your selected groups will also be exported."
 msgstr ""
+"Pasirinkite, kur eksportuoti šias grupes – į konkrečius produktus ar į "
+"globalias grupes. Taip pat bus eksportuoti visi pasirinktų grupių laukai."
 
 #: admin/functions-admin-import-export-aou.php:118
 #: admin/functions-admin-import-export-aou.php:354
 #: admin/functions-admin-import.php:25
 msgid "Import"
-msgstr ""
+msgstr "Importuoti"
 
 #: admin/functions-admin-import-export-aou.php:121
 #: inc/functions-lightbox.php:107
 msgid "Close"
-msgstr ""
+msgstr "Uždaryti"
 
 #: admin/functions-admin-import-export-aou.php:123
 #: admin/functions-admin-import-export-aou.php:399
 msgid "Exporting..."
-msgstr ""
+msgstr "Eksportuojama..."
 
 #: admin/functions-admin-import-export-aou.php:124
 #: admin/functions-admin-import-export-aou.php:352
 msgid "Importing..."
-msgstr ""
+msgstr "Importuojama..."
 
 #: admin/functions-admin-import-export-aou.php:129
 msgid "Go to Global Groups"
-msgstr ""
+msgstr "Eiti į globalias grupes"
 
 #: admin/functions-admin-import-export-aou.php:132
 msgid "Go to Global Add-Ons"
-msgstr ""
+msgstr "Eiti į globalius priedus"
 
 #: admin/functions-admin-import-export-aou.php:135
 #: admin/functions-admin-import-export-aou.php:403
 msgid "Go to"
-msgstr ""
+msgstr "Eiti į"
 
 #: admin/functions-admin-import-export-aou.php:198
-#: classes/class-pewc-product-extra-post-type.php:180
-#: classes/class-pewc-product-extra-post-type.php:181
+#: classes/class-pewc-product-extra-post-type.php:185
+#: classes/class-pewc-product-extra-post-type.php:186
 msgid "Global Groups"
-msgstr ""
+msgstr "Globalios grupės"
+
+#: admin/functions-admin-import-export-aou.php:200
+#: inc/functions-global-extras.php:29 inc/functions-global-extras.php:30
+msgid "Global Add-Ons"
+msgstr "Globalūs priedai"
 
 #: admin/functions-admin-import-export-aou.php:205
 msgid "No groups found in your selection. Please try again."
-msgstr ""
+msgstr "Jūsų pasirinkime grupių nerasta. Bandykite dar kartą."
 
 #: admin/functions-admin-import-export-aou.php:344
 #: admin/functions-admin-import-export-aou.php:384
 msgid "Go back to Global Groups"
-msgstr ""
+msgstr "Grįžti į globalias grupes"
 
 #: admin/functions-admin-import-export-aou.php:388
 msgid "No Global Groups selected for export."
-msgstr ""
+msgstr "Nepasirinkta jokių globalių grupių eksportavimui."
 
 #: admin/functions-admin-import-export-aou.php:393
 msgid "Export to products:"
-msgstr ""
+msgstr "Eksportuoti į produktus:"
 
-#: admin/functions-admin-menu.php:18
-#: admin/functions-admin-menu.php:19
-#: admin/metaboxes.php:259
-#: classes/class-pewc-settings-tab.php:35
+#: admin/functions-admin-menu.php:18 admin/functions-admin-menu.php:19
+#: admin/metaboxes.php:259 classes/class-pewc-settings-tab.php:35
 msgid "Product Add-Ons"
-msgstr ""
+msgstr "Product Add-Ons"
 
 #: admin/functions-admin-menu.php:60
-msgid "Use this page to find help quickly, whether you've just started using the plugin or you've been using it for years."
+msgid ""
+"Use this page to find help quickly, whether you've just started using the "
+"plugin or you've been using it for years."
 msgstr ""
+"Naudokite šį puslapį, kad greitai rastumėte pagalbą, nesvarbu, ar tik "
+"pradėjote naudoti šį įskiepį, ar naudojate jį jau ne vienerius metus."
 
 #: admin/functions-admin-menu.php:64
-msgid "You'll find links and videos here that will answer the most common questions."
+msgid ""
+"You'll find links and videos here that will answer the most common questions."
 msgstr ""
+"Čia rasite nuorodas ir vaizdo įrašus, kurie atsakys į dažniausiai užduodamus "
+"klausimus."
 
 #: admin/functions-admin-menu.php:72
 msgid "Getting Started"
-msgstr ""
+msgstr "Darbo pradžia"
 
 #: admin/functions-admin-menu.php:77
-msgid "Here are some links to documents to help with setting the plugin up for the first time."
+msgid ""
+"Here are some links to documents to help with setting the plugin up for the "
+"first time."
 msgstr ""
+"Štai kelios nuorodos į dokumentus, kurie padės pirmą kartą nustatyti įskiepį."
 
 #: admin/functions-admin-menu.php:84
 msgid "Adding your first Add-Ons field"
-msgstr ""
+msgstr "Pirmojo Add-Ons lauko pridėjimas"
 
 #: admin/functions-admin-menu.php:88
 msgid "A guide to field types"
-msgstr ""
+msgstr "Lauko tipų vadovas"
 
 #: admin/functions-admin-menu.php:92
 msgid "Global add-ons"
-msgstr ""
+msgstr "Globalūs priedai"
 
-#: admin/functions-admin-menu.php:96
-#: admin/functions-admin-menu.php:140
+#: admin/functions-admin-menu.php:96 admin/functions-admin-menu.php:140
 msgid "All the plugin documentation"
-msgstr ""
+msgstr "Visa įskiepio dokumentacija"
 
 #: admin/functions-admin-menu.php:103
 msgid "Find the Product Add-Ons Ultimate settings page here"
-msgstr ""
+msgstr "Product Add-Ons Ultimate nustatymų puslapį rasite čia"
 
 #: admin/functions-admin-menu.php:120
 msgid "Advanced"
-msgstr ""
+msgstr "Išplėstiniai"
 
 #: admin/functions-admin-menu.php:125
-msgid "If you'd like some help with more advanced features, check out the links below."
+msgid ""
+"If you'd like some help with more advanced features, check out the links "
+"below."
 msgstr ""
+"Jei norite pagalbos su sudėtingesnėmis funkcijomis, peržiūrėkite žemiau "
+"esančias nuorodas."
 
 #: admin/functions-admin-menu.php:132
 msgid "Adding conditions to your fields"
-msgstr ""
+msgstr "Sąlygų pridėjimas prie laukų"
 
 #: admin/functions-admin-menu.php:136
 msgid "Uploading files"
-msgstr ""
+msgstr "Failų įkėlimas"
 
 #: admin/functions-admin-menu.php:170
 msgid "Find more videos on YouTube."
-msgstr ""
+msgstr "Daugiau vaizdo įrašų rasite YouTube."
 
 #: admin/functions-admin-menu.php:185
 msgid "Power up Add-Ons Ultimate with these extensions"
-msgstr ""
+msgstr "Sustiprinkite Add-Ons Ultimate su šiais plėtiniais"
 
-#: admin/functions-admin-order.php:148
-#: inc/functions-cart.php:2202
-#: inc/functions-order.php:406
+#: admin/functions-admin-order.php:153 inc/functions-cart.php:2050
+#: inc/functions-order.php:408
 msgid "Original price"
-msgstr ""
+msgstr "Pradinė kaina"
 
-#: admin/functions-admin-order.php:320
-#: admin/functions-admin-order.php:598
+#: admin/functions-admin-order.php:325 admin/functions-admin-order.php:603
 msgid "All files for this order have been deleted."
-msgstr ""
+msgstr "Visi šio užsakymo failai buvo ištrinti."
 
-#: admin/functions-admin-order.php:378
+#: admin/functions-admin-order.php:383
 msgid "Download Files"
-msgstr ""
+msgstr "Atsisiųsti failus"
 
-#: admin/functions-admin-order.php:395
+#: admin/functions-admin-order.php:400
 msgid "Delete uploaded files in this order? This cannot be undone."
 msgstr ""
+"Ištrinti įkeltus failus šiame užsakyme? Šio veiksmo anuliuoti negalėsite."
 
-#: admin/functions-admin-order.php:396
+#: admin/functions-admin-order.php:401
 msgid "Delete Files"
-msgstr ""
+msgstr "Ištrinti failus"
 
-#: admin/functions-admin-order.php:604
+#: admin/functions-admin-order.php:609
 msgid "Some files for this order have not been deleted because of an error."
-msgstr ""
+msgstr "Kai kurie šio užsakymo failai nebuvo ištrinti dėl klaidos."
 
-#: admin/functions-admin-order.php:664
+#: admin/functions-admin-order.php:669
 msgid "Has uploads?"
-msgstr ""
+msgstr "Ar yra įkėlimų?"
 
 #: admin/functions-admin-post-types.php:38
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #: admin/functions-admin-post-types.php:39
 msgid "Front End Title"
-msgstr ""
+msgstr "Priekinės dalies pavadinimas"
 
 #: admin/functions-admin-post-types.php:40
 msgid "Group Name"
-msgstr ""
+msgstr "Grupės pavadinimas"
+
+#: admin/functions-admin-post-types.php:41
+#: classes/class-pewc-product-extra-post-type.php:626
+#: templates/admin/global-rule.php:53 templates/admin/new-global-rule.php:39
+msgid "Rule"
+msgstr "Taisyklė"
+
+#: admin/functions-admin-post-types.php:42 admin/functions-custom-panel.php:480
+#: classes/class-pewc-product-extra-post-type.php:1095
+#: classes/class-pewc-settings-tab.php:115 templates/admin/field-item.php:89
+msgid "Date"
+msgstr "Data"
 
 #: admin/functions-admin-post-types.php:43
 msgid "Priority"
-msgstr ""
+msgstr "Prioritetas"
 
 #: admin/functions-admin-post-types.php:47
 msgid "Parent Product"
-msgstr ""
+msgstr "Pagrindinis produktas"
 
 #: admin/functions-admin-post-types.php:71
 msgid "All"
-msgstr ""
+msgstr "Visi"
 
 #: admin/functions-admin-post-types.php:77
 msgid "Product IDs"
-msgstr ""
+msgstr "Produktų ID"
 
 #: admin/functions-admin-post-types.php:96
 msgid "Categories"
-msgstr ""
+msgstr "Kategorijos"
 
-#: admin/functions-admin-settings.php:21
-#: templates/admin/field-item.php:93
+#: admin/functions-admin-settings.php:21 templates/admin/field-item.php:93
 msgid "Pricing"
-msgstr ""
+msgstr "Kainodara"
+
+#: admin/functions-admin-settings.php:27
+msgid "Hide zero prices"
+msgstr "Slėpti nulines kainas"
+
+#: admin/functions-admin-settings.php:30
+msgid "Hide prices in the cart for extras which don't have a cost."
+msgstr "Slėpti kainas krepšelyje priedams, kurie neturi kainos."
 
 #: admin/functions-admin-settings.php:37
 msgid "Hide field prices"
-msgstr ""
+msgstr "Slėpti lauko kainas"
 
 #: admin/functions-admin-settings.php:40
-msgid "Hide field prices in the cart for extras with only one option value (e.g. Radio, Select). Avoids displaying add-on prices twice."
+msgid ""
+"Hide field prices in the cart for extras with only one option value (e.g. "
+"Radio, Select). Avoids displaying add-on prices twice."
 msgstr ""
+"Slėpti lauko kainas krepšelyje priedams, turintiems tik vieną parinkties "
+"reikšmę (pvz., „Radio“, „Select“). Padeda išvengti dvigubo priedo kainos "
+"rodymo."
+
+#: admin/functions-admin-settings.php:46
+msgid "Ignore tax setting"
+msgstr "Ignoruoti mokesčių nustatymą"
+
+#: admin/functions-admin-settings.php:49
+msgid ""
+"Ignore the WooCommerce \"Display prices in the shop\" setting which "
+"determines whether prices are displaying including or excluding tax."
+msgstr ""
+"Ignoruoti WooCommerce nustatymą „Rodyti kainas parduotuvėje“, kuris nustato, "
+"ar kainos rodomos su mokesčiais, ar be jų."
 
 #: admin/functions-admin-settings.php:55
 msgid "Display tax suffix"
-msgstr ""
+msgstr "Rodyti mokesčio priesagą"
 
 #: admin/functions-admin-settings.php:58
 msgid "Display the tax suffix after all add-on price fields."
-msgstr ""
+msgstr "Rodyti mokesčio priesagą po visų priedo kainos laukų."
 
 #: admin/functions-admin-settings.php:64
 msgid "Price separator"
-msgstr ""
+msgstr "Kainos skirtukas"
 
 #: admin/functions-admin-settings.php:67
 msgid "Define a symbol to separate the add-on label from the add-on price."
-msgstr ""
+msgstr "Nurodykite simbolį, skiriantį priedo etiketę nuo priedo kainos."
 
 #: admin/functions-admin-settings.php:73
 msgid "Update price label"
-msgstr ""
+msgstr "Atnaujinti kainos etiketę"
 
 #: admin/functions-admin-settings.php:76
 msgid "Update the price label on product pages when price changes."
-msgstr ""
+msgstr "Atnaujinti kainos etiketę produkto puslapiuose pasikeitus kainai."
 
 #: admin/functions-admin-settings.php:88
 msgid "Role-based Pricing"
-msgstr ""
+msgstr "Kainodara pagal vaidmenį"
 
 #: admin/functions-admin-settings.php:94
 msgid "Roles"
-msgstr ""
+msgstr "Vaidmenys"
 
 #: admin/functions-admin-settings.php:97
-msgid "Enter the roles that you would like to have different add-on prices for."
+msgid ""
+"Enter the roles that you would like to have different add-on prices for."
 msgstr ""
+"Įveskite vaidmenis, kuriems norėtumėte nustatyti skirtingas priedų kainas."
 
 #: admin/functions-admin-settings.php:108
 msgid "Enhancements"
-msgstr ""
+msgstr "Patobulinimai"
 
 #: admin/functions-admin-settings.php:114
 msgid "Enable tooltips"
-msgstr ""
+msgstr "Įjungti paaiškinimus"
 
 #: admin/functions-admin-settings.php:117
 msgid "Display add-on field descriptions in interactive elements."
-msgstr ""
+msgstr "Rodyti priedo lauko aprašymus interaktyviuose elementuose."
 
 #: admin/functions-admin-settings.php:121
 #: admin/functions-admin-settings.php:180
-#: admin/functions-admin-settings.php:772
+#: admin/functions-admin-settings.php:803
 msgid "Disabled"
-msgstr ""
+msgstr "Išjungta"
+
+#: admin/functions-admin-settings.php:122 admin/metaboxes.php:125
+#: templates/admin/group-settings.php:42 templates/admin/group.php:70
+msgid "Standard"
+msgstr "Standartinis"
 
 #: admin/functions-admin-settings.php:123
 msgid "Enhanced"
-msgstr ""
+msgstr "Patobulintas"
 
 #: admin/functions-admin-settings.php:127
 msgid "Enable Clear All Options button"
-msgstr ""
+msgstr "Įjungti mygtuką „Išvalyti visas parinktis“"
 
 #: admin/functions-admin-settings.php:130
-msgid "Display the Clear All Options button on the product page, which allows customers to clear all Add-On field values. Requires Optimise conditions."
+msgid ""
+"Display the Clear All Options button on the product page, which allows "
+"customers to clear all Add-On field values. Requires a Performance "
+"optimization that includes conditions."
 msgstr ""
+"Rodyti mygtuką „Išvalyti visas parinktis“ produkto puslapyje, kuris leidžia "
+"klientams išvalyti visas Add-On lauko reikšmes. Reikalauja našumo "
+"optimizavimo, apimančio sąlygas."
 
 #: admin/functions-admin-settings.php:136
 msgid "Enable cart editing"
-msgstr ""
+msgstr "Įjungti redagavimą krepšelyje"
 
 #: admin/functions-admin-settings.php:139
-msgid "Allow users to edit the add-ons in products that have already been added to the cart."
+msgid ""
+"Allow users to edit the add-ons in products that have already been added to "
+"the cart."
 msgstr ""
+"Leisti naudotojams redaguoti priedus produktuose, kurie jau įtraukti į "
+"krepšelį."
 
 #: admin/functions-admin-settings.php:145
 msgid "Display group titles in cart"
-msgstr ""
+msgstr "Rodyti grupių pavadinimus krepšelyje"
 
 #: admin/functions-admin-settings.php:148
 msgid "Show the group title in the cart."
-msgstr ""
+msgstr "Rodyti grupės pavadinimą krepšelyje."
 
 #: admin/functions-admin-settings.php:154
 msgid "Exclude empty fields in cart"
-msgstr ""
+msgstr "Neįtraukti tuščių laukų krepšelyje"
 
 #: admin/functions-admin-settings.php:157
 msgid "If a field does not have a value, do not include it in cart meta"
-msgstr ""
+msgstr "Jei laukas neturi reikšmės, neįtraukti jo į krepšelio meta duomenis"
 
 #: admin/functions-admin-settings.php:167
 msgid "Progress bar"
-msgstr ""
+msgstr "Eigos juosta"
 
 #: admin/functions-admin-settings.php:173
 msgid "Display progress bar"
-msgstr ""
+msgstr "Rodyti eigos juostą"
 
 #: admin/functions-admin-settings.php:176
-msgid "Show a graphic progress bar for users to see how many fields they have completed."
+msgid ""
+"Show a graphic progress bar for users to see how many fields they have "
+"completed."
 msgstr ""
+"Rodyti grafinę eigos juostą, kad naudotojai matytų, kiek laukų jie užpildė."
+
+#: admin/functions-admin-settings.php:181 admin/metaboxes.php:156
+#: admin/metaboxes.php:277 classes/class-pewc-product-extra-post-type.php:204
+#: classes/class-pewc-product-extra-post-type.php:216
+#: templates/admin/group.php:184
+msgid "Fields"
+msgstr "Laukai"
 
 #: admin/functions-admin-settings.php:186
 msgid "Required fields only"
-msgstr ""
+msgstr "Tik privalomi laukai"
 
 #: admin/functions-admin-settings.php:189
 msgid "Only check required fields for progress bar update."
-msgstr ""
+msgstr "Tikrinti tik privalomus laukus atnaujinant eigos juostą."
 
 #: admin/functions-admin-settings.php:194
 msgid "Progress bar layout"
-msgstr ""
+msgstr "Eigos juostos išdėstymas"
 
 #: admin/functions-admin-settings.php:197
 msgid "Choose a style for your progress bar."
-msgstr ""
+msgstr "Pasirinkite eigos juostos stilių."
 
 #: admin/functions-admin-settings.php:201
 msgid "Bar"
-msgstr ""
+msgstr "Juosta"
 
-#: admin/functions-admin-settings.php:202
-#: templates/admin/group-settings.php:45
+#: admin/functions-admin-settings.php:202 templates/admin/group-settings.php:45
 msgid "Steps"
-msgstr ""
+msgstr "Žingsniai"
 
 #: admin/functions-admin-settings.php:217
 msgid "Display groups as post type"
-msgstr ""
+msgstr "Rodyti grupes kaip įrašo tipą"
 
 #: admin/functions-admin-settings.php:220
 msgid "Display groups as custom post types, not on single page."
-msgstr ""
+msgstr "Rodyti grupes kaip pasirinktinius įrašo tipus, ne atskirame puslapyje."
 
-#: admin/functions-admin-settings.php:237
-msgid "Reset field values"
-msgstr ""
-
-#: admin/functions-admin-settings.php:240
-msgid "Reset field values to null when fields are hidden through a condition."
-msgstr ""
-
-#: admin/functions-admin-settings.php:246
-msgid "Display hidden fields as disabled"
-msgstr ""
-
-#: admin/functions-admin-settings.php:249
-msgid "If a field is hidden by a condition, select this option to make it visible but disabled"
-msgstr ""
-
-#: admin/functions-admin-settings.php:269
+#: admin/functions-admin-settings.php:241
 msgid "Additional or replacement text for the price"
-msgstr ""
+msgstr "Papildomas arba pakeičiantis kainos tekstas"
 
-#: admin/functions-admin-settings.php:276
+#: admin/functions-admin-settings.php:248
 msgid "Decide where to display the label"
-msgstr ""
+msgstr "Nuspręskite, kur rodyti etiketę"
 
-#: admin/functions-admin-settings.php:291
+#: admin/functions-admin-settings.php:263
 msgid "Decide how to display totals fields on product pages"
-msgstr ""
+msgstr "Nuspręskite, kaip rodyti bendrų sumų laukus produkto puslapiuose"
 
-#: admin/functions-admin-settings.php:305
+#: admin/functions-admin-settings.php:277
 msgid "The label for the Product total"
-msgstr ""
+msgstr "Produkto bendros sumos etiketė"
 
-#: admin/functions-admin-settings.php:313
+#: admin/functions-admin-settings.php:285
 msgid "The label for the Options total"
-msgstr ""
+msgstr "Parinkčių bendros sumos etiketė"
 
-#: admin/functions-admin-settings.php:321
+#: admin/functions-admin-settings.php:293
 msgid "The label for the Flat rate total"
-msgstr ""
+msgstr "Fiksuoto tarifo bendros sumos etiketė"
 
-#: admin/functions-admin-settings.php:329
+#: admin/functions-admin-settings.php:301
 msgid "The label for the Grand total"
-msgstr ""
+msgstr "Galutinės sumos etiketė"
 
-#: admin/functions-admin-settings.php:341
+#: admin/functions-admin-settings.php:354
 msgid "Optimizations"
-msgstr ""
+msgstr "Optimizavimai"
 
-#: admin/functions-admin-settings.php:347
-msgid "Optimize calculations"
-msgstr ""
-
-#: admin/functions-admin-settings.php:350
-msgid "This will enable an alternative method for checking calculations which might improve page performance."
-msgstr ""
-
-#: admin/functions-admin-settings.php:355
-msgid "Optimize conditions"
-msgstr ""
-
-#: admin/functions-admin-settings.php:358
-msgid "This will enable an alternative method for checking conditions which might improve page performance."
-msgstr ""
+#: admin/functions-admin-settings.php:360
+msgid "Performance optimizations"
+msgstr "Našumo optimizavimai"
 
 #: admin/functions-admin-settings.php:363
-msgid "Dequeue scripts"
+msgid ""
+"Choose how calculations and conditions are evaluated. Time-based options "
+"poll at a fixed interval. Event-driven evaluates only when a relevant field "
+"changes, which is more efficient but is a beta feature."
 msgstr ""
+"Pasirinkite, kaip vertinami skaičiavimai ir sąlygos. Laiku pagrįstos "
+"parinktys tikrina pastoviu intervalu. Įvykiais pagrįstas vertinimas vyksta "
+"tik pasikeitus atitinkamam laukui – tai efektyviau, bet yra beta funkcija."
 
-#: admin/functions-admin-settings.php:366
+#: admin/functions-admin-settings.php:367
+msgid "None"
+msgstr "Nėra"
+
+#: admin/functions-admin-settings.php:368
+msgid "Time-based Calculations"
+msgstr "Laiku pagrįsti skaičiavimai"
+
+#: admin/functions-admin-settings.php:369
+msgid "Time-based Conditions"
+msgstr "Laiku pagrįstos sąlygos"
+
+#: admin/functions-admin-settings.php:370
+msgid "Time-based Calculations and Conditions (recommended)"
+msgstr "Laiku pagrįsti skaičiavimai ir sąlygos (rekomenduojama)"
+
+#: admin/functions-admin-settings.php:371
+msgid "Event-driven Calculations and Conditions (beta)"
+msgstr "Įvykiais pagrįsti skaičiavimai ir sąlygos (beta)"
+
+#: admin/functions-admin-settings.php:375
+msgid "Dequeue scripts"
+msgstr "Neįkelti scenarijų"
+
+#: admin/functions-admin-settings.php:378
 msgid "Dequeue scripts and stylesheets on non-product pages."
 msgstr ""
+"Neįkelti scenarijų ir stilių lentelių puslapiuose, kurie nėra produkto "
+"puslapiai."
 
-#: admin/functions-admin-settings.php:410
+#: admin/functions-admin-settings.php:422
 msgid "Date fields"
-msgstr ""
-
-#: admin/functions-admin-settings.php:416
-msgid "Enable days of the week"
-msgstr ""
-
-#: admin/functions-admin-settings.php:419
-msgid "Enable the option to disable specific days of the week."
-msgstr ""
-
-#: admin/functions-admin-settings.php:425
-msgid "Enable offset"
-msgstr ""
+msgstr "Datos laukai"
 
 #: admin/functions-admin-settings.php:428
-msgid "Enable an option to offset the minimum date by a set number of days."
-msgstr ""
+msgid "Enable days of the week"
+msgstr "Įjungti savaitės dienas"
 
-#: admin/functions-admin-settings.php:434
-msgid "Enable blocked dates"
-msgstr ""
+#: admin/functions-admin-settings.php:431
+msgid "Enable the option to disable specific days of the week."
+msgstr "Įjungti galimybę atjungti konkrečias savaitės dienas."
 
 #: admin/functions-admin-settings.php:437
+msgid "Enable offset"
+msgstr "Įjungti poslinkį"
+
+#: admin/functions-admin-settings.php:440
+msgid "Enable an option to offset the minimum date by a set number of days."
+msgstr "Įjungti galimybę pastumti minimalią datą nustatytu dienų skaičiumi."
+
+#: admin/functions-admin-settings.php:446
+msgid "Enable blocked dates"
+msgstr "Įjungti blokuojamas datas"
+
+#: admin/functions-admin-settings.php:449
 msgid "Enable a field to enter dates that are unavailable."
-msgstr ""
+msgstr "Įjungti lauką neprieinamoms datoms įvesti."
 
-#: admin/functions-admin-settings.php:461
-#: classes/class-pewc-settings-tab.php:107
-#: templates/admin/field-item.php:90
+#: admin/functions-admin-settings.php:473
+#: classes/class-pewc-settings-tab.php:116 templates/admin/field-item.php:90
 msgid "Uploads"
-msgstr ""
+msgstr "Įkėlimai"
 
-#: admin/functions-admin-settings.php:484
+#: admin/functions-admin-settings.php:479
+msgid "Users must be logged in to upload"
+msgstr "Norint įkelti failus, naudotojai turi būti prisijungę"
+
+#: admin/functions-admin-settings.php:482
+msgid ""
+"For security reasons, it is strongly recommended that you require users to "
+"be logged in before allowing them to upload files."
+msgstr ""
+"Saugumo sumetimais primygtinai rekomenduojama reikalauti, kad naudotojai "
+"būtų prisijungę prieš leidžiant jiems įkelti failus."
+
+#: admin/functions-admin-settings.php:488
+msgid "Max file size (MB)"
+msgstr "Maksimalus failo dydis (MB)"
+
+#: admin/functions-admin-settings.php:491
+msgid "The max file size for uploads (in MB)"
+msgstr "Maksimalus įkeliamo failo dydis (MB)"
+
+#: admin/functions-admin-settings.php:496
 msgid "Enable PDF uploads"
-msgstr ""
+msgstr "Įjungti PDF įkėlimą"
 
-#: admin/functions-admin-settings.php:487
+#: admin/functions-admin-settings.php:499
 msgid "Allow users to upload PDFs."
-msgstr ""
+msgstr "Leisti naudotojams įkelti PDF failus."
 
-#: admin/functions-admin-settings.php:492
+#: admin/functions-admin-settings.php:504
 msgid "Enable AJAX uploader"
-msgstr ""
+msgstr "Įjungti AJAX įkėliklį"
 
-#: admin/functions-admin-settings.php:495
+#: admin/functions-admin-settings.php:507
 msgid "Add uploaded images via AJAX."
-msgstr ""
-
-#: admin/functions-admin-settings.php:500
-msgid "Retain Upload Graphic"
-msgstr ""
-
-#: admin/functions-admin-settings.php:503
-msgid "Retain the upload graphic even after a file has been uploaded."
-msgstr ""
-
-#: admin/functions-admin-settings.php:509
-msgid "Disable Add to Cart button"
-msgstr ""
+msgstr "Pridėti įkeltus paveikslėlius per AJAX."
 
 #: admin/functions-admin-settings.php:512
-msgid "Disable the add to cart button while files are being uploaded."
-msgstr ""
+msgid "Retain Upload Graphic"
+msgstr "Palikti įkėlimo grafiką"
 
-#: admin/functions-admin-settings.php:518
-msgid "Attach uploads to emails"
-msgstr ""
+#: admin/functions-admin-settings.php:515
+msgid "Retain the upload graphic even after a file has been uploaded."
+msgstr "Palikti įkėlimo grafiką matomą net po to, kai failas jau įkeltas."
 
 #: admin/functions-admin-settings.php:521
-msgid "Add uploaded images to new order emails."
-msgstr ""
+msgid "Disable Add to Cart button"
+msgstr "Išjungti mygtuką „Įdėti į krepšelį“"
 
-#: admin/functions-admin-settings.php:527
-msgid "Rename uploads"
-msgstr ""
+#: admin/functions-admin-settings.php:524
+msgid "Disable the add to cart button while files are being uploaded."
+msgstr "Išjungti mygtuką „Įdėti į krepšelį“ failų įkėlimo metu."
 
 #: admin/functions-admin-settings.php:530
-msgid "Rename uploads using the following tags: {original_file_name}, {order_number}, {date}, {product_id}, {product_sku}, {group_id}, {field_id}"
-msgstr ""
+msgid "Attach uploads to emails"
+msgstr "Pridėti įkėlimus prie el. laiškų"
 
-#: admin/functions-admin-settings.php:535
-msgid "Organise uploads by order"
-msgstr ""
+#: admin/functions-admin-settings.php:533
+msgid "Add uploaded images to new order emails."
+msgstr "Pridėti įkeltus paveikslėlius prie naujo užsakymo el. laiškų."
 
-#: admin/functions-admin-settings.php:538
-msgid "Organise uploads into unique folders for each order"
-msgstr ""
+#: admin/functions-admin-settings.php:539
+msgid "Rename uploads"
+msgstr "Pervadinti įkėlimus"
 
-#: admin/functions-admin-settings.php:544
-msgid "File types"
+#: admin/functions-admin-settings.php:542
+msgid ""
+"Rename uploads using the following tags: {original_file_name}, "
+"{order_number}, {date}, {product_id}, {product_sku}, {group_id}, {field_id}"
 msgstr ""
+"Pervadinti įkėlimus naudojant šiuos žymenis: {original_file_name}, "
+"{order_number}, {date}, {product_id}, {product_sku}, {group_id}, {field_id}"
 
 #: admin/functions-admin-settings.php:547
-msgid "Enter the permitted file types. Please remember that allowing users to upload files to your server carries a security risk, so please use this feature with caution."
-msgstr ""
+msgid "Organise uploads by order"
+msgstr "Tvarkyti įkėlimus pagal užsakymą"
 
-#: admin/functions-admin-settings.php:574
+#: admin/functions-admin-settings.php:550
+msgid "Organise uploads into unique folders for each order"
+msgstr "Tvarkyti įkėlimus atskiruose kiekvieno užsakymo aplankuose"
+
+#: admin/functions-admin-settings.php:556
+msgid "File types"
+msgstr "Failų tipai"
+
+#: admin/functions-admin-settings.php:559
+msgid ""
+"Enter the permitted file types. Please remember that allowing users to "
+"upload files to your server carries a security risk, so please use this "
+"feature with caution."
+msgstr ""
+"Įveskite leidžiamus failų tipus. Atminkite, kad leidimas naudotojams įkelti "
+"failus į jūsų serverį kelia saugumo riziką, todėl naudokite šią funkciją "
+"atsargiai."
+
+#: admin/functions-admin-settings.php:586
 msgid "Swatches settings"
-msgstr ""
+msgstr "Pavyzdžių nustatymai"
 
-#: admin/functions-admin-settings.php:589
-#: templates/admin/sections/swatches.php:42
+#: admin/functions-admin-settings.php:601
+#: templates/admin/sections/display.php:39
 msgid "Replace main image"
-msgstr ""
+msgstr "Pakeisti pagrindinį paveikslėlį"
 
-#: admin/functions-admin-settings.php:592
-msgid "Enable this option to replace the main product image with the selected image swatch."
+#: admin/functions-admin-settings.php:604
+msgid ""
+"Enable this option to replace the main product image with the selected image "
+"swatch."
 msgstr ""
+"Įjunkite šią parinktį, kad pakeistumėte pagrindinį produkto paveikslėlį "
+"pasirinktu pavyzdžio paveikslėliu."
 
-#: admin/functions-admin-settings.php:636
+#: admin/functions-admin-settings.php:625
+msgid "Resize swatch layer"
+msgstr "Keisti pavyzdžio sluoksnio dydį"
+
+#: admin/functions-admin-settings.php:628
+msgid ""
+"Enable this option to resize swatch images to match the base image before "
+"generating the layered image."
+msgstr ""
+"Įjunkite šią parinktį, kad prieš generuojant sluoksniuotą paveikslėlį "
+"pavyzdžių paveikslėlių dydis būtų pakeistas pagal bazinį paveikslėlį."
+
+#: admin/functions-admin-settings.php:652 admin/functions-custom-panel.php:484
+#: classes/class-pewc-settings-tab.php:120 inc/functions-pro-helpers.php:21
+#: templates/admin/field-item.php:85
+msgid "Products"
+msgstr "Produktai"
+
+#: admin/functions-admin-settings.php:658
 msgid "Include variations as child products"
-msgstr ""
+msgstr "Įtraukti variantus kaip antrinius produktus"
 
-#: admin/functions-admin-settings.php:639
+#: admin/functions-admin-settings.php:661
 msgid "Enable this to include variations as child products."
-msgstr ""
+msgstr "Įjunkite tai, jei norite variantus įtraukti kaip antrinius produktus."
 
-#: admin/functions-admin-settings.php:645
+#: admin/functions-admin-settings.php:667
 msgid "Exclude SKUs from child variants"
-msgstr ""
+msgstr "Neįtraukti SKU iš antrinių variantų"
 
-#: admin/functions-admin-settings.php:648
+#: admin/functions-admin-settings.php:670
 msgid "Enable this to exclude SKUs from child variant names."
 msgstr ""
+"Įjunkite tai, jei norite neįtraukti SKU į antrinių variantų pavadinimus."
 
-#: admin/functions-admin-settings.php:654
+#: admin/functions-admin-settings.php:676
 msgid "Hide child products in the cart"
-msgstr ""
+msgstr "Slėpti antrinius produktus krepšelyje"
 
-#: admin/functions-admin-settings.php:657
+#: admin/functions-admin-settings.php:679
 msgid "Enable this to hide child products in the cart."
-msgstr ""
+msgstr "Įjunkite tai, kad paslėptumėte antrinius produktus krepšelyje."
 
-#: admin/functions-admin-settings.php:663
+#: admin/functions-admin-settings.php:685
 msgid "Display child products as metadata"
-msgstr ""
+msgstr "Rodyti antrinius produktus kaip meta duomenis"
 
-#: admin/functions-admin-settings.php:666
-msgid "Enable this to display child products as metadata for parent products in the cart."
+#: admin/functions-admin-settings.php:688
+msgid ""
+"Enable this to display child products as metadata for parent products in the "
+"cart."
 msgstr ""
+"Įjunkite tai, kad krepšelyje rodytumėte antrinius produktus kaip pagrindinio "
+"produkto meta duomenis."
 
-#: admin/functions-admin-settings.php:672
+#: admin/functions-admin-settings.php:694
 msgid "Hide parent products in the cart"
-msgstr ""
+msgstr "Slėpti pagrindinius produktus krepšelyje"
 
-#: admin/functions-admin-settings.php:675
+#: admin/functions-admin-settings.php:697
 msgid "Enable this to hide parent products in the cart."
-msgstr ""
+msgstr "Įjunkite tai, kad paslėptumėte pagrindinius produktus krepšelyje."
 
-#: admin/functions-admin-settings.php:681
+#: admin/functions-admin-settings.php:703
 msgid "Hide child products in the order"
-msgstr ""
+msgstr "Slėpti antrinius produktus užsakyme"
 
-#: admin/functions-admin-settings.php:684
+#: admin/functions-admin-settings.php:706
 msgid "Enable this to hide child products in the order."
-msgstr ""
+msgstr "Įjunkite tai, kad paslėptumėte antrinius produktus užsakyme."
 
-#: admin/functions-admin-settings.php:690
+#: admin/functions-admin-settings.php:712
 msgid "Hide parent products in the order"
-msgstr ""
+msgstr "Slėpti pagrindinius produktus užsakyme"
 
-#: admin/functions-admin-settings.php:693
+#: admin/functions-admin-settings.php:715
 msgid "Enable this to hide parent products in the order."
-msgstr ""
+msgstr "Įjunkite tai, kad paslėptumėte pagrindinius produktus užsakyme."
 
-#: admin/functions-admin-settings.php:699
+#: admin/functions-admin-settings.php:721
 msgid "Indent child products"
-msgstr ""
+msgstr "Įtraukti antrinių produktų įtrauką"
 
-#: admin/functions-admin-settings.php:702
+#: admin/functions-admin-settings.php:724
 msgid "Add padding to child products in the cart and order."
-msgstr ""
-
-#: admin/functions-admin-settings.php:708
-msgid "Multiply independent quantities"
-msgstr ""
-
-#: admin/functions-admin-settings.php:711
-msgid "Enable this to multiply child product independent quantities when parent product quantities are adjusted."
-msgstr ""
-
-#: admin/functions-admin-settings.php:717
-msgid "Remove parent if child product out of stock"
-msgstr ""
-
-#: admin/functions-admin-settings.php:720
-msgid "Enable this to automatically remove parent products if a child product is out of stock."
-msgstr ""
-
-#: admin/functions-admin-settings.php:727
-msgid "Show stock status"
-msgstr ""
+msgstr "Pridėti vidinį tarpą antriniams produktams krepšelyje ir užsakyme."
 
 #: admin/functions-admin-settings.php:730
+msgid "Multiply independent quantities"
+msgstr "Dauginti nepriklausomus kiekius"
+
+#: admin/functions-admin-settings.php:733
+msgid ""
+"Enable this to multiply child product independent quantities when parent "
+"product quantities are adjusted."
+msgstr ""
+"Įjunkite tai, kad padaugintumėte antrinio produkto nepriklausomus kiekius, "
+"kai koreguojami pagrindinio produkto kiekiai."
+
+#: admin/functions-admin-settings.php:739
+msgid "Remove parent if child product out of stock"
+msgstr "Pašalinti pagrindinį produktą, jei antrinio produkto nėra sandėlyje"
+
+#: admin/functions-admin-settings.php:742
+msgid ""
+"Enable this to automatically remove parent products if a child product is "
+"out of stock."
+msgstr ""
+"Įjunkite tai, kad pagrindiniai produktai būtų automatiškai pašalinti, jei "
+"antrinio produkto nėra sandėlyje."
+
+#: admin/functions-admin-settings.php:748
+msgid "Do not remove parent"
+msgstr "Nepašalinti pagrindinio produkto"
+
+#: admin/functions-admin-settings.php:751
+msgid ""
+"Enable this to keep the parent product in the cart when a required child "
+"product is removed."
+msgstr ""
+"Įjunkite tai, kad pagrindinis produktas liktų krepšelyje, kai pašalinamas "
+"privalomas antrinis produktas."
+
+#: admin/functions-admin-settings.php:758
+msgid "Show stock status"
+msgstr "Rodyti sandėlio būseną"
+
+#: admin/functions-admin-settings.php:761
 msgid "Enable this to add a child product's stock status to their name"
 msgstr ""
-
-#: admin/functions-admin-settings.php:737
-msgid "Redirect hidden products"
-msgstr ""
-
-#: admin/functions-admin-settings.php:740
-msgid "Enable this to prevent users purchasing child products direct from their product page."
-msgstr ""
-
-#: admin/functions-admin-settings.php:746
-msgid "Enable plus minus buttons"
-msgstr ""
-
-#: admin/functions-admin-settings.php:749
-msgid "Enable this to show + and - buttons alongside quantity fields in Products fields."
-msgstr ""
-
-#: admin/functions-admin-settings.php:759
-msgid "QuickView"
-msgstr ""
-
-#: admin/functions-admin-settings.php:765
-msgid "Enable QuickView for child products"
-msgstr ""
+"Įjunkite tai, kad prie antrinio produkto pavadinimo būtų pridėta jo sandėlio "
+"būsena"
 
 #: admin/functions-admin-settings.php:768
-msgid "Select this to show extra information for child products when clicking the child product title."
-msgstr ""
+msgid "Redirect hidden products"
+msgstr "Nukreipti paslėptus produktus"
 
-#: admin/functions-admin-settings.php:773
-#: templates/admin/group-settings.php:44
+#: admin/functions-admin-settings.php:771
+msgid ""
+"Enable this to prevent users purchasing child products direct from their "
+"product page."
+msgstr ""
+"Įjunkite tai, kad neleistumėte naudotojams pirkti antrinių produktų "
+"tiesiogiai iš jų produkto puslapio."
+
+#: admin/functions-admin-settings.php:777
+msgid "Enable plus minus buttons"
+msgstr "Įjungti pliuso minuso mygtukus"
+
+#: admin/functions-admin-settings.php:780
+msgid ""
+"Enable this to show + and - buttons alongside quantity fields in Products "
+"fields."
+msgstr ""
+"Įjunkite tai, kad šalia kiekio laukų produktų laukuose būtų rodomi + ir - "
+"mygtukai."
+
+#: admin/functions-admin-settings.php:790
+msgid "QuickView"
+msgstr "Greitas peržiūros langas"
+
+#: admin/functions-admin-settings.php:796
+msgid "Enable QuickView for child products"
+msgstr "Įjungti greitą peržiūros langą antriniams produktams"
+
+#: admin/functions-admin-settings.php:799
+msgid ""
+"Select this to show extra information for child products when clicking the "
+"child product title."
+msgstr ""
+"Pasirinkite tai, kad spustelėjus antrinio produkto pavadinimą būtų rodoma "
+"papildoma informacija apie jį."
+
+#: admin/functions-admin-settings.php:804 templates/admin/group-settings.php:44
 msgid "Lightbox"
-msgstr ""
+msgstr "Lightbox"
 
-#: admin/functions-admin-settings.php:774
+#: admin/functions-admin-settings.php:805
 msgid "New tab"
-msgstr ""
-
-#: admin/functions-admin-settings.php:778
-msgid "Optional link text"
-msgstr ""
-
-#: admin/functions-admin-settings.php:781
-msgid "Enter text here to display as a separate link below the product name. Leave this empty to link directly from the product name."
-msgstr ""
-
-#: admin/functions-admin-settings.php:803
-#: classes/class-pewc-settings-tab.php:112
-#: templates/admin/field-item.php:83
-msgid "Calculations"
-msgstr ""
+msgstr "Nauja kortelė"
 
 #: admin/functions-admin-settings.php:809
-msgid "Variable 1"
-msgstr ""
+msgid "Optional link text"
+msgstr "Pasirenkamas nuorodos tekstas"
 
 #: admin/functions-admin-settings.php:812
-msgid "Enter a value for variable_1 that will be used in calculations"
+msgid ""
+"Enter text here to display as a separate link below the product name. Leave "
+"this empty to link directly from the product name."
 msgstr ""
-
-#: admin/functions-admin-settings.php:820
-msgid "Variable 2"
-msgstr ""
-
-#: admin/functions-admin-settings.php:823
-msgid "Enter a value for variable_2 that will be used in calculations"
-msgstr ""
-
-#: admin/functions-admin-settings.php:831
-msgid "Variable 3"
-msgstr ""
+"Įveskite čia tekstą, kuris bus rodomas kaip atskira nuoroda po produkto "
+"pavadinimu. Palikite tuščią, kad nuoroda būtų rodoma tiesiogiai iš produkto "
+"pavadinimo."
 
 #: admin/functions-admin-settings.php:834
+#: classes/class-pewc-settings-tab.php:121 templates/admin/field-item.php:83
+msgid "Calculations"
+msgstr "Skaičiavimai"
+
+#: admin/functions-admin-settings.php:840
+msgid "Variable 1"
+msgstr "1 kintamasis"
+
+#: admin/functions-admin-settings.php:843
+msgid "Enter a value for variable_1 that will be used in calculations"
+msgstr "Įveskite variable_1 reikšmę, kuri bus naudojama skaičiavimuose"
+
+#: admin/functions-admin-settings.php:851
+msgid "Variable 2"
+msgstr "2 kintamasis"
+
+#: admin/functions-admin-settings.php:854
+msgid "Enter a value for variable_2 that will be used in calculations"
+msgstr "Įveskite variable_2 reikšmę, kuri bus naudojama skaičiavimuose"
+
+#: admin/functions-admin-settings.php:862
+msgid "Variable 3"
+msgstr "3 kintamasis"
+
+#: admin/functions-admin-settings.php:865
 msgid "Enter a value for variable_3 that will be used in calculations"
-msgstr ""
+msgstr "Įveskite variable_3 reikšmę, kuri bus naudojama skaičiavimuose"
 
-#: admin/functions-admin-settings.php:842
+#: admin/functions-admin-settings.php:873
 msgid "Zero value for missing fields"
-msgstr ""
+msgstr "Nulinė reikšmė trūkstamiems laukams"
 
-#: admin/functions-admin-settings.php:845
-msgid "Return a 0 as the value for any fields that are not included on the page."
-msgstr ""
+#: admin/functions-admin-settings.php:876
+msgid ""
+"Return a 0 as the value for any fields that are not included on the page."
+msgstr "Grąžinti 0 kaip reikšmę visiems laukams, kurių nėra puslapyje."
 
-#: admin/functions-admin-settings.php:902
-#: classes/class-pewc-settings-tab.php:113
-msgid "Integrations"
-msgstr ""
+#: admin/functions-admin-settings.php:884
+msgid "Recalculate Calculation fields in cart (beta)"
+msgstr "Perskaičiuoti Calculation laukus krepšelyje (beta)"
 
-#: admin/functions-admin-settings.php:908
-msgid "Enable compatibility with Polylang"
+#: admin/functions-admin-settings.php:887
+msgid ""
+"Recalculate Calculation fields in cart when a product quantity is updated. "
+"Only works if a formula has the {quantity} tag."
 msgstr ""
+"Perskaičiuoti Calculation laukus krepšelyje, kai atnaujinamas produkto "
+"kiekis. Veikia tik jei formulėje yra žymė {quantity}."
 
-#: admin/functions-admin-settings.php:911
-msgid "Enable this only if you have Polylang installed. Also, if you have added the Polylang compatibility snippets before, please remove them before enabling this setting."
-msgstr ""
+#: admin/functions-admin-settings.php:893
+msgid "Validate Calculation fields (beta)"
+msgstr "Tikrinti Calculation laukus (beta)"
+
+#: admin/functions-admin-settings.php:896
+msgid "Validate Calculation fields before a product is added to the cart."
+msgstr "Patikrinti Calculation laukus prieš pridedant produktą į krepšelį."
 
 #: admin/functions-admin-settings.php:926
-msgid "Dynamic Pricing and Discount Rules"
-msgstr ""
+msgid "License key"
+msgstr "Licencijos raktas"
 
-#: admin/functions-admin-settings.php:932
-msgid "Disable Dynamic Pricing and Discount Rules price labels"
+#: admin/functions-admin-settings.php:929
+msgid ""
+"Enter your license key here. You should have received a key with the email "
+"containing the plugin download link."
 msgstr ""
-
-#: admin/functions-admin-settings.php:935
-msgid "Prevent Dynamic Pricing and Discount Rules from updating the price labels on the product page."
-msgstr ""
-
-#: admin/functions-admin-settings.php:941
-msgid "Disable add-on prices on pricing table"
-msgstr ""
-
-#: admin/functions-admin-settings.php:944
-msgid "Prevent Add-Ons Ultimate from adding add-on field prices to the pricing table on the product page."
-msgstr ""
-
-#: admin/functions-admin-settings.php:950
-msgid "Apply User Role Pricing to add-on field prices"
-msgstr ""
+"Įveskite savo licencijos raktą čia. Jį turėjote gauti el. laiške su įskiepio "
+"atsisiuntimo nuoroda."
 
 #: admin/functions-admin-settings.php:953
-msgid "Adjust add-on field prices if User Role Pricing is enabled in Dynamic Pricing and Discount Rules."
-msgstr ""
+#: classes/class-pewc-settings-tab.php:123
+msgid "Integrations"
+msgstr "Integracijos"
 
 #: admin/functions-admin-settings.php:959
-msgid "Disable discounts for add-ons"
-msgstr ""
+msgid "Enable compatibility with Polylang"
+msgstr "Įjungti suderinamumą su Polylang"
 
 #: admin/functions-admin-settings.php:962
-msgid "Select this if you don't wish to apply dynamic discounts to add-on field prices."
+msgid ""
+"Enable this only if you have Polylang installed. Also, if you have added the "
+"Polylang compatibility snippets before, please remove them before enabling "
+"this setting."
 msgstr ""
+"Įjunkite tai tik jei turite įdiegę Polylang. Taip pat, jei anksčiau buvote "
+"pridėję Polylang suderinamumo kodo fragmentus, prieš įjungdami šį nustatymą "
+"juos pašalinkite."
 
 #: admin/functions-admin-settings.php:977
-msgid "Custom user fields"
-msgstr ""
+msgid "Dynamic Pricing and Discount Rules"
+msgstr "Dynamic Pricing and Discount Rules"
 
 #: admin/functions-admin-settings.php:983
-msgid "Enable user fields"
-msgstr ""
+msgid "Disable Dynamic Pricing and Discount Rules price labels"
+msgstr "Išjungti Dynamic Pricing and Discount Rules kainos etiketes"
 
 #: admin/functions-admin-settings.php:986
-msgid "Select this to use custom user data in your add-on fields."
+msgid ""
+"Prevent Dynamic Pricing and Discount Rules from updating the price labels on "
+"the product page."
 msgstr ""
+"Neleisti Dynamic Pricing and Discount Rules atnaujinti kainos etikečių "
+"produkto puslapyje."
+
+#: admin/functions-admin-settings.php:992
+msgid "Disable add-on prices on pricing table"
+msgstr "Išjungti priedų kainas kainų lentelėje"
+
+#: admin/functions-admin-settings.php:995
+msgid ""
+"Prevent Add-Ons Ultimate from adding add-on field prices to the pricing "
+"table on the product page."
+msgstr ""
+"Neleisti Add-Ons Ultimate pridėti priedo lauko kainų prie kainų lentelės "
+"produkto puslapyje."
+
+#: admin/functions-admin-settings.php:1001
+msgid "Apply User Role Pricing to add-on field prices"
+msgstr "Taikyti User Role Pricing priedo lauko kainoms"
+
+#: admin/functions-admin-settings.php:1004
+msgid ""
+"Adjust add-on field prices if User Role Pricing is enabled in Dynamic "
+"Pricing and Discount Rules."
+msgstr ""
+"Koreguoti priedo lauko kainas, jei Dynamic Pricing and Discount Rules "
+"įjungta User Role Pricing."
 
 #: admin/functions-admin-settings.php:1010
-#: classes/class-pewc-settings-tab.php:114
-msgid "Validation"
-msgstr ""
+msgid "Disable discounts for add-ons"
+msgstr "Išjungti nuolaidas priedams"
 
-#: admin/functions-admin-settings.php:1016
-msgid "Optimised validation"
+#: admin/functions-admin-settings.php:1013
+msgid ""
+"Select this if you don't wish to apply dynamic discounts to add-on field "
+"prices."
 msgstr ""
-
-#: admin/functions-admin-settings.php:1019
-msgid "This will enable validation of add-on fields using Javascript."
-msgstr ""
-
-#: admin/functions-admin-settings.php:1025
-msgid "Hide totals until validated"
-msgstr ""
+"Pasirinkite tai, jei nenorite taikyti dinaminių nuolaidų priedo lauko "
+"kainoms."
 
 #: admin/functions-admin-settings.php:1028
-msgid "This will hide the subtotals fields until all required fields have been completed. Requires Optimised validation."
-msgstr ""
+msgid "Custom user fields"
+msgstr "Pasirinktiniai naudotojo laukai"
 
 #: admin/functions-admin-settings.php:1034
-msgid "Disable groups"
-msgstr ""
+msgid "Enable user fields"
+msgstr "Įjungti naudotojo laukus"
 
 #: admin/functions-admin-settings.php:1037
-msgid "Disable the next groups until all required fields in the current group are completed. Only works if groups are displayed as Accordion, Steps, or Tabs. Requires Optimised validation."
+msgid "Select this to use custom user data in your add-on fields."
 msgstr ""
+"Pasirinkite tai, kad savo priedų laukuose naudotumėte pasirinktinius "
+"naudotojo duomenis."
 
-#: admin/functions-admin-settings.php:1043
+#: admin/functions-admin-settings.php:1061
+#: classes/class-pewc-settings-tab.php:124
+msgid "Validation"
+msgstr "Tikrinimas"
+
+#: admin/functions-admin-settings.php:1067
+msgid "Optimised validation"
+msgstr "Optimizuotas tikrinimas"
+
+#: admin/functions-admin-settings.php:1070
+msgid "This will enable validation of add-on fields using Javascript."
+msgstr "Tai įjungs priedo laukų tikrinimą naudojant „Javascript“."
+
+#: admin/functions-admin-settings.php:1076
+msgid "Hide totals until validated"
+msgstr "Slėpti bendras sumas, kol nepatikrinta"
+
+#: admin/functions-admin-settings.php:1079
+msgid ""
+"This will hide the subtotals fields until all required fields have been "
+"completed. Requires Optimised validation."
+msgstr ""
+"Tai paslėps tarpinių sumų laukus, kol bus užpildyti visi privalomi laukai. "
+"Reikalauja optimizuoto tikrinimo."
+
+#: admin/functions-admin-settings.php:1085
+msgid "Disable groups"
+msgstr "Išjungti grupes"
+
+#: admin/functions-admin-settings.php:1088
+msgid ""
+"Disable the next groups until all required fields in the current group are "
+"completed. Only works if groups are displayed as Accordion, Steps, or Tabs. "
+"Requires Optimised validation."
+msgstr ""
+"Išjungti tolesnes grupes, kol bus užpildyti visi privalomi dabartinės grupės "
+"laukai. Veikia tik tuomet, jei grupės rodomos kaip akordeonas, žingsniai "
+"arba skirtukai. Reikalauja optimizuoto tikrinimo."
+
+#: admin/functions-admin-settings.php:1094
 msgid "Disable scroll on Steps layout"
-msgstr ""
+msgstr "Išjungti slinkimą žingsnių išdėstyme"
 
-#: admin/functions-admin-settings.php:1046
-msgid "Disable the scrolling animation on Steps layout when validation fails. Requires Optimised validation."
+#: admin/functions-admin-settings.php:1097
+msgid ""
+"Disable the scrolling animation on Steps layout when validation fails. "
+"Requires Optimised validation."
 msgstr ""
+"Išjungti slinkimo animaciją žingsnių išdėstyme, kai tikrinimas nepavyksta. "
+"Reikalauja optimizuoto tikrinimo."
+
+#: admin/functions-admin-settings.php:1121
+#: classes/class-pewc-settings-tab.php:122 templates/admin/field-item.php:98
+#: templates/admin/sections/conditions.php:21
+msgid "Conditions"
+msgstr "Sąlygos"
+
+#: admin/functions-admin-settings.php:1127
+msgid "Reset field values"
+msgstr "Atstatyti lauko reikšmes"
+
+#: admin/functions-admin-settings.php:1130
+msgid "Reset field values to null when fields are hidden through a condition."
+msgstr "Atstatyti lauko reikšmes į null, kai laukai paslepiami dėl sąlygos."
+
+#: admin/functions-admin-settings.php:1136
+msgid "Display hidden fields as disabled"
+msgstr "Rodyti paslėptus laukus kaip neaktyvius"
+
+#: admin/functions-admin-settings.php:1139
+msgid ""
+"If a field is hidden by a condition, select this option to make it visible "
+"but disabled."
+msgstr ""
+"Jei laukas paslepiamas dėl sąlygos, pasirinkite šią parinktį, kad jis liktų "
+"matomas, bet būtų neaktyvus."
+
+#: admin/functions-admin-settings.php:1144
+msgid "Use AJAX conditions"
+msgstr "Naudoti AJAX sąlygas"
+
+#: admin/functions-admin-settings.php:1147
+msgid ""
+"Use AJAX when loading and managing conditions in the backend. Improves "
+"performance. Also allows you to use fields in other groups when 'Display "
+"groups as post type' is enabled"
+msgstr ""
+"Naudoti AJAX įkeliant ir tvarkant sąlygas administravimo srityje. Pagerina "
+"našumą. Taip pat leidžia naudoti kitų grupių laukus, kai įjungta parinktis "
+"„Rodyti grupes kaip įrašo tipą“"
 
 #: admin/functions-custom-panel.php:105
 msgid "Select all groups"
-msgstr ""
+msgstr "Pasirinkti visas grupes"
 
-#: admin/functions-custom-panel.php:472
+#: admin/functions-custom-panel.php:106
+#: classes/class-pewc-product-extra-post-type.php:174
+msgid "Add Group"
+msgstr "Pridėti grupę"
+
+#: admin/functions-custom-panel.php:181
+#: classes/class-pewc-product-extra-post-type.php:173
+#: templates/admin/new-group.php:22
+msgid "Group"
+msgstr "Grupė"
+
+#: admin/functions-custom-panel.php:475
 msgid "Calculation"
-msgstr ""
+msgstr "Skaičiavimas"
 
-#: admin/functions-custom-panel.php:473
-#: templates/admin/field-item.php:84
+#: admin/functions-custom-panel.php:476 templates/admin/field-item.php:84
 msgid "Calendar List"
-msgstr ""
+msgstr "Kalendoriaus sąrašas"
 
-#: admin/functions-custom-panel.php:476
+#: admin/functions-custom-panel.php:477
+msgid "Checkbox"
+msgstr "Žymimasis langelis"
+
+#: admin/functions-custom-panel.php:478 inc/functions-pro-helpers.php:23
+msgid "Checkbox Group"
+msgstr "Žymimųjų langelių grupė"
+
+#: admin/functions-custom-panel.php:479
 msgid "Color Picker"
-msgstr ""
+msgstr "Spalvos parinkiklis"
 
-#: admin/functions-custom-panel.php:478
-#: templates/admin/field-item.php:92
+#: admin/functions-custom-panel.php:481 templates/admin/field-item.php:92
 #: templates/admin/sections/information.php:20
 msgid "Information"
-msgstr ""
+msgstr "Informacija"
 
 #: admin/functions-custom-panel.php:482
-#: inc/functions-pro-helpers.php:22
+msgid "Name Your Price"
+msgstr "Nurodykite savo kainą"
+
+#: admin/functions-custom-panel.php:483 templates/admin/field-item.php:88
+msgid "Number"
+msgstr "Skaičius"
+
+#: admin/functions-custom-panel.php:485 inc/functions-pro-helpers.php:22
 #: templates/admin/sections/products.php:61
 msgid "Product Categories"
-msgstr ""
-
-#: admin/functions-custom-panel.php:485
-msgid "Select Box"
-msgstr ""
+msgstr "Produkto kategorijos"
 
 #: admin/functions-custom-panel.php:486
+msgid "Radio Group"
+msgstr "Perjungiklių grupė"
+
+#: admin/functions-custom-panel.php:487
+#: templates/admin/sections/products.php:110
+msgid "Select"
+msgstr "Pasirinkimas"
+
+#: admin/functions-custom-panel.php:488
+msgid "Select Box"
+msgstr "Pasirinkimo laukelis"
+
+#: admin/functions-custom-panel.php:489
 msgid "Swatch"
-msgstr ""
+msgstr "Pavyzdys"
 
-#: admin/functions-custom-panel.php:516
+#: admin/functions-custom-panel.php:490 templates/admin/field-item.php:87
+msgid "Text"
+msgstr "Tekstas"
+
+#: admin/functions-custom-panel.php:491
+msgid "Textarea"
+msgstr "Teksto sritis"
+
+#: admin/functions-custom-panel.php:492
+msgid "Upload"
+msgstr "Įkėlimas"
+
+#: admin/functions-custom-panel.php:503
+msgid "All required fields"
+msgstr "Visi privalomi laukai"
+
+#: admin/functions-custom-panel.php:504
+msgid "All required fields if first field complete"
+msgstr "Visi privalomi laukai, jei pirmas laukas užpildytas"
+
+#: admin/functions-custom-panel.php:519
 msgid "Additional or replacement text for the price."
-msgstr ""
+msgstr "Papildomas arba pakeičiantis kainos tekstas."
 
-#: admin/functions-custom-panel.php:524
+#: admin/functions-custom-panel.php:527
 msgid "Decide where to display the label."
-msgstr ""
+msgstr "Nuspręskite, kur rodyti etiketę."
 
-#: admin/functions-custom-panel.php:536
+#: admin/functions-custom-panel.php:539
 msgid "Minimum price"
-msgstr ""
+msgstr "Minimali kaina"
 
-#: admin/functions-custom-panel.php:538
+#: admin/functions-custom-panel.php:541
 msgid "Set an optional minimum price for this product."
-msgstr ""
+msgstr "Nustatykite neprivalomą minimalią šio produkto kainą."
 
-#: admin/functions-custom-panel.php:545
+#: admin/functions-custom-panel.php:548
 msgid "Force minimum price"
-msgstr ""
+msgstr "Priverstinė minimali kaina"
 
-#: admin/functions-custom-panel.php:547
+#: admin/functions-custom-panel.php:550
 msgid "Enable this to automatically increase the product price to the minimum."
 msgstr ""
+"Įjunkite tai, kad produkto kaina būtų automatiškai padidinta iki minimalios."
 
 #: admin/functions-duplication.php:27
 msgid "Not a product"
-msgstr ""
+msgstr "Ne produktas"
 
 #: admin/functions-duplication.php:32
 msgid "No assigned products"
-msgstr ""
+msgstr "Nepriskirta jokių produktų"
 
 #: admin/functions-duplication.php:89
-msgid "If you are duplicating products with add-on fields, please check the following article"
-msgstr ""
+msgid ""
+"If you are duplicating products with add-on fields, please check the "
+"following article"
+msgstr "Jei dubliuojate produktus su priedų laukais, peržiūrėkite šį straipsnį"
 
 #: admin/functions-duplication.php:91
 msgid "Important Information when Duplicating Product Add-Ons"
-msgstr ""
+msgstr "Svarbi informacija dubliuojant Product Add-Ons"
+
+#: admin/functions-fields.php:509 admin/functions-fields.php:528
+#: classes/class-pewc-product-extra-post-type.php:217
+#: classes/class-pewc-product-extra-post-type.php:515
+#: templates/admin/field-item.php:69
+msgid "Field"
+msgstr "Laukas"
+
+#: admin/metaboxes.php:34
+msgid "User Email"
+msgstr "Naudotojo el. paštas"
+
+#: admin/metaboxes.php:42
+msgid "User Phone Number"
+msgstr "Naudotojo telefono numeris"
+
+#: admin/metaboxes.php:53 templates/admin/sections/calculations.php:205
+msgid "Product ID"
+msgstr "Produkto ID"
+
+#: admin/metaboxes.php:69
+msgid "Item Cost"
+msgstr "Prekės kaina"
+
+#: admin/metaboxes.php:77
+msgid "Order Total"
+msgstr "Užsakymo suma"
+
+#: admin/metaboxes.php:85
+msgid "Order Notes"
+msgstr "Užsakymo pastabos"
 
 #: admin/metaboxes.php:98
 msgid "Product Add On Fields"
-msgstr ""
+msgstr "Product Add-On laukai"
 
 #: admin/metaboxes.php:108
 msgid "Group Title (Front End)"
-msgstr ""
+msgstr "Grupės pavadinimas (priekinė dalis)"
 
-#: admin/metaboxes.php:122
-#: templates/admin/group.php:63
+#: admin/metaboxes.php:115 templates/admin/group.php:47
+msgid "Group Description"
+msgstr "Grupės aprašymas"
+
+#: admin/metaboxes.php:122 templates/admin/group.php:63
 msgid "Group Layout"
-msgstr ""
+msgstr "Grupės išdėstymas"
 
-#: admin/metaboxes.php:126
-#: templates/admin/group.php:71
+#: admin/metaboxes.php:126 templates/admin/group.php:71
 msgid "Table"
-msgstr ""
+msgstr "Lentelė"
 
-#: admin/metaboxes.php:127
-#: templates/admin/group.php:72
+#: admin/metaboxes.php:127 templates/admin/group.php:72
 msgid "Two Columns"
-msgstr ""
+msgstr "Dvi skiltys"
 
-#: admin/metaboxes.php:128
-#: templates/admin/group.php:73
+#: admin/metaboxes.php:128 templates/admin/group.php:73
 msgid "Three Columns"
-msgstr ""
+msgstr "Trys skiltys"
 
-#: admin/metaboxes.php:135
-#: templates/admin/group.php:81
+#: admin/metaboxes.php:135 templates/admin/group.php:81
 msgid "Group Class"
-msgstr ""
+msgstr "Grupės klasė"
 
 #: admin/metaboxes.php:142
 msgid "Group Rules"
-msgstr ""
+msgstr "Grupės taisyklės"
+
+#: admin/metaboxes.php:145 templates/admin/global-rule.php:28
+msgid "All the selected rules are met"
+msgstr "Tenkinamos visos pasirinktos taisyklės"
+
+#: admin/metaboxes.php:146 templates/admin/global-rule.php:29
+msgid "Any of the selected rules are met"
+msgstr "Tenkinama bent viena pasirinkta taisyklė"
 
 #: admin/metaboxes.php:167
 msgid "Assigned to"
-msgstr ""
+msgstr "Priskirta"
 
 #: admin/metaboxes.php:175
 msgid "Duplicate to"
-msgstr ""
+msgstr "Dubliuoti į"
 
 #: admin/metaboxes.php:179
-msgid "This group and its fields will be duplicated to the products you enter here"
-msgstr ""
+msgid ""
+"This group and its fields will be duplicated to the products you enter here"
+msgstr "Ši grupė ir jos laukai bus dubliuoti į čia įvestus produktus"
+
+#: admin/metaboxes.php:198
+msgid "Accept"
+msgstr "Priimti"
+
+#: admin/metaboxes.php:199
+msgid "Reject"
+msgstr "Atmesti"
+
+#: admin/metaboxes.php:223
+msgid "User Details"
+msgstr "Naudotojo duomenys"
+
+#: admin/metaboxes.php:232
+msgid "Order Details"
+msgstr "Užsakymo duomenys"
 
 #: admin/metaboxes.php:241
 msgid "Product Add On Groups"
-msgstr ""
+msgstr "Produkto priedų grupės"
 
-#: admin/metaboxes.php:268
-#: templates/admin/group.php:23
+#: admin/metaboxes.php:250
+msgid "Additional Information"
+msgstr "Papildoma informacija"
+
+#: admin/metaboxes.php:268 templates/admin/group.php:23
 msgid "Group Settings"
-msgstr ""
+msgstr "Grupės nustatymai"
 
 #: admin/metaboxes.php:287
 msgid "Parent Products"
+msgstr "Tėviniai produktai"
+
+#: classes/class-pewc-product-extra-post-type.php:79
+msgid "Delete this group?"
+msgstr "Ištrinti šią grupę?"
+
+#: classes/class-pewc-product-extra-post-type.php:80
+msgid ""
+"Delete this field? Deleting this field will also delete any conditions "
+"associated with it."
 msgstr ""
+"Ištrinti šį lauką? Ištrynus šį lauką, bus ištrintos ir su juo susijusios "
+"sąlygos."
+
+#: classes/class-pewc-product-extra-post-type.php:81
+msgid "Delete this option?"
+msgstr "Ištrinti šią parinktį?"
+
+#: classes/class-pewc-product-extra-post-type.php:82
+#: templates/admin/ajax-condition.php:205 templates/admin/condition.php:251
+#: templates/admin/new-conditional-row.php:82
+#: templates/admin/views/group-condition.php:199
+msgid "Checked"
+msgstr "Pažymėta"
+
+#: classes/class-pewc-product-extra-post-type.php:83
+msgid ""
+"This field is used in a condition. Changing its field type may affect the "
+"condition. Continue?"
+msgstr ""
+"Šis laukas naudojamas sąlygoje. Pakeitus jo lauko tipą, sąlyga gali būti "
+"paveikta. Tęsti?"
+
+#: classes/class-pewc-product-extra-post-type.php:84
+msgid "copy"
+msgstr "kopija"
+
+#: classes/class-pewc-product-extra-post-type.php:115
+msgid "Add "
+msgstr "Pridėti "
+
+#: classes/class-pewc-product-extra-post-type.php:116
+msgid "Add New "
+msgstr "Pridėti naują "
+
+#: classes/class-pewc-product-extra-post-type.php:117
+#: classes/class-pewc-product-extra-post-type.php:176
+#: classes/class-pewc-product-extra-post-type.php:220
+msgid "Edit"
+msgstr "Redaguoti"
+
+#: classes/class-pewc-product-extra-post-type.php:118
+msgid "Edit "
+msgstr "Redaguoti "
+
+#: classes/class-pewc-product-extra-post-type.php:119
+msgid "New "
+msgstr "Naujas "
+
+#: classes/class-pewc-product-extra-post-type.php:120
+#: classes/class-pewc-product-extra-post-type.php:121
+msgid "View "
+msgstr "Peržiūrėti "
 
 #: classes/class-pewc-product-extra-post-type.php:122
+msgid "Search "
+msgstr "Ieškoti "
+
+#: classes/class-pewc-product-extra-post-type.php:123
+#: classes/class-pewc-product-extra-post-type.php:182
+#: classes/class-pewc-product-extra-post-type.php:226
+msgid "None found"
+msgstr "Nerasta"
+
+#: classes/class-pewc-product-extra-post-type.php:124
+#: classes/class-pewc-product-extra-post-type.php:183
+#: classes/class-pewc-product-extra-post-type.php:227
+msgid "None found in trash"
+msgstr "Šiukšlinėje nerasta"
+
+#: classes/class-pewc-product-extra-post-type.php:125
+msgid "Parent "
+msgstr "Tėvinis "
+
+#: classes/class-pewc-product-extra-post-type.php:127
 msgid "Add-Ons by Order"
-msgstr ""
+msgstr "Priedai pagal užsakymą"
 
-#: classes/class-pewc-product-extra-post-type.php:146
-msgid "This page shows a list of Product Add-Ons associated with orders, so don't be alarmed if you don't see anything here: it just means that you haven't had any orders placed yet that contain Product Add On fields."
+#: classes/class-pewc-product-extra-post-type.php:151
+msgid ""
+"This page shows a list of Product Add-Ons associated with orders, so don't "
+"be alarmed if you don't see anything here: it just means that you haven't "
+"had any orders placed yet that contain Product Add On fields."
 msgstr ""
+"Šiame puslapyje rodomas su užsakymais susijusių produkto priedų sąrašas, "
+"todėl nesijaudinkite, jei čia nieko nematote: tai tiesiog reiškia, kad dar "
+"negavote nė vieno užsakymo su produkto priedų laukais."
 
-#: classes/class-pewc-product-extra-post-type.php:147
-msgid "If you are looking to add or edit a Product Add On, you can do so from the Product Data panel when you add or edit a product or from the Global Add-Ons page."
+#: classes/class-pewc-product-extra-post-type.php:152
+msgid ""
+"If you are looking to add or edit a Product Add On, you can do so from the "
+"Product Data panel when you add or edit a product or from the Global Add-Ons "
+"page."
 msgstr ""
+"Jei norite pridėti ar redaguoti produkto priedą, tai galite padaryti "
+"produkto duomenų skydelyje pridedant ar redaguojant produktą, arba "
+"visuotinių priedų puslapyje."
 
-#: classes/class-pewc-product-extra-post-type.php:170
-msgid "Add New Group"
-msgstr ""
-
-#: classes/class-pewc-product-extra-post-type.php:172
-msgid "Edit Group"
-msgstr ""
-
-#: classes/class-pewc-product-extra-post-type.php:174
 #: classes/class-pewc-product-extra-post-type.php:175
-msgid "View Group"
-msgstr ""
+msgid "Add New Group"
+msgstr "Pridėti naują grupę"
 
-#: classes/class-pewc-product-extra-post-type.php:176
-msgid "Search Groups"
-msgstr ""
+#: classes/class-pewc-product-extra-post-type.php:177
+msgid "Edit Group"
+msgstr "Redaguoti grupę"
+
+#: classes/class-pewc-product-extra-post-type.php:178
+msgid "New Group"
+msgstr "Nauja grupė"
 
 #: classes/class-pewc-product-extra-post-type.php:179
+#: classes/class-pewc-product-extra-post-type.php:180
+msgid "View Group"
+msgstr "Peržiūrėti grupę"
+
+#: classes/class-pewc-product-extra-post-type.php:181
+msgid "Search Groups"
+msgstr "Ieškoti grupių"
+
+#: classes/class-pewc-product-extra-post-type.php:184
 msgid "Parent Groups"
-msgstr ""
-
-#: classes/class-pewc-product-extra-post-type.php:214
-msgid "Add New Field"
-msgstr ""
-
-#: classes/class-pewc-product-extra-post-type.php:216
-msgid "Edit Field"
-msgstr ""
+msgstr "Tėvinės grupės"
 
 #: classes/class-pewc-product-extra-post-type.php:218
-msgid "View Fields"
-msgstr ""
+#: classes/class-pewc-product-extra-post-type.php:779
+#: templates/admin/group.php:198
+msgid "Add Field"
+msgstr "Pridėti lauką"
 
 #: classes/class-pewc-product-extra-post-type.php:219
-msgid "View Field"
-msgstr ""
+msgid "Add New Field"
+msgstr "Pridėti naują lauką"
 
-#: classes/class-pewc-product-extra-post-type.php:220
-msgid "Search Fields"
-msgstr ""
+#: classes/class-pewc-product-extra-post-type.php:221
+msgid "Edit Field"
+msgstr "Redaguoti lauką"
+
+#: classes/class-pewc-product-extra-post-type.php:222
+msgid "New Field"
+msgstr "Naujas laukas"
 
 #: classes/class-pewc-product-extra-post-type.php:223
-msgid "Parent Fields"
-msgstr ""
+msgid "View Fields"
+msgstr "Peržiūrėti laukus"
 
 #: classes/class-pewc-product-extra-post-type.php:224
-#: classes/class-pewc-product-extra-post-type.php:225
-msgid "All Fields"
-msgstr ""
+msgid "View Field"
+msgstr "Peržiūrėti lauką"
 
-#: classes/class-pewc-product-extra-post-type.php:610
+#: classes/class-pewc-product-extra-post-type.php:225
+msgid "Search Fields"
+msgstr "Ieškoti laukų"
+
+#: classes/class-pewc-product-extra-post-type.php:228
+msgid "Parent Fields"
+msgstr "Tėviniai laukai"
+
+#: classes/class-pewc-product-extra-post-type.php:229
+#: classes/class-pewc-product-extra-post-type.php:230
+msgid "All Fields"
+msgstr "Visi laukai"
+
+#: classes/class-pewc-product-extra-post-type.php:516
+msgid "Value"
+msgstr "Reikšmė"
+
+#: classes/class-pewc-product-extra-post-type.php:517
+#: templates/admin/sections/calendar-list.php:44
+#: templates/admin/views/option-fields-new.php:30
+#: templates/admin/views/option-fields.php:41
+msgid "Price"
+msgstr "Kaina"
+
+#: classes/class-pewc-product-extra-post-type.php:615
 #: templates/admin/global-rule.php:39
 msgid "Applies To"
-msgstr ""
+msgstr "Taikoma"
 
-#: classes/class-pewc-product-extra-post-type.php:855
+#: classes/class-pewc-product-extra-post-type.php:627
+#: templates/admin/global-rule.php:54 templates/admin/new-global-rule.php:40
+msgid "With"
+msgstr "Su"
+
+#: classes/class-pewc-product-extra-post-type.php:639
+#: inc/functions-global-extras.php:626
+msgid "On all products"
+msgstr "Visiems produktams"
+
+#: classes/class-pewc-product-extra-post-type.php:652
+#: inc/functions-global-extras.php:631
+msgid "By product"
+msgstr "Pagal produktą"
+
+#: classes/class-pewc-product-extra-post-type.php:676
+#: inc/functions-global-extras.php:637
+msgid "By category"
+msgstr "Pagal kategoriją"
+
+#: classes/class-pewc-product-extra-post-type.php:863
 msgid "Choose products"
-msgstr ""
+msgstr "Pasirinkti produktus"
 
-#: classes/class-pewc-product-extra-post-type.php:860
+#: classes/class-pewc-product-extra-post-type.php:868
 msgid "Duplicate Global Group"
-msgstr ""
+msgstr "Dubliuoti visuotinę grupę"
 
-#: classes/class-pewc-settings-tab.php:105
-#: templates/admin/field-item.php:81
+#: classes/class-pewc-product-extra-post-type.php:1092
+msgid "Order"
+msgstr "Užsakymas"
+
+#: classes/class-pewc-product-extra-post-type.php:1094
+msgid "User"
+msgstr "Naudotojas"
+
+#: classes/class-pewc-settings-tab.php:114 templates/admin/field-item.php:81
 msgid "General"
-msgstr ""
+msgstr "Bendra"
 
-#: classes/class-pewc-settings-tab.php:110
-#: templates/admin/field-item.php:86
+#: classes/class-pewc-settings-tab.php:119 templates/admin/field-item.php:86
 #: templates/admin/sections/products.php:111
 msgid "Swatches"
-msgstr ""
+msgstr "Pavyzdžiai (Swatches)"
 
-#: classes/class-pewc-settings-tab.php:117
+#: classes/class-pewc-settings-tab.php:127
 msgid "License"
-msgstr ""
+msgstr "Licencija"
 
+#: classes/class-pewc-settings-tab.php:148
 #: classes/class-pewc-settings-tab.php:156
-#: classes/class-pewc-settings-tab.php:242
-#: classes/class-pewc-settings-tab.php:298
+msgid "Upgrade"
+msgstr "Atnaujinti"
+
+#: classes/class-pewc-settings-tab.php:167
+#: classes/class-pewc-settings-tab.php:258
+#: classes/class-pewc-settings-tab.php:314
 msgid "Licence key"
-msgstr ""
+msgstr "Licencijos raktas"
 
-#: classes/class-pewc-settings-tab.php:174
-msgid "Please enter your licence key"
-msgstr ""
+#: classes/class-pewc-settings-tab.php:171
+msgid "(Preset)"
+msgstr "(Numatytasis)"
 
-#: classes/class-pewc-settings-tab.php:178
-msgid "It hasn't been possible to validate your license key."
-msgstr ""
-
-#: classes/class-pewc-settings-tab.php:182
-msgid "<strong>Most importantly, this isn't a problem - all the plugin's features and functionality are fully available so you can start using the plugin straightaway without needing to activate the license.</strong>"
-msgstr ""
-
-#: classes/class-pewc-settings-tab.php:186
-msgid "There are a number of possible reasons for the license not validating:"
-msgstr ""
+#: classes/class-pewc-settings-tab.php:172
+msgid "The license key is defined by a constant and cannot be changed here."
+msgstr "Licencijos raktas nustatytas konstanta ir čia negali būti keičiamas."
 
 #: classes/class-pewc-settings-tab.php:190
-msgid "It's possible there is an issue connecting between this site and the Plugin Republic site"
-msgstr ""
+msgid "Please enter your licence key"
+msgstr "Įveskite savo licencijos raktą"
 
-#: classes/class-pewc-settings-tab.php:191
-msgid "If you have bought a bundle, please make sure you enter the license key that is specific to each plugin - not the main bundle license key"
-msgstr ""
+#: classes/class-pewc-settings-tab.php:194
+msgid "It hasn't been possible to validate your license key."
+msgstr "Nepavyko patvirtinti jūsų licencijos rakto."
 
-#: classes/class-pewc-settings-tab.php:192
-msgid "If you are running a security or firewall plugin, like Wordfence or Sucuri, please try temporarily disabling it and retesting the license "
+#: classes/class-pewc-settings-tab.php:198
+msgid ""
+"<strong>Most importantly, this isn't a problem - all the plugin's features "
+"and functionality are fully available so you can start using the plugin "
+"straightaway without needing to activate the license.</strong>"
 msgstr ""
+"<strong>Svarbiausia – tai nėra problema: visos papildinio funkcijos ir "
+"galimybės yra visiškai prieinamos, todėl galite pradėti naudotis papildiniu "
+"iš karto, neaktyvinę licencijos.</strong>"
 
-#: classes/class-pewc-settings-tab.php:196
-msgid "There are some more things to try on the following link:"
-msgstr ""
+#: classes/class-pewc-settings-tab.php:202
+msgid "There are a number of possible reasons for the license not validating:"
+msgstr "Yra keletas galimų priežasčių, kodėl licencija nepatvirtinama:"
 
-#: classes/class-pewc-settings-tab.php:200
-msgid "How to solve any problems with activating your license."
+#: classes/class-pewc-settings-tab.php:206
+msgid ""
+"It's possible there is an issue connecting between this site and the Plugin "
+"Republic site"
 msgstr ""
+"Galbūt kilo problema jungiantis tarp šios svetainės ir Plugin Republic "
+"svetainės"
+
+#: classes/class-pewc-settings-tab.php:207
+msgid ""
+"If you have bought a bundle, please make sure you enter the license key that "
+"is specific to each plugin - not the main bundle license key"
+msgstr ""
+"Jei įsigijote paketą, įsitikinkite, kad įvedate būtent to papildinio "
+"licencijos raktą, o ne bendrą paketo licencijos raktą"
 
 #: classes/class-pewc-settings-tab.php:208
-#: classes/class-pewc-settings-tab.php:220
-#: classes/class-pewc-settings-tab.php:264
-#: classes/class-pewc-settings-tab.php:276
-#: classes/class-pewc-settings-tab.php:320
-#: classes/class-pewc-settings-tab.php:332
+msgid ""
+"If you are running a security or firewall plugin, like Wordfence or Sucuri, "
+"please try temporarily disabling it and retesting the license "
+msgstr ""
+"Jei naudojate saugos ar užkardos papildinį, pvz., Wordfence ar Sucuri, "
+"pabandykite jį laikinai išjungti ir dar kartą patikrinti licenciją"
+
+#: classes/class-pewc-settings-tab.php:212
+msgid "There are some more things to try on the following link:"
+msgstr "Yra ir daugiau būdų, kuriuos galite išbandyti pagal šią nuorodą:"
+
+#: classes/class-pewc-settings-tab.php:216
+msgid "How to solve any problems with activating your license."
+msgstr "Kaip išspręsti licencijos aktyvinimo problemas."
+
+#: classes/class-pewc-settings-tab.php:224
+#: classes/class-pewc-settings-tab.php:236
+#: classes/class-pewc-settings-tab.php:280
+#: classes/class-pewc-settings-tab.php:292
+#: classes/class-pewc-settings-tab.php:336
+#: classes/class-pewc-settings-tab.php:348
 #: templates/admin/sections/calculations.php:128
 msgid "Action"
-msgstr ""
+msgstr "Veiksmas"
 
-#: classes/class-pewc-settings-tab.php:213
-#: classes/class-pewc-settings-tab.php:269
-#: classes/class-pewc-settings-tab.php:325
+#: classes/class-pewc-settings-tab.php:229
+#: classes/class-pewc-settings-tab.php:285
+#: classes/class-pewc-settings-tab.php:341
 msgid "Deactivate this licence"
-msgstr ""
+msgstr "Deaktyvinti šią licenciją"
 
-#: classes/class-pewc-settings-tab.php:225
-#: classes/class-pewc-settings-tab.php:281
-#: classes/class-pewc-settings-tab.php:337
+#: classes/class-pewc-settings-tab.php:241
+#: classes/class-pewc-settings-tab.php:297
+#: classes/class-pewc-settings-tab.php:353
 msgid "Activate this licence"
-msgstr ""
+msgstr "Aktyvinti šią licenciją"
 
 #: classes/rest-api/class-pewc-rest-api-fields-controller.php:64
 #: classes/rest-api/class-pewc-rest-api-fields-controller.php:93
 #: classes/rest-api/class-pewc-rest-api-groups-controller.php:80
 #: classes/rest-api/class-pewc-rest-api-groups-controller.php:377
 msgid "Unique identifier for the add-on group."
-msgstr ""
+msgstr "Unikalus priedų grupės identifikatorius."
 
 #: classes/rest-api/class-pewc-rest-api-fields-controller.php:75
 #: classes/rest-api/class-pewc-rest-api-fields-controller.php:440
 msgid "Type of product add-on field"
-msgstr ""
+msgstr "Produkto priedo lauko tipas"
 
 #: classes/rest-api/class-pewc-rest-api-fields-controller.php:98
 #: classes/rest-api/class-pewc-rest-api-fields-controller.php:434
 msgid "Unique identifier for the add-on field."
-msgstr ""
+msgstr "Unikalus priedo lauko identifikatorius."
 
 #: classes/rest-api/class-pewc-rest-api-fields-controller.php:149
 #: classes/rest-api/class-pewc-rest-api-groups-controller.php:131
 msgid "Invalid Add-on Group ID."
-msgstr ""
+msgstr "Neteisingas priedų grupės ID."
 
 #: classes/rest-api/class-pewc-rest-api-fields-controller.php:158
 msgid "Invalid Add-on Field ID."
-msgstr ""
+msgstr "Neteisingas priedo lauko ID."
 
 #: classes/rest-api/class-pewc-rest-api-fields-controller.php:197
 msgid "Field not created"
-msgstr ""
+msgstr "Laukas nesukurtas"
 
 #: classes/rest-api/class-pewc-rest-api-fields-controller.php:208
 #: classes/rest-api/class-pewc-rest-api-fields-controller.php:245
-msgid "Missing field data. Please pass at least one value to use this endpoint."
+msgid ""
+"Missing field data. Please pass at least one value to use this endpoint."
 msgstr ""
+"Trūksta lauko duomenų. Norėdami naudoti šį galutinį tašką, pateikite bent "
+"vieną reikšmę."
 
 #: classes/rest-api/class-pewc-rest-api-fields-controller.php:279
 msgid "Cannot delete add-on field."
-msgstr ""
+msgstr "Nepavyksta ištrinti priedo lauko."
 
 #: classes/rest-api/class-pewc-rest-api-fields-controller.php:428
 msgid "Unique identifier for the add-on field's group."
-msgstr ""
+msgstr "Unikalus priedo lauko grupės identifikatorius."
 
 #: classes/rest-api/class-pewc-rest-api-fields-controller.php:446
 msgid "Field label"
-msgstr ""
+msgstr "Lauko etiketė"
 
 #: classes/rest-api/class-pewc-rest-api-groups-controller.php:193
 msgid "Group not created"
-msgstr ""
+msgstr "Grupė nesukurta"
 
 #: classes/rest-api/class-pewc-rest-api-groups-controller.php:225
-msgid "Missing group data. Please pass at least one value to use this endpoint."
+msgid ""
+"Missing group data. Please pass at least one value to use this endpoint."
 msgstr ""
+"Trūksta grupės duomenų. Norėdami naudoti šį galutinį tašką, pateikite bent "
+"vieną reikšmę."
 
 #: classes/rest-api/class-pewc-rest-api-groups-controller.php:286
 msgid "Cannot delete add-on group."
-msgstr ""
+msgstr "Nepavyksta ištrinti priedų grupės."
 
 #: classes/rest-api/class-pewc-rest-api-groups-controller.php:383
 msgid "List of add-on groups under a product."
-msgstr ""
+msgstr "Produkto priedų grupių sąrašas."
 
 #: classes/rest-api/class-pewc-rest-api-groups-controller.php:389
 msgid "Add-on group title."
-msgstr ""
+msgstr "Priedų grupės pavadinimas."
 
 #: classes/rest-api/class-pewc-rest-api-groups-controller.php:394
 msgid "Add-on group description."
-msgstr ""
+msgstr "Priedų grupės aprašymas."
 
 #: classes/rest-api/class-pewc-rest-api-groups-controller.php:399
 msgid "Add-on group layout."
-msgstr ""
+msgstr "Priedų grupės išdėstymas."
 
-#: inc/functions-archive.php:124
+#: inc/functions-archive.php:149
 msgid "Select options"
-msgstr ""
+msgstr "Pasirinkti parinktis"
 
-#: inc/functions-blocks.php:94
-#: inc/functions-cart.php:2257
+#: inc/functions-blocks.php:95 inc/functions-cart.php:2105
 msgid "Edit options"
-msgstr ""
+msgstr "Redaguoti parinktis"
 
-#: inc/functions-blocks.php:122
-#: inc/functions-cart.php:2103
-#: inc/functions-conditionals.php:95
-#: inc/functions-order.php:198
-#: inc/functions-order.php:323
-#: inc/functions-order.php:745
-#: inc/functions-products.php:741
-#: templates/frontend/products/products-checkboxes-list.php:111
-#: templates/frontend/products/products-checkboxes.php:134
-#: templates/frontend/products/products-column.php:353
-#: templates/frontend/products/products-components.php:149
-#: templates/frontend/products/products-grid.php:163
-#: templates/frontend/products/products-swatches.php:311
-msgid "Quantity"
-msgstr ""
+#: inc/functions-blocks.php:186
+msgid "Cart item key"
+msgstr "Krepšelio elemento raktas"
 
-#: inc/functions-cart.php:287
-msgid "This product has not been added to your cart. The product has a minimum price of"
-msgstr ""
+#: inc/functions-blocks.php:190
+msgid "Edit options link HTML"
+msgstr "Parinkčių redagavimo nuorodos HTML"
 
-#: inc/functions-cart.php:307
+#: inc/functions-blocks.php:194
+msgid "Indent markup for child products"
+msgstr "Vaikinių produktų įtraukos žymėjimas"
+
+#: inc/functions-blocks.php:198
+msgid "Uploaded file data keyed by field"
+msgstr "Įkeltų failų duomenys pagal lauką"
+
+#: inc/functions-blocks.php:202
+msgid "Arrow right icon URL"
+msgstr "Rodyklės į dešinę piktogramos URL"
+
+#: inc/functions-blocks.php:206
+msgid "Combined parent and child product price"
+msgstr "Sujungta tėvinio ir vaikinio produkto kaina"
+
+#: inc/functions-calculations.php:265
+msgid "The quantity for &ldquo;%s&rdquo; is not valid and has been corrected."
+msgstr "„%s“ kiekis buvo neteisingas ir buvo pataisytas."
+
+#: inc/functions-calculations.php:1191
+msgid ""
+"There was an error in calculating the price for %s. Please contact the "
+"website administrator about the issue."
+msgstr ""
+"Skaičiuojant „%s“ kainą įvyko klaida. Dėl šios problemos kreipkitės į "
+"svetainės administratorių."
+
+#: inc/functions-calculations.php:1219
+msgid ""
+" The following plugin(s) need to be updated to the latest version in order "
+"to use this feature: "
+msgstr ""
+" Kad galėtumėte naudotis šia funkcija, reikia atnaujinti šį(-iuos) "
+"papildinį(-ius) iki naujausios versijos: "
+
+#: inc/functions-cart.php:288
+msgid ""
+"This product has not been added to your cart. The product has a minimum "
+"price of"
+msgstr ""
+"Šis produktas nebuvo pridėtas į jūsų krepšelį. Produkto minimali kaina yra"
+
+#: inc/functions-cart.php:308
 msgid "The price has been set to the minimum price of"
-msgstr ""
+msgstr "Kaina nustatyta iki minimalios kainos"
 
-#: inc/functions-cart.php:1492
-#: inc/functions-js-validation.php:121
+#: inc/functions-cart.php:1492 inc/functions-cart.php:1504
+#: inc/functions-cart.php:1552 inc/functions-cart.php:1657
+#: inc/functions-cart.php:1665 inc/functions-cart.php:2327
+#: inc/functions-cart.php:2350 inc/functions-cart.php:2417
+#: inc/functions-cart.php:2511 inc/functions-cart.php:2522
+#: inc/functions-cart.php:2564 inc/functions-js-validation.php:54
+msgid " is a required field."
+msgstr " yra privalomas laukas."
+
+#: inc/functions-cart.php:1514 inc/functions-js-validation.php:121
 msgid "%s requires at least %s items to be selected"
-msgstr ""
+msgstr "„%s“ reikia pasirinkti bent %s elementus(-ų)"
 
-#: inc/functions-cart.php:1509
-#: inc/functions-js-validation.php:137
+#: inc/functions-cart.php:1531 inc/functions-js-validation.php:137
 msgid "%s requires a maximum of %s items to be selected"
-msgstr ""
+msgstr "„%s“ galima pasirinkti daugiausiai %s elementus(-ų)"
 
-#: inc/functions-cart.php:1533
+#: inc/functions-cart.php:1555
 msgid ": the value is not a valid hex code"
-msgstr ""
+msgstr ": reikšmė nėra tinkamas šešioliktainis kodas"
 
-#: inc/functions-cart.php:1756
-#: inc/functions-js-validation.php:101
+#: inc/functions-cart.php:1600 inc/functions-js-validation.php:101
 msgid "%s requires you to choose %s products"
-msgstr ""
+msgstr "„%s“ reikia pasirinkti %s produktus(-ų)"
 
-#: inc/functions-cart.php:1773
-#: inc/functions-js-validation.php:71
+#: inc/functions-cart.php:1617 inc/functions-js-validation.php:71
 msgid "%s requires you to choose a minimum of %s products"
-msgstr ""
+msgstr "„%s“ reikia pasirinkti bent %s produktus(-ų)"
 
-#: inc/functions-cart.php:1790
-#: inc/functions-js-validation.php:87
+#: inc/functions-cart.php:1634 inc/functions-js-validation.php:87
 msgid "%s requires you to choose a maximum of %s products"
-msgstr ""
+msgstr "„%s“ galima pasirinkti daugiausiai %s produktus(-ų)"
 
-#: inc/functions-cart.php:1853
-msgid "The product has not been added to the cart because one or more of its components is sold individually and already exists in the cart."
-msgstr ""
+#: inc/functions-cart.php:1651
+msgid " must have a quantity entered."
+msgstr " turi būti įvestas kiekis."
 
-#: inc/functions-cart.php:1891
-msgid "The product has not been added to the cart because one or more of its components is out of stock."
+#: inc/functions-cart.php:1697
+msgid ""
+"The product has not been added to the cart because one or more of its "
+"components is sold individually and already exists in the cart."
 msgstr ""
+"Produktas nebuvo pridėtas į krepšelį, nes vienas ar daugiau jo komponentų "
+"parduodami atskirai ir jau yra krepšelyje."
 
-#: inc/functions-cart.php:2297
+#: inc/functions-cart.php:1735
+msgid ""
+"The product has not been added to the cart because one or more of its "
+"components is out of stock."
+msgstr ""
+"Produktas nebuvo pridėtas į krepšelį, nes vieno ar daugiau jo komponentų "
+"nėra sandėlyje."
+
+#: inc/functions-cart.php:1883
+msgid "Flat rate cost"
+msgstr "Fiksuoto tarifo kaina"
+
+#: inc/functions-cart.php:2145
 msgid "%s has been updated."
 msgid_plural "%s have been updated."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "„%s“ atnaujinta."
+msgstr[1] "„%s“ atnaujinta."
 msgstr[2] ""
 
-#: inc/functions-cart.php:2353
+#: inc/functions-cart.php:2201
 msgid "Update product"
-msgstr ""
+msgstr "Atnaujinti produktą"
 
-#: inc/functions-cart.php:2774
-msgid "The uploaded file has failed a security check. Please try uploading it again: "
-msgstr ""
+#: inc/functions-cart.php:2357 inc/functions-js-validation.php:187
+msgid ": minimum number of characters: "
+msgstr ": mažiausias simbolių skaičius: "
+
+#: inc/functions-cart.php:2360 inc/functions-js-validation.php:191
+msgid ": maximum number of characters: "
+msgstr ": didžiausias simbolių skaičius: "
+
+#: inc/functions-cart.php:2441 inc/functions-js-validation.php:171
+msgid ": minimum value is "
+msgstr ": minimali reikšmė yra "
+
+#: inc/functions-cart.php:2444 inc/functions-js-validation.php:178
+msgid ": maximum value is "
+msgstr ": maksimali reikšmė yra "
+
+#: inc/functions-cart.php:2617 inc/functions-js-validation.php:201
+msgid "%s requires a minimum of %s files to be uploaded"
+msgstr "„%s“ reikia įkelti bent %s failus(-ų)"
+
+#: inc/functions-cart.php:2647
+msgid ""
+"The uploaded file has failed a security check. Please try uploading it "
+"again: "
+msgstr "Įkeltas failas neperėjo saugumo patikros. Bandykite įkelti dar kartą: "
+
+#: inc/functions-cart.php:2667
+msgid ": File size too large."
+msgstr ": Failo dydis per didelis."
+
+#: inc/functions-cart.php:2677 inc/functions-cart.php:2722
+msgid " is a required upload field."
+msgstr " yra privalomas įkėlimo laukas."
+
+#: inc/functions-cart.php:2705
+msgid ": File not valid."
+msgstr ": Netinkamas failas."
 
 #: inc/functions-clear-all.php:33
 msgid "Clear All Options"
-msgstr ""
+msgstr "Išvalyti visas parinktis"
 
-#: inc/functions-conditionals.php:94
-msgid "Cost"
-msgstr ""
+#: inc/functions-conditionals.php:19
+msgid "Hide this field if"
+msgstr "Slėpti šį lauką, jei"
 
-#: inc/functions-conditionals.php:97
-msgid "User Role"
-msgstr ""
+#: inc/functions-conditionals.php:20
+msgid "Show this field if"
+msgstr "Rodyti šį lauką, jei"
 
-#: inc/functions-conditionals.php:135
+#: inc/functions-conditionals.php:31
+msgid "All rules match"
+msgstr "Tenkinamos visos taisyklės"
+
+#: inc/functions-conditionals.php:32
+msgid "Any rule matches"
+msgstr "Tenkinama bent viena taisyklė"
+
+#: inc/functions-conditionals.php:43
+msgid "Is"
+msgstr "Yra"
+
+#: inc/functions-conditionals.php:44
+msgid "Is Not"
+msgstr "Nėra"
+
+#: inc/functions-conditionals.php:45
 msgid "Contains"
-msgstr ""
+msgstr "Yra"
 
-#: inc/functions-conditionals.php:136
+#: inc/functions-conditionals.php:46
 msgid "Does Not Contain"
-msgstr ""
+msgstr "Nėra"
 
-#: inc/functions-conditionals.php:137
+#: inc/functions-conditionals.php:47
 msgid "Equals"
-msgstr ""
+msgstr "Lygu"
 
-#: inc/functions-conditionals.php:138
+#: inc/functions-conditionals.php:48
 msgid "Greater Than"
-msgstr ""
+msgstr "Didesnis nei"
 
-#: inc/functions-conditionals.php:139
+#: inc/functions-conditionals.php:49
 msgid "Less Than"
-msgstr ""
+msgstr "Mažesnis nei"
 
-#: inc/functions-global-extras.php:54
-#: inc/functions-global-extras.php:119
+#: inc/functions-global-extras.php:54 inc/functions-global-extras.php:122
 msgid "Global Product Add-Ons"
-msgstr ""
+msgstr "Visuotiniai produkto priedai"
 
 #: inc/functions-global-extras.php:57
 msgid "This page is no longer available."
-msgstr ""
+msgstr "Šis puslapis nebepasiekiamas."
 
 #: inc/functions-global-extras.php:66
 msgid "You can now edit your Global Add-Ons from <a href=\"%s\">this page</a>."
 msgstr ""
+"Dabar galite redaguoti savo visuotinius priedus <a href=\"%s\">šiame "
+"puslapyje</a>."
 
 #: inc/functions-global-extras.php:75
-msgid "Please follow the instructions below to update your database. You will then be able to access Global Add-Ons through a new Global Groups page."
+msgid ""
+"Please follow the instructions below to update your database. You will then "
+"be able to access Global Add-Ons through a new Global Groups page."
 msgstr ""
+"Norėdami atnaujinti duomenų bazę, vadovaukitės toliau pateiktomis "
+"instrukcijomis. Tuomet galėsite pasiekti visuotinius priedus per naują "
+"Visuotinių grupių puslapį."
 
-#: inc/functions-global-extras.php:79
-#: inc/functions-migration.php:41
-msgid "WooCommerce Product Add-Ons Ultimate needs to update your database. This will only take a few seconds. Please click the button below to go to the migration page to get started."
+#: inc/functions-global-extras.php:79 inc/functions-migration.php:41
+msgid ""
+"WooCommerce Product Add-Ons Ultimate needs to update your database. This "
+"will only take a few seconds. Please click the button below to go to the "
+"migration page to get started."
 msgstr ""
+"„WooCommerce Product Add-Ons Ultimate“ turi atnaujinti jūsų duomenų bazę. "
+"Tai užtruks vos kelias sekundes. Spustelėkite žemiau esantį mygtuką, kad "
+"pereitumėte į perkėlimo puslapį ir pradėtumėte."
 
-#: inc/functions-global-extras.php:84
-#: inc/functions-migration.php:45
+#: inc/functions-global-extras.php:84 inc/functions-migration.php:45
 msgid "Go to Migration Page"
-msgstr ""
+msgstr "Eiti į perkėlimo puslapį"
 
-#: inc/functions-global-extras.php:121
-msgid "Add Product Add-Ons in bulk to your products. You can add Product Add-Ons to individual products by editing the product and clicking on the 'Product Add-Ons' tab of the Product Data section."
+#: inc/functions-global-extras.php:124
+msgid ""
+"Add Product Add-Ons in bulk to your products. You can add Product Add-Ons to "
+"individual products by editing the product and clicking on the 'Product Add-"
+"Ons' tab of the Product Data section."
 msgstr ""
+"Masiškai pridėkite produkto priedus prie savo produktų. Priedus prie atskirų "
+"produktų galite pridėti redaguodami produktą ir spustelėdami skirtuką "
+"„Produkto priedai“ Produkto duomenų skiltyje."
 
-#: inc/functions-global-extras.php:166
+#: inc/functions-global-extras.php:169
 msgid "Add New Global Group"
-msgstr ""
+msgstr "Pridėti naują visuotinę grupę"
 
-#: inc/functions-js-validation.php:243
+#: inc/functions-global-extras.php:173
+msgid "Save Global Add-Ons"
+msgstr "Įrašyti visuotinius priedus"
+
+#: inc/functions-js-validation.php:257
 msgid "Some fields in this group failed validation."
-msgstr ""
+msgstr "Kai kurie šios grupės laukai neperėjo patvirtinimo."
 
 #: inc/functions-lightbox.php:86
 msgid "See more"
-msgstr ""
+msgstr "Žr. daugiau"
 
-#: inc/functions-media.php:474
+#: inc/functions-media.php:217 inc/functions-media.php:231
+#: inc/functions-media.php:259
+msgid "File not valid."
+msgstr "Netinkamas failas."
+
+#: inc/functions-media.php:496
 msgid "File not valid"
-msgstr ""
+msgstr "Netinkamas failas"
 
-#: inc/functions-media.php:592
+#: inc/functions-media.php:673
 msgid "No thumbnail"
-msgstr ""
+msgstr "Nėra miniatiūros"
 
-#: inc/functions-media.php:596
+#: inc/functions-media.php:677
 msgid "Uploaded"
-msgstr ""
+msgstr "Įkelta"
 
-#: inc/functions-media.php:597
+#: inc/functions-media.php:678
 msgid "Failed"
-msgstr ""
+msgstr "Nepavyko"
 
-#: inc/functions-media.php:602
+#: inc/functions-media.php:683
 msgid "Remove uploaded file"
-msgstr ""
+msgstr "Pašalinti įkeltą failą"
+
+#: inc/functions-media.php:823
+msgid "Invalid nonce. Please refresh the page and try again."
+msgstr "Neteisingas nonce. Perkraukite puslapį ir bandykite dar kartą."
+
+#: inc/functions-media.php:828
+msgid "Permission denied."
+msgstr "Prieiga uždrausta."
 
 #: inc/functions-migration.php:37
 msgid "Product Add-Ons Ultimate - Important Notice"
-msgstr ""
+msgstr "Product Add-Ons Ultimate – svarbus pranešimas"
 
 #: inc/functions-migration.php:83
 msgid "WooCommerce Product Add-Ons Ultimate Version 3.0"
-msgstr ""
+msgstr "WooCommerce Product Add-Ons Ultimate versija 3.0"
 
 #: inc/functions-migration.php:87
-msgid "Migration complete. All your Product Add-Ons have been migrated. Thank you."
-msgstr ""
+msgid ""
+"Migration complete. All your Product Add-Ons have been migrated. Thank you."
+msgstr "Perkėlimas baigtas. Visi jūsų produkto priedai perkelti. Dėkojame."
 
-#: inc/functions-migration.php:118
-#: inc/functions-migration.php:119
+#: inc/functions-migration.php:118 inc/functions-migration.php:119
 msgid "Add-Ons Migration"
-msgstr ""
+msgstr "Priedų perkėlimas"
 
 #: inc/functions-migration.php:134
 msgid "Product Add-Ons Ultimate Database Migration"
-msgstr ""
+msgstr "Product Add-Ons Ultimate duomenų bazės perkėlimas"
 
 #: inc/functions-migration.php:145
 msgid "the support page"
-msgstr ""
+msgstr "pagalbos puslapį"
 
 #: inc/functions-migration.php:148
-msgid "Congratulations - all done. All your Product Add-Ons have been migrated. You need take no further action."
+msgid ""
+"Congratulations - all done. All your Product Add-Ons have been migrated. You "
+"need take no further action."
 msgstr ""
+"Sveikiname – viskas atlikta. Visi jūsų produkto priedai perkelti. Jums "
+"nereikia atlikti jokių papildomų veiksmų."
 
 #: inc/functions-migration.php:161
-msgid "Add-Ons Ultimate would like to update your database. This is important because the plugin is changing how it stores its data, which should result in performance improvements and feature enhancements."
+msgid ""
+"Add-Ons Ultimate would like to update your database. This is important "
+"because the plugin is changing how it stores its data, which should result "
+"in performance improvements and feature enhancements."
 msgstr ""
+"Add-Ons Ultimate nori atnaujinti jūsų duomenų bazę. Tai svarbu, nes "
+"papildinys keičia savo duomenų saugojimo būdą, todėl turėtų pagerėti našumas "
+"ir atsirasti naujų funkcijų."
 
 #: inc/functions-migration.php:166
-msgid "You might like to test this first on a staging or development version of your site. In any case, please make a backup of your site before clicking the update button below."
+msgid ""
+"You might like to test this first on a staging or development version of "
+"your site. In any case, please make a backup of your site before clicking "
+"the update button below."
 msgstr ""
+"Galbūt norėsite tai pirmiausia išbandyti bandomojoje ar kuriamoje savo "
+"svetainės versijoje. Bet kuriuo atveju prieš spustelėdami atnaujinimo "
+"mygtuką žemiau, pasidarykite savo svetainės atsarginę kopiją."
 
 #: inc/functions-migration.php:171
-msgid "The migration should only take a few seconds (slightly longer if you have a larger number of products on your site). Please stay on this page while it runs. The page will provide you with regular status updates so you can view progress."
+msgid ""
+"The migration should only take a few seconds (slightly longer if you have a "
+"larger number of products on your site). Please stay on this page while it "
+"runs. The page will provide you with regular status updates so you can view "
+"progress."
 msgstr ""
+"Perkėlimas turėtų užtrukti vos kelias sekundes (šiek tiek ilgiau, jei jūsų "
+"svetainėje yra daugiau produktų). Prašome likti šiame puslapyje, kol jis "
+"vykdomas. Puslapyje bus reguliariai rodoma būsenos informacija, kad "
+"galėtumėte stebėti eigą."
 
 #: inc/functions-migration.php:176
-msgid "For the vast majority of users, you won't notice a difference after the migration has completed. However, if you have extended the plugin and you are making use of the IDs of Product Add-Ons, you'll need to update to the new IDs."
+msgid ""
+"For the vast majority of users, you won't notice a difference after the "
+"migration has completed. However, if you have extended the plugin and you "
+"are making use of the IDs of Product Add-Ons, you'll need to update to the "
+"new IDs."
 msgstr ""
+"Dauguma naudotojų po perkėlimo skirtumo nepastebės. Tačiau jei išplėtėte "
+"papildinį ir naudojate produkto priedų ID, turėsite atnaujinti į naujus ID."
 
 #: inc/functions-migration.php:183
-msgid "You have %s products with Add-Ons that need to be updated and %s global rules. "
+msgid ""
+"You have %s products with Add-Ons that need to be updated and %s global "
+"rules. "
 msgstr ""
+"Turite %s produktus su priedais, kuriuos reikia atnaujinti, ir %s visuotines "
+"taisykles. "
 
 #: inc/functions-migration.php:191
 msgid "Click the button below to get started."
-msgstr ""
+msgstr "Spustelėkite žemiau esantį mygtuką, kad pradėtumėte."
 
 #: inc/functions-migration.php:200
 msgid "Update Database"
-msgstr ""
+msgstr "Atnaujinti duomenų bazę"
 
 #: inc/functions-migration.php:205
 msgid "Checking for add-ons data to migrate."
-msgstr ""
+msgstr "Tikrinama, ar yra perkeltinų priedų duomenų."
 
 #: inc/functions-migration.php:210
-msgid "Processing <span id=\"pewc-processing\"></span> of <span id=\"pewc-total\"></span>."
+msgid ""
+"Processing <span id=\"pewc-processing\"></span> of <span id=\"pewc-total\"></"
+"span>."
 msgstr ""
+"Apdorojama <span id=\"pewc-processing\"></span> iš <span id=\"pewc-total\"></"
+"span>."
 
 #: inc/functions-migration.php:215
 msgid "Updating conditionals."
-msgstr ""
+msgstr "Atnaujinamos sąlygos."
 
 #: inc/functions-migration.php:220
 msgid "Updating globals."
-msgstr ""
+msgstr "Atnaujinami visuotiniai duomenys."
 
 #: inc/functions-migration.php:225
 msgid "Updating global conditionals."
-msgstr ""
+msgstr "Atnaujinamos visuotinės sąlygos."
 
 #: inc/functions-migration.php:230
 msgid "All done. This page will automatically reload."
-msgstr ""
+msgstr "Viskas atlikta. Šis puslapis bus automatiškai perkrautas."
 
-#: inc/functions-order.php:118
+#: inc/functions-order.php:119
 msgid "Composite image"
-msgstr ""
+msgstr "Sudėtinis vaizdas"
 
-#: inc/functions-order.php:122
+#: inc/functions-order.php:124
 msgid "Composite preview"
-msgstr ""
+msgstr "Sudėtinio vaizdo peržiūra"
+
+#: inc/functions-percentages.php:40 inc/functions-single-product.php:1608
+msgid "per character"
+msgstr "už simbolį"
 
 #: inc/functions-pro-helpers.php:24
 msgid "Image Swatch"
-msgstr ""
+msgstr "Vaizdo pavyzdys (Image Swatch)"
 
 #: inc/functions-pro-helpers.php:36
 msgid "upgrade to the Pro licence"
-msgstr ""
+msgstr "atnaujinti į „Pro“ licenciją"
 
 #: inc/functions-pro-helpers.php:41
 msgid "enter your Pro licence key here"
-msgstr ""
+msgstr "čia įveskite savo „Pro“ licencijos raktą"
 
 #: inc/functions-pro-helpers.php:46
 msgid "see this support article"
-msgstr ""
+msgstr "žr. šį pagalbos straipsnį"
 
 #: inc/functions-pro-helpers.php:51
-msgid "This field is not available with the Basic licence. Please %s or %s to use this field."
+msgid ""
+"This field is not available with the Basic licence. Please %s or %s to use "
+"this field."
 msgstr ""
+"Šis laukas neprieinamas su „Basic“ licencija. Norėdami naudoti šį lauką, %s "
+"arba %s."
 
 #: inc/functions-pro-helpers.php:56
 msgid "If you have recently upgraded to Pro, please %s."
-msgstr ""
+msgstr "Jei neseniai atnaujinote į „Pro“, %s."
 
 #: inc/functions-pro-helpers.php:143
 msgid "Previous"
-msgstr ""
+msgstr "Ankstesnis"
 
 #: inc/functions-pro-helpers.php:152
 msgid "Next"
-msgstr ""
+msgstr "Kitas"
 
-#: inc/functions-products.php:1008
-#: inc/functions-products.php:1056
-msgid "One of the options in this order is sold individually, so duplicates have been removed from the cart"
+#: inc/functions-products.php:1075 inc/functions-products.php:1123
+msgid ""
+"One of the options in this order is sold individually, so duplicates have "
+"been removed from the cart"
 msgstr ""
+"Viena iš šio užsakymo parinkčių parduodama atskirai, todėl dublikatai buvo "
+"pašalinti iš krepšelio"
 
-#: inc/functions-products.php:1027
-msgid "One of the options in this order is out of stock so the product has been removed from the cart"
+#: inc/functions-products.php:1094
+msgid ""
+"One of the options in this order is out of stock so the product has been "
+"removed from the cart"
 msgstr ""
+"Viena iš šio užsakymo parinkčių išparduota, todėl produktas buvo pašalintas "
+"iš krepšelio"
 
 #: inc/functions-repeatable.php:118
 msgid "+ Add More"
-msgstr ""
+msgstr "+ Pridėti daugiau"
 
 #: inc/functions-repeatable.php:192
 msgid "Are you sure you want to remove this group?"
-msgstr ""
+msgstr "Ar tikrai norite pašalinti šią grupę?"
 
-#: inc/functions-repeatable.php:445
-#: templates/admin/group.php:133
+#: inc/functions-repeatable.php:445 templates/admin/group.php:139
 msgid "Repeatable"
-msgstr ""
+msgstr "Pakartojamas"
 
-#: inc/functions-repeatable.php:453
-#: templates/admin/group.php:148
+#: inc/functions-repeatable.php:453 templates/admin/group.php:154
 msgid "Attach to Quantity"
-msgstr ""
+msgstr "Pritvirtinti prie kiekio"
 
 #: inc/functions-repeatable.php:461
 msgid "Repeatable Limit"
-msgstr ""
+msgstr "Kartojimo riba"
+
+#: inc/functions-repeatable.php:747
+#: templates/frontend/products/products-column.php:428
+#: templates/frontend/upload.php:59
+msgid "Remove"
+msgstr "Pašalinti"
 
 #: inc/functions-single-product.php:66
 msgid "Clear"
-msgstr ""
+msgstr "Išvalyti"
+
+#: inc/functions-single-product.php:67 templates/admin/sections/general.php:127
+msgid "Default"
+msgstr "Numatytasis"
 
 #: inc/functions-single-product.php:68
 msgid "Select Color"
-msgstr ""
+msgstr "Pasirinkti spalvą"
 
 #: inc/functions-single-product.php:69
 msgid "Current Color"
-msgstr ""
+msgstr "Dabartinė spalva"
 
 #: inc/functions-single-product.php:134
 msgid "Increase quantity"
-msgstr ""
+msgstr "Padidinti kiekį"
 
 #: inc/functions-single-product.php:135
 msgid "Decrease quantity"
-msgstr ""
+msgstr "Sumažinti kiekį"
 
-#: inc/functions-single-product.php:233
+#: inc/functions-single-product.php:236
 msgid "Calculating..."
-msgstr ""
+msgstr "Skaičiuojama..."
 
-#: inc/functions-single-product.php:238
+#: inc/functions-single-product.php:241
 msgid "Uploading..."
-msgstr ""
+msgstr "Įkeliama..."
 
-#: inc/functions-single-product.php:299
+#: inc/functions-single-product.php:302
 msgid "Counting the number of pages..."
-msgstr ""
+msgstr "Skaičiuojamas puslapių skaičius..."
 
-#: inc/functions-single-product.php:1785
+#: inc/functions-single-product.php:1688 inc/functions-single-product.php:1705
+msgid "Min"
+msgstr "Min"
+
+#: inc/functions-single-product.php:1699 inc/functions-single-product.php:1712
+msgid "Max"
+msgstr "Maks"
+
+#: inc/functions-single-product.php:1707 inc/functions-single-product.php:1714
+msgid "characters"
+msgstr "simboliai"
+
+#: inc/functions-single-product.php:1721
+msgid "Max file size"
+msgstr "Didžiausias failo dydis"
+
+#: inc/functions-single-product.php:1725
+msgid "Permitted file types"
+msgstr "Leidžiami failų tipai"
+
+#: inc/functions-single-product.php:1827
 msgid "Minimum price:"
-msgstr ""
+msgstr "Minimali kaina:"
 
-#: inc/functions-updater.php:116
+#: inc/functions-updater.php:119
 msgid "There was a problem in activating your license: "
-msgstr ""
+msgstr "Kilo problema aktyvinant jūsų licenciją: "
 
-#: inc/functions-updater.php:162
-msgid " Please ensure you enter the correct licence key as the plugin may not work correctly without it. Your licence key will be on the email you were sent with the download link or on <a target=\"_blank\" href=\"%s\">your account page</a>."
+#: inc/functions-updater.php:165
+msgid ""
+" Please ensure you enter the correct licence key as the plugin may not work "
+"correctly without it. Your licence key will be on the email you were sent "
+"with the download link or on <a target=\"_blank\" href=\"%s\">your account "
+"page</a>."
 msgstr ""
+" Įsitikinkite, kad įvedėte teisingą licencijos raktą, nes be jo papildinys "
+"gali veikti netinkamai. Jūsų licencijos raktą rasite el. laiške, kuriame "
+"buvo atsiuntimo nuoroda, arba <a target=\"_blank\" href=\"%s\">savo paskyros "
+"puslapyje</a>."
 
-#: inc/functions-updater.php:168
-#: inc/functions-updater.php:316
+#: inc/functions-updater.php:171 inc/functions-updater.php:319
 msgid "<p><a href=\"%s\">Enter your licence key here</a></p>"
-msgstr ""
+msgstr "<p><a href=\"%s\">Įveskite savo licencijos raktą čia</a></p>"
 
-#: inc/functions-updater.php:278
-msgid "Your license is not currently activated. Please ensure you activate your license in order to use all the features of this plugin. Your license number will be on the email you were sent with the download link or on <a target=\"_blank\" href=\"%s\">your account page</a>."
+#: inc/functions-updater.php:281
+msgid ""
+"Your license is not currently activated. Please ensure you activate your "
+"license in order to use all the features of this plugin. Your license number "
+"will be on the email you were sent with the download link or on <a "
+"target=\"_blank\" href=\"%s\">your account page</a>."
 msgstr ""
+"Jūsų licencija šiuo metu neaktyvinta. Norėdami naudotis visomis šio "
+"papildinio funkcijomis, aktyvinkite savo licenciją. Jūsų licencijos numerį "
+"rasite el. laiške, kuriame buvo atsiuntimo nuoroda, arba <a "
+"target=\"_blank\" href=\"%s\">savo paskyros puslapyje</a>."
 
-#: inc/functions-updater.php:283
+#: inc/functions-updater.php:286
 msgid "<p><a href=\"%s\">Enter your license key here</a></p>"
-msgstr ""
+msgstr "<p><a href=\"%s\">Įveskite savo licencijos raktą čia</a></p>"
 
-#: inc/functions-updater.php:311
-msgid "Your licence is not currently activated. Please ensure you activate your licence in order to use all the features of this plugin. Your licence number will be on the email you were sent with the download link or on <a target=\"_blank\" href=\"%s\">your account page</a>."
+#: inc/functions-updater.php:314
+msgid ""
+"Your licence is not currently activated. Please ensure you activate your "
+"licence in order to use all the features of this plugin. Your licence number "
+"will be on the email you were sent with the download link or on <a "
+"target=\"_blank\" href=\"%s\">your account page</a>."
 msgstr ""
+"Jūsų licencija šiuo metu neaktyvinta. Norėdami naudotis visomis šio "
+"papildinio funkcijomis, aktyvinkite savo licenciją. Jūsų licencijos numerį "
+"rasite el. laiške, kuriame buvo atsiuntimo nuoroda, arba <a "
+"target=\"_blank\" href=\"%s\">savo paskyros puslapyje</a>."
 
-#: inc/functions-uploads.php:33
-#: inc/functions-uploads.php:346
+#: inc/functions-uploads.php:34 inc/functions-uploads.php:368
 msgid "Drop files here to upload"
-msgstr ""
+msgstr "Nuvilkite failus čia, kad įkeltumėte"
 
-#: inc/functions-uploads.php:34
-#: inc/functions-uploads.php:347
+#: inc/functions-uploads.php:35 inc/functions-uploads.php:369
 msgid "Your browser does not support drag and drop file uploads"
-msgstr ""
+msgstr "Jūsų naršyklė nepalaiko failų įkėlimo vilkimo būdu"
 
-#: inc/functions-uploads.php:35
-#: inc/functions-uploads.php:348
-msgid "Please use the fallback form below to upload your files like in the olden days"
+#: inc/functions-uploads.php:36 inc/functions-uploads.php:370
+msgid ""
+"Please use the fallback form below to upload your files like in the olden "
+"days"
 msgstr ""
+"Norėdami įkelti failus senuoju būdu, naudokite žemiau esančią atsarginę formą"
 
-#: inc/functions-uploads.php:36
-#: inc/functions-uploads.php:349
+#: inc/functions-uploads.php:37 inc/functions-uploads.php:371
 msgid "The file is too big"
-msgstr ""
+msgstr "Failas per didelis"
 
-#: inc/functions-uploads.php:37
-#: inc/functions-uploads.php:350
+#: inc/functions-uploads.php:38 inc/functions-uploads.php:372
 msgid "You cannot upload files of this type"
-msgstr ""
+msgstr "Negalite įkelti šio tipo failų"
 
-#: inc/functions-uploads.php:38
-#: inc/functions-uploads.php:351
+#: inc/functions-uploads.php:39 inc/functions-uploads.php:373
 msgid "Cancel upload"
-msgstr ""
+msgstr "Atšaukti įkėlimą"
 
-#: inc/functions-uploads.php:39
-#: inc/functions-uploads.php:352
+#: inc/functions-uploads.php:40 inc/functions-uploads.php:374
 msgid "Upload cancelled."
-msgstr ""
+msgstr "Įkėlimas atšauktas."
 
-#: inc/functions-uploads.php:40
-#: inc/functions-uploads.php:353
+#: inc/functions-uploads.php:41 inc/functions-uploads.php:375
 msgid "Are you sure you want to cancel this upload?"
-msgstr ""
+msgstr "Ar tikrai norite atšaukti šį įkėlimą?"
 
-#: inc/functions-uploads.php:41
-#: inc/functions-uploads.php:354
+#: inc/functions-uploads.php:42 inc/functions-uploads.php:376
 msgid "Remove file"
-msgstr ""
+msgstr "Pašalinti failą"
 
-#: inc/functions-uploads.php:42
-#: inc/functions-uploads.php:355
+#: inc/functions-uploads.php:43 inc/functions-uploads.php:377
 msgid "You cannot upload any more files."
-msgstr ""
+msgstr "Negalite įkelti daugiau failų."
 
-#: inc/functions-uploads.php:839
+#: inc/functions-uploads.php:880
 msgid "Loading original image..."
-msgstr ""
+msgstr "Įkeliamas originalus vaizdas..."
 
-#: inc/functions-variations.php:22
-#: templates/admin/sections/conditions.php:31
+#: inc/functions-variations.php:22 templates/admin/sections/conditions.php:42
 msgid "Variations"
+msgstr "Variantai"
+
+#: product-extras-for-woocommerce.php:61
+msgid ""
+"WooCommerce Product Add-Ons Ultimate requires WooCommerce version 3.0.0 "
+"minimum. Please upgrade your version of WooCommerce."
 msgstr ""
+"„WooCommerce Product Add-Ons Ultimate“ reikalauja bent 3.0.0 versijos "
+"„WooCommerce“. Atnaujinkite savo „WooCommerce“ versiją."
 
 #: product-extras-for-woocommerce.php:67
-msgid "WooCommerce Product Add-Ons Ultimate requires WooCommerce to be installed. Please install and activate WooCommerce before activating Add-Ons Ultimate."
+msgid ""
+"WooCommerce Product Add-Ons Ultimate requires WooCommerce to be installed. "
+"Please install and activate WooCommerce before activating Add-Ons Ultimate."
 msgstr ""
+"„WooCommerce Product Add-Ons Ultimate“ reikalauja įdiegto „WooCommerce“. "
+"Prieš aktyvindami „Add-Ons Ultimate“, įdiekite ir aktyvinkite „WooCommerce“."
 
-#: templates/admin/field-item.php:82
-#: templates/admin/views/option-fields.php:18
+#: templates/admin/ajax-condition.php:224 templates/admin/condition.php:265
+#: templates/admin/new-condition.php:46
+#: templates/admin/views/group-ajax-condition.php:203
+#: templates/admin/views/group-condition-new.php:46
+#: templates/admin/views/group-condition.php:214
+msgid "Add Condition"
+msgstr "Pridėti sąlygą"
+
+#: templates/admin/field-item.php:82 templates/admin/views/option-fields.php:18
 msgid "Options"
-msgstr ""
+msgstr "Parinktys"
 
 #: templates/admin/field-item.php:91
 msgid "Color picker"
-msgstr ""
+msgstr "Spalvos parinkiklis"
 
 #: templates/admin/field-item.php:94
 msgid "Display"
-msgstr ""
+msgstr "Rodymas"
 
 #: templates/admin/field-item.php:96
 msgid "Additional"
-msgstr ""
+msgstr "Papildoma"
+
+#: templates/admin/field-meta-actions.php:14
+msgid "Drag"
+msgstr "Vilkti"
+
+#: templates/admin/field-meta-actions.php:15
+#: templates/admin/group-meta-actions.php:15
+msgid "Collapse / Expand"
+msgstr "Suskleisti / Išskleisti"
 
 #: templates/admin/field-meta-actions.php:16
 msgid "Export Field"
-msgstr ""
+msgstr "Eksportuoti lauką"
+
+#: templates/admin/field-meta-actions.php:17
+#: templates/admin/group-meta-actions.php:19
+msgid "Duplicate"
+msgstr "Dubliuoti"
+
+#: templates/admin/global-rule.php:22 templates/admin/new-global-rule.php:21
+msgid "Display this group if:"
+msgstr "Rodyti šią grupę, jei:"
 
 #: templates/admin/group-meta-actions.php:14
 msgid "Sort"
-msgstr ""
+msgstr "Rikiuoti"
 
 #: templates/admin/group-settings.php:21
 msgid "Product Settings"
-msgstr ""
+msgstr "Produkto nustatymai"
+
+#: templates/admin/group-settings.php:31 templates/admin/group-settings.php:39
+msgid "Display groups as"
+msgstr "Grupes rodyti kaip"
+
+#: templates/admin/group-settings.php:43
+msgid "Accordion"
+msgstr "Akordeonas"
 
 #: templates/admin/group-settings.php:57
 msgid "Assign global groups"
-msgstr ""
+msgstr "Priskirti visuotines grupes"
 
 #: templates/admin/group-settings.php:79
 msgid "Hide quantity field"
-msgstr ""
+msgstr "Slėpti kiekio lauką"
 
-#: templates/admin/group-settings.php:106
+#: templates/admin/group-settings.php:108
 msgid "Assign groups to other products"
-msgstr ""
-
-#: templates/admin/group-settings.php:113
-msgid "Assign to products"
-msgstr ""
+msgstr "Priskirti grupes kitiems produktams"
 
 #: templates/admin/group-settings.php:115
+msgid "Assign to products"
+msgstr "Priskirti produktams"
+
+#: templates/admin/group-settings.php:117
 msgid "Choose the products"
-msgstr ""
+msgstr "Pasirinkite produktus"
 
-#: templates/admin/group-settings.php:122
+#: templates/admin/group-settings.php:124
 msgid "Replace existing groups"
-msgstr ""
+msgstr "Pakeisti esamas grupes"
 
-#: templates/admin/group-settings.php:129
+#: templates/admin/group-settings.php:131
 msgid "Assign"
-msgstr ""
+msgstr "Priskirti"
 
 #: templates/admin/group.php:34
 msgid "Group Title"
-msgstr ""
+msgstr "Grupės pavadinimas"
 
 #: templates/admin/group.php:98
 msgid "Group Conditions"
-msgstr ""
+msgstr "Grupės sąlygos"
 
-#: templates/admin/group.php:113
+#: templates/admin/group.php:119
 msgid "Always Include in Order"
-msgstr ""
+msgstr "Visada įtraukti į užsakymą"
 
-#: templates/admin/group.php:161
+#: templates/admin/group.php:167
 msgid "Repeat Limit"
-msgstr ""
+msgstr "Kartojimo riba"
+
+#: templates/admin/import-groups.php:17
+msgid "Search for a product&hellip;"
+msgstr "Ieškoti produkto…"
+
+#: templates/admin/import-groups.php:37
+msgid ""
+"Imported groups will appear after any groups already registered to this "
+"product."
+msgstr "Importuotos grupės bus rodomos po jau šiam produktui priskirtų grupių."
+
+#: templates/admin/new-global-rule.php:26
+msgid "All the rules are met"
+msgstr "Tenkinamos visos taisyklės"
+
+#: templates/admin/new-global-rule.php:27
+msgid "Any of the rules are met"
+msgstr "Tenkinama bent viena taisyklė"
 
 #: templates/admin/sections/additional.php:20
 msgid "User Field ID"
-msgstr ""
+msgstr "Naudotojo lauko ID"
 
 #: templates/admin/sections/calculations.php:46
 msgid "Formula"
-msgstr ""
+msgstr "Formulė"
 
 #: templates/admin/sections/calculations.php:57
 msgid "Click here for a list of tags"
-msgstr ""
+msgstr "Spustelėkite čia, kad pamatytumėte žymų sąrašą"
 
 #: templates/admin/sections/calculations.php:66
 msgid "Hide Calculation?"
-msgstr ""
+msgstr "Slėpti skaičiavimą?"
 
 #: templates/admin/sections/calculations.php:83
 msgid "Round Result"
-msgstr ""
+msgstr "Apvalinti rezultatą"
 
 #: templates/admin/sections/calculations.php:93
 msgid "No rounding"
-msgstr ""
+msgstr "Neapvalinti"
 
 #: templates/admin/sections/calculations.php:98
 msgid "Round down"
-msgstr ""
+msgstr "Apvalinti žemyn"
 
 #: templates/admin/sections/calculations.php:103
 msgid "Round up"
-msgstr ""
+msgstr "Apvalinti aukštyn"
 
 #: templates/admin/sections/calculations.php:112
 msgid "Decimal Places"
-msgstr ""
+msgstr "Dešimtainių skaičių"
 
 #: templates/admin/sections/calculations.php:138
 msgid "--"
-msgstr ""
+msgstr "--"
 
 #: templates/admin/sections/calculations.php:143
 msgid "Display As Cost"
-msgstr ""
+msgstr "Rodyti kaip kainą"
 
 #: templates/admin/sections/calculations.php:148
 msgid "Set Product Price"
-msgstr ""
+msgstr "Nustatyti produkto kainą"
 
 #: templates/admin/sections/calculations.php:153
 msgid "Update Quantity"
-msgstr ""
+msgstr "Atnaujinti kiekį"
 
 #: templates/admin/sections/calculations.php:158
 msgid "Set Child Product Quantity"
-msgstr ""
+msgstr "Nustatyti vaikinio produkto kiekį"
 
 #: templates/admin/sections/calculations.php:163
 msgid "Add to Product Weight"
-msgstr ""
+msgstr "Pridėti prie produkto svorio"
 
 #: templates/admin/sections/calculations.php:168
 msgid "Add to Product Length"
-msgstr ""
+msgstr "Pridėti prie produkto ilgio"
 
 #: templates/admin/sections/calculations.php:173
 msgid "Add to Product Width"
-msgstr ""
+msgstr "Pridėti prie produkto pločio"
 
 #: templates/admin/sections/calculations.php:178
 msgid "Add to Product Height"
-msgstr ""
+msgstr "Pridėti prie produkto aukščio"
 
 #: templates/admin/sections/calculations.php:192
 msgid "Products Field ID"
-msgstr ""
+msgstr "Produktų lauko ID"
 
 #: templates/admin/sections/calculations.php:218
 msgid "Reverse Formula Field ID"
-msgstr ""
+msgstr "Atvirkštinės formulės lauko ID"
 
 #: templates/admin/sections/calculations.php:231
 msgid "Original Input Field ID"
-msgstr ""
+msgstr "Pradinio įvesties lauko ID"
 
 #: templates/admin/sections/calculations.php:244
 msgid "Override Calculation?"
-msgstr ""
+msgstr "Perrašyti skaičiavimą?"
 
 #: templates/admin/sections/calendar-list.php:20
 msgid "Days"
-msgstr ""
+msgstr "Dienos"
 
 #: templates/admin/sections/calendar-list.php:41
 msgid "Offset"
-msgstr ""
+msgstr "Poslinkis"
 
 #: templates/admin/sections/calendar-list.php:60
 msgid "Add Item"
-msgstr ""
+msgstr "Pridėti elementą"
 
 #: templates/admin/sections/calendar-list.php:73
 #: templates/admin/sections/date.php:88
 msgid "Disable days of the week?"
-msgstr ""
+msgstr "Išjungti savaitės dienas?"
 
 #: templates/admin/sections/calendar-list.php:80
 #: templates/admin/sections/date.php:95
 msgid "Sunday"
-msgstr ""
+msgstr "Sekmadienis"
 
 #: templates/admin/sections/calendar-list.php:81
 #: templates/admin/sections/date.php:96
 msgid "Monday"
-msgstr ""
+msgstr "Pirmadienis"
 
 #: templates/admin/sections/calendar-list.php:82
 #: templates/admin/sections/date.php:97
 msgid "Tuesday"
-msgstr ""
+msgstr "Antradienis"
 
 #: templates/admin/sections/calendar-list.php:83
 #: templates/admin/sections/date.php:98
 msgid "Wednesday"
-msgstr ""
+msgstr "Trečiadienis"
 
 #: templates/admin/sections/calendar-list.php:84
 #: templates/admin/sections/date.php:99
 msgid "Thursday"
-msgstr ""
+msgstr "Ketvirtadienis"
 
 #: templates/admin/sections/calendar-list.php:85
 #: templates/admin/sections/date.php:100
 msgid "Friday"
-msgstr ""
+msgstr "Penktadienis"
 
 #: templates/admin/sections/calendar-list.php:86
 #: templates/admin/sections/date.php:101
 msgid "Saturday"
-msgstr ""
+msgstr "Šeštadienis"
 
 #: templates/admin/sections/calendar-list.php:105
 #: templates/admin/sections/date.php:128
 msgid "Blocked dates"
-msgstr ""
+msgstr "Blokuotos datos"
 
 #: templates/admin/sections/calendar-list.php:120
 msgid "Latest time"
-msgstr ""
+msgstr "Vėliausias laikas"
 
 #: templates/admin/sections/calendar-list.php:153
 msgid "Latest time label"
-msgstr ""
+msgstr "Vėliausio laiko etiketė"
 
 #: templates/admin/sections/colorpicker.php:21
 msgid "Default color"
-msgstr ""
+msgstr "Numatytoji spalva"
 
 #: templates/admin/sections/colorpicker.php:34
 msgid "Element width"
-msgstr ""
+msgstr "Elemento plotis"
 
 #: templates/admin/sections/colorpicker.php:50
 msgid "Show by default?"
-msgstr ""
+msgstr "Rodyti pagal numatytuosius nustatymus?"
 
 #: templates/admin/sections/colorpicker.php:63
 msgid "Display common palettes?"
-msgstr ""
+msgstr "Rodyti dažniausiai naudojamas paletes?"
 
-#: templates/admin/sections/conditions.php:38
-msgid "If you only want to show this field for certain variations, enter the variation IDs below. Leave empty to show for all variations."
+#: templates/admin/sections/conditions.php:49
+msgid ""
+"If you only want to show this field for certain variations, enter the "
+"variation IDs below. Leave empty to show for all variations."
 msgstr ""
+"Jei norite rodyti šį lauką tik tam tikruose variantuose, žemiau įveskite "
+"variantų ID. Palikite tuščią, kad būtų rodoma visuose variantuose."
 
 #: templates/admin/sections/date.php:23
 msgid "Offset days"
-msgstr ""
+msgstr "Poslinkio dienos"
+
+#: templates/admin/sections/date.php:37
+msgid "Min date today?"
+msgstr "Minimali data šiandien?"
+
+#: templates/admin/sections/date.php:51
+msgid "Min date"
+msgstr "Minimali data"
+
+#: templates/admin/sections/date.php:67
+msgid "Max date"
+msgstr "Maksimali data"
 
 #: templates/admin/sections/display.php:19
 msgid "Field Class"
-msgstr ""
+msgstr "Lauko klasė"
 
-#: templates/admin/sections/display.php:81
+#: templates/admin/sections/display.php:60
+msgid "Number Columns"
+msgstr "Stulpelių skaičius"
+
+#: templates/admin/sections/display.php:82
+msgid "Hide Labels?"
+msgstr "Slėpti etiketes?"
+
+#: templates/admin/sections/display.php:102
 msgid "Display as Swatch?"
-msgstr ""
+msgstr "Rodyti kaip pavyzdį (Swatch)?"
 
-#: templates/admin/sections/display.php:97
+#: templates/admin/sections/display.php:118
 msgid "Display as Slider?"
-msgstr ""
+msgstr "Rodyti kaip slankiklį?"
+
+#: templates/admin/sections/general.php:21
+msgid "Field Label"
+msgstr "Lauko etiketė"
 
 #: templates/admin/sections/general.php:33
 msgid "Admin Label"
-msgstr ""
+msgstr "Administratoriaus etiketė"
+
+#: templates/admin/sections/general.php:45
+msgid "Field Type"
+msgstr "Lauko tipas"
 
 #: templates/admin/sections/general.php:67
 msgid "Click here for guidance on each field type"
-msgstr ""
+msgstr "Spustelėkite čia, kad gautumėte kiekvieno lauko tipo paaiškinimus"
 
 #: templates/admin/sections/general.php:82
 msgid "Field Visibility"
-msgstr ""
+msgstr "Lauko matomumas"
 
 #: templates/admin/sections/general.php:92
 msgid "Display everywhere"
-msgstr ""
+msgstr "Rodyti visur"
 
 #: templates/admin/sections/general.php:93
 msgid "Display on product page only"
-msgstr ""
+msgstr "Rodyti tik produkto puslapyje"
 
 #: templates/admin/sections/general.php:94
 #: templates/admin/views/price-visibility.php:53
 #: templates/admin/views/price-visibility.php:81
 msgid "Hide on product page only"
-msgstr ""
+msgstr "Slėpti tik produkto puslapyje"
 
 #: templates/admin/sections/general.php:95
 msgid "Hide from customer"
-msgstr ""
+msgstr "Slėpti nuo kliento"
+
+#: templates/admin/sections/general.php:110
+msgid "Required Field?"
+msgstr "Privalomas laukas?"
+
+#: templates/admin/sections/general.php:166
+msgid "Field Image"
+msgstr "Lauko vaizdas"
+
+#: templates/admin/sections/general.php:184
+msgid "Field Description"
+msgstr "Lauko aprašymas"
 
 #: templates/admin/sections/information.php:33
 #: templates/admin/views/option-fields.php:38
 msgid "Label"
-msgstr ""
+msgstr "Etiketė"
 
 #: templates/admin/sections/information.php:36
 msgid "Data"
-msgstr ""
+msgstr "Duomenys"
 
 #: templates/admin/sections/information.php:52
 msgid "Add Row"
-msgstr ""
+msgstr "Pridėti eilutę"
+
+#: templates/admin/sections/number.php:21
+msgid "Min Value"
+msgstr "Minimali reikšmė"
+
+#: templates/admin/sections/number.php:34
+msgid "Max Value"
+msgstr "Maksimali reikšmė"
 
 #: templates/admin/sections/number.php:50
 msgid "Decimal places"
-msgstr ""
+msgstr "Dešimtainių skaičių"
+
+#: templates/admin/sections/number.php:63
+msgid "Step"
+msgstr "Žingsnis"
+
+#: templates/admin/sections/number.php:78
+msgid "Multiply Price?"
+msgstr "Dauginti kainą?"
+
+#: templates/admin/sections/options.php:30
+msgid "Min Number"
+msgstr "Minimalus skaičius"
+
+#: templates/admin/sections/options.php:47
+msgid "Max Number"
+msgstr "Maksimalus skaičius"
+
+#: templates/admin/sections/pricing.php:20
+#: templates/admin/views/role-based-prices.php:52
+msgid "Field Price"
+msgstr "Lauko kaina"
+
+#: templates/admin/sections/pricing.php:38
+msgid "Price Per Character?"
+msgstr "Kaina už simbolį?"
 
 #: templates/admin/sections/pricing.php:51
 msgid "Price per upload?"
-msgstr ""
+msgstr "Kaina už įkėlimą?"
+
+#: templates/admin/sections/pricing.php:73
+msgid "Flat Rate?"
+msgstr "Fiksuotas tarifas?"
+
+#: templates/admin/sections/pricing.php:92
+msgid "Percentage?"
+msgstr "Procentas?"
 
 #: templates/admin/sections/pricing.php:117
 msgid "Discount"
-msgstr ""
+msgstr "Nuolaida"
 
 #: templates/admin/sections/pricing.php:134
 msgid "Discount Type"
-msgstr ""
+msgstr "Nuolaidos tipas"
 
 #: templates/admin/sections/pricing.php:143
 msgid "Fixed Amount"
-msgstr ""
+msgstr "Fiksuota suma"
 
 #: templates/admin/sections/pricing.php:144
 msgid "Percentage"
-msgstr ""
+msgstr "Procentas"
+
+#: templates/admin/sections/products.php:19
+msgid "Child Products"
+msgstr "Vaikiniai produktai"
 
 #: templates/admin/sections/products.php:29
 msgid "Choose child products"
-msgstr ""
+msgstr "Pasirinkti vaikinius produktus"
 
 #: templates/admin/sections/products.php:41
 msgid "Choose the child subscription variations"
-msgstr ""
+msgstr "Pasirinkite vaikinius prenumeratos variantus"
 
 #: templates/admin/sections/products.php:67
 msgid "Select product categories"
-msgstr ""
+msgstr "Pasirinkti produktų kategorijas"
+
+#: templates/admin/sections/products.php:96
+msgid "Products Layout"
+msgstr "Produktų išdėstymas"
 
 #: templates/admin/sections/products.php:105
 msgid "Checkboxes Images"
-msgstr ""
+msgstr "Žymimieji langeliai su vaizdais"
 
 #: templates/admin/sections/products.php:106
 msgid "Checkboxes List"
-msgstr ""
+msgstr "Žymimųjų langelių sąrašas"
 
 #: templates/admin/sections/products.php:107
 msgid "Column"
-msgstr ""
+msgstr "Stulpelis"
 
 #: templates/admin/sections/products.php:108
 msgid "Radio Images"
-msgstr ""
+msgstr "Perjungikliai su vaizdais"
 
 #: templates/admin/sections/products.php:109
 msgid "Radio List"
-msgstr ""
+msgstr "Perjungiklių sąrašas"
 
 #: templates/admin/sections/products.php:112
 msgid "Variations Grid"
-msgstr ""
+msgstr "Variantų tinklelis"
 
 #: templates/admin/sections/products.php:113
 msgid "Components List"
-msgstr ""
+msgstr "Komponentų sąrašas"
 
 #: templates/admin/sections/products.php:120
 msgid "This article explains the different layouts"
-msgstr ""
+msgstr "Šiame straipsnyje paaiškinami skirtingi išdėstymai"
+
+#: templates/admin/sections/products.php:131
+msgid "Select Field Placeholder"
+msgstr "Pasirinkimo lauko vietaženklis"
+
+#: templates/admin/sections/products.php:150
+msgid "Products Quantities"
+msgstr "Produktų kiekiai"
+
+#: templates/admin/sections/products.php:159
+msgid "Independent"
+msgstr "Nepriklausomas"
+
+#: templates/admin/sections/products.php:160
+msgid "Linked"
+msgstr "Susietas"
+
+#: templates/admin/sections/products.php:161
+msgid "One only"
+msgstr "Tik vienas"
 
 #: templates/admin/sections/products.php:175
 msgid "Min Child Products"
-msgstr ""
+msgstr "Minimalus vaikinių produktų skaičius"
 
 #: templates/admin/sections/products.php:192
 msgid "Max Child Products"
-msgstr ""
+msgstr "Maksimalus vaikinių produktų skaičius"
 
 #: templates/admin/sections/products.php:209
 msgid "Default Quantity"
-msgstr ""
+msgstr "Numatytasis kiekis"
 
 #: templates/admin/sections/products.php:226
 msgid "Force Quantity?"
-msgstr ""
+msgstr "Priverstinis kiekis?"
 
 #: templates/admin/sections/swatches.php:21
 msgid "Swatch width"
-msgstr ""
+msgstr "Pavyzdžio plotis"
+
+#: templates/admin/sections/swatches.php:42
+msgid "Layer images?"
+msgstr "Sluoksniuoti vaizdus?"
 
 #: templates/admin/sections/swatches.php:59
-msgid "Layer images?"
-msgstr ""
+msgid "Main Image Scale %"
+msgstr "Pagrindinio vaizdo mastelis %"
 
 #: templates/admin/sections/swatches.php:76
 msgid "Parent Swatch ID"
-msgstr ""
+msgstr "Tėvinio pavyzdžio ID"
 
 #: templates/admin/sections/swatches.php:93
 msgid "Allow Multiple?"
-msgstr ""
+msgstr "Leisti kelis pasirinkimus?"
 
 #: templates/admin/sections/text.php:20
 msgid "Min Characters"
-msgstr ""
+msgstr "Minimalus simbolių skaičius"
 
 #: templates/admin/sections/text.php:34
 msgid "Max Characters"
-msgstr ""
+msgstr "Maksimalus simbolių skaičius"
 
 #: templates/admin/sections/text.php:49
 msgid "Show Counter?"
-msgstr ""
+msgstr "Rodyti skaitiklį?"
 
 #: templates/admin/sections/text.php:67
 msgid "Free Characters"
-msgstr ""
+msgstr "Nemokami simboliai"
+
+#: templates/admin/sections/text.php:82
+msgid "Only Allow Alphanumeric?"
+msgstr "Leisti tik raides ir skaičius?"
+
+#: templates/admin/sections/text.php:95
+msgid "Only Charge Alphanumeric?"
+msgstr "Taikyti mokestį tik raidėms ir skaičiams?"
 
 #: templates/admin/sections/uploads.php:18
 msgid "Allow multiple uploads?"
-msgstr ""
+msgstr "Leisti kelis įkėlimus?"
 
 #: templates/admin/sections/uploads.php:32
+msgid "Min Files"
+msgstr "Minimalus failų skaičius"
+
+#: templates/admin/sections/uploads.php:45
 msgid "Max Files"
-msgstr ""
+msgstr "Maksimalus failų skaičius"
+
+#: templates/admin/views/group-ajax-condition.php:206
+msgid "Manage Conditions"
+msgstr "Tvarkyti sąlygas"
 
 #: templates/admin/views/option-fields-new.php:21
 #: templates/admin/views/option-fields.php:32
 msgid "Alt"
-msgstr ""
+msgstr "Alt tekstas"
 
 #: templates/admin/views/option-fields-new.php:24
 msgid "Colour"
-msgstr ""
+msgstr "Spalva"
+
+#: templates/admin/views/option-fields-new.php:27
+msgid "Option"
+msgstr "Parinktis"
+
+#: templates/admin/views/option-fields-new.php:47
+#: templates/admin/views/option-fields.php:77
+msgid "Add Option"
+msgstr "Pridėti parinktį"
+
+#: templates/admin/views/option-fields-new.php:54
+#: templates/admin/views/option-fields.php:91
+msgid "First field is instruction only"
+msgstr "Pirmas laukas skirtas tik instrukcijai"
 
 #: templates/admin/views/option-fields.php:35
 msgid "Color"
-msgstr ""
+msgstr "Spalva"
 
 #: templates/admin/views/price-visibility.php:42
 msgid "Field Price Visibility"
-msgstr ""
+msgstr "Lauko kainos matomumas"
 
 #: templates/admin/views/price-visibility.php:52
 #: templates/admin/views/price-visibility.php:80
 msgid "Visible"
-msgstr ""
+msgstr "Matoma"
 
 #: templates/admin/views/price-visibility.php:54
 #: templates/admin/views/price-visibility.php:82
 msgid "Hidden"
-msgstr ""
+msgstr "Paslėpta"
 
 #: templates/admin/views/price-visibility.php:70
 msgid "Option Price Visibility"
-msgstr ""
+msgstr "Parinkties kainos matomumas"
 
 #: templates/admin/views/price-visibility.php:87
 msgid "Value Only"
-msgstr ""
+msgstr "Tik reikšmė"
 
-#: templates/frontend/products/products-column.php:380
+#: templates/frontend/products/products-column.php:427
 msgid "Add"
-msgstr ""
+msgstr "Pridėti"
 
-#: templates/frontend/products/products-grid.php:49
+#: templates/frontend/products/products-grid.php:50
 msgid "Child product needs to be variable"
-msgstr ""
+msgstr "Vaikinis produktas turi būti kintamas (variable)"
 
-#: templates/frontend/products/products-grid.php:61
+#: templates/frontend/products/products-grid.php:62
 msgid "Child product needs to have two attributes"
-msgstr ""
+msgstr "Vaikinis produktas turi turėti du atributus"
 
-#: templates/frontend/products/products-swatches.php:359
+#: templates/frontend/products/products-swatches.php:365
 msgid "Toggle"
-msgstr ""
+msgstr "Perjungti"
 
 #: templates/frontend/summary-panel.php:115
 msgid "Subtotal"
-msgstr ""
+msgstr "Tarpinė suma"
+
+#: templates/frontend/upload.php:22
+msgid "You need to be logged in to upload files"
+msgstr "Norėdami įkelti failus, turite būti prisijungę"
+
+#~ msgid "Invalid nonce."
+#~ msgstr "Neteisingas nonce."

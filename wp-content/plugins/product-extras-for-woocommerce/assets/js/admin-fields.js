@@ -770,11 +770,12 @@ jQuery( function( $ ) {
       var panel = $( '#pewc_global_settings_form' );
       $( panel ).find( '.pewc-loading' ).show();
   		var button = $(this);
-  		$( button ).attr('disabled','true');
+		$( button ).prop( 'disabled', true );
+  		//$( button ).attr('disabled','true'); // 4.4.3, commented out
   		// $(button).parent().find('.spinner').css('visibility','visible');
   		var form = $('#pewc_global_settings_form').serializeArray();
 
-		// aou-ajax-condition, when using AJAX condition, some conditions might have duplicates e.g. hidden input field
+		// 4.4.0, when using AJAX condition, some conditions might have duplicates e.g. hidden input field
 		// only dedupe condition_field/condition_rule/condition_value names, keeping the last occurrence of each
 		var isConditionField = /\[condition_field\]|\[condition_rule\]|\[condition_value\]/;
 		var lastIndexByName = {};
@@ -803,7 +804,8 @@ jQuery( function( $ ) {
   			},
   			success: function(response) {
           $( panel ).find( '.pewc-loading' ).hide();
-  				$(button).removeAttr('disabled');
+				$( button ).prop( 'disabled', false );
+  				//$(button).removeAttr('disabled'); // 4.4.3, commented out, deprecated
   				// $(button).parent().find('.spinner').css('visibility','hidden');
   			}
   		});
@@ -1053,7 +1055,7 @@ jQuery( function( $ ) {
   		var option_value = 'pewc_group_' + group_id + '_' + item_id;
   		$(select_id + ' option[value="' + option_value + '"]').remove();
 
-		// aou-ajax-condition, remove the optgroup if that was the only field left in it (e.g. current group in a global set)
+		// 4.4.0, remove the optgroup if that was the only field left in it (e.g. current group in a global set)
   		$(select_id).find('optgroup').each(function() {
   			if( $(this).find('option').length === 0 ) {
   				$(this).remove();
@@ -1281,6 +1283,10 @@ jQuery( function( $ ) {
         return (className.match (/(^|\s)products-layout-\S+/g) || []).join(' ');
       });
       $(wrapper).addClass('products-layout-'+layout);
+      // Default Number Columns to 1 for the list layouts
+      if( layout == 'checkboxes-list' || layout == 'radio-list' ) {
+        $(wrapper).find('.pewc-number-columns').val(1);
+      }
       // Set allow_none to enabled if layout is checkboxes
       $(wrapper).find('.pewc-field-allow_none').attr('disabled',false);
       if( layout=='checkboxes' || layout=='checkboxes-list' || layout=='column' ) {
@@ -2045,7 +2051,7 @@ jQuery( function( $ ) {
       if( field_type_id == 'cost' || field_type_id == 'quantity' ) {
         field_type = field_type_id;
       } else if ( field_type == undefined ) {
-		// aou-ajax-condition, maybe this is a global field, get from attribute instead
+		// 4.4.0, maybe this is a global field, get from attribute instead
 		field_type = conditional_row.find( '.pewc-condition-field option:selected' ).attr( 'data-type' );
 	  }
 	  var is_attribute = false;
@@ -2425,11 +2431,49 @@ jQuery( function( $ ) {
   field_nav.init();
 
   var group_settings = {
+	storage_key: 'pewc_collapsed_groups',
 	init: function() {
 		$( document.body ).on( 'click', '.pewc-group-settings-heading', this.toggle );
+		this.restore();
+	},
+	get_collapsed_ids: function() {
+		try {
+			return JSON.parse( window.localStorage.getItem( this.storage_key ) ) || [];
+		} catch ( err ) {
+			return [];
+		}
+	},
+	restore: function() {
+		var collapsed_ids = this.get_collapsed_ids();
+		if ( ! collapsed_ids.length ) {
+			return;
+		}
+		$( '.group-row' ).each( function() {
+			var group_id = $( this ).attr( 'data-group-id' );
+			if ( collapsed_ids.indexOf( group_id ) !== -1 ) {
+				$( this ).find( '.pewc-all-fields-wrapper' ).first().addClass( 'collapse' );
+			}
+		});
 	},
 	toggle: function( e ) {
-		$( this ).closest( '.pewc-all-fields-wrapper' ).toggleClass( 'collapse' );
+		var wrapper = $( this ).closest( '.pewc-all-fields-wrapper' );
+		var group_id = wrapper.closest( '.group-row' ).attr( 'data-group-id' );
+		var is_collapsed = wrapper.toggleClass( 'collapse' ).hasClass( 'collapse' );
+
+		if ( ! group_id ) {
+			return;
+		}
+
+		var collapsed_ids = group_settings.get_collapsed_ids();
+		var index = collapsed_ids.indexOf( group_id );
+
+		if ( is_collapsed && index === -1 ) {
+			collapsed_ids.push( group_id );
+		} else if ( ! is_collapsed && index !== -1 ) {
+			collapsed_ids.splice( index, 1 );
+		}
+
+		window.localStorage.setItem( group_settings.storage_key, JSON.stringify( collapsed_ids ) );
 	}
   }
 

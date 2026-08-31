@@ -93,7 +93,11 @@ jQuery(document).ready(function($) {
 						tiWindow.close();
 						$('#ti-connect-info').removeClass('ti-d-none');
 
-						$('#ti-noreg-page-details').val(JSON.stringify(event.data));
+						let jsonStr = JSON.stringify(event.data).replace(/[\u0080-\uffff]/g, c => {
+							return '\\u' + ('0000' + c.charCodeAt(0).toString(16)).slice(-4);
+						});
+
+						$('#ti-noreg-page-details').val(jsonStr);
 
 						button.closest('form').submit();
 					}

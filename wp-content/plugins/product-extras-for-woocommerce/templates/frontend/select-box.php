@@ -40,7 +40,8 @@ if( isset( $item['field_options'] ) ) {
 	$option_class = array();
 
 	// 3.13.7, check if filter is enabled, to be used later
-	$add_on_image_action = pewc_get_add_on_image_action( $product->get_id() );
+	// 4.4.3, also enable when this field's own 'Replace main image' setting is on
+	$add_on_image_action = pewc_get_add_on_image_action( $product->get_id() ) || ! empty( $item['replace_main_image'] );
 
 	foreach( $item['field_options'] as $key=>$option_value ) {
 

@@ -110,7 +110,7 @@ add_filter( 'pewc_filter_single_product_classes', 'pewc_add_quickview_field_clas
 /**
  * Build the QuickView template
  * @since	3.8.6
- * @version	4.3.11
+ * @version	4.4.2
  */
 function pewc_display_quickview_template( $field_id, $child_product, $child_product_id ) {
 
@@ -158,6 +158,14 @@ function pewc_display_quickview_template( $field_id, $child_product, $child_prod
 		}
 		$pewc_saved_hooks[ $hook_name ] = $wp_filter[ $hook_name ];
 		$wp_filter[ $hook_name ]        = new WP_Hook();
+	}
+
+	// 4.4.2, re-add just the core product gallery to the now-empty woocommerce_before_single_product_summary
+	// hook, so the QuickView box still shows the image without also pulling in anything else a
+	// theme or plugin has hooked onto woocommerce_before_single_product_summary (sale flashes,
+	// sticky add-to-cart bars, page-builder wrappers, etc).
+	if ( function_exists( 'woocommerce_show_product_images' ) ) {
+		add_action( 'woocommerce_before_single_product_summary', 'woocommerce_show_product_images', 20 );
 	}
 
 	// 3.26.15

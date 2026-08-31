@@ -51,7 +51,7 @@ class cmp_subs_list_table extends WP_List_Table {
    	// Displaying checkboxes!
     function column_cb($item) {
         return sprintf(
-            '<input type="checkbox" name="id[%s]" value="%s" />', $item['id'], $item['id']
+            '<input type="checkbox" name="id[%s]" value="%s" />', esc_attr( absint( $item['id'] ) ), esc_attr( absint( $item['id'] ) )
         );    
     }
 	/**
@@ -76,12 +76,13 @@ class cmp_subs_list_table extends WP_List_Table {
      * @return Mixed
      */
     function column_email($item) {
-        $complete_url = wp_nonce_url( sprintf('?page=%s&action=%s&id=%s', $_REQUEST['page'],'delete',$item['id']), 'cmp_delete_subscriber', '_nonce' );
+        $page = isset( $_REQUEST['page'] ) ? sanitize_key( wp_unslash( $_REQUEST['page'] ) ) : 'cmp-subscribers';
+        $complete_url = wp_nonce_url( add_query_arg( array( 'page' => $page, 'action' => 'delete', 'id' => absint( $item['id'] ) ), admin_url( 'admin.php' ) ), 'cmp_delete_subscriber', '_nonce' );
         $actions = array(
-                'delete'    => '<a href="'.$complete_url.'">'.__('Delete', 'cmp-coming-soon-maintenance').'</a>',
+            'delete'    => '<a href="'.esc_url( $complete_url ).'">'.esc_html__( 'Delete', 'cmp-coming-soon-maintenance' ).'</a>',
             );    
 
-      return sprintf('%1$s %2$s', $item['email'], $this->row_actions($actions) );
+          return sprintf('%1$s %2$s', esc_html( $item['email'] ), $this->row_actions($actions) );
     }
 
 	/**
@@ -90,26 +91,24 @@ class cmp_subs_list_table extends WP_List_Table {
 	 * @since 1.2
 	 */
 	function process_bulk_action() {
-        // security check!
-		// check onces and wordpress rights, else DIE
-        if ( isset( $_POST['_wpnonce'] ) && ! empty( $_POST['_wpnonce'] ) ) {
+        $action = $this->current_action();
 
-            $nonce  = filter_input( INPUT_POST, '_wpnonce', FILTER_SANITIZE_STRING );
-            $action = 'bulk-' . $this->_args['plural'];
-
-            if ( ! wp_verify_nonce( $nonce, $action ) )
-                wp_die( 'Sorry, but this request is invalid.' );
-
+        if ( ! in_array( $action, array( 'delete', 'delete-all' ), true ) ) {
+            return;
         }
 
-		// check onces and wordpress rights, else DIE
-		if ( $_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['id'])) {
-			if( !wp_verify_nonce($_GET['_nonce'], 'cmp_delete_subscriber' ) || !current_user_can('publish_pages') ) {
-				die('Sorry, but this request is invalid.');
-			}
-		}
+        if ( ! current_user_can( 'manage_options' ) ) {
+            wp_die( esc_html__( 'Sorry, but this request is invalid.', 'cmp-coming-soon-maintenance' ), '', array( 'response' => 403 ) );
+        }
 
-        $action = $this->current_action();
+        if ( isset( $_GET['id'] ) ) {
+            $nonce = isset( $_GET['_nonce'] ) ? sanitize_text_field( wp_unslash( $_GET['_nonce'] ) ) : '';
+            if ( ! wp_verify_nonce( $nonce, 'cmp_delete_subscriber' ) ) {
+                wp_die( esc_html__( 'Sorry, but this request is invalid.', 'cmp-coming-soon-maintenance' ), '', array( 'response' => 403 ) );
+            }
+        } else {
+            check_admin_referer( 'bulk-' . $this->_args['plural'] );
+        }
 
         switch ( $action ) {
 
@@ -122,14 +121,17 @@ class cmp_subs_list_table extends WP_List_Table {
                 } else {
                     wp_redirect( self_admin_url( "admin.php?page=cmp-subscribers" ) );
                 }
+                exit;
+
             break;
 
             case 'delete':
                 // if bulk action
                 if ( $_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['id']) && is_array($_POST['id']) ) {
+                    $selected_ids = array_map( 'absint', wp_unslash( $_POST['id'] ) );
             	    foreach ( $this->subscriber_list as $key => $subscriber ) {
                         // unset posted ids from subscribers bulk action
-					    if (in_array($subscriber['id'], $_POST['id'])) {
+                        if (in_array(absint($subscriber['id']), $selected_ids, true)) {
 					    	unset($this->subscriber_list[$key]);
 					    }
             		}
@@ -137,9 +139,10 @@ class cmp_subs_list_table extends WP_List_Table {
 
             	// if delete action
             	if ( $_SERVER['REQUEST_METHOD'] == 'GET' && isset( $_GET['id'] ) ) {
+                    $subscriber_id = absint( $_GET['id'] );
                     foreach ($this->subscriber_list as $key => $subscriber) {
                         // unset posted id from subscribers delete
-					    if ( $subscriber['id'] ==  $_GET['id'] ) {
+                        if ( absint( $subscriber['id'] ) === $subscriber_id ) {
 					    	unset( $this->subscriber_list[$key] );
 					    }
                     }

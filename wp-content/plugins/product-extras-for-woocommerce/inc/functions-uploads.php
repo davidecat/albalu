@@ -280,6 +280,9 @@ function pewc_ajax_upload_script( $id, $field, $multiply_price ) {
 						var message = ( response && response.data ) ? response.data : response;
 						var errorEl = file.previewElement.querySelector('[data-dz-errormessage]');
     					if ( errorEl ) errorEl.textContent = message;
+						// 4.4.3, add the error returned by the server to the error message displayed inside the container
+						var errorMarkEl = file.previewElement.querySelector('.dz-error-mark span');
+						if ( errorMarkEl ) errorMarkEl.textContent += '. ' + message;
 						$( '.dropzone.dz-clickable' ).unblock();
 					});
 
@@ -613,6 +616,9 @@ function pewc_ajax_upload_script_repeatable( $id, $field, $multiply_price ) {
 						var message = ( response && response.data ) ? response.data : response;
 						var errorEl = file.previewElement.querySelector('[data-dz-errormessage]');
     					if ( errorEl ) errorEl.textContent = message;
+						// 4.4.3, add the error returned by the server to the error message displayed inside the container
+						var errorMarkEl = file.previewElement.querySelector('.dz-error-mark span');
+						if ( errorMarkEl ) errorMarkEl.textContent += '. ' + message;
 						$( '.dropzone.dz-clickable' ).unblock();
 					});
 

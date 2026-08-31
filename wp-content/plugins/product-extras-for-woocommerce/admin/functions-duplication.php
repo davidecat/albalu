@@ -224,6 +224,12 @@ function pewc_duplicate_groups_and_fields( $duplicate, $product, $overwrite=true
 			update_post_meta( $duplicate_group_id, 'group_description', $group_description );
 			update_post_meta( $duplicate_group_id, 'group_layout', $group_layout );
 
+			// 4.4.3, also copy group_class and always_include, previously missed when duplicating/importing groups
+			$group_class = get_post_meta( $group_id, 'group_class', true );
+			$always_include = get_post_meta( $group_id, 'always_include', true );
+			update_post_meta( $duplicate_group_id, 'group_class', $group_class );
+			update_post_meta( $duplicate_group_id, 'always_include', $always_include );
+
 			// 3.22.0
 			pewc_duplicate_repeatable_postmeta( $group_id, $duplicate_group_id );
 

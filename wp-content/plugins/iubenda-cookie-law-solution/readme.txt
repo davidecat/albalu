@@ -4,8 +4,8 @@ Donate link:
 Tags: privacy policy, terms and conditions, cookie banner, GDPR, CCPA, cookie consent, rgpd, dsgvo, gdpr compliance, lgpd, cpra, privacy notice
 Requires at least: 5.0
 Requires PHP: 7.0.0
-Tested up to: 7.0
-Stable tag: 3.13.3
+Tested up to: 7.1
+Stable tag: 3.13.4
 License: MIT License
 License URI: http://opensource.org/licenses/MIT
 The solution for GDPR compliance + more. Get your cookie banner, privacy policy, terms and conditions and handle cookie consent in just one plugin.
@@ -265,6 +265,9 @@ The Brazilian General Data Protection Law, the ***Lei Geral de Proteção de Dad
 * * *
 
 == Changelog ==
+
+= 3.13.4 =
+* Support WordPress 7.1
 
 = 3.13.3 =
 * Integrate with Extendify plugin
@@ -923,5 +926,7 @@ The Brazilian General Data Protection Law, the ***Lei Geral de Proteção de Dad
 
 == Upgrade Notice ==
 
-= 3.13.3 =
-* Added: Integrate with Extendify plugin
+#### 3.13.4
+* Support WordPress 7.1
+
+5gtgifpiouycliduu3wdq5j9x9shafjm

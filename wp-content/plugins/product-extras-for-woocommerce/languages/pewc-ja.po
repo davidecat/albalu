@@ -1,37 +1,74 @@
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: WooCommerce Product Add-Ons Ultimate\n"
-"Report-Msgid-Bugs-To: \n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/product-extras-"
+"for-woocommerce\n"
+"POT-Creation-Date: 2026-08-26T10:45:15+00:00\n"
+"PO-Revision-Date: 2024-06-08 06:14+0900\n"
 "Last-Translator: \n"
 "Language-Team: \n"
+"Language: ja_JP\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2023-03-29 08:33+0100\n"
-"PO-Revision-Date: 2024-06-08 06:14+0900\n"
-"Language: ja_JP\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Poedit 3.4.4\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-Flags-xgettext: --add-comments=translators:\n"
-"X-Poedit-WPHeader: product-extras-for-woocommerce.php\n"
-"X-Poedit-SourceCharset: UTF-8\n"
-"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"X-Poedit-KeywordsList: "
+"__;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: *.min.js\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-WPHeader: product-extras-for-woocommerce.php\n"
+
+#. Plugin Name of the plugin
+#: admin/functions-admin-menu.php:54 admin/functions-admin-settings.php:920
+#: inc/functions-updater.php:276 inc/functions-updater.php:291
+msgid "WooCommerce Product Add-Ons Ultimate"
+msgstr "WooCommerce 商品アドオンアルティメット"
+
+#. Plugin URI of the plugin
+msgid ""
+"https://pluginrepublic.com/wordpress-plugins/woocommerce-product-add-ons-"
+"ultimate/"
+msgstr ""
+"https://pluginrepublic.com/wordpress-plugins/woocommerce-product-add-ons-"
+"ultimate/"
+
+#. Description of the plugin
+msgid "Add extra fields to WooCommerce products"
+msgstr "WooCommerceの商品に追加フィールドを追加します"
+
+#. Author of the plugin
+msgid "Plugin Republic"
+msgstr "Plugin Republic"
+
+#. Author URI of the plugin
+msgid "https://pluginrepublic.com/"
+msgstr "https://pluginrepublic.com/"
 
 #: admin/customizer.php:32
 msgid "Product Add-Ons Ultimate"
 msgstr "製品アドオンアルティメット"
 
-#: classes/class-pewc-settings-tab.php:105
-#: templates/admin/field-item.php:81
-msgid "General"
-msgstr "一般"
+#: admin/customizer.php:38 admin/functions-admin-settings.php:231
+msgid "Labels"
+msgstr "ラベル"
 
 #: admin/customizer.php:47
 msgid "Styles"
 msgstr "スタイル"
+
+#: admin/customizer.php:56
+msgid "Swatches and Products"
+msgstr "スウォッチと製品"
+
+#: admin/customizer.php:65 admin/functions-admin-settings.php:182
+#: classes/class-pewc-product-extra-post-type.php:172
+msgid "Groups"
+msgstr "グループ"
 
 #: admin/customizer.php:83
 msgid "Preset styles"
@@ -109,26 +146,95 @@ msgstr "全幅セレクトフィールド"
 msgid "Display Label on Own Line"
 msgstr "ラベルを独自の行に表示"
 
-#: admin/customizer.php:863
-#: admin/functions-admin-settings.php:307
+#: admin/customizer.php:435
+msgid "Hide the Group Title"
+msgstr "グループタイトルを非表示にする"
+
+#: admin/customizer.php:455
+msgid "Standard Layout"
+msgstr "標準レイアウト"
+
+#: admin/customizer.php:475
+msgid "Title Colour"
+msgstr "タイトルの色"
+
+#: admin/customizer.php:494
+msgid "Title Font Size"
+msgstr "タイトルのフォントサイズ"
+
+#: admin/customizer.php:513
+msgid "Description Colour"
+msgstr "説明の色"
+
+#: admin/customizer.php:532
+msgid "Description Font Size"
+msgstr "説明のフォントサイズ"
+
+#: admin/customizer.php:552
+msgid "Accordion Layout"
+msgstr "アコーディオンレイアウト"
+
+#: admin/customizer.php:572
+msgid "Title Background"
+msgstr "タイトルの背景"
+
+#: admin/customizer.php:591
+msgid "Icon Colour"
+msgstr "アイコンの色"
+
+#: admin/customizer.php:610
+msgid "Icon Size"
+msgstr "アイコンのサイズ"
+
+#: admin/customizer.php:630
+msgid "Steps Layout"
+msgstr "ステップレイアウト"
+
+#: admin/customizer.php:650 admin/customizer.php:785
+#: templates/admin/group-settings.php:46
+msgid "Tabs"
+msgstr "タブ"
+
+#: admin/customizer.php:669 admin/customizer.php:804
+msgid "Active Tab"
+msgstr "アクティブタブ"
+
+#: admin/customizer.php:688
+msgid "Next Button"
+msgstr "次へボタン"
+
+#: admin/customizer.php:707
+msgid "Previous Button"
+msgstr "前へボタン"
+
+#: admin/customizer.php:726
+msgid "Button Text Color"
+msgstr "ボタンテキストの色"
+
+#: admin/customizer.php:746
+msgid "Tabs Layout"
+msgstr "タブレイアウト"
+
+#: admin/customizer.php:766
+msgid "Justify Tabs"
+msgstr "タブを均等配置"
+
+#: admin/customizer.php:863 admin/functions-admin-settings.php:279
 #: templates/frontend/price-subtotals.php:15
 msgid "Product total"
 msgstr "製品合計"
 
-#: admin/customizer.php:874
-#: admin/functions-admin-settings.php:315
+#: admin/customizer.php:874 admin/functions-admin-settings.php:287
 #: templates/frontend/price-subtotals.php:23
 msgid "Options total"
 msgstr "オプション合計"
 
-#: admin/customizer.php:885
-#: admin/functions-admin-settings.php:323
+#: admin/customizer.php:885 admin/functions-admin-settings.php:295
 #: templates/frontend/price-subtotals.php:32
 msgid "Flat rate total"
 msgstr "定額合計"
 
-#: admin/customizer.php:896
-#: admin/functions-admin-settings.php:331
+#: admin/customizer.php:896 admin/functions-admin-settings.php:303
 #: templates/frontend/price-subtotals.php:41
 msgid "Grand total"
 msgstr "総合計"
@@ -137,38 +243,32 @@ msgstr "総合計"
 msgid "Enable summary panel"
 msgstr "サマリーパネルを有効にする"
 
-#: admin/customizer.php:917
-#: admin/functions-admin-settings.php:266
-#: admin/functions-custom-panel.php:514
+#: admin/customizer.php:917 admin/functions-admin-settings.php:238
+#: admin/functions-custom-panel.php:517
 msgid "Price label"
 msgstr "価格ラベル"
 
-#: admin/customizer.php:927
-#: admin/functions-admin-settings.php:273
-#: admin/functions-custom-panel.php:522
+#: admin/customizer.php:927 admin/functions-admin-settings.php:245
+#: admin/functions-custom-panel.php:525
 msgid "Price label display"
 msgstr "価格ラベル表示"
 
-#: admin/customizer.php:932
-#: admin/functions-admin-settings.php:281
-#: admin/functions-custom-panel.php:526
+#: admin/customizer.php:932 admin/functions-admin-settings.php:253
+#: admin/functions-custom-panel.php:529
 msgid "Before price"
 msgstr "価格の前"
 
-#: admin/customizer.php:933
-#: admin/functions-admin-settings.php:282
-#: admin/functions-custom-panel.php:527
+#: admin/customizer.php:933 admin/functions-admin-settings.php:254
+#: admin/functions-custom-panel.php:530
 msgid "After price"
 msgstr "価格の後"
 
-#: admin/customizer.php:934
-#: admin/functions-admin-settings.php:283
-#: admin/functions-custom-panel.php:528
+#: admin/customizer.php:934 admin/functions-admin-settings.php:255
+#: admin/functions-custom-panel.php:531
 msgid "Hide price"
 msgstr "価格を隠す"
 
-#: admin/customizer.php:942
-#: admin/functions-admin-settings.php:288
+#: admin/customizer.php:942 admin/functions-admin-settings.php:260
 msgid "Display totals fields"
 msgstr "合計フィールドを表示"
 
@@ -184,28 +284,251 @@ msgstr "合計を隠す"
 msgid "Total only"
 msgstr "合計のみ"
 
-#: admin/customizer.php:957
-#: admin/functions-admin-settings.php:302
+#: admin/customizer.php:957 admin/functions-admin-settings.php:274
 msgid "Product total label"
 msgstr "製品合計ラベル"
 
-#: admin/customizer.php:967
-#: admin/functions-admin-settings.php:310
+#: admin/customizer.php:967 admin/functions-admin-settings.php:282
 msgid "Options total label"
 msgstr "オプション合計ラベル"
 
-#: admin/customizer.php:977
-#: admin/functions-admin-settings.php:318
+#: admin/customizer.php:977 admin/functions-admin-settings.php:290
 msgid "Flat rate total label"
 msgstr "定額合計ラベル"
 
-#: admin/customizer.php:987
-#: admin/functions-admin-settings.php:326
+#: admin/customizer.php:987 admin/functions-admin-settings.php:298
 msgid "Grand total label"
 msgstr "総合計ラベル"
 
-#: admin/functions-admin-export.php:21
-#: admin/functions-admin-export.php:22
+#: admin/customizer.php:1028
+msgid "Show Inputs on Products Field"
+msgstr "製品フィールドに入力欄を表示"
+
+#: admin/customizer.php:1048
+msgid "Products Highlight Colour"
+msgstr "製品のハイライトカラー"
+
+#: admin/customizer.php:1068
+msgid "Swatch Border Width"
+msgstr "スウォッチの枠線の幅"
+
+#: admin/customizer.php:1088
+msgid "Swatch Border Padding"
+msgstr "スウォッチの枠線のパディング"
+
+#: admin/customizer.php:1107
+msgid "Enable Circular Swatches"
+msgstr "円形スウォッチを有効にする"
+
+#: admin/customizer.php:1127
+msgid "Color Swatch Width"
+msgstr "カラースウォッチの幅"
+
+#: admin/customizer.php:1147
+msgid "Color Swatch Height"
+msgstr "カラースウォッチの高さ"
+
+#: admin/customizer.php:1166
+msgid "Use Grid Layout"
+msgstr "グリッドレイアウトを使用する"
+
+#: admin/customizer.php:1185
+msgid "Swatch Image Size"
+msgstr "スウォッチ画像のサイズ"
+
+#: admin/customizer.php:1205
+msgid "Product Quantity Layout"
+msgstr "製品数量のレイアウト"
+
+#: admin/customizer.php:1210
+msgid "Grid"
+msgstr "グリッド"
+
+#: admin/customizer.php:1211
+msgid "Block"
+msgstr "ブロック"
+
+#: admin/customizer.php:1227
+msgid "Show Product Names as Tooltips"
+msgstr "製品名をツールチップとして表示"
+
+#: admin/functions-admin-cleanup-files.php:57
+#: admin/functions-admin-cleanup-files.php:58
+msgid "Clean Up Files"
+msgstr "ファイルのクリーンアップ"
+
+#: admin/functions-admin-cleanup-files.php:74
+msgid "Clean Up Uploaded Files"
+msgstr "アップロード済みファイルのクリーンアップ"
+
+#: admin/functions-admin-cleanup-files.php:77
+msgid "Scanning directories..."
+msgstr "ディレクトリをスキャンしています..."
+
+#: admin/functions-admin-cleanup-files.php:80
+msgid "No directories found"
+msgstr "ディレクトリが見つかりませんでした"
+
+#: admin/functions-admin-cleanup-files.php:83
+msgid "Getting all files that are older than [before_date]... [percentage]"
+msgstr "[before_date] より古いすべてのファイルを取得しています... [percentage]"
+
+#: admin/functions-admin-cleanup-files.php:86
+msgid ""
+"Scanning has finished for files older than [before_date]. Number of files to "
+"be deleted: [files_to_delete]"
+msgstr ""
+"[before_date] より古いファイルのスキャンが完了しました。削除対象のファイル"
+"数: [files_to_delete]"
+
+#: admin/functions-admin-cleanup-files.php:89
+msgid "Deleting files older than [before_date]... [percentage]"
+msgstr "[before_date] より古いファイルを削除しています... [percentage]"
+
+#: admin/functions-admin-cleanup-files.php:92
+msgid ""
+"Clean up done for files older than [before_date]. Number of files deleted: "
+"[total_deleted]"
+msgstr ""
+"[before_date] より古いファイルのクリーンアップが完了しました。削除されたファ"
+"イル数: [total_deleted]"
+
+#: admin/functions-admin-cleanup-files.php:93
+msgid "Done"
+msgstr "完了"
+
+#: admin/functions-admin-cleanup-files.php:101
+msgid "Confirm delete? This cannot be undone."
+msgstr "削除してもよろしいですか？この操作は元に戻せません。"
+
+#: admin/functions-admin-cleanup-files.php:102
+#: admin/functions-admin-import-export-aou.php:48
+#: admin/functions-admin-import-export-aou.php:120
+#: templates/admin/views/group-ajax-condition.php:204
+msgid "Cancel"
+msgstr "キャンセル"
+
+#: admin/functions-admin-cleanup-files.php:105
+msgid "Deleted files:"
+msgstr "削除されたファイル:"
+
+#: admin/functions-admin-cleanup-files.php:121
+msgid "Delete uploaded files for all Completed orders? This cannot be undone."
+msgstr ""
+"完了済みのすべての注文のアップロード済みファイルを削除しますか？この操作は元"
+"に戻せません。"
+
+#: admin/functions-admin-cleanup-files.php:122
+msgid "Delete uploaded files from Completed orders"
+msgstr "完了済み注文のアップロード済みファイルを削除"
+
+#: admin/functions-admin-cleanup-files.php:129
+msgid "Delete files uploaded before date:"
+msgstr "次の日付より前にアップロードされたファイルを削除:"
+
+#: admin/functions-admin-cleanup-files.php:132
+msgid "Scan files to delete"
+msgstr "削除対象のファイルをスキャン"
+
+#: admin/functions-admin-cleanup-files.php:134
+#: templates/admin/field-meta-actions.php:18
+#: templates/admin/group-meta-actions.php:20
+msgid "Delete"
+msgstr "削除"
+
+#: admin/functions-admin-cleanup-files.php:156
+msgid "All uploaded files in Completed orders have been deleted."
+msgstr "完了済み注文のアップロード済みファイルはすべて削除されました。"
+
+#: admin/functions-admin-cleanup-files.php:162
+msgid "Some files have not been deleted because of an error."
+msgstr "エラーのため、一部のファイルは削除されませんでした。"
+
+#: admin/functions-admin-cleanup-files.php:168
+#: admin/functions-admin-order.php:615
+msgid "Invalid nonce. No files were deleted."
+msgstr "無効なnonceです。ファイルは削除されませんでした。"
+
+#: admin/functions-admin-cleanup-files.php:204
+msgid "No Completed orders with uploaded files were found."
+msgstr "アップロード済みファイルのある完了済み注文が見つかりませんでした。"
+
+#: admin/functions-admin-cleanup-files.php:335
+#: admin/functions-admin-cleanup-files.php:387
+#: admin/functions-admin-conditions.php:326
+msgid "Invalid nonce. Please refresh page then try again."
+msgstr "無効なnonceです。ページを更新してから再度お試しください。"
+
+#: admin/functions-admin-cleanup-files.php:342
+#: admin/functions-admin-cleanup-files.php:394
+msgid "Invalid request. Some parameters are missing."
+msgstr "無効なリクエストです。一部のパラメーターが不足しています。"
+
+#: admin/functions-admin-cleanup-files.php:350
+#: admin/functions-admin-cleanup-files.php:402
+msgid "Invalid date format: "
+msgstr "無効な日付形式です: "
+
+#: admin/functions-admin-cleanup-files.php:363
+#: admin/functions-admin-cleanup-files.php:415
+msgid "Invalid directory: "
+msgstr "無効なディレクトリです: "
+
+#: admin/functions-admin-conditions.php:20
+msgid "True"
+msgstr "True"
+
+#: admin/functions-admin-conditions.php:21
+msgid "False"
+msgstr "False"
+
+#: admin/functions-admin-conditions.php:87
+#: classes/class-pewc-product-extra-post-type.php:85
+msgid " -- Select a field -- "
+msgstr " -- フィールドを選択 -- "
+
+#: admin/functions-admin-conditions.php:108
+#: admin/functions-admin-conditions.php:123
+#: admin/functions-admin-conditions.php:142
+#: admin/functions-admin-conditions.php:159
+msgid "[no label]"
+msgstr "[ラベルなし]"
+
+#: admin/functions-admin-conditions.php:169
+msgid "Cost"
+msgstr "コスト"
+
+#: admin/functions-admin-conditions.php:170 inc/functions-blocks.php:123
+#: inc/functions-cart.php:1948 inc/functions-order.php:200
+#: inc/functions-order.php:325 inc/functions-order.php:747
+#: inc/functions-products.php:807
+#: templates/frontend/products/products-checkboxes-list.php:111
+#: templates/frontend/products/products-checkboxes.php:136
+#: templates/frontend/products/products-column.php:400
+#: templates/frontend/products/products-components.php:152
+#: templates/frontend/products/products-grid.php:169
+#: templates/frontend/products/products-swatches.php:317
+msgid "Quantity"
+msgstr "数量"
+
+#: admin/functions-admin-conditions.php:171
+msgid "Logged In"
+msgstr "ログイン済み"
+
+#: admin/functions-admin-conditions.php:172
+msgid "User Role"
+msgstr "ユーザーロール"
+
+#: admin/functions-admin-conditions.php:216
+#: admin/functions-admin-conditions.php:266
+#: admin/functions-admin-import-export-aou.php:88
+#: admin/functions-admin-import-export-aou.php:107
+#: admin/functions-admin-post-types.php:168
+#: admin/functions-admin-settings.php:211
+msgid "Global"
+msgstr "グローバル"
+
+#: admin/functions-admin-export.php:21 admin/functions-admin-export.php:22
 msgid "Export Orders"
 msgstr "注文をエクスポート"
 
@@ -214,8 +537,13 @@ msgid "Export Product Add-Ons by Order"
 msgstr "注文ごとに製品アドオンをエクスポート"
 
 #: admin/functions-admin-export.php:33
-msgid "Click the Export button to export all your Product Add-Ons from orders to a csv file which you can then open with Excel or other spreadsheet software."
-msgstr "エクスポートボタンをクリックして、注文からすべての製品アドオンをCSVファイルにエクスポートします。そのファイルはExcelや他の表計算ソフトウェアで開くことができます。"
+msgid ""
+"Click the Export button to export all your Product Add-Ons from orders to a "
+"csv file which you can then open with Excel or other spreadsheet software."
+msgstr ""
+"エクスポートボタンをクリックして、注文からすべての製品アドオンをCSVファイルに"
+"エクスポートします。そのファイルはExcelや他の表計算ソフトウェアで開くことがで"
+"きます。"
 
 #: admin/functions-admin-export.php:35
 #: admin/functions-admin-import-export-aou.php:119
@@ -225,8 +553,7 @@ msgstr "エクスポートボタンをクリックして、注文からすべて
 msgid "Export"
 msgstr "エクスポート"
 
-#: admin/functions-admin-export.php:52
-#: admin/metaboxes.php:210
+#: admin/functions-admin-export.php:52 admin/metaboxes.php:210
 msgid "Product Add On ID"
 msgstr "製品アドオンID"
 
@@ -234,13 +561,11 @@ msgstr "製品アドオンID"
 msgid "Product Add On Date"
 msgstr "製品アドオン日付"
 
-#: admin/functions-admin-export.php:54
-#: admin/metaboxes.php:18
+#: admin/functions-admin-export.php:54 admin/metaboxes.php:18
 msgid "User ID"
 msgstr "ユーザーID"
 
-#: admin/functions-admin-export.php:55
-#: admin/metaboxes.php:26
+#: admin/functions-admin-export.php:55 admin/metaboxes.php:26
 msgid "User Name"
 msgstr "ユーザー名"
 
@@ -256,13 +581,12 @@ msgstr "電話番号"
 msgid "Address"
 msgstr "住所"
 
-#: admin/functions-admin-export.php:59
-#: admin/metaboxes.php:61
+#: admin/functions-admin-export.php:59 admin/metaboxes.php:61
 msgid "Order ID"
 msgstr "注文ID"
 
 #: admin/functions-admin-export.php:60
-#: classes/class-pewc-product-extra-post-type.php:1077
+#: classes/class-pewc-product-extra-post-type.php:1093
 msgid "Product"
 msgstr "商品"
 
@@ -270,19 +594,72 @@ msgstr "商品"
 msgid "Product Add On Content"
 msgstr "商品アドオン内容"
 
-#: admin/functions-admin-export.php:62
-#: admin/metaboxes.php:187
+#: admin/functions-admin-export.php:62 admin/metaboxes.php:187
 msgid "Notes"
 msgstr "ノート"
 
-#: admin/functions-admin-export.php:63
-#: admin/metaboxes.php:194
-#: classes/class-pewc-settings-tab.php:164
-#: classes/class-pewc-settings-tab.php:250
-#: classes/class-pewc-settings-tab.php:306
-#: inc/functions-conditionals.php:96
+#: admin/functions-admin-export.php:63 admin/metaboxes.php:194
+#: classes/class-pewc-settings-tab.php:180
+#: classes/class-pewc-settings-tab.php:266
+#: classes/class-pewc-settings-tab.php:322
 msgid "Status"
 msgstr "ステータス"
+
+#: admin/functions-admin-import-export-aou.php:44
+msgid "Import/Export Add-Ons"
+msgstr "アドオンのインポート/エクスポート"
+
+#: admin/functions-admin-import-export-aou.php:45
+#: admin/functions-admin-import-export-aou.php:293
+#: admin/functions-admin-import-export-aou.php:306
+#: admin/functions-admin-import-export-aou.php:307
+#: admin/functions-admin-import-export-aou.php:343
+#: templates/admin/import-groups.php:42
+msgid "Import Groups"
+msgstr "グループをインポート"
+
+#: admin/functions-admin-import-export-aou.php:46
+#: admin/functions-admin-import-export-aou.php:100
+#: admin/functions-admin-import-export-aou.php:315
+#: admin/functions-admin-import-export-aou.php:316
+#: admin/functions-admin-import-export-aou.php:383
+msgid "Export Groups"
+msgstr "グループをエクスポート"
+
+#: admin/functions-admin-import-export-aou.php:47
+msgid "Export Selected Group(s)"
+msgstr "選択したグループをエクスポート"
+
+#: admin/functions-admin-import-export-aou.php:81
+msgid "Import Add-On Groups"
+msgstr "アドオングループをインポート"
+
+#: admin/functions-admin-import-export-aou.php:83
+msgid ""
+"Choose whether to import groups from one or more products or from existing "
+"global groups. You'll be able to select which groups to import. All fields "
+"within the groups will also be imported."
+msgstr ""
+"1つ以上の製品から、または既存のグローバルグループからグループをインポートする"
+"かを選択してください。インポートするグループを選択できます。グループ内のすべ"
+"てのフィールドもインポートされます。"
+
+#: admin/functions-admin-import-export-aou.php:87
+#: admin/functions-admin-import-export-aou.php:106
+msgid "Product(s)"
+msgstr "製品"
+
+#: admin/functions-admin-import-export-aou.php:101
+msgid "Groups: "
+msgstr "グループ: "
+
+#: admin/functions-admin-import-export-aou.php:103
+msgid ""
+"Choose where to export these groups to - either to specific products or to "
+"global groups. All fields within your selected groups will also be exported."
+msgstr ""
+"これらのグループのエクスポート先を選択してください（特定の製品またはグローバ"
+"ルグループ）。選択したグループ内のすべてのフィールドもエクスポートされます。"
 
 #: admin/functions-admin-import-export-aou.php:118
 #: admin/functions-admin-import-export-aou.php:354
@@ -290,28 +667,78 @@ msgstr "ステータス"
 msgid "Import"
 msgstr "インポート"
 
-#: admin/functions-admin-menu.php:18
-#: admin/functions-admin-menu.php:19
-#: admin/metaboxes.php:259
-#: classes/class-pewc-settings-tab.php:35
+#: admin/functions-admin-import-export-aou.php:121
+#: inc/functions-lightbox.php:107
+msgid "Close"
+msgstr "閉じる"
+
+#: admin/functions-admin-import-export-aou.php:123
+#: admin/functions-admin-import-export-aou.php:399
+msgid "Exporting..."
+msgstr "エクスポートしています..."
+
+#: admin/functions-admin-import-export-aou.php:124
+#: admin/functions-admin-import-export-aou.php:352
+msgid "Importing..."
+msgstr "インポートしています..."
+
+#: admin/functions-admin-import-export-aou.php:129
+msgid "Go to Global Groups"
+msgstr "グローバルグループへ移動"
+
+#: admin/functions-admin-import-export-aou.php:132
+msgid "Go to Global Add-Ons"
+msgstr "グローバルアドオンへ移動"
+
+#: admin/functions-admin-import-export-aou.php:135
+#: admin/functions-admin-import-export-aou.php:403
+msgid "Go to"
+msgstr "移動先"
+
+#: admin/functions-admin-import-export-aou.php:198
+#: classes/class-pewc-product-extra-post-type.php:185
+#: classes/class-pewc-product-extra-post-type.php:186
+msgid "Global Groups"
+msgstr "グローバルグループ"
+
+#: admin/functions-admin-import-export-aou.php:200
+#: inc/functions-global-extras.php:29 inc/functions-global-extras.php:30
+msgid "Global Add-Ons"
+msgstr "グローバルアドオン"
+
+#: admin/functions-admin-import-export-aou.php:205
+msgid "No groups found in your selection. Please try again."
+msgstr "選択内にグループが見つかりませんでした。再度お試しください。"
+
+#: admin/functions-admin-import-export-aou.php:344
+#: admin/functions-admin-import-export-aou.php:384
+msgid "Go back to Global Groups"
+msgstr "グローバルグループに戻る"
+
+#: admin/functions-admin-import-export-aou.php:388
+msgid "No Global Groups selected for export."
+msgstr "エクスポートするグローバルグループが選択されていません。"
+
+#: admin/functions-admin-import-export-aou.php:393
+msgid "Export to products:"
+msgstr "エクスポート先の製品:"
+
+#: admin/functions-admin-menu.php:18 admin/functions-admin-menu.php:19
+#: admin/metaboxes.php:259 classes/class-pewc-settings-tab.php:35
 msgid "Product Add-Ons"
 msgstr "商品アドオン"
 
-#. Plugin Name of the plugin
-#: product-extras-for-woocommerce.php
-#: admin/functions-admin-menu.php:54
-#: admin/functions-admin-settings.php:869
-#: inc/functions-updater.php:273
-#: inc/functions-updater.php:288
-msgid "WooCommerce Product Add-Ons Ultimate"
-msgstr "WooCommerce 商品アドオンアルティメット"
-
 #: admin/functions-admin-menu.php:60
-msgid "Use this page to find help quickly, whether you've just started using the plugin or you've been using it for years."
-msgstr "このページを使用して、プラグインを使い始めたばかりの方も、長年使用している方も、迅速にサポートを見つけることができます。"
+msgid ""
+"Use this page to find help quickly, whether you've just started using the "
+"plugin or you've been using it for years."
+msgstr ""
+"このページを使用して、プラグインを使い始めたばかりの方も、長年使用している方"
+"も、迅速にサポートを見つけることができます。"
 
 #: admin/functions-admin-menu.php:64
-msgid "You'll find links and videos here that will answer the most common questions."
+msgid ""
+"You'll find links and videos here that will answer the most common questions."
 msgstr "ここでは、よくある質問に答えるリンクやビデオを見つけることができます。"
 
 #: admin/functions-admin-menu.php:72
@@ -319,8 +746,11 @@ msgid "Getting Started"
 msgstr "はじめに"
 
 #: admin/functions-admin-menu.php:77
-msgid "Here are some links to documents to help with setting the plugin up for the first time."
-msgstr "初めてプラグインを設定するための手助けとなるドキュメントへのリンクです。"
+msgid ""
+"Here are some links to documents to help with setting the plugin up for the "
+"first time."
+msgstr ""
+"初めてプラグインを設定するための手助けとなるドキュメントへのリンクです。"
 
 #: admin/functions-admin-menu.php:84
 msgid "Adding your first Add-Ons field"
@@ -334,18 +764,25 @@ msgstr "フィールドタイプのガイド"
 msgid "Global add-ons"
 msgstr "グローバルアドオン"
 
-#: admin/functions-admin-menu.php:96
-#: admin/functions-admin-menu.php:140
+#: admin/functions-admin-menu.php:96 admin/functions-admin-menu.php:140
 msgid "All the plugin documentation"
 msgstr "すべてのプラグインドキュメント"
+
+#: admin/functions-admin-menu.php:103
+msgid "Find the Product Add-Ons Ultimate settings page here"
+msgstr "製品アドオンアルティメットの設定ページはこちら"
 
 #: admin/functions-admin-menu.php:120
 msgid "Advanced"
 msgstr "高度な設定"
 
 #: admin/functions-admin-menu.php:125
-msgid "If you'd like some help with more advanced features, check out the links below."
-msgstr "より高度な機能についてサポートが必要な場合は、以下のリンクをチェックしてください。"
+msgid ""
+"If you'd like some help with more advanced features, check out the links "
+"below."
+msgstr ""
+"より高度な機能についてサポートが必要な場合は、以下のリンクをチェックしてくだ"
+"さい。"
 
 #: admin/functions-admin-menu.php:132
 msgid "Adding conditions to your fields"
@@ -363,15 +800,35 @@ msgstr "YouTubeでさらにビデオを探す。"
 msgid "Power up Add-Ons Ultimate with these extensions"
 msgstr "これらの拡張機能でアドオンアルティメットを強化する"
 
-#: admin/functions-admin-order.php:148
-#: inc/functions-cart.php:2202
-#: inc/functions-order.php:406
+#: admin/functions-admin-order.php:153 inc/functions-cart.php:2050
+#: inc/functions-order.php:408
 msgid "Original price"
 msgstr "元の価格"
 
-#: admin/functions-admin-order.php:378
+#: admin/functions-admin-order.php:325 admin/functions-admin-order.php:603
+msgid "All files for this order have been deleted."
+msgstr "この注文のすべてのファイルが削除されました。"
+
+#: admin/functions-admin-order.php:383
 msgid "Download Files"
 msgstr "ファイルのダウンロード"
+
+#: admin/functions-admin-order.php:400
+msgid "Delete uploaded files in this order? This cannot be undone."
+msgstr ""
+"この注文のアップロード済みファイルを削除しますか？この操作は元に戻せません。"
+
+#: admin/functions-admin-order.php:401
+msgid "Delete Files"
+msgstr "ファイルを削除"
+
+#: admin/functions-admin-order.php:609
+msgid "Some files for this order have not been deleted because of an error."
+msgstr "エラーのため、この注文の一部のファイルは削除されませんでした。"
+
+#: admin/functions-admin-order.php:669
+msgid "Has uploads?"
+msgstr "アップロードあり？"
 
 #: admin/functions-admin-post-types.php:38
 msgid "ID"
@@ -386,17 +843,14 @@ msgid "Group Name"
 msgstr "グループ名"
 
 #: admin/functions-admin-post-types.php:41
-#: classes/class-pewc-product-extra-post-type.php:621
-#: templates/admin/global-rule.php:53
-#: templates/admin/new-global-rule.php:39
+#: classes/class-pewc-product-extra-post-type.php:626
+#: templates/admin/global-rule.php:53 templates/admin/new-global-rule.php:39
 msgid "Rule"
 msgstr "ルール"
 
-#: admin/functions-admin-post-types.php:42
-#: admin/functions-custom-panel.php:477
-#: classes/class-pewc-product-extra-post-type.php:1079
-#: classes/class-pewc-settings-tab.php:106
-#: templates/admin/field-item.php:89
+#: admin/functions-admin-post-types.php:42 admin/functions-custom-panel.php:480
+#: classes/class-pewc-product-extra-post-type.php:1095
+#: classes/class-pewc-settings-tab.php:115 templates/admin/field-item.php:89
 msgid "Date"
 msgstr "日付"
 
@@ -420,12 +874,9 @@ msgstr "商品ID"
 msgid "Categories"
 msgstr "カテゴリ"
 
-#: admin/functions-admin-import-export-aou.php:88
-#: admin/functions-admin-import-export-aou.php:107
-#: admin/functions-admin-post-types.php:168
-#: admin/functions-admin-settings.php:211
-msgid "Global"
-msgstr "グローバル"
+#: admin/functions-admin-settings.php:21 templates/admin/field-item.php:93
+msgid "Pricing"
+msgstr "価格"
 
 #: admin/functions-admin-settings.php:27
 msgid "Hide zero prices"
@@ -435,13 +886,29 @@ msgstr "ゼロ価格を非表示"
 msgid "Hide prices in the cart for extras which don't have a cost."
 msgstr "コストのない追加アイテムの価格をカートで非表示にする。"
 
+#: admin/functions-admin-settings.php:37
+msgid "Hide field prices"
+msgstr "フィールド価格を非表示にする"
+
+#: admin/functions-admin-settings.php:40
+msgid ""
+"Hide field prices in the cart for extras with only one option value (e.g. "
+"Radio, Select). Avoids displaying add-on prices twice."
+msgstr ""
+"オプション値が1つしかないアドオン（ラジオ、セレクトなど）について、カート内の"
+"フィールド価格を非表示にします。アドオン価格が二重に表示されるのを防ぎます。"
+
 #: admin/functions-admin-settings.php:46
 msgid "Ignore tax setting"
 msgstr "税設定を無視"
 
 #: admin/functions-admin-settings.php:49
-msgid "Ignore the WooCommerce \"Display prices in the shop\" setting which determines whether prices are displaying including or excluding tax."
-msgstr "価格を税込または税抜で表示するかを決定するWooCommerceの「ショップでの価格表示」設定を無視する。"
+msgid ""
+"Ignore the WooCommerce \"Display prices in the shop\" setting which "
+"determines whether prices are displaying including or excluding tax."
+msgstr ""
+"価格を税込または税抜で表示するかを決定するWooCommerceの「ショップでの価格表"
+"示」設定を無視する。"
 
 #: admin/functions-admin-settings.php:55
 msgid "Display tax suffix"
@@ -459,18 +926,6 @@ msgstr "価格セパレーター"
 msgid "Define a symbol to separate the add-on label from the add-on price."
 msgstr "アドオンラベルとアドオン価格を分離するためのシンボルを定義する。"
 
-#: admin/functions-admin-settings.php:139
-msgid "Allow users to edit the add-ons in products that have already been added to the cart."
-msgstr "カートに追加された商品のアドオンをユーザーが編集できるようにする。"
-
-#: admin/functions-admin-settings.php:114
-msgid "Enable tooltips"
-msgstr "ツールチップを有効にする"
-
-#: admin/functions-admin-settings.php:117
-msgid "Display add-on field descriptions in interactive elements."
-msgstr "インタラクティブ要素にアドオンフィールドの説明を表示する。"
-
 #: admin/functions-admin-settings.php:73
 msgid "Update price label"
 msgstr "価格ラベルを更新"
@@ -478,77 +933,6 @@ msgstr "価格ラベルを更新"
 #: admin/functions-admin-settings.php:76
 msgid "Update the price label on product pages when price changes."
 msgstr "価格が変更されたときに商品ページの価格ラベルを更新する。"
-
-#: admin/functions-admin-settings.php:363
-msgid "Dequeue scripts"
-msgstr "スクリプトのデキュー"
-
-#: admin/functions-admin-settings.php:366
-msgid "Dequeue scripts and stylesheets on non-product pages."
-msgstr "非商品ページでスクリプトとスタイルシートをデキューする。"
-
-#: admin/functions-admin-settings.php:145
-msgid "Display group titles in cart"
-msgstr "カートにグループタイトルを表示"
-
-#: admin/functions-admin-settings.php:148
-msgid "Show the group title in the cart."
-msgstr "カートにグループタイトルを表示する。"
-
-#: admin/functions-admin-settings.php:217
-msgid "Display groups as post type"
-msgstr "グループを投稿タイプとして表示"
-
-#: admin/functions-admin-settings.php:220
-msgid "Display groups as custom post types, not on single page."
-msgstr "グループをカスタム投稿タイプとして表示し、シングルページには表示しない。"
-
-#: admin/functions-admin-settings.php:231
-#: templates/admin/field-item.php:98
-#: templates/admin/sections/conditions.php:17
-msgid "Conditions"
-msgstr "条件"
-
-#: admin/functions-admin-settings.php:237
-msgid "Reset field values"
-msgstr "フィールド値をリセット"
-
-#: admin/functions-admin-settings.php:240
-msgid "Reset field values to null when fields are hidden through a condition."
-msgstr "条件によってフィールドが非表示になったときにフィールド値をnullにリセットする。"
-
-#: admin/customizer.php:38
-#: admin/functions-admin-settings.php:259
-msgid "Labels"
-msgstr "ラベル"
-
-#: admin/functions-admin-settings.php:269
-msgid "Additional or replacement text for the price"
-msgstr "価格の追加または置換テキスト"
-
-#: admin/functions-admin-settings.php:276
-msgid "Decide where to display the label"
-msgstr "ラベルを表示する場所を決定する"
-
-#: admin/functions-admin-settings.php:291
-msgid "Decide how to display totals fields on product pages"
-msgstr "商品ページで合計フィールドを表示する方法を決定する"
-
-#: admin/functions-admin-settings.php:305
-msgid "The label for the Product total"
-msgstr "商品の合計のラベル"
-
-#: admin/functions-admin-settings.php:313
-msgid "The label for the Options total"
-msgstr "オプションの合計のラベル"
-
-#: admin/functions-admin-settings.php:321
-msgid "The label for the Flat rate total"
-msgstr "固定料金の合計のラベル"
-
-#: admin/functions-admin-settings.php:329
-msgid "The label for the Grand total"
-msgstr "総合計のラベル"
 
 #: admin/functions-admin-settings.php:88
 msgid "Role-based Pricing"
@@ -559,409 +943,898 @@ msgid "Roles"
 msgstr "役割"
 
 #: admin/functions-admin-settings.php:97
-msgid "Enter the roles that you would like to have different add-on prices for."
+msgid ""
+"Enter the roles that you would like to have different add-on prices for."
 msgstr "異なるアドオン価格を持たせたい役割を入力してください。"
 
-#: admin/functions-admin-settings.php:1016
-msgid "Optimised validation"
-msgstr "最適化された検証"
+#: admin/functions-admin-settings.php:108
+msgid "Enhancements"
+msgstr "拡張機能"
 
-#: admin/functions-admin-settings.php:1025
-msgid "Hide totals until validated"
-msgstr "検証されるまで合計を非表示にする"
+#: admin/functions-admin-settings.php:114
+msgid "Enable tooltips"
+msgstr "ツールチップを有効にする"
 
-#: admin/functions-admin-settings.php:902
-#: classes/class-pewc-settings-tab.php:113
-msgid "Integrations"
-msgstr "統合"
+#: admin/functions-admin-settings.php:117
+msgid "Display add-on field descriptions in interactive elements."
+msgstr "インタラクティブ要素にアドオンフィールドの説明を表示する。"
 
-#: admin/functions-admin-settings.php:950
-msgid "Apply User Role Pricing to add-on field prices"
-msgstr "ユーザー役割の価格設定をアドオンフィールドの価格に適用する"
+#: admin/functions-admin-settings.php:121
+#: admin/functions-admin-settings.php:180
+#: admin/functions-admin-settings.php:803
+msgid "Disabled"
+msgstr "無効"
 
-#: admin/functions-admin-settings.php:953
-msgid "Adjust add-on field prices if User Role Pricing is enabled in Dynamic Pricing and Discount Rules."
-msgstr "料金と割引でユーザー役割の価格設定が有効になっている場合は、アドオンフィールドの価格を調整します。"
+#: admin/functions-admin-settings.php:122 admin/metaboxes.php:125
+#: templates/admin/group-settings.php:42 templates/admin/group.php:70
+msgid "Standard"
+msgstr "標準"
 
-#: admin/functions-admin-settings.php:410
+#: admin/functions-admin-settings.php:123
+msgid "Enhanced"
+msgstr "拡張"
+
+#: admin/functions-admin-settings.php:127
+msgid "Enable Clear All Options button"
+msgstr "「すべてのオプションをクリア」ボタンを有効にする"
+
+#: admin/functions-admin-settings.php:130
+msgid ""
+"Display the Clear All Options button on the product page, which allows "
+"customers to clear all Add-On field values. Requires a Performance "
+"optimization that includes conditions."
+msgstr ""
+"製品ページに「すべてのオプションをクリア」ボタンを表示し、顧客がすべてのアド"
+"オンフィールドの値をクリアできるようにします。条件を含むパフォーマンス最適化"
+"が必要です。"
+
+#: admin/functions-admin-settings.php:136
+msgid "Enable cart editing"
+msgstr "カート編集を有効にする"
+
+#: admin/functions-admin-settings.php:139
+msgid ""
+"Allow users to edit the add-ons in products that have already been added to "
+"the cart."
+msgstr "カートに追加された商品のアドオンをユーザーが編集できるようにする。"
+
+#: admin/functions-admin-settings.php:145
+msgid "Display group titles in cart"
+msgstr "カートにグループタイトルを表示"
+
+#: admin/functions-admin-settings.php:148
+msgid "Show the group title in the cart."
+msgstr "カートにグループタイトルを表示する。"
+
+#: admin/functions-admin-settings.php:154
+msgid "Exclude empty fields in cart"
+msgstr "カート内の空のフィールドを除外する"
+
+#: admin/functions-admin-settings.php:157
+msgid "If a field does not have a value, do not include it in cart meta"
+msgstr "フィールドに値がない場合、カートメタに含めません"
+
+#: admin/functions-admin-settings.php:167
+msgid "Progress bar"
+msgstr "プログレスバー"
+
+#: admin/functions-admin-settings.php:173
+msgid "Display progress bar"
+msgstr "プログレスバーを表示する"
+
+#: admin/functions-admin-settings.php:176
+msgid ""
+"Show a graphic progress bar for users to see how many fields they have "
+"completed."
+msgstr ""
+"ユーザーが完了したフィールド数を確認できるよう、グラフィカルなプログレスバー"
+"を表示します。"
+
+#: admin/functions-admin-settings.php:181 admin/metaboxes.php:156
+#: admin/metaboxes.php:277 classes/class-pewc-product-extra-post-type.php:204
+#: classes/class-pewc-product-extra-post-type.php:216
+#: templates/admin/group.php:184
+msgid "Fields"
+msgstr "フィールド"
+
+#: admin/functions-admin-settings.php:186
+msgid "Required fields only"
+msgstr "必須フィールドのみ"
+
+#: admin/functions-admin-settings.php:189
+msgid "Only check required fields for progress bar update."
+msgstr "プログレスバーの更新には必須フィールドのみをチェックします。"
+
+#: admin/functions-admin-settings.php:194
+msgid "Progress bar layout"
+msgstr "プログレスバーのレイアウト"
+
+#: admin/functions-admin-settings.php:197
+msgid "Choose a style for your progress bar."
+msgstr "プログレスバーのスタイルを選択してください。"
+
+#: admin/functions-admin-settings.php:201
+msgid "Bar"
+msgstr "バー"
+
+#: admin/functions-admin-settings.php:202 templates/admin/group-settings.php:45
+msgid "Steps"
+msgstr "ステップ"
+
+#: admin/functions-admin-settings.php:217
+msgid "Display groups as post type"
+msgstr "グループを投稿タイプとして表示"
+
+#: admin/functions-admin-settings.php:220
+msgid "Display groups as custom post types, not on single page."
+msgstr ""
+"グループをカスタム投稿タイプとして表示し、シングルページには表示しない。"
+
+#: admin/functions-admin-settings.php:241
+msgid "Additional or replacement text for the price"
+msgstr "価格の追加または置換テキスト"
+
+#: admin/functions-admin-settings.php:248
+msgid "Decide where to display the label"
+msgstr "ラベルを表示する場所を決定する"
+
+#: admin/functions-admin-settings.php:263
+msgid "Decide how to display totals fields on product pages"
+msgstr "商品ページで合計フィールドを表示する方法を決定する"
+
+#: admin/functions-admin-settings.php:277
+msgid "The label for the Product total"
+msgstr "商品の合計のラベル"
+
+#: admin/functions-admin-settings.php:285
+msgid "The label for the Options total"
+msgstr "オプションの合計のラベル"
+
+#: admin/functions-admin-settings.php:293
+msgid "The label for the Flat rate total"
+msgstr "固定料金の合計のラベル"
+
+#: admin/functions-admin-settings.php:301
+msgid "The label for the Grand total"
+msgstr "総合計のラベル"
+
+#: admin/functions-admin-settings.php:354
+msgid "Optimizations"
+msgstr "最適化"
+
+#: admin/functions-admin-settings.php:360
+msgid "Performance optimizations"
+msgstr "パフォーマンス最適化"
+
+#: admin/functions-admin-settings.php:363
+msgid ""
+"Choose how calculations and conditions are evaluated. Time-based options "
+"poll at a fixed interval. Event-driven evaluates only when a relevant field "
+"changes, which is more efficient but is a beta feature."
+msgstr ""
+"計算と条件の評価方法を選択してください。時間ベースのオプションは一定間隔で"
+"ポーリングします。イベント駆動は関連するフィールドが変更された場合のみ評価す"
+"るためより効率的ですが、ベータ機能です。"
+
+#: admin/functions-admin-settings.php:367
+msgid "None"
+msgstr "なし"
+
+#: admin/functions-admin-settings.php:368
+msgid "Time-based Calculations"
+msgstr "時間ベースの計算"
+
+#: admin/functions-admin-settings.php:369
+msgid "Time-based Conditions"
+msgstr "時間ベースの条件"
+
+#: admin/functions-admin-settings.php:370
+msgid "Time-based Calculations and Conditions (recommended)"
+msgstr "時間ベースの計算と条件（推奨）"
+
+#: admin/functions-admin-settings.php:371
+msgid "Event-driven Calculations and Conditions (beta)"
+msgstr "イベント駆動の計算と条件（ベータ）"
+
+#: admin/functions-admin-settings.php:375
+msgid "Dequeue scripts"
+msgstr "スクリプトのデキュー"
+
+#: admin/functions-admin-settings.php:378
+msgid "Dequeue scripts and stylesheets on non-product pages."
+msgstr "非商品ページでスクリプトとスタイルシートをデキューする。"
+
+#: admin/functions-admin-settings.php:422
 msgid "Date fields"
 msgstr "日付フィールド"
 
-#: admin/functions-admin-settings.php:416
+#: admin/functions-admin-settings.php:428
 msgid "Enable days of the week"
 msgstr "曜日を有効にする"
 
-#: admin/functions-admin-settings.php:419
+#: admin/functions-admin-settings.php:431
 msgid "Enable the option to disable specific days of the week."
 msgstr "特定の曜日を無効にするオプションを有効にする。"
 
-#: admin/functions-admin-settings.php:425
+#: admin/functions-admin-settings.php:437
 msgid "Enable offset"
 msgstr "オフセットを有効にする"
 
-#: admin/functions-admin-settings.php:428
+#: admin/functions-admin-settings.php:440
 msgid "Enable an option to offset the minimum date by a set number of days."
 msgstr "最小日付を一定日数オフセットするオプションを有効にする。"
 
-#: admin/functions-admin-settings.php:434
+#: admin/functions-admin-settings.php:446
 msgid "Enable blocked dates"
 msgstr "ブロックされた日付を有効にする"
 
-#: admin/functions-admin-settings.php:437
+#: admin/functions-admin-settings.php:449
 msgid "Enable a field to enter dates that are unavailable."
 msgstr "利用できない日付を入力するためのフィールドを有効にする。"
 
-#: admin/functions-admin-settings.php:461
-#: classes/class-pewc-settings-tab.php:107
-#: templates/admin/field-item.php:90
+#: admin/functions-admin-settings.php:473
+#: classes/class-pewc-settings-tab.php:116 templates/admin/field-item.php:90
 msgid "Uploads"
 msgstr "アップロード"
 
-#: admin/functions-admin-settings.php:467
+#: admin/functions-admin-settings.php:479
 msgid "Users must be logged in to upload"
 msgstr "ユーザーはログインしている必要があります。"
 
-#: admin/functions-admin-settings.php:470
-msgid "For security reasons, it is strongly recommended that you require users to be logged in before allowing them to upload files."
-msgstr "セキュリティ上の理由から、ファイルをアップロードする前にユーザーがログインしていることを要求することを強くお勧めします。"
+#: admin/functions-admin-settings.php:482
+msgid ""
+"For security reasons, it is strongly recommended that you require users to "
+"be logged in before allowing them to upload files."
+msgstr ""
+"セキュリティ上の理由から、ファイルをアップロードする前にユーザーがログインし"
+"ていることを要求することを強くお勧めします。"
 
-#: admin/functions-admin-settings.php:476
+#: admin/functions-admin-settings.php:488
 msgid "Max file size (MB)"
 msgstr "最大ファイルサイズ（MB）"
 
-#: admin/functions-admin-settings.php:479
+#: admin/functions-admin-settings.php:491
 msgid "The max file size for uploads (in MB)"
 msgstr "アップロードの最大ファイルサイズ（MB）"
 
-#: admin/functions-admin-settings.php:484
+#: admin/functions-admin-settings.php:496
 msgid "Enable PDF uploads"
 msgstr "PDFのアップロードを有効にする"
 
-#: admin/functions-admin-settings.php:487
+#: admin/functions-admin-settings.php:499
 msgid "Allow users to upload PDFs."
 msgstr "ユーザーがPDFをアップロードできるようにします。"
 
-#: admin/functions-admin-settings.php:492
+#: admin/functions-admin-settings.php:504
 msgid "Enable AJAX uploader"
 msgstr "AJAXアップローダーを有効にする"
 
-#: admin/functions-admin-settings.php:495
+#: admin/functions-admin-settings.php:507
 msgid "Add uploaded images via AJAX."
 msgstr "AJAXを介して画像をアップロードします。"
 
-#: admin/functions-admin-settings.php:500
+#: admin/functions-admin-settings.php:512
 msgid "Retain Upload Graphic"
 msgstr "アップロードグラフィックを保持する"
 
-#: admin/functions-admin-settings.php:503
+#: admin/functions-admin-settings.php:515
 msgid "Retain the upload graphic even after a file has been uploaded."
-msgstr "ファイルがアップロードされた後も、アップロードグラフィックを保持します。"
+msgstr ""
+"ファイルがアップロードされた後も、アップロードグラフィックを保持します。"
 
-#: admin/functions-admin-settings.php:509
+#: admin/functions-admin-settings.php:521
 msgid "Disable Add to Cart button"
 msgstr "カートに追加ボタンを無効にする"
 
-#: admin/functions-admin-settings.php:512
+#: admin/functions-admin-settings.php:524
 msgid "Disable the add to cart button while files are being uploaded."
-msgstr "ファイルがアップロードされている間は、カートに追加ボタンを無効にします。"
+msgstr ""
+"ファイルがアップロードされている間は、カートに追加ボタンを無効にします。"
 
-#: admin/functions-admin-settings.php:518
+#: admin/functions-admin-settings.php:530
 msgid "Attach uploads to emails"
 msgstr "アップロードをメールに添付する"
 
-#: admin/functions-admin-settings.php:521
+#: admin/functions-admin-settings.php:533
 msgid "Add uploaded images to new order emails."
 msgstr "新しい注文メールにアップロードされた画像を追加します。"
 
-#: admin/functions-admin-settings.php:527
+#: admin/functions-admin-settings.php:539
 msgid "Rename uploads"
 msgstr "アップロードの名前を変更する"
 
-#: admin/functions-admin-settings.php:530
-msgid "Rename uploads using the following tags: {original_file_name}, {order_number}, {date}, {product_id}, {product_sku}, {group_id}, {field_id}"
-msgstr "以下のタグを使用してアップロードの名前を変更します: {original_file_name}, {order_number}, {date}, {product_id}, {product_sku}, {group_id}, {field_id}"
+#: admin/functions-admin-settings.php:542
+msgid ""
+"Rename uploads using the following tags: {original_file_name}, "
+"{order_number}, {date}, {product_id}, {product_sku}, {group_id}, {field_id}"
+msgstr ""
+"以下のタグを使用してアップロードの名前を変更します: {original_file_name}, "
+"{order_number}, {date}, {product_id}, {product_sku}, {group_id}, {field_id}"
 
-#: admin/functions-admin-settings.php:535
+#: admin/functions-admin-settings.php:547
 msgid "Organise uploads by order"
 msgstr "注文ごとにアップロードを整理する"
 
-#: admin/functions-admin-settings.php:538
+#: admin/functions-admin-settings.php:550
 msgid "Organise uploads into unique folders for each order"
 msgstr "各注文ごとに固有のフォルダにアップロードを整理します。"
 
-#: admin/functions-admin-settings.php:630
-#: admin/functions-custom-panel.php:481
-#: classes/class-pewc-settings-tab.php:111
-#: inc/functions-pro-helpers.php:21
+#: admin/functions-admin-settings.php:556
+msgid "File types"
+msgstr "ファイルタイプ"
+
+#: admin/functions-admin-settings.php:559
+msgid ""
+"Enter the permitted file types. Please remember that allowing users to "
+"upload files to your server carries a security risk, so please use this "
+"feature with caution."
+msgstr ""
+"許可するファイルタイプを入力してください。ユーザーにサーバーへのファイルアッ"
+"プロードを許可すると、セキュリティ上のリスクが伴うことにご注意の上、この機能"
+"は慎重にご使用ください。"
+
+#: admin/functions-admin-settings.php:586
+msgid "Swatches settings"
+msgstr "スウォッチの設定"
+
+#: admin/functions-admin-settings.php:601
+#: templates/admin/sections/display.php:39
+msgid "Replace main image"
+msgstr "メイン画像を置き換える"
+
+#: admin/functions-admin-settings.php:604
+msgid ""
+"Enable this option to replace the main product image with the selected image "
+"swatch."
+msgstr ""
+"このオプションを有効にすると、選択したイメージスウォッチで製品のメイン画像が"
+"置き換えられます。"
+
+#: admin/functions-admin-settings.php:625
+msgid "Resize swatch layer"
+msgstr "スウォッチレイヤーのサイズを変更する"
+
+#: admin/functions-admin-settings.php:628
+msgid ""
+"Enable this option to resize swatch images to match the base image before "
+"generating the layered image."
+msgstr ""
+"このオプションを有効にすると、レイヤー画像を生成する前に、スウォッチ画像が"
+"ベース画像に合わせてサイズ変更されます。"
+
+#: admin/functions-admin-settings.php:652 admin/functions-custom-panel.php:484
+#: classes/class-pewc-settings-tab.php:120 inc/functions-pro-helpers.php:21
 #: templates/admin/field-item.php:85
 msgid "Products"
 msgstr "製品"
 
-#: admin/functions-admin-settings.php:636
+#: admin/functions-admin-settings.php:658
 msgid "Include variations as child products"
 msgstr "バリエーションを子製品として含める"
 
-#: admin/functions-admin-settings.php:639
+#: admin/functions-admin-settings.php:661
 msgid "Enable this to include variations as child products."
 msgstr "これを有効にしてバリエーションを子製品として含めます。"
 
-#: admin/functions-admin-settings.php:645
+#: admin/functions-admin-settings.php:667
 msgid "Exclude SKUs from child variants"
 msgstr "子バリアントからSKUを除外する"
 
-#: admin/functions-admin-settings.php:648
+#: admin/functions-admin-settings.php:670
 msgid "Enable this to exclude SKUs from child variant names."
 msgstr "これを有効にしてSKUを子バリアント名から除外します。"
 
-#: admin/functions-admin-settings.php:654
+#: admin/functions-admin-settings.php:676
 msgid "Hide child products in the cart"
 msgstr "カート内の子製品を非表示にする"
 
-#: admin/functions-admin-settings.php:657
+#: admin/functions-admin-settings.php:679
 msgid "Enable this to hide child products in the cart."
 msgstr "これを有効にしてカート内の子製品を非表示にします。"
 
-#: admin/functions-admin-settings.php:663
+#: admin/functions-admin-settings.php:685
 msgid "Display child products as metadata"
 msgstr "子製品をメタデータとして表示する"
 
-#: admin/functions-admin-settings.php:666
-msgid "Enable this to display child products as metadata for parent products in the cart."
-msgstr "これを有効にして、カート内の親製品のメタデータとして子製品を表示します。"
+#: admin/functions-admin-settings.php:688
+msgid ""
+"Enable this to display child products as metadata for parent products in the "
+"cart."
+msgstr ""
+"これを有効にして、カート内の親製品のメタデータとして子製品を表示します。"
 
-#: admin/functions-admin-settings.php:672
+#: admin/functions-admin-settings.php:694
 msgid "Hide parent products in the cart"
 msgstr "カート内の親製品を非表示にする"
 
-#: admin/functions-admin-settings.php:675
+#: admin/functions-admin-settings.php:697
 msgid "Enable this to hide parent products in the cart."
 msgstr "これを有効にしてカート内の親製品を非表示にします。"
 
-#: admin/functions-admin-settings.php:681
+#: admin/functions-admin-settings.php:703
 msgid "Hide child products in the order"
 msgstr "注文内の子製品を非表示にする"
 
-#: admin/functions-admin-settings.php:684
+#: admin/functions-admin-settings.php:706
 msgid "Enable this to hide child products in the order."
 msgstr "これを有効にして、注文内の子製品を非表示にします。"
 
-#: admin/functions-admin-settings.php:690
+#: admin/functions-admin-settings.php:712
 msgid "Hide parent products in the order"
 msgstr "注文内の親製品を非表示にする"
 
-#: admin/functions-admin-settings.php:693
+#: admin/functions-admin-settings.php:715
 msgid "Enable this to hide parent products in the order."
 msgstr "これを有効にして、注文内の親製品を非表示にします。"
 
-#: admin/functions-admin-settings.php:699
+#: admin/functions-admin-settings.php:721
 msgid "Indent child products"
 msgstr "子製品にインデントを追加する"
 
-#: admin/functions-admin-settings.php:702
+#: admin/functions-admin-settings.php:724
 msgid "Add padding to child products in the cart and order."
 msgstr "カートと注文内の子製品に余白を追加します。"
 
-#: admin/functions-admin-settings.php:708
+#: admin/functions-admin-settings.php:730
 msgid "Multiply independent quantities"
 msgstr "独立した数量を乗算する"
 
-#: admin/functions-admin-settings.php:711
-msgid "Enable this to multiply child product independent quantities when parent product quantities are adjusted."
-msgstr "これを有効にして、親製品の数量が調整されると、子製品の独立した数量を乗算します。"
+#: admin/functions-admin-settings.php:733
+msgid ""
+"Enable this to multiply child product independent quantities when parent "
+"product quantities are adjusted."
+msgstr ""
+"これを有効にして、親製品の数量が調整されると、子製品の独立した数量を乗算しま"
+"す。"
 
-#: admin/functions-admin-settings.php:717
+#: admin/functions-admin-settings.php:739
 msgid "Remove parent if child product out of stock"
 msgstr "子製品が在庫切れの場合は親製品を削除する"
 
-#: admin/functions-admin-settings.php:720
-msgid "Enable this to automatically remove parent products if a child product is out of stock."
+#: admin/functions-admin-settings.php:742
+msgid ""
+"Enable this to automatically remove parent products if a child product is "
+"out of stock."
 msgstr "これを有効にして、子製品が在庫切れの場合は自動的に親製品を削除します。"
 
-#: admin/functions-admin-settings.php:737
+#: admin/functions-admin-settings.php:748
+msgid "Do not remove parent"
+msgstr "親を削除しない"
+
+#: admin/functions-admin-settings.php:751
+msgid ""
+"Enable this to keep the parent product in the cart when a required child "
+"product is removed."
+msgstr ""
+"これを有効にすると、必須の子製品が削除された際にも親製品をカートに残します。"
+
+#: admin/functions-admin-settings.php:758
+msgid "Show stock status"
+msgstr "在庫状況を表示"
+
+#: admin/functions-admin-settings.php:761
+msgid "Enable this to add a child product's stock status to their name"
+msgstr "これを有効にすると、子製品の名前に在庫状況が追加されます"
+
+#: admin/functions-admin-settings.php:768
 msgid "Redirect hidden products"
 msgstr "非表示製品をリダイレクトする"
 
-#: admin/functions-admin-settings.php:740
-msgid "Enable this to prevent users purchasing child products direct from their product page."
-msgstr "これを有効にして、ユーザーが自分の製品ページから直接子製品を購入するのを防ぎます。"
+#: admin/functions-admin-settings.php:771
+msgid ""
+"Enable this to prevent users purchasing child products direct from their "
+"product page."
+msgstr ""
+"これを有効にして、ユーザーが自分の製品ページから直接子製品を購入するのを防ぎ"
+"ます。"
 
-#: admin/functions-admin-settings.php:765
+#: admin/functions-admin-settings.php:777
+msgid "Enable plus minus buttons"
+msgstr "プラス・マイナスボタンを有効にする"
+
+#: admin/functions-admin-settings.php:780
+msgid ""
+"Enable this to show + and - buttons alongside quantity fields in Products "
+"fields."
+msgstr ""
+"これを有効にすると、製品フィールドの数量フィールドの横に + と - のボタンが表"
+"示されます。"
+
+#: admin/functions-admin-settings.php:790
+msgid "QuickView"
+msgstr "クイックビュー"
+
+#: admin/functions-admin-settings.php:796
 msgid "Enable QuickView for child products"
 msgstr "子製品のクイックビューを有効にする"
 
-#: admin/functions-admin-settings.php:768
-msgid "Select this to show extra information for child products when clicking the child product title."
-msgstr "子製品のタイトルをクリックすると、子製品の追加情報を表示するように選択します。"
+#: admin/functions-admin-settings.php:799
+msgid ""
+"Select this to show extra information for child products when clicking the "
+"child product title."
+msgstr ""
+"子製品のタイトルをクリックすると、子製品の追加情報を表示するように選択しま"
+"す。"
 
-#: admin/functions-admin-settings.php:803
-#: classes/class-pewc-settings-tab.php:112
-#: templates/admin/field-item.php:83
+#: admin/functions-admin-settings.php:804 templates/admin/group-settings.php:44
+msgid "Lightbox"
+msgstr "ライトボックス"
+
+#: admin/functions-admin-settings.php:805
+msgid "New tab"
+msgstr "新しいタブ"
+
+#: admin/functions-admin-settings.php:809
+msgid "Optional link text"
+msgstr "任意のリンクテキスト"
+
+#: admin/functions-admin-settings.php:812
+msgid ""
+"Enter text here to display as a separate link below the product name. Leave "
+"this empty to link directly from the product name."
+msgstr ""
+"製品名の下に別のリンクとして表示するテキストをここに入力してください。空欄の"
+"ままにすると、製品名から直接リンクします。"
+
+#: admin/functions-admin-settings.php:834
+#: classes/class-pewc-settings-tab.php:121 templates/admin/field-item.php:83
 msgid "Calculations"
 msgstr "計算"
 
-#: admin/functions-admin-settings.php:809
+#: admin/functions-admin-settings.php:840
 msgid "Variable 1"
 msgstr "変数1"
 
-#: admin/functions-admin-settings.php:812
+#: admin/functions-admin-settings.php:843
 msgid "Enter a value for variable_1 that will be used in calculations"
 msgstr "計算に使用される変数1の値を入力してください"
 
-#: admin/functions-admin-settings.php:820
+#: admin/functions-admin-settings.php:851
 msgid "Variable 2"
 msgstr "変数2"
 
-#: admin/functions-admin-settings.php:823
+#: admin/functions-admin-settings.php:854
 msgid "Enter a value for variable_2 that will be used in calculations"
 msgstr "計算に使用される変数2の値を入力してください"
 
-#: admin/functions-admin-settings.php:831
+#: admin/functions-admin-settings.php:862
 msgid "Variable 3"
 msgstr "変数3"
 
-#: admin/functions-admin-settings.php:834
+#: admin/functions-admin-settings.php:865
 msgid "Enter a value for variable_3 that will be used in calculations"
 msgstr "計算に使用される変数3の値を入力してください"
 
-#: admin/functions-admin-settings.php:842
+#: admin/functions-admin-settings.php:873
 msgid "Zero value for missing fields"
 msgstr "欠落したフィールドのゼロ値"
 
-#: admin/functions-admin-settings.php:845
-msgid "Return a 0 as the value for any fields that are not included on the page."
+#: admin/functions-admin-settings.php:876
+msgid ""
+"Return a 0 as the value for any fields that are not included on the page."
 msgstr "ページに含まれていないフィールドの値として0を返します。"
 
-#: admin/functions-admin-settings.php:875
+#: admin/functions-admin-settings.php:884
+msgid "Recalculate Calculation fields in cart (beta)"
+msgstr "カート内の計算フィールドを再計算（ベータ）"
+
+#: admin/functions-admin-settings.php:887
+msgid ""
+"Recalculate Calculation fields in cart when a product quantity is updated. "
+"Only works if a formula has the {quantity} tag."
+msgstr ""
+"製品数量が更新された際に、カート内の計算フィールドを再計算します。数式に "
+"{quantity} タグが含まれている場合のみ機能します。"
+
+#: admin/functions-admin-settings.php:893
+msgid "Validate Calculation fields (beta)"
+msgstr "計算フィールドを検証する（ベータ）"
+
+#: admin/functions-admin-settings.php:896
+msgid "Validate Calculation fields before a product is added to the cart."
+msgstr "製品がカートに追加される前に計算フィールドを検証します。"
+
+#: admin/functions-admin-settings.php:926
 msgid "License key"
 msgstr "ライセンスキー"
 
-#: admin/functions-admin-settings.php:878
-msgid "Enter your license key here. You should have received a key with the email containing the plugin download link."
-msgstr "ここにライセンスキーを入力してください。プラグインのダウンロードリンクが記載されたメールにキーが記載されているはずです。"
+#: admin/functions-admin-settings.php:929
+msgid ""
+"Enter your license key here. You should have received a key with the email "
+"containing the plugin download link."
+msgstr ""
+"ここにライセンスキーを入力してください。プラグインのダウンロードリンクが記載"
+"されたメールにキーが記載されているはずです。"
+
+#: admin/functions-admin-settings.php:953
+#: classes/class-pewc-settings-tab.php:123
+msgid "Integrations"
+msgstr "統合"
+
+#: admin/functions-admin-settings.php:959
+msgid "Enable compatibility with Polylang"
+msgstr "Polylangとの互換性を有効にする"
+
+#: admin/functions-admin-settings.php:962
+msgid ""
+"Enable this only if you have Polylang installed. Also, if you have added the "
+"Polylang compatibility snippets before, please remove them before enabling "
+"this setting."
+msgstr ""
+"Polylangがインストールされている場合のみ、これを有効にしてください。また、以"
+"前にPolylang互換性用のスニペットを追加している場合は、この設定を有効にする前"
+"に削除してください。"
+
+#: admin/functions-admin-settings.php:977
+msgid "Dynamic Pricing and Discount Rules"
+msgstr "動的価格設定と割引ルール"
+
+#: admin/functions-admin-settings.php:983
+msgid "Disable Dynamic Pricing and Discount Rules price labels"
+msgstr "動的価格設定と割引ルールの価格ラベルを無効にする"
+
+#: admin/functions-admin-settings.php:986
+msgid ""
+"Prevent Dynamic Pricing and Discount Rules from updating the price labels on "
+"the product page."
+msgstr ""
+"動的価格設定と割引ルールが製品ページの価格ラベルを更新しないようにします。"
+
+#: admin/functions-admin-settings.php:992
+msgid "Disable add-on prices on pricing table"
+msgstr "価格表のアドオン価格を無効にする"
+
+#: admin/functions-admin-settings.php:995
+msgid ""
+"Prevent Add-Ons Ultimate from adding add-on field prices to the pricing "
+"table on the product page."
+msgstr ""
+"アドオンアルティメットが製品ページの価格表にアドオンフィールドの価格を追加し"
+"ないようにします。"
+
+#: admin/functions-admin-settings.php:1001
+msgid "Apply User Role Pricing to add-on field prices"
+msgstr "ユーザー役割の価格設定をアドオンフィールドの価格に適用する"
+
+#: admin/functions-admin-settings.php:1004
+msgid ""
+"Adjust add-on field prices if User Role Pricing is enabled in Dynamic "
+"Pricing and Discount Rules."
+msgstr ""
+"料金と割引でユーザー役割の価格設定が有効になっている場合は、アドオンフィール"
+"ドの価格を調整します。"
+
+#: admin/functions-admin-settings.php:1010
+msgid "Disable discounts for add-ons"
+msgstr "アドオンの割引を無効にする"
+
+#: admin/functions-admin-settings.php:1013
+msgid ""
+"Select this if you don't wish to apply dynamic discounts to add-on field "
+"prices."
+msgstr ""
+"アドオンフィールドの価格に動的割引を適用したくない場合は、これを選択してくだ"
+"さい。"
+
+#: admin/functions-admin-settings.php:1028
+msgid "Custom user fields"
+msgstr "カスタムユーザーフィールド"
+
+#: admin/functions-admin-settings.php:1034
+msgid "Enable user fields"
+msgstr "ユーザーフィールドを有効にする"
+
+#: admin/functions-admin-settings.php:1037
+msgid "Select this to use custom user data in your add-on fields."
+msgstr ""
+"アドオンフィールドでカスタムユーザーデータを使用するには、これを選択してくだ"
+"さい。"
+
+#: admin/functions-admin-settings.php:1061
+#: classes/class-pewc-settings-tab.php:124
+msgid "Validation"
+msgstr "検証"
+
+#: admin/functions-admin-settings.php:1067
+msgid "Optimised validation"
+msgstr "最適化された検証"
+
+#: admin/functions-admin-settings.php:1070
+msgid "This will enable validation of add-on fields using Javascript."
+msgstr ""
+"これにより、Javascriptを使用したアドオンフィールドの検証が有効になります。"
+
+#: admin/functions-admin-settings.php:1076
+msgid "Hide totals until validated"
+msgstr "検証されるまで合計を非表示にする"
+
+#: admin/functions-admin-settings.php:1079
+msgid ""
+"This will hide the subtotals fields until all required fields have been "
+"completed. Requires Optimised validation."
+msgstr ""
+"これにより、すべての必須フィールドが入力されるまで小計フィールドが非表示にな"
+"ります。最適化された検証が必要です。"
+
+#: admin/functions-admin-settings.php:1085
+msgid "Disable groups"
+msgstr "グループを無効にする"
+
+#: admin/functions-admin-settings.php:1088
+msgid ""
+"Disable the next groups until all required fields in the current group are "
+"completed. Only works if groups are displayed as Accordion, Steps, or Tabs. "
+"Requires Optimised validation."
+msgstr ""
+"現在のグループ内のすべての必須フィールドが入力されるまで、次のグループを無効"
+"にします。グループがアコーディオン、ステップ、またはタブとして表示されている"
+"場合のみ機能します。最適化された検証が必要です。"
+
+#: admin/functions-admin-settings.php:1094
+msgid "Disable scroll on Steps layout"
+msgstr "ステップレイアウトでのスクロールを無効にする"
+
+#: admin/functions-admin-settings.php:1097
+msgid ""
+"Disable the scrolling animation on Steps layout when validation fails. "
+"Requires Optimised validation."
+msgstr ""
+"検証に失敗した際、ステップレイアウトでのスクロールアニメーションを無効にしま"
+"す。最適化された検証が必要です。"
+
+#: admin/functions-admin-settings.php:1121
+#: classes/class-pewc-settings-tab.php:122 templates/admin/field-item.php:98
+#: templates/admin/sections/conditions.php:21
+msgid "Conditions"
+msgstr "条件"
+
+#: admin/functions-admin-settings.php:1127
+msgid "Reset field values"
+msgstr "フィールド値をリセット"
+
+#: admin/functions-admin-settings.php:1130
+msgid "Reset field values to null when fields are hidden through a condition."
+msgstr ""
+"条件によってフィールドが非表示になったときにフィールド値をnullにリセットす"
+"る。"
+
+#: admin/functions-admin-settings.php:1136
+msgid "Display hidden fields as disabled"
+msgstr "非表示のフィールドを無効状態で表示する"
+
+#: admin/functions-admin-settings.php:1139
+msgid ""
+"If a field is hidden by a condition, select this option to make it visible "
+"but disabled."
+msgstr ""
+"フィールドが条件によって非表示になっている場合、このオプションを選択すると表"
+"示はされますが無効状態になります。"
+
+#: admin/functions-admin-settings.php:1144
+msgid "Use AJAX conditions"
+msgstr "AJAX条件を使用する"
+
+#: admin/functions-admin-settings.php:1147
+msgid ""
+"Use AJAX when loading and managing conditions in the backend. Improves "
+"performance. Also allows you to use fields in other groups when 'Display "
+"groups as post type' is enabled"
+msgstr ""
+"バックエンドで条件を読み込み・管理する際にAJAXを使用します。パフォーマンスが"
+"向上します。また、「グループを投稿タイプとして表示」が有効な場合に、他のグ"
+"ループのフィールドを使用できるようになります"
+
+#: admin/functions-custom-panel.php:105
+msgid "Select all groups"
+msgstr "すべてのグループを選択"
 
 #: admin/functions-custom-panel.php:106
-#: classes/class-pewc-product-extra-post-type.php:169
+#: classes/class-pewc-product-extra-post-type.php:174
 msgid "Add Group"
 msgstr "グループを追加"
 
 #: admin/functions-custom-panel.php:181
-#: classes/class-pewc-product-extra-post-type.php:168
+#: classes/class-pewc-product-extra-post-type.php:173
 #: templates/admin/new-group.php:22
 msgid "Group"
 msgstr "グループ"
 
-#: admin/functions-admin-settings.php:181
-#: admin/metaboxes.php:156
-#: admin/metaboxes.php:277
-#: classes/class-pewc-product-extra-post-type.php:199
-#: classes/class-pewc-product-extra-post-type.php:211
-#: templates/admin/group.php:178
-msgid "Fields"
-msgstr "フィールド"
-
-#: classes/class-pewc-product-extra-post-type.php:213
-#: classes/class-pewc-product-extra-post-type.php:771
-#: templates/admin/group.php:192
-msgid "Add Field"
-msgstr "フィールドを追加"
-
-#: admin/functions-custom-panel.php:472
+#: admin/functions-custom-panel.php:475
 msgid "Calculation"
 msgstr "計算"
 
-#: admin/functions-custom-panel.php:474
+#: admin/functions-custom-panel.php:476 templates/admin/field-item.php:84
+msgid "Calendar List"
+msgstr "カレンダーリスト"
+
+#: admin/functions-custom-panel.php:477
 msgid "Checkbox"
 msgstr "チェックボックス"
 
-#: admin/functions-custom-panel.php:475
-#: inc/functions-pro-helpers.php:23
+#: admin/functions-custom-panel.php:478 inc/functions-pro-helpers.php:23
 msgid "Checkbox Group"
 msgstr "チェックボックスグループ"
 
-#: admin/functions-custom-panel.php:476
+#: admin/functions-custom-panel.php:479
 msgid "Color Picker"
 msgstr "カラーピッカー"
 
-#: inc/functions-pro-helpers.php:24
-msgid "Image Swatch"
-msgstr "イメージスウォッチ"
-
-#: admin/functions-custom-panel.php:478
-#: templates/admin/field-item.php:92
+#: admin/functions-custom-panel.php:481 templates/admin/field-item.php:92
 #: templates/admin/sections/information.php:20
 msgid "Information"
 msgstr "情報"
 
-#: admin/functions-custom-panel.php:479
+#: admin/functions-custom-panel.php:482
 msgid "Name Your Price"
 msgstr "価格を指定"
 
-#: admin/functions-custom-panel.php:480
-#: templates/admin/field-item.php:88
+#: admin/functions-custom-panel.php:483 templates/admin/field-item.php:88
 msgid "Number"
 msgstr "数値"
 
-#: admin/functions-custom-panel.php:482
-#: inc/functions-pro-helpers.php:22
+#: admin/functions-custom-panel.php:485 inc/functions-pro-helpers.php:22
 #: templates/admin/sections/products.php:61
 msgid "Product Categories"
 msgstr "製品カテゴリ"
 
-#: admin/functions-custom-panel.php:483
+#: admin/functions-custom-panel.php:486
 msgid "Radio Group"
 msgstr "ラジオグループ"
 
-#: admin/functions-custom-panel.php:484
+#: admin/functions-custom-panel.php:487
 #: templates/admin/sections/products.php:110
 msgid "Select"
 msgstr "選択"
 
-#: admin/functions-custom-panel.php:485
+#: admin/functions-custom-panel.php:488
 msgid "Select Box"
 msgstr "選択ボックス"
 
-#: admin/functions-custom-panel.php:487
-#: templates/admin/field-item.php:87
+#: admin/functions-custom-panel.php:489
+msgid "Swatch"
+msgstr "スウォッチ"
+
+#: admin/functions-custom-panel.php:490 templates/admin/field-item.php:87
 msgid "Text"
 msgstr "テキスト"
 
-#: admin/functions-custom-panel.php:488
+#: admin/functions-custom-panel.php:491
 msgid "Textarea"
 msgstr "テキストエリア"
 
-#: admin/functions-custom-panel.php:489
+#: admin/functions-custom-panel.php:492
 msgid "Upload"
 msgstr "アップロード"
 
-#: admin/functions-custom-panel.php:500
+#: admin/functions-custom-panel.php:503
 msgid "All required fields"
 msgstr "すべての必須フィールド"
 
-#: admin/functions-custom-panel.php:501
+#: admin/functions-custom-panel.php:504
 msgid "All required fields if first field complete"
 msgstr "最初のフィールドが完了した場合、すべての必須フィールド"
 
-#: admin/functions-custom-panel.php:516
+#: admin/functions-custom-panel.php:519
 msgid "Additional or replacement text for the price."
 msgstr "価格の追加または代替テキスト"
 
-#: admin/functions-custom-panel.php:524
+#: admin/functions-custom-panel.php:527
 msgid "Decide where to display the label."
 msgstr "ラベルを表示する場所を決定します。"
 
-#: admin/functions-custom-panel.php:536
+#: admin/functions-custom-panel.php:539
 msgid "Minimum price"
 msgstr "最低価格"
 
-#: admin/functions-custom-panel.php:538
+#: admin/functions-custom-panel.php:541
 msgid "Set an optional minimum price for this product."
 msgstr "この製品のオプションの最低価格を設定します。"
 
-#: admin/functions-custom-panel.php:545
+#: admin/functions-custom-panel.php:548
 msgid "Force minimum price"
 msgstr "最低価格を強制する"
 
-#: admin/functions-custom-panel.php:547
+#: admin/functions-custom-panel.php:550
 msgid "Enable this to automatically increase the product price to the minimum."
 msgstr "これを有効にして、製品価格を自動的に最低価格に増やします。"
 
@@ -974,17 +1847,19 @@ msgid "No assigned products"
 msgstr "割り当てられた製品はありません"
 
 #: admin/functions-duplication.php:89
-msgid "If you are duplicating products with add-on fields, please check the following article"
-msgstr "アドオンフィールドを持つ製品を複製する場合は、次の記事を確認してください。"
+msgid ""
+"If you are duplicating products with add-on fields, please check the "
+"following article"
+msgstr ""
+"アドオンフィールドを持つ製品を複製する場合は、次の記事を確認してください。"
 
 #: admin/functions-duplication.php:91
 msgid "Important Information when Duplicating Product Add-Ons"
 msgstr "製品アドオンを複製する際の重要な情報"
 
-#: admin/functions-fields.php:509
-#: admin/functions-fields.php:528
-#: classes/class-pewc-product-extra-post-type.php:212
-#: classes/class-pewc-product-extra-post-type.php:510
+#: admin/functions-fields.php:509 admin/functions-fields.php:528
+#: classes/class-pewc-product-extra-post-type.php:217
+#: classes/class-pewc-product-extra-post-type.php:515
 #: templates/admin/field-item.php:69
 msgid "Field"
 msgstr "フィールド"
@@ -997,8 +1872,7 @@ msgstr "ユーザーのメールアドレス"
 msgid "User Phone Number"
 msgstr "ユーザーの電話番号"
 
-#: admin/metaboxes.php:53
-#: templates/admin/sections/calculations.php:205
+#: admin/metaboxes.php:53 templates/admin/sections/calculations.php:205
 msgid "Product ID"
 msgstr "製品ID"
 
@@ -1022,49 +1896,39 @@ msgstr "製品アドオンフィールド"
 msgid "Group Title (Front End)"
 msgstr "グループタイトル（フロントエンド）"
 
-#: admin/metaboxes.php:115
-#: templates/admin/group.php:47
+#: admin/metaboxes.php:115 templates/admin/group.php:47
 msgid "Group Description"
 msgstr "グループの説明"
 
-#: admin/metaboxes.php:122
-#: templates/admin/group.php:63
+#: admin/metaboxes.php:122 templates/admin/group.php:63
 msgid "Group Layout"
 msgstr "グループのレイアウト"
 
-#: admin/functions-admin-settings.php:122
-#: admin/metaboxes.php:125
-#: templates/admin/group-settings.php:42
-#: templates/admin/group.php:70
-msgid "Standard"
-msgstr "標準"
-
-#: admin/metaboxes.php:126
-#: templates/admin/group.php:71
+#: admin/metaboxes.php:126 templates/admin/group.php:71
 msgid "Table"
 msgstr "テーブル"
 
-#: admin/metaboxes.php:127
-#: templates/admin/group.php:72
+#: admin/metaboxes.php:127 templates/admin/group.php:72
 msgid "Two Columns"
 msgstr "2列"
 
-#: admin/metaboxes.php:128
-#: templates/admin/group.php:73
+#: admin/metaboxes.php:128 templates/admin/group.php:73
 msgid "Three Columns"
 msgstr "3列"
+
+#: admin/metaboxes.php:135 templates/admin/group.php:81
+msgid "Group Class"
+msgstr "グループクラス"
 
 #: admin/metaboxes.php:142
 msgid "Group Rules"
 msgstr "グループルール"
 
-#: admin/metaboxes.php:145
-#: templates/admin/global-rule.php:28
+#: admin/metaboxes.php:145 templates/admin/global-rule.php:28
 msgid "All the selected rules are met"
 msgstr "選択したすべてのルールが満たされています"
 
-#: admin/metaboxes.php:146
-#: templates/admin/global-rule.php:29
+#: admin/metaboxes.php:146 templates/admin/global-rule.php:29
 msgid "Any of the selected rules are met"
 msgstr "選択したルールのいずれかが満たされています"
 
@@ -1077,7 +1941,8 @@ msgid "Duplicate to"
 msgstr "複製先"
 
 #: admin/metaboxes.php:179
-msgid "This group and its fields will be duplicated to the products you enter here"
+msgid ""
+"This group and its fields will be duplicated to the products you enter here"
 msgstr "このグループとそのフィールドは、ここに入力した製品に複製されます"
 
 #: admin/metaboxes.php:198
@@ -1104,253 +1969,339 @@ msgstr "製品アドオングループ"
 msgid "Additional Information"
 msgstr "追加情報"
 
+#: admin/metaboxes.php:268 templates/admin/group.php:23
+msgid "Group Settings"
+msgstr "グループ設定"
+
 #: admin/metaboxes.php:287
 msgid "Parent Products"
 msgstr "親製品"
 
-#: classes/class-pewc-product-extra-post-type.php:74
+#: classes/class-pewc-product-extra-post-type.php:79
 msgid "Delete this group?"
 msgstr "このグループを削除しますか？"
 
-#: classes/class-pewc-product-extra-post-type.php:75
-msgid "Delete this field? Deleting this field will also delete any conditions associated with it."
-msgstr "このフィールドを削除しますか？ このフィールドを削除すると、関連付けられたすべての条件も削除されます。"
+#: classes/class-pewc-product-extra-post-type.php:80
+msgid ""
+"Delete this field? Deleting this field will also delete any conditions "
+"associated with it."
+msgstr ""
+"このフィールドを削除しますか？ このフィールドを削除すると、関連付けられたすべ"
+"ての条件も削除されます。"
 
-#: classes/class-pewc-product-extra-post-type.php:76
+#: classes/class-pewc-product-extra-post-type.php:81
 msgid "Delete this option?"
 msgstr "このオプションを削除しますか？"
 
-#: classes/class-pewc-product-extra-post-type.php:77
-#: templates/admin/condition.php:242
-#: templates/admin/new-conditional-row.php:70
-#: templates/admin/views/group-condition.php:196
+#: classes/class-pewc-product-extra-post-type.php:82
+#: templates/admin/ajax-condition.php:205 templates/admin/condition.php:251
+#: templates/admin/new-conditional-row.php:82
+#: templates/admin/views/group-condition.php:199
 msgid "Checked"
 msgstr "チェックされました"
 
-#: classes/class-pewc-product-extra-post-type.php:78
-msgid "This field is used in a condition. Changing its field type may affect the condition. Continue?"
-msgstr "このフィールドは条件で使用されています。 フィールドタイプを変更すると、条件に影響する可能性があります。 続行しますか？"
+#: classes/class-pewc-product-extra-post-type.php:83
+msgid ""
+"This field is used in a condition. Changing its field type may affect the "
+"condition. Continue?"
+msgstr ""
+"このフィールドは条件で使用されています。 フィールドタイプを変更すると、条件に"
+"影響する可能性があります。 続行しますか？"
 
-#: classes/class-pewc-product-extra-post-type.php:79
+#: classes/class-pewc-product-extra-post-type.php:84
 msgid "copy"
 msgstr "コピー"
 
-#: classes/class-pewc-product-extra-post-type.php:80
-#: inc/functions-conditionals.php:23
-msgid " -- Select a field -- "
-msgstr " -- フィールドを選択 -- "
-
-#: classes/class-pewc-product-extra-post-type.php:110
+#: classes/class-pewc-product-extra-post-type.php:115
 msgid "Add "
 msgstr "追加"
 
-#: classes/class-pewc-product-extra-post-type.php:111
+#: classes/class-pewc-product-extra-post-type.php:116
 msgid "Add New "
 msgstr "新規追加"
 
-#: classes/class-pewc-product-extra-post-type.php:112
-#: classes/class-pewc-product-extra-post-type.php:171
-#: classes/class-pewc-product-extra-post-type.php:215
+#: classes/class-pewc-product-extra-post-type.php:117
+#: classes/class-pewc-product-extra-post-type.php:176
+#: classes/class-pewc-product-extra-post-type.php:220
 msgid "Edit"
 msgstr "編集"
 
-#: classes/class-pewc-product-extra-post-type.php:113
+#: classes/class-pewc-product-extra-post-type.php:118
 msgid "Edit "
 msgstr "編集"
 
-#: classes/class-pewc-product-extra-post-type.php:114
+#: classes/class-pewc-product-extra-post-type.php:119
 msgid "New "
 msgstr "新規"
 
-#: classes/class-pewc-product-extra-post-type.php:115
-#: classes/class-pewc-product-extra-post-type.php:116
+#: classes/class-pewc-product-extra-post-type.php:120
+#: classes/class-pewc-product-extra-post-type.php:121
 msgid "View "
 msgstr "表示"
 
-#: classes/class-pewc-product-extra-post-type.php:117
+#: classes/class-pewc-product-extra-post-type.php:122
 msgid "Search "
 msgstr "検索"
 
-#: classes/class-pewc-product-extra-post-type.php:118
-#: classes/class-pewc-product-extra-post-type.php:177
-#: classes/class-pewc-product-extra-post-type.php:221
+#: classes/class-pewc-product-extra-post-type.php:123
+#: classes/class-pewc-product-extra-post-type.php:182
+#: classes/class-pewc-product-extra-post-type.php:226
 msgid "None found"
 msgstr "見つかりません"
 
-#: classes/class-pewc-product-extra-post-type.php:119
-#: classes/class-pewc-product-extra-post-type.php:178
-#: classes/class-pewc-product-extra-post-type.php:222
+#: classes/class-pewc-product-extra-post-type.php:124
+#: classes/class-pewc-product-extra-post-type.php:183
+#: classes/class-pewc-product-extra-post-type.php:227
 msgid "None found in trash"
 msgstr "ゴミ箱にはありません"
 
-#: classes/class-pewc-product-extra-post-type.php:120
+#: classes/class-pewc-product-extra-post-type.php:125
 msgid "Parent "
 msgstr "親"
 
-#: classes/class-pewc-product-extra-post-type.php:122
+#: classes/class-pewc-product-extra-post-type.php:127
 msgid "Add-Ons by Order"
 msgstr "注文別アドオン"
 
-#: classes/class-pewc-product-extra-post-type.php:146
-msgid "This page shows a list of Product Add-Ons associated with orders, so don't be alarmed if you don't see anything here: it just means that you haven't had any orders placed yet that contain Product Add On fields."
-msgstr "このページは注文に関連付けられた製品アドオンの一覧を表示します。 ここに何も表示されない場合は驚かないでください。 これは、まだ製品アドオンフィールドを含む注文がないことを意味するだけです。"
+#: classes/class-pewc-product-extra-post-type.php:151
+msgid ""
+"This page shows a list of Product Add-Ons associated with orders, so don't "
+"be alarmed if you don't see anything here: it just means that you haven't "
+"had any orders placed yet that contain Product Add On fields."
+msgstr ""
+"このページは注文に関連付けられた製品アドオンの一覧を表示します。 ここに何も表"
+"示されない場合は驚かないでください。 これは、まだ製品アドオンフィールドを含む"
+"注文がないことを意味するだけです。"
 
-#: classes/class-pewc-product-extra-post-type.php:147
-msgid "If you are looking to add or edit a Product Add On, you can do so from the Product Data panel when you add or edit a product or from the Global Add-Ons page."
-msgstr "製品アドオンを追加または編集する場合は、製品を追加または編集するときの「製品データ」パネルから、またはグローバルアドオンページから行うことができます。"
+#: classes/class-pewc-product-extra-post-type.php:152
+msgid ""
+"If you are looking to add or edit a Product Add On, you can do so from the "
+"Product Data panel when you add or edit a product or from the Global Add-Ons "
+"page."
+msgstr ""
+"製品アドオンを追加または編集する場合は、製品を追加または編集するときの「製品"
+"データ」パネルから、またはグローバルアドオンページから行うことができます。"
 
-#: admin/customizer.php:65
-#: admin/functions-admin-settings.php:182
-#: classes/class-pewc-product-extra-post-type.php:167
-msgid "Groups"
-msgstr "グループ"
-
-#: classes/class-pewc-product-extra-post-type.php:170
+#: classes/class-pewc-product-extra-post-type.php:175
 msgid "Add New Group"
 msgstr "新しいグループを追加"
 
-#: classes/class-pewc-product-extra-post-type.php:172
+#: classes/class-pewc-product-extra-post-type.php:177
 msgid "Edit Group"
 msgstr "グループを編集"
 
-#: classes/class-pewc-product-extra-post-type.php:173
+#: classes/class-pewc-product-extra-post-type.php:178
 msgid "New Group"
 msgstr "新しいグループ"
 
-#: classes/class-pewc-product-extra-post-type.php:174
-#: classes/class-pewc-product-extra-post-type.php:175
+#: classes/class-pewc-product-extra-post-type.php:179
+#: classes/class-pewc-product-extra-post-type.php:180
 msgid "View Group"
 msgstr "グループを表示"
 
-#: classes/class-pewc-product-extra-post-type.php:176
+#: classes/class-pewc-product-extra-post-type.php:181
 msgid "Search Groups"
 msgstr "グループを検索"
 
-#: classes/class-pewc-product-extra-post-type.php:179
+#: classes/class-pewc-product-extra-post-type.php:184
 msgid "Parent Groups"
 msgstr "親グループ"
 
-#: admin/functions-admin-import-export-aou.php:198
-#: classes/class-pewc-product-extra-post-type.php:180
-#: classes/class-pewc-product-extra-post-type.php:181
-msgid "Global Groups"
-msgstr "グローバルグループ"
+#: classes/class-pewc-product-extra-post-type.php:218
+#: classes/class-pewc-product-extra-post-type.php:779
+#: templates/admin/group.php:198
+msgid "Add Field"
+msgstr "フィールドを追加"
 
-#: classes/class-pewc-product-extra-post-type.php:214
+#: classes/class-pewc-product-extra-post-type.php:219
 msgid "Add New Field"
 msgstr "新しいフィールドを追加"
 
-#: classes/class-pewc-product-extra-post-type.php:216
+#: classes/class-pewc-product-extra-post-type.php:221
 msgid "Edit Field"
 msgstr "フィールドを編集"
 
-#: classes/class-pewc-product-extra-post-type.php:217
+#: classes/class-pewc-product-extra-post-type.php:222
 msgid "New Field"
 msgstr "新しいフィールド"
 
-#: classes/class-pewc-product-extra-post-type.php:218
+#: classes/class-pewc-product-extra-post-type.php:223
 msgid "View Fields"
 msgstr "フィールドを表示"
 
-#: classes/class-pewc-product-extra-post-type.php:219
+#: classes/class-pewc-product-extra-post-type.php:224
 msgid "View Field"
 msgstr "フィールドを表示"
 
-#: classes/class-pewc-product-extra-post-type.php:220
+#: classes/class-pewc-product-extra-post-type.php:225
 msgid "Search Fields"
 msgstr "フィールドを検索"
 
-#: classes/class-pewc-product-extra-post-type.php:223
+#: classes/class-pewc-product-extra-post-type.php:228
 msgid "Parent Fields"
 msgstr "親フィールド"
 
-#: classes/class-pewc-product-extra-post-type.php:224
-#: classes/class-pewc-product-extra-post-type.php:225
+#: classes/class-pewc-product-extra-post-type.php:229
+#: classes/class-pewc-product-extra-post-type.php:230
 msgid "All Fields"
 msgstr "すべてのフィールド"
 
-#: classes/class-pewc-product-extra-post-type.php:511
+#: classes/class-pewc-product-extra-post-type.php:516
 msgid "Value"
 msgstr "値"
 
-#: classes/class-pewc-product-extra-post-type.php:512
+#: classes/class-pewc-product-extra-post-type.php:517
 #: templates/admin/sections/calendar-list.php:44
 #: templates/admin/views/option-fields-new.php:30
 #: templates/admin/views/option-fields.php:41
 msgid "Price"
 msgstr "価格"
 
-#: classes/class-pewc-product-extra-post-type.php:622
-#: templates/admin/global-rule.php:54
-#: templates/admin/new-global-rule.php:40
+#: classes/class-pewc-product-extra-post-type.php:615
+#: templates/admin/global-rule.php:39
+msgid "Applies To"
+msgstr "適用対象"
+
+#: classes/class-pewc-product-extra-post-type.php:627
+#: templates/admin/global-rule.php:54 templates/admin/new-global-rule.php:40
 msgid "With"
 msgstr "と"
 
-#: classes/class-pewc-product-extra-post-type.php:634
-#: inc/functions-global-extras.php:578
+#: classes/class-pewc-product-extra-post-type.php:639
+#: inc/functions-global-extras.php:626
 msgid "On all products"
 msgstr "すべての製品に"
 
-#: classes/class-pewc-product-extra-post-type.php:647
-#: inc/functions-global-extras.php:583
+#: classes/class-pewc-product-extra-post-type.php:652
+#: inc/functions-global-extras.php:631
 msgid "By product"
 msgstr "製品ごとに"
 
-#: classes/class-pewc-product-extra-post-type.php:671
-#: inc/functions-global-extras.php:589
+#: classes/class-pewc-product-extra-post-type.php:676
+#: inc/functions-global-extras.php:637
 msgid "By category"
 msgstr "カテゴリーごとに"
 
-#: classes/class-pewc-product-extra-post-type.php:855
+#: classes/class-pewc-product-extra-post-type.php:863
 msgid "Choose products"
 msgstr "製品を選択"
 
-#: classes/class-pewc-product-extra-post-type.php:860
+#: classes/class-pewc-product-extra-post-type.php:868
 msgid "Duplicate Global Group"
 msgstr "グローバルグループを複製"
 
-#: classes/class-pewc-product-extra-post-type.php:1076
+#: classes/class-pewc-product-extra-post-type.php:1092
 msgid "Order"
 msgstr "注文"
 
-#: classes/class-pewc-product-extra-post-type.php:1078
+#: classes/class-pewc-product-extra-post-type.php:1094
 msgid "User"
 msgstr "ユーザー"
 
-#: classes/class-pewc-settings-tab.php:138
-#: classes/class-pewc-settings-tab.php:146
+#: classes/class-pewc-settings-tab.php:114 templates/admin/field-item.php:81
+msgid "General"
+msgstr "一般"
+
+#: classes/class-pewc-settings-tab.php:119 templates/admin/field-item.php:86
+#: templates/admin/sections/products.php:111
+msgid "Swatches"
+msgstr "スウォッチ"
+
+#: classes/class-pewc-settings-tab.php:127
+msgid "License"
+msgstr "ライセンス"
+
+#: classes/class-pewc-settings-tab.php:148
+#: classes/class-pewc-settings-tab.php:156
 msgid "Upgrade"
 msgstr "アップグレード"
 
-#: classes/class-pewc-settings-tab.php:156
-#: classes/class-pewc-settings-tab.php:242
-#: classes/class-pewc-settings-tab.php:298
+#: classes/class-pewc-settings-tab.php:167
+#: classes/class-pewc-settings-tab.php:258
+#: classes/class-pewc-settings-tab.php:314
 msgid "Licence key"
 msgstr "ライセンスキー"
 
-#: classes/class-pewc-settings-tab.php:174
+#: classes/class-pewc-settings-tab.php:171
+msgid "(Preset)"
+msgstr "（プリセット）"
+
+#: classes/class-pewc-settings-tab.php:172
+msgid "The license key is defined by a constant and cannot be changed here."
+msgstr ""
+"ライセンスキーは定数によって定義されているため、ここでは変更できません。"
+
+#: classes/class-pewc-settings-tab.php:190
 msgid "Please enter your licence key"
 msgstr "ライセンスキーを入力してください"
 
+#: classes/class-pewc-settings-tab.php:194
+msgid "It hasn't been possible to validate your license key."
+msgstr "ライセンスキーを検証できませんでした。"
+
+#: classes/class-pewc-settings-tab.php:198
+msgid ""
+"<strong>Most importantly, this isn't a problem - all the plugin's features "
+"and functionality are fully available so you can start using the plugin "
+"straightaway without needing to activate the license.</strong>"
+msgstr ""
+"<strong>最も重要な点として、これは問題ではありません。ライセンスを有効化しな"
+"くても、プラグインのすべての機能をすぐにご利用いただけます。</strong>"
+
+#: classes/class-pewc-settings-tab.php:202
+msgid "There are a number of possible reasons for the license not validating:"
+msgstr "ライセンスが検証されない原因としては、いくつかの可能性が考えられます。"
+
+#: classes/class-pewc-settings-tab.php:206
+msgid ""
+"It's possible there is an issue connecting between this site and the Plugin "
+"Republic site"
+msgstr ""
+"このサイトとPlugin Republicのサイトとの接続に問題がある可能性があります"
+
+#: classes/class-pewc-settings-tab.php:207
+msgid ""
+"If you have bought a bundle, please make sure you enter the license key that "
+"is specific to each plugin - not the main bundle license key"
+msgstr ""
+"バンドルをご購入いただいた場合は、バンドル全体のライセンスキーではなく、各プ"
+"ラグインに固有のライセンスキーを入力していることをご確認ください"
+
 #: classes/class-pewc-settings-tab.php:208
-#: classes/class-pewc-settings-tab.php:220
-#: classes/class-pewc-settings-tab.php:264
-#: classes/class-pewc-settings-tab.php:276
-#: classes/class-pewc-settings-tab.php:320
-#: classes/class-pewc-settings-tab.php:332
+msgid ""
+"If you are running a security or firewall plugin, like Wordfence or Sucuri, "
+"please try temporarily disabling it and retesting the license "
+msgstr ""
+"WordfenceやSucuriなどのセキュリティプラグインやファイアウォールプラグインを使"
+"用している場合は、一時的に無効にしてからライセンスを再度お試しください "
+
+#: classes/class-pewc-settings-tab.php:212
+msgid "There are some more things to try on the following link:"
+msgstr "以下のリンクで他にも試せる方法をご案内しています。"
+
+#: classes/class-pewc-settings-tab.php:216
+msgid "How to solve any problems with activating your license."
+msgstr "ライセンスの有効化に関する問題を解決する方法。"
+
+#: classes/class-pewc-settings-tab.php:224
+#: classes/class-pewc-settings-tab.php:236
+#: classes/class-pewc-settings-tab.php:280
+#: classes/class-pewc-settings-tab.php:292
+#: classes/class-pewc-settings-tab.php:336
+#: classes/class-pewc-settings-tab.php:348
 #: templates/admin/sections/calculations.php:128
 msgid "Action"
 msgstr "アクション"
 
-#: classes/class-pewc-settings-tab.php:213
-#: classes/class-pewc-settings-tab.php:269
-#: classes/class-pewc-settings-tab.php:325
+#: classes/class-pewc-settings-tab.php:229
+#: classes/class-pewc-settings-tab.php:285
+#: classes/class-pewc-settings-tab.php:341
 msgid "Deactivate this licence"
 msgstr "このライセンスを無効にする"
 
-#: classes/class-pewc-settings-tab.php:225
-#: classes/class-pewc-settings-tab.php:281
-#: classes/class-pewc-settings-tab.php:337
+#: classes/class-pewc-settings-tab.php:241
+#: classes/class-pewc-settings-tab.php:297
+#: classes/class-pewc-settings-tab.php:353
 msgid "Activate this licence"
 msgstr "このライセンスを有効にする"
 
@@ -1386,8 +2337,11 @@ msgstr "フィールドが作成されませんでした"
 
 #: classes/rest-api/class-pewc-rest-api-fields-controller.php:208
 #: classes/rest-api/class-pewc-rest-api-fields-controller.php:245
-msgid "Missing field data. Please pass at least one value to use this endpoint."
-msgstr "フィールドデータが不足しています。このエンドポイントを使用するには、少なくとも1つの値を渡してください。"
+msgid ""
+"Missing field data. Please pass at least one value to use this endpoint."
+msgstr ""
+"フィールドデータが不足しています。このエンドポイントを使用するには、少なくと"
+"も1つの値を渡してください。"
 
 #: classes/rest-api/class-pewc-rest-api-fields-controller.php:279
 msgid "Cannot delete add-on field."
@@ -1406,8 +2360,11 @@ msgid "Group not created"
 msgstr "グループが作成されませんでした"
 
 #: classes/rest-api/class-pewc-rest-api-groups-controller.php:225
-msgid "Missing group data. Please pass at least one value to use this endpoint."
-msgstr "グループデータが不足しています。このエンドポイントを使用するには、少なくとも1つの値を渡してください。"
+msgid ""
+"Missing group data. Please pass at least one value to use this endpoint."
+msgstr ""
+"グループデータが不足しています。このエンドポイントを使用するには、少なくとも1"
+"つの値を渡してください。"
 
 #: classes/rest-api/class-pewc-rest-api-groups-controller.php:286
 msgid "Cannot delete add-on group."
@@ -1429,209 +2386,222 @@ msgstr "アドオングループの説明。"
 msgid "Add-on group layout."
 msgstr "アドオングループのレイアウト。"
 
-#: inc/functions-archive.php:124
+#: inc/functions-archive.php:149
 msgid "Select options"
 msgstr "オプションを選択"
 
-#: inc/functions-cart.php:287
-msgid "This product has not been added to your cart. The product has a minimum price of"
-msgstr "この商品はカートに追加されていません。この商品は最低価格があります："
-
-#: inc/functions-cart.php:307
-msgid "The price has been set to the minimum price of"
-msgstr "価格は最低価格に設定されました："
-
-#: inc/functions-cart.php:1465
-#: inc/functions-cart.php:1482
-#: inc/functions-cart.php:1530
-#: inc/functions-cart.php:1813
-#: inc/functions-cart.php:1821
-#: inc/functions-cart.php:2479
-#: inc/functions-cart.php:2502
-#: inc/functions-cart.php:2569
-#: inc/functions-cart.php:2660
-#: inc/functions-cart.php:2671
-#: inc/functions-cart.php:2712
-#: inc/functions-js-validation.php:54
-msgid " is a required field."
-msgstr " は必須項目です。"
-
-#: inc/functions-cart.php:2509
-#: inc/functions-js-validation.php:187
-msgid ": minimum number of characters: "
-msgstr "：最小文字数："
-
-#: inc/functions-cart.php:2512
-#: inc/functions-js-validation.php:191
-msgid ": maximum number of characters: "
-msgstr "：最大文字数："
-
-#: inc/functions-cart.php:1492
-#: inc/functions-js-validation.php:121
-#, php-format
-msgid "%s requires at least %s items to be selected"
-msgstr "%s は少なくとも %s 個のアイテムを選択する必要があります"
-
-#: inc/functions-cart.php:1509
-#: inc/functions-js-validation.php:137
-#, php-format
-msgid "%s requires a maximum of %s items to be selected"
-msgstr "%s は最大 %s 個のアイテムを選択する必要があります"
-
-#: inc/functions-cart.php:2593
-#: inc/functions-js-validation.php:171
-msgid ": minimum value is "
-msgstr "：最小値は "
-
-#: inc/functions-cart.php:2596
-#: inc/functions-js-validation.php:178
-msgid ": maximum value is "
-msgstr "：最大値は "
-
-#: inc/functions-cart.php:1533
-msgid ": the value is not a valid hex code"
-msgstr "：値が有効な16進数コードではありません"
-
-#: inc/functions-cart.php:2794
-msgid ": File size too large."
-msgstr "：ファイルサイズが大きすぎます。"
-
-#: inc/functions-cart.php:2804
-#: inc/functions-cart.php:2849
-msgid " is a required upload field."
-msgstr " は必須のアップロードフィールドです。"
-
-#: inc/functions-cart.php:2832
-#: inc/functions-media.php:217
-#: inc/functions-media.php:231
-#: inc/functions-media.php:259
-msgid "File not valid."
-msgstr "ファイルが有効ではありません。"
-
-#: inc/functions-cart.php:1756
-#: inc/functions-js-validation.php:101
-#, php-format
-msgid "%s requires you to choose %s products"
-msgstr "%s は %s 個の商品を選択する必要があります"
-
-#: inc/functions-cart.php:1773
-#: inc/functions-js-validation.php:71
-#, php-format
-msgid "%s requires you to choose a minimum of %s products"
-msgstr "%s は少なくとも %s 個の商品を選択する必要があります"
-
-#: inc/functions-cart.php:1790
-#: inc/functions-js-validation.php:87
-#, php-format
-msgid "%s requires you to choose a maximum of %s products"
-msgstr "%s は最大で %s 個の商品を選択する必要があります"
-
-#: inc/functions-cart.php:1807
-msgid " must have a quantity entered."
-msgstr " の数量を入力してください。"
-
-#: inc/functions-cart.php:1891
-msgid "The product has not been added to the cart because one or more of its components is out of stock."
-msgstr "製品がカートに追加されていません。1つ以上のコンポーネントが在庫切れです。"
-
-#: inc/functions-cart.php:2038
-msgid "Flat rate cost"
-msgstr "一律送料"
-
-#: inc/functions-blocks.php:122
-#: inc/functions-cart.php:2103
-#: inc/functions-conditionals.php:95
-#: inc/functions-order.php:198
-#: inc/functions-order.php:323
-#: inc/functions-order.php:745
-#: inc/functions-products.php:741
-#: templates/frontend/products/products-checkboxes-list.php:111
-#: templates/frontend/products/products-checkboxes.php:134
-#: templates/frontend/products/products-column.php:353
-#: templates/frontend/products/products-components.php:149
-#: templates/frontend/products/products-grid.php:163
-#: templates/frontend/products/products-swatches.php:311
-msgid "Quantity"
-msgstr "数量"
-
-#: inc/functions-blocks.php:94
-#: inc/functions-cart.php:2257
+#: inc/functions-blocks.php:95 inc/functions-cart.php:2105
 msgid "Edit options"
 msgstr "オプションを編集"
 
-#: inc/functions-cart.php:2297
-#, php-format
+#: inc/functions-blocks.php:186
+msgid "Cart item key"
+msgstr "カートアイテムキー"
+
+#: inc/functions-blocks.php:190
+msgid "Edit options link HTML"
+msgstr "オプション編集リンクのHTML"
+
+#: inc/functions-blocks.php:194
+msgid "Indent markup for child products"
+msgstr "子製品のインデントマークアップ"
+
+#: inc/functions-blocks.php:198
+msgid "Uploaded file data keyed by field"
+msgstr "フィールドごとにキー付けされたアップロード済みファイルデータ"
+
+#: inc/functions-blocks.php:202
+msgid "Arrow right icon URL"
+msgstr "右矢印アイコンのURL"
+
+#: inc/functions-blocks.php:206
+msgid "Combined parent and child product price"
+msgstr "親製品と子製品の合計価格"
+
+#: inc/functions-calculations.php:265
+msgid "The quantity for &ldquo;%s&rdquo; is not valid and has been corrected."
+msgstr "&ldquo;%s&rdquo;の数量が無効なため、修正されました。"
+
+#: inc/functions-calculations.php:1191
+msgid ""
+"There was an error in calculating the price for %s. Please contact the "
+"website administrator about the issue."
+msgstr ""
+"%s の価格計算中にエラーが発生しました。この問題についてウェブサイト管理者にお"
+"問い合わせください。"
+
+#: inc/functions-calculations.php:1219
+msgid ""
+" The following plugin(s) need to be updated to the latest version in order "
+"to use this feature: "
+msgstr ""
+" この機能を使用するには、次のプラグインを最新バージョンに更新する必要がありま"
+"す: "
+
+#: inc/functions-cart.php:288
+msgid ""
+"This product has not been added to your cart. The product has a minimum "
+"price of"
+msgstr "この商品はカートに追加されていません。この商品は最低価格があります："
+
+#: inc/functions-cart.php:308
+msgid "The price has been set to the minimum price of"
+msgstr "価格は最低価格に設定されました："
+
+#: inc/functions-cart.php:1492 inc/functions-cart.php:1504
+#: inc/functions-cart.php:1552 inc/functions-cart.php:1657
+#: inc/functions-cart.php:1665 inc/functions-cart.php:2327
+#: inc/functions-cart.php:2350 inc/functions-cart.php:2417
+#: inc/functions-cart.php:2511 inc/functions-cart.php:2522
+#: inc/functions-cart.php:2564 inc/functions-js-validation.php:54
+msgid " is a required field."
+msgstr " は必須項目です。"
+
+#: inc/functions-cart.php:1514 inc/functions-js-validation.php:121
+msgid "%s requires at least %s items to be selected"
+msgstr "%s は少なくとも %s 個のアイテムを選択する必要があります"
+
+#: inc/functions-cart.php:1531 inc/functions-js-validation.php:137
+msgid "%s requires a maximum of %s items to be selected"
+msgstr "%s は最大 %s 個のアイテムを選択する必要があります"
+
+#: inc/functions-cart.php:1555
+msgid ": the value is not a valid hex code"
+msgstr "：値が有効な16進数コードではありません"
+
+#: inc/functions-cart.php:1600 inc/functions-js-validation.php:101
+msgid "%s requires you to choose %s products"
+msgstr "%s は %s 個の商品を選択する必要があります"
+
+#: inc/functions-cart.php:1617 inc/functions-js-validation.php:71
+msgid "%s requires you to choose a minimum of %s products"
+msgstr "%s は少なくとも %s 個の商品を選択する必要があります"
+
+#: inc/functions-cart.php:1634 inc/functions-js-validation.php:87
+msgid "%s requires you to choose a maximum of %s products"
+msgstr "%s は最大で %s 個の商品を選択する必要があります"
+
+#: inc/functions-cart.php:1651
+msgid " must have a quantity entered."
+msgstr " の数量を入力してください。"
+
+#: inc/functions-cart.php:1697
+msgid ""
+"The product has not been added to the cart because one or more of its "
+"components is sold individually and already exists in the cart."
+msgstr ""
+"コンポーネントの1つ以上が個別販売品であり、すでにカートに存在するため、製品は"
+"カートに追加されませんでした。"
+
+#: inc/functions-cart.php:1735
+msgid ""
+"The product has not been added to the cart because one or more of its "
+"components is out of stock."
+msgstr ""
+"製品がカートに追加されていません。1つ以上のコンポーネントが在庫切れです。"
+
+#: inc/functions-cart.php:1883
+msgid "Flat rate cost"
+msgstr "一律送料"
+
+#: inc/functions-cart.php:2145
 msgid "%s has been updated."
 msgid_plural "%s have been updated."
 msgstr[0] "%s が更新されました。"
 
-#: inc/functions-cart.php:2353
+#: inc/functions-cart.php:2201
 msgid "Update product"
 msgstr "製品を更新"
 
-#: inc/functions-conditionals.php:38
-#: inc/functions-conditionals.php:52
-#: inc/functions-conditionals.php:68
-#: inc/functions-conditionals.php:84
-msgid "[no label]"
-msgstr "[ラベルなし]"
+#: inc/functions-cart.php:2357 inc/functions-js-validation.php:187
+msgid ": minimum number of characters: "
+msgstr "：最小文字数："
 
-#: inc/functions-conditionals.php:94
-msgid "Cost"
-msgstr "コスト"
+#: inc/functions-cart.php:2360 inc/functions-js-validation.php:191
+msgid ": maximum number of characters: "
+msgstr "：最大文字数："
 
-#: inc/functions-conditionals.php:109
+#: inc/functions-cart.php:2441 inc/functions-js-validation.php:171
+msgid ": minimum value is "
+msgstr "：最小値は "
+
+#: inc/functions-cart.php:2444 inc/functions-js-validation.php:178
+msgid ": maximum value is "
+msgstr "：最大値は "
+
+#: inc/functions-cart.php:2617 inc/functions-js-validation.php:201
+msgid "%s requires a minimum of %s files to be uploaded"
+msgstr "%s には最低 %s 個のファイルをアップロードする必要があります"
+
+#: inc/functions-cart.php:2647
+msgid ""
+"The uploaded file has failed a security check. Please try uploading it "
+"again: "
+msgstr ""
+"アップロードされたファイルはセキュリティチェックに失敗しました。再度アップ"
+"ロードをお試しください: "
+
+#: inc/functions-cart.php:2667
+msgid ": File size too large."
+msgstr "：ファイルサイズが大きすぎます。"
+
+#: inc/functions-cart.php:2677 inc/functions-cart.php:2722
+msgid " is a required upload field."
+msgstr " は必須のアップロードフィールドです。"
+
+#: inc/functions-cart.php:2705
+msgid ": File not valid."
+msgstr "：ファイルが無効です。"
+
+#: inc/functions-clear-all.php:33
+msgid "Clear All Options"
+msgstr "すべてのオプションをクリア"
+
+#: inc/functions-conditionals.php:19
 msgid "Hide this field if"
 msgstr "このフィールドを非表示にする場合"
 
-#: inc/functions-conditionals.php:110
+#: inc/functions-conditionals.php:20
 msgid "Show this field if"
 msgstr "このフィールドを表示する場合"
 
-#: inc/functions-conditionals.php:121
+#: inc/functions-conditionals.php:31
 msgid "All rules match"
 msgstr "すべてのルールが一致する"
 
-#: inc/functions-conditionals.php:122
+#: inc/functions-conditionals.php:32
 msgid "Any rule matches"
 msgstr "任意のルールが一致する"
 
-#: inc/functions-conditionals.php:133
+#: inc/functions-conditionals.php:43
 msgid "Is"
 msgstr "次と等しい"
 
-#: inc/functions-conditionals.php:134
+#: inc/functions-conditionals.php:44
 msgid "Is Not"
 msgstr "次と等しくない"
 
-#: inc/functions-conditionals.php:135
+#: inc/functions-conditionals.php:45
 msgid "Contains"
 msgstr "次を含む"
 
-#: inc/functions-conditionals.php:136
+#: inc/functions-conditionals.php:46
 msgid "Does Not Contain"
 msgstr "次を含まない"
 
-#: inc/functions-conditionals.php:137
+#: inc/functions-conditionals.php:47
 msgid "Equals"
 msgstr "次に等しい"
 
-#: inc/functions-conditionals.php:138
+#: inc/functions-conditionals.php:48
 msgid "Greater Than"
 msgstr "次より大きい"
 
-#: inc/functions-conditionals.php:139
+#: inc/functions-conditionals.php:49
 msgid "Less Than"
 msgstr "次より小さい"
 
-#: admin/functions-admin-import-export-aou.php:200
-#: inc/functions-global-extras.php:29
-#: inc/functions-global-extras.php:30
-msgid "Global Add-Ons"
-msgstr "グローバルアドオン"
-
-#: inc/functions-global-extras.php:54
-#: inc/functions-global-extras.php:119
+#: inc/functions-global-extras.php:54 inc/functions-global-extras.php:122
 msgid "Global Product Add-Ons"
 msgstr "グローバル製品アドオン"
 
@@ -1640,56 +2610,90 @@ msgid "This page is no longer available."
 msgstr "このページはもう利用できません。"
 
 #: inc/functions-global-extras.php:66
-#, php-format
 msgid "You can now edit your Global Add-Ons from <a href=\"%s\">this page</a>."
-msgstr "今後は<a href=\"%s\">このページ</a>からグローバルアドオンを編集できます。"
+msgstr ""
+"今後は<a href=\"%s\">このページ</a>からグローバルアドオンを編集できます。"
 
 #: inc/functions-global-extras.php:75
-msgid "Please follow the instructions below to update your database. You will then be able to access Global Add-Ons through a new Global Groups page."
-msgstr "以下の手順に従ってデータベースを更新してください。その後、新しいグローバルグループページからグローバルアドオンにアクセスできるようになります。"
+msgid ""
+"Please follow the instructions below to update your database. You will then "
+"be able to access Global Add-Ons through a new Global Groups page."
+msgstr ""
+"以下の手順に従ってデータベースを更新してください。その後、新しいグローバルグ"
+"ループページからグローバルアドオンにアクセスできるようになります。"
 
-#: inc/functions-global-extras.php:79
-#: inc/functions-migration.php:41
-msgid "WooCommerce Product Add-Ons Ultimate needs to update your database. This will only take a few seconds. Please click the button below to go to the migration page to get started."
-msgstr "WooCommerce Product Add-Ons Ultimate はデータベースを更新する必要があります。数秒で完了します。開始するには、以下のボタンをクリックして移行ページに移動してください。"
+#: inc/functions-global-extras.php:79 inc/functions-migration.php:41
+msgid ""
+"WooCommerce Product Add-Ons Ultimate needs to update your database. This "
+"will only take a few seconds. Please click the button below to go to the "
+"migration page to get started."
+msgstr ""
+"WooCommerce Product Add-Ons Ultimate はデータベースを更新する必要があります。"
+"数秒で完了します。開始するには、以下のボタンをクリックして移行ページに移動し"
+"てください。"
 
-#: inc/functions-global-extras.php:84
-#: inc/functions-migration.php:45
+#: inc/functions-global-extras.php:84 inc/functions-migration.php:45
 msgid "Go to Migration Page"
 msgstr "移行ページへ移動"
 
-#: inc/functions-global-extras.php:121
-msgid "Add Product Add-Ons in bulk to your products. You can add Product Add-Ons to individual products by editing the product and clicking on the 'Product Add-Ons' tab of the Product Data section."
-msgstr "製品に一括でプロダクトアドオンを追加します。個々の製品にプロダクトアドオンを追加するには、製品を編集して製品データセクションの「プロダクトアドオン」タブをクリックします。"
+#: inc/functions-global-extras.php:124
+msgid ""
+"Add Product Add-Ons in bulk to your products. You can add Product Add-Ons to "
+"individual products by editing the product and clicking on the 'Product Add-"
+"Ons' tab of the Product Data section."
+msgstr ""
+"製品に一括でプロダクトアドオンを追加します。個々の製品にプロダクトアドオンを"
+"追加するには、製品を編集して製品データセクションの「プロダクトアドオン」タブ"
+"をクリックします。"
 
-#: inc/functions-global-extras.php:166
+#: inc/functions-global-extras.php:169
 msgid "Add New Global Group"
 msgstr "新しいグローバルグループを追加"
 
-#: inc/functions-global-extras.php:170
+#: inc/functions-global-extras.php:173
 msgid "Save Global Add-Ons"
 msgstr "グローバルアドオンを保存"
+
+#: inc/functions-js-validation.php:257
+msgid "Some fields in this group failed validation."
+msgstr "このグループの一部のフィールドが検証に失敗しました。"
 
 #: inc/functions-lightbox.php:86
 msgid "See more"
 msgstr "詳細を見る"
 
-#: admin/functions-admin-import-export-aou.php:121
-#: inc/functions-lightbox.php:107
-msgid "Close"
-msgstr "閉じる"
+#: inc/functions-media.php:217 inc/functions-media.php:231
+#: inc/functions-media.php:259
+msgid "File not valid."
+msgstr "ファイルが有効ではありません。"
 
-#: inc/functions-media.php:474
+#: inc/functions-media.php:496
 msgid "File not valid"
 msgstr "ファイルが無効です"
 
-#: inc/functions-media.php:596
+#: inc/functions-media.php:673
+msgid "No thumbnail"
+msgstr "サムネイルなし"
+
+#: inc/functions-media.php:677
 msgid "Uploaded"
 msgstr "アップロード済み"
 
-#: inc/functions-media.php:597
+#: inc/functions-media.php:678
 msgid "Failed"
 msgstr "失敗"
+
+#: inc/functions-media.php:683
+msgid "Remove uploaded file"
+msgstr "アップロード済みファイルを削除"
+
+#: inc/functions-media.php:823
+msgid "Invalid nonce. Please refresh the page and try again."
+msgstr "無効なナンスです。ページを更新してもう一度お試しください。"
+
+#: inc/functions-media.php:828
+msgid "Permission denied."
+msgstr "権限がありません。"
 
 #: inc/functions-migration.php:37
 msgid "Product Add-Ons Ultimate - Important Notice"
@@ -1700,11 +2704,13 @@ msgid "WooCommerce Product Add-Ons Ultimate Version 3.0"
 msgstr "WooCommerce Product Add-Ons Ultimate バージョン 3.0"
 
 #: inc/functions-migration.php:87
-msgid "Migration complete. All your Product Add-Ons have been migrated. Thank you."
-msgstr "移行が完了しました。すべての製品アドオンが移行されました。ありがとうございました。"
+msgid ""
+"Migration complete. All your Product Add-Ons have been migrated. Thank you."
+msgstr ""
+"移行が完了しました。すべての製品アドオンが移行されました。ありがとうございま"
+"した。"
 
-#: inc/functions-migration.php:118
-#: inc/functions-migration.php:119
+#: inc/functions-migration.php:118 inc/functions-migration.php:119
 msgid "Add-Ons Migration"
 msgstr "アドオンの移行"
 
@@ -1717,29 +2723,62 @@ msgid "the support page"
 msgstr "サポートページ"
 
 #: inc/functions-migration.php:148
-msgid "Congratulations - all done. All your Product Add-Ons have been migrated. You need take no further action."
-msgstr "おめでとうございます。すべて完了しました。すべての製品アドオンが移行されました。これ以上の操作は必要ありません。"
+msgid ""
+"Congratulations - all done. All your Product Add-Ons have been migrated. You "
+"need take no further action."
+msgstr ""
+"おめでとうございます。すべて完了しました。すべての製品アドオンが移行されまし"
+"た。これ以上の操作は必要ありません。"
 
 #: inc/functions-migration.php:161
-msgid "Add-Ons Ultimate would like to update your database. This is important because the plugin is changing how it stores its data, which should result in performance improvements and feature enhancements."
-msgstr "アドオン・アルティメットはデータベースを更新したいと思っています。これは重要です。なぜなら、プラグインがデータの保存方法を変更するためで、これにより性能が向上し、機能が拡張されるはずです。"
+msgid ""
+"Add-Ons Ultimate would like to update your database. This is important "
+"because the plugin is changing how it stores its data, which should result "
+"in performance improvements and feature enhancements."
+msgstr ""
+"アドオン・アルティメットはデータベースを更新したいと思っています。これは重要"
+"です。なぜなら、プラグインがデータの保存方法を変更するためで、これにより性能"
+"が向上し、機能が拡張されるはずです。"
 
 #: inc/functions-migration.php:166
-msgid "You might like to test this first on a staging or development version of your site. In any case, please make a backup of your site before clicking the update button below."
-msgstr "まず、お使いのサイトのステージングや開発バージョンでテストを行うとよいでしょう。いずれの場合も、以下の更新ボタンをクリックする前に、サイトのバックアップを作成してください。"
+msgid ""
+"You might like to test this first on a staging or development version of "
+"your site. In any case, please make a backup of your site before clicking "
+"the update button below."
+msgstr ""
+"まず、お使いのサイトのステージングや開発バージョンでテストを行うとよいでしょ"
+"う。いずれの場合も、以下の更新ボタンをクリックする前に、サイトのバックアップ"
+"を作成してください。"
 
 #: inc/functions-migration.php:171
-msgid "The migration should only take a few seconds (slightly longer if you have a larger number of products on your site). Please stay on this page while it runs. The page will provide you with regular status updates so you can view progress."
-msgstr "移行は数秒で完了するはずです（サイトの製品数が多い場合は少し時間がかかります）。移行中はこのページに滞在してください。ページは定期的にステータスの更新を提供するので、進捗状況を確認できます。"
+msgid ""
+"The migration should only take a few seconds (slightly longer if you have a "
+"larger number of products on your site). Please stay on this page while it "
+"runs. The page will provide you with regular status updates so you can view "
+"progress."
+msgstr ""
+"移行は数秒で完了するはずです（サイトの製品数が多い場合は少し時間がかかりま"
+"す）。移行中はこのページに滞在してください。ページは定期的にステータスの更新"
+"を提供するので、進捗状況を確認できます。"
 
 #: inc/functions-migration.php:176
-msgid "For the vast majority of users, you won't notice a difference after the migration has completed. However, if you have extended the plugin and you are making use of the IDs of Product Add-Ons, you'll need to update to the new IDs."
-msgstr "ほとんどのユーザーにとって、移行が完了した後は違いを感じないでしょう。ただし、プラグインを拡張しており、プロダクトアドオンのIDを使用している場合は、新しいIDに更新する必要があります。"
+msgid ""
+"For the vast majority of users, you won't notice a difference after the "
+"migration has completed. However, if you have extended the plugin and you "
+"are making use of the IDs of Product Add-Ons, you'll need to update to the "
+"new IDs."
+msgstr ""
+"ほとんどのユーザーにとって、移行が完了した後は違いを感じないでしょう。ただ"
+"し、プラグインを拡張しており、プロダクトアドオンのIDを使用している場合は、新"
+"しいIDに更新する必要があります。"
 
 #: inc/functions-migration.php:183
-#, php-format
-msgid "You have %s products with Add-Ons that need to be updated and %s global rules. "
-msgstr "%s 個の製品には更新が必要なアドオンがあり、%s 個のグローバルルールがあります。"
+msgid ""
+"You have %s products with Add-Ons that need to be updated and %s global "
+"rules. "
+msgstr ""
+"%s 個の製品には更新が必要なアドオンがあり、%s 個のグローバルルールがありま"
+"す。"
 
 #: inc/functions-migration.php:191
 msgid "Click the button below to get started."
@@ -1754,8 +2793,12 @@ msgid "Checking for add-ons data to migrate."
 msgstr "移行するアドオンデータをチェックしています。"
 
 #: inc/functions-migration.php:210
-msgid "Processing <span id=\"pewc-processing\"></span> of <span id=\"pewc-total\"></span>."
-msgstr "<span id=\"pewc-processing\"></span> / <span id=\"pewc-total\"></span> の処理を実行しています。"
+msgid ""
+"Processing <span id=\"pewc-processing\"></span> of <span id=\"pewc-total\"></"
+"span>."
+msgstr ""
+"<span id=\"pewc-processing\"></span> / <span id=\"pewc-total\"></span> の処理"
+"を実行しています。"
 
 #: inc/functions-migration.php:215
 msgid "Updating conditionals."
@@ -1773,10 +2816,21 @@ msgstr "グローバル条件を更新中です。"
 msgid "All done. This page will automatically reload."
 msgstr "すべて完了しました。このページは自動的にリロードされます。"
 
-#: inc/functions-percentages.php:40
-#: inc/functions-single-product.php:1566
+#: inc/functions-order.php:119
+msgid "Composite image"
+msgstr "合成画像"
+
+#: inc/functions-order.php:124
+msgid "Composite preview"
+msgstr "合成プレビュー"
+
+#: inc/functions-percentages.php:40 inc/functions-single-product.php:1608
 msgid "per character"
 msgstr "1文字ごと"
+
+#: inc/functions-pro-helpers.php:24
+msgid "Image Swatch"
+msgstr "イメージスウォッチ"
 
 #: inc/functions-pro-helpers.php:36
 msgid "upgrade to the Pro licence"
@@ -1791,12 +2845,14 @@ msgid "see this support article"
 msgstr "このサポート記事を参照"
 
 #: inc/functions-pro-helpers.php:51
-#, php-format
-msgid "This field is not available with the Basic licence. Please %s or %s to use this field."
-msgstr "このフィールドはBasicライセンスでは利用できません。このフィールドを利用するには%sまたは%sしてください。"
+msgid ""
+"This field is not available with the Basic licence. Please %s or %s to use "
+"this field."
+msgstr ""
+"このフィールドはBasicライセンスでは利用できません。このフィールドを利用するに"
+"は%sまたは%sしてください。"
 
 #: inc/functions-pro-helpers.php:56
-#, php-format
 msgid "If you have recently upgraded to Pro, please %s."
 msgstr "最近Proにアップグレードした場合は、%sしてください。"
 
@@ -1808,16 +2864,52 @@ msgstr "前へ"
 msgid "Next"
 msgstr "次へ"
 
-#: inc/functions-products.php:1027
-msgid "One of the options in this order is out of stock so the product has been removed from the cart"
-msgstr "この注文のオプションの1つが在庫切れのため、製品がカートから削除されました"
+#: inc/functions-products.php:1075 inc/functions-products.php:1123
+msgid ""
+"One of the options in this order is sold individually, so duplicates have "
+"been removed from the cart"
+msgstr ""
+"この注文のオプションの1つは個別販売品であるため、重複がカートから削除されまし"
+"た"
+
+#: inc/functions-products.php:1094
+msgid ""
+"One of the options in this order is out of stock so the product has been "
+"removed from the cart"
+msgstr ""
+"この注文のオプションの1つが在庫切れのため、製品がカートから削除されました"
+
+#: inc/functions-repeatable.php:118
+msgid "+ Add More"
+msgstr "+ さらに追加"
+
+#: inc/functions-repeatable.php:192
+msgid "Are you sure you want to remove this group?"
+msgstr "このグループを削除してもよろしいですか？"
+
+#: inc/functions-repeatable.php:445 templates/admin/group.php:139
+msgid "Repeatable"
+msgstr "繰り返し可能"
+
+#: inc/functions-repeatable.php:453 templates/admin/group.php:154
+msgid "Attach to Quantity"
+msgstr "数量に連動"
+
+#: inc/functions-repeatable.php:461
+msgid "Repeatable Limit"
+msgstr "繰り返しの上限"
+
+#: inc/functions-repeatable.php:747
+#: templates/frontend/products/products-column.php:428
+#: templates/frontend/upload.php:59
+msgid "Remove"
+msgstr "削除"
 
 #: inc/functions-single-product.php:66
 msgid "Clear"
 msgstr "クリア"
 
-#: inc/functions-single-product.php:67
-#: templates/admin/sections/general.php:127
+#: inc/functions-single-product.php:67 templates/admin/sections/general.php:127
 msgid "Default"
 msgstr "デフォルト"
 
@@ -1829,333 +2921,393 @@ msgstr "色を選択"
 msgid "Current Color"
 msgstr "現在の色"
 
-#: inc/functions-single-product.php:233
+#: inc/functions-single-product.php:134
+msgid "Increase quantity"
+msgstr "数量を増やす"
+
+#: inc/functions-single-product.php:135
+msgid "Decrease quantity"
+msgstr "数量を減らす"
+
+#: inc/functions-single-product.php:236
 msgid "Calculating..."
 msgstr "計算中..."
 
-#: inc/functions-single-product.php:1646
-#: inc/functions-single-product.php:1663
+#: inc/functions-single-product.php:241
+msgid "Uploading..."
+msgstr "アップロードしています..."
+
+#: inc/functions-single-product.php:302
+msgid "Counting the number of pages..."
+msgstr "ページ数を数えています..."
+
+#: inc/functions-single-product.php:1688 inc/functions-single-product.php:1705
 msgid "Min"
 msgstr "最小"
 
-#: inc/functions-single-product.php:1657
-#: inc/functions-single-product.php:1670
+#: inc/functions-single-product.php:1699 inc/functions-single-product.php:1712
 msgid "Max"
 msgstr "最大"
 
-#: inc/functions-single-product.php:1665
-#: inc/functions-single-product.php:1672
+#: inc/functions-single-product.php:1707 inc/functions-single-product.php:1714
 msgid "characters"
 msgstr "文字"
 
-#: inc/functions-single-product.php:1679
+#: inc/functions-single-product.php:1721
 msgid "Max file size"
 msgstr "ファイルの最大サイズ"
 
-#: inc/functions-single-product.php:1683
+#: inc/functions-single-product.php:1725
 msgid "Permitted file types"
 msgstr "許可されたファイルタイプ"
 
-#: inc/functions-single-product.php:1785
+#: inc/functions-single-product.php:1827
 msgid "Minimum price:"
 msgstr "最小価格："
 
-#: inc/functions-updater.php:116
+#: inc/functions-updater.php:119
 msgid "There was a problem in activating your license: "
 msgstr "ライセンスの有効化中に問題が発生しました："
 
-#: inc/functions-updater.php:162
-#, php-format
-msgid " Please ensure you enter the correct licence key as the plugin may not work correctly without it. Your licence key will be on the email you were sent with the download link or on <a target=\"_blank\" href=\"%s\">your account page</a>."
-msgstr "プラグインが正常に動作しない可能性があるため、正しいライセンスキーを入力してください。ライセンスキーは、ダウンロードリンクが含まれたメールか、<a target=\"_blank\" href=\"%s\">アカウントページ</a>に表示されます。"
+#: inc/functions-updater.php:165
+msgid ""
+" Please ensure you enter the correct licence key as the plugin may not work "
+"correctly without it. Your licence key will be on the email you were sent "
+"with the download link or on <a target=\"_blank\" href=\"%s\">your account "
+"page</a>."
+msgstr ""
+"プラグインが正常に動作しない可能性があるため、正しいライセンスキーを入力して"
+"ください。ライセンスキーは、ダウンロードリンクが含まれたメールか、<a "
+"target=\"_blank\" href=\"%s\">アカウントページ</a>に表示されます。"
 
-#: inc/functions-updater.php:168
-#: inc/functions-updater.php:316
-#, php-format
+#: inc/functions-updater.php:171 inc/functions-updater.php:319
 msgid "<p><a href=\"%s\">Enter your licence key here</a></p>"
 msgstr "<p><a href=\"%s\">ここにライセンスキーを入力</a></p>"
 
-#: inc/functions-updater.php:278
-#, php-format
-msgid "Your license is not currently activated. Please ensure you activate your license in order to use all the features of this plugin. Your license number will be on the email you were sent with the download link or on <a target=\"_blank\" href=\"%s\">your account page</a>."
-msgstr "ライセンスが現在アクティブではありません。このプラグインのすべての機能を利用するためにライセンスを有効にしてください。ライセンス番号は、ダウンロードリンクが含まれたメールか、<a target=\"_blank\" href=\"%s\">アカウントページ</a>に表示されます。"
+#: inc/functions-updater.php:281
+msgid ""
+"Your license is not currently activated. Please ensure you activate your "
+"license in order to use all the features of this plugin. Your license number "
+"will be on the email you were sent with the download link or on <a "
+"target=\"_blank\" href=\"%s\">your account page</a>."
+msgstr ""
+"ライセンスが現在アクティブではありません。このプラグインのすべての機能を利用"
+"するためにライセンスを有効にしてください。ライセンス番号は、ダウンロードリン"
+"クが含まれたメールか、<a target=\"_blank\" href=\"%s\">アカウントページ</a>に"
+"表示されます。"
 
-#: inc/functions-updater.php:283
-#, php-format
+#: inc/functions-updater.php:286
 msgid "<p><a href=\"%s\">Enter your license key here</a></p>"
 msgstr "<p><a href=\"%s\">ここにライセンスキーを入力</a></p>"
 
-#: inc/functions-updater.php:311
-#, php-format
-msgid "Your licence is not currently activated. Please ensure you activate your licence in order to use all the features of this plugin. Your licence number will be on the email you were sent with the download link or on <a target=\"_blank\" href=\"%s\">your account page</a>."
-msgstr "ライセンスが現在アクティブではありません。このプラグインのすべての機能を利用するためにライセンスを有効にしてください。ライセンス番号は、ダウンロードリンクが含まれたメールか、<a target=\"_blank\" href=\"%s\">アカウントページ</a>に表示されます。"
+#: inc/functions-updater.php:314
+msgid ""
+"Your licence is not currently activated. Please ensure you activate your "
+"licence in order to use all the features of this plugin. Your licence number "
+"will be on the email you were sent with the download link or on <a "
+"target=\"_blank\" href=\"%s\">your account page</a>."
+msgstr ""
+"ライセンスが現在アクティブではありません。このプラグインのすべての機能を利用"
+"するためにライセンスを有効にしてください。ライセンス番号は、ダウンロードリン"
+"クが含まれたメールか、<a target=\"_blank\" href=\"%s\">アカウントページ</a>に"
+"表示されます。"
 
-#: inc/functions-uploads.php:33
-#: inc/functions-uploads.php:346
+#: inc/functions-uploads.php:34 inc/functions-uploads.php:368
 msgid "Drop files here to upload"
 msgstr "ここにファイルをドロップしてアップロード"
 
-#: inc/functions-uploads.php:34
-#: inc/functions-uploads.php:347
+#: inc/functions-uploads.php:35 inc/functions-uploads.php:369
 msgid "Your browser does not support drag and drop file uploads"
-msgstr "お使いのブラウザはドラッグアンドドロップファイルのアップロードをサポートしていません"
+msgstr ""
+"お使いのブラウザはドラッグアンドドロップファイルのアップロードをサポートして"
+"いません"
 
-#: inc/functions-uploads.php:35
-#: inc/functions-uploads.php:348
-msgid "Please use the fallback form below to upload your files like in the olden days"
-msgstr "昔ながらのやり方で、以下の代替フォームを使用してファイルをアップロードしてください"
+#: inc/functions-uploads.php:36 inc/functions-uploads.php:370
+msgid ""
+"Please use the fallback form below to upload your files like in the olden "
+"days"
+msgstr ""
+"昔ながらのやり方で、以下の代替フォームを使用してファイルをアップロードしてく"
+"ださい"
 
-#: inc/functions-uploads.php:36
-#: inc/functions-uploads.php:349
+#: inc/functions-uploads.php:37 inc/functions-uploads.php:371
 msgid "The file is too big"
 msgstr "ファイルが大きすぎます"
 
-#: inc/functions-uploads.php:37
-#: inc/functions-uploads.php:350
+#: inc/functions-uploads.php:38 inc/functions-uploads.php:372
 msgid "You cannot upload files of this type"
 msgstr "この種類のファイルはアップロードできません"
 
-#: inc/functions-uploads.php:38
-#: inc/functions-uploads.php:351
+#: inc/functions-uploads.php:39 inc/functions-uploads.php:373
 msgid "Cancel upload"
 msgstr "アップロードをキャンセル"
 
-#: inc/functions-uploads.php:39
-#: inc/functions-uploads.php:352
+#: inc/functions-uploads.php:40 inc/functions-uploads.php:374
 msgid "Upload cancelled."
 msgstr "アップロードがキャンセルされました"
 
-#: inc/functions-uploads.php:40
-#: inc/functions-uploads.php:353
+#: inc/functions-uploads.php:41 inc/functions-uploads.php:375
 msgid "Are you sure you want to cancel this upload?"
 msgstr "このアップロードをキャンセルしてもよろしいですか？"
 
-#: inc/functions-uploads.php:41
-#: inc/functions-uploads.php:354
+#: inc/functions-uploads.php:42 inc/functions-uploads.php:376
 msgid "Remove file"
 msgstr "ファイルを削除"
 
-#: inc/functions-uploads.php:42
-#: inc/functions-uploads.php:355
+#: inc/functions-uploads.php:43 inc/functions-uploads.php:377
 msgid "You cannot upload any more files."
 msgstr "これ以上ファイルをアップロードできません。"
 
-#: inc/functions-variations.php:22
-#: templates/admin/sections/conditions.php:31
+#: inc/functions-uploads.php:880
+msgid "Loading original image..."
+msgstr "元画像を読み込んでいます..."
+
+#: inc/functions-variations.php:22 templates/admin/sections/conditions.php:42
 msgid "Variations"
 msgstr "バリエーション"
 
 #: product-extras-for-woocommerce.php:61
-msgid "WooCommerce Product Add-Ons Ultimate requires WooCommerce version 3.0.0 minimum. Please upgrade your version of WooCommerce."
-msgstr "WooCommerce Product Add-Ons Ultimate には WooCommerce バージョン 3.0.0 以降が必要です。WooCommerce のバージョンをアップグレードしてください。"
+msgid ""
+"WooCommerce Product Add-Ons Ultimate requires WooCommerce version 3.0.0 "
+"minimum. Please upgrade your version of WooCommerce."
+msgstr ""
+"WooCommerce Product Add-Ons Ultimate には WooCommerce バージョン 3.0.0 以降が"
+"必要です。WooCommerce のバージョンをアップグレードしてください。"
 
 #: product-extras-for-woocommerce.php:67
-msgid "WooCommerce Product Add-Ons Ultimate requires WooCommerce to be installed. Please install and activate WooCommerce before activating Add-Ons Ultimate."
-msgstr "WooCommerce Product Add-Ons Ultimate には WooCommerce のインストールが必要です。Add-Ons Ultimate を有効にする前に WooCommerce をインストールして有効化してください。"
+msgid ""
+"WooCommerce Product Add-Ons Ultimate requires WooCommerce to be installed. "
+"Please install and activate WooCommerce before activating Add-Ons Ultimate."
+msgstr ""
+"WooCommerce Product Add-Ons Ultimate には WooCommerce のインストールが必要で"
+"す。Add-Ons Ultimate を有効にする前に WooCommerce をインストールして有効化し"
+"てください。"
 
-#: inc/functions-repeatable.php:747
-#: templates/frontend/products/products-column.php:381
-#: templates/frontend/upload.php:59
-msgid "Remove"
-msgstr "削除"
-
-#: templates/admin/condition.php:256
+#: templates/admin/ajax-condition.php:224 templates/admin/condition.php:265
 #: templates/admin/new-condition.php:46
+#: templates/admin/views/group-ajax-condition.php:203
 #: templates/admin/views/group-condition-new.php:46
-#: templates/admin/views/group-condition.php:211
+#: templates/admin/views/group-condition.php:214
 msgid "Add Condition"
 msgstr "条件を追加"
 
-#: templates/admin/sections/general.php:21
-msgid "Field Label"
-msgstr "フィールドラベル"
+#: templates/admin/field-item.php:82 templates/admin/views/option-fields.php:18
+msgid "Options"
+msgstr "オプション"
 
-#: templates/admin/sections/general.php:45
-msgid "Field Type"
-msgstr "フィールドタイプ"
+#: templates/admin/field-item.php:91
+msgid "Color picker"
+msgstr "カラーピッカー"
 
-#: templates/admin/sections/pricing.php:20
-#: templates/admin/views/role-based-prices.php:52
-msgid "Field Price"
-msgstr "フィールド価格"
+#: templates/admin/field-item.php:94
+msgid "Display"
+msgstr "表示"
 
-#: templates/admin/sections/options.php:30
-msgid "Min Number"
-msgstr "最小数"
+#: templates/admin/field-item.php:96
+msgid "Additional"
+msgstr "追加"
 
-#: templates/admin/sections/options.php:47
-msgid "Max Number"
-msgstr "最大数"
+#: templates/admin/field-meta-actions.php:14
+msgid "Drag"
+msgstr "ドラッグ"
 
-#: templates/admin/sections/products.php:19
-msgid "Child Products"
-msgstr "子製品"
+#: templates/admin/field-meta-actions.php:15
+#: templates/admin/group-meta-actions.php:15
+msgid "Collapse / Expand"
+msgstr "折りたたむ / 展開する"
 
-#: templates/admin/sections/products.php:41
-msgid "Choose the child subscription variations"
-msgstr "子のサブスクリプションバリエーションを選択してください"
+#: templates/admin/field-meta-actions.php:16
+msgid "Export Field"
+msgstr "エクスポートフィールド"
 
-#: templates/admin/sections/products.php:67
-msgid "Select product categories"
-msgstr "製品カテゴリを選択"
+#: templates/admin/field-meta-actions.php:17
+#: templates/admin/group-meta-actions.php:19
+msgid "Duplicate"
+msgstr "複製"
 
-#: templates/admin/sections/products.php:96
-msgid "Products Layout"
-msgstr "製品レイアウト"
+#: templates/admin/global-rule.php:22 templates/admin/new-global-rule.php:21
+msgid "Display this group if:"
+msgstr "このグループを表示する場合："
 
-#: templates/admin/sections/products.php:105
-msgid "Checkboxes Images"
-msgstr "チェックボックス画像"
+#: templates/admin/group-meta-actions.php:14
+msgid "Sort"
+msgstr "並び替え"
 
-#: templates/admin/sections/products.php:106
-msgid "Checkboxes List"
-msgstr "チェックボックスリスト"
+#: templates/admin/group-settings.php:21
+msgid "Product Settings"
+msgstr "製品設定"
 
-#: templates/admin/sections/products.php:107
-msgid "Column"
-msgstr "カラム"
+#: templates/admin/group-settings.php:31 templates/admin/group-settings.php:39
+msgid "Display groups as"
+msgstr "グループを表示する方法"
 
-#: templates/admin/sections/products.php:108
-msgid "Radio Images"
-msgstr "ラジオボタン画像"
+#: templates/admin/group-settings.php:43
+msgid "Accordion"
+msgstr "アコーディオン"
 
-#: templates/admin/sections/products.php:109
-msgid "Radio List"
-msgstr "ラジオボタンリスト"
+#: templates/admin/group-settings.php:57
+msgid "Assign global groups"
+msgstr "グローバルグループを割り当てる"
 
-#: classes/class-pewc-settings-tab.php:110
-#: templates/admin/field-item.php:86
-#: templates/admin/sections/products.php:111
-msgid "Swatches"
-msgstr "スウォッチ"
+#: templates/admin/group-settings.php:79
+msgid "Hide quantity field"
+msgstr "数量フィールドを非表示にする"
 
-#: templates/admin/sections/products.php:112
-msgid "Variations Grid"
-msgstr "バリエーショングリッド"
+#: templates/admin/group-settings.php:108
+msgid "Assign groups to other products"
+msgstr "他の商品にグループを割り当てる"
 
-#: templates/admin/sections/products.php:150
-msgid "Products Quantities"
-msgstr "製品の数量"
+#: templates/admin/group-settings.php:115
+msgid "Assign to products"
+msgstr "商品に割り当てる"
 
-#: templates/admin/sections/products.php:159
-msgid "Independent"
-msgstr "独立"
+#: templates/admin/group-settings.php:117
+msgid "Choose the products"
+msgstr "商品を選択"
 
-#: templates/admin/sections/products.php:160
-msgid "Linked"
-msgstr "リンク"
+#: templates/admin/group-settings.php:124
+msgid "Replace existing groups"
+msgstr "既存のグループを置き換える"
 
-#: templates/admin/sections/products.php:161
-msgid "One only"
-msgstr "1つだけ"
+#: templates/admin/group-settings.php:131
+msgid "Assign"
+msgstr "割り当て"
 
-#: templates/admin/sections/products.php:131
-msgid "Select Field Placeholder"
-msgstr "フィールドプレースホルダを選択"
+#: templates/admin/group.php:34
+msgid "Group Title"
+msgstr "グループタイトル"
 
-#: templates/admin/sections/display.php:39
-msgid "Number Columns"
-msgstr "数の列"
+#: templates/admin/group.php:98
+msgid "Group Conditions"
+msgstr "グループ条件"
 
-#: templates/admin/sections/display.php:61
-msgid "Hide Labels?"
-msgstr "ラベルを非表示にする？"
+#: templates/admin/group.php:119
+msgid "Always Include in Order"
+msgstr "常に注文に含める"
 
-#: templates/admin/sections/swatches.php:93
-msgid "Allow Multiple?"
-msgstr "複数選択を許可？"
+#: templates/admin/group.php:167
+msgid "Repeat Limit"
+msgstr "繰り返しの上限"
 
-#: templates/admin/sections/products.php:175
-msgid "Min Child Products"
-msgstr "最小子製品数"
+#: templates/admin/import-groups.php:17
+msgid "Search for a product&hellip;"
+msgstr "商品を検索..."
 
-#: templates/admin/sections/products.php:192
-msgid "Max Child Products"
-msgstr "最大子製品数"
+#: templates/admin/import-groups.php:37
+msgid ""
+"Imported groups will appear after any groups already registered to this "
+"product."
+msgstr ""
+"インポートされたグループは、この商品にすでに登録されているグループの後に表示"
+"されます。"
 
-#: templates/admin/sections/pricing.php:117
-msgid "Discount"
-msgstr "割引"
+#: templates/admin/new-global-rule.php:26
+msgid "All the rules are met"
+msgstr "すべてのルールが満たされる"
 
-#: templates/admin/sections/pricing.php:134
-msgid "Discount Type"
-msgstr "割引タイプ"
+#: templates/admin/new-global-rule.php:27
+msgid "Any of the rules are met"
+msgstr "いずれかのルールが満たされる"
 
-#: templates/admin/sections/pricing.php:143
-msgid "Fixed Amount"
-msgstr "固定額"
+#: templates/admin/sections/additional.php:20
+msgid "User Field ID"
+msgstr "ユーザーフィールドID"
 
-#: templates/admin/sections/pricing.php:144
-msgid "Percentage"
-msgstr "パーセンテージ"
+#: templates/admin/sections/calculations.php:46
+msgid "Formula"
+msgstr "数式"
 
-#: templates/admin/sections/general.php:110
-msgid "Required Field?"
-msgstr "必須フィールド？"
+#: templates/admin/sections/calculations.php:57
+msgid "Click here for a list of tags"
+msgstr "タグの一覧はこちら"
 
-#: templates/admin/sections/pricing.php:73
-msgid "Flat Rate?"
-msgstr "一律料金？"
+#: templates/admin/sections/calculations.php:66
+msgid "Hide Calculation?"
+msgstr "計算を非表示にする？"
 
-#: templates/admin/sections/pricing.php:92
-msgid "Percentage?"
-msgstr "パーセンテージ？"
+#: templates/admin/sections/calculations.php:83
+msgid "Round Result"
+msgstr "結果を丸める"
 
-#: templates/admin/sections/uploads.php:18
-msgid "Allow multiple uploads?"
-msgstr "複数のアップロードを許可する？"
+#: templates/admin/sections/calculations.php:93
+msgid "No rounding"
+msgstr "丸めない"
 
-#: templates/admin/sections/pricing.php:51
-msgid "Price per upload?"
-msgstr "アップロードごとの価格？"
+#: templates/admin/sections/calculations.php:98
+msgid "Round down"
+msgstr "切り捨て"
 
-#: templates/admin/sections/uploads.php:32
-msgid "Max Files"
-msgstr "最大ファイル数"
+#: templates/admin/sections/calculations.php:103
+msgid "Round up"
+msgstr "切り上げ"
 
-#: templates/admin/sections/pricing.php:38
-msgid "Price Per Character?"
-msgstr "一文字あたりの価格？"
+#: templates/admin/sections/calculations.php:112
+msgid "Decimal Places"
+msgstr "小数点以下の桁数"
 
-#: templates/admin/sections/text.php:49
-msgid "Show Counter?"
-msgstr "カウンターを表示？"
+#: templates/admin/sections/calculations.php:138
+msgid "--"
+msgstr "--"
 
-#: templates/admin/sections/text.php:82
-msgid "Only Allow Alphanumeric?"
-msgstr "英数字のみを許可する？"
+#: templates/admin/sections/calculations.php:143
+msgid "Display As Cost"
+msgstr "費用として表示"
 
-#: templates/admin/sections/text.php:95
-msgid "Only Charge Alphanumeric?"
-msgstr "英数字のみを課金する？"
+#: templates/admin/sections/calculations.php:148
+msgid "Set Product Price"
+msgstr "商品価格を設定"
 
-#: templates/admin/sections/number.php:21
-msgid "Min Value"
-msgstr "最小値"
+#: templates/admin/sections/calculations.php:153
+msgid "Update Quantity"
+msgstr "数量を更新"
 
-#: templates/admin/sections/number.php:34
-msgid "Max Value"
-msgstr "最大値"
+#: templates/admin/sections/calculations.php:158
+msgid "Set Child Product Quantity"
+msgstr "子製品の数量を設定"
 
-#: templates/admin/sections/number.php:62
-msgid "Multiply Price?"
-msgstr "価格を乗算する？"
+#: templates/admin/sections/calculations.php:163
+msgid "Add to Product Weight"
+msgstr "商品の重量に追加"
 
-#: templates/admin/sections/date.php:23
-msgid "Offset days"
-msgstr "オフセット日数"
+#: templates/admin/sections/calculations.php:168
+msgid "Add to Product Length"
+msgstr "製品の長さに加算"
 
-#: templates/admin/sections/date.php:37
-msgid "Min date today?"
-msgstr "今日の最小日付？"
+#: templates/admin/sections/calculations.php:173
+msgid "Add to Product Width"
+msgstr "製品の幅に加算"
 
-#: templates/admin/sections/date.php:51
-msgid "Min date"
-msgstr "最小日付"
+#: templates/admin/sections/calculations.php:178
+msgid "Add to Product Height"
+msgstr "製品の高さに加算"
 
-#: templates/admin/sections/date.php:67
-msgid "Max date"
-msgstr "最大日付"
+#: templates/admin/sections/calculations.php:192
+msgid "Products Field ID"
+msgstr "製品フィールドID"
+
+#: templates/admin/sections/calculations.php:218
+msgid "Reverse Formula Field ID"
+msgstr "逆算式フィールドID"
+
+#: templates/admin/sections/calculations.php:231
+msgid "Original Input Field ID"
+msgstr "元の入力フィールドID"
+
+#: templates/admin/sections/calculations.php:244
+msgid "Override Calculation?"
+msgstr "計算を上書きしますか？"
+
+#: templates/admin/sections/calendar-list.php:20
+msgid "Days"
+msgstr "日"
+
+#: templates/admin/sections/calendar-list.php:41
+msgid "Offset"
+msgstr "オフセット"
+
+#: templates/admin/sections/calendar-list.php:60
+msgid "Add Item"
+msgstr "アイテムを追加"
 
 #: templates/admin/sections/calendar-list.php:73
 #: templates/admin/sections/date.php:88
@@ -2202,6 +3354,14 @@ msgstr "土曜日"
 msgid "Blocked dates"
 msgstr "ブロックされた日付"
 
+#: templates/admin/sections/calendar-list.php:120
+msgid "Latest time"
+msgstr "最終時刻"
+
+#: templates/admin/sections/calendar-list.php:153
+msgid "Latest time label"
+msgstr "最終時刻ラベル"
+
 #: templates/admin/sections/colorpicker.php:21
 msgid "Default color"
 msgstr "デフォルトの色"
@@ -2218,168 +3378,100 @@ msgstr "デフォルトで表示しますか？"
 msgid "Display common palettes?"
 msgstr "共通のパレットを表示しますか？"
 
-#: templates/admin/sections/general.php:165
+#: templates/admin/sections/conditions.php:49
+msgid ""
+"If you only want to show this field for certain variations, enter the "
+"variation IDs below. Leave empty to show for all variations."
+msgstr ""
+"特定のバリエーションにのみこのフィールドを表示したい場合は、下にバリエーショ"
+"ン ID を入力してください。すべてのバリエーションに表示する場合は空白のままに"
+"してください。"
+
+#: templates/admin/sections/date.php:23
+msgid "Offset days"
+msgstr "オフセット日数"
+
+#: templates/admin/sections/date.php:37
+msgid "Min date today?"
+msgstr "今日の最小日付？"
+
+#: templates/admin/sections/date.php:51
+msgid "Min date"
+msgstr "最小日付"
+
+#: templates/admin/sections/date.php:67
+msgid "Max date"
+msgstr "最大日付"
+
+#: templates/admin/sections/display.php:19
+msgid "Field Class"
+msgstr "フィールドクラス"
+
+#: templates/admin/sections/display.php:60
+msgid "Number Columns"
+msgstr "数の列"
+
+#: templates/admin/sections/display.php:82
+msgid "Hide Labels?"
+msgstr "ラベルを非表示にする？"
+
+#: templates/admin/sections/display.php:102
+msgid "Display as Swatch?"
+msgstr "スウォッチとして表示しますか？"
+
+#: templates/admin/sections/display.php:118
+msgid "Display as Slider?"
+msgstr "スライダーとして表示しますか？"
+
+#: templates/admin/sections/general.php:21
+msgid "Field Label"
+msgstr "フィールドラベル"
+
+#: templates/admin/sections/general.php:33
+msgid "Admin Label"
+msgstr "管理者ラベル"
+
+#: templates/admin/sections/general.php:45
+msgid "Field Type"
+msgstr "フィールドタイプ"
+
+#: templates/admin/sections/general.php:67
+msgid "Click here for guidance on each field type"
+msgstr "各フィールドタイプのガイドはこちら"
+
+#: templates/admin/sections/general.php:82
+msgid "Field Visibility"
+msgstr "フィールドの表示範囲"
+
+#: templates/admin/sections/general.php:92
+msgid "Display everywhere"
+msgstr "すべての場所に表示"
+
+#: templates/admin/sections/general.php:93
+msgid "Display on product page only"
+msgstr "製品ページのみに表示"
+
+#: templates/admin/sections/general.php:94
+#: templates/admin/views/price-visibility.php:53
+#: templates/admin/views/price-visibility.php:81
+msgid "Hide on product page only"
+msgstr "製品ページのみ非表示にする"
+
+#: templates/admin/sections/general.php:95
+msgid "Hide from customer"
+msgstr "顧客から非表示"
+
+#: templates/admin/sections/general.php:110
+msgid "Required Field?"
+msgstr "必須フィールド？"
+
+#: templates/admin/sections/general.php:166
 msgid "Field Image"
 msgstr "フィールド画像"
 
-#: templates/admin/sections/general.php:183
+#: templates/admin/sections/general.php:184
 msgid "Field Description"
 msgstr "フィールドの説明"
-
-#: templates/admin/field-meta-actions.php:14
-msgid "Drag"
-msgstr "ドラッグ"
-
-#: templates/admin/field-meta-actions.php:15
-#: templates/admin/group-meta-actions.php:15
-msgid "Collapse / Expand"
-msgstr "折りたたむ / 展開する"
-
-#: templates/admin/field-meta-actions.php:17
-#: templates/admin/group-meta-actions.php:19
-msgid "Duplicate"
-msgstr "複製"
-
-#: admin/functions-admin-cleanup-files.php:134
-#: templates/admin/field-meta-actions.php:18
-#: templates/admin/group-meta-actions.php:20
-msgid "Delete"
-msgstr "削除"
-
-#: templates/admin/global-rule.php:22
-#: templates/admin/new-global-rule.php:21
-msgid "Display this group if:"
-msgstr "このグループを表示する場合："
-
-#: templates/admin/group-settings.php:31
-#: templates/admin/group-settings.php:39
-msgid "Display groups as"
-msgstr "グループを表示する方法"
-
-#: templates/admin/group-settings.php:43
-msgid "Accordion"
-msgstr "アコーディオン"
-
-#: admin/functions-admin-settings.php:773
-#: templates/admin/group-settings.php:44
-msgid "Lightbox"
-msgstr "ライトボックス"
-
-#: admin/functions-admin-settings.php:202
-#: templates/admin/group-settings.php:45
-msgid "Steps"
-msgstr "ステップ"
-
-#: admin/customizer.php:650
-#: admin/customizer.php:785
-#: templates/admin/group-settings.php:46
-msgid "Tabs"
-msgstr "タブ"
-
-#: templates/admin/group-settings.php:106
-msgid "Assign groups to other products"
-msgstr "他の商品にグループを割り当てる"
-
-#: templates/admin/group-settings.php:113
-msgid "Assign to products"
-msgstr "商品に割り当てる"
-
-#: templates/admin/group-settings.php:115
-msgid "Choose the products"
-msgstr "商品を選択"
-
-#: templates/admin/group-settings.php:122
-msgid "Replace existing groups"
-msgstr "既存のグループを置き換える"
-
-#: templates/admin/group-settings.php:129
-msgid "Assign"
-msgstr "割り当て"
-
-#: templates/admin/group.php:34
-msgid "Group Title"
-msgstr "グループタイトル"
-
-#: templates/admin/group.php:98
-msgid "Group Conditions"
-msgstr "グループ条件"
-
-#: templates/admin/import-groups.php:17
-msgid "Search for a product&hellip;"
-msgstr "商品を検索..."
-
-#: templates/admin/import-groups.php:37
-msgid "Imported groups will appear after any groups already registered to this product."
-msgstr "インポートされたグループは、この商品にすでに登録されているグループの後に表示されます。"
-
-#: admin/functions-admin-import-export-aou.php:45
-#: admin/functions-admin-import-export-aou.php:293
-#: admin/functions-admin-import-export-aou.php:306
-#: admin/functions-admin-import-export-aou.php:307
-#: admin/functions-admin-import-export-aou.php:343
-#: templates/admin/import-groups.php:42
-msgid "Import Groups"
-msgstr "グループをインポート"
-
-#: templates/admin/new-global-rule.php:26
-msgid "All the rules are met"
-msgstr "すべてのルールが満たされる"
-
-#: templates/admin/new-global-rule.php:27
-msgid "Any of the rules are met"
-msgstr "いずれかのルールが満たされる"
-
-#: templates/admin/sections/conditions.php:38
-msgid "If you only want to show this field for certain variations, enter the variation IDs below. Leave empty to show for all variations."
-msgstr "特定のバリエーションにのみこのフィールドを表示したい場合は、下にバリエーション ID を入力してください。すべてのバリエーションに表示する場合は空白のままにしてください。"
-
-#: templates/admin/sections/calculations.php:46
-msgid "Formula"
-msgstr "数式"
-
-#: templates/admin/sections/calculations.php:66
-msgid "Hide Calculation?"
-msgstr "計算を非表示にする？"
-
-#: templates/admin/sections/calculations.php:83
-msgid "Round Result"
-msgstr "結果を丸める"
-
-#: templates/admin/sections/calculations.php:93
-msgid "No rounding"
-msgstr "丸めない"
-
-#: templates/admin/sections/calculations.php:98
-msgid "Round down"
-msgstr "切り捨て"
-
-#: templates/admin/sections/calculations.php:103
-msgid "Round up"
-msgstr "切り上げ"
-
-#: templates/admin/sections/calculations.php:112
-msgid "Decimal Places"
-msgstr "小数点以下の桁数"
-
-#: templates/admin/sections/calculations.php:138
-msgid "--"
-msgstr "--"
-
-#: templates/admin/sections/calculations.php:143
-msgid "Display As Cost"
-msgstr "費用として表示"
-
-#: templates/admin/sections/calculations.php:148
-msgid "Set Product Price"
-msgstr "商品価格を設定"
-
-#: templates/admin/sections/calculations.php:153
-msgid "Update Quantity"
-msgstr "数量を更新"
-
-#: templates/admin/sections/calculations.php:163
-msgid "Add to Product Weight"
-msgstr "商品の重量に追加"
 
 #: templates/admin/sections/information.php:33
 #: templates/admin/views/option-fields.php:38
@@ -2393,6 +3485,228 @@ msgstr "データ"
 #: templates/admin/sections/information.php:52
 msgid "Add Row"
 msgstr "行を追加"
+
+#: templates/admin/sections/number.php:21
+msgid "Min Value"
+msgstr "最小値"
+
+#: templates/admin/sections/number.php:34
+msgid "Max Value"
+msgstr "最大値"
+
+#: templates/admin/sections/number.php:50
+msgid "Decimal places"
+msgstr "小数点以下の桁数"
+
+#: templates/admin/sections/number.php:63
+msgid "Step"
+msgstr "ステップ"
+
+#: templates/admin/sections/number.php:78
+msgid "Multiply Price?"
+msgstr "価格を乗算する？"
+
+#: templates/admin/sections/options.php:30
+msgid "Min Number"
+msgstr "最小数"
+
+#: templates/admin/sections/options.php:47
+msgid "Max Number"
+msgstr "最大数"
+
+#: templates/admin/sections/pricing.php:20
+#: templates/admin/views/role-based-prices.php:52
+msgid "Field Price"
+msgstr "フィールド価格"
+
+#: templates/admin/sections/pricing.php:38
+msgid "Price Per Character?"
+msgstr "一文字あたりの価格？"
+
+#: templates/admin/sections/pricing.php:51
+msgid "Price per upload?"
+msgstr "アップロードごとの価格？"
+
+#: templates/admin/sections/pricing.php:73
+msgid "Flat Rate?"
+msgstr "一律料金？"
+
+#: templates/admin/sections/pricing.php:92
+msgid "Percentage?"
+msgstr "パーセンテージ？"
+
+#: templates/admin/sections/pricing.php:117
+msgid "Discount"
+msgstr "割引"
+
+#: templates/admin/sections/pricing.php:134
+msgid "Discount Type"
+msgstr "割引タイプ"
+
+#: templates/admin/sections/pricing.php:143
+msgid "Fixed Amount"
+msgstr "固定額"
+
+#: templates/admin/sections/pricing.php:144
+msgid "Percentage"
+msgstr "パーセンテージ"
+
+#: templates/admin/sections/products.php:19
+msgid "Child Products"
+msgstr "子製品"
+
+#: templates/admin/sections/products.php:29
+msgid "Choose child products"
+msgstr "子製品を選択"
+
+#: templates/admin/sections/products.php:41
+msgid "Choose the child subscription variations"
+msgstr "子のサブスクリプションバリエーションを選択してください"
+
+#: templates/admin/sections/products.php:67
+msgid "Select product categories"
+msgstr "製品カテゴリを選択"
+
+#: templates/admin/sections/products.php:96
+msgid "Products Layout"
+msgstr "製品レイアウト"
+
+#: templates/admin/sections/products.php:105
+msgid "Checkboxes Images"
+msgstr "チェックボックス画像"
+
+#: templates/admin/sections/products.php:106
+msgid "Checkboxes List"
+msgstr "チェックボックスリスト"
+
+#: templates/admin/sections/products.php:107
+msgid "Column"
+msgstr "カラム"
+
+#: templates/admin/sections/products.php:108
+msgid "Radio Images"
+msgstr "ラジオボタン画像"
+
+#: templates/admin/sections/products.php:109
+msgid "Radio List"
+msgstr "ラジオボタンリスト"
+
+#: templates/admin/sections/products.php:112
+msgid "Variations Grid"
+msgstr "バリエーショングリッド"
+
+#: templates/admin/sections/products.php:113
+msgid "Components List"
+msgstr "コンポーネントリスト"
+
+#: templates/admin/sections/products.php:120
+msgid "This article explains the different layouts"
+msgstr "この記事ではさまざまなレイアウトについて説明しています"
+
+#: templates/admin/sections/products.php:131
+msgid "Select Field Placeholder"
+msgstr "フィールドプレースホルダを選択"
+
+#: templates/admin/sections/products.php:150
+msgid "Products Quantities"
+msgstr "製品の数量"
+
+#: templates/admin/sections/products.php:159
+msgid "Independent"
+msgstr "独立"
+
+#: templates/admin/sections/products.php:160
+msgid "Linked"
+msgstr "リンク"
+
+#: templates/admin/sections/products.php:161
+msgid "One only"
+msgstr "1つだけ"
+
+#: templates/admin/sections/products.php:175
+msgid "Min Child Products"
+msgstr "最小子製品数"
+
+#: templates/admin/sections/products.php:192
+msgid "Max Child Products"
+msgstr "最大子製品数"
+
+#: templates/admin/sections/products.php:209
+msgid "Default Quantity"
+msgstr "デフォルトの数量"
+
+#: templates/admin/sections/products.php:226
+msgid "Force Quantity?"
+msgstr "数量を強制しますか？"
+
+#: templates/admin/sections/swatches.php:21
+msgid "Swatch width"
+msgstr "スウォッチの幅"
+
+#: templates/admin/sections/swatches.php:42
+msgid "Layer images?"
+msgstr "画像をレイヤー表示しますか？"
+
+#: templates/admin/sections/swatches.php:59
+msgid "Main Image Scale %"
+msgstr "メイン画像の縮尺 %"
+
+#: templates/admin/sections/swatches.php:76
+msgid "Parent Swatch ID"
+msgstr "親スウォッチID"
+
+#: templates/admin/sections/swatches.php:93
+msgid "Allow Multiple?"
+msgstr "複数選択を許可？"
+
+#: templates/admin/sections/text.php:20
+msgid "Min Characters"
+msgstr "最小文字数"
+
+#: templates/admin/sections/text.php:34
+msgid "Max Characters"
+msgstr "最大文字数"
+
+#: templates/admin/sections/text.php:49
+msgid "Show Counter?"
+msgstr "カウンターを表示？"
+
+#: templates/admin/sections/text.php:67
+msgid "Free Characters"
+msgstr "無料文字数"
+
+#: templates/admin/sections/text.php:82
+msgid "Only Allow Alphanumeric?"
+msgstr "英数字のみを許可する？"
+
+#: templates/admin/sections/text.php:95
+msgid "Only Charge Alphanumeric?"
+msgstr "英数字のみを課金する？"
+
+#: templates/admin/sections/uploads.php:18
+msgid "Allow multiple uploads?"
+msgstr "複数のアップロードを許可する？"
+
+#: templates/admin/sections/uploads.php:32
+msgid "Min Files"
+msgstr "最小ファイル数"
+
+#: templates/admin/sections/uploads.php:45
+msgid "Max Files"
+msgstr "最大ファイル数"
+
+#: templates/admin/views/group-ajax-condition.php:206
+msgid "Manage Conditions"
+msgstr "条件を管理"
+
+#: templates/admin/views/option-fields-new.php:21
+#: templates/admin/views/option-fields.php:32
+msgid "Alt"
+msgstr "Alt"
+
+#: templates/admin/views/option-fields-new.php:24
+msgid "Colour"
+msgstr "色"
 
 #: templates/admin/views/option-fields-new.php:27
 msgid "Option"
@@ -2408,6 +3722,10 @@ msgstr "オプションを追加"
 msgid "First field is instruction only"
 msgstr "最初のフィールドは指示のみです"
 
+#: templates/admin/views/option-fields.php:35
+msgid "Color"
+msgstr "色"
+
 #: templates/admin/views/price-visibility.php:42
 msgid "Field Price Visibility"
 msgstr "フィールド価格の表示設定"
@@ -2416,12 +3734,6 @@ msgstr "フィールド価格の表示設定"
 #: templates/admin/views/price-visibility.php:80
 msgid "Visible"
 msgstr "表示する"
-
-#: templates/admin/sections/general.php:94
-#: templates/admin/views/price-visibility.php:53
-#: templates/admin/views/price-visibility.php:81
-msgid "Hide on product page only"
-msgstr "製品ページのみ非表示にする"
 
 #: templates/admin/views/price-visibility.php:54
 #: templates/admin/views/price-visibility.php:82
@@ -2436,19 +3748,19 @@ msgstr "オプション価格の表示設定"
 msgid "Value Only"
 msgstr "値のみ"
 
-#: templates/frontend/products/products-column.php:380
+#: templates/frontend/products/products-column.php:427
 msgid "Add"
 msgstr "追加"
 
-#: templates/frontend/products/products-grid.php:49
+#: templates/frontend/products/products-grid.php:50
 msgid "Child product needs to be variable"
 msgstr "子製品は可変である必要があります"
 
-#: templates/frontend/products/products-grid.php:61
+#: templates/frontend/products/products-grid.php:62
 msgid "Child product needs to have two attributes"
 msgstr "子製品には2つの属性が必要です"
 
-#: templates/frontend/products/products-swatches.php:359
+#: templates/frontend/products/products-swatches.php:365
 msgid "Toggle"
 msgstr "切り替え"
 
@@ -2460,947 +3772,5 @@ msgstr "小計"
 msgid "You need to be logged in to upload files"
 msgstr "ファイルをアップロードするにはログインする必要があります"
 
-#. Plugin URI of the plugin
-#: product-extras-for-woocommerce.php
-msgid "https://pluginrepublic.com/wordpress-plugins/woocommerce-product-add-ons-ultimate/"
-msgstr ""
-
-#. Description of the plugin
-#: product-extras-for-woocommerce.php
-msgid "Add extra fields to WooCommerce products"
-msgstr "WooCommerceの商品に追加フィールドを追加します"
-
-#. Author of the plugin
-#: product-extras-for-woocommerce.php
-msgid "Plugin Republic"
-msgstr "Plugin Republic"
-
-#. Author URI of the plugin
-#: product-extras-for-woocommerce.php
-msgid "https://pluginrepublic.com/"
-msgstr "https://pluginrepublic.com/"
-
-#: admin/customizer.php:56
-msgid "Swatches and Products"
-msgstr ""
-
-#: admin/customizer.php:435
-msgid "Hide the Group Title"
-msgstr ""
-
-#: admin/customizer.php:455
-msgid "Standard Layout"
-msgstr ""
-
-#: admin/customizer.php:475
-msgid "Title Colour"
-msgstr ""
-
-#: admin/customizer.php:494
-msgid "Title Font Size"
-msgstr ""
-
-#: admin/customizer.php:513
-msgid "Description Colour"
-msgstr ""
-
-#: admin/customizer.php:532
-msgid "Description Font Size"
-msgstr ""
-
-#: admin/customizer.php:552
-msgid "Accordion Layout"
-msgstr ""
-
-#: admin/customizer.php:572
-msgid "Title Background"
-msgstr ""
-
-#: admin/customizer.php:591
-msgid "Icon Colour"
-msgstr ""
-
-#: admin/customizer.php:610
-msgid "Icon Size"
-msgstr ""
-
-#: admin/customizer.php:630
-msgid "Steps Layout"
-msgstr ""
-
-#: admin/customizer.php:669
-#: admin/customizer.php:804
-msgid "Active Tab"
-msgstr ""
-
-#: admin/customizer.php:688
-msgid "Next Button"
-msgstr ""
-
-#: admin/customizer.php:707
-msgid "Previous Button"
-msgstr ""
-
-#: admin/customizer.php:726
-msgid "Button Text Color"
-msgstr ""
-
-#: admin/customizer.php:746
-msgid "Tabs Layout"
-msgstr ""
-
-#: admin/customizer.php:766
-msgid "Justify Tabs"
-msgstr ""
-
-#: admin/customizer.php:1028
-msgid "Show Inputs on Products Field"
-msgstr ""
-
-#: admin/customizer.php:1048
-msgid "Products Highlight Colour"
-msgstr ""
-
-#: admin/customizer.php:1068
-msgid "Swatch Border Width"
-msgstr ""
-
-#: admin/customizer.php:1088
-msgid "Swatch Border Padding"
-msgstr ""
-
-#: admin/customizer.php:1107
-msgid "Enable Circular Swatches"
-msgstr ""
-
-#: admin/customizer.php:1127
-msgid "Color Swatch Width"
-msgstr ""
-
-#: admin/customizer.php:1147
-msgid "Color Swatch Height"
-msgstr ""
-
-#: admin/customizer.php:1166
-msgid "Use Grid Layout"
-msgstr ""
-
-#: admin/customizer.php:1185
-msgid "Swatch Image Size"
-msgstr ""
-
-#: admin/customizer.php:1205
-msgid "Product Quantity Layout"
-msgstr ""
-
-#: admin/customizer.php:1210
-msgid "Grid"
-msgstr ""
-
-#: admin/customizer.php:1211
-msgid "Block"
-msgstr ""
-
-#: admin/customizer.php:1227
-msgid "Show Product Names as Tooltips"
-msgstr ""
-
-#: admin/functions-admin-cleanup-files.php:57
-#: admin/functions-admin-cleanup-files.php:58
-msgid "Clean Up Files"
-msgstr ""
-
-#: admin/functions-admin-cleanup-files.php:74
-msgid "Clean Up Uploaded Files"
-msgstr ""
-
-#: admin/functions-admin-cleanup-files.php:77
-msgid "Scanning directories..."
-msgstr ""
-
-#: admin/functions-admin-cleanup-files.php:80
-msgid "No directories found"
-msgstr ""
-
-#: admin/functions-admin-cleanup-files.php:83
-msgid "Getting all files that are older than [before_date]... [percentage]"
-msgstr ""
-
-#: admin/functions-admin-cleanup-files.php:86
-msgid "Scanning has finished for files older than [before_date]. Number of files to be deleted: [files_to_delete]"
-msgstr ""
-
-#: admin/functions-admin-cleanup-files.php:89
-msgid "Deleting files older than [before_date]... [percentage]"
-msgstr ""
-
-#: admin/functions-admin-cleanup-files.php:92
-msgid "Clean up done for files older than [before_date]. Number of files deleted: [total_deleted]"
-msgstr ""
-
-#: admin/functions-admin-cleanup-files.php:93
-msgid "Done"
-msgstr ""
-
-#: admin/functions-admin-cleanup-files.php:101
-msgid "Confirm delete? This cannot be undone."
-msgstr ""
-
-#: admin/functions-admin-cleanup-files.php:102
-#: admin/functions-admin-import-export-aou.php:48
-#: admin/functions-admin-import-export-aou.php:120
-msgid "Cancel"
-msgstr ""
-
-#: admin/functions-admin-cleanup-files.php:105
-msgid "Deleted files:"
-msgstr ""
-
-#: admin/functions-admin-cleanup-files.php:121
-msgid "Delete uploaded files for all Completed orders? This cannot be undone."
-msgstr ""
-
-#: admin/functions-admin-cleanup-files.php:122
-msgid "Delete uploaded files from Completed orders"
-msgstr ""
-
-#: admin/functions-admin-cleanup-files.php:129
-msgid "Delete files uploaded before date:"
-msgstr ""
-
-#: admin/functions-admin-cleanup-files.php:132
-msgid "Scan files to delete"
-msgstr ""
-
-#: admin/functions-admin-cleanup-files.php:156
-msgid "All uploaded files in Completed orders have been deleted."
-msgstr ""
-
-#: admin/functions-admin-cleanup-files.php:162
-msgid "Some files have not been deleted because of an error."
-msgstr ""
-
-#: admin/functions-admin-cleanup-files.php:168
-#: admin/functions-admin-order.php:610
-msgid "Invalid nonce. No files were deleted."
-msgstr ""
-
-#: admin/functions-admin-cleanup-files.php:204
-msgid "No Completed orders with uploaded files were found."
-msgstr ""
-
-#: admin/functions-admin-cleanup-files.php:335
-#: admin/functions-admin-cleanup-files.php:387
-msgid "Invalid nonce. Please refresh page then try again."
-msgstr ""
-
-#: admin/functions-admin-cleanup-files.php:342
-#: admin/functions-admin-cleanup-files.php:394
-msgid "Invalid request. Some parameters are missing."
-msgstr ""
-
-#: admin/functions-admin-cleanup-files.php:350
-#: admin/functions-admin-cleanup-files.php:402
-msgid "Invalid date format: "
-msgstr ""
-
-#: admin/functions-admin-cleanup-files.php:363
-#: admin/functions-admin-cleanup-files.php:415
-msgid "Invalid directory: "
-msgstr ""
-
-#: admin/functions-admin-conditions.php:20
-msgid "True"
-msgstr ""
-
-#: admin/functions-admin-conditions.php:21
-msgid "False"
-msgstr ""
-
-#: admin/functions-admin-import-export-aou.php:44
-msgid "Import/Export Add-Ons"
-msgstr ""
-
-#: admin/functions-admin-import-export-aou.php:46
-#: admin/functions-admin-import-export-aou.php:100
-#: admin/functions-admin-import-export-aou.php:315
-#: admin/functions-admin-import-export-aou.php:316
-#: admin/functions-admin-import-export-aou.php:383
-msgid "Export Groups"
-msgstr ""
-
-#: admin/functions-admin-import-export-aou.php:47
-msgid "Export Selected Group(s)"
-msgstr ""
-
-#: admin/functions-admin-import-export-aou.php:81
-msgid "Import Add-On Groups"
-msgstr ""
-
-#: admin/functions-admin-import-export-aou.php:83
-msgid "Choose whether to import groups from one or more products or from existing global groups. You'll be able to select which groups to import. All fields within the groups will also be imported."
-msgstr ""
-
-#: admin/functions-admin-import-export-aou.php:87
-#: admin/functions-admin-import-export-aou.php:106
-msgid "Product(s)"
-msgstr ""
-
-#: admin/functions-admin-import-export-aou.php:101
-msgid "Groups: "
-msgstr ""
-
-#: admin/functions-admin-import-export-aou.php:103
-msgid "Choose where to export these groups to - either to specific products or to global groups. All fields within your selected groups will also be exported."
-msgstr ""
-
-#: admin/functions-admin-import-export-aou.php:123
-#: admin/functions-admin-import-export-aou.php:399
-msgid "Exporting..."
-msgstr ""
-
-#: admin/functions-admin-import-export-aou.php:124
-#: admin/functions-admin-import-export-aou.php:352
-msgid "Importing..."
-msgstr ""
-
-#: admin/functions-admin-import-export-aou.php:129
-msgid "Go to Global Groups"
-msgstr ""
-
-#: admin/functions-admin-import-export-aou.php:132
-msgid "Go to Global Add-Ons"
-msgstr ""
-
-#: admin/functions-admin-import-export-aou.php:135
-#: admin/functions-admin-import-export-aou.php:403
-msgid "Go to"
-msgstr ""
-
-#: admin/functions-admin-import-export-aou.php:205
-msgid "No groups found in your selection. Please try again."
-msgstr ""
-
-#: admin/functions-admin-import-export-aou.php:344
-#: admin/functions-admin-import-export-aou.php:384
-msgid "Go back to Global Groups"
-msgstr ""
-
-#: admin/functions-admin-import-export-aou.php:388
-msgid "No Global Groups selected for export."
-msgstr ""
-
-#: admin/functions-admin-import-export-aou.php:393
-msgid "Export to products:"
-msgstr ""
-
-#: admin/functions-admin-menu.php:103
-msgid "Find the Product Add-Ons Ultimate settings page here"
-msgstr ""
-
-#: admin/functions-admin-order.php:320
-#: admin/functions-admin-order.php:598
-msgid "All files for this order have been deleted."
-msgstr ""
-
-#: admin/functions-admin-order.php:395
-msgid "Delete uploaded files in this order? This cannot be undone."
-msgstr ""
-
-#: admin/functions-admin-order.php:396
-msgid "Delete Files"
-msgstr ""
-
-#: admin/functions-admin-order.php:604
-msgid "Some files for this order have not been deleted because of an error."
-msgstr ""
-
-#: admin/functions-admin-order.php:664
-msgid "Has uploads?"
-msgstr ""
-
-#: admin/functions-admin-settings.php:21
-#: templates/admin/field-item.php:93
-msgid "Pricing"
-msgstr ""
-
-#: admin/functions-admin-settings.php:37
-msgid "Hide field prices"
-msgstr ""
-
-#: admin/functions-admin-settings.php:40
-msgid "Hide field prices in the cart for extras with only one option value (e.g. Radio, Select). Avoids displaying add-on prices twice."
-msgstr ""
-
-#: admin/functions-admin-settings.php:108
-msgid "Enhancements"
-msgstr ""
-
-#: admin/functions-admin-settings.php:121
-#: admin/functions-admin-settings.php:180
-#: admin/functions-admin-settings.php:772
-msgid "Disabled"
-msgstr ""
-
-#: admin/functions-admin-settings.php:123
-msgid "Enhanced"
-msgstr ""
-
-#: admin/functions-admin-settings.php:127
-msgid "Enable Clear All Options button"
-msgstr ""
-
-#: admin/functions-admin-settings.php:130
-msgid "Display the Clear All Options button on the product page, which allows customers to clear all Add-On field values. Requires Optimise conditions."
-msgstr ""
-
-#: admin/functions-admin-settings.php:136
-msgid "Enable cart editing"
-msgstr ""
-
-#: admin/functions-admin-settings.php:154
-msgid "Exclude empty fields in cart"
-msgstr ""
-
-#: admin/functions-admin-settings.php:157
-msgid "If a field does not have a value, do not include it in cart meta"
-msgstr ""
-
-#: admin/functions-admin-settings.php:167
-msgid "Progress bar"
-msgstr ""
-
-#: admin/functions-admin-settings.php:173
-msgid "Display progress bar"
-msgstr ""
-
-#: admin/functions-admin-settings.php:176
-msgid "Show a graphic progress bar for users to see how many fields they have completed."
-msgstr ""
-
-#: admin/functions-admin-settings.php:186
-msgid "Required fields only"
-msgstr ""
-
-#: admin/functions-admin-settings.php:189
-msgid "Only check required fields for progress bar update."
-msgstr ""
-
-#: admin/functions-admin-settings.php:194
-msgid "Progress bar layout"
-msgstr ""
-
-#: admin/functions-admin-settings.php:197
-msgid "Choose a style for your progress bar."
-msgstr ""
-
-#: admin/functions-admin-settings.php:201
-msgid "Bar"
-msgstr ""
-
-#: admin/functions-admin-settings.php:246
-msgid "Display hidden fields as disabled"
-msgstr ""
-
-#: admin/functions-admin-settings.php:249
-msgid "If a field is hidden by a condition, select this option to make it visible but disabled"
-msgstr ""
-
-#: admin/functions-admin-settings.php:341
-msgid "Optimizations"
-msgstr ""
-
-#: admin/functions-admin-settings.php:347
-msgid "Optimize calculations"
-msgstr ""
-
-#: admin/functions-admin-settings.php:350
-msgid "This will enable an alternative method for checking calculations which might improve page performance."
-msgstr ""
-
-#: admin/functions-admin-settings.php:355
-msgid "Optimize conditions"
-msgstr ""
-
-#: admin/functions-admin-settings.php:358
-msgid "This will enable an alternative method for checking conditions which might improve page performance."
-msgstr ""
-
-#: admin/functions-admin-settings.php:544
-msgid "File types"
-msgstr ""
-
-#: admin/functions-admin-settings.php:547
-msgid "Enter the permitted file types. Please remember that allowing users to upload files to your server carries a security risk, so please use this feature with caution."
-msgstr ""
-
-#: admin/functions-admin-settings.php:574
-msgid "Swatches settings"
-msgstr ""
-
-#: admin/functions-admin-settings.php:589
-#: templates/admin/sections/swatches.php:42
-msgid "Replace main image"
-msgstr ""
-
-#: admin/functions-admin-settings.php:592
-msgid "Enable this option to replace the main product image with the selected image swatch."
-msgstr ""
-
-#: admin/functions-admin-settings.php:727
-msgid "Show stock status"
-msgstr ""
-
-#: admin/functions-admin-settings.php:730
-msgid "Enable this to add a child product's stock status to their name"
-msgstr ""
-
-#: admin/functions-admin-settings.php:746
-msgid "Enable plus minus buttons"
-msgstr ""
-
-#: admin/functions-admin-settings.php:749
-msgid "Enable this to show + and - buttons alongside quantity fields in Products fields."
-msgstr ""
-
-#: admin/functions-admin-settings.php:759
-msgid "QuickView"
-msgstr ""
-
-#: admin/functions-admin-settings.php:774
-msgid "New tab"
-msgstr ""
-
-#: admin/functions-admin-settings.php:778
-msgid "Optional link text"
-msgstr ""
-
-#: admin/functions-admin-settings.php:781
-msgid "Enter text here to display as a separate link below the product name. Leave this empty to link directly from the product name."
-msgstr ""
-
-#: admin/functions-admin-settings.php:908
-msgid "Enable compatibility with Polylang"
-msgstr ""
-
-#: admin/functions-admin-settings.php:911
-msgid "Enable this only if you have Polylang installed. Also, if you have added the Polylang compatibility snippets before, please remove them before enabling this setting."
-msgstr ""
-
-#: admin/functions-admin-settings.php:926
-msgid "Dynamic Pricing and Discount Rules"
-msgstr ""
-
-#: admin/functions-admin-settings.php:932
-msgid "Disable Dynamic Pricing and Discount Rules price labels"
-msgstr ""
-
-#: admin/functions-admin-settings.php:935
-msgid "Prevent Dynamic Pricing and Discount Rules from updating the price labels on the product page."
-msgstr ""
-
-#: admin/functions-admin-settings.php:941
-msgid "Disable add-on prices on pricing table"
-msgstr ""
-
-#: admin/functions-admin-settings.php:944
-msgid "Prevent Add-Ons Ultimate from adding add-on field prices to the pricing table on the product page."
-msgstr ""
-
-#: admin/functions-admin-settings.php:959
-msgid "Disable discounts for add-ons"
-msgstr ""
-
-#: admin/functions-admin-settings.php:962
-msgid "Select this if you don't wish to apply dynamic discounts to add-on field prices."
-msgstr ""
-
-#: admin/functions-admin-settings.php:977
-msgid "Custom user fields"
-msgstr ""
-
-#: admin/functions-admin-settings.php:983
-msgid "Enable user fields"
-msgstr ""
-
-#: admin/functions-admin-settings.php:986
-msgid "Select this to use custom user data in your add-on fields."
-msgstr ""
-
-#: admin/functions-admin-settings.php:1010
-#: classes/class-pewc-settings-tab.php:114
-msgid "Validation"
-msgstr ""
-
-#: admin/functions-admin-settings.php:1019
-msgid "This will enable validation of add-on fields using Javascript."
-msgstr ""
-
-#: admin/functions-admin-settings.php:1028
-msgid "This will hide the subtotals fields until all required fields have been completed. Requires Optimised validation."
-msgstr ""
-
-#: admin/functions-admin-settings.php:1034
-msgid "Disable groups"
-msgstr ""
-
-#: admin/functions-admin-settings.php:1037
-msgid "Disable the next groups until all required fields in the current group are completed. Only works if groups are displayed as Accordion, Steps, or Tabs. Requires Optimised validation."
-msgstr ""
-
-#: admin/functions-admin-settings.php:1043
-msgid "Disable scroll on Steps layout"
-msgstr ""
-
-#: admin/functions-admin-settings.php:1046
-msgid "Disable the scrolling animation on Steps layout when validation fails. Requires Optimised validation."
-msgstr ""
-
-#: admin/functions-custom-panel.php:105
-msgid "Select all groups"
-msgstr ""
-
-#: admin/functions-custom-panel.php:473
-#: templates/admin/field-item.php:84
-msgid "Calendar List"
-msgstr ""
-
-#: admin/functions-custom-panel.php:486
-msgid "Swatch"
-msgstr ""
-
-#: admin/metaboxes.php:135
-#: templates/admin/group.php:81
-msgid "Group Class"
-msgstr ""
-
-#: admin/metaboxes.php:268
-#: templates/admin/group.php:23
-msgid "Group Settings"
-msgstr ""
-
-#: classes/class-pewc-product-extra-post-type.php:610
-#: templates/admin/global-rule.php:39
-msgid "Applies To"
-msgstr ""
-
-#: classes/class-pewc-settings-tab.php:117
-msgid "License"
-msgstr ""
-
-#: classes/class-pewc-settings-tab.php:178
-msgid "It hasn't been possible to validate your license key."
-msgstr ""
-
-#: classes/class-pewc-settings-tab.php:182
-msgid "<strong>Most importantly, this isn't a problem - all the plugin's features and functionality are fully available so you can start using the plugin straightaway without needing to activate the license.</strong>"
-msgstr ""
-
-#: classes/class-pewc-settings-tab.php:186
-msgid "There are a number of possible reasons for the license not validating:"
-msgstr ""
-
-#: classes/class-pewc-settings-tab.php:190
-msgid "It's possible there is an issue connecting between this site and the Plugin Republic site"
-msgstr ""
-
-#: classes/class-pewc-settings-tab.php:191
-msgid "If you have bought a bundle, please make sure you enter the license key that is specific to each plugin - not the main bundle license key"
-msgstr ""
-
-#: classes/class-pewc-settings-tab.php:192
-msgid "If you are running a security or firewall plugin, like Wordfence or Sucuri, please try temporarily disabling it and retesting the license "
-msgstr ""
-
-#: classes/class-pewc-settings-tab.php:196
-msgid "There are some more things to try on the following link:"
-msgstr ""
-
-#: classes/class-pewc-settings-tab.php:200
-msgid "How to solve any problems with activating your license."
-msgstr ""
-
-#: inc/functions-cart.php:1853
-msgid "The product has not been added to the cart because one or more of its components is sold individually and already exists in the cart."
-msgstr ""
-
-#: inc/functions-cart.php:2774
-msgid "The uploaded file has failed a security check. Please try uploading it again: "
-msgstr ""
-
-#: inc/functions-clear-all.php:33
-msgid "Clear All Options"
-msgstr ""
-
-#: inc/functions-conditionals.php:97
-msgid "User Role"
-msgstr ""
-
-#: inc/functions-js-validation.php:243
-msgid "Some fields in this group failed validation."
-msgstr ""
-
-#: inc/functions-media.php:592
-msgid "No thumbnail"
-msgstr ""
-
-#: inc/functions-media.php:602
-msgid "Remove uploaded file"
-msgstr ""
-
-#: inc/functions-order.php:118
-msgid "Composite image"
-msgstr ""
-
-#: inc/functions-order.php:122
-msgid "Composite preview"
-msgstr ""
-
-#: inc/functions-products.php:1008
-#: inc/functions-products.php:1056
-msgid "One of the options in this order is sold individually, so duplicates have been removed from the cart"
-msgstr ""
-
-#: inc/functions-repeatable.php:118
-msgid "+ Add More"
-msgstr ""
-
-#: inc/functions-repeatable.php:192
-msgid "Are you sure you want to remove this group?"
-msgstr ""
-
-#: inc/functions-repeatable.php:445
-#: templates/admin/group.php:133
-msgid "Repeatable"
-msgstr ""
-
-#: inc/functions-repeatable.php:453
-#: templates/admin/group.php:148
-msgid "Attach to Quantity"
-msgstr ""
-
-#: inc/functions-repeatable.php:461
-msgid "Repeatable Limit"
-msgstr ""
-
-#: inc/functions-single-product.php:134
-msgid "Increase quantity"
-msgstr ""
-
-#: inc/functions-single-product.php:135
-msgid "Decrease quantity"
-msgstr ""
-
-#: inc/functions-single-product.php:238
-msgid "Uploading..."
-msgstr ""
-
-#: inc/functions-single-product.php:299
-msgid "Counting the number of pages..."
-msgstr ""
-
-#: inc/functions-uploads.php:839
-msgid "Loading original image..."
-msgstr ""
-
-#: templates/admin/field-item.php:82
-#: templates/admin/views/option-fields.php:18
-msgid "Options"
-msgstr ""
-
-#: templates/admin/field-item.php:91
-msgid "Color picker"
-msgstr ""
-
-#: templates/admin/field-item.php:94
-msgid "Display"
-msgstr ""
-
-#: templates/admin/field-item.php:96
-msgid "Additional"
-msgstr ""
-
-#: templates/admin/field-meta-actions.php:16
-msgid "Export Field"
-msgstr ""
-
-#: templates/admin/group-meta-actions.php:14
-msgid "Sort"
-msgstr ""
-
-#: templates/admin/group-settings.php:21
-msgid "Product Settings"
-msgstr ""
-
-#: templates/admin/group-settings.php:57
-msgid "Assign global groups"
-msgstr ""
-
-#: templates/admin/group-settings.php:79
-msgid "Hide quantity field"
-msgstr ""
-
-#: templates/admin/group.php:113
-msgid "Always Include in Order"
-msgstr ""
-
-#: templates/admin/group.php:161
-msgid "Repeat Limit"
-msgstr ""
-
-#: templates/admin/sections/additional.php:20
-msgid "User Field ID"
-msgstr ""
-
-#: templates/admin/sections/calculations.php:57
-msgid "Click here for a list of tags"
-msgstr ""
-
-#: templates/admin/sections/calculations.php:158
-msgid "Set Child Product Quantity"
-msgstr ""
-
-#: templates/admin/sections/calculations.php:168
-msgid "Add to Product Length"
-msgstr ""
-
-#: templates/admin/sections/calculations.php:173
-msgid "Add to Product Width"
-msgstr ""
-
-#: templates/admin/sections/calculations.php:178
-msgid "Add to Product Height"
-msgstr ""
-
-#: templates/admin/sections/calculations.php:192
-msgid "Products Field ID"
-msgstr ""
-
-#: templates/admin/sections/calculations.php:218
-msgid "Reverse Formula Field ID"
-msgstr ""
-
-#: templates/admin/sections/calculations.php:231
-msgid "Original Input Field ID"
-msgstr ""
-
-#: templates/admin/sections/calculations.php:244
-msgid "Override Calculation?"
-msgstr ""
-
-#: templates/admin/sections/calendar-list.php:20
-msgid "Days"
-msgstr ""
-
-#: templates/admin/sections/calendar-list.php:41
-msgid "Offset"
-msgstr ""
-
-#: templates/admin/sections/calendar-list.php:60
-msgid "Add Item"
-msgstr ""
-
-#: templates/admin/sections/calendar-list.php:120
-msgid "Latest time"
-msgstr ""
-
-#: templates/admin/sections/calendar-list.php:153
-msgid "Latest time label"
-msgstr ""
-
-#: templates/admin/sections/display.php:19
-msgid "Field Class"
-msgstr ""
-
-#: templates/admin/sections/display.php:81
-msgid "Display as Swatch?"
-msgstr ""
-
-#: templates/admin/sections/display.php:97
-msgid "Display as Slider?"
-msgstr ""
-
-#: templates/admin/sections/general.php:33
-msgid "Admin Label"
-msgstr ""
-
-#: templates/admin/sections/general.php:67
-msgid "Click here for guidance on each field type"
-msgstr ""
-
-#: templates/admin/sections/general.php:82
-msgid "Field Visibility"
-msgstr ""
-
-#: templates/admin/sections/general.php:92
-msgid "Display everywhere"
-msgstr ""
-
-#: templates/admin/sections/general.php:93
-msgid "Display on product page only"
-msgstr ""
-
-#: templates/admin/sections/general.php:95
-msgid "Hide from customer"
-msgstr ""
-
-#: templates/admin/sections/number.php:50
-msgid "Decimal places"
-msgstr ""
-
-#: templates/admin/sections/products.php:29
-msgid "Choose child products"
-msgstr ""
-
-#: templates/admin/sections/products.php:113
-msgid "Components List"
-msgstr ""
-
-#: templates/admin/sections/products.php:120
-msgid "This article explains the different layouts"
-msgstr ""
-
-#: templates/admin/sections/products.php:209
-msgid "Default Quantity"
-msgstr ""
-
-#: templates/admin/sections/products.php:226
-msgid "Force Quantity?"
-msgstr ""
-
-#: templates/admin/sections/swatches.php:21
-msgid "Swatch width"
-msgstr ""
-
-#: templates/admin/sections/swatches.php:59
-msgid "Layer images?"
-msgstr ""
-
-#: templates/admin/sections/swatches.php:76
-msgid "Parent Swatch ID"
-msgstr ""
-
-#: templates/admin/sections/text.php:20
-msgid "Min Characters"
-msgstr ""
-
-#: templates/admin/sections/text.php:34
-msgid "Max Characters"
-msgstr ""
-
-#: templates/admin/sections/text.php:67
-msgid "Free Characters"
-msgstr ""
-
-#: templates/admin/views/option-fields-new.php:21
-#: templates/admin/views/option-fields.php:32
-msgid "Alt"
-msgstr ""
-
-#: templates/admin/views/option-fields-new.php:24
-msgid "Colour"
-msgstr ""
-
-#: templates/admin/views/option-fields.php:35
-msgid "Color"
-msgstr ""
+#~ msgid "Invalid nonce."
+#~ msgstr "無効なnonceです。"

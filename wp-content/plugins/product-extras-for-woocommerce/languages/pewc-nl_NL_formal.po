@@ -1,47 +1,100 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"Report-Msgid-Bugs-To: \n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/product-extras-"
+"for-woocommerce\n"
+"POT-Creation-Date: 2026-08-26T10:45:15+00:00\n"
+"PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
+"Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2021-03-11 12:24+0000\n"
-"PO-Revision-Date: \n"
-"Language: nl\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 2.4\n"
+
+#. Plugin Name of the plugin
+#: admin/functions-admin-menu.php:54 admin/functions-admin-settings.php:920
+#: inc/functions-updater.php:276 inc/functions-updater.php:291
+msgid "WooCommerce Product Add-Ons Ultimate"
+msgstr "WooCommerce Product Add-Ons Ultimate"
+
+#. Plugin URI of the plugin
+msgid ""
+"https://pluginrepublic.com/wordpress-plugins/woocommerce-product-add-ons-"
+"ultimate/"
+msgstr ""
+"https://pluginrepublic.com/wordpress-plugins/woocommerce-product-add-ons-"
+"ultimate/"
+
+#. Description of the plugin
+msgid "Add extra fields to WooCommerce products"
+msgstr "Voeg extra velden toe aan WooCommerce-producten"
+
+#. Author of the plugin
+msgid "Plugin Republic"
+msgstr "Plugin Republic"
+
+#. Author URI of the plugin
+msgid "https://pluginrepublic.com/"
+msgstr "https://pluginrepublic.com/"
 
 #: admin/customizer.php:32
 #, fuzzy
 msgid "Product Add-Ons Ultimate"
 msgstr "WooCommerce Product Add-Ons Ultimate"
 
-#: classes/class-pewc-settings-tab.php:105
-#: templates/admin/field-item.php:81
-msgid "General"
-msgstr ""
+#: admin/customizer.php:38 admin/functions-admin-settings.php:231
+#, fuzzy
+msgid "Labels"
+msgstr "Veld naam"
 
 #: admin/customizer.php:47
 msgid "Styles"
-msgstr ""
+msgstr "Stijlen"
+
+#: admin/customizer.php:56
+msgid "Swatches and Products"
+msgstr "Stalen en producten"
+
+#: admin/customizer.php:65 admin/functions-admin-settings.php:182
+#: classes/class-pewc-product-extra-post-type.php:172
+#, fuzzy
+msgid "Groups"
+msgstr "Groep toevoegen"
+
+#: admin/customizer.php:83
+msgid "Preset styles"
+msgstr "Voorinstelde stijlen"
+
+#: admin/customizer.php:89
+msgid "Inherit from theme"
+msgstr "Overnemen van thema"
+
+#: admin/customizer.php:94
+msgid "Simple"
+msgstr "Eenvoudig"
+
+#: admin/customizer.php:111
+msgid "Accent colour"
+msgstr "Accentkleur"
 
 #: admin/customizer.php:132
 msgid "Fields Wrapper Margin Left"
-msgstr ""
+msgstr "Marge links van veldwrapper"
 
 #: admin/customizer.php:152
 msgid "Fields Wrapper Margin Bottom"
-msgstr ""
+msgstr "Marge onder van veldwrapper"
 
 #: admin/customizer.php:172
 msgid "Fields Wrapper Padding"
-msgstr ""
+msgstr "Opvulling van veldwrapper"
 
 #: admin/customizer.php:191
 msgid "Fields Wrapper Background Colour"
-msgstr ""
+msgstr "Achtergrondkleur van veldwrapper"
 
 #: admin/customizer.php:212
 #, fuzzy
@@ -50,31 +103,31 @@ msgstr "Veld naam"
 
 #: admin/customizer.php:232
 msgid "Field Margin Bottom"
-msgstr ""
+msgstr "Marge onder van veld"
 
 #: admin/customizer.php:252
 msgid "Field Padding (Top and Bottom)"
-msgstr ""
+msgstr "Opvulling van veld (boven en onder)"
 
 #: admin/customizer.php:272
 msgid "Field Padding (Left and Right)"
-msgstr ""
+msgstr "Opvulling van veld (links en rechts)"
 
 #: admin/customizer.php:292
 msgid "Field Background Colour"
-msgstr ""
+msgstr "Achtergrondkleur van veld"
 
 #: admin/customizer.php:312
 msgid "Text Colour"
-msgstr ""
+msgstr "Tekstkleur"
 
 #: admin/customizer.php:331
 msgid "Full Width Text Fields "
-msgstr ""
+msgstr "Tekstvelden volledige breedte "
 
 #: admin/customizer.php:350
 msgid "Full Width Number Fields "
-msgstr ""
+msgstr "Getalvelden volledige breedte "
 
 #: admin/customizer.php:369
 #, fuzzy
@@ -83,80 +136,143 @@ msgstr "Tekstgedeelte"
 
 #: admin/customizer.php:393
 msgid "Full Width Select Fields "
-msgstr ""
+msgstr "Selectievelden volledige breedte "
 
 #: admin/customizer.php:412
 msgid "Display Label on Own Line"
-msgstr ""
+msgstr "Label op eigen regel weergeven"
 
-#: admin/customizer.php:863
-#: admin/functions-admin-settings.php:307
+#: admin/customizer.php:435
+msgid "Hide the Group Title"
+msgstr "Groepstitel verbergen"
+
+#: admin/customizer.php:455
+msgid "Standard Layout"
+msgstr "Standaardindeling"
+
+#: admin/customizer.php:475
+msgid "Title Colour"
+msgstr "Titelkleur"
+
+#: admin/customizer.php:494
+msgid "Title Font Size"
+msgstr "Lettergrootte titel"
+
+#: admin/customizer.php:513
+msgid "Description Colour"
+msgstr "Kleur van omschrijving"
+
+#: admin/customizer.php:532
+msgid "Description Font Size"
+msgstr "Lettergrootte van omschrijving"
+
+#: admin/customizer.php:552
+msgid "Accordion Layout"
+msgstr "Accordeon-indeling"
+
+#: admin/customizer.php:572
+msgid "Title Background"
+msgstr "Achtergrond van titel"
+
+#: admin/customizer.php:591
+msgid "Icon Colour"
+msgstr "Pictogramkleur"
+
+#: admin/customizer.php:610
+msgid "Icon Size"
+msgstr "Pictogramgrootte"
+
+#: admin/customizer.php:630
+msgid "Steps Layout"
+msgstr "Stappen-indeling"
+
+#: admin/customizer.php:650 admin/customizer.php:785
+#: templates/admin/group-settings.php:46
+msgid "Tabs"
+msgstr "Tabbladen"
+
+#: admin/customizer.php:669 admin/customizer.php:804
+msgid "Active Tab"
+msgstr "Actief tabblad"
+
+#: admin/customizer.php:688
+msgid "Next Button"
+msgstr "Knop Volgende"
+
+#: admin/customizer.php:707
+msgid "Previous Button"
+msgstr "Knop Vorige"
+
+#: admin/customizer.php:726
+msgid "Button Text Color"
+msgstr "Tekstkleur van knop"
+
+#: admin/customizer.php:746
+msgid "Tabs Layout"
+msgstr "Indeling van tabbladen"
+
+#: admin/customizer.php:766
+msgid "Justify Tabs"
+msgstr "Tabbladen uitlijnen"
+
+#: admin/customizer.php:863 admin/functions-admin-settings.php:279
 #: templates/frontend/price-subtotals.php:15
 msgid "Product total"
 msgstr "Bedrijfswagen velgenset"
 
-#: admin/customizer.php:874
-#: admin/functions-admin-settings.php:315
+#: admin/customizer.php:874 admin/functions-admin-settings.php:287
 #: templates/frontend/price-subtotals.php:23
 msgid "Options total"
 msgstr "Banden opties"
 
-#: admin/customizer.php:885
-#: admin/functions-admin-settings.php:323
+#: admin/customizer.php:885 admin/functions-admin-settings.php:295
 #: templates/frontend/price-subtotals.php:32
 msgid "Flat rate total"
 msgstr "Vast bedrag totaal"
 
-#: admin/customizer.php:896
-#: admin/functions-admin-settings.php:331
+#: admin/customizer.php:896 admin/functions-admin-settings.php:303
 #: templates/frontend/price-subtotals.php:41
 msgid "Grand total"
 msgstr "Totaal bedrag"
 
 #: admin/customizer.php:907
 msgid "Enable summary panel"
-msgstr ""
+msgstr "Overzichtspaneel inschakelen"
 
-#: admin/customizer.php:917
-#: admin/functions-admin-settings.php:266
-#: admin/functions-custom-panel.php:514
+#: admin/customizer.php:917 admin/functions-admin-settings.php:238
+#: admin/functions-custom-panel.php:517
 #, fuzzy
 msgid "Price label"
 msgstr "Veld naam"
 
-#: admin/customizer.php:927
-#: admin/functions-admin-settings.php:273
-#: admin/functions-custom-panel.php:522
+#: admin/customizer.php:927 admin/functions-admin-settings.php:245
+#: admin/functions-custom-panel.php:525
 msgid "Price label display"
-msgstr ""
+msgstr "Weergave van prijslabel"
 
-#: admin/customizer.php:932
-#: admin/functions-admin-settings.php:281
-#: admin/functions-custom-panel.php:526
+#: admin/customizer.php:932 admin/functions-admin-settings.php:253
+#: admin/functions-custom-panel.php:529
 msgid "Before price"
-msgstr ""
+msgstr "Vóór prijs"
 
-#: admin/customizer.php:933
-#: admin/functions-admin-settings.php:282
-#: admin/functions-custom-panel.php:527
+#: admin/customizer.php:933 admin/functions-admin-settings.php:254
+#: admin/functions-custom-panel.php:530
 msgid "After price"
-msgstr ""
+msgstr "Na prijs"
 
-#: admin/customizer.php:934
-#: admin/functions-admin-settings.php:283
-#: admin/functions-custom-panel.php:528
+#: admin/customizer.php:934 admin/functions-admin-settings.php:255
+#: admin/functions-custom-panel.php:531
 #, fuzzy
 msgid "Hide price"
 msgstr "Nulprijzen verbergen"
 
-#: admin/customizer.php:942
-#: admin/functions-admin-settings.php:288
+#: admin/customizer.php:942 admin/functions-admin-settings.php:260
 msgid "Display totals fields"
-msgstr ""
+msgstr "Totaalvelden weergeven"
 
 #: admin/customizer.php:947
 msgid "Show totals"
-msgstr ""
+msgstr "Totalen weergeven"
 
 #: admin/customizer.php:948
 #, fuzzy
@@ -165,31 +281,275 @@ msgstr "Totaal bedrag"
 
 #: admin/customizer.php:949
 msgid "Total only"
-msgstr ""
+msgstr "Alleen totaal"
 
-#: admin/customizer.php:957
-#: admin/functions-admin-settings.php:302
+#: admin/customizer.php:957 admin/functions-admin-settings.php:274
 #, fuzzy
 msgid "Product total label"
 msgstr "Bedrijfswagen velgenset"
 
-#: admin/customizer.php:967
-#: admin/functions-admin-settings.php:310
+#: admin/customizer.php:967 admin/functions-admin-settings.php:282
 #, fuzzy
 msgid "Options total label"
 msgstr "Banden opties"
 
-#: admin/customizer.php:977
-#: admin/functions-admin-settings.php:318
+#: admin/customizer.php:977 admin/functions-admin-settings.php:290
 #, fuzzy
 msgid "Flat rate total label"
 msgstr "Vast bedrag totaal"
 
-#: admin/customizer.php:987
-#: admin/functions-admin-settings.php:326
+#: admin/customizer.php:987 admin/functions-admin-settings.php:298
 #, fuzzy
 msgid "Grand total label"
 msgstr "Totaal bedrag"
+
+#: admin/customizer.php:1028
+msgid "Show Inputs on Products Field"
+msgstr "Invoervelden bij productveld weergeven"
+
+#: admin/customizer.php:1048
+msgid "Products Highlight Colour"
+msgstr "Markeringskleur van producten"
+
+#: admin/customizer.php:1068
+msgid "Swatch Border Width"
+msgstr "Randbreedte van staal"
+
+#: admin/customizer.php:1088
+msgid "Swatch Border Padding"
+msgstr "Randopvulling van staal"
+
+#: admin/customizer.php:1107
+msgid "Enable Circular Swatches"
+msgstr "Ronde stalen inschakelen"
+
+#: admin/customizer.php:1127
+msgid "Color Swatch Width"
+msgstr "Breedte van kleurstaal"
+
+#: admin/customizer.php:1147
+msgid "Color Swatch Height"
+msgstr "Hoogte van kleurstaal"
+
+#: admin/customizer.php:1166
+msgid "Use Grid Layout"
+msgstr "Rasterindeling gebruiken"
+
+#: admin/customizer.php:1185
+msgid "Swatch Image Size"
+msgstr "Afbeeldingsgrootte van staal"
+
+#: admin/customizer.php:1205
+msgid "Product Quantity Layout"
+msgstr "Indeling van productaantal"
+
+#: admin/customizer.php:1210
+msgid "Grid"
+msgstr "Raster"
+
+#: admin/customizer.php:1211
+msgid "Block"
+msgstr "Blok"
+
+#: admin/customizer.php:1227
+msgid "Show Product Names as Tooltips"
+msgstr "Productnamen als tooltips weergeven"
+
+#: admin/functions-admin-cleanup-files.php:57
+#: admin/functions-admin-cleanup-files.php:58
+msgid "Clean Up Files"
+msgstr "Bestanden opschonen"
+
+#: admin/functions-admin-cleanup-files.php:74
+msgid "Clean Up Uploaded Files"
+msgstr "Geüploade bestanden opschonen"
+
+#: admin/functions-admin-cleanup-files.php:77
+msgid "Scanning directories..."
+msgstr "Mappen worden gescand..."
+
+#: admin/functions-admin-cleanup-files.php:80
+msgid "No directories found"
+msgstr "Geen mappen gevonden"
+
+#: admin/functions-admin-cleanup-files.php:83
+msgid "Getting all files that are older than [before_date]... [percentage]"
+msgstr ""
+"Alle bestanden ophalen die ouder zijn dan [before_date]... [percentage]"
+
+#: admin/functions-admin-cleanup-files.php:86
+msgid ""
+"Scanning has finished for files older than [before_date]. Number of files to "
+"be deleted: [files_to_delete]"
+msgstr ""
+"Het scannen naar bestanden ouder dan [before_date] is voltooid. Aantal te "
+"verwijderen bestanden: [files_to_delete]"
+
+#: admin/functions-admin-cleanup-files.php:89
+msgid "Deleting files older than [before_date]... [percentage]"
+msgstr "Bestanden ouder dan [before_date] worden verwijderd... [percentage]"
+
+#: admin/functions-admin-cleanup-files.php:92
+msgid ""
+"Clean up done for files older than [before_date]. Number of files deleted: "
+"[total_deleted]"
+msgstr ""
+"Opschonen van bestanden ouder dan [before_date] is voltooid. Aantal "
+"verwijderde bestanden: [total_deleted]"
+
+#: admin/functions-admin-cleanup-files.php:93
+msgid "Done"
+msgstr "Voltooid"
+
+#: admin/functions-admin-cleanup-files.php:101
+msgid "Confirm delete? This cannot be undone."
+msgstr "Verwijderen bevestigen? Dit kan niet ongedaan worden gemaakt."
+
+#: admin/functions-admin-cleanup-files.php:102
+#: admin/functions-admin-import-export-aou.php:48
+#: admin/functions-admin-import-export-aou.php:120
+#: templates/admin/views/group-ajax-condition.php:204
+msgid "Cancel"
+msgstr "Annuleren"
+
+#: admin/functions-admin-cleanup-files.php:105
+msgid "Deleted files:"
+msgstr "Verwijderde bestanden:"
+
+#: admin/functions-admin-cleanup-files.php:121
+msgid "Delete uploaded files for all Completed orders? This cannot be undone."
+msgstr ""
+"Geüploade bestanden voor alle voltooide bestellingen verwijderen? Dit kan "
+"niet ongedaan worden gemaakt."
+
+#: admin/functions-admin-cleanup-files.php:122
+msgid "Delete uploaded files from Completed orders"
+msgstr "Geüploade bestanden van voltooide bestellingen verwijderen"
+
+#: admin/functions-admin-cleanup-files.php:129
+msgid "Delete files uploaded before date:"
+msgstr "Bestanden verwijderen die zijn geüpload vóór datum:"
+
+#: admin/functions-admin-cleanup-files.php:132
+msgid "Scan files to delete"
+msgstr "Te verwijderen bestanden scannen"
+
+#: admin/functions-admin-cleanup-files.php:134
+#: templates/admin/field-meta-actions.php:18
+#: templates/admin/group-meta-actions.php:20
+msgid "Delete"
+msgstr "Verwijder"
+
+#: admin/functions-admin-cleanup-files.php:156
+msgid "All uploaded files in Completed orders have been deleted."
+msgstr "Alle geüploade bestanden in voltooide bestellingen zijn verwijderd."
+
+#: admin/functions-admin-cleanup-files.php:162
+msgid "Some files have not been deleted because of an error."
+msgstr "Sommige bestanden zijn niet verwijderd vanwege een fout."
+
+#: admin/functions-admin-cleanup-files.php:168
+#: admin/functions-admin-order.php:615
+msgid "Invalid nonce. No files were deleted."
+msgstr "Ongeldige nonce. Er zijn geen bestanden verwijderd."
+
+#: admin/functions-admin-cleanup-files.php:204
+msgid "No Completed orders with uploaded files were found."
+msgstr "Er zijn geen voltooide bestellingen met geüploade bestanden gevonden."
+
+#: admin/functions-admin-cleanup-files.php:335
+#: admin/functions-admin-cleanup-files.php:387
+#: admin/functions-admin-conditions.php:326
+msgid "Invalid nonce. Please refresh page then try again."
+msgstr "Ongeldige nonce. Vernieuw de pagina en probeer het opnieuw."
+
+#: admin/functions-admin-cleanup-files.php:342
+#: admin/functions-admin-cleanup-files.php:394
+msgid "Invalid request. Some parameters are missing."
+msgstr "Ongeldig verzoek. Er ontbreken enkele parameters."
+
+#: admin/functions-admin-cleanup-files.php:350
+#: admin/functions-admin-cleanup-files.php:402
+msgid "Invalid date format: "
+msgstr "Ongeldige datumnotatie: "
+
+#: admin/functions-admin-cleanup-files.php:363
+#: admin/functions-admin-cleanup-files.php:415
+msgid "Invalid directory: "
+msgstr "Ongeldige map: "
+
+#: admin/functions-admin-conditions.php:20
+msgid "True"
+msgstr "Waar"
+
+#: admin/functions-admin-conditions.php:21
+msgid "False"
+msgstr "Onwaar"
+
+#: admin/functions-admin-conditions.php:87
+#: classes/class-pewc-product-extra-post-type.php:85
+msgid " -- Select a field -- "
+msgstr "- Selecteer een veld -"
+
+#: admin/functions-admin-conditions.php:108
+#: admin/functions-admin-conditions.php:123
+#: admin/functions-admin-conditions.php:142
+#: admin/functions-admin-conditions.php:159
+msgid "[no label]"
+msgstr "[geen label]"
+
+#: admin/functions-admin-conditions.php:169
+#, fuzzy
+msgid "Cost"
+msgstr "Item kosten"
+
+#: admin/functions-admin-conditions.php:170 inc/functions-blocks.php:123
+#: inc/functions-cart.php:1948 inc/functions-order.php:200
+#: inc/functions-order.php:325 inc/functions-order.php:747
+#: inc/functions-products.php:807
+#: templates/frontend/products/products-checkboxes-list.php:111
+#: templates/frontend/products/products-checkboxes.php:136
+#: templates/frontend/products/products-column.php:400
+#: templates/frontend/products/products-components.php:152
+#: templates/frontend/products/products-grid.php:169
+#: templates/frontend/products/products-swatches.php:317
+msgid "Quantity"
+msgstr "Aantal"
+
+#: admin/functions-admin-conditions.php:171
+msgid "Logged In"
+msgstr "Ingelogd"
+
+#: admin/functions-admin-conditions.php:172
+msgid "User Role"
+msgstr "Gebruikersrol"
+
+#: admin/functions-admin-conditions.php:216
+#: admin/functions-admin-conditions.php:266
+#: admin/functions-admin-import-export-aou.php:88
+#: admin/functions-admin-import-export-aou.php:107
+#: admin/functions-admin-post-types.php:168
+#: admin/functions-admin-settings.php:211
+#, fuzzy
+msgid "Global"
+msgstr "Globale Add Ons"
+
+#: admin/functions-admin-export.php:21 admin/functions-admin-export.php:22
+msgid "Export Orders"
+msgstr "Bestellingen exporteren"
+
+#: admin/functions-admin-export.php:32
+msgid "Export Product Add-Ons by Order"
+msgstr "Product Add-Ons per bestelling exporteren"
+
+#: admin/functions-admin-export.php:33
+msgid ""
+"Click the Export button to export all your Product Add-Ons from orders to a "
+"csv file which you can then open with Excel or other spreadsheet software."
+msgstr ""
+"Klik op de knop Exporteren om al uw Product Add-Ons uit bestellingen te "
+"exporteren naar een csv-bestand dat u vervolgens kunt openen met Excel of "
+"andere spreadsheetsoftware."
 
 #: admin/functions-admin-export.php:35
 #: admin/functions-admin-import-export-aou.php:119
@@ -199,8 +559,7 @@ msgstr "Totaal bedrag"
 msgid "Export"
 msgstr "Exporteren"
 
-#: admin/functions-admin-export.php:52
-#: admin/metaboxes.php:210
+#: admin/functions-admin-export.php:52 admin/metaboxes.php:210
 msgid "Product Add On ID"
 msgstr "Product Add On ID"
 
@@ -208,13 +567,11 @@ msgstr "Product Add On ID"
 msgid "Product Add On Date"
 msgstr "Product Add-Ons Datum"
 
-#: admin/functions-admin-export.php:54
-#: admin/metaboxes.php:18
+#: admin/functions-admin-export.php:54 admin/metaboxes.php:18
 msgid "User ID"
 msgstr "gebruiker ID"
 
-#: admin/functions-admin-export.php:55
-#: admin/metaboxes.php:26
+#: admin/functions-admin-export.php:55 admin/metaboxes.php:26
 msgid "User Name"
 msgstr "gebruikersnaam"
 
@@ -230,13 +587,12 @@ msgstr "Telefoonnummer"
 msgid "Address"
 msgstr "Adres"
 
-#: admin/functions-admin-export.php:59
-#: admin/metaboxes.php:61
+#: admin/functions-admin-export.php:59 admin/metaboxes.php:61
 msgid "Order ID"
 msgstr "Bestelnummer"
 
 #: admin/functions-admin-export.php:60
-#: classes/class-pewc-product-extra-post-type.php:1077
+#: classes/class-pewc-product-extra-post-type.php:1093
 msgid "Product"
 msgstr "Product"
 
@@ -245,19 +601,73 @@ msgstr "Product"
 msgid "Product Add On Content"
 msgstr "Product inhoud"
 
-#: admin/functions-admin-export.php:62
-#: admin/metaboxes.php:187
+#: admin/functions-admin-export.php:62 admin/metaboxes.php:187
 msgid "Notes"
 msgstr "Aantekeningen"
 
-#: admin/functions-admin-export.php:63
-#: admin/metaboxes.php:194
-#: classes/class-pewc-settings-tab.php:164
-#: classes/class-pewc-settings-tab.php:250
-#: classes/class-pewc-settings-tab.php:306
-#: inc/functions-conditionals.php:96
+#: admin/functions-admin-export.php:63 admin/metaboxes.php:194
+#: classes/class-pewc-settings-tab.php:180
+#: classes/class-pewc-settings-tab.php:266
+#: classes/class-pewc-settings-tab.php:322
 msgid "Status"
 msgstr "Status"
+
+#: admin/functions-admin-import-export-aou.php:44
+msgid "Import/Export Add-Ons"
+msgstr "Add-Ons importeren/exporteren"
+
+#: admin/functions-admin-import-export-aou.php:45
+#: admin/functions-admin-import-export-aou.php:293
+#: admin/functions-admin-import-export-aou.php:306
+#: admin/functions-admin-import-export-aou.php:307
+#: admin/functions-admin-import-export-aou.php:343
+#: templates/admin/import-groups.php:42
+msgid "Import Groups"
+msgstr "Groepen importeren"
+
+#: admin/functions-admin-import-export-aou.php:46
+#: admin/functions-admin-import-export-aou.php:100
+#: admin/functions-admin-import-export-aou.php:315
+#: admin/functions-admin-import-export-aou.php:316
+#: admin/functions-admin-import-export-aou.php:383
+msgid "Export Groups"
+msgstr "Groepen exporteren"
+
+#: admin/functions-admin-import-export-aou.php:47
+msgid "Export Selected Group(s)"
+msgstr "Geselecteerde groep(en) exporteren"
+
+#: admin/functions-admin-import-export-aou.php:81
+msgid "Import Add-On Groups"
+msgstr "Add-On-groepen importeren"
+
+#: admin/functions-admin-import-export-aou.php:83
+msgid ""
+"Choose whether to import groups from one or more products or from existing "
+"global groups. You'll be able to select which groups to import. All fields "
+"within the groups will also be imported."
+msgstr ""
+"Kies of u groepen wilt importeren vanuit een of meer producten of vanuit "
+"bestaande globale groepen. U kunt selecteren welke groepen u wilt "
+"importeren. Alle velden binnen de groepen worden ook geïmporteerd."
+
+#: admin/functions-admin-import-export-aou.php:87
+#: admin/functions-admin-import-export-aou.php:106
+msgid "Product(s)"
+msgstr "Product(en)"
+
+#: admin/functions-admin-import-export-aou.php:101
+msgid "Groups: "
+msgstr "Groepen: "
+
+#: admin/functions-admin-import-export-aou.php:103
+msgid ""
+"Choose where to export these groups to - either to specific products or to "
+"global groups. All fields within your selected groups will also be exported."
+msgstr ""
+"Kies waarnaar u deze groepen wilt exporteren - naar specifieke producten of "
+"naar globale groepen. Alle velden binnen uw geselecteerde groepen worden ook "
+"geëxporteerd."
 
 #: admin/functions-admin-import-export-aou.php:118
 #: admin/functions-admin-import-export-aou.php:354
@@ -266,24 +676,182 @@ msgstr "Status"
 msgid "Import"
 msgstr "Exporteren"
 
-#: admin/functions-admin-order.php:148
-#: inc/functions-cart.php:2202
-#: inc/functions-order.php:406
-msgid "Original price"
-msgstr ""
+#: admin/functions-admin-import-export-aou.php:121
+#: inc/functions-lightbox.php:107
+msgid "Close"
+msgstr "Sluiten"
 
-#: admin/functions-admin-order.php:378
+#: admin/functions-admin-import-export-aou.php:123
+#: admin/functions-admin-import-export-aou.php:399
+msgid "Exporting..."
+msgstr "Bezig met exporteren..."
+
+#: admin/functions-admin-import-export-aou.php:124
+#: admin/functions-admin-import-export-aou.php:352
+msgid "Importing..."
+msgstr "Bezig met importeren..."
+
+#: admin/functions-admin-import-export-aou.php:129
+msgid "Go to Global Groups"
+msgstr "Ga naar Globale groepen"
+
+#: admin/functions-admin-import-export-aou.php:132
+msgid "Go to Global Add-Ons"
+msgstr "Ga naar Globale Add-Ons"
+
+#: admin/functions-admin-import-export-aou.php:135
+#: admin/functions-admin-import-export-aou.php:403
+msgid "Go to"
+msgstr "Ga naar"
+
+#: admin/functions-admin-import-export-aou.php:198
+#: classes/class-pewc-product-extra-post-type.php:185
+#: classes/class-pewc-product-extra-post-type.php:186
+#, fuzzy
+msgid "Global Groups"
+msgstr "Globale Add Ons"
+
+#: admin/functions-admin-import-export-aou.php:200
+#: inc/functions-global-extras.php:29 inc/functions-global-extras.php:30
+msgid "Global Add-Ons"
+msgstr "Globale Add Ons"
+
+#: admin/functions-admin-import-export-aou.php:205
+msgid "No groups found in your selection. Please try again."
+msgstr "Er zijn geen groepen gevonden in uw selectie. Probeer het opnieuw."
+
+#: admin/functions-admin-import-export-aou.php:344
+#: admin/functions-admin-import-export-aou.php:384
+msgid "Go back to Global Groups"
+msgstr "Terug naar Globale groepen"
+
+#: admin/functions-admin-import-export-aou.php:388
+msgid "No Global Groups selected for export."
+msgstr "Er zijn geen globale groepen geselecteerd om te exporteren."
+
+#: admin/functions-admin-import-export-aou.php:393
+msgid "Export to products:"
+msgstr "Exporteren naar producten:"
+
+#: admin/functions-admin-menu.php:18 admin/functions-admin-menu.php:19
+#: admin/metaboxes.php:259 classes/class-pewc-settings-tab.php:35
+msgid "Product Add-Ons"
+msgstr "Product Add-Ons"
+
+#: admin/functions-admin-menu.php:60
+msgid ""
+"Use this page to find help quickly, whether you've just started using the "
+"plugin or you've been using it for years."
+msgstr ""
+"Gebruik deze pagina om snel hulp te vinden, of u nu net begonnen bent met de "
+"plugin of deze al jaren gebruikt."
+
+#: admin/functions-admin-menu.php:64
+msgid ""
+"You'll find links and videos here that will answer the most common questions."
+msgstr ""
+"Hier vindt u links en video's die de meest gestelde vragen beantwoorden."
+
+#: admin/functions-admin-menu.php:72
+msgid "Getting Started"
+msgstr "Aan de slag"
+
+#: admin/functions-admin-menu.php:77
+msgid ""
+"Here are some links to documents to help with setting the plugin up for the "
+"first time."
+msgstr ""
+"Hier zijn enkele links naar documenten die u helpen bij het voor het eerst "
+"instellen van de plugin."
+
+#: admin/functions-admin-menu.php:84
+msgid "Adding your first Add-Ons field"
+msgstr "Uw eerste Add-Ons-veld toevoegen"
+
+#: admin/functions-admin-menu.php:88
+msgid "A guide to field types"
+msgstr "Een gids voor veldtypen"
+
+#: admin/functions-admin-menu.php:92
+msgid "Global add-ons"
+msgstr "Globale add-ons"
+
+#: admin/functions-admin-menu.php:96 admin/functions-admin-menu.php:140
+msgid "All the plugin documentation"
+msgstr "Alle documentatie van de plugin"
+
+#: admin/functions-admin-menu.php:103
+msgid "Find the Product Add-Ons Ultimate settings page here"
+msgstr "Vind hier de instellingenpagina van Product Add-Ons Ultimate"
+
+#: admin/functions-admin-menu.php:120
+msgid "Advanced"
+msgstr "Geavanceerd"
+
+#: admin/functions-admin-menu.php:125
+msgid ""
+"If you'd like some help with more advanced features, check out the links "
+"below."
+msgstr ""
+"Als u hulp wilt bij meer geavanceerde functies, bekijk dan de onderstaande "
+"links."
+
+#: admin/functions-admin-menu.php:132
+msgid "Adding conditions to your fields"
+msgstr "Voorwaarden toevoegen aan uw velden"
+
+#: admin/functions-admin-menu.php:136
+msgid "Uploading files"
+msgstr "Bestanden uploaden"
+
+#: admin/functions-admin-menu.php:170
+msgid "Find more videos on YouTube."
+msgstr "Vind meer video's op YouTube."
+
+#: admin/functions-admin-menu.php:185
+msgid "Power up Add-Ons Ultimate with these extensions"
+msgstr "Versterk Add-Ons Ultimate met deze extensies"
+
+#: admin/functions-admin-order.php:153 inc/functions-cart.php:2050
+#: inc/functions-order.php:408
+msgid "Original price"
+msgstr "Oorspronkelijke prijs"
+
+#: admin/functions-admin-order.php:325 admin/functions-admin-order.php:603
+msgid "All files for this order have been deleted."
+msgstr "Alle bestanden voor deze bestelling zijn verwijderd."
+
+#: admin/functions-admin-order.php:383
 #, fuzzy
 msgid "Download Files"
 msgstr "Max. bestandsgrootte"
 
+#: admin/functions-admin-order.php:400
+msgid "Delete uploaded files in this order? This cannot be undone."
+msgstr ""
+"Geüploade bestanden in deze bestelling verwijderen? Dit kan niet ongedaan "
+"worden gemaakt."
+
+#: admin/functions-admin-order.php:401
+msgid "Delete Files"
+msgstr "Bestanden verwijderen"
+
+#: admin/functions-admin-order.php:609
+msgid "Some files for this order have not been deleted because of an error."
+msgstr ""
+"Sommige bestanden voor deze bestelling zijn niet verwijderd vanwege een fout."
+
+#: admin/functions-admin-order.php:669
+msgid "Has uploads?"
+msgstr "Heeft uploads?"
+
 #: admin/functions-admin-post-types.php:38
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #: admin/functions-admin-post-types.php:39
 msgid "Front End Title"
-msgstr ""
+msgstr "Titel voor de voorkant"
 
 #: admin/functions-admin-post-types.php:40
 #, fuzzy
@@ -291,23 +859,20 @@ msgid "Group Name"
 msgstr "Groep titel"
 
 #: admin/functions-admin-post-types.php:41
-#: classes/class-pewc-product-extra-post-type.php:621
-#: templates/admin/global-rule.php:53
-#: templates/admin/new-global-rule.php:39
+#: classes/class-pewc-product-extra-post-type.php:626
+#: templates/admin/global-rule.php:53 templates/admin/new-global-rule.php:39
 msgid "Rule"
 msgstr "Regel"
 
-#: admin/functions-admin-post-types.php:42
-#: admin/functions-custom-panel.php:477
-#: classes/class-pewc-product-extra-post-type.php:1079
-#: classes/class-pewc-settings-tab.php:106
-#: templates/admin/field-item.php:89
+#: admin/functions-admin-post-types.php:42 admin/functions-custom-panel.php:480
+#: classes/class-pewc-product-extra-post-type.php:1095
+#: classes/class-pewc-settings-tab.php:115 templates/admin/field-item.php:89
 msgid "Date"
 msgstr "Datum"
 
 #: admin/functions-admin-post-types.php:43
 msgid "Priority"
-msgstr ""
+msgstr "Prioriteit"
 
 #: admin/functions-admin-post-types.php:47
 #, fuzzy
@@ -316,7 +881,7 @@ msgstr "Bovenliggende"
 
 #: admin/functions-admin-post-types.php:71
 msgid "All"
-msgstr ""
+msgstr "Alle"
 
 #: admin/functions-admin-post-types.php:77
 #, fuzzy
@@ -325,15 +890,11 @@ msgstr "Product ID"
 
 #: admin/functions-admin-post-types.php:96
 msgid "Categories"
-msgstr ""
+msgstr "Categorieën"
 
-#: admin/functions-admin-import-export-aou.php:88
-#: admin/functions-admin-import-export-aou.php:107
-#: admin/functions-admin-post-types.php:168
-#: admin/functions-admin-settings.php:211
-#, fuzzy
-msgid "Global"
-msgstr "Globale Add Ons"
+#: admin/functions-admin-settings.php:21 templates/admin/field-item.php:93
+msgid "Pricing"
+msgstr "Prijzen"
 
 #: admin/functions-admin-settings.php:27
 msgid "Hide zero prices"
@@ -341,15 +902,33 @@ msgstr "Nulprijzen verbergen"
 
 #: admin/functions-admin-settings.php:30
 msgid "Hide prices in the cart for extras which don't have a cost."
-msgstr "Verberg de prijzen in het winkelwagentje voor extra's die geen kosten hebben."
+msgstr ""
+"Verberg de prijzen in het winkelwagentje voor extra's die geen kosten hebben."
+
+#: admin/functions-admin-settings.php:37
+msgid "Hide field prices"
+msgstr "Veldprijzen verbergen"
+
+#: admin/functions-admin-settings.php:40
+msgid ""
+"Hide field prices in the cart for extras with only one option value (e.g. "
+"Radio, Select). Avoids displaying add-on prices twice."
+msgstr ""
+"Verberg veldprijzen in de winkelwagen voor extra's met slechts één "
+"optiewaarde (bijv. Radio, Selectie). Voorkomt dat add-on-prijzen tweemaal "
+"worden weergegeven."
 
 #: admin/functions-admin-settings.php:46
 msgid "Ignore tax setting"
-msgstr ""
+msgstr "Belastinginstelling negeren"
 
 #: admin/functions-admin-settings.php:49
-msgid "Ignore the WooCommerce \"Display prices in the shop\" setting which determines whether prices are displaying including or excluding tax."
+msgid ""
+"Ignore the WooCommerce \"Display prices in the shop\" setting which "
+"determines whether prices are displaying including or excluding tax."
 msgstr ""
+"Negeer de WooCommerce-instelling \"Prijzen weergeven in de winkel\" die "
+"bepaalt of prijzen inclusief of exclusief belasting worden weergegeven."
 
 #: admin/functions-admin-settings.php:55
 #, fuzzy
@@ -358,7 +937,7 @@ msgstr "Toon deze groep als:"
 
 #: admin/functions-admin-settings.php:58
 msgid "Display the tax suffix after all add-on price fields."
-msgstr ""
+msgstr "Geef het belastingachtervoegsel weer na alle add-on-prijsvelden."
 
 #: admin/functions-admin-settings.php:64
 #, fuzzy
@@ -368,18 +947,7 @@ msgstr "Prijs per teken?"
 #: admin/functions-admin-settings.php:67
 msgid "Define a symbol to separate the add-on label from the add-on price."
 msgstr ""
-
-#: admin/functions-admin-settings.php:139
-msgid "Allow users to edit the add-ons in products that have already been added to the cart."
-msgstr ""
-
-#: admin/functions-admin-settings.php:114
-msgid "Enable tooltips"
-msgstr ""
-
-#: admin/functions-admin-settings.php:117
-msgid "Display add-on field descriptions in interactive elements."
-msgstr ""
+"Definieer een symbool om het add-on-label van de add-on-prijs te scheiden."
 
 #: admin/functions-admin-settings.php:73
 #, fuzzy
@@ -388,15 +956,139 @@ msgstr "Veld naam"
 
 #: admin/functions-admin-settings.php:76
 msgid "Update the price label on product pages when price changes."
-msgstr ""
+msgstr "Werk het prijslabel op productpagina's bij wanneer de prijs verandert."
 
-#: admin/functions-admin-settings.php:363
-msgid "Dequeue scripts"
-msgstr ""
+#: admin/functions-admin-settings.php:88
+msgid "Role-based Pricing"
+msgstr "Rolgebaseerde prijzen"
 
-#: admin/functions-admin-settings.php:366
-msgid "Dequeue scripts and stylesheets on non-product pages."
+#: admin/functions-admin-settings.php:94
+msgid "Roles"
+msgstr "Rollen"
+
+#: admin/functions-admin-settings.php:97
+msgid ""
+"Enter the roles that you would like to have different add-on prices for."
+msgstr "Voer de rollen in waarvoor u afwijkende add-on-prijzen wilt hebben."
+
+#: admin/functions-admin-settings.php:108
+msgid "Enhancements"
+msgstr "Verbeteringen"
+
+#: admin/functions-admin-settings.php:114
+msgid "Enable tooltips"
+msgstr "Tooltips inschakelen"
+
+#: admin/functions-admin-settings.php:117
+msgid "Display add-on field descriptions in interactive elements."
+msgstr "Geef add-on-veldomschrijvingen weer in interactieve elementen."
+
+#: admin/functions-admin-settings.php:121
+#: admin/functions-admin-settings.php:180
+#: admin/functions-admin-settings.php:803
+msgid "Disabled"
+msgstr "Uitgeschakeld"
+
+#: admin/functions-admin-settings.php:122 admin/metaboxes.php:125
+#: templates/admin/group-settings.php:42 templates/admin/group.php:70
+msgid "Standard"
+msgstr "Standaard"
+
+#: admin/functions-admin-settings.php:123
+msgid "Enhanced"
+msgstr "Verbeterd"
+
+#: admin/functions-admin-settings.php:127
+msgid "Enable Clear All Options button"
+msgstr "Knop Alle opties wissen inschakelen"
+
+#: admin/functions-admin-settings.php:130
+msgid ""
+"Display the Clear All Options button on the product page, which allows "
+"customers to clear all Add-On field values. Requires a Performance "
+"optimization that includes conditions."
 msgstr ""
+"Geef de knop Alle opties wissen weer op de productpagina, waarmee klanten "
+"alle Add-On-veldwaarden kunnen wissen. Vereist een prestatie-optimalisatie "
+"die voorwaarden omvat."
+
+#: admin/functions-admin-settings.php:136
+msgid "Enable cart editing"
+msgstr "Winkelwagen bewerken inschakelen"
+
+#: admin/functions-admin-settings.php:139
+msgid ""
+"Allow users to edit the add-ons in products that have already been added to "
+"the cart."
+msgstr ""
+"Sta gebruikers toe om de add-ons te bewerken in producten die al aan de "
+"winkelwagen zijn toegevoegd."
+
+#: admin/functions-admin-settings.php:145
+msgid "Display group titles in cart"
+msgstr "Groepstitels weergeven in winkelwagen"
+
+#: admin/functions-admin-settings.php:148
+msgid "Show the group title in the cart."
+msgstr "Geef de groepstitel weer in de winkelwagen."
+
+#: admin/functions-admin-settings.php:154
+msgid "Exclude empty fields in cart"
+msgstr "Lege velden uitsluiten in winkelwagen"
+
+#: admin/functions-admin-settings.php:157
+msgid "If a field does not have a value, do not include it in cart meta"
+msgstr ""
+"Als een veld geen waarde heeft, neem het dan niet op in de winkelwagen-"
+"metagegevens"
+
+#: admin/functions-admin-settings.php:167
+msgid "Progress bar"
+msgstr "Voortgangsbalk"
+
+#: admin/functions-admin-settings.php:173
+msgid "Display progress bar"
+msgstr "Voortgangsbalk weergeven"
+
+#: admin/functions-admin-settings.php:176
+msgid ""
+"Show a graphic progress bar for users to see how many fields they have "
+"completed."
+msgstr ""
+"Toon een grafische voortgangsbalk zodat gebruikers kunnen zien hoeveel "
+"velden zij hebben ingevuld."
+
+#: admin/functions-admin-settings.php:181 admin/metaboxes.php:156
+#: admin/metaboxes.php:277 classes/class-pewc-product-extra-post-type.php:204
+#: classes/class-pewc-product-extra-post-type.php:216
+#: templates/admin/group.php:184
+msgid "Fields"
+msgstr "Velden"
+
+#: admin/functions-admin-settings.php:186
+msgid "Required fields only"
+msgstr "Alleen verplichte velden"
+
+#: admin/functions-admin-settings.php:189
+msgid "Only check required fields for progress bar update."
+msgstr ""
+"Controleer alleen verplichte velden voor het bijwerken van de voortgangsbalk."
+
+#: admin/functions-admin-settings.php:194
+msgid "Progress bar layout"
+msgstr "Indeling van voortgangsbalk"
+
+#: admin/functions-admin-settings.php:197
+msgid "Choose a style for your progress bar."
+msgstr "Kies een stijl voor uw voortgangsbalk."
+
+#: admin/functions-admin-settings.php:201
+msgid "Bar"
+msgstr "Balk"
+
+#: admin/functions-admin-settings.php:202 templates/admin/group-settings.php:45
+msgid "Steps"
+msgstr "Stappen"
 
 #: admin/functions-admin-settings.php:217
 #, fuzzy
@@ -405,407 +1097,805 @@ msgstr "Toon deze groep als:"
 
 #: admin/functions-admin-settings.php:220
 msgid "Display groups as custom post types, not on single page."
-msgstr ""
+msgstr "Geef groepen weer als aangepaste berichttypen, niet op één pagina."
 
-#: admin/functions-admin-settings.php:231
-#: templates/admin/field-item.php:98
-#: templates/admin/sections/conditions.php:17
-msgid "Conditions"
-msgstr "Voorwaarden"
-
-#: admin/functions-admin-settings.php:237
-msgid "Reset field values"
-msgstr ""
-
-#: admin/functions-admin-settings.php:240
-msgid "Reset field values to null when fields are hidden through a condition."
-msgstr ""
-
-#: admin/customizer.php:38
-#: admin/functions-admin-settings.php:259
-#, fuzzy
-msgid "Labels"
-msgstr "Veld naam"
-
-#: admin/functions-admin-settings.php:269
+#: admin/functions-admin-settings.php:241
 msgid "Additional or replacement text for the price"
-msgstr ""
+msgstr "Aanvullende of vervangende tekst voor de prijs"
 
-#: admin/functions-admin-settings.php:276
+#: admin/functions-admin-settings.php:248
 msgid "Decide where to display the label"
-msgstr ""
+msgstr "Bepaal waar het label wordt weergegeven"
 
-#: admin/functions-admin-settings.php:291
+#: admin/functions-admin-settings.php:263
 msgid "Decide how to display totals fields on product pages"
-msgstr ""
+msgstr "Bepaal hoe totaalvelden worden weergegeven op productpagina's"
 
-#: admin/functions-admin-settings.php:305
+#: admin/functions-admin-settings.php:277
 msgid "The label for the Product total"
-msgstr ""
+msgstr "Het label voor het producttotaal"
 
-#: admin/functions-admin-settings.php:313
+#: admin/functions-admin-settings.php:285
 msgid "The label for the Options total"
-msgstr ""
+msgstr "Het label voor het optietotaal"
 
-#: admin/functions-admin-settings.php:321
+#: admin/functions-admin-settings.php:293
 #, fuzzy
 msgid "The label for the Flat rate total"
 msgstr "Vast bedrag totaal"
 
-#: admin/functions-admin-settings.php:329
+#: admin/functions-admin-settings.php:301
 msgid "The label for the Grand total"
-msgstr ""
+msgstr "Het label voor het eindtotaal"
 
-#: admin/functions-admin-settings.php:88
-msgid "Role-based Pricing"
-msgstr ""
+#: admin/functions-admin-settings.php:354
+msgid "Optimizations"
+msgstr "Optimalisaties"
 
-#: admin/functions-admin-settings.php:94
-msgid "Roles"
-msgstr ""
+#: admin/functions-admin-settings.php:360
+msgid "Performance optimizations"
+msgstr "Prestatie-optimalisaties"
 
-#: admin/functions-admin-settings.php:97
-msgid "Enter the roles that you would like to have different add-on prices for."
+#: admin/functions-admin-settings.php:363
+msgid ""
+"Choose how calculations and conditions are evaluated. Time-based options "
+"poll at a fixed interval. Event-driven evaluates only when a relevant field "
+"changes, which is more efficient but is a beta feature."
 msgstr ""
+"Kies hoe berekeningen en voorwaarden worden geëvalueerd. Tijdgebaseerde "
+"opties worden op een vast interval gecontroleerd. Gebeurtenisgestuurd "
+"evalueert alleen wanneer een relevant veld verandert, wat efficiënter is "
+"maar een bètafunctie betreft."
 
-#: admin/functions-admin-settings.php:461
-#: classes/class-pewc-settings-tab.php:107
-#: templates/admin/field-item.php:90
+#: admin/functions-admin-settings.php:367
+msgid "None"
+msgstr "Geen"
+
+#: admin/functions-admin-settings.php:368
+msgid "Time-based Calculations"
+msgstr "Tijdgebaseerde berekeningen"
+
+#: admin/functions-admin-settings.php:369
+msgid "Time-based Conditions"
+msgstr "Tijdgebaseerde voorwaarden"
+
+#: admin/functions-admin-settings.php:370
+msgid "Time-based Calculations and Conditions (recommended)"
+msgstr "Tijdgebaseerde berekeningen en voorwaarden (aanbevolen)"
+
+#: admin/functions-admin-settings.php:371
+msgid "Event-driven Calculations and Conditions (beta)"
+msgstr "Gebeurtenisgestuurde berekeningen en voorwaarden (bèta)"
+
+#: admin/functions-admin-settings.php:375
+msgid "Dequeue scripts"
+msgstr "Scripts uit de wachtrij verwijderen"
+
+#: admin/functions-admin-settings.php:378
+msgid "Dequeue scripts and stylesheets on non-product pages."
+msgstr ""
+"Verwijder scripts en stylesheets uit de wachtrij op niet-productpagina's."
+
+#: admin/functions-admin-settings.php:422
+msgid "Date fields"
+msgstr "Datumvelden"
+
+#: admin/functions-admin-settings.php:428
+msgid "Enable days of the week"
+msgstr "Dagen van de week inschakelen"
+
+#: admin/functions-admin-settings.php:431
+msgid "Enable the option to disable specific days of the week."
+msgstr "Schakel de optie in om specifieke dagen van de week uit te schakelen."
+
+#: admin/functions-admin-settings.php:437
+msgid "Enable offset"
+msgstr "Verschuiving inschakelen"
+
+#: admin/functions-admin-settings.php:440
+msgid "Enable an option to offset the minimum date by a set number of days."
+msgstr ""
+"Schakel een optie in om de minimumdatum te verschuiven met een vast aantal "
+"dagen."
+
+#: admin/functions-admin-settings.php:446
+msgid "Enable blocked dates"
+msgstr "Geblokkeerde datums inschakelen"
+
+#: admin/functions-admin-settings.php:449
+msgid "Enable a field to enter dates that are unavailable."
+msgstr "Schakel een veld in om datums in te voeren die niet beschikbaar zijn."
+
+#: admin/functions-admin-settings.php:473
+#: classes/class-pewc-settings-tab.php:116 templates/admin/field-item.php:90
 #, fuzzy
 msgid "Uploads"
 msgstr "Upload"
 
-#: admin/functions-admin-settings.php:467
+#: admin/functions-admin-settings.php:479
 msgid "Users must be logged in to upload"
 msgstr "Gebruikers moeten zijn aangemeld om te uploaden"
 
-#: admin/functions-admin-settings.php:470
-msgid "For security reasons, it is strongly recommended that you require users to be logged in before allowing them to upload files."
-msgstr "Om veiligheidsredenen wordt het ten zeerste aanbevolen dat gebruikers worden aangemeld voordat ze bestanden kunnen uploaden."
+#: admin/functions-admin-settings.php:482
+msgid ""
+"For security reasons, it is strongly recommended that you require users to "
+"be logged in before allowing them to upload files."
+msgstr ""
+"Om veiligheidsredenen wordt het ten zeerste aanbevolen dat gebruikers worden "
+"aangemeld voordat ze bestanden kunnen uploaden."
 
-#: admin/functions-admin-settings.php:476
+#: admin/functions-admin-settings.php:488
 msgid "Max file size (MB)"
 msgstr "Max. bestandsgrootte (MB)"
 
-#: admin/functions-admin-settings.php:479
+#: admin/functions-admin-settings.php:491
 msgid "The max file size for uploads (in MB)"
 msgstr "De maximale bestandsgrootte voor uploads (in MB)"
 
-#: admin/functions-admin-settings.php:484
+#: admin/functions-admin-settings.php:496
 msgid "Enable PDF uploads"
-msgstr ""
+msgstr "PDF-uploads inschakelen"
 
-#: admin/functions-admin-settings.php:487
+#: admin/functions-admin-settings.php:499
 #, fuzzy
 msgid "Allow users to upload PDFs."
 msgstr "Vermenigvuldig prijs?"
 
-#: admin/functions-admin-settings.php:492
+#: admin/functions-admin-settings.php:504
 msgid "Enable AJAX uploader"
-msgstr ""
+msgstr "AJAX-uploader inschakelen"
 
-#: admin/functions-admin-settings.php:495
+#: admin/functions-admin-settings.php:507
 msgid "Add uploaded images via AJAX."
-msgstr ""
-
-#: admin/functions-admin-settings.php:500
-msgid "Retain Upload Graphic"
-msgstr ""
-
-#: admin/functions-admin-settings.php:503
-msgid "Retain the upload graphic even after a file has been uploaded."
-msgstr ""
-
-#: admin/functions-admin-settings.php:509
-msgid "Disable Add to Cart button"
-msgstr ""
+msgstr "Voeg geüploade afbeeldingen toe via AJAX."
 
 #: admin/functions-admin-settings.php:512
-msgid "Disable the add to cart button while files are being uploaded."
-msgstr ""
+msgid "Retain Upload Graphic"
+msgstr "Uploadafbeelding behouden"
 
-#: admin/functions-admin-settings.php:518
-msgid "Attach uploads to emails"
-msgstr ""
+#: admin/functions-admin-settings.php:515
+msgid "Retain the upload graphic even after a file has been uploaded."
+msgstr "Behoud de uploadafbeelding, ook nadat een bestand is geüpload."
 
 #: admin/functions-admin-settings.php:521
-msgid "Add uploaded images to new order emails."
-msgstr ""
+msgid "Disable Add to Cart button"
+msgstr "Knop In winkelwagen uitschakelen"
 
-#: admin/functions-admin-settings.php:527
-msgid "Rename uploads"
-msgstr ""
+#: admin/functions-admin-settings.php:524
+msgid "Disable the add to cart button while files are being uploaded."
+msgstr "Schakel de knop In winkelwagen uit terwijl bestanden worden geüpload."
 
 #: admin/functions-admin-settings.php:530
-msgid "Rename uploads using the following tags: {original_file_name}, {order_number}, {date}, {product_id}, {product_sku}, {group_id}, {field_id}"
-msgstr ""
+msgid "Attach uploads to emails"
+msgstr "Uploads bijvoegen aan e-mails"
 
-#: admin/functions-admin-settings.php:535
+#: admin/functions-admin-settings.php:533
+msgid "Add uploaded images to new order emails."
+msgstr "Voeg geüploade afbeeldingen toe aan e-mails van nieuwe bestellingen."
+
+#: admin/functions-admin-settings.php:539
+msgid "Rename uploads"
+msgstr "Uploads hernoemen"
+
+#: admin/functions-admin-settings.php:542
+msgid ""
+"Rename uploads using the following tags: {original_file_name}, "
+"{order_number}, {date}, {product_id}, {product_sku}, {group_id}, {field_id}"
+msgstr ""
+"Hernoem uploads met behulp van de volgende tags: {original_file_name}, "
+"{order_number}, {date}, {product_id}, {product_sku}, {group_id}, {field_id}"
+
+#: admin/functions-admin-settings.php:547
 msgid "Organise uploads by order"
-msgstr ""
+msgstr "Uploads organiseren per bestelling"
 
-#: admin/functions-admin-settings.php:538
+#: admin/functions-admin-settings.php:550
 msgid "Organise uploads into unique folders for each order"
-msgstr ""
+msgstr "Organiseer uploads in unieke mappen voor elke bestelling"
 
-#: admin/functions-admin-settings.php:630
-#: admin/functions-custom-panel.php:481
-#: classes/class-pewc-settings-tab.php:111
-#: inc/functions-pro-helpers.php:21
+#: admin/functions-admin-settings.php:556
+msgid "File types"
+msgstr "Bestandstypen"
+
+#: admin/functions-admin-settings.php:559
+msgid ""
+"Enter the permitted file types. Please remember that allowing users to "
+"upload files to your server carries a security risk, so please use this "
+"feature with caution."
+msgstr ""
+"Voer de toegestane bestandstypen in. Houd er rekening mee dat het toestaan "
+"van bestandsuploads naar uw server een beveiligingsrisico met zich "
+"meebrengt, dus gebruik deze functie met de nodige voorzichtigheid."
+
+#: admin/functions-admin-settings.php:586
+msgid "Swatches settings"
+msgstr "Instellingen voor stalen"
+
+#: admin/functions-admin-settings.php:601
+#: templates/admin/sections/display.php:39
+msgid "Replace main image"
+msgstr "Hoofdafbeelding vervangen"
+
+#: admin/functions-admin-settings.php:604
+msgid ""
+"Enable this option to replace the main product image with the selected image "
+"swatch."
+msgstr ""
+"Schakel deze optie in om de hoofdafbeelding van het product te vervangen "
+"door het geselecteerde afbeeldingsstaal."
+
+#: admin/functions-admin-settings.php:625
+msgid "Resize swatch layer"
+msgstr "Grootte van staallaag aanpassen"
+
+#: admin/functions-admin-settings.php:628
+msgid ""
+"Enable this option to resize swatch images to match the base image before "
+"generating the layered image."
+msgstr ""
+"Schakel deze optie in om de grootte van staalafbeeldingen aan te passen aan "
+"de basisafbeelding voordat de gelaagde afbeelding wordt gegenereerd."
+
+#: admin/functions-admin-settings.php:652 admin/functions-custom-panel.php:484
+#: classes/class-pewc-settings-tab.php:120 inc/functions-pro-helpers.php:21
 #: templates/admin/field-item.php:85
 msgid "Products"
 msgstr "Products"
 
-#: admin/functions-admin-settings.php:636
+#: admin/functions-admin-settings.php:658
 msgid "Include variations as child products"
-msgstr ""
+msgstr "Variaties opnemen als onderliggende producten"
 
-#: admin/functions-admin-settings.php:639
+#: admin/functions-admin-settings.php:661
 msgid "Enable this to include variations as child products."
-msgstr ""
+msgstr "Schakel dit in om variaties op te nemen als onderliggende producten."
 
-#: admin/functions-admin-settings.php:645
+#: admin/functions-admin-settings.php:667
 msgid "Exclude SKUs from child variants"
-msgstr ""
+msgstr "SKU's uitsluiten van onderliggende varianten"
 
-#: admin/functions-admin-settings.php:648
+#: admin/functions-admin-settings.php:670
 msgid "Enable this to exclude SKUs from child variant names."
 msgstr ""
+"Schakel dit in om SKU's uit te sluiten van namen van onderliggende varianten."
 
-#: admin/functions-admin-settings.php:654
+#: admin/functions-admin-settings.php:676
 msgid "Hide child products in the cart"
-msgstr ""
+msgstr "Onderliggende producten verbergen in de winkelwagen"
 
-#: admin/functions-admin-settings.php:657
+#: admin/functions-admin-settings.php:679
 msgid "Enable this to hide child products in the cart."
 msgstr ""
+"Schakel dit in om onderliggende producten te verbergen in de winkelwagen."
 
-#: admin/functions-admin-settings.php:672
-msgid "Hide parent products in the cart"
+#: admin/functions-admin-settings.php:685
+msgid "Display child products as metadata"
+msgstr "Onderliggende producten weergeven als metagegevens"
+
+#: admin/functions-admin-settings.php:688
+msgid ""
+"Enable this to display child products as metadata for parent products in the "
+"cart."
 msgstr ""
+"Schakel dit in om onderliggende producten weer te geven als metagegevens bij "
+"bovenliggende producten in de winkelwagen."
 
-#: admin/functions-admin-settings.php:675
+#: admin/functions-admin-settings.php:694
+msgid "Hide parent products in the cart"
+msgstr "Bovenliggende producten verbergen in de winkelwagen"
+
+#: admin/functions-admin-settings.php:697
 msgid "Enable this to hide parent products in the cart."
 msgstr ""
+"Schakel dit in om bovenliggende producten te verbergen in de winkelwagen."
 
-#: admin/functions-admin-settings.php:681
+#: admin/functions-admin-settings.php:703
 msgid "Hide child products in the order"
-msgstr ""
+msgstr "Onderliggende producten verbergen in de bestelling"
 
-#: admin/functions-admin-settings.php:684
+#: admin/functions-admin-settings.php:706
 msgid "Enable this to hide child products in the order."
 msgstr ""
+"Schakel dit in om onderliggende producten te verbergen in de bestelling."
 
-#: admin/functions-admin-settings.php:690
+#: admin/functions-admin-settings.php:712
 msgid "Hide parent products in the order"
-msgstr ""
+msgstr "Bovenliggende producten verbergen in de bestelling"
 
-#: admin/functions-admin-settings.php:693
+#: admin/functions-admin-settings.php:715
 msgid "Enable this to hide parent products in the order."
 msgstr ""
+"Schakel dit in om bovenliggende producten te verbergen in de bestelling."
 
-#: admin/functions-admin-settings.php:708
+#: admin/functions-admin-settings.php:721
+msgid "Indent child products"
+msgstr "Onderliggende producten laten inspringen"
+
+#: admin/functions-admin-settings.php:724
+msgid "Add padding to child products in the cart and order."
+msgstr ""
+"Voeg opvulling toe aan onderliggende producten in de winkelwagen en "
+"bestelling."
+
+#: admin/functions-admin-settings.php:730
 msgid "Multiply independent quantities"
-msgstr ""
+msgstr "Onafhankelijke aantallen vermenigvuldigen"
 
-#: admin/functions-admin-settings.php:711
-msgid "Enable this to multiply child product independent quantities when parent product quantities are adjusted."
+#: admin/functions-admin-settings.php:733
+msgid ""
+"Enable this to multiply child product independent quantities when parent "
+"product quantities are adjusted."
 msgstr ""
+"Schakel dit in om de onafhankelijke aantallen van onderliggende producten te "
+"vermenigvuldigen wanneer de aantallen van bovenliggende producten worden "
+"aangepast."
 
-#: admin/functions-admin-settings.php:737
-msgid "Redirect hidden products"
+#: admin/functions-admin-settings.php:739
+msgid "Remove parent if child product out of stock"
 msgstr ""
+"Bovenliggend product verwijderen als onderliggend product niet op voorraad is"
 
-#: admin/functions-admin-settings.php:740
-msgid "Enable this to prevent users purchasing child products direct from their product page."
+#: admin/functions-admin-settings.php:742
+msgid ""
+"Enable this to automatically remove parent products if a child product is "
+"out of stock."
 msgstr ""
+"Schakel dit in om bovenliggende producten automatisch te verwijderen als een "
+"onderliggend product niet op voorraad is."
 
-#: admin/functions-admin-settings.php:765
-msgid "Enable QuickView for child products"
+#: admin/functions-admin-settings.php:748
+msgid "Do not remove parent"
+msgstr "Bovenliggend product niet verwijderen"
+
+#: admin/functions-admin-settings.php:751
+msgid ""
+"Enable this to keep the parent product in the cart when a required child "
+"product is removed."
 msgstr ""
+"Schakel dit in om het bovenliggende product in de winkelwagen te houden "
+"wanneer een verplicht onderliggend product wordt verwijderd."
+
+#: admin/functions-admin-settings.php:758
+msgid "Show stock status"
+msgstr "Voorraadstatus weergeven"
+
+#: admin/functions-admin-settings.php:761
+msgid "Enable this to add a child product's stock status to their name"
+msgstr ""
+"Schakel dit in om de voorraadstatus van een onderliggend product aan de naam "
+"toe te voegen"
 
 #: admin/functions-admin-settings.php:768
-msgid "Select this to show extra information for child products when clicking the child product title."
-msgstr ""
+msgid "Redirect hidden products"
+msgstr "Verborgen producten doorverwijzen"
 
-#: admin/functions-admin-settings.php:803
-#: classes/class-pewc-settings-tab.php:112
-#: templates/admin/field-item.php:83
+#: admin/functions-admin-settings.php:771
+msgid ""
+"Enable this to prevent users purchasing child products direct from their "
+"product page."
+msgstr ""
+"Schakel dit in om te voorkomen dat gebruikers onderliggende producten "
+"rechtstreeks vanaf hun productpagina kopen."
+
+#: admin/functions-admin-settings.php:777
+msgid "Enable plus minus buttons"
+msgstr "Plus-minknoppen inschakelen"
+
+#: admin/functions-admin-settings.php:780
+msgid ""
+"Enable this to show + and - buttons alongside quantity fields in Products "
+"fields."
+msgstr ""
+"Schakel dit in om +- en --knoppen naast aantalvelden in productvelden weer "
+"te geven."
+
+#: admin/functions-admin-settings.php:790
+msgid "QuickView"
+msgstr "QuickView"
+
+#: admin/functions-admin-settings.php:796
+msgid "Enable QuickView for child products"
+msgstr "QuickView inschakelen voor onderliggende producten"
+
+#: admin/functions-admin-settings.php:799
+msgid ""
+"Select this to show extra information for child products when clicking the "
+"child product title."
+msgstr ""
+"Selecteer dit om extra informatie voor onderliggende producten weer te geven "
+"bij het klikken op de titel van het onderliggende product."
+
+#: admin/functions-admin-settings.php:804 templates/admin/group-settings.php:44
+msgid "Lightbox"
+msgstr "Lightbox"
+
+#: admin/functions-admin-settings.php:805
+msgid "New tab"
+msgstr "Nieuw tabblad"
+
+#: admin/functions-admin-settings.php:809
+msgid "Optional link text"
+msgstr "Optionele linktekst"
+
+#: admin/functions-admin-settings.php:812
+msgid ""
+"Enter text here to display as a separate link below the product name. Leave "
+"this empty to link directly from the product name."
+msgstr ""
+"Voer hier tekst in om weer te geven als een aparte link onder de "
+"productnaam. Laat dit leeg om rechtstreeks vanaf de productnaam te linken."
+
+#: admin/functions-admin-settings.php:834
+#: classes/class-pewc-settings-tab.php:121 templates/admin/field-item.php:83
 #, fuzzy
 msgid "Calculations"
 msgstr "Voorwaarden"
 
-#: admin/functions-admin-settings.php:809
+#: admin/functions-admin-settings.php:840
 msgid "Variable 1"
-msgstr ""
+msgstr "Variabele 1"
 
-#: admin/functions-admin-settings.php:812
+#: admin/functions-admin-settings.php:843
 msgid "Enter a value for variable_1 that will be used in calculations"
-msgstr ""
+msgstr "Voer een waarde in voor variable_1 die wordt gebruikt in berekeningen"
 
-#: admin/functions-admin-settings.php:820
+#: admin/functions-admin-settings.php:851
 msgid "Variable 2"
-msgstr ""
+msgstr "Variabele 2"
 
-#: admin/functions-admin-settings.php:823
+#: admin/functions-admin-settings.php:854
 msgid "Enter a value for variable_2 that will be used in calculations"
-msgstr ""
+msgstr "Voer een waarde in voor variable_2 die wordt gebruikt in berekeningen"
 
-#: admin/functions-admin-settings.php:831
+#: admin/functions-admin-settings.php:862
 msgid "Variable 3"
-msgstr ""
+msgstr "Variabele 3"
 
-#: admin/functions-admin-settings.php:834
+#: admin/functions-admin-settings.php:865
 msgid "Enter a value for variable_3 that will be used in calculations"
+msgstr "Voer een waarde in voor variable_3 die wordt gebruikt in berekeningen"
+
+#: admin/functions-admin-settings.php:873
+msgid "Zero value for missing fields"
+msgstr "Nulwaarde voor ontbrekende velden"
+
+#: admin/functions-admin-settings.php:876
+msgid ""
+"Return a 0 as the value for any fields that are not included on the page."
 msgstr ""
+"Retourneer een 0 als waarde voor velden die niet op de pagina zijn opgenomen."
 
-#. Plugin Name of the plugin
-#: product-extras-for-woocommerce.php
-#: admin/functions-admin-menu.php:54
-#: admin/functions-admin-settings.php:869
-#: inc/functions-updater.php:273
-#: inc/functions-updater.php:288
-msgid "WooCommerce Product Add-Ons Ultimate"
-msgstr "WooCommerce Product Add-Ons Ultimate"
+#: admin/functions-admin-settings.php:884
+msgid "Recalculate Calculation fields in cart (beta)"
+msgstr "Berekeningsvelden opnieuw berekenen in winkelwagen (bèta)"
 
-#: admin/functions-admin-settings.php:875
+#: admin/functions-admin-settings.php:887
+msgid ""
+"Recalculate Calculation fields in cart when a product quantity is updated. "
+"Only works if a formula has the {quantity} tag."
+msgstr ""
+"Bereken berekeningsvelden opnieuw in de winkelwagen wanneer een "
+"productaantal wordt bijgewerkt. Werkt alleen als een formule de tag "
+"{quantity} bevat."
+
+#: admin/functions-admin-settings.php:893
+msgid "Validate Calculation fields (beta)"
+msgstr "Berekeningsvelden valideren (bèta)"
+
+#: admin/functions-admin-settings.php:896
+msgid "Validate Calculation fields before a product is added to the cart."
+msgstr ""
+"Valideer berekeningsvelden voordat een product aan de winkelwagen wordt "
+"toegevoegd."
+
+#: admin/functions-admin-settings.php:926
 msgid "License key"
 msgstr "Licentiesleutel"
 
-#: admin/functions-admin-settings.php:878
-msgid "Enter your license key here. You should have received a key with the email containing the plugin download link."
-msgstr "Voer hier uw licentiesleutel in. U had een sleutel moeten ontvangen met de e-mail die de downloadlink van de plug-in bevat."
+#: admin/functions-admin-settings.php:929
+msgid ""
+"Enter your license key here. You should have received a key with the email "
+"containing the plugin download link."
+msgstr ""
+"Voer hier uw licentiesleutel in. U had een sleutel moeten ontvangen met de e-"
+"mail die de downloadlink van de plug-in bevat."
 
-#: admin/functions-admin-menu.php:18
-#: admin/functions-admin-menu.php:19
-#: admin/metaboxes.php:259
-#: classes/class-pewc-settings-tab.php:35
-msgid "Product Add-Ons"
-msgstr "Product Add-Ons"
+#: admin/functions-admin-settings.php:953
+#: classes/class-pewc-settings-tab.php:123
+msgid "Integrations"
+msgstr "Integraties"
+
+#: admin/functions-admin-settings.php:959
+msgid "Enable compatibility with Polylang"
+msgstr "Compatibiliteit met Polylang inschakelen"
+
+#: admin/functions-admin-settings.php:962
+msgid ""
+"Enable this only if you have Polylang installed. Also, if you have added the "
+"Polylang compatibility snippets before, please remove them before enabling "
+"this setting."
+msgstr ""
+"Schakel dit alleen in als u Polylang hebt geïnstalleerd. Als u eerder de "
+"Polylang-compatibiliteitssnippets hebt toegevoegd, verwijder deze dan "
+"voordat u deze instelling inschakelt."
+
+#: admin/functions-admin-settings.php:977
+msgid "Dynamic Pricing and Discount Rules"
+msgstr "Dynamic Pricing and Discount Rules"
+
+#: admin/functions-admin-settings.php:983
+msgid "Disable Dynamic Pricing and Discount Rules price labels"
+msgstr "Prijslabels van Dynamic Pricing and Discount Rules uitschakelen"
+
+#: admin/functions-admin-settings.php:986
+msgid ""
+"Prevent Dynamic Pricing and Discount Rules from updating the price labels on "
+"the product page."
+msgstr ""
+"Voorkom dat Dynamic Pricing and Discount Rules de prijslabels op de "
+"productpagina bijwerkt."
+
+#: admin/functions-admin-settings.php:992
+msgid "Disable add-on prices on pricing table"
+msgstr "Add-on-prijzen op prijstabel uitschakelen"
+
+#: admin/functions-admin-settings.php:995
+msgid ""
+"Prevent Add-Ons Ultimate from adding add-on field prices to the pricing "
+"table on the product page."
+msgstr ""
+"Voorkom dat Add-Ons Ultimate add-on-veldprijzen toevoegt aan de prijstabel "
+"op de productpagina."
+
+#: admin/functions-admin-settings.php:1001
+msgid "Apply User Role Pricing to add-on field prices"
+msgstr "User Role Pricing toepassen op add-on-veldprijzen"
+
+#: admin/functions-admin-settings.php:1004
+msgid ""
+"Adjust add-on field prices if User Role Pricing is enabled in Dynamic "
+"Pricing and Discount Rules."
+msgstr ""
+"Pas add-on-veldprijzen aan als User Role Pricing is ingeschakeld in Dynamic "
+"Pricing and Discount Rules."
+
+#: admin/functions-admin-settings.php:1010
+msgid "Disable discounts for add-ons"
+msgstr "Kortingen voor add-ons uitschakelen"
+
+#: admin/functions-admin-settings.php:1013
+msgid ""
+"Select this if you don't wish to apply dynamic discounts to add-on field "
+"prices."
+msgstr ""
+"Selecteer dit als u geen dynamische kortingen wilt toepassen op add-on-"
+"veldprijzen."
+
+#: admin/functions-admin-settings.php:1028
+msgid "Custom user fields"
+msgstr "Aangepaste gebruikersvelden"
+
+#: admin/functions-admin-settings.php:1034
+msgid "Enable user fields"
+msgstr "Gebruikersvelden inschakelen"
+
+#: admin/functions-admin-settings.php:1037
+msgid "Select this to use custom user data in your add-on fields."
+msgstr ""
+"Selecteer dit om aangepaste gebruikersgegevens te gebruiken in uw add-on-"
+"velden."
+
+#: admin/functions-admin-settings.php:1061
+#: classes/class-pewc-settings-tab.php:124
+msgid "Validation"
+msgstr "Validatie"
+
+#: admin/functions-admin-settings.php:1067
+msgid "Optimised validation"
+msgstr "Geoptimaliseerde validatie"
+
+#: admin/functions-admin-settings.php:1070
+msgid "This will enable validation of add-on fields using Javascript."
+msgstr "Dit schakelt validatie van add-on-velden in met behulp van Javascript."
+
+#: admin/functions-admin-settings.php:1076
+msgid "Hide totals until validated"
+msgstr "Totalen verbergen tot validatie"
+
+#: admin/functions-admin-settings.php:1079
+msgid ""
+"This will hide the subtotals fields until all required fields have been "
+"completed. Requires Optimised validation."
+msgstr ""
+"Dit verbergt de subtotaalvelden totdat alle verplichte velden zijn ingevuld. "
+"Vereist Geoptimaliseerde validatie."
+
+#: admin/functions-admin-settings.php:1085
+msgid "Disable groups"
+msgstr "Groepen uitschakelen"
+
+#: admin/functions-admin-settings.php:1088
+msgid ""
+"Disable the next groups until all required fields in the current group are "
+"completed. Only works if groups are displayed as Accordion, Steps, or Tabs. "
+"Requires Optimised validation."
+msgstr ""
+"Schakel de volgende groepen uit totdat alle verplichte velden in de huidige "
+"groep zijn ingevuld. Werkt alleen als groepen worden weergegeven als "
+"Accordeon, Stappen of Tabbladen. Vereist Geoptimaliseerde validatie."
+
+#: admin/functions-admin-settings.php:1094
+msgid "Disable scroll on Steps layout"
+msgstr "Scrollen uitschakelen bij Stappen-indeling"
+
+#: admin/functions-admin-settings.php:1097
+msgid ""
+"Disable the scrolling animation on Steps layout when validation fails. "
+"Requires Optimised validation."
+msgstr ""
+"Schakel de scrollanimatie uit bij de Stappen-indeling wanneer validatie "
+"mislukt. Vereist Geoptimaliseerde validatie."
+
+#: admin/functions-admin-settings.php:1121
+#: classes/class-pewc-settings-tab.php:122 templates/admin/field-item.php:98
+#: templates/admin/sections/conditions.php:21
+msgid "Conditions"
+msgstr "Voorwaarden"
+
+#: admin/functions-admin-settings.php:1127
+msgid "Reset field values"
+msgstr "Veldwaarden resetten"
+
+#: admin/functions-admin-settings.php:1130
+msgid "Reset field values to null when fields are hidden through a condition."
+msgstr ""
+"Reset veldwaarden naar null wanneer velden worden verborgen door een "
+"voorwaarde."
+
+#: admin/functions-admin-settings.php:1136
+msgid "Display hidden fields as disabled"
+msgstr "Verborgen velden weergeven als uitgeschakeld"
+
+#: admin/functions-admin-settings.php:1139
+msgid ""
+"If a field is hidden by a condition, select this option to make it visible "
+"but disabled."
+msgstr ""
+"Als een veld wordt verborgen door een voorwaarde, selecteer deze optie dan "
+"om het zichtbaar maar uitgeschakeld te maken."
+
+#: admin/functions-admin-settings.php:1144
+msgid "Use AJAX conditions"
+msgstr "AJAX-voorwaarden gebruiken"
+
+#: admin/functions-admin-settings.php:1147
+msgid ""
+"Use AJAX when loading and managing conditions in the backend. Improves "
+"performance. Also allows you to use fields in other groups when 'Display "
+"groups as post type' is enabled"
+msgstr ""
+"Gebruik AJAX bij het laden en beheren van voorwaarden in de backend. "
+"Verbetert de prestaties. Hiermee kunt u ook velden in andere groepen "
+"gebruiken wanneer 'Groepen weergeven als berichttype' is ingeschakeld"
+
+#: admin/functions-custom-panel.php:105
+msgid "Select all groups"
+msgstr "Alle groepen selecteren"
 
 #: admin/functions-custom-panel.php:106
-#: classes/class-pewc-product-extra-post-type.php:169
+#: classes/class-pewc-product-extra-post-type.php:174
 msgid "Add Group"
 msgstr "Groep toevoegen"
 
 #: admin/functions-custom-panel.php:181
-#: classes/class-pewc-product-extra-post-type.php:168
+#: classes/class-pewc-product-extra-post-type.php:173
 #: templates/admin/new-group.php:22
 #, fuzzy
 msgid "Group"
 msgstr "Groep toevoegen"
 
-#: admin/functions-admin-settings.php:181
-#: admin/metaboxes.php:156
-#: admin/metaboxes.php:277
-#: classes/class-pewc-product-extra-post-type.php:199
-#: classes/class-pewc-product-extra-post-type.php:211
-#: templates/admin/group.php:178
-msgid "Fields"
-msgstr "Velden"
-
-#: classes/class-pewc-product-extra-post-type.php:213
-#: classes/class-pewc-product-extra-post-type.php:771
-#: templates/admin/group.php:192
-msgid "Add Field"
-msgstr "Voeg veld toe"
-
-#: admin/functions-custom-panel.php:472
+#: admin/functions-custom-panel.php:475
 msgid "Calculation"
-msgstr ""
+msgstr "Berekening"
 
-#: admin/functions-custom-panel.php:474
+#: admin/functions-custom-panel.php:476 templates/admin/field-item.php:84
+msgid "Calendar List"
+msgstr "Kalenderlijst"
+
+#: admin/functions-custom-panel.php:477
 msgid "Checkbox"
 msgstr "Checkbox"
 
-#: admin/functions-custom-panel.php:475
-#: inc/functions-pro-helpers.php:23
+#: admin/functions-custom-panel.php:478 inc/functions-pro-helpers.php:23
 msgid "Checkbox Group"
-msgstr ""
+msgstr "Selectievakgroep"
 
-#: admin/functions-custom-panel.php:476
+#: admin/functions-custom-panel.php:479
 msgid "Color Picker"
-msgstr ""
+msgstr "Kleurkiezer"
 
-#: inc/functions-pro-helpers.php:24
-msgid "Image Swatch"
-msgstr ""
-
-#: admin/functions-custom-panel.php:478
-#: templates/admin/field-item.php:92
+#: admin/functions-custom-panel.php:481 templates/admin/field-item.php:92
 #: templates/admin/sections/information.php:20
 #, fuzzy
 msgid "Information"
 msgstr "Extra informatie"
 
-#: admin/functions-custom-panel.php:479
+#: admin/functions-custom-panel.php:482
 msgid "Name Your Price"
 msgstr "Noem je prijs"
 
-#: admin/functions-custom-panel.php:480
-#: templates/admin/field-item.php:88
+#: admin/functions-custom-panel.php:483 templates/admin/field-item.php:88
 msgid "Number"
 msgstr "Aantal"
 
-#: admin/functions-custom-panel.php:483
+#: admin/functions-custom-panel.php:485 inc/functions-pro-helpers.php:22
+#: templates/admin/sections/products.php:61
+msgid "Product Categories"
+msgstr "Productcategorieën"
+
+#: admin/functions-custom-panel.php:486
 msgid "Radio Group"
 msgstr "Radio Greop"
 
-#: admin/functions-custom-panel.php:484
+#: admin/functions-custom-panel.php:487
 #: templates/admin/sections/products.php:110
 msgid "Select"
 msgstr "Selecteren"
 
-#: admin/functions-custom-panel.php:485
+#: admin/functions-custom-panel.php:488
 #, fuzzy
 msgid "Select Box"
 msgstr "Selecteren"
 
-#: admin/functions-custom-panel.php:487
-#: templates/admin/field-item.php:87
+#: admin/functions-custom-panel.php:489
+msgid "Swatch"
+msgstr "Staal"
+
+#: admin/functions-custom-panel.php:490 templates/admin/field-item.php:87
 msgid "Text"
 msgstr "Tekst"
 
-#: admin/functions-custom-panel.php:488
+#: admin/functions-custom-panel.php:491
 msgid "Textarea"
 msgstr "Tekstgedeelte"
 
-#: admin/functions-custom-panel.php:489
+#: admin/functions-custom-panel.php:492
 msgid "Upload"
 msgstr "Upload"
 
-#: admin/functions-custom-panel.php:500
+#: admin/functions-custom-panel.php:503
 msgid "All required fields"
 msgstr "Alle verplichte velden"
 
-#: admin/functions-custom-panel.php:501
+#: admin/functions-custom-panel.php:504
 msgid "All required fields if first field complete"
 msgstr "Alle verplichte velden als het eerste veld voltooid is"
 
-#: admin/functions-custom-panel.php:516
+#: admin/functions-custom-panel.php:519
 msgid "Additional or replacement text for the price."
-msgstr ""
+msgstr "Aanvullende of vervangende tekst voor de prijs."
 
-#: admin/functions-custom-panel.php:524
+#: admin/functions-custom-panel.php:527
 msgid "Decide where to display the label."
-msgstr ""
+msgstr "Bepaal waar het label wordt weergegeven."
 
-#: admin/functions-custom-panel.php:536
+#: admin/functions-custom-panel.php:539
 #, fuzzy
 msgid "Minimum price"
 msgstr "Nulprijzen verbergen"
 
-#: admin/functions-custom-panel.php:538
+#: admin/functions-custom-panel.php:541
 msgid "Set an optional minimum price for this product."
-msgstr ""
+msgstr "Stel een optionele minimumprijs in voor dit product."
 
-#: admin/functions-custom-panel.php:545
+#: admin/functions-custom-panel.php:548
 msgid "Force minimum price"
-msgstr ""
+msgstr "Minimumprijs afdwingen"
 
-#: admin/functions-custom-panel.php:547
+#: admin/functions-custom-panel.php:550
 msgid "Enable this to automatically increase the product price to the minimum."
 msgstr ""
+"Schakel dit in om de productprijs automatisch te verhogen naar het minimum."
 
 #: admin/functions-duplication.php:27
 #, fuzzy
@@ -818,17 +1908,20 @@ msgid "No assigned products"
 msgstr "Op alle producten"
 
 #: admin/functions-duplication.php:89
-msgid "If you are duplicating products with add-on fields, please check the following article"
+msgid ""
+"If you are duplicating products with add-on fields, please check the "
+"following article"
 msgstr ""
+"Als u producten met add-on-velden dupliceert, raadpleeg dan het volgende "
+"artikel"
 
 #: admin/functions-duplication.php:91
 msgid "Important Information when Duplicating Product Add-Ons"
-msgstr ""
+msgstr "Belangrijke informatie bij het dupliceren van Product Add-Ons"
 
-#: admin/functions-fields.php:509
-#: admin/functions-fields.php:528
-#: classes/class-pewc-product-extra-post-type.php:212
-#: classes/class-pewc-product-extra-post-type.php:510
+#: admin/functions-fields.php:509 admin/functions-fields.php:528
+#: classes/class-pewc-product-extra-post-type.php:217
+#: classes/class-pewc-product-extra-post-type.php:515
 #: templates/admin/field-item.php:69
 msgid "Field"
 msgstr "Veld"
@@ -841,8 +1934,7 @@ msgstr "Gebruikers e-mail"
 msgid "User Phone Number"
 msgstr "Gebruiker telefoonnummer"
 
-#: admin/metaboxes.php:53
-#: templates/admin/sections/calculations.php:205
+#: admin/metaboxes.php:53 templates/admin/sections/calculations.php:205
 msgid "Product ID"
 msgstr "Product ID"
 
@@ -864,60 +1956,50 @@ msgstr "Product Add-Ons Velden"
 
 #: admin/metaboxes.php:108
 msgid "Group Title (Front End)"
-msgstr ""
+msgstr "Groepstitel (voorkant)"
 
-#: admin/metaboxes.php:115
-#: templates/admin/group.php:47
+#: admin/metaboxes.php:115 templates/admin/group.php:47
 #, fuzzy
 msgid "Group Description"
 msgstr "Beschrijving"
 
-#: admin/metaboxes.php:122
-#: templates/admin/group.php:63
+#: admin/metaboxes.php:122 templates/admin/group.php:63
 #, fuzzy
 msgid "Group Layout"
 msgstr "Groep titel"
 
-#: admin/functions-admin-settings.php:122
-#: admin/metaboxes.php:125
-#: templates/admin/group-settings.php:42
-#: templates/admin/group.php:70
-msgid "Standard"
-msgstr ""
-
-#: admin/metaboxes.php:126
-#: templates/admin/group.php:71
+#: admin/metaboxes.php:126 templates/admin/group.php:71
 msgid "Table"
-msgstr ""
+msgstr "Tabel"
 
-#: admin/metaboxes.php:127
-#: templates/admin/group.php:72
+#: admin/metaboxes.php:127 templates/admin/group.php:72
 msgid "Two Columns"
-msgstr ""
+msgstr "Twee kolommen"
 
-#: admin/metaboxes.php:128
-#: templates/admin/group.php:73
+#: admin/metaboxes.php:128 templates/admin/group.php:73
 msgid "Three Columns"
-msgstr ""
+msgstr "Drie kolommen"
+
+#: admin/metaboxes.php:135 templates/admin/group.php:81
+msgid "Group Class"
+msgstr "Groepsklasse"
 
 #: admin/metaboxes.php:142
 #, fuzzy
 msgid "Group Rules"
 msgstr "Groep titel"
 
-#: admin/metaboxes.php:145
-#: templates/admin/global-rule.php:28
+#: admin/metaboxes.php:145 templates/admin/global-rule.php:28
 msgid "All the selected rules are met"
 msgstr "Aan alle geselecteerde regels is voldaan"
 
-#: admin/metaboxes.php:146
-#: templates/admin/global-rule.php:29
+#: admin/metaboxes.php:146 templates/admin/global-rule.php:29
 msgid "Any of the selected rules are met"
 msgstr "Aan elk van de geselecteerde regels is voldaan"
 
 #: admin/metaboxes.php:167
 msgid "Assigned to"
-msgstr ""
+msgstr "Toegewezen aan"
 
 #: admin/metaboxes.php:175
 #, fuzzy
@@ -925,8 +2007,11 @@ msgid "Duplicate to"
 msgstr "Duplicaat"
 
 #: admin/metaboxes.php:179
-msgid "This group and its fields will be duplicated to the products you enter here"
+msgid ""
+"This group and its fields will be duplicated to the products you enter here"
 msgstr ""
+"Deze groep en de bijbehorende velden worden gedupliceerd naar de producten "
+"die u hier invoert"
 
 #: admin/metaboxes.php:198
 msgid "Accept"
@@ -952,536 +2037,768 @@ msgstr "Product Add-Ons Groepen"
 msgid "Additional Information"
 msgstr "Extra informatie"
 
+#: admin/metaboxes.php:268 templates/admin/group.php:23
+msgid "Group Settings"
+msgstr "Groepsinstellingen"
+
 #: admin/metaboxes.php:287
 #, fuzzy
 msgid "Parent Products"
 msgstr "Bovenliggende"
 
-#: classes/class-pewc-product-extra-post-type.php:74
+#: classes/class-pewc-product-extra-post-type.php:79
 msgid "Delete this group?"
 msgstr "Deze groep verwijderen?"
 
-#: classes/class-pewc-product-extra-post-type.php:75
-msgid "Delete this field? Deleting this field will also delete any conditions associated with it."
-msgstr "Dit veld verwijderen? Als u dit veld verwijdert, worden ook alle bijbehorende voorwaarden verwijderd."
+#: classes/class-pewc-product-extra-post-type.php:80
+msgid ""
+"Delete this field? Deleting this field will also delete any conditions "
+"associated with it."
+msgstr ""
+"Dit veld verwijderen? Als u dit veld verwijdert, worden ook alle "
+"bijbehorende voorwaarden verwijderd."
 
-#: classes/class-pewc-product-extra-post-type.php:76
+#: classes/class-pewc-product-extra-post-type.php:81
 msgid "Delete this option?"
 msgstr "Deze optie verwijderen?"
 
-#: classes/class-pewc-product-extra-post-type.php:77
-#: templates/admin/condition.php:242
-#: templates/admin/new-conditional-row.php:70
-#: templates/admin/views/group-condition.php:196
+#: classes/class-pewc-product-extra-post-type.php:82
+#: templates/admin/ajax-condition.php:205 templates/admin/condition.php:251
+#: templates/admin/new-conditional-row.php:82
+#: templates/admin/views/group-condition.php:199
 msgid "Checked"
 msgstr "gecontroleerd"
 
-#: classes/class-pewc-product-extra-post-type.php:78
-msgid "This field is used in a condition. Changing its field type may affect the condition. Continue?"
-msgstr "Dit veld wordt gebruikt in een toestand. Het wijzigen van het veldtype kan van invloed zijn op de conditie. Doorgaan?"
+#: classes/class-pewc-product-extra-post-type.php:83
+msgid ""
+"This field is used in a condition. Changing its field type may affect the "
+"condition. Continue?"
+msgstr ""
+"Dit veld wordt gebruikt in een toestand. Het wijzigen van het veldtype kan "
+"van invloed zijn op de conditie. Doorgaan?"
 
-#: classes/class-pewc-product-extra-post-type.php:79
+#: classes/class-pewc-product-extra-post-type.php:84
 msgid "copy"
 msgstr "kopiëren"
 
-#: classes/class-pewc-product-extra-post-type.php:80
-#: inc/functions-conditionals.php:23
-msgid " -- Select a field -- "
-msgstr "- Selecteer een veld -"
-
-#: classes/class-pewc-product-extra-post-type.php:110
+#: classes/class-pewc-product-extra-post-type.php:115
 msgid "Add "
 msgstr "Toevoegen"
 
-#: classes/class-pewc-product-extra-post-type.php:111
+#: classes/class-pewc-product-extra-post-type.php:116
 msgid "Add New "
 msgstr "Voeg nieuw toe"
 
-#: classes/class-pewc-product-extra-post-type.php:112
-#: classes/class-pewc-product-extra-post-type.php:171
-#: classes/class-pewc-product-extra-post-type.php:215
+#: classes/class-pewc-product-extra-post-type.php:117
+#: classes/class-pewc-product-extra-post-type.php:176
+#: classes/class-pewc-product-extra-post-type.php:220
 msgid "Edit"
 msgstr "Bewerken"
 
-#: classes/class-pewc-product-extra-post-type.php:113
+#: classes/class-pewc-product-extra-post-type.php:118
 msgid "Edit "
 msgstr "Bewerken"
 
-#: classes/class-pewc-product-extra-post-type.php:114
+#: classes/class-pewc-product-extra-post-type.php:119
 msgid "New "
 msgstr "Nieuw"
 
-#: classes/class-pewc-product-extra-post-type.php:115
-#: classes/class-pewc-product-extra-post-type.php:116
+#: classes/class-pewc-product-extra-post-type.php:120
+#: classes/class-pewc-product-extra-post-type.php:121
 msgid "View "
 msgstr "Bekijk"
 
-#: classes/class-pewc-product-extra-post-type.php:117
+#: classes/class-pewc-product-extra-post-type.php:122
 msgid "Search "
 msgstr "Zoeken"
 
-#: classes/class-pewc-product-extra-post-type.php:118
-#: classes/class-pewc-product-extra-post-type.php:177
-#: classes/class-pewc-product-extra-post-type.php:221
+#: classes/class-pewc-product-extra-post-type.php:123
+#: classes/class-pewc-product-extra-post-type.php:182
+#: classes/class-pewc-product-extra-post-type.php:226
 msgid "None found"
 msgstr "Niet gevonden"
 
-#: classes/class-pewc-product-extra-post-type.php:119
-#: classes/class-pewc-product-extra-post-type.php:178
-#: classes/class-pewc-product-extra-post-type.php:222
+#: classes/class-pewc-product-extra-post-type.php:124
+#: classes/class-pewc-product-extra-post-type.php:183
+#: classes/class-pewc-product-extra-post-type.php:227
 msgid "None found in trash"
 msgstr "Geen gevonden in prullenbak"
 
-#: classes/class-pewc-product-extra-post-type.php:120
+#: classes/class-pewc-product-extra-post-type.php:125
 msgid "Parent "
 msgstr "Bovenliggende"
 
-#: classes/class-pewc-product-extra-post-type.php:122
+#: classes/class-pewc-product-extra-post-type.php:127
 msgid "Add-Ons by Order"
+msgstr "Add-Ons per bestelling"
+
+#: classes/class-pewc-product-extra-post-type.php:151
+msgid ""
+"This page shows a list of Product Add-Ons associated with orders, so don't "
+"be alarmed if you don't see anything here: it just means that you haven't "
+"had any orders placed yet that contain Product Add On fields."
 msgstr ""
+"Deze pagina toont een lijst met Product Add-Ons die aan bestellingen zijn "
+"gekoppeld. Wees dus niet ongerust als u hier niets ziet: het betekent alleen "
+"dat er nog geen bestellingen zijn geplaatst die Product Add-On-velden "
+"bevatten."
 
-#: classes/class-pewc-product-extra-post-type.php:146
-msgid "This page shows a list of Product Add-Ons associated with orders, so don't be alarmed if you don't see anything here: it just means that you haven't had any orders placed yet that contain Product Add On fields."
+#: classes/class-pewc-product-extra-post-type.php:152
+msgid ""
+"If you are looking to add or edit a Product Add On, you can do so from the "
+"Product Data panel when you add or edit a product or from the Global Add-Ons "
+"page."
 msgstr ""
+"Als u een Product Add-On wilt toevoegen of bewerken, kunt u dit doen vanuit "
+"het paneel Productgegevens wanneer u een product toevoegt of bewerkt, of "
+"vanaf de pagina Globale Add-Ons."
 
-#: classes/class-pewc-product-extra-post-type.php:147
-msgid "If you are looking to add or edit a Product Add On, you can do so from the Product Data panel when you add or edit a product or from the Global Add-Ons page."
-msgstr ""
-
-#: admin/customizer.php:65
-#: admin/functions-admin-settings.php:182
-#: classes/class-pewc-product-extra-post-type.php:167
-#, fuzzy
-msgid "Groups"
-msgstr "Groep toevoegen"
-
-#: classes/class-pewc-product-extra-post-type.php:170
+#: classes/class-pewc-product-extra-post-type.php:175
 #, fuzzy
 msgid "Add New Group"
 msgstr "Groep toevoegen"
 
-#: classes/class-pewc-product-extra-post-type.php:172
+#: classes/class-pewc-product-extra-post-type.php:177
 #, fuzzy
 msgid "Edit Group"
 msgstr "Radio Greop"
 
-#: classes/class-pewc-product-extra-post-type.php:173
+#: classes/class-pewc-product-extra-post-type.php:178
 #, fuzzy
 msgid "New Group"
 msgstr "Groep toevoegen"
 
-#: classes/class-pewc-product-extra-post-type.php:174
-#: classes/class-pewc-product-extra-post-type.php:175
+#: classes/class-pewc-product-extra-post-type.php:179
+#: classes/class-pewc-product-extra-post-type.php:180
 #, fuzzy
 msgid "View Group"
 msgstr "Groep toevoegen"
 
-#: classes/class-pewc-product-extra-post-type.php:176
+#: classes/class-pewc-product-extra-post-type.php:181
 #, fuzzy
 msgid "Search Groups"
 msgstr "Zoeken"
 
-#: classes/class-pewc-product-extra-post-type.php:179
+#: classes/class-pewc-product-extra-post-type.php:184
 #, fuzzy
 msgid "Parent Groups"
 msgstr "Bovenliggende"
 
-#: admin/functions-admin-import-export-aou.php:198
-#: classes/class-pewc-product-extra-post-type.php:180
-#: classes/class-pewc-product-extra-post-type.php:181
-#, fuzzy
-msgid "Global Groups"
-msgstr "Globale Add Ons"
+#: classes/class-pewc-product-extra-post-type.php:218
+#: classes/class-pewc-product-extra-post-type.php:779
+#: templates/admin/group.php:198
+msgid "Add Field"
+msgstr "Voeg veld toe"
 
-#: classes/class-pewc-product-extra-post-type.php:214
+#: classes/class-pewc-product-extra-post-type.php:219
 #, fuzzy
 msgid "Add New Field"
 msgstr "Veld"
 
-#: classes/class-pewc-product-extra-post-type.php:216
+#: classes/class-pewc-product-extra-post-type.php:221
 #, fuzzy
 msgid "Edit Field"
 msgstr "Voeg veld toe"
 
-#: classes/class-pewc-product-extra-post-type.php:217
+#: classes/class-pewc-product-extra-post-type.php:222
 #, fuzzy
 msgid "New Field"
 msgstr "Veld"
 
-#: classes/class-pewc-product-extra-post-type.php:218
+#: classes/class-pewc-product-extra-post-type.php:223
 #, fuzzy
 msgid "View Fields"
 msgstr "Veld"
 
-#: classes/class-pewc-product-extra-post-type.php:219
+#: classes/class-pewc-product-extra-post-type.php:224
 #, fuzzy
 msgid "View Field"
 msgstr "Veld"
 
-#: classes/class-pewc-product-extra-post-type.php:220
+#: classes/class-pewc-product-extra-post-type.php:225
 #, fuzzy
 msgid "Search Fields"
 msgstr "Zoeken"
 
-#: classes/class-pewc-product-extra-post-type.php:223
+#: classes/class-pewc-product-extra-post-type.php:228
 #, fuzzy
 msgid "Parent Fields"
 msgstr "Bovenliggende"
 
-#: classes/class-pewc-product-extra-post-type.php:224
-#: classes/class-pewc-product-extra-post-type.php:225
+#: classes/class-pewc-product-extra-post-type.php:229
+#: classes/class-pewc-product-extra-post-type.php:230
 #, fuzzy
 msgid "All Fields"
 msgstr "Velden"
 
-#: classes/class-pewc-product-extra-post-type.php:511
+#: classes/class-pewc-product-extra-post-type.php:516
 msgid "Value"
 msgstr "Waarde"
 
-#: classes/class-pewc-product-extra-post-type.php:512
+#: classes/class-pewc-product-extra-post-type.php:517
 #: templates/admin/sections/calendar-list.php:44
 #: templates/admin/views/option-fields-new.php:30
 #: templates/admin/views/option-fields.php:41
 msgid "Price"
 msgstr "Prijs"
 
-#: classes/class-pewc-product-extra-post-type.php:622
-#: templates/admin/global-rule.php:54
-#: templates/admin/new-global-rule.php:40
+#: classes/class-pewc-product-extra-post-type.php:615
+#: templates/admin/global-rule.php:39
+msgid "Applies To"
+msgstr "Van toepassing op"
+
+#: classes/class-pewc-product-extra-post-type.php:627
+#: templates/admin/global-rule.php:54 templates/admin/new-global-rule.php:40
 msgid "With"
 msgstr "Met"
 
-#: classes/class-pewc-product-extra-post-type.php:634
-#: inc/functions-global-extras.php:578
+#: classes/class-pewc-product-extra-post-type.php:639
+#: inc/functions-global-extras.php:626
 msgid "On all products"
 msgstr "Op alle producten"
 
-#: classes/class-pewc-product-extra-post-type.php:647
-#: inc/functions-global-extras.php:583
+#: classes/class-pewc-product-extra-post-type.php:652
+#: inc/functions-global-extras.php:631
 msgid "By product"
 msgstr "Per product"
 
-#: classes/class-pewc-product-extra-post-type.php:671
-#: inc/functions-global-extras.php:589
+#: classes/class-pewc-product-extra-post-type.php:676
+#: inc/functions-global-extras.php:637
 msgid "By category"
 msgstr "Per categorie"
 
-#: classes/class-pewc-product-extra-post-type.php:855
+#: classes/class-pewc-product-extra-post-type.php:863
 #, fuzzy
 msgid "Choose products"
 msgstr "Per product"
 
-#: classes/class-pewc-product-extra-post-type.php:860
+#: classes/class-pewc-product-extra-post-type.php:868
 #, fuzzy
 msgid "Duplicate Global Group"
 msgstr "Globale Add Ons"
 
-#: classes/class-pewc-product-extra-post-type.php:1076
+#: classes/class-pewc-product-extra-post-type.php:1092
 msgid "Order"
 msgstr "Bestelling"
 
-#: classes/class-pewc-product-extra-post-type.php:1078
+#: classes/class-pewc-product-extra-post-type.php:1094
 msgid "User"
 msgstr "Gebruiker"
 
-#: classes/class-pewc-settings-tab.php:138
-#: classes/class-pewc-settings-tab.php:146
-msgid "Upgrade"
-msgstr ""
+#: classes/class-pewc-settings-tab.php:114 templates/admin/field-item.php:81
+msgid "General"
+msgstr "Algemeen"
 
+#: classes/class-pewc-settings-tab.php:119 templates/admin/field-item.php:86
+#: templates/admin/sections/products.php:111
+msgid "Swatches"
+msgstr "Stalen"
+
+#: classes/class-pewc-settings-tab.php:127
+msgid "License"
+msgstr "Licentie"
+
+#: classes/class-pewc-settings-tab.php:148
 #: classes/class-pewc-settings-tab.php:156
-#: classes/class-pewc-settings-tab.php:242
-#: classes/class-pewc-settings-tab.php:298
+msgid "Upgrade"
+msgstr "Upgraden"
+
+#: classes/class-pewc-settings-tab.php:167
+#: classes/class-pewc-settings-tab.php:258
+#: classes/class-pewc-settings-tab.php:314
 #, fuzzy
 msgid "Licence key"
 msgstr "Licentiesleutel"
 
-#: classes/class-pewc-settings-tab.php:174
-msgid "Please enter your licence key"
+#: classes/class-pewc-settings-tab.php:171
+msgid "(Preset)"
+msgstr "(Voorinstelling)"
+
+#: classes/class-pewc-settings-tab.php:172
+msgid "The license key is defined by a constant and cannot be changed here."
 msgstr ""
+"De licentiesleutel wordt bepaald door een constante en kan hier niet worden "
+"gewijzigd."
+
+#: classes/class-pewc-settings-tab.php:190
+msgid "Please enter your licence key"
+msgstr "Voer uw licentiesleutel in"
+
+#: classes/class-pewc-settings-tab.php:194
+msgid "It hasn't been possible to validate your license key."
+msgstr "Het is niet mogelijk geweest om uw licentiesleutel te valideren."
+
+#: classes/class-pewc-settings-tab.php:198
+msgid ""
+"<strong>Most importantly, this isn't a problem - all the plugin's features "
+"and functionality are fully available so you can start using the plugin "
+"straightaway without needing to activate the license.</strong>"
+msgstr ""
+"<strong>Belangrijkste punt: dit is geen probleem - alle functies en "
+"mogelijkheden van de plugin zijn volledig beschikbaar, zodat u direct met de "
+"plugin aan de slag kunt zonder de licentie te hoeven activeren.</strong>"
+
+#: classes/class-pewc-settings-tab.php:202
+msgid "There are a number of possible reasons for the license not validating:"
+msgstr ""
+"Er zijn verschillende mogelijke redenen waarom de licentie niet wordt "
+"gevalideerd:"
+
+#: classes/class-pewc-settings-tab.php:206
+msgid ""
+"It's possible there is an issue connecting between this site and the Plugin "
+"Republic site"
+msgstr ""
+"Het is mogelijk dat er een probleem is met de verbinding tussen deze site en "
+"de Plugin Republic-site"
+
+#: classes/class-pewc-settings-tab.php:207
+msgid ""
+"If you have bought a bundle, please make sure you enter the license key that "
+"is specific to each plugin - not the main bundle license key"
+msgstr ""
+"Als u een bundel hebt gekocht, zorg er dan voor dat u de licentiesleutel "
+"invoert die specifiek is voor elke plugin - niet de hoofdlicentiesleutel van "
+"de bundel"
 
 #: classes/class-pewc-settings-tab.php:208
-#: classes/class-pewc-settings-tab.php:220
-#: classes/class-pewc-settings-tab.php:264
-#: classes/class-pewc-settings-tab.php:276
-#: classes/class-pewc-settings-tab.php:320
-#: classes/class-pewc-settings-tab.php:332
+msgid ""
+"If you are running a security or firewall plugin, like Wordfence or Sucuri, "
+"please try temporarily disabling it and retesting the license "
+msgstr ""
+"Als u een beveiligings- of firewallplugin gebruikt, zoals Wordfence of "
+"Sucuri, probeer deze dan tijdelijk uit te schakelen en de licentie opnieuw "
+"te testen "
+
+#: classes/class-pewc-settings-tab.php:212
+msgid "There are some more things to try on the following link:"
+msgstr ""
+"Er zijn nog enkele andere dingen die u kunt proberen via de volgende link:"
+
+#: classes/class-pewc-settings-tab.php:216
+msgid "How to solve any problems with activating your license."
+msgstr "Hoe u eventuele problemen met het activeren van uw licentie oplost."
+
+#: classes/class-pewc-settings-tab.php:224
+#: classes/class-pewc-settings-tab.php:236
+#: classes/class-pewc-settings-tab.php:280
+#: classes/class-pewc-settings-tab.php:292
+#: classes/class-pewc-settings-tab.php:336
+#: classes/class-pewc-settings-tab.php:348
 #: templates/admin/sections/calculations.php:128
 #, fuzzy
 msgid "Action"
 msgstr "Optie"
 
-#: classes/class-pewc-settings-tab.php:213
-#: classes/class-pewc-settings-tab.php:269
-#: classes/class-pewc-settings-tab.php:325
+#: classes/class-pewc-settings-tab.php:229
+#: classes/class-pewc-settings-tab.php:285
+#: classes/class-pewc-settings-tab.php:341
 msgid "Deactivate this licence"
-msgstr ""
+msgstr "Deze licentie deactiveren"
 
-#: classes/class-pewc-settings-tab.php:225
-#: classes/class-pewc-settings-tab.php:281
-#: classes/class-pewc-settings-tab.php:337
+#: classes/class-pewc-settings-tab.php:241
+#: classes/class-pewc-settings-tab.php:297
+#: classes/class-pewc-settings-tab.php:353
 msgid "Activate this licence"
-msgstr ""
+msgstr "Deze licentie activeren"
 
-#: inc/functions-archive.php:124
+#: classes/rest-api/class-pewc-rest-api-fields-controller.php:64
+#: classes/rest-api/class-pewc-rest-api-fields-controller.php:93
+#: classes/rest-api/class-pewc-rest-api-groups-controller.php:80
+#: classes/rest-api/class-pewc-rest-api-groups-controller.php:377
+msgid "Unique identifier for the add-on group."
+msgstr "Unieke identificatiecode voor de add-on-groep."
+
+#: classes/rest-api/class-pewc-rest-api-fields-controller.php:75
+#: classes/rest-api/class-pewc-rest-api-fields-controller.php:440
+msgid "Type of product add-on field"
+msgstr "Type productadd-on-veld"
+
+#: classes/rest-api/class-pewc-rest-api-fields-controller.php:98
+#: classes/rest-api/class-pewc-rest-api-fields-controller.php:434
+msgid "Unique identifier for the add-on field."
+msgstr "Unieke identificatiecode voor het add-on-veld."
+
+#: classes/rest-api/class-pewc-rest-api-fields-controller.php:149
+#: classes/rest-api/class-pewc-rest-api-groups-controller.php:131
+msgid "Invalid Add-on Group ID."
+msgstr "Ongeldige add-on-groep-ID."
+
+#: classes/rest-api/class-pewc-rest-api-fields-controller.php:158
+msgid "Invalid Add-on Field ID."
+msgstr "Ongeldige add-on-veld-ID."
+
+#: classes/rest-api/class-pewc-rest-api-fields-controller.php:197
+msgid "Field not created"
+msgstr "Veld niet aangemaakt"
+
+#: classes/rest-api/class-pewc-rest-api-fields-controller.php:208
+#: classes/rest-api/class-pewc-rest-api-fields-controller.php:245
+msgid ""
+"Missing field data. Please pass at least one value to use this endpoint."
+msgstr ""
+"Ontbrekende veldgegevens. Geef ten minste één waarde op om dit eindpunt te "
+"gebruiken."
+
+#: classes/rest-api/class-pewc-rest-api-fields-controller.php:279
+msgid "Cannot delete add-on field."
+msgstr "Kan add-on-veld niet verwijderen."
+
+#: classes/rest-api/class-pewc-rest-api-fields-controller.php:428
+msgid "Unique identifier for the add-on field's group."
+msgstr "Unieke identificatiecode voor de groep van het add-on-veld."
+
+#: classes/rest-api/class-pewc-rest-api-fields-controller.php:446
+msgid "Field label"
+msgstr "Veldlabel"
+
+#: classes/rest-api/class-pewc-rest-api-groups-controller.php:193
+msgid "Group not created"
+msgstr "Groep niet aangemaakt"
+
+#: classes/rest-api/class-pewc-rest-api-groups-controller.php:225
+msgid ""
+"Missing group data. Please pass at least one value to use this endpoint."
+msgstr ""
+"Ontbrekende groepsgegevens. Geef ten minste één waarde op om dit eindpunt te "
+"gebruiken."
+
+#: classes/rest-api/class-pewc-rest-api-groups-controller.php:286
+msgid "Cannot delete add-on group."
+msgstr "Kan add-on-groep niet verwijderen."
+
+#: classes/rest-api/class-pewc-rest-api-groups-controller.php:383
+msgid "List of add-on groups under a product."
+msgstr "Lijst met add-on-groepen onder een product."
+
+#: classes/rest-api/class-pewc-rest-api-groups-controller.php:389
+msgid "Add-on group title."
+msgstr "Titel van add-on-groep."
+
+#: classes/rest-api/class-pewc-rest-api-groups-controller.php:394
+msgid "Add-on group description."
+msgstr "Omschrijving van add-on-groep."
+
+#: classes/rest-api/class-pewc-rest-api-groups-controller.php:399
+msgid "Add-on group layout."
+msgstr "Indeling van add-on-groep."
+
+#: inc/functions-archive.php:149
 msgid "Select options"
 msgstr "Opties selecteren"
 
-#: inc/functions-cart.php:287
-msgid "This product has not been added to your cart. The product has a minimum price of"
-msgstr ""
-
-#: inc/functions-cart.php:307
-msgid "The price has been set to the minimum price of"
-msgstr ""
-
-#: inc/functions-cart.php:1465
-#: inc/functions-cart.php:1482
-#: inc/functions-cart.php:1530
-#: inc/functions-cart.php:1813
-#: inc/functions-cart.php:1821
-#: inc/functions-cart.php:2479
-#: inc/functions-cart.php:2502
-#: inc/functions-cart.php:2569
-#: inc/functions-cart.php:2660
-#: inc/functions-cart.php:2671
-#: inc/functions-cart.php:2712
-#: inc/functions-js-validation.php:54
-msgid " is a required field."
-msgstr "is een verplicht veld."
-
-#: inc/functions-cart.php:2509
-#: inc/functions-js-validation.php:187
-msgid ": minimum number of characters: "
-msgstr ": minimum aantal tekens:"
-
-#: inc/functions-cart.php:2512
-#: inc/functions-js-validation.php:191
-msgid ": maximum number of characters: "
-msgstr ": maximum aantal tekens:"
-
-#: inc/functions-cart.php:1492
-#: inc/functions-js-validation.php:121
-#, php-format
-msgid "%s requires at least %s items to be selected"
-msgstr ""
-
-#: inc/functions-cart.php:1509
-#: inc/functions-js-validation.php:137
-#, php-format
-msgid "%s requires a maximum of %s items to be selected"
-msgstr ""
-
-#: inc/functions-cart.php:2593
-#: inc/functions-js-validation.php:171
-msgid ": minimum value is "
-msgstr ": minimale waarde is"
-
-#: inc/functions-cart.php:2596
-#: inc/functions-js-validation.php:178
-msgid ": maximum value is "
-msgstr ": maximale waarde is"
-
-#: inc/functions-cart.php:1533
-msgid ": the value is not a valid hex code"
-msgstr ""
-
-#: inc/functions-cart.php:2794
-msgid ": File size too large."
-msgstr ": Bestandsgrootte te groot."
-
-#: inc/functions-cart.php:2804
-#: inc/functions-cart.php:2849
-msgid " is a required upload field."
-msgstr "is een verplicht uploadveld."
-
-#: inc/functions-cart.php:2832
-#: inc/functions-media.php:217
-#: inc/functions-media.php:231
-#: inc/functions-media.php:259
-msgid "File not valid."
-msgstr "Bestand niet geldig."
-
-#: inc/functions-cart.php:1756
-#: inc/functions-js-validation.php:101
-#, php-format
-msgid "%s requires you to choose %s products"
-msgstr ""
-
-#: inc/functions-cart.php:1773
-#: inc/functions-js-validation.php:71
-#, php-format
-msgid "%s requires you to choose a minimum of %s products"
-msgstr ""
-
-#: inc/functions-cart.php:1790
-#: inc/functions-js-validation.php:87
-#, php-format
-msgid "%s requires you to choose a maximum of %s products"
-msgstr ""
-
-#: inc/functions-cart.php:1807
-msgid " must have a quantity entered."
-msgstr ""
-
-#: inc/functions-cart.php:2038
-msgid "Flat rate cost"
-msgstr "Vast bedrag kosten"
-
-#: inc/functions-blocks.php:94
-#: inc/functions-cart.php:2257
+#: inc/functions-blocks.php:95 inc/functions-cart.php:2105
 #, fuzzy
 msgid "Edit options"
 msgstr "Optie toevoegen"
 
-#: inc/functions-cart.php:2297
-#, php-format
+#: inc/functions-blocks.php:186
+msgid "Cart item key"
+msgstr "Sleutel van winkelwagenitem"
+
+#: inc/functions-blocks.php:190
+msgid "Edit options link HTML"
+msgstr "HTML van link Opties bewerken"
+
+#: inc/functions-blocks.php:194
+msgid "Indent markup for child products"
+msgstr "Inspring-opmaak voor onderliggende producten"
+
+#: inc/functions-blocks.php:198
+msgid "Uploaded file data keyed by field"
+msgstr "Geüploade bestandsgegevens gesleuteld per veld"
+
+#: inc/functions-blocks.php:202
+msgid "Arrow right icon URL"
+msgstr "URL van pijl-rechts-pictogram"
+
+#: inc/functions-blocks.php:206
+msgid "Combined parent and child product price"
+msgstr "Gecombineerde prijs van bovenliggend en onderliggend product"
+
+#: inc/functions-calculations.php:265
+msgid "The quantity for &ldquo;%s&rdquo; is not valid and has been corrected."
+msgstr "Het aantal voor &ldquo;%s&rdquo; is niet geldig en is gecorrigeerd."
+
+#: inc/functions-calculations.php:1191
+msgid ""
+"There was an error in calculating the price for %s. Please contact the "
+"website administrator about the issue."
+msgstr ""
+"Er is een fout opgetreden bij het berekenen van de prijs voor %s. Neem "
+"contact op met de websitebeheerder over dit probleem."
+
+#: inc/functions-calculations.php:1219
+msgid ""
+" The following plugin(s) need to be updated to the latest version in order "
+"to use this feature: "
+msgstr ""
+" De volgende plugin(s) moeten worden bijgewerkt naar de nieuwste versie om "
+"deze functie te kunnen gebruiken: "
+
+#: inc/functions-cart.php:288
+msgid ""
+"This product has not been added to your cart. The product has a minimum "
+"price of"
+msgstr ""
+"Dit product is niet aan uw winkelwagen toegevoegd. Het product heeft een "
+"minimumprijs van"
+
+#: inc/functions-cart.php:308
+msgid "The price has been set to the minimum price of"
+msgstr "De prijs is ingesteld op de minimumprijs van"
+
+#: inc/functions-cart.php:1492 inc/functions-cart.php:1504
+#: inc/functions-cart.php:1552 inc/functions-cart.php:1657
+#: inc/functions-cart.php:1665 inc/functions-cart.php:2327
+#: inc/functions-cart.php:2350 inc/functions-cart.php:2417
+#: inc/functions-cart.php:2511 inc/functions-cart.php:2522
+#: inc/functions-cart.php:2564 inc/functions-js-validation.php:54
+msgid " is a required field."
+msgstr "is een verplicht veld."
+
+#: inc/functions-cart.php:1514 inc/functions-js-validation.php:121
+msgid "%s requires at least %s items to be selected"
+msgstr "%s vereist dat ten minste %s items worden geselecteerd"
+
+#: inc/functions-cart.php:1531 inc/functions-js-validation.php:137
+msgid "%s requires a maximum of %s items to be selected"
+msgstr "%s vereist dat maximaal %s items worden geselecteerd"
+
+#: inc/functions-cart.php:1555
+msgid ": the value is not a valid hex code"
+msgstr ": de waarde is geen geldige hexcode"
+
+#: inc/functions-cart.php:1600 inc/functions-js-validation.php:101
+msgid "%s requires you to choose %s products"
+msgstr "%s vereist dat u %s producten kiest"
+
+#: inc/functions-cart.php:1617 inc/functions-js-validation.php:71
+msgid "%s requires you to choose a minimum of %s products"
+msgstr "%s vereist dat u minimaal %s producten kiest"
+
+#: inc/functions-cart.php:1634 inc/functions-js-validation.php:87
+msgid "%s requires you to choose a maximum of %s products"
+msgstr "%s vereist dat u maximaal %s producten kiest"
+
+#: inc/functions-cart.php:1651
+msgid " must have a quantity entered."
+msgstr " moet een aantal hebben ingevoerd."
+
+#: inc/functions-cart.php:1697
+msgid ""
+"The product has not been added to the cart because one or more of its "
+"components is sold individually and already exists in the cart."
+msgstr ""
+"Het product is niet aan de winkelwagen toegevoegd omdat een of meer van de "
+"onderdelen afzonderlijk wordt verkocht en al in de winkelwagen aanwezig is."
+
+#: inc/functions-cart.php:1735
+msgid ""
+"The product has not been added to the cart because one or more of its "
+"components is out of stock."
+msgstr ""
+"Het product is niet aan de winkelwagen toegevoegd omdat een of meer van de "
+"onderdelen niet op voorraad is."
+
+#: inc/functions-cart.php:1883
+msgid "Flat rate cost"
+msgstr "Vast bedrag kosten"
+
+#: inc/functions-cart.php:2145
 msgid "%s has been updated."
 msgid_plural "%s have been updated."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%s is bijgewerkt."
+msgstr[1] "%s zijn bijgewerkt."
 
-#: inc/functions-cart.php:2353
+#: inc/functions-cart.php:2201
 #, fuzzy
 msgid "Update product"
 msgstr "Bekijk product"
 
-#: inc/functions-conditionals.php:38
-#: inc/functions-conditionals.php:52
-#: inc/functions-conditionals.php:68
-#: inc/functions-conditionals.php:84
-msgid "[no label]"
-msgstr "[geen label]"
+#: inc/functions-cart.php:2357 inc/functions-js-validation.php:187
+msgid ": minimum number of characters: "
+msgstr ": minimum aantal tekens:"
 
-#: inc/functions-conditionals.php:94
-#, fuzzy
-msgid "Cost"
-msgstr "Item kosten"
+#: inc/functions-cart.php:2360 inc/functions-js-validation.php:191
+msgid ": maximum number of characters: "
+msgstr ": maximum aantal tekens:"
 
-#: inc/functions-blocks.php:122
-#: inc/functions-cart.php:2103
-#: inc/functions-conditionals.php:95
-#: inc/functions-order.php:198
-#: inc/functions-order.php:323
-#: inc/functions-order.php:745
-#: inc/functions-products.php:741
-#: templates/frontend/products/products-checkboxes-list.php:111
-#: templates/frontend/products/products-checkboxes.php:134
-#: templates/frontend/products/products-column.php:353
-#: templates/frontend/products/products-components.php:149
-#: templates/frontend/products/products-grid.php:163
-#: templates/frontend/products/products-swatches.php:311
-msgid "Quantity"
+#: inc/functions-cart.php:2441 inc/functions-js-validation.php:171
+msgid ": minimum value is "
+msgstr ": minimale waarde is"
+
+#: inc/functions-cart.php:2444 inc/functions-js-validation.php:178
+msgid ": maximum value is "
+msgstr ": maximale waarde is"
+
+#: inc/functions-cart.php:2617 inc/functions-js-validation.php:201
+msgid "%s requires a minimum of %s files to be uploaded"
+msgstr "%s vereist dat minimaal %s bestanden worden geüpload"
+
+#: inc/functions-cart.php:2647
+msgid ""
+"The uploaded file has failed a security check. Please try uploading it "
+"again: "
 msgstr ""
+"Het geüploade bestand heeft een beveiligingscontrole niet doorstaan. Probeer "
+"het opnieuw te uploaden: "
 
-#: inc/functions-conditionals.php:109
+#: inc/functions-cart.php:2667
+msgid ": File size too large."
+msgstr ": Bestandsgrootte te groot."
+
+#: inc/functions-cart.php:2677 inc/functions-cart.php:2722
+msgid " is a required upload field."
+msgstr "is een verplicht uploadveld."
+
+#: inc/functions-cart.php:2705
+msgid ": File not valid."
+msgstr ": bestand niet geldig."
+
+#: inc/functions-clear-all.php:33
+msgid "Clear All Options"
+msgstr "Alle opties wissen"
+
+#: inc/functions-conditionals.php:19
 msgid "Hide this field if"
 msgstr "Verberg dit veld als"
 
-#: inc/functions-conditionals.php:110
+#: inc/functions-conditionals.php:20
 msgid "Show this field if"
 msgstr "Toon dit veld als"
 
-#: inc/functions-conditionals.php:121
+#: inc/functions-conditionals.php:31
 msgid "All rules match"
 msgstr "Alle regels komen overeen (AND)"
 
-#: inc/functions-conditionals.php:122
+#: inc/functions-conditionals.php:32
 msgid "Any rule matches"
 msgstr "Eén of meer regels komen overeen (OR)"
 
-#: inc/functions-conditionals.php:133
+#: inc/functions-conditionals.php:43
 msgid "Is"
 msgstr "Is"
 
-#: inc/functions-conditionals.php:134
+#: inc/functions-conditionals.php:44
 msgid "Is Not"
 msgstr "Is niet"
 
-#: inc/functions-conditionals.php:135
+#: inc/functions-conditionals.php:45
 msgid "Contains"
-msgstr ""
+msgstr "Bevat"
 
-#: inc/functions-conditionals.php:136
+#: inc/functions-conditionals.php:46
 msgid "Does Not Contain"
-msgstr ""
+msgstr "Bevat niet"
 
-#: inc/functions-conditionals.php:137
+#: inc/functions-conditionals.php:47
 msgid "Equals"
-msgstr ""
+msgstr "Is gelijk aan"
 
-#: inc/functions-conditionals.php:138
+#: inc/functions-conditionals.php:48
 msgid "Greater Than"
-msgstr ""
+msgstr "Groter dan"
 
-#: inc/functions-conditionals.php:139
+#: inc/functions-conditionals.php:49
 msgid "Less Than"
-msgstr ""
+msgstr "Kleiner dan"
 
-#: admin/functions-admin-import-export-aou.php:200
-#: inc/functions-global-extras.php:29
-#: inc/functions-global-extras.php:30
-msgid "Global Add-Ons"
-msgstr "Globale Add Ons"
-
-#: inc/functions-global-extras.php:54
-#: inc/functions-global-extras.php:119
+#: inc/functions-global-extras.php:54 inc/functions-global-extras.php:122
 msgid "Global Product Add-Ons"
 msgstr "Globale Add Ons"
 
 #: inc/functions-global-extras.php:57
 msgid "This page is no longer available."
-msgstr ""
+msgstr "Deze pagina is niet meer beschikbaar."
 
 #: inc/functions-global-extras.php:66
-#, php-format
 msgid "You can now edit your Global Add-Ons from <a href=\"%s\">this page</a>."
 msgstr ""
+"U kunt uw Globale Add-Ons nu bewerken vanaf <a href=\"%s\">deze pagina</a>."
 
 #: inc/functions-global-extras.php:75
-msgid "Please follow the instructions below to update your database. You will then be able to access Global Add-Ons through a new Global Groups page."
+msgid ""
+"Please follow the instructions below to update your database. You will then "
+"be able to access Global Add-Ons through a new Global Groups page."
 msgstr ""
+"Volg de onderstaande instructies om uw database bij te werken. Daarna hebt u "
+"toegang tot Globale Add-Ons via een nieuwe pagina Globale groepen."
 
-#: inc/functions-global-extras.php:79
-#: inc/functions-migration.php:41
-msgid "WooCommerce Product Add-Ons Ultimate needs to update your database. This will only take a few seconds. Please click the button below to go to the migration page to get started."
+#: inc/functions-global-extras.php:79 inc/functions-migration.php:41
+msgid ""
+"WooCommerce Product Add-Ons Ultimate needs to update your database. This "
+"will only take a few seconds. Please click the button below to go to the "
+"migration page to get started."
 msgstr ""
+"WooCommerce Product Add-Ons Ultimate moet uw database bijwerken. Dit duurt "
+"slechts enkele seconden. Klik op de onderstaande knop om naar de "
+"migratiepagina te gaan en te beginnen."
 
-#: inc/functions-global-extras.php:84
-#: inc/functions-migration.php:45
+#: inc/functions-global-extras.php:84 inc/functions-migration.php:45
 msgid "Go to Migration Page"
-msgstr ""
+msgstr "Ga naar migratiepagina"
 
-#: inc/functions-global-extras.php:121
-msgid "Add Product Add-Ons in bulk to your products. You can add Product Add-Ons to individual products by editing the product and clicking on the 'Product Add-Ons' tab of the Product Data section."
+#: inc/functions-global-extras.php:124
+msgid ""
+"Add Product Add-Ons in bulk to your products. You can add Product Add-Ons to "
+"individual products by editing the product and clicking on the 'Product Add-"
+"Ons' tab of the Product Data section."
 msgstr ""
+"Voeg Product Add-Ons in bulk toe aan uw producten. U kunt Product Add-Ons "
+"aan afzonderlijke producten toevoegen door het product te bewerken en op het "
+"tabblad 'Product Add-Ons' van het gedeelte Productgegevens te klikken."
 
-#: inc/functions-global-extras.php:166
+#: inc/functions-global-extras.php:169
 #, fuzzy
 msgid "Add New Global Group"
 msgstr "Groep toevoegen"
 
-#: inc/functions-global-extras.php:170
+#: inc/functions-global-extras.php:173
 msgid "Save Global Add-Ons"
 msgstr "Global Add Ons Opslaan"
 
+#: inc/functions-js-validation.php:257
+msgid "Some fields in this group failed validation."
+msgstr "Sommige velden in deze groep zijn niet geslaagd voor de validatie."
+
 #: inc/functions-lightbox.php:86
 msgid "See more"
-msgstr ""
+msgstr "Meer weergeven"
 
-#: admin/functions-admin-import-export-aou.php:121
-#: inc/functions-lightbox.php:107
-msgid "Close"
-msgstr ""
+#: inc/functions-media.php:217 inc/functions-media.php:231
+#: inc/functions-media.php:259
+msgid "File not valid."
+msgstr "Bestand niet geldig."
 
-#: inc/functions-media.php:596
+#: inc/functions-media.php:496
+msgid "File not valid"
+msgstr "Bestand niet geldig"
+
+#: inc/functions-media.php:673
+msgid "No thumbnail"
+msgstr "Geen miniatuur"
+
+#: inc/functions-media.php:677
 #, fuzzy
 msgid "Uploaded"
 msgstr "Upload"
 
-#: inc/functions-media.php:597
+#: inc/functions-media.php:678
 msgid "Failed"
-msgstr ""
+msgstr "Mislukt"
+
+#: inc/functions-media.php:683
+msgid "Remove uploaded file"
+msgstr "Geüpload bestand verwijderen"
+
+#: inc/functions-media.php:823
+msgid "Invalid nonce. Please refresh the page and try again."
+msgstr "Ongeldige nonce. Vernieuwt u de pagina en probeert u het opnieuw."
+
+#: inc/functions-media.php:828
+msgid "Permission denied."
+msgstr "Toegang geweigerd."
 
 #: inc/functions-migration.php:37
 #, fuzzy
@@ -1494,11 +2811,11 @@ msgid "WooCommerce Product Add-Ons Ultimate Version 3.0"
 msgstr "WooCommerce Product Add-Ons Ultimate"
 
 #: inc/functions-migration.php:87
-msgid "Migration complete. All your Product Add-Ons have been migrated. Thank you."
-msgstr ""
+msgid ""
+"Migration complete. All your Product Add-Ons have been migrated. Thank you."
+msgstr "Migratie voltooid. Al uw Product Add-Ons zijn gemigreerd. Dank u wel."
 
-#: inc/functions-migration.php:118
-#: inc/functions-migration.php:119
+#: inc/functions-migration.php:118 inc/functions-migration.php:119
 #, fuzzy
 msgid "Add-Ons Migration"
 msgstr "Voorwaarde toevoegen"
@@ -1510,84 +2827,198 @@ msgstr "WooCommerce Product Add-Ons Ultimate"
 
 #: inc/functions-migration.php:145
 msgid "the support page"
-msgstr ""
+msgstr "de ondersteuningspagina"
 
 #: inc/functions-migration.php:148
-msgid "Congratulations - all done. All your Product Add-Ons have been migrated. You need take no further action."
+msgid ""
+"Congratulations - all done. All your Product Add-Ons have been migrated. You "
+"need take no further action."
 msgstr ""
+"Gefeliciteerd - alles is voltooid. Al uw Product Add-Ons zijn gemigreerd. U "
+"hoeft verder niets te doen."
 
 #: inc/functions-migration.php:161
-msgid "Add-Ons Ultimate would like to update your database. This is important because the plugin is changing how it stores its data, which should result in performance improvements and feature enhancements."
+msgid ""
+"Add-Ons Ultimate would like to update your database. This is important "
+"because the plugin is changing how it stores its data, which should result "
+"in performance improvements and feature enhancements."
 msgstr ""
+"Add-Ons Ultimate wil uw database bijwerken. Dit is belangrijk omdat de "
+"plugin de manier waarop gegevens worden opgeslagen wijzigt, wat moet "
+"resulteren in prestatieverbeteringen en functieverbeteringen."
 
 #: inc/functions-migration.php:166
-msgid "You might like to test this first on a staging or development version of your site. In any case, please make a backup of your site before clicking the update button below."
+msgid ""
+"You might like to test this first on a staging or development version of "
+"your site. In any case, please make a backup of your site before clicking "
+"the update button below."
 msgstr ""
+"Het kan verstandig zijn dit eerst te testen op een staging- of "
+"ontwikkelversie van uw site. Maak in ieder geval een back-up van uw site "
+"voordat u op de onderstaande updateknop klikt."
 
 #: inc/functions-migration.php:171
-msgid "The migration should only take a few seconds (slightly longer if you have a larger number of products on your site). Please stay on this page while it runs. The page will provide you with regular status updates so you can view progress."
+msgid ""
+"The migration should only take a few seconds (slightly longer if you have a "
+"larger number of products on your site). Please stay on this page while it "
+"runs. The page will provide you with regular status updates so you can view "
+"progress."
 msgstr ""
+"De migratie duurt meestal slechts enkele seconden (iets langer als u een "
+"groter aantal producten op uw site hebt). Blijf op deze pagina terwijl de "
+"migratie wordt uitgevoerd. De pagina geeft u regelmatig statusupdates, zodat "
+"u de voortgang kunt volgen."
 
 #: inc/functions-migration.php:176
-msgid "For the vast majority of users, you won't notice a difference after the migration has completed. However, if you have extended the plugin and you are making use of the IDs of Product Add-Ons, you'll need to update to the new IDs."
+msgid ""
+"For the vast majority of users, you won't notice a difference after the "
+"migration has completed. However, if you have extended the plugin and you "
+"are making use of the IDs of Product Add-Ons, you'll need to update to the "
+"new IDs."
 msgstr ""
+"Voor de meeste gebruikers zal er geen merkbaar verschil zijn nadat de "
+"migratie is voltooid. Als u de plugin echter hebt uitgebreid en gebruikmaakt "
+"van de ID's van Product Add-Ons, moet u overschakelen naar de nieuwe ID's."
 
 #: inc/functions-migration.php:183
-#, php-format
-msgid "You have %s products with Add-Ons that need to be updated and %s global rules. "
+msgid ""
+"You have %s products with Add-Ons that need to be updated and %s global "
+"rules. "
 msgstr ""
+"U hebt %s producten met Add-Ons die moeten worden bijgewerkt en %s globale "
+"regels. "
 
 #: inc/functions-migration.php:191
 msgid "Click the button below to get started."
-msgstr ""
+msgstr "Klik op de onderstaande knop om te beginnen."
 
 #: inc/functions-migration.php:200
 msgid "Update Database"
-msgstr ""
+msgstr "Database bijwerken"
 
 #: inc/functions-migration.php:205
 msgid "Checking for add-ons data to migrate."
-msgstr ""
+msgstr "Er wordt gecontroleerd op add-on-gegevens om te migreren."
 
 #: inc/functions-migration.php:210
-msgid "Processing <span id=\"pewc-processing\"></span> of <span id=\"pewc-total\"></span>."
+msgid ""
+"Processing <span id=\"pewc-processing\"></span> of <span id=\"pewc-total\"></"
+"span>."
 msgstr ""
+"Bezig met verwerken van <span id=\"pewc-processing\"></span> van <span "
+"id=\"pewc-total\"></span>."
 
 #: inc/functions-migration.php:215
 msgid "Updating conditionals."
-msgstr ""
+msgstr "Voorwaarden worden bijgewerkt."
 
 #: inc/functions-migration.php:220
 msgid "Updating globals."
-msgstr ""
+msgstr "Globale instellingen worden bijgewerkt."
 
 #: inc/functions-migration.php:225
 msgid "Updating global conditionals."
-msgstr ""
+msgstr "Globale voorwaarden worden bijgewerkt."
 
 #: inc/functions-migration.php:230
 msgid "All done. This page will automatically reload."
-msgstr ""
+msgstr "Alles is voltooid. Deze pagina wordt automatisch opnieuw geladen."
 
-#: inc/functions-percentages.php:40
-#: inc/functions-single-product.php:1566
+#: inc/functions-order.php:119
+msgid "Composite image"
+msgstr "Samengestelde afbeelding"
+
+#: inc/functions-order.php:124
+msgid "Composite preview"
+msgstr "Voorbeeld van samengestelde afbeelding"
+
+#: inc/functions-percentages.php:40 inc/functions-single-product.php:1608
 msgid "per character"
 msgstr "per karakter"
 
+#: inc/functions-pro-helpers.php:24
+msgid "Image Swatch"
+msgstr "Afbeeldingsstaal"
+
+#: inc/functions-pro-helpers.php:36
+msgid "upgrade to the Pro licence"
+msgstr "upgrade naar de Pro-licentie"
+
+#: inc/functions-pro-helpers.php:41
+msgid "enter your Pro licence key here"
+msgstr "voer hier uw Pro-licentiesleutel in"
+
+#: inc/functions-pro-helpers.php:46
+msgid "see this support article"
+msgstr "bekijk dit ondersteuningsartikel"
+
+#: inc/functions-pro-helpers.php:51
+msgid ""
+"This field is not available with the Basic licence. Please %s or %s to use "
+"this field."
+msgstr ""
+"Dit veld is niet beschikbaar met de Basic-licentie. %s of %s om dit veld te "
+"gebruiken."
+
+#: inc/functions-pro-helpers.php:56
+msgid "If you have recently upgraded to Pro, please %s."
+msgstr "Als u onlangs bent geüpgraded naar Pro, %s."
+
 #: inc/functions-pro-helpers.php:143
 msgid "Previous"
-msgstr ""
+msgstr "Vorige"
 
 #: inc/functions-pro-helpers.php:152
 msgid "Next"
+msgstr "Volgende"
+
+#: inc/functions-products.php:1075 inc/functions-products.php:1123
+msgid ""
+"One of the options in this order is sold individually, so duplicates have "
+"been removed from the cart"
 msgstr ""
+"Een van de opties in deze bestelling wordt afzonderlijk verkocht, dus "
+"duplicaten zijn uit de winkelwagen verwijderd"
+
+#: inc/functions-products.php:1094
+msgid ""
+"One of the options in this order is out of stock so the product has been "
+"removed from the cart"
+msgstr ""
+"Een van de opties in deze bestelling is niet op voorraad, dus het product is "
+"uit de winkelwagen verwijderd"
+
+#: inc/functions-repeatable.php:118
+msgid "+ Add More"
+msgstr "+ Meer toevoegen"
+
+#: inc/functions-repeatable.php:192
+msgid "Are you sure you want to remove this group?"
+msgstr "Weet u zeker dat u deze groep wilt verwijderen?"
+
+#: inc/functions-repeatable.php:445 templates/admin/group.php:139
+msgid "Repeatable"
+msgstr "Herhaalbaar"
+
+#: inc/functions-repeatable.php:453 templates/admin/group.php:154
+msgid "Attach to Quantity"
+msgstr "Koppelen aan aantal"
+
+#: inc/functions-repeatable.php:461
+msgid "Repeatable Limit"
+msgstr "Limiet voor herhaling"
+
+#: inc/functions-repeatable.php:747
+#: templates/frontend/products/products-column.php:428
+#: templates/frontend/upload.php:59
+msgid "Remove"
+msgstr "Verwijderen"
 
 #: inc/functions-single-product.php:66
 msgid "Clear"
-msgstr ""
+msgstr "Wissen"
 
-#: inc/functions-single-product.php:67
-#: templates/admin/sections/general.php:127
+#: inc/functions-single-product.php:67 templates/admin/sections/general.php:127
 msgid "Default"
 msgstr "Standaard"
 
@@ -1598,306 +3029,487 @@ msgstr "Opties selecteren"
 
 #: inc/functions-single-product.php:69
 msgid "Current Color"
-msgstr ""
+msgstr "Huidige kleur"
 
-#: inc/functions-single-product.php:1646
-#: inc/functions-single-product.php:1663
+#: inc/functions-single-product.php:134
+msgid "Increase quantity"
+msgstr "Aantal verhogen"
+
+#: inc/functions-single-product.php:135
+msgid "Decrease quantity"
+msgstr "Aantal verlagen"
+
+#: inc/functions-single-product.php:236
+msgid "Calculating..."
+msgstr "Bezig met berekenen..."
+
+#: inc/functions-single-product.php:241
+msgid "Uploading..."
+msgstr "Bezig met uploaden..."
+
+#: inc/functions-single-product.php:302
+msgid "Counting the number of pages..."
+msgstr "Het aantal pagina's wordt geteld..."
+
+#: inc/functions-single-product.php:1688 inc/functions-single-product.php:1705
 msgid "Min"
 msgstr "Min."
 
-#: inc/functions-single-product.php:1657
-#: inc/functions-single-product.php:1670
+#: inc/functions-single-product.php:1699 inc/functions-single-product.php:1712
 msgid "Max"
 msgstr "Max."
 
-#: inc/functions-single-product.php:1665
-#: inc/functions-single-product.php:1672
+#: inc/functions-single-product.php:1707 inc/functions-single-product.php:1714
 msgid "characters"
 msgstr "tekens"
 
-#: inc/functions-single-product.php:1679
+#: inc/functions-single-product.php:1721
 msgid "Max file size"
 msgstr "Max. bestandsgrootte"
 
-#: inc/functions-single-product.php:1683
+#: inc/functions-single-product.php:1725
 msgid "Permitted file types"
 msgstr "Permitted file types"
 
-#: inc/functions-single-product.php:1785
+#: inc/functions-single-product.php:1827
 msgid "Minimum price:"
-msgstr ""
+msgstr "Minimumprijs:"
 
-#: inc/functions-updater.php:116
+#: inc/functions-updater.php:119
 msgid "There was a problem in activating your license: "
-msgstr ""
+msgstr "Er is een probleem opgetreden bij het activeren van uw licentie: "
 
-#: inc/functions-updater.php:162
-#, php-format
-msgid " Please ensure you enter the correct licence key as the plugin may not work correctly without it. Your licence key will be on the email you were sent with the download link or on <a target=\"_blank\" href=\"%s\">your account page</a>."
+#: inc/functions-updater.php:165
+msgid ""
+" Please ensure you enter the correct licence key as the plugin may not work "
+"correctly without it. Your licence key will be on the email you were sent "
+"with the download link or on <a target=\"_blank\" href=\"%s\">your account "
+"page</a>."
 msgstr ""
+" Zorg ervoor dat u de juiste licentiesleutel invoert, aangezien de plugin "
+"zonder deze mogelijk niet correct werkt. Uw licentiesleutel vindt u in de e-"
+"mail die u hebt ontvangen met de downloadlink, of op <a target=\"_blank\" "
+"href=\"%s\">uw accountpagina</a>."
 
-#: inc/functions-updater.php:168
-#: inc/functions-updater.php:316
-#, php-format
+#: inc/functions-updater.php:171 inc/functions-updater.php:319
 msgid "<p><a href=\"%s\">Enter your licence key here</a></p>"
-msgstr ""
+msgstr "<p><a href=\"%s\">Voer hier uw licentiesleutel in</a></p>"
 
-#: inc/functions-updater.php:278
-#, php-format
-msgid "Your license is not currently activated. Please ensure you activate your license in order to use all the features of this plugin. Your license number will be on the email you were sent with the download link or on <a target=\"_blank\" href=\"%s\">your account page</a>."
+#: inc/functions-updater.php:281
+msgid ""
+"Your license is not currently activated. Please ensure you activate your "
+"license in order to use all the features of this plugin. Your license number "
+"will be on the email you were sent with the download link or on <a "
+"target=\"_blank\" href=\"%s\">your account page</a>."
 msgstr ""
+"Uw licentie is momenteel niet geactiveerd. Zorg ervoor dat u uw licentie "
+"activeert om alle functies van deze plugin te kunnen gebruiken. Uw "
+"licentienummer vindt u in de e-mail die u hebt ontvangen met de "
+"downloadlink, of op <a target=\"_blank\" href=\"%s\">uw accountpagina</a>."
 
-#: inc/functions-updater.php:283
-#, php-format
+#: inc/functions-updater.php:286
 msgid "<p><a href=\"%s\">Enter your license key here</a></p>"
-msgstr ""
+msgstr "<p><a href=\"%s\">Voer hier uw licentiesleutel in</a></p>"
 
-#: inc/functions-updater.php:311
-#, php-format
-msgid "Your licence is not currently activated. Please ensure you activate your licence in order to use all the features of this plugin. Your licence number will be on the email you were sent with the download link or on <a target=\"_blank\" href=\"%s\">your account page</a>."
+#: inc/functions-updater.php:314
+msgid ""
+"Your licence is not currently activated. Please ensure you activate your "
+"licence in order to use all the features of this plugin. Your licence number "
+"will be on the email you were sent with the download link or on <a "
+"target=\"_blank\" href=\"%s\">your account page</a>."
 msgstr ""
+"Uw licentie is momenteel niet geactiveerd. Zorg ervoor dat u uw licentie "
+"activeert om alle functies van deze plugin te kunnen gebruiken. Uw "
+"licentienummer vindt u in de e-mail die u hebt ontvangen met de "
+"downloadlink, of op <a target=\"_blank\" href=\"%s\">uw accountpagina</a>."
 
-#: inc/functions-uploads.php:33
-#: inc/functions-uploads.php:346
+#: inc/functions-uploads.php:34 inc/functions-uploads.php:368
 msgid "Drop files here to upload"
-msgstr ""
+msgstr "Zet bestanden hier neer om te uploaden"
 
-#: inc/functions-uploads.php:34
-#: inc/functions-uploads.php:347
+#: inc/functions-uploads.php:35 inc/functions-uploads.php:369
 msgid "Your browser does not support drag and drop file uploads"
-msgstr ""
+msgstr "Uw browser ondersteunt geen slepen-en-neerzetten van bestandsuploads"
 
-#: inc/functions-uploads.php:35
-#: inc/functions-uploads.php:348
-msgid "Please use the fallback form below to upload your files like in the olden days"
+#: inc/functions-uploads.php:36 inc/functions-uploads.php:370
+msgid ""
+"Please use the fallback form below to upload your files like in the olden "
+"days"
 msgstr ""
+"Gebruik het onderstaande alternatieve formulier om uw bestanden te uploaden, "
+"zoals vroeger"
 
-#: inc/functions-uploads.php:36
-#: inc/functions-uploads.php:349
+#: inc/functions-uploads.php:37 inc/functions-uploads.php:371
 msgid "The file is too big"
-msgstr ""
+msgstr "Het bestand is te groot"
 
-#: inc/functions-uploads.php:37
-#: inc/functions-uploads.php:350
+#: inc/functions-uploads.php:38 inc/functions-uploads.php:372
 msgid "You cannot upload files of this type"
-msgstr ""
+msgstr "U kunt geen bestanden van dit type uploaden"
 
-#: inc/functions-uploads.php:38
-#: inc/functions-uploads.php:351
+#: inc/functions-uploads.php:39 inc/functions-uploads.php:373
 msgid "Cancel upload"
-msgstr ""
+msgstr "Upload annuleren"
 
-#: inc/functions-uploads.php:39
-#: inc/functions-uploads.php:352
+#: inc/functions-uploads.php:40 inc/functions-uploads.php:374
 #, fuzzy
 msgid "Upload cancelled."
 msgstr "Upload"
 
-#: inc/functions-uploads.php:40
-#: inc/functions-uploads.php:353
+#: inc/functions-uploads.php:41 inc/functions-uploads.php:375
 msgid "Are you sure you want to cancel this upload?"
-msgstr ""
+msgstr "Weet u zeker dat u deze upload wilt annuleren?"
 
-#: inc/functions-uploads.php:41
-#: inc/functions-uploads.php:354
+#: inc/functions-uploads.php:42 inc/functions-uploads.php:376
 #, fuzzy
 msgid "Remove file"
 msgstr "Verwijderen"
 
-#: inc/functions-uploads.php:42
-#: inc/functions-uploads.php:355
+#: inc/functions-uploads.php:43 inc/functions-uploads.php:377
 msgid "You cannot upload any more files."
-msgstr ""
+msgstr "U kunt geen bestanden meer uploaden."
 
-#: inc/functions-variations.php:22
-#: templates/admin/sections/conditions.php:31
+#: inc/functions-uploads.php:880
+msgid "Loading original image..."
+msgstr "Oorspronkelijke afbeelding wordt geladen..."
+
+#: inc/functions-variations.php:22 templates/admin/sections/conditions.php:42
 #, fuzzy
 msgid "Variations"
 msgstr "Voorwaarden"
 
 #: product-extras-for-woocommerce.php:61
-msgid "WooCommerce Product Add-Ons Ultimate requires WooCommerce version 3.0.0 minimum. Please upgrade your version of WooCommerce."
-msgstr "Product Add-Ons vereist minimum WooCommerce versie 3.0.0. Upgrade uw versie van WooCommerce."
+msgid ""
+"WooCommerce Product Add-Ons Ultimate requires WooCommerce version 3.0.0 "
+"minimum. Please upgrade your version of WooCommerce."
+msgstr ""
+"Product Add-Ons vereist minimum WooCommerce versie 3.0.0. Upgrade uw versie "
+"van WooCommerce."
 
 #: product-extras-for-woocommerce.php:67
 #, fuzzy
-msgid "WooCommerce Product Add-Ons Ultimate requires WooCommerce to be installed. Please install and activate WooCommerce before activating Add-Ons Ultimate."
-msgstr "Product Add-Ons vereist dat WooCommerce wordt geïnstalleerd. Installeer en activeer WooCommerce."
+msgid ""
+"WooCommerce Product Add-Ons Ultimate requires WooCommerce to be installed. "
+"Please install and activate WooCommerce before activating Add-Ons Ultimate."
+msgstr ""
+"Product Add-Ons vereist dat WooCommerce wordt geïnstalleerd. Installeer en "
+"activeer WooCommerce."
 
-#: inc/functions-repeatable.php:747
-#: templates/frontend/products/products-column.php:381
-#: templates/frontend/upload.php:59
-msgid "Remove"
-msgstr "Verwijderen"
-
-#: templates/admin/condition.php:256
+#: templates/admin/ajax-condition.php:224 templates/admin/condition.php:265
 #: templates/admin/new-condition.php:46
+#: templates/admin/views/group-ajax-condition.php:203
 #: templates/admin/views/group-condition-new.php:46
-#: templates/admin/views/group-condition.php:211
+#: templates/admin/views/group-condition.php:214
 msgid "Add Condition"
 msgstr "Voorwaarde toevoegen"
 
-#: templates/admin/sections/general.php:21
-msgid "Field Label"
-msgstr "Veld naam"
+#: templates/admin/field-item.php:82 templates/admin/views/option-fields.php:18
+msgid "Options"
+msgstr "Opties"
 
-#: templates/admin/sections/general.php:45
-msgid "Field Type"
-msgstr "Veld Type"
+#: templates/admin/field-item.php:91
+msgid "Color picker"
+msgstr "Kleurkiezer"
 
-#: templates/admin/sections/pricing.php:20
-#: templates/admin/views/role-based-prices.php:52
-msgid "Field Price"
-msgstr ""
+#: templates/admin/field-item.php:94
+msgid "Display"
+msgstr "Weergave"
 
-#: templates/admin/sections/options.php:30
-msgid "Min Number"
-msgstr ""
+#: templates/admin/field-item.php:96
+msgid "Additional"
+msgstr "Aanvullend"
 
-#: templates/admin/sections/options.php:47
-msgid "Max Number"
-msgstr ""
+#: templates/admin/field-meta-actions.php:14
+msgid "Drag"
+msgstr "Slepen"
 
-#: templates/admin/sections/products.php:19
-msgid "Child Products"
-msgstr ""
+#: templates/admin/field-meta-actions.php:15
+#: templates/admin/group-meta-actions.php:15
+msgid "Collapse / Expand"
+msgstr "Uitvouwen"
 
-#: templates/admin/sections/products.php:41
-msgid "Choose the child subscription variations"
-msgstr ""
+#: templates/admin/field-meta-actions.php:16
+msgid "Export Field"
+msgstr "Veld exporteren"
 
-#: templates/admin/sections/products.php:96
-msgid "Products Layout"
-msgstr ""
+#: templates/admin/field-meta-actions.php:17
+#: templates/admin/group-meta-actions.php:19
+msgid "Duplicate"
+msgstr "Duplicaat"
 
-#: templates/admin/sections/products.php:107
-msgid "Column"
-msgstr ""
+#: templates/admin/global-rule.php:22 templates/admin/new-global-rule.php:21
+msgid "Display this group if:"
+msgstr "Toon deze groep als:"
 
-#: classes/class-pewc-settings-tab.php:110
-#: templates/admin/field-item.php:86
-#: templates/admin/sections/products.php:111
-msgid "Swatches"
-msgstr ""
+#: templates/admin/group-meta-actions.php:14
+msgid "Sort"
+msgstr "Sorteren"
 
-#: templates/admin/sections/products.php:112
+#: templates/admin/group-settings.php:21
+msgid "Product Settings"
+msgstr "Productinstellingen"
+
+#: templates/admin/group-settings.php:31 templates/admin/group-settings.php:39
 #, fuzzy
-msgid "Variations Grid"
+msgid "Display groups as"
+msgstr "Toon deze groep als:"
+
+#: templates/admin/group-settings.php:43
+msgid "Accordion"
+msgstr "Accordeon"
+
+#: templates/admin/group-settings.php:57
+msgid "Assign global groups"
+msgstr "Globale groepen toewijzen"
+
+#: templates/admin/group-settings.php:79
+msgid "Hide quantity field"
+msgstr "Aantalveld verbergen"
+
+#: templates/admin/group-settings.php:108
+msgid "Assign groups to other products"
+msgstr "Groepen toewijzen aan andere producten"
+
+#: templates/admin/group-settings.php:115
+#, fuzzy
+msgid "Assign to products"
+msgstr "Op alle producten"
+
+#: templates/admin/group-settings.php:117
+#, fuzzy
+msgid "Choose the products"
+msgstr "Bekijk product"
+
+#: templates/admin/group-settings.php:124
+msgid "Replace existing groups"
+msgstr "Bestaande groepen vervangen"
+
+#: templates/admin/group-settings.php:131
+msgid "Assign"
+msgstr "Toewijzen"
+
+#: templates/admin/group.php:34
+#, fuzzy
+msgid "Group Title"
+msgstr "Groep titel"
+
+#: templates/admin/group.php:98
+#, fuzzy
+msgid "Group Conditions"
 msgstr "Voorwaarden"
 
-#: templates/admin/sections/products.php:150
-msgid "Products Quantities"
-msgstr ""
+#: templates/admin/group.php:119
+msgid "Always Include in Order"
+msgstr "Altijd opnemen in bestelling"
 
-#: templates/admin/sections/products.php:159
-msgid "Independent"
-msgstr ""
+#: templates/admin/group.php:167
+msgid "Repeat Limit"
+msgstr "Herhalingslimiet"
 
-#: templates/admin/sections/products.php:160
-msgid "Linked"
-msgstr ""
+#: templates/admin/import-groups.php:17
+msgid "Search for a product&hellip;"
+msgstr "Zoek naar een product..."
 
-#: templates/admin/sections/products.php:161
-msgid "One only"
+#: templates/admin/import-groups.php:37
+msgid ""
+"Imported groups will appear after any groups already registered to this "
+"product."
 msgstr ""
+"Geïmporteerde groepen worden weergegeven na elke groep die al is "
+"geregistreerd voor dit product."
 
-#: templates/admin/sections/products.php:131
-msgid "Select Field Placeholder"
-msgstr ""
+#: templates/admin/new-global-rule.php:26
+msgid "All the rules are met"
+msgstr "Alle regels zijn voldaan"
 
-#: templates/admin/sections/display.php:39
-msgid "Number Columns"
-msgstr ""
+#: templates/admin/new-global-rule.php:27
+msgid "Any of the rules are met"
+msgstr "Aan elk van de regels is voldaan"
 
-#: templates/admin/sections/display.php:61
+#: templates/admin/sections/additional.php:20
+msgid "User Field ID"
+msgstr "Gebruikersveld-ID"
+
+#: templates/admin/sections/calculations.php:46
+msgid "Formula"
+msgstr "Formule"
+
+#: templates/admin/sections/calculations.php:57
+msgid "Click here for a list of tags"
+msgstr "Klik hier voor een lijst met tags"
+
+#: templates/admin/sections/calculations.php:66
+msgid "Hide Calculation?"
+msgstr "Berekening verbergen?"
+
+#: templates/admin/sections/calculations.php:83
+msgid "Round Result"
+msgstr "Resultaat afronden"
+
+#: templates/admin/sections/calculations.php:93
 #, fuzzy
-msgid "Hide Labels?"
-msgstr "Veld naam"
+msgid "No rounding"
+msgstr "Niet gevonden"
 
-#: templates/admin/sections/swatches.php:93
+#: templates/admin/sections/calculations.php:98
+msgid "Round down"
+msgstr "Naar beneden afronden"
+
+#: templates/admin/sections/calculations.php:103
+msgid "Round up"
+msgstr "Naar boven afronden"
+
+#: templates/admin/sections/calculations.php:112
+msgid "Decimal Places"
+msgstr "Decimalen"
+
+#: templates/admin/sections/calculations.php:138
+msgid "--"
+msgstr "--"
+
+#: templates/admin/sections/calculations.php:143
+msgid "Display As Cost"
+msgstr "Weergeven als kosten"
+
+#: templates/admin/sections/calculations.php:148
 #, fuzzy
-msgid "Allow Multiple?"
-msgstr "Vermenigvuldig prijs?"
+msgid "Set Product Price"
+msgstr "Noem je prijs"
 
-#: templates/admin/sections/products.php:175
-msgid "Min Child Products"
-msgstr ""
+#: templates/admin/sections/calculations.php:153
+msgid "Update Quantity"
+msgstr "Aantal bijwerken"
 
-#: templates/admin/sections/products.php:192
-msgid "Max Child Products"
-msgstr ""
+#: templates/admin/sections/calculations.php:158
+msgid "Set Child Product Quantity"
+msgstr "Aantal onderliggend product instellen"
 
-#: templates/admin/sections/pricing.php:117
-msgid "Discount"
-msgstr ""
+#: templates/admin/sections/calculations.php:163
+msgid "Add to Product Weight"
+msgstr "Toevoegen aan productgewicht"
 
-#: templates/admin/sections/pricing.php:134
-msgid "Discount Type"
-msgstr ""
+#: templates/admin/sections/calculations.php:168
+msgid "Add to Product Length"
+msgstr "Toevoegen aan productlengte"
 
-#: templates/admin/sections/pricing.php:143
-msgid "Fixed Amount"
-msgstr ""
+#: templates/admin/sections/calculations.php:173
+msgid "Add to Product Width"
+msgstr "Toevoegen aan productbreedte"
 
-#: templates/admin/sections/pricing.php:144
-msgid "Percentage"
-msgstr ""
+#: templates/admin/sections/calculations.php:178
+msgid "Add to Product Height"
+msgstr "Toevoegen aan producthoogte"
 
-#: templates/admin/sections/general.php:110
+#: templates/admin/sections/calculations.php:192
+msgid "Products Field ID"
+msgstr "Productveld-ID"
+
+#: templates/admin/sections/calculations.php:218
+msgid "Reverse Formula Field ID"
+msgstr "Veld-ID van omgekeerde formule"
+
+#: templates/admin/sections/calculations.php:231
+msgid "Original Input Field ID"
+msgstr "Veld-ID van oorspronkelijke invoer"
+
+#: templates/admin/sections/calculations.php:244
+msgid "Override Calculation?"
+msgstr "Berekening overschrijven?"
+
+#: templates/admin/sections/calendar-list.php:20
+msgid "Days"
+msgstr "Dagen"
+
+#: templates/admin/sections/calendar-list.php:41
+msgid "Offset"
+msgstr "Verschuiving"
+
+#: templates/admin/sections/calendar-list.php:60
+msgid "Add Item"
+msgstr "Item toevoegen"
+
+#: templates/admin/sections/calendar-list.php:73
+#: templates/admin/sections/date.php:88
+msgid "Disable days of the week?"
+msgstr "Dagen van de week uitschakelen?"
+
+#: templates/admin/sections/calendar-list.php:80
+#: templates/admin/sections/date.php:95
+msgid "Sunday"
+msgstr "Zondag"
+
+#: templates/admin/sections/calendar-list.php:81
+#: templates/admin/sections/date.php:96
+msgid "Monday"
+msgstr "Maandag"
+
+#: templates/admin/sections/calendar-list.php:82
+#: templates/admin/sections/date.php:97
+msgid "Tuesday"
+msgstr "Dinsdag"
+
+#: templates/admin/sections/calendar-list.php:83
+#: templates/admin/sections/date.php:98
+msgid "Wednesday"
+msgstr "Woensdag"
+
+#: templates/admin/sections/calendar-list.php:84
+#: templates/admin/sections/date.php:99
+msgid "Thursday"
+msgstr "Donderdag"
+
+#: templates/admin/sections/calendar-list.php:85
+#: templates/admin/sections/date.php:100
+msgid "Friday"
+msgstr "Vrijdag"
+
+#: templates/admin/sections/calendar-list.php:86
+#: templates/admin/sections/date.php:101
+msgid "Saturday"
+msgstr "Zaterdag"
+
+#: templates/admin/sections/calendar-list.php:105
+#: templates/admin/sections/date.php:128
+msgid "Blocked dates"
+msgstr "Geblokkeerde datums"
+
+#: templates/admin/sections/calendar-list.php:120
+msgid "Latest time"
+msgstr "Laatste tijdstip"
+
+#: templates/admin/sections/calendar-list.php:153
+msgid "Latest time label"
+msgstr "Label voor laatste tijdstip"
+
+#: templates/admin/sections/colorpicker.php:21
 #, fuzzy
-msgid "Required Field?"
-msgstr "Verplicht?"
+msgid "Default color"
+msgstr "Standaard"
 
-#: templates/admin/sections/pricing.php:73
-#, fuzzy
-msgid "Flat Rate?"
-msgstr "Vast bedrag?"
+#: templates/admin/sections/colorpicker.php:34
+msgid "Element width"
+msgstr "Breedte van element"
 
-#: templates/admin/sections/pricing.php:92
-msgid "Percentage?"
+#: templates/admin/sections/colorpicker.php:50
+msgid "Show by default?"
+msgstr "Standaard weergeven?"
+
+#: templates/admin/sections/colorpicker.php:63
+msgid "Display common palettes?"
+msgstr "Veelgebruikte paletten weergeven?"
+
+#: templates/admin/sections/conditions.php:49
+msgid ""
+"If you only want to show this field for certain variations, enter the "
+"variation IDs below. Leave empty to show for all variations."
 msgstr ""
+"Als u dit veld alleen wilt weergeven voor bepaalde variaties, voer dan "
+"hieronder de variatie-ID's in. Laat leeg om voor alle variaties weer te "
+"geven."
 
-#: templates/admin/sections/uploads.php:18
-#, fuzzy
-msgid "Allow multiple uploads?"
-msgstr "Vermenigvuldig prijs?"
-
-#: templates/admin/sections/pricing.php:51
-msgid "Price per upload?"
-msgstr ""
-
-#: templates/admin/sections/uploads.php:32
-#, fuzzy
-msgid "Max Files"
-msgstr "Max. bestandsgrootte"
-
-#: templates/admin/sections/pricing.php:38
-#, fuzzy
-msgid "Price Per Character?"
-msgstr "Prijs per teken?"
-
-#: templates/admin/sections/text.php:82
-msgid "Only Allow Alphanumeric?"
-msgstr ""
-
-#: templates/admin/sections/text.php:95
-msgid "Only Charge Alphanumeric?"
-msgstr ""
-
-#: templates/admin/sections/number.php:21
-#, fuzzy
-msgid "Min Value"
-msgstr "Min. waarde"
-
-#: templates/admin/sections/number.php:34
-#, fuzzy
-msgid "Max Value"
-msgstr "Max. waarde"
-
-#: templates/admin/sections/number.php:62
-#, fuzzy
-msgid "Multiply Price?"
-msgstr "Vermenigvuldig prijs?"
+#: templates/admin/sections/date.php:23
+msgid "Offset days"
+msgstr "Verschuivingsdagen"
 
 #: templates/admin/sections/date.php:37
 msgid "Min date today?"
@@ -1911,190 +3523,79 @@ msgstr "Min. datum"
 msgid "Max date"
 msgstr "Max. date"
 
-#: templates/admin/sections/colorpicker.php:21
+#: templates/admin/sections/display.php:19
+msgid "Field Class"
+msgstr "Veldklasse"
+
+#: templates/admin/sections/display.php:60
+msgid "Number Columns"
+msgstr "Aantal kolommen"
+
+#: templates/admin/sections/display.php:82
 #, fuzzy
-msgid "Default color"
-msgstr "Standaard"
+msgid "Hide Labels?"
+msgstr "Veld naam"
 
-#: templates/admin/sections/colorpicker.php:34
-msgid "Element width"
-msgstr ""
+#: templates/admin/sections/display.php:102
+msgid "Display as Swatch?"
+msgstr "Weergeven als staal?"
 
-#: templates/admin/sections/colorpicker.php:50
-msgid "Show by default?"
-msgstr ""
+#: templates/admin/sections/display.php:118
+msgid "Display as Slider?"
+msgstr "Weergeven als schuifregelaar?"
 
-#: templates/admin/sections/colorpicker.php:63
-msgid "Display common palettes?"
-msgstr ""
+#: templates/admin/sections/general.php:21
+msgid "Field Label"
+msgstr "Veld naam"
 
-#: templates/admin/sections/general.php:165
+#: templates/admin/sections/general.php:33
+msgid "Admin Label"
+msgstr "Beheerderslabel"
+
+#: templates/admin/sections/general.php:45
+msgid "Field Type"
+msgstr "Veld Type"
+
+#: templates/admin/sections/general.php:67
+msgid "Click here for guidance on each field type"
+msgstr "Klik hier voor uitleg over elk veldtype"
+
+#: templates/admin/sections/general.php:82
+msgid "Field Visibility"
+msgstr "Zichtbaarheid van veld"
+
+#: templates/admin/sections/general.php:92
+msgid "Display everywhere"
+msgstr "Overal weergeven"
+
+#: templates/admin/sections/general.php:93
+msgid "Display on product page only"
+msgstr "Alleen weergeven op productpagina"
+
+#: templates/admin/sections/general.php:94
+#: templates/admin/views/price-visibility.php:53
+#: templates/admin/views/price-visibility.php:81
+msgid "Hide on product page only"
+msgstr "Alleen verbergen op productpagina"
+
+#: templates/admin/sections/general.php:95
+msgid "Hide from customer"
+msgstr "Verbergen voor klant"
+
+#: templates/admin/sections/general.php:110
+#, fuzzy
+msgid "Required Field?"
+msgstr "Verplicht?"
+
+#: templates/admin/sections/general.php:166
 #, fuzzy
 msgid "Field Image"
 msgstr "Veld naam"
 
-#: templates/admin/sections/general.php:183
+#: templates/admin/sections/general.php:184
 #, fuzzy
 msgid "Field Description"
 msgstr "Beschrijving"
-
-#: templates/admin/field-meta-actions.php:14
-msgid "Drag"
-msgstr "Slepen"
-
-#: templates/admin/field-meta-actions.php:15
-#: templates/admin/group-meta-actions.php:15
-msgid "Collapse / Expand"
-msgstr "Uitvouwen"
-
-#: templates/admin/field-meta-actions.php:17
-#: templates/admin/group-meta-actions.php:19
-msgid "Duplicate"
-msgstr "Duplicaat"
-
-#: admin/functions-admin-cleanup-files.php:134
-#: templates/admin/field-meta-actions.php:18
-#: templates/admin/group-meta-actions.php:20
-msgid "Delete"
-msgstr "Verwijder"
-
-#: templates/admin/global-rule.php:22
-#: templates/admin/new-global-rule.php:21
-msgid "Display this group if:"
-msgstr "Toon deze groep als:"
-
-#: templates/admin/group-settings.php:31
-#: templates/admin/group-settings.php:39
-#, fuzzy
-msgid "Display groups as"
-msgstr "Toon deze groep als:"
-
-#: templates/admin/group-settings.php:43
-msgid "Accordion"
-msgstr ""
-
-#: admin/functions-admin-settings.php:773
-#: templates/admin/group-settings.php:44
-msgid "Lightbox"
-msgstr ""
-
-#: admin/functions-admin-settings.php:202
-#: templates/admin/group-settings.php:45
-msgid "Steps"
-msgstr ""
-
-#: admin/customizer.php:650
-#: admin/customizer.php:785
-#: templates/admin/group-settings.php:46
-msgid "Tabs"
-msgstr ""
-
-#: templates/admin/group-settings.php:106
-msgid "Assign groups to other products"
-msgstr ""
-
-#: templates/admin/group-settings.php:113
-#, fuzzy
-msgid "Assign to products"
-msgstr "Op alle producten"
-
-#: templates/admin/group-settings.php:115
-#, fuzzy
-msgid "Choose the products"
-msgstr "Bekijk product"
-
-#: templates/admin/group-settings.php:122
-msgid "Replace existing groups"
-msgstr ""
-
-#: templates/admin/group-settings.php:129
-msgid "Assign"
-msgstr ""
-
-#: templates/admin/group.php:34
-#, fuzzy
-msgid "Group Title"
-msgstr "Groep titel"
-
-#: templates/admin/group.php:98
-#, fuzzy
-msgid "Group Conditions"
-msgstr "Voorwaarden"
-
-#: templates/admin/import-groups.php:17
-msgid "Search for a product&hellip;"
-msgstr "Zoek naar een product..."
-
-#: templates/admin/import-groups.php:37
-msgid "Imported groups will appear after any groups already registered to this product."
-msgstr "Geïmporteerde groepen worden weergegeven na elke groep die al is geregistreerd voor dit product."
-
-#: admin/functions-admin-import-export-aou.php:45
-#: admin/functions-admin-import-export-aou.php:293
-#: admin/functions-admin-import-export-aou.php:306
-#: admin/functions-admin-import-export-aou.php:307
-#: admin/functions-admin-import-export-aou.php:343
-#: templates/admin/import-groups.php:42
-msgid "Import Groups"
-msgstr "Groepen importeren"
-
-#: templates/admin/new-global-rule.php:26
-msgid "All the rules are met"
-msgstr "Alle regels zijn voldaan"
-
-#: templates/admin/new-global-rule.php:27
-msgid "Any of the rules are met"
-msgstr "Aan elk van de regels is voldaan"
-
-#: templates/admin/sections/conditions.php:38
-msgid "If you only want to show this field for certain variations, enter the variation IDs below. Leave empty to show for all variations."
-msgstr ""
-
-#: templates/admin/sections/calculations.php:46
-msgid "Formula"
-msgstr ""
-
-#: templates/admin/sections/calculations.php:66
-msgid "Hide Calculation?"
-msgstr ""
-
-#: templates/admin/sections/calculations.php:83
-msgid "Round Result"
-msgstr ""
-
-#: templates/admin/sections/calculations.php:93
-#, fuzzy
-msgid "No rounding"
-msgstr "Niet gevonden"
-
-#: templates/admin/sections/calculations.php:98
-msgid "Round down"
-msgstr ""
-
-#: templates/admin/sections/calculations.php:103
-msgid "Round up"
-msgstr ""
-
-#: templates/admin/sections/calculations.php:112
-msgid "Decimal Places"
-msgstr ""
-
-#: templates/admin/sections/calculations.php:138
-msgid "--"
-msgstr ""
-
-#: templates/admin/sections/calculations.php:143
-msgid "Display As Cost"
-msgstr "Weergeven als kosten"
-
-#: templates/admin/sections/calculations.php:148
-#, fuzzy
-msgid "Set Product Price"
-msgstr "Noem je prijs"
-
-#: templates/admin/sections/calculations.php:153
-msgid "Update Quantity"
-msgstr ""
 
 #: templates/admin/sections/information.php:33
 #: templates/admin/views/option-fields.php:38
@@ -2104,12 +3605,243 @@ msgstr "Veld naam"
 
 #: templates/admin/sections/information.php:36
 msgid "Data"
-msgstr ""
+msgstr "Gegevens"
 
 #: templates/admin/sections/information.php:52
 #, fuzzy
 msgid "Add Row"
 msgstr "Toevoegen"
+
+#: templates/admin/sections/number.php:21
+#, fuzzy
+msgid "Min Value"
+msgstr "Min. waarde"
+
+#: templates/admin/sections/number.php:34
+#, fuzzy
+msgid "Max Value"
+msgstr "Max. waarde"
+
+#: templates/admin/sections/number.php:50
+msgid "Decimal places"
+msgstr "Decimalen"
+
+#: templates/admin/sections/number.php:63
+msgid "Step"
+msgstr "Stap"
+
+#: templates/admin/sections/number.php:78
+#, fuzzy
+msgid "Multiply Price?"
+msgstr "Vermenigvuldig prijs?"
+
+#: templates/admin/sections/options.php:30
+msgid "Min Number"
+msgstr "Minimumgetal"
+
+#: templates/admin/sections/options.php:47
+msgid "Max Number"
+msgstr "Maximumgetal"
+
+#: templates/admin/sections/pricing.php:20
+#: templates/admin/views/role-based-prices.php:52
+msgid "Field Price"
+msgstr "Veldprijs"
+
+#: templates/admin/sections/pricing.php:38
+#, fuzzy
+msgid "Price Per Character?"
+msgstr "Prijs per teken?"
+
+#: templates/admin/sections/pricing.php:51
+msgid "Price per upload?"
+msgstr "Prijs per upload?"
+
+#: templates/admin/sections/pricing.php:73
+#, fuzzy
+msgid "Flat Rate?"
+msgstr "Vast bedrag?"
+
+#: templates/admin/sections/pricing.php:92
+msgid "Percentage?"
+msgstr "Percentage?"
+
+#: templates/admin/sections/pricing.php:117
+msgid "Discount"
+msgstr "Korting"
+
+#: templates/admin/sections/pricing.php:134
+msgid "Discount Type"
+msgstr "Kortingstype"
+
+#: templates/admin/sections/pricing.php:143
+msgid "Fixed Amount"
+msgstr "Vast bedrag"
+
+#: templates/admin/sections/pricing.php:144
+msgid "Percentage"
+msgstr "Percentage"
+
+#: templates/admin/sections/products.php:19
+msgid "Child Products"
+msgstr "Onderliggende producten"
+
+#: templates/admin/sections/products.php:29
+msgid "Choose child products"
+msgstr "Kies onderliggende producten"
+
+#: templates/admin/sections/products.php:41
+msgid "Choose the child subscription variations"
+msgstr "Kies de onderliggende abonnementsvariaties"
+
+#: templates/admin/sections/products.php:67
+msgid "Select product categories"
+msgstr "Selecteer productcategorieën"
+
+#: templates/admin/sections/products.php:96
+msgid "Products Layout"
+msgstr "Indeling van producten"
+
+#: templates/admin/sections/products.php:105
+msgid "Checkboxes Images"
+msgstr "Selectievakjes met afbeeldingen"
+
+#: templates/admin/sections/products.php:106
+msgid "Checkboxes List"
+msgstr "Lijst met selectievakjes"
+
+#: templates/admin/sections/products.php:107
+msgid "Column"
+msgstr "Kolom"
+
+#: templates/admin/sections/products.php:108
+msgid "Radio Images"
+msgstr "Keuzerondjes met afbeeldingen"
+
+#: templates/admin/sections/products.php:109
+msgid "Radio List"
+msgstr "Lijst met keuzerondjes"
+
+#: templates/admin/sections/products.php:112
+#, fuzzy
+msgid "Variations Grid"
+msgstr "Voorwaarden"
+
+#: templates/admin/sections/products.php:113
+msgid "Components List"
+msgstr "Lijst met onderdelen"
+
+#: templates/admin/sections/products.php:120
+msgid "This article explains the different layouts"
+msgstr "Dit artikel legt de verschillende indelingen uit"
+
+#: templates/admin/sections/products.php:131
+msgid "Select Field Placeholder"
+msgstr "Tijdelijke aanduiding voor selectieveld"
+
+#: templates/admin/sections/products.php:150
+msgid "Products Quantities"
+msgstr "Aantallen producten"
+
+#: templates/admin/sections/products.php:159
+msgid "Independent"
+msgstr "Onafhankelijk"
+
+#: templates/admin/sections/products.php:160
+msgid "Linked"
+msgstr "Gekoppeld"
+
+#: templates/admin/sections/products.php:161
+msgid "One only"
+msgstr "Slechts één"
+
+#: templates/admin/sections/products.php:175
+msgid "Min Child Products"
+msgstr "Minimaal aantal onderliggende producten"
+
+#: templates/admin/sections/products.php:192
+msgid "Max Child Products"
+msgstr "Maximaal aantal onderliggende producten"
+
+#: templates/admin/sections/products.php:209
+msgid "Default Quantity"
+msgstr "Standaardaantal"
+
+#: templates/admin/sections/products.php:226
+msgid "Force Quantity?"
+msgstr "Aantal afdwingen?"
+
+#: templates/admin/sections/swatches.php:21
+msgid "Swatch width"
+msgstr "Breedte van staal"
+
+#: templates/admin/sections/swatches.php:42
+msgid "Layer images?"
+msgstr "Afbeeldingen lagen?"
+
+#: templates/admin/sections/swatches.php:59
+msgid "Main Image Scale %"
+msgstr "Schaal hoofdafbeelding %"
+
+#: templates/admin/sections/swatches.php:76
+msgid "Parent Swatch ID"
+msgstr "ID van bovenliggend staal"
+
+#: templates/admin/sections/swatches.php:93
+#, fuzzy
+msgid "Allow Multiple?"
+msgstr "Vermenigvuldig prijs?"
+
+#: templates/admin/sections/text.php:20
+msgid "Min Characters"
+msgstr "Minimumaantal tekens"
+
+#: templates/admin/sections/text.php:34
+msgid "Max Characters"
+msgstr "Maximumaantal tekens"
+
+#: templates/admin/sections/text.php:49
+msgid "Show Counter?"
+msgstr "Teller weergeven?"
+
+#: templates/admin/sections/text.php:67
+msgid "Free Characters"
+msgstr "Gratis tekens"
+
+#: templates/admin/sections/text.php:82
+msgid "Only Allow Alphanumeric?"
+msgstr "Alleen alfanumeriek toestaan?"
+
+#: templates/admin/sections/text.php:95
+msgid "Only Charge Alphanumeric?"
+msgstr "Alleen alfanumeriek in rekening brengen?"
+
+#: templates/admin/sections/uploads.php:18
+#, fuzzy
+msgid "Allow multiple uploads?"
+msgstr "Vermenigvuldig prijs?"
+
+#: templates/admin/sections/uploads.php:32
+msgid "Min Files"
+msgstr "Minimumaantal bestanden"
+
+#: templates/admin/sections/uploads.php:45
+#, fuzzy
+msgid "Max Files"
+msgstr "Max. bestandsgrootte"
+
+#: templates/admin/views/group-ajax-condition.php:206
+msgid "Manage Conditions"
+msgstr "Voorwaarden beheren"
+
+#: templates/admin/views/option-fields-new.php:21
+#: templates/admin/views/option-fields.php:32
+msgid "Alt"
+msgstr "Alt"
+
+#: templates/admin/views/option-fields-new.php:24
+msgid "Colour"
+msgstr "Kleur"
 
 #: templates/admin/views/option-fields-new.php:27
 msgid "Option"
@@ -2123,1371 +3855,58 @@ msgstr "Optie toevoegen"
 #: templates/admin/views/option-fields-new.php:54
 #: templates/admin/views/option-fields.php:91
 msgid "First field is instruction only"
-msgstr ""
+msgstr "Eerste veld is alleen instructie"
 
-#: templates/frontend/products/products-column.php:380
+#: templates/admin/views/option-fields.php:35
+msgid "Color"
+msgstr "Kleur"
+
+#: templates/admin/views/price-visibility.php:42
+msgid "Field Price Visibility"
+msgstr "Zichtbaarheid van veldprijs"
+
+#: templates/admin/views/price-visibility.php:52
+#: templates/admin/views/price-visibility.php:80
+msgid "Visible"
+msgstr "Zichtbaar"
+
+#: templates/admin/views/price-visibility.php:54
+#: templates/admin/views/price-visibility.php:82
+msgid "Hidden"
+msgstr "Verborgen"
+
+#: templates/admin/views/price-visibility.php:70
+msgid "Option Price Visibility"
+msgstr "Zichtbaarheid van optieprijs"
+
+#: templates/admin/views/price-visibility.php:87
+msgid "Value Only"
+msgstr "Alleen waarde"
+
+#: templates/frontend/products/products-column.php:427
 #, fuzzy
 msgid "Add"
 msgstr "Toevoegen"
 
-#: templates/frontend/products/products-grid.php:49
+#: templates/frontend/products/products-grid.php:50
 msgid "Child product needs to be variable"
-msgstr ""
+msgstr "Onderliggend product moet variabel zijn"
 
-#: templates/frontend/products/products-grid.php:61
+#: templates/frontend/products/products-grid.php:62
 msgid "Child product needs to have two attributes"
-msgstr ""
+msgstr "Onderliggend product moet twee kenmerken hebben"
 
-#: templates/frontend/products/products-swatches.php:359
+#: templates/frontend/products/products-swatches.php:365
 msgid "Toggle"
-msgstr ""
+msgstr "Schakelen"
 
 #: templates/frontend/summary-panel.php:115
 msgid "Subtotal"
-msgstr ""
+msgstr "Subtotaal"
 
 #: templates/frontend/upload.php:22
 msgid "You need to be logged in to upload files"
 msgstr "Je moet ingelogd zijn om bestanden te kunnen uploaden"
 
-#. Plugin URI of the plugin
-#: product-extras-for-woocommerce.php
-msgid "https://pluginrepublic.com/wordpress-plugins/woocommerce-product-add-ons-ultimate/"
-msgstr "https://pluginrepublic.com/wordpress-plugins/woocommerce-product-add-ons-ultimate/"
-
-#. Description of the plugin
-#: product-extras-for-woocommerce.php
-msgid "Add extra fields to WooCommerce products"
-msgstr "Voeg extra velden toe aan WooCommerce-producten"
-
-#. Author of the plugin
-#: product-extras-for-woocommerce.php
-msgid "Plugin Republic"
-msgstr ""
-
-#. Author URI of the plugin
-#: product-extras-for-woocommerce.php
-msgid "https://pluginrepublic.com/"
-msgstr ""
-
-#: admin/customizer.php:56
-msgid "Swatches and Products"
-msgstr ""
-
-#: admin/customizer.php:83
-msgid "Preset styles"
-msgstr ""
-
-#: admin/customizer.php:89
-msgid "Inherit from theme"
-msgstr ""
-
-#: admin/customizer.php:94
-msgid "Simple"
-msgstr ""
-
-#: admin/customizer.php:111
-msgid "Accent colour"
-msgstr ""
-
-#: admin/customizer.php:435
-msgid "Hide the Group Title"
-msgstr ""
-
-#: admin/customizer.php:455
-msgid "Standard Layout"
-msgstr ""
-
-#: admin/customizer.php:475
-msgid "Title Colour"
-msgstr ""
-
-#: admin/customizer.php:494
-msgid "Title Font Size"
-msgstr ""
-
-#: admin/customizer.php:513
-msgid "Description Colour"
-msgstr ""
-
-#: admin/customizer.php:532
-msgid "Description Font Size"
-msgstr ""
-
-#: admin/customizer.php:552
-msgid "Accordion Layout"
-msgstr ""
-
-#: admin/customizer.php:572
-msgid "Title Background"
-msgstr ""
-
-#: admin/customizer.php:591
-msgid "Icon Colour"
-msgstr ""
-
-#: admin/customizer.php:610
-msgid "Icon Size"
-msgstr ""
-
-#: admin/customizer.php:630
-msgid "Steps Layout"
-msgstr ""
-
-#: admin/customizer.php:669
-#: admin/customizer.php:804
-msgid "Active Tab"
-msgstr ""
-
-#: admin/customizer.php:688
-msgid "Next Button"
-msgstr ""
-
-#: admin/customizer.php:707
-msgid "Previous Button"
-msgstr ""
-
-#: admin/customizer.php:726
-msgid "Button Text Color"
-msgstr ""
-
-#: admin/customizer.php:746
-msgid "Tabs Layout"
-msgstr ""
-
-#: admin/customizer.php:766
-msgid "Justify Tabs"
-msgstr ""
-
-#: admin/customizer.php:1028
-msgid "Show Inputs on Products Field"
-msgstr ""
-
-#: admin/customizer.php:1048
-msgid "Products Highlight Colour"
-msgstr ""
-
-#: admin/customizer.php:1068
-msgid "Swatch Border Width"
-msgstr ""
-
-#: admin/customizer.php:1088
-msgid "Swatch Border Padding"
-msgstr ""
-
-#: admin/customizer.php:1107
-msgid "Enable Circular Swatches"
-msgstr ""
-
-#: admin/customizer.php:1127
-msgid "Color Swatch Width"
-msgstr ""
-
-#: admin/customizer.php:1147
-msgid "Color Swatch Height"
-msgstr ""
-
-#: admin/customizer.php:1166
-msgid "Use Grid Layout"
-msgstr ""
-
-#: admin/customizer.php:1185
-msgid "Swatch Image Size"
-msgstr ""
-
-#: admin/customizer.php:1205
-msgid "Product Quantity Layout"
-msgstr ""
-
-#: admin/customizer.php:1210
-msgid "Grid"
-msgstr ""
-
-#: admin/customizer.php:1211
-msgid "Block"
-msgstr ""
-
-#: admin/customizer.php:1227
-msgid "Show Product Names as Tooltips"
-msgstr ""
-
-#: admin/functions-admin-cleanup-files.php:57
-#: admin/functions-admin-cleanup-files.php:58
-msgid "Clean Up Files"
-msgstr ""
-
-#: admin/functions-admin-cleanup-files.php:74
-msgid "Clean Up Uploaded Files"
-msgstr ""
-
-#: admin/functions-admin-cleanup-files.php:77
-msgid "Scanning directories..."
-msgstr ""
-
-#: admin/functions-admin-cleanup-files.php:80
-msgid "No directories found"
-msgstr ""
-
-#: admin/functions-admin-cleanup-files.php:83
-msgid "Getting all files that are older than [before_date]... [percentage]"
-msgstr ""
-
-#: admin/functions-admin-cleanup-files.php:86
-msgid "Scanning has finished for files older than [before_date]. Number of files to be deleted: [files_to_delete]"
-msgstr ""
-
-#: admin/functions-admin-cleanup-files.php:89
-msgid "Deleting files older than [before_date]... [percentage]"
-msgstr ""
-
-#: admin/functions-admin-cleanup-files.php:92
-msgid "Clean up done for files older than [before_date]. Number of files deleted: [total_deleted]"
-msgstr ""
-
-#: admin/functions-admin-cleanup-files.php:93
-msgid "Done"
-msgstr ""
-
-#: admin/functions-admin-cleanup-files.php:101
-msgid "Confirm delete? This cannot be undone."
-msgstr ""
-
-#: admin/functions-admin-cleanup-files.php:102
-#: admin/functions-admin-import-export-aou.php:48
-#: admin/functions-admin-import-export-aou.php:120
-msgid "Cancel"
-msgstr ""
-
-#: admin/functions-admin-cleanup-files.php:105
-msgid "Deleted files:"
-msgstr ""
-
-#: admin/functions-admin-cleanup-files.php:121
-msgid "Delete uploaded files for all Completed orders? This cannot be undone."
-msgstr ""
-
-#: admin/functions-admin-cleanup-files.php:122
-msgid "Delete uploaded files from Completed orders"
-msgstr ""
-
-#: admin/functions-admin-cleanup-files.php:129
-msgid "Delete files uploaded before date:"
-msgstr ""
-
-#: admin/functions-admin-cleanup-files.php:132
-msgid "Scan files to delete"
-msgstr ""
-
-#: admin/functions-admin-cleanup-files.php:156
-msgid "All uploaded files in Completed orders have been deleted."
-msgstr ""
-
-#: admin/functions-admin-cleanup-files.php:162
-msgid "Some files have not been deleted because of an error."
-msgstr ""
-
-#: admin/functions-admin-cleanup-files.php:168
-#: admin/functions-admin-order.php:610
-msgid "Invalid nonce. No files were deleted."
-msgstr ""
-
-#: admin/functions-admin-cleanup-files.php:204
-msgid "No Completed orders with uploaded files were found."
-msgstr ""
-
-#: admin/functions-admin-cleanup-files.php:335
-#: admin/functions-admin-cleanup-files.php:387
-msgid "Invalid nonce. Please refresh page then try again."
-msgstr ""
-
-#: admin/functions-admin-cleanup-files.php:342
-#: admin/functions-admin-cleanup-files.php:394
-msgid "Invalid request. Some parameters are missing."
-msgstr ""
-
-#: admin/functions-admin-cleanup-files.php:350
-#: admin/functions-admin-cleanup-files.php:402
-msgid "Invalid date format: "
-msgstr ""
-
-#: admin/functions-admin-cleanup-files.php:363
-#: admin/functions-admin-cleanup-files.php:415
-msgid "Invalid directory: "
-msgstr ""
-
-#: admin/functions-admin-conditions.php:20
-msgid "True"
-msgstr ""
-
-#: admin/functions-admin-conditions.php:21
-msgid "False"
-msgstr ""
-
-#: admin/functions-admin-export.php:21
-#: admin/functions-admin-export.php:22
-msgid "Export Orders"
-msgstr ""
-
-#: admin/functions-admin-export.php:32
-msgid "Export Product Add-Ons by Order"
-msgstr ""
-
-#: admin/functions-admin-export.php:33
-msgid "Click the Export button to export all your Product Add-Ons from orders to a csv file which you can then open with Excel or other spreadsheet software."
-msgstr ""
-
-#: admin/functions-admin-import-export-aou.php:44
-msgid "Import/Export Add-Ons"
-msgstr ""
-
-#: admin/functions-admin-import-export-aou.php:46
-#: admin/functions-admin-import-export-aou.php:100
-#: admin/functions-admin-import-export-aou.php:315
-#: admin/functions-admin-import-export-aou.php:316
-#: admin/functions-admin-import-export-aou.php:383
-msgid "Export Groups"
-msgstr ""
-
-#: admin/functions-admin-import-export-aou.php:47
-msgid "Export Selected Group(s)"
-msgstr ""
-
-#: admin/functions-admin-import-export-aou.php:81
-msgid "Import Add-On Groups"
-msgstr ""
-
-#: admin/functions-admin-import-export-aou.php:83
-msgid "Choose whether to import groups from one or more products or from existing global groups. You'll be able to select which groups to import. All fields within the groups will also be imported."
-msgstr ""
-
-#: admin/functions-admin-import-export-aou.php:87
-#: admin/functions-admin-import-export-aou.php:106
-msgid "Product(s)"
-msgstr ""
-
-#: admin/functions-admin-import-export-aou.php:101
-msgid "Groups: "
-msgstr ""
-
-#: admin/functions-admin-import-export-aou.php:103
-msgid "Choose where to export these groups to - either to specific products or to global groups. All fields within your selected groups will also be exported."
-msgstr ""
-
-#: admin/functions-admin-import-export-aou.php:123
-#: admin/functions-admin-import-export-aou.php:399
-msgid "Exporting..."
-msgstr ""
-
-#: admin/functions-admin-import-export-aou.php:124
-#: admin/functions-admin-import-export-aou.php:352
-msgid "Importing..."
-msgstr ""
-
-#: admin/functions-admin-import-export-aou.php:129
-msgid "Go to Global Groups"
-msgstr ""
-
-#: admin/functions-admin-import-export-aou.php:132
-msgid "Go to Global Add-Ons"
-msgstr ""
-
-#: admin/functions-admin-import-export-aou.php:135
-#: admin/functions-admin-import-export-aou.php:403
-msgid "Go to"
-msgstr ""
-
-#: admin/functions-admin-import-export-aou.php:205
-msgid "No groups found in your selection. Please try again."
-msgstr ""
-
-#: admin/functions-admin-import-export-aou.php:344
-#: admin/functions-admin-import-export-aou.php:384
-msgid "Go back to Global Groups"
-msgstr ""
-
-#: admin/functions-admin-import-export-aou.php:388
-msgid "No Global Groups selected for export."
-msgstr ""
-
-#: admin/functions-admin-import-export-aou.php:393
-msgid "Export to products:"
-msgstr ""
-
-#: admin/functions-admin-menu.php:60
-msgid "Use this page to find help quickly, whether you've just started using the plugin or you've been using it for years."
-msgstr ""
-
-#: admin/functions-admin-menu.php:64
-msgid "You'll find links and videos here that will answer the most common questions."
-msgstr ""
-
-#: admin/functions-admin-menu.php:72
-msgid "Getting Started"
-msgstr ""
-
-#: admin/functions-admin-menu.php:77
-msgid "Here are some links to documents to help with setting the plugin up for the first time."
-msgstr ""
-
-#: admin/functions-admin-menu.php:84
-msgid "Adding your first Add-Ons field"
-msgstr ""
-
-#: admin/functions-admin-menu.php:88
-msgid "A guide to field types"
-msgstr ""
-
-#: admin/functions-admin-menu.php:92
-msgid "Global add-ons"
-msgstr ""
-
-#: admin/functions-admin-menu.php:96
-#: admin/functions-admin-menu.php:140
-msgid "All the plugin documentation"
-msgstr ""
-
-#: admin/functions-admin-menu.php:103
-msgid "Find the Product Add-Ons Ultimate settings page here"
-msgstr ""
-
-#: admin/functions-admin-menu.php:120
-msgid "Advanced"
-msgstr ""
-
-#: admin/functions-admin-menu.php:125
-msgid "If you'd like some help with more advanced features, check out the links below."
-msgstr ""
-
-#: admin/functions-admin-menu.php:132
-msgid "Adding conditions to your fields"
-msgstr ""
-
-#: admin/functions-admin-menu.php:136
-msgid "Uploading files"
-msgstr ""
-
-#: admin/functions-admin-menu.php:170
-msgid "Find more videos on YouTube."
-msgstr ""
-
-#: admin/functions-admin-menu.php:185
-msgid "Power up Add-Ons Ultimate with these extensions"
-msgstr ""
-
-#: admin/functions-admin-order.php:320
-#: admin/functions-admin-order.php:598
-msgid "All files for this order have been deleted."
-msgstr ""
-
-#: admin/functions-admin-order.php:395
-msgid "Delete uploaded files in this order? This cannot be undone."
-msgstr ""
-
-#: admin/functions-admin-order.php:396
-msgid "Delete Files"
-msgstr ""
-
-#: admin/functions-admin-order.php:604
-msgid "Some files for this order have not been deleted because of an error."
-msgstr ""
-
-#: admin/functions-admin-order.php:664
-msgid "Has uploads?"
-msgstr ""
-
-#: admin/functions-admin-settings.php:21
-#: templates/admin/field-item.php:93
-msgid "Pricing"
-msgstr ""
-
-#: admin/functions-admin-settings.php:37
-msgid "Hide field prices"
-msgstr ""
-
-#: admin/functions-admin-settings.php:40
-msgid "Hide field prices in the cart for extras with only one option value (e.g. Radio, Select). Avoids displaying add-on prices twice."
-msgstr ""
-
-#: admin/functions-admin-settings.php:108
-msgid "Enhancements"
-msgstr ""
-
-#: admin/functions-admin-settings.php:121
-#: admin/functions-admin-settings.php:180
-#: admin/functions-admin-settings.php:772
-msgid "Disabled"
-msgstr ""
-
-#: admin/functions-admin-settings.php:123
-msgid "Enhanced"
-msgstr ""
-
-#: admin/functions-admin-settings.php:127
-msgid "Enable Clear All Options button"
-msgstr ""
-
-#: admin/functions-admin-settings.php:130
-msgid "Display the Clear All Options button on the product page, which allows customers to clear all Add-On field values. Requires Optimise conditions."
-msgstr ""
-
-#: admin/functions-admin-settings.php:136
-msgid "Enable cart editing"
-msgstr ""
-
-#: admin/functions-admin-settings.php:145
-msgid "Display group titles in cart"
-msgstr ""
-
-#: admin/functions-admin-settings.php:148
-msgid "Show the group title in the cart."
-msgstr ""
-
-#: admin/functions-admin-settings.php:154
-msgid "Exclude empty fields in cart"
-msgstr ""
-
-#: admin/functions-admin-settings.php:157
-msgid "If a field does not have a value, do not include it in cart meta"
-msgstr ""
-
-#: admin/functions-admin-settings.php:167
-msgid "Progress bar"
-msgstr ""
-
-#: admin/functions-admin-settings.php:173
-msgid "Display progress bar"
-msgstr ""
-
-#: admin/functions-admin-settings.php:176
-msgid "Show a graphic progress bar for users to see how many fields they have completed."
-msgstr ""
-
-#: admin/functions-admin-settings.php:186
-msgid "Required fields only"
-msgstr ""
-
-#: admin/functions-admin-settings.php:189
-msgid "Only check required fields for progress bar update."
-msgstr ""
-
-#: admin/functions-admin-settings.php:194
-msgid "Progress bar layout"
-msgstr ""
-
-#: admin/functions-admin-settings.php:197
-msgid "Choose a style for your progress bar."
-msgstr ""
-
-#: admin/functions-admin-settings.php:201
-msgid "Bar"
-msgstr ""
-
-#: admin/functions-admin-settings.php:246
-msgid "Display hidden fields as disabled"
-msgstr ""
-
-#: admin/functions-admin-settings.php:249
-msgid "If a field is hidden by a condition, select this option to make it visible but disabled"
-msgstr ""
-
-#: admin/functions-admin-settings.php:341
-msgid "Optimizations"
-msgstr ""
-
-#: admin/functions-admin-settings.php:347
-msgid "Optimize calculations"
-msgstr ""
-
-#: admin/functions-admin-settings.php:350
-msgid "This will enable an alternative method for checking calculations which might improve page performance."
-msgstr ""
-
-#: admin/functions-admin-settings.php:355
-msgid "Optimize conditions"
-msgstr ""
-
-#: admin/functions-admin-settings.php:358
-msgid "This will enable an alternative method for checking conditions which might improve page performance."
-msgstr ""
-
-#: admin/functions-admin-settings.php:410
-msgid "Date fields"
-msgstr ""
-
-#: admin/functions-admin-settings.php:416
-msgid "Enable days of the week"
-msgstr ""
-
-#: admin/functions-admin-settings.php:419
-msgid "Enable the option to disable specific days of the week."
-msgstr ""
-
-#: admin/functions-admin-settings.php:425
-msgid "Enable offset"
-msgstr ""
-
-#: admin/functions-admin-settings.php:428
-msgid "Enable an option to offset the minimum date by a set number of days."
-msgstr ""
-
-#: admin/functions-admin-settings.php:434
-msgid "Enable blocked dates"
-msgstr ""
-
-#: admin/functions-admin-settings.php:437
-msgid "Enable a field to enter dates that are unavailable."
-msgstr ""
-
-#: admin/functions-admin-settings.php:544
-msgid "File types"
-msgstr ""
-
-#: admin/functions-admin-settings.php:547
-msgid "Enter the permitted file types. Please remember that allowing users to upload files to your server carries a security risk, so please use this feature with caution."
-msgstr ""
-
-#: admin/functions-admin-settings.php:574
-msgid "Swatches settings"
-msgstr ""
-
-#: admin/functions-admin-settings.php:589
-#: templates/admin/sections/swatches.php:42
-msgid "Replace main image"
-msgstr ""
-
-#: admin/functions-admin-settings.php:592
-msgid "Enable this option to replace the main product image with the selected image swatch."
-msgstr ""
-
-#: admin/functions-admin-settings.php:663
-msgid "Display child products as metadata"
-msgstr ""
-
-#: admin/functions-admin-settings.php:666
-msgid "Enable this to display child products as metadata for parent products in the cart."
-msgstr ""
-
-#: admin/functions-admin-settings.php:699
-msgid "Indent child products"
-msgstr ""
-
-#: admin/functions-admin-settings.php:702
-msgid "Add padding to child products in the cart and order."
-msgstr ""
-
-#: admin/functions-admin-settings.php:717
-msgid "Remove parent if child product out of stock"
-msgstr ""
-
-#: admin/functions-admin-settings.php:720
-msgid "Enable this to automatically remove parent products if a child product is out of stock."
-msgstr ""
-
-#: admin/functions-admin-settings.php:727
-msgid "Show stock status"
-msgstr ""
-
-#: admin/functions-admin-settings.php:730
-msgid "Enable this to add a child product's stock status to their name"
-msgstr ""
-
-#: admin/functions-admin-settings.php:746
-msgid "Enable plus minus buttons"
-msgstr ""
-
-#: admin/functions-admin-settings.php:749
-msgid "Enable this to show + and - buttons alongside quantity fields in Products fields."
-msgstr ""
-
-#: admin/functions-admin-settings.php:759
-msgid "QuickView"
-msgstr ""
-
-#: admin/functions-admin-settings.php:774
-msgid "New tab"
-msgstr ""
-
-#: admin/functions-admin-settings.php:778
-msgid "Optional link text"
-msgstr ""
-
-#: admin/functions-admin-settings.php:781
-msgid "Enter text here to display as a separate link below the product name. Leave this empty to link directly from the product name."
-msgstr ""
-
-#: admin/functions-admin-settings.php:842
-msgid "Zero value for missing fields"
-msgstr ""
-
-#: admin/functions-admin-settings.php:845
-msgid "Return a 0 as the value for any fields that are not included on the page."
-msgstr ""
-
-#: admin/functions-admin-settings.php:902
-#: classes/class-pewc-settings-tab.php:113
-msgid "Integrations"
-msgstr ""
-
-#: admin/functions-admin-settings.php:908
-msgid "Enable compatibility with Polylang"
-msgstr ""
-
-#: admin/functions-admin-settings.php:911
-msgid "Enable this only if you have Polylang installed. Also, if you have added the Polylang compatibility snippets before, please remove them before enabling this setting."
-msgstr ""
-
-#: admin/functions-admin-settings.php:926
-msgid "Dynamic Pricing and Discount Rules"
-msgstr ""
-
-#: admin/functions-admin-settings.php:932
-msgid "Disable Dynamic Pricing and Discount Rules price labels"
-msgstr ""
-
-#: admin/functions-admin-settings.php:935
-msgid "Prevent Dynamic Pricing and Discount Rules from updating the price labels on the product page."
-msgstr ""
-
-#: admin/functions-admin-settings.php:941
-msgid "Disable add-on prices on pricing table"
-msgstr ""
-
-#: admin/functions-admin-settings.php:944
-msgid "Prevent Add-Ons Ultimate from adding add-on field prices to the pricing table on the product page."
-msgstr ""
-
-#: admin/functions-admin-settings.php:950
-msgid "Apply User Role Pricing to add-on field prices"
-msgstr ""
-
-#: admin/functions-admin-settings.php:953
-msgid "Adjust add-on field prices if User Role Pricing is enabled in Dynamic Pricing and Discount Rules."
-msgstr ""
-
-#: admin/functions-admin-settings.php:959
-msgid "Disable discounts for add-ons"
-msgstr ""
-
-#: admin/functions-admin-settings.php:962
-msgid "Select this if you don't wish to apply dynamic discounts to add-on field prices."
-msgstr ""
-
-#: admin/functions-admin-settings.php:977
-msgid "Custom user fields"
-msgstr ""
-
-#: admin/functions-admin-settings.php:983
-msgid "Enable user fields"
-msgstr ""
-
-#: admin/functions-admin-settings.php:986
-msgid "Select this to use custom user data in your add-on fields."
-msgstr ""
-
-#: admin/functions-admin-settings.php:1010
-#: classes/class-pewc-settings-tab.php:114
-msgid "Validation"
-msgstr ""
-
-#: admin/functions-admin-settings.php:1016
-msgid "Optimised validation"
-msgstr ""
-
-#: admin/functions-admin-settings.php:1019
-msgid "This will enable validation of add-on fields using Javascript."
-msgstr ""
-
-#: admin/functions-admin-settings.php:1025
-msgid "Hide totals until validated"
-msgstr ""
-
-#: admin/functions-admin-settings.php:1028
-msgid "This will hide the subtotals fields until all required fields have been completed. Requires Optimised validation."
-msgstr ""
-
-#: admin/functions-admin-settings.php:1034
-msgid "Disable groups"
-msgstr ""
-
-#: admin/functions-admin-settings.php:1037
-msgid "Disable the next groups until all required fields in the current group are completed. Only works if groups are displayed as Accordion, Steps, or Tabs. Requires Optimised validation."
-msgstr ""
-
-#: admin/functions-admin-settings.php:1043
-msgid "Disable scroll on Steps layout"
-msgstr ""
-
-#: admin/functions-admin-settings.php:1046
-msgid "Disable the scrolling animation on Steps layout when validation fails. Requires Optimised validation."
-msgstr ""
-
-#: admin/functions-custom-panel.php:105
-msgid "Select all groups"
-msgstr ""
-
-#: admin/functions-custom-panel.php:473
-#: templates/admin/field-item.php:84
-msgid "Calendar List"
-msgstr ""
-
-#: admin/functions-custom-panel.php:482
-#: inc/functions-pro-helpers.php:22
-#: templates/admin/sections/products.php:61
-msgid "Product Categories"
-msgstr ""
-
-#: admin/functions-custom-panel.php:486
-msgid "Swatch"
-msgstr ""
-
-#: admin/metaboxes.php:135
-#: templates/admin/group.php:81
-msgid "Group Class"
-msgstr ""
-
-#: admin/metaboxes.php:268
-#: templates/admin/group.php:23
-msgid "Group Settings"
-msgstr ""
-
-#: classes/class-pewc-product-extra-post-type.php:610
-#: templates/admin/global-rule.php:39
-msgid "Applies To"
-msgstr ""
-
-#: classes/class-pewc-settings-tab.php:117
-msgid "License"
-msgstr ""
-
-#: classes/class-pewc-settings-tab.php:178
-msgid "It hasn't been possible to validate your license key."
-msgstr ""
-
-#: classes/class-pewc-settings-tab.php:182
-msgid "<strong>Most importantly, this isn't a problem - all the plugin's features and functionality are fully available so you can start using the plugin straightaway without needing to activate the license.</strong>"
-msgstr ""
-
-#: classes/class-pewc-settings-tab.php:186
-msgid "There are a number of possible reasons for the license not validating:"
-msgstr ""
-
-#: classes/class-pewc-settings-tab.php:190
-msgid "It's possible there is an issue connecting between this site and the Plugin Republic site"
-msgstr ""
-
-#: classes/class-pewc-settings-tab.php:191
-msgid "If you have bought a bundle, please make sure you enter the license key that is specific to each plugin - not the main bundle license key"
-msgstr ""
-
-#: classes/class-pewc-settings-tab.php:192
-msgid "If you are running a security or firewall plugin, like Wordfence or Sucuri, please try temporarily disabling it and retesting the license "
-msgstr ""
-
-#: classes/class-pewc-settings-tab.php:196
-msgid "There are some more things to try on the following link:"
-msgstr ""
-
-#: classes/class-pewc-settings-tab.php:200
-msgid "How to solve any problems with activating your license."
-msgstr ""
-
-#: classes/rest-api/class-pewc-rest-api-fields-controller.php:64
-#: classes/rest-api/class-pewc-rest-api-fields-controller.php:93
-#: classes/rest-api/class-pewc-rest-api-groups-controller.php:80
-#: classes/rest-api/class-pewc-rest-api-groups-controller.php:377
-msgid "Unique identifier for the add-on group."
-msgstr ""
-
-#: classes/rest-api/class-pewc-rest-api-fields-controller.php:75
-#: classes/rest-api/class-pewc-rest-api-fields-controller.php:440
-msgid "Type of product add-on field"
-msgstr ""
-
-#: classes/rest-api/class-pewc-rest-api-fields-controller.php:98
-#: classes/rest-api/class-pewc-rest-api-fields-controller.php:434
-msgid "Unique identifier for the add-on field."
-msgstr ""
-
-#: classes/rest-api/class-pewc-rest-api-fields-controller.php:149
-#: classes/rest-api/class-pewc-rest-api-groups-controller.php:131
-msgid "Invalid Add-on Group ID."
-msgstr ""
-
-#: classes/rest-api/class-pewc-rest-api-fields-controller.php:158
-msgid "Invalid Add-on Field ID."
-msgstr ""
-
-#: classes/rest-api/class-pewc-rest-api-fields-controller.php:197
-msgid "Field not created"
-msgstr ""
-
-#: classes/rest-api/class-pewc-rest-api-fields-controller.php:208
-#: classes/rest-api/class-pewc-rest-api-fields-controller.php:245
-msgid "Missing field data. Please pass at least one value to use this endpoint."
-msgstr ""
-
-#: classes/rest-api/class-pewc-rest-api-fields-controller.php:279
-msgid "Cannot delete add-on field."
-msgstr ""
-
-#: classes/rest-api/class-pewc-rest-api-fields-controller.php:428
-msgid "Unique identifier for the add-on field's group."
-msgstr ""
-
-#: classes/rest-api/class-pewc-rest-api-fields-controller.php:446
-msgid "Field label"
-msgstr ""
-
-#: classes/rest-api/class-pewc-rest-api-groups-controller.php:193
-msgid "Group not created"
-msgstr ""
-
-#: classes/rest-api/class-pewc-rest-api-groups-controller.php:225
-msgid "Missing group data. Please pass at least one value to use this endpoint."
-msgstr ""
-
-#: classes/rest-api/class-pewc-rest-api-groups-controller.php:286
-msgid "Cannot delete add-on group."
-msgstr ""
-
-#: classes/rest-api/class-pewc-rest-api-groups-controller.php:383
-msgid "List of add-on groups under a product."
-msgstr ""
-
-#: classes/rest-api/class-pewc-rest-api-groups-controller.php:389
-msgid "Add-on group title."
-msgstr ""
-
-#: classes/rest-api/class-pewc-rest-api-groups-controller.php:394
-msgid "Add-on group description."
-msgstr ""
-
-#: classes/rest-api/class-pewc-rest-api-groups-controller.php:399
-msgid "Add-on group layout."
-msgstr ""
-
-#: inc/functions-cart.php:1853
-msgid "The product has not been added to the cart because one or more of its components is sold individually and already exists in the cart."
-msgstr ""
-
-#: inc/functions-cart.php:1891
-msgid "The product has not been added to the cart because one or more of its components is out of stock."
-msgstr ""
-
-#: inc/functions-cart.php:2774
-msgid "The uploaded file has failed a security check. Please try uploading it again: "
-msgstr ""
-
-#: inc/functions-clear-all.php:33
-msgid "Clear All Options"
-msgstr ""
-
-#: inc/functions-conditionals.php:97
-msgid "User Role"
-msgstr ""
-
-#: inc/functions-js-validation.php:243
-msgid "Some fields in this group failed validation."
-msgstr ""
-
-#: inc/functions-media.php:474
-msgid "File not valid"
-msgstr ""
-
-#: inc/functions-media.php:592
-msgid "No thumbnail"
-msgstr ""
-
-#: inc/functions-media.php:602
-msgid "Remove uploaded file"
-msgstr ""
-
-#: inc/functions-order.php:118
-msgid "Composite image"
-msgstr ""
-
-#: inc/functions-order.php:122
-msgid "Composite preview"
-msgstr ""
-
-#: inc/functions-pro-helpers.php:36
-msgid "upgrade to the Pro licence"
-msgstr ""
-
-#: inc/functions-pro-helpers.php:41
-msgid "enter your Pro licence key here"
-msgstr ""
-
-#: inc/functions-pro-helpers.php:46
-msgid "see this support article"
-msgstr ""
-
-#: inc/functions-pro-helpers.php:51
-msgid "This field is not available with the Basic licence. Please %s or %s to use this field."
-msgstr ""
-
-#: inc/functions-pro-helpers.php:56
-msgid "If you have recently upgraded to Pro, please %s."
-msgstr ""
-
-#: inc/functions-products.php:1008
-#: inc/functions-products.php:1056
-msgid "One of the options in this order is sold individually, so duplicates have been removed from the cart"
-msgstr ""
-
-#: inc/functions-products.php:1027
-msgid "One of the options in this order is out of stock so the product has been removed from the cart"
-msgstr ""
-
-#: inc/functions-repeatable.php:118
-msgid "+ Add More"
-msgstr ""
-
-#: inc/functions-repeatable.php:192
-msgid "Are you sure you want to remove this group?"
-msgstr ""
-
-#: inc/functions-repeatable.php:445
-#: templates/admin/group.php:133
-msgid "Repeatable"
-msgstr ""
-
-#: inc/functions-repeatable.php:453
-#: templates/admin/group.php:148
-msgid "Attach to Quantity"
-msgstr ""
-
-#: inc/functions-repeatable.php:461
-msgid "Repeatable Limit"
-msgstr ""
-
-#: inc/functions-single-product.php:134
-msgid "Increase quantity"
-msgstr ""
-
-#: inc/functions-single-product.php:135
-msgid "Decrease quantity"
-msgstr ""
-
-#: inc/functions-single-product.php:233
-msgid "Calculating..."
-msgstr ""
-
-#: inc/functions-single-product.php:238
-msgid "Uploading..."
-msgstr ""
-
-#: inc/functions-single-product.php:299
-msgid "Counting the number of pages..."
-msgstr ""
-
-#: inc/functions-uploads.php:839
-msgid "Loading original image..."
-msgstr ""
-
-#: templates/admin/field-item.php:82
-#: templates/admin/views/option-fields.php:18
-msgid "Options"
-msgstr ""
-
-#: templates/admin/field-item.php:91
-msgid "Color picker"
-msgstr ""
-
-#: templates/admin/field-item.php:94
-msgid "Display"
-msgstr ""
-
-#: templates/admin/field-item.php:96
-msgid "Additional"
-msgstr ""
-
-#: templates/admin/field-meta-actions.php:16
-msgid "Export Field"
-msgstr ""
-
-#: templates/admin/group-meta-actions.php:14
-msgid "Sort"
-msgstr ""
-
-#: templates/admin/group-settings.php:21
-msgid "Product Settings"
-msgstr ""
-
-#: templates/admin/group-settings.php:57
-msgid "Assign global groups"
-msgstr ""
-
-#: templates/admin/group-settings.php:79
-msgid "Hide quantity field"
-msgstr ""
-
-#: templates/admin/group.php:113
-msgid "Always Include in Order"
-msgstr ""
-
-#: templates/admin/group.php:161
-msgid "Repeat Limit"
-msgstr ""
-
-#: templates/admin/sections/additional.php:20
-msgid "User Field ID"
-msgstr ""
-
-#: templates/admin/sections/calculations.php:57
-msgid "Click here for a list of tags"
-msgstr ""
-
-#: templates/admin/sections/calculations.php:158
-msgid "Set Child Product Quantity"
-msgstr ""
-
-#: templates/admin/sections/calculations.php:163
-msgid "Add to Product Weight"
-msgstr ""
-
-#: templates/admin/sections/calculations.php:168
-msgid "Add to Product Length"
-msgstr ""
-
-#: templates/admin/sections/calculations.php:173
-msgid "Add to Product Width"
-msgstr ""
-
-#: templates/admin/sections/calculations.php:178
-msgid "Add to Product Height"
-msgstr ""
-
-#: templates/admin/sections/calculations.php:192
-msgid "Products Field ID"
-msgstr ""
-
-#: templates/admin/sections/calculations.php:218
-msgid "Reverse Formula Field ID"
-msgstr ""
-
-#: templates/admin/sections/calculations.php:231
-msgid "Original Input Field ID"
-msgstr ""
-
-#: templates/admin/sections/calculations.php:244
-msgid "Override Calculation?"
-msgstr ""
-
-#: templates/admin/sections/calendar-list.php:20
-msgid "Days"
-msgstr ""
-
-#: templates/admin/sections/calendar-list.php:41
-msgid "Offset"
-msgstr ""
-
-#: templates/admin/sections/calendar-list.php:60
-msgid "Add Item"
-msgstr ""
-
-#: templates/admin/sections/calendar-list.php:73
-#: templates/admin/sections/date.php:88
-msgid "Disable days of the week?"
-msgstr ""
-
-#: templates/admin/sections/calendar-list.php:80
-#: templates/admin/sections/date.php:95
-msgid "Sunday"
-msgstr ""
-
-#: templates/admin/sections/calendar-list.php:81
-#: templates/admin/sections/date.php:96
-msgid "Monday"
-msgstr ""
-
-#: templates/admin/sections/calendar-list.php:82
-#: templates/admin/sections/date.php:97
-msgid "Tuesday"
-msgstr ""
-
-#: templates/admin/sections/calendar-list.php:83
-#: templates/admin/sections/date.php:98
-msgid "Wednesday"
-msgstr ""
-
-#: templates/admin/sections/calendar-list.php:84
-#: templates/admin/sections/date.php:99
-msgid "Thursday"
-msgstr ""
-
-#: templates/admin/sections/calendar-list.php:85
-#: templates/admin/sections/date.php:100
-msgid "Friday"
-msgstr ""
-
-#: templates/admin/sections/calendar-list.php:86
-#: templates/admin/sections/date.php:101
-msgid "Saturday"
-msgstr ""
-
-#: templates/admin/sections/calendar-list.php:105
-#: templates/admin/sections/date.php:128
-msgid "Blocked dates"
-msgstr ""
-
-#: templates/admin/sections/calendar-list.php:120
-msgid "Latest time"
-msgstr ""
-
-#: templates/admin/sections/calendar-list.php:153
-msgid "Latest time label"
-msgstr ""
-
-#: templates/admin/sections/date.php:23
-msgid "Offset days"
-msgstr ""
-
-#: templates/admin/sections/display.php:19
-msgid "Field Class"
-msgstr ""
-
-#: templates/admin/sections/display.php:81
-msgid "Display as Swatch?"
-msgstr ""
-
-#: templates/admin/sections/display.php:97
-msgid "Display as Slider?"
-msgstr ""
-
-#: templates/admin/sections/general.php:33
-msgid "Admin Label"
-msgstr ""
-
-#: templates/admin/sections/general.php:67
-msgid "Click here for guidance on each field type"
-msgstr ""
-
-#: templates/admin/sections/general.php:82
-msgid "Field Visibility"
-msgstr ""
-
-#: templates/admin/sections/general.php:92
-msgid "Display everywhere"
-msgstr ""
-
-#: templates/admin/sections/general.php:93
-msgid "Display on product page only"
-msgstr ""
-
-#: templates/admin/sections/general.php:94
-#: templates/admin/views/price-visibility.php:53
-#: templates/admin/views/price-visibility.php:81
-msgid "Hide on product page only"
-msgstr ""
-
-#: templates/admin/sections/general.php:95
-msgid "Hide from customer"
-msgstr ""
-
-#: templates/admin/sections/number.php:50
-msgid "Decimal places"
-msgstr ""
-
-#: templates/admin/sections/products.php:29
-msgid "Choose child products"
-msgstr ""
-
-#: templates/admin/sections/products.php:67
-msgid "Select product categories"
-msgstr ""
-
-#: templates/admin/sections/products.php:105
-msgid "Checkboxes Images"
-msgstr ""
-
-#: templates/admin/sections/products.php:106
-msgid "Checkboxes List"
-msgstr ""
-
-#: templates/admin/sections/products.php:108
-msgid "Radio Images"
-msgstr ""
-
-#: templates/admin/sections/products.php:109
-msgid "Radio List"
-msgstr ""
-
-#: templates/admin/sections/products.php:113
-msgid "Components List"
-msgstr ""
-
-#: templates/admin/sections/products.php:120
-msgid "This article explains the different layouts"
-msgstr ""
-
-#: templates/admin/sections/products.php:209
-msgid "Default Quantity"
-msgstr ""
-
-#: templates/admin/sections/products.php:226
-msgid "Force Quantity?"
-msgstr ""
-
-#: templates/admin/sections/swatches.php:21
-msgid "Swatch width"
-msgstr ""
-
-#: templates/admin/sections/swatches.php:59
-msgid "Layer images?"
-msgstr ""
-
-#: templates/admin/sections/swatches.php:76
-msgid "Parent Swatch ID"
-msgstr ""
-
-#: templates/admin/sections/text.php:20
-msgid "Min Characters"
-msgstr ""
-
-#: templates/admin/sections/text.php:34
-msgid "Max Characters"
-msgstr ""
-
-#: templates/admin/sections/text.php:49
-msgid "Show Counter?"
-msgstr ""
-
-#: templates/admin/sections/text.php:67
-msgid "Free Characters"
-msgstr ""
-
-#: templates/admin/views/option-fields-new.php:21
-#: templates/admin/views/option-fields.php:32
-msgid "Alt"
-msgstr ""
-
-#: templates/admin/views/option-fields-new.php:24
-msgid "Colour"
-msgstr ""
-
-#: templates/admin/views/option-fields.php:35
-msgid "Color"
-msgstr ""
-
-#: templates/admin/views/price-visibility.php:42
-msgid "Field Price Visibility"
-msgstr ""
-
-#: templates/admin/views/price-visibility.php:52
-#: templates/admin/views/price-visibility.php:80
-msgid "Visible"
-msgstr ""
-
-#: templates/admin/views/price-visibility.php:54
-#: templates/admin/views/price-visibility.php:82
-msgid "Hidden"
-msgstr ""
-
-#: templates/admin/views/price-visibility.php:70
-msgid "Option Price Visibility"
-msgstr ""
-
-#: templates/admin/views/price-visibility.php:87
-msgid "Value Only"
-msgstr ""
+#~ msgid "Invalid nonce."
+#~ msgstr "Ongeldige nonce."

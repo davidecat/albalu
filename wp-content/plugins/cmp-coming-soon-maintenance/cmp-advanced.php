@@ -17,7 +17,7 @@ if (isset($_POST['niteoCS_bypass_id'])) {
 	if ($_POST['niteoCS_bypass_id'] == '') {
 		update_option('niteoCS_bypass_id', md5(wp_rand()));
 	} else {
-		update_option('niteoCS_bypass_id', sanitize_text_field($_POST['niteoCS_bypass_id']));
+		update_option('niteoCS_bypass_id', sanitize_text_field(wp_unslash($_POST['niteoCS_bypass_id'])));
 	}
 }
 
@@ -26,11 +26,9 @@ if (isset($_POST['niteoCS_bypass']) && is_numeric($_POST['niteoCS_bypass'])) {
 }
 
 if (isset($_POST['niteoCS_bypass_expire'])) {
-	if ($_POST['niteoCS_bypass_expire'] == '') {
-		update_option('niteoCS_bypass_expire', 172800);
-	} else {
-		update_option('niteoCS_bypass_expire', filter_var($_POST['niteoCS_bypass_expire'], FILTER_SANITIZE_NUMBER_INT) * 86400);
-	}
+	$expire_days = absint($_POST['niteoCS_bypass_expire']);
+	$expire_days = $expire_days > 0 ? min($expire_days, 365) : 2;
+	update_option('niteoCS_bypass_expire', $expire_days * DAY_IN_SECONDS);
 }
 
 if (isset($_POST['niteoCS_page_filter'])) {
