@@ -1567,11 +1567,14 @@ add_filter( 'woocommerce_get_breadcrumb', function( $crumbs ) {
 		if ( '' === $text ) {
 			continue;
 		}
-		$url = empty( $crumb['url'] ) ? '' : untrailingslashit( $crumb['url'] );
+		// L'URL esce COME LO DA' YOAST, con lo slash finale: servirlo senza farebbe
+		// scattare un 301 di WordPress su ogni link del breadcrumb, e il visibile
+		// divergerebbe dal JSON-LD. La normalizzazione serve solo al confronto.
+		$url = empty( $crumb['url'] ) ? '' : $crumb['url'];
 		// Il crumb Home lo stampa gia' il tema (icona casetta nel wrap_before di
 		// bootscore, che infatti passa 'home' => '' a WooCommerce): saltarlo, o
 		// nella catena comparirebbe due volte.
-		if ( 0 === $i && $url === $home ) {
+		if ( 0 === $i && untrailingslashit( $url ) === $home ) {
 			continue;
 		}
 		// L'ultimo e' la pagina corrente: senza link, come fa WooCommerce.
