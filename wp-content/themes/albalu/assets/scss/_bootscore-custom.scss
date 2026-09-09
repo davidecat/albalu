@@ -1672,3 +1672,41 @@ ul.pewc-product-extra-groups > li > .pewc-item-field-wrapper > .pewc-description
  
   font-size: 2em;
 }
+
+// PEWC – swatch immagine su mobile (configuratore CONF10)
+// Sotto gli 800px il plugin (style.css riga 1081) trasforma OGNI opzione in
+// display:grid con grid-template-columns:1fr 1fr, ma dentro c'è un solo
+// <label>: il contenuto resta schiacciato in metà cella (45px su iPhone) e le
+// etichette lunghe vanno a capo spezzando le parole a metà sillaba.
+@media screen and (max-width: 800px) {
+  .pewc-item .pewc-radio-images-wrapper[class*="pewc-columns-"] .pewc-radio-image-wrapper,
+  .pewc-item .pewc-checkboxes-images-wrapper[class*="pewc-columns-"] .pewc-checkbox-image-wrapper {
+    display: block;
+  }
+
+  // Campo 44333 "Vuoi ricevere il sacchettino già confezionata?": le due
+  // opzioni sono infografiche che contengono testo, a un terzo di schermo
+  // sarebbero illeggibili. Una per riga.
+  .pewc-field-44333 {
+    .pewc-radio-images-wrapper.pewc-columns-3 {
+      grid-template-columns: 1fr;
+      gap: 0.75rem;
+    }
+
+    .pewc-radio-images-wrapper > .pewc-radio-image-wrapper > label {
+      display: block;
+      max-width: 300px;
+      margin: 0 auto;
+    }
+
+    .pewc-radio-images-wrapper img {
+      width: 100%;
+      height: auto;
+    }
+
+    .pewc-radio-image-desc {
+      text-align: center;
+      line-height: 1.35;
+    }
+  }
+}

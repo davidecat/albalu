@@ -989,6 +989,20 @@ add_filter( 'pewc_description_as_placeholder', function( $set, $item ) {
 
 /* Aggiungi al carrello l'immagine predefinita del prodotto, non quella generata dal plugin */
 remove_filter('pewc_after_add_cart_item_data', 'pewc_create_composite_image', 10, 2);
+
+/* CONF10, campo 44333 "Vuoi ricevere il sacchettino gia' confezionata?": le due
+   opzioni sono infografiche che contengono del testo. La dimensione predefinita
+   degli swatch e' 'thumbnail' (150px), ma su mobile le mostriamo a 300px (vedi
+   _bootscore-custom.scss), quindi a 150px risulterebbero sfocate. */
+add_filter( 'pewc_image_swatch_thumbnail_size', function( $size, $item ) {
+	$field_id = 0;
+	if ( ! empty( $item['field_id'] ) ) {
+		$field_id = (int) $item['field_id'];
+	} elseif ( ! empty( $item['id'] ) && preg_match( '/_(\d+)$/', $item['id'], $m ) ) {
+		$field_id = (int) $m[1];
+	}
+	return ( 44333 === $field_id ) ? 'medium' : $size;
+}, 10, 2 );
 //------------------- START ---------------------
 
 //2. WooCommerce/Dettaglio prodotto: mostra attributi prodotto (shortcode)
