@@ -612,6 +612,83 @@ add_action( 'wp_head', function() {
 	}
 }, 0 );
 
+/* Galleria prodotto: frecce di navigazione + contatore "1 / 6"
+   Il 93% dei prodotti ha piu' di un'immagine, ma sotto i 992px le miniature
+   sono nascoste (vedi _bootscore-custom.scss) e non restava alcun indizio
+   delle altre foto: lo swipe funziona ma nessuno puo' sapere che c'e'.
+   Le frecce sono quelle native di flexslider, qui solo abilitate. Sono
+   l'unica navigazione che convive con le miniature: controlNav accetta o le
+   miniature o i puntini, non entrambi. */
+add_filter( 'woocommerce_single_product_carousel_options', function( $options ) {
+	$options['directionNav'] = true;
+	return $options;
+} );
+
+/* Frecce e contatore vanno dentro .flex-viewport, che corrisponde esattamente
+   all'area dell'immagine: appesi alla galleria finirebbero fuori centro su
+   desktop, dove la galleria include anche la striscia di miniature.
+   Stampato direttamente in wp_footer: da WC 10.9 gli script del carrello sono
+   deferred e wp_add_inline_script su quegli handle non verrebbe emesso. */
+add_action( 'wp_footer', function() {
+	if ( ! is_product() ) {
+		return;
+	}
+	?>
+<script>
+(function($){
+	$(function(){
+		var $gallery = $('.woocommerce-product-gallery').first();
+		if ( ! $gallery.length ) { return; }
+
+		function init() {
+			var $viewport = $gallery.find('.flex-viewport').first();
+			if ( ! $viewport.length ) { return false; } // flexslider non ancora pronto
+
+			var $slides = $gallery.find('.woocommerce-product-gallery__image');
+			if ( $slides.length < 2 ) { return true; } // niente da navigare
+
+			var $nav = $gallery.find('.flex-direction-nav').first();
+			if ( $nav.length && ! $nav.parent().is( $viewport ) ) {
+				$viewport.append( $nav );
+			}
+
+			if ( ! $viewport.find('.albalu-gallery-count').length ) {
+				$viewport.append(
+					'<span class="albalu-gallery-count" aria-hidden="true"><b>1</b> / ' + $slides.length + '</span>'
+				);
+			}
+			var $num = $viewport.find('.albalu-gallery-count b');
+
+			function aggiorna() {
+				var i = $slides.index( $gallery.find('.flex-active-slide').first() );
+				$num.text( ( i < 0 ? 0 : i ) + 1 );
+			}
+			aggiorna();
+
+			/* flexslider non espone eventi jQuery: le sue callback si passano
+			   nelle opzioni, che pero' viaggiano come JSON. Osserviamo quindi
+			   la classe .flex-active-slide, che aggiorna a ogni cambio slide. */
+			var wrapper = $gallery.find('.woocommerce-product-gallery__wrapper')[0];
+			if ( wrapper && window.MutationObserver ) {
+				new MutationObserver( aggiorna ).observe( wrapper, {
+					subtree: true, attributes: true, attributeFilter: ['class']
+				} );
+			}
+			return true;
+		}
+
+		if ( ! init() ) {
+			var tentativi = 0;
+			var t = setInterval(function(){
+				if ( init() || ++tentativi > 40 ) { clearInterval(t); }
+			}, 150);
+		}
+	});
+})(jQuery);
+</script>
+	<?php
+}, 99 );
+
 // Product gallery: prioritize main image, lazy-load thumbnails
 add_filter( 'woocommerce_gallery_image_html_attachment_image_params', function( $params, $attachment_id, $image_size ) {
 	if ( ! is_product() ) {

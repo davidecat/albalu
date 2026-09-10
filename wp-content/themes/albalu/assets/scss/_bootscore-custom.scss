@@ -1710,3 +1710,81 @@ ul.pewc-product-extra-groups > li > .pewc-item-field-wrapper > .pewc-description
     }
   }
 }
+
+// Galleria prodotto: frecce di navigazione e contatore "1 / 6"
+// Le frecce sono quelle native di flexslider, abilitate con directionNav in
+// functions.php; qui vengono solo vestite. Frecce e contatore stanno dentro
+// .flex-viewport (l'area dell'immagine), quindi non aggiungono altezza: il
+// CLS della scheda prodotto resta 0.
+.woocommerce-product-gallery {
+
+  .flex-direction-nav {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    li {
+      margin: 0;
+      padding: 0;
+    }
+
+    a {
+      position: absolute;
+      top: 50%;
+      z-index: 5;
+      width: 38px;
+      height: 38px;
+      margin-top: -19px;
+      border-radius: 50%;
+      background-color: rgba(255, 255, 255, 0.92);
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: 17px 17px;
+      box-shadow: 0 1px 6px rgba(0, 0, 0, 0.22);
+      // flexslider stampa il testo "Previous"/"Next" dentro il link
+      font-size: 0;
+      line-height: 0;
+      text-indent: -9999px;
+      overflow: hidden;
+      opacity: 1; // flexslider di suo le mostra solo all'hover: su touch non esiste
+      transition: background-color 0.15s ease;
+
+      &:hover,
+      &:focus {
+        background-color: #fff;
+      }
+    }
+
+    .flex-prev {
+      left: 8px;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%233f494f' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='15 5 8 12 15 19'/%3E%3C/svg%3E");
+    }
+
+    .flex-next {
+      right: 8px;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%233f494f' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='9 5 16 12 9 19'/%3E%3C/svg%3E");
+    }
+
+    // animationLoop e' false: agli estremi flexslider marca la freccia inattiva
+    .flex-disabled {
+      opacity: 0.3;
+      pointer-events: none;
+    }
+  }
+
+  .albalu-gallery-count {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 5;
+    padding: 5px 9px;
+    border-radius: 11px;
+    background: rgba(63, 73, 79, 0.82);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: 0.3px;
+    pointer-events: none;
+  }
+}
