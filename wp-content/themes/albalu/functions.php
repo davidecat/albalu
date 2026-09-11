@@ -689,6 +689,25 @@ add_action( 'wp_footer', function() {
 	<?php
 }, 99 );
 
+/* Difesa contro le immagini fantasma in galleria.
+   Se un'immagine viene cancellata dalla libreria senza aprire i prodotti che
+   la usano, il suo ID resta in _product_image_gallery e WooCommerce stampa
+   comunque la slide: senza <img>, con un <a href=""> vuoto e una miniatura
+   con src vuoto. E' cosi' che si erano accumulati 209 riferimenti morti su
+   191 prodotti (ripuliti a settembre 2026).
+   Nell'admin gli ID restano visibili di proposito: li' il riferimento rotto
+   va corretto, non nascosto. */
+add_filter( 'woocommerce_product_get_gallery_image_ids', function( $ids ) {
+	if ( empty( $ids ) || ! is_array( $ids ) || is_admin() ) {
+		return $ids;
+	}
+	// Una sola query per tutti gli allegati invece di una per immagine.
+	_prime_post_caches( $ids, false, false );
+	return array_values( array_filter( $ids, function( $id ) {
+		return 'attachment' === get_post_type( $id );
+	} ) );
+} );
+
 // Product gallery: prioritize main image, lazy-load thumbnails
 add_filter( 'woocommerce_gallery_image_html_attachment_image_params', function( $params, $attachment_id, $image_size ) {
 	if ( ! is_product() ) {
