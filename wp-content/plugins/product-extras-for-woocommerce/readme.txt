@@ -3,7 +3,7 @@ Contributors: Gareth Harris
 Tags: add-ons, ecommerce
 Requires at least: 4.7
 Tested up to: 7.1
-Stable tag: 4.4.3
+Stable tag: 4.5.1
 Allow your users to customise products through additional fields
 
 == Description ==
@@ -23,6 +23,31 @@ WooCommerce Product Add Ons Ultimate allows your users to customise products thr
 1.
 
 == Changelog ==
+
+= 4.5.1, 15 September 2026 =
+* Added: setting for 'Duplicate child products' when duplicate product with child products
+* Fixed: PHP warnings when creating a new upload directory and open_basedir restrictions are enabled on the server
+* Fixed: PH warning when removing an uploaded file from an Upload field in a repeatable group
+
+= 4.5.0, 14 September 2026 =
+* Added: Created Add-Ons Library for importing demo products
+* Added: new 'Variable Select' Products Layout for Products and Product Categories fields
+* Added: pewc_duplicate_child_products filter for duplicating child products
+* Added: 'Enable Select All Option' setting for Products fields using the Checkboxes List layout
+* Fixed: downloading uploaded files for an order could exhaust the PHP memory limit when the zip file was large
+
+= 4.4.5, 9 September 2026 =
+* Fixed: 'Validate Calculation fields' not validating fields that set the product price
+* Fixed: validation of formulas that use {product_price} could fail depending on tax settings
+* Fixed: variable product attributes not showing up in conditions if the Product data metabox is collapsed on page load
+* Fixed: some Number fields trigger a PHP warning during validation
+* Fixed: 'Price per character' field not selectable
+* Updated: improved logging when a Calculation field fails validation
+
+= 4.4.4, 2 September 2026 =
+* Fixed: Select field does not reset to selected option after Add to Cart if option has quotes
+* Fixed: data-field-value attribute for Radio Group fields not getting reset when hidden
+* Fixed: 'Validate Calculation fields' not working for formulas that reference Swatch fields with 'Allow multiple' disabled
 
 = 4.4.3, 26 August 2026 =
 * Fixed: add-on fields are not displayed correctly on the cart on some themes

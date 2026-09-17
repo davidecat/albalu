@@ -20,18 +20,27 @@ if( ! defined( 'ABSPATH' ) ) {
 				<?php echo wc_help_tip( 'Select which products you\'d like to associate with this field', 'pewc' ); ?>
 			</label>
 		</div>
-		<div class="product-extra-field-inner">
+		<div class="product-extra-field-inner pewc-child-products-inner">
 			<?php // $simple_products = pewc_get_simple_products();
 			$child_products = ! empty( $item['child_products'] ) ? $item['child_products'] : array();
-			$child_product_method = pewc_child_products_method( $post_id, $item_key );
+			$child_product_method = pewc_child_products_method( $post_id, $item_key, $item );
+			// The unrestricted method, so the admin JS can restore it when switching away from the Variable Select layout
+			$default_child_product_method = pewc_child_products_method( $post_id, $item_key, array() );
+			$products_layout = isset( $item['products_layout'] ) ? $item['products_layout'] : '';
+			// The Variable Select layout only accepts variable products
+			$restrict_to_variable = ( 'variable-select' === $products_layout );
 			if( $child_product_method != 'variable_subscriptions' ) {
 				// Use the standard WooCommerce AJAX methods to search for child products and/or child variations ?>
-				<select class="pewc-field-item wc-product-search pewc-field-child_products pewc-data-options" data-options="" multiple="multiple" style="width: 100%;" name="<?php echo esc_attr( $base_name ); ?>[child_products][]" data-sortable="true" data-placeholder="<?php esc_attr_e( 'Choose child products', 'pewc' ); ?>" data-action="<?php echo $child_product_method; ?>" data-include="" data-exclude="<?php echo intval( $post_id ); ?>" data-field-name="child_products">
+				<select class="pewc-field-item wc-product-search pewc-field-child_products pewc-data-options" data-options="" multiple="multiple" style="width: 100%;" name="<?php echo esc_attr( $base_name ); ?>[child_products][]" data-sortable="true" data-placeholder="<?php esc_attr_e( 'Choose child products', 'pewc' ); ?>" data-action="<?php echo esc_attr( $child_product_method ); ?>" data-default-action="<?php echo esc_attr( $default_child_product_method ); ?>" data-include="" data-exclude="<?php echo intval( $post_id ); ?>" data-field-name="child_products">
 					<?php
 					foreach( $child_products as $product_id ) {
 						$product = wc_get_product( $product_id );
 						// if( is_object( $product ) && $product->is_type( 'simple' ) ) {
 						if( is_object( $product ) ) {
+							if( $restrict_to_variable && ! $product->is_type( 'variable' ) ) {
+								// The Variable Select layout only accepts variable products
+								continue;
+							}
 							echo '<option value="' . esc_attr( $product_id ) . '"' . selected( true, true, false ) . '>' . wp_kses_post( $product->get_formatted_name() ) . '</option>';
 						}
 					} ?>
@@ -49,6 +58,9 @@ if( ! defined( 'ABSPATH' ) ) {
 					} ?>
 				</select>
 			<?php } ?>
+			<small class="pewc-variable-select-note"<?php echo ! $restrict_to_variable ? ' style="display:none;"' : ''; ?>>
+				<?php _e( 'The Variable Select layout only accepts variable products.', 'pewc' ); ?>
+			</small>
 		</div>
 	</div>
 
@@ -105,12 +117,13 @@ if( ! defined( 'ABSPATH' ) ) {
 					<option value="checkboxes" <?php selected( $products_layout, 'checkboxes', true ); ?>><?php _e( 'Checkboxes Images', 'pewc' ); ?></option>
 					<option value="checkboxes-list" <?php selected( $products_layout, 'checkboxes-list', true ); ?>><?php _e( 'Checkboxes List', 'pewc' ); ?></option>
 					<option value="column" <?php selected( $products_layout, 'column', true ); ?>><?php _e( 'Column', 'pewc' ); ?></option>
+					<option value="components" <?php selected( $products_layout, 'components', true ); ?>><?php _e( 'Components List', 'pewc' ); ?></option>
 					<option value="radio" <?php selected( $products_layout, 'radio', true ); ?>><?php _e( 'Radio Images', 'pewc' ); ?></option>
 					<option value="radio-list" <?php selected( $products_layout, 'radio-list', true ); ?>><?php _e( 'Radio List', 'pewc' ); ?></option>
 					<option value="select" <?php selected( $products_layout, 'select', true ); ?>><?php _e( 'Select', 'pewc' ); ?></option>
 					<option value="swatches" <?php selected( $products_layout, 'swatches', true ); ?>><?php _e( 'Swatches', 'pewc' ); ?></option>
+					<option value="variable-select" <?php selected( $products_layout, 'variable-select', true ); ?>><?php _e( 'Variable Select', 'pewc' ); ?></option>
 					<option value="grid" <?php selected( $products_layout, 'grid', true ); ?>><?php _e( 'Variations Grid', 'pewc' ); ?></option>
-					<option value="components" <?php selected( $products_layout, 'components', true ); ?>><?php _e( 'Components List', 'pewc' ); ?></option>
 				</select>
 
 				<small>
@@ -166,11 +179,122 @@ if( ! defined( 'ABSPATH' ) ) {
 
 	</div>
 
-	<div class="pewc-fields-wrapper pewc-child-product-min-max-extras">
+	<div class="pewc-fields-wrapper pewc-products-extras pewc-select-all-extras split-half no-gap">
 
 		<div class="product-extra-field">
 			<div class="product-extra-field-inner">
-				
+
+				<label class="pewc-checkbox-field-label" for="<?php echo esc_attr( $base_name ); ?>_select_all_enabled">
+					<?php _e( 'Enable Select All Option', 'pewc' ); ?>
+					<?php echo wc_help_tip( 'Display an additional checkbox that lets the customer select all child products at once.', 'pewc' ); ?>
+				</label>
+
+			</div>
+			<div class="product-extra-field-inner">
+
+				<?php $select_all_enabled = ! empty( $item['select_all_enabled'] ); ?>
+				<?php pewc_checkbox_toggle( 'select_all_enabled', $select_all_enabled, $group_id, $item_key, 'pewc-select-all-enabled' ); ?>
+
+			</div>
+		</div>
+
+		<div class="product-extra-field">
+			<div class="product-extra-field-inner">
+
+				<label>
+					<?php _e( 'Select All Label', 'pewc' ); ?>
+					<?php echo wc_help_tip( 'The label shown next to the Select All checkbox.', 'pewc' ); ?>
+				</label>
+
+			</div>
+			<div class="product-extra-field-inner">
+
+				<?php $select_all_label = isset( $item['select_all_label'] ) ? $item['select_all_label'] : ''; ?>
+				<input type="text" class="pewc-field-item pewc-field-select_all_label" name="<?php echo esc_attr( $base_name ); ?>[select_all_label]" value="<?php echo esc_attr( $select_all_label ); ?>" placeholder="<?php esc_attr_e( 'Select All', 'pewc' ); ?>" data-field-name="select_all_label">
+
+			</div>
+		</div>
+
+	</div>
+
+	<div class="pewc-fields-wrapper pewc-products-extras pewc-select-all-option-extras split-half">
+
+		<div class="product-extra-field">
+			<div class="product-extra-field-inner">
+
+				<label>
+					<?php _e( 'Select All Price Adjustment', 'pewc' ); ?>
+					<?php echo wc_help_tip( 'Choose how the Select All price is calculated: as a percentage or fixed amount off the total of all child products, or as a flat set price.', 'pewc' ); ?>
+				</label>
+
+			</div>
+			<div class="product-extra-field-inner">
+
+				<?php $select_all_price_type = isset( $item['select_all_price_type'] ) ? $item['select_all_price_type'] : 'percentage'; ?>
+				<select class="pewc-field-item pewc-field-select_all_price_type" name="<?php echo esc_attr( $base_name ); ?>[select_all_price_type]" data-field-name="select_all_price_type">
+					<option value="percentage" <?php selected( $select_all_price_type, 'percentage', true ); ?>><?php _e( 'Percentage', 'pewc' ); ?></option>
+					<option value="fixed" <?php selected( $select_all_price_type, 'fixed', true ); ?>><?php _e( 'Fixed', 'pewc' ); ?></option>
+					<option value="set" <?php selected( $select_all_price_type, 'set', true ); ?>><?php _e( 'Set', 'pewc' ); ?></option>
+				</select>
+
+			</div>
+		</div>
+
+		<div class="product-extra-field">
+			<div class="product-extra-field-inner">
+
+				<label>
+					<?php _e( 'Select All Price', 'pewc' ); ?>
+					<?php echo wc_help_tip( 'The percentage or amount to discount off the total of all child products, or the flat set price to charge when Select All is chosen.', 'pewc' ); ?>
+				</label>
+
+			</div>
+			<div class="product-extra-field-inner">
+
+				<?php $select_all_price = isset( $item['select_all_price'] ) ? $item['select_all_price'] : ''; ?>
+				<input type="text" class="pewc-field-item pewc-field-select_all_price" name="<?php echo esc_attr( $base_name ); ?>[select_all_price]" value="<?php echo esc_attr( $select_all_price ); ?>" data-field-name="select_all_price">
+
+			</div>
+		</div>
+
+	</div>
+
+	<?php
+	// 'Variable Select' layout display options. Each defaults to enabled.
+	// A hidden companion input ensures an explicit 0 is submitted when the toggle is off.
+	$vs_display_options = array(
+		'vs_show_thumbnail'   => array( __( 'Show Thumbnail', 'pewc' ), __( 'Show the selected variation\'s image', 'pewc' ) ),
+		'vs_show_price'       => array( __( 'Show Price', 'pewc' ), __( 'Show the selected variation\'s price', 'pewc' ) ),
+		'vs_show_stock'       => array( __( 'Show Stock', 'pewc' ), __( 'Show the selected variation\'s stock status', 'pewc' ) ),
+		'vs_show_description' => array( __( 'Show Short Description', 'pewc' ), __( 'Show the selected variation\'s description', 'pewc' ) ),
+	); ?>
+
+	<div class="pewc-fields-wrapper pewc-variable-select-extras split-half">
+
+		<?php foreach( $vs_display_options as $vs_key => $vs_labels ) {
+			// Default enabled: true when the setting has never been saved
+			$vs_checked = ( ! isset( $item[ $vs_key ] ) || '' === $item[ $vs_key ] ) ? true : ! empty( $item[ $vs_key ] ); ?>
+			<div class="product-extra-field">
+				<div class="product-extra-field-inner">
+					<label class="pewc-checkbox-field-label" for="<?php echo esc_attr( $base_name ); ?>_<?php echo esc_attr( $vs_key ); ?>">
+						<?php echo esc_html( $vs_labels[0] ); ?>
+						<?php echo wc_help_tip( $vs_labels[1] ); ?>
+					</label>
+				</div>
+				<div class="product-extra-field-inner">
+					<input type="hidden" name="<?php echo esc_attr( $base_name ); ?>[<?php echo esc_attr( $vs_key ); ?>]" value="0">
+					<?php pewc_checkbox_toggle( $vs_key, $vs_checked, $group_id, $item_key ); ?>
+				</div>
+			</div>
+		<?php } ?>
+
+	</div>
+
+	<div class="pewc-fields-wrapper pewc-child-product-min-max-extras split-half no-gap">
+
+		<div class="product-extra-field">
+			<div class="product-extra-field-inner">
+
 				<label>
 					<?php _e( 'Min Child Products', 'pewc' ); ?>
 					<?php echo wc_help_tip( 'Specify a minimum number of products the user must choose from this field', 'pewc' ); ?>
@@ -201,6 +325,9 @@ if( ! defined( 'ABSPATH' ) ) {
 
 			</div>
 		</div>
+
+	</div>
+	<div class="pewc-fields-wrapper pewc-child-product-min-max-extras split-half">
 
 		<div class="product-extra-field">
 			<div class="product-extra-field-inner">

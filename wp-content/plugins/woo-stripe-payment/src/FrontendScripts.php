@@ -43,6 +43,9 @@ class FrontendScripts {
 		// BNPL script
 		$this->assets->register_script( 'wc-stripe-bnpl-messages', 'build/bnpl-messages.js' );
 
+		// Express checkout banner skeleton loader
+		$this->assets->register_script( 'wc-stripe-express-checkout-skeleton', 'build/express-checkout-skeleton.js' );
+
 		$this->assets->register_style( 'wc-stripe-styles', 'build/styles.css' );
 	}
 }

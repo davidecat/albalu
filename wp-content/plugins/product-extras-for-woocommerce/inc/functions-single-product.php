@@ -1857,7 +1857,7 @@ function pewc_get_add_on_image_action( $product_id=false ) {
  * Get the default value for our field
  * Used on the front end
  * @since	3.5.0
- * @version	3.25.2
+ * @version	4.4.4
  */
 function pewc_get_default_value( $id, $item, $posted, $location='' ) {
 
@@ -1873,6 +1873,10 @@ function pewc_get_default_value( $id, $item, $posted, $location='' ) {
 	if ( 'front' === $location ) {
 		// 3.25.2, only do this if used on the frontend, not the data-default-value attribute, so that Clear All Options still works
 		$value = ! empty( $posted[$id] ) ? $posted[$id] : $value;
+		// 4.4.4, stripslashes, so that options with quotes e.g. 5" x 8.5" matches after submitting the page
+		if ( ! empty( $posted[$id] ) && is_string( $value ) ) {
+			$value = stripslashes( $value );
+		}
 	}
 
 	return apply_filters( 'pewc_default_field_value', $value, $id, $item, $posted );

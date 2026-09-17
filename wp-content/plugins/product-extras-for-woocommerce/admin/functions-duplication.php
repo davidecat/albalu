@@ -11,6 +11,16 @@ if( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
+ * Default the 'pewc_duplicate_child_products' filter to the 'Duplicate child products' setting
+ * (General settings tab, Import/Export section), so admins can control this without code
+ * @since 4.5.1
+ */
+function pewc_duplicate_child_products_default( $duplicate ) {
+	return 'yes' === get_option( 'pewc_duplicate_child_products', 'no' );
+}
+add_filter( 'pewc_duplicate_child_products', 'pewc_duplicate_child_products_default' );
+
+/**
  * Create a duplicate version of the group and its fields then assign to one or more products
  * @param $group_id
  * @param $parent_id
@@ -108,6 +118,7 @@ function pewc_duplicate_groups_and_fields( $duplicate, $product, $overwrite=true
 	$map_groups = array();
 	$map_fields	= array();
 	$map_variations = array();
+	$map_child_products = array();
 	$duplicate_fields = array();
 	$field_params = pewc_get_field_params();
 	$is_import_export = false;
@@ -384,6 +395,11 @@ function pewc_duplicate_groups_and_fields( $duplicate, $product, $overwrite=true
 				// 3.25.3, allow other plugins to modify their own fields (e.g. Advanced Calculations)
 				$duplicate_field_params = apply_filters( 'pewc_filter_duplicate_field_params', $duplicate_field_params, $duplicate_field_id, $group_id, $product, $map_fields );
 
+				// Optionally duplicate the child products of a 'Products' field instead of reusing the originals
+				if( ! empty( $duplicate_field_params['field_type'] ) && 'products' === $duplicate_field_params['field_type'] && apply_filters( 'pewc_duplicate_child_products', false, $duplicate_field_params, $duplicate_field_id, $product ) ) {
+					$duplicate_field_params = pewc_duplicate_child_products_for_field( $duplicate_field_params, $map_child_products );
+				}
+
 				foreach( $duplicate_field_params as $duplicate_field_param=>$value ) {
 					update_post_meta( $duplicate_field_id, $duplicate_field_param, $value );
 				}
@@ -401,5 +417,123 @@ function pewc_duplicate_groups_and_fields( $duplicate, $product, $overwrite=true
 		// 3.22.1, update global group order
 		update_option( 'pewc_global_group_order', join( ',', $duplicate_group_order ) );
 	}
+
+}
+
+/**
+ * Duplicate the child products of a 'Products' field, remapping child_products and field_default
+ * to point at the newly created copies instead of the originals.
+ * Gated by the 'pewc_duplicate_child_products' filter (default false).
+ * @param	$duplicate_field_params	Array	The field params about to be saved on the duplicate field
+ * @param	$map_child_products		Array	Passed by reference. Maps original child product ID => duplicate child product ID, shared across all fields in this duplication run so a product referenced more than once is only cloned once
+ * @since	4.5.1
+ * @return	Array
+ */
+function pewc_duplicate_child_products_for_field( $duplicate_field_params, &$map_child_products ) {
+
+	if( ! empty( $duplicate_field_params['child_products'] ) && is_array( $duplicate_field_params['child_products'] ) ) {
+
+		$duplicate_child_products = array();
+
+		foreach( $duplicate_field_params['child_products'] as $child_product_id ) {
+
+			$duplicate_child_product_id = pewc_duplicate_single_child_product( $child_product_id, $map_child_products );
+			$duplicate_child_products[] = $duplicate_child_product_id;
+
+		}
+
+		$duplicate_field_params['child_products'] = $duplicate_child_products;
+
+	}
+
+	foreach( array( 'field_default', 'field_default_hidden' ) as $default_param ) {
+
+		if( empty( $duplicate_field_params[ $default_param ] ) || ! is_string( $duplicate_field_params[ $default_param ] ) ) {
+			continue;
+		}
+
+		$default_ids = pewc_get_default_child_products( $duplicate_field_params[ $default_param ] );
+
+		if( empty( $default_ids ) ) {
+			continue;
+		}
+
+		$duplicate_default_ids = array();
+
+		foreach( $default_ids as $default_id ) {
+			$duplicate_default_ids[] = isset( $map_child_products[ $default_id ] ) ? $map_child_products[ $default_id ] : $default_id;
+		}
+
+		$duplicate_field_params[ $default_param ] = implode( ',', $duplicate_default_ids );
+
+	}
+
+	return $duplicate_field_params;
+
+}
+
+/**
+ * Duplicate a single child product (used by a 'Products' field) and cache the result
+ * so the same product referenced by multiple fields is only cloned once per duplication run.
+ * Variations are cloned as new variations under their existing parent, matching WooCommerce's
+ * own variation duplication behaviour. Anything that isn't a real product (e.g. it's already
+ * been deleted) is left unmapped and the original ID is reused.
+ * @param	$child_product_id	Int
+ * @param	$map_child_products	Array	Passed by reference
+ * @since	4.5.1
+ * @return	Int
+ */
+function pewc_duplicate_single_child_product( $child_product_id, &$map_child_products ) {
+
+	$child_product_id = (int) $child_product_id;
+
+	if( isset( $map_child_products[ $child_product_id ] ) ) {
+		return $map_child_products[ $child_product_id ];
+	}
+
+	$child_product = wc_get_product( $child_product_id );
+
+	if( ! $child_product ) {
+		return $child_product_id;
+	}
+
+	$is_variation = $child_product->is_type( 'variation' );
+
+	$duplicate_child_product = clone $child_product;
+	$duplicate_child_product->set_id( 0 );
+	$duplicate_child_product->set_date_created( null );
+
+	if( $is_variation ) {
+		$duplicate_child_product->set_parent_id( $child_product->get_parent_id() );
+	} else {
+		$duplicate_child_product->set_slug( '' );
+		$duplicate_child_product->set_status( 'publish' );
+		$duplicate_child_product->set_total_sales( 0 );
+		$duplicate_child_product->set_rating_counts( 0 );
+		$duplicate_child_product->set_average_rating( 0 );
+		$duplicate_child_product->set_review_count( 0 );
+	}
+
+	// 4.5.1, let other plugins adjust the duplicate child product before it's saved (e.g. Advanced Calculations)
+	$duplicate_child_product = apply_filters( 'pewc_duplicate_child_product_before_save', $duplicate_child_product, $child_product );
+
+	do_action( 'woocommerce_product_duplicate_before_save', $duplicate_child_product, $child_product );
+
+	$duplicate_child_product->save();
+
+	// A duplicate SKU would break SKU lookups elsewhere in WooCommerce, so give the copy a unique one
+	if( '' !== $child_product->get_sku( 'edit' ) && function_exists( 'wc_product_generate_unique_sku' ) ) {
+		$unique_sku = wc_product_generate_unique_sku( $duplicate_child_product->get_id(), $child_product->get_sku( 'edit' ) );
+		if( $unique_sku !== $duplicate_child_product->get_sku( 'edit' ) ) {
+			$duplicate_child_product->set_sku( $unique_sku );
+			$duplicate_child_product->save();
+		}
+	}
+
+	$duplicate_child_product_id = $duplicate_child_product->get_id();
+
+	$map_child_products[ $child_product_id ] = $duplicate_child_product_id;
+
+	return $duplicate_child_product_id;
 
 }

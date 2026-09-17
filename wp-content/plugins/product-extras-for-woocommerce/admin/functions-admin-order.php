@@ -353,14 +353,30 @@ function pewc_order_item_add_action_buttons( $order ) {
 	
 				if( file_exists( $filename ) ) {
 	
+					// 4.4.6, unwind every level of output buffering so the file is
+					// streamed straight to the client. Large zips previously exhausted
+					// the memory limit because readfile() buffered the whole file.
+					while ( ob_get_level() ) {
+						ob_end_clean();
+					}
+
 					header( "Content-Type: application/zip" );
 					header( "Content-Disposition: attachment; filename=" . basename( $filename ) );
 					header( "Content-Length: " . filesize( $filename ) );
-					ob_clean();
-					flush();
-					readfile( $filename );
+					header( "Content-Transfer-Encoding: binary" );
+
+					// Stream the file in 1MB chunks to keep memory usage flat
+					// regardless of the zip size.
+					$handle = fopen( $filename, 'rb' );
+					if ( false !== $handle ) {
+						while ( ! feof( $handle ) ) {
+							echo fread( $handle, 1024 * 1024 ); // phpcs:ignore
+							flush();
+						}
+						fclose( $handle );
+					}
 	
-					if( apply_filters( 'pewc_exit_after_download', false ) ) {
+					if( apply_filters( 'pewc_exit_after_download', true ) ) {
 						exit;
 					}
 	

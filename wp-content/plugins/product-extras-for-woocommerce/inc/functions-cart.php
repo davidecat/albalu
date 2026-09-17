@@ -28,8 +28,11 @@ function pewc_wc_calculate_total( $cart_obj = false ) {
 		$cart_obj = WC()->cart;
 	}
 
+	// 4.5.0, use get_cart_contents() instead of get_cart() - get_cart() calls get_cart_from_session()
+	// if 'woocommerce_load_cart_from_session' hasn't fired yet this request, which reloads the cart from
+	// the (stale) session and overwrites any items/prices just added in-memory during this same request
 	// Iterate through each cart item
-	foreach( $cart_obj->get_cart() as $key=>$value ) {
+	foreach( $cart_obj->get_cart_contents() as $key=>$value ) {
 
 		// Skip setting the price again if the price with extras is the same as the original price
 		// Avoids issues with Aelia converting prices that are already set as regular price in alt currency
@@ -70,7 +73,10 @@ function pewc_prepare_parent_products( $cart_obj ) {
 		$child_products_totals = array();
 		$parent_products_keys = array();
 
-		foreach( $cart_obj->get_cart() as $key=>$value ) {
+		// 4.5.0, use get_cart_contents() instead of get_cart() - get_cart() calls get_cart_from_session()
+		// if 'woocommerce_load_cart_from_session' hasn't fired yet this request, which reloads the cart from
+		// the (stale) session and overwrites any items/prices just added in-memory during this same request
+		foreach( $cart_obj->get_cart_contents() as $key=>$value ) {
 			if ( isset( $value['product_extras']['products'] ) ) {
 
 				$product = wc_get_product( $value['product_id'] );
@@ -885,7 +891,7 @@ function pewc_add_cart_item_data( $cart_item_data, $product_id, $variation_id, $
 								$cart_item_data['product_extras']['use_calc_set_price'] = true;
 
 								// for improvement later: maybe change pewc_adjust_tax() a bit and add these conditions there
-								if ( 'yes' == get_option('woocommerce_calc_taxes') ) {
+								if ( 'yes' == get_option( 'woocommerce_calc_taxes' ) ) {
 									if ( 'incl' == get_option( 'woocommerce_tax_display_shop' ) && ! wc_prices_include_tax() ) {
 										// remove tax from price if prices display on shop is tax-inclusive, to avoid double taxing
 										$new_price = pewc_get_price_without_tax( $new_price, $product );
@@ -983,7 +989,7 @@ function pewc_add_cart_item_data( $cart_item_data, $product_id, $variation_id, $
 
 							} else if( ! is_array( $child_product_id ) ) {
 
-								if ( 'select' === $item['products_layout'] && 'independent' === $item['products_quantities'] && empty( $_POST[ $field_id . '_child_quantity' ] ) ) {
+								if ( in_array( $item['products_layout'], array( 'select', 'variable-select' ), true ) && 'independent' === $item['products_quantities'] && empty( $_POST[ $field_id . '_child_quantity' ] ) ) {
 									continue; // don't add to metadata if quantity is 0
 								}
 
@@ -1647,7 +1653,7 @@ function pewc_validate_cart_item_data( $passed, $product_id, $quantity, $variati
 						}
 
 						// If the products layout is select, the quantities type is independent and the field is required, the quantity field must be a minimum of 1
-						if( $item['products_layout'] == 'select' && $item['products_quantities'] == 'independent' && ! empty( $item['field_required'] ) && empty( $_POST[$id . '_child_quantity'] ) ) {
+						if( in_array( $item['products_layout'], array( 'select', 'variable-select' ), true ) && $item['products_quantities'] == 'independent' && ! empty( $item['field_required'] ) && empty( $_POST[$id . '_child_quantity'] ) ) {
 							wc_add_notice( apply_filters( 'pewc_filter_independent_select_validation_notice', esc_html( $label ) . __( ' must have a quantity entered.', 'pewc' ) ), 'error' );
 							$passed = false;
 						}
@@ -2387,11 +2393,17 @@ function pewc_validate_cart_item_data_number( $passed, $is_required, $is_visible
 	$repeatable_index = ( $is_repeatable && ! empty( $group['clone_count'] ) ) ? $group['clone_count'] - 1 : 0;
 
 	// let's all put the values in an array whether they are repeatable or not so that we can reuse the validation process below
-	if ( $is_repeatable && is_array( $posted[$id] ) ) {
-		$posted_values = $posted[$id]; // this is an array
-	} else {
-		$posted_values = array( $posted[$id] );
+	// 4.4.5, new version, a customer reported another 'Undefined array key error' because $posted[$id] is not set. Use isset instead of ! empty to allow 0 and blank values
+	$posted_values = array();
+	if ( isset( $posted[$id] ) ) {
+		$posted_values = ( is_array( $posted[$id] ) ) ? $posted[$id] : array( $posted[$id] );
 	}
+	// 4.4.4 and earlier
+	//if ( $is_repeatable && is_array( $posted[$id] ) ) {
+	//	$posted_values = $posted[$id]; // this is an array
+	//} else {
+	//	$posted_values = array( $posted[$id] );
+	//}
 
 	$original_label = $label;
 

@@ -39,6 +39,14 @@ function pewc_product_tabs( $tabs ) {
 }
 add_filter( 'woocommerce_product_data_tabs', 'pewc_product_tabs' );
 
+function pewc_adjust_product_data_tabs( $tabs ) {
+	if( function_exists( 'pewc_is_context_limited' ) && pewc_is_context_limited() ) {
+		unset( $tabs['pewc'] );
+	}
+	return $tabs;
+}
+add_filter( 'woocommerce_product_data_tabs', 'pewc_adjust_product_data_tabs', 999 );
+
 /**
  * Change tab icon
  */
@@ -597,7 +605,7 @@ function pewc_get_field_default( $item ) {
  * Whether to allow variations as child products
  * @since 3.7.10
  */
-function pewc_child_products_method( $post_id, $field_id ) {
+function pewc_child_products_method( $post_id, $field_id, $item=array() ) {
 
 	$include_variations = get_option( 'pewc_child_variations', 'yes' );
 	$method = 'woocommerce_json_search_products';
@@ -605,9 +613,77 @@ function pewc_child_products_method( $post_id, $field_id ) {
 		$method = 'woocommerce_json_search_products_and_variations';
 	}
 
-	return apply_filters( 'pewc_filter_child_products_method', $method, $post_id, $field_id );
+	// The 'variable-select' products layout only accepts variable products
+	$products_layout = ! empty( $item['products_layout'] ) ? $item['products_layout'] : '';
+	if( 'variable-select' === $products_layout ) {
+		$method = 'pewc_json_search_variable_products';
+	}
+
+	return apply_filters( 'pewc_filter_child_products_method', $method, $post_id, $field_id, $item );
 
 }
+
+/**
+ * AJAX handler to search for variable products only
+ * Used by the 'Variable Select' products layout
+ * @since 4.4.4
+ */
+function pewc_json_search_variable_products() {
+
+	check_ajax_referer( 'search-products', 'security' );
+
+	if( ! current_user_can( 'edit_products' ) ) {
+		wp_die( -1 );
+	}
+
+	$term = isset( $_GET['term'] ) ? (string) wc_clean( wp_unslash( $_GET['term'] ) ) : '';
+
+	if( empty( $term ) ) {
+		wp_die();
+	}
+
+	$exclude_ids = array();
+	if( ! empty( $_GET['exclude'] ) ) {
+		$exclude_ids = array_map( 'absint', (array) wp_unslash( $_GET['exclude'] ) );
+	}
+
+	$limit = ! empty( $_GET['limit'] ) ? absint( wp_unslash( $_GET['limit'] ) ) : absint( apply_filters( 'woocommerce_json_search_limit', 30 ) );
+
+	// Use WooCommerce's own product search, then keep only variable products
+	$found_ids = wc_get_products( array(
+		's'        => $term,
+		'type'     => 'variable',
+		'limit'    => $limit,
+		'exclude'  => $exclude_ids,
+		'status'   => 'publish',
+		'return'   => 'ids',
+		'orderby'  => 'relevance',
+	) );
+
+	if( empty( $found_ids ) && function_exists( 'wc_search_products' ) ) {
+		// Fallback to WC's search helper (matches SKU and partial titles)
+		$search_ids = wc_search_products( $term );
+		foreach( $search_ids as $search_id ) {
+			$search_product = wc_get_product( $search_id );
+			if( $search_product && $search_product->is_type( 'variable' ) && ! in_array( $search_id, $exclude_ids, true ) ) {
+				$found_ids[] = $search_id;
+			}
+		}
+		$found_ids = array_slice( array_unique( $found_ids ), 0, $limit );
+	}
+
+	$products = array();
+	foreach( $found_ids as $product_id ) {
+		$product = wc_get_product( $product_id );
+		if( $product && $product->is_type( 'variable' ) ) {
+			$products[ $product_id ] = rawurldecode( wp_strip_all_tags( $product->get_formatted_name() ) );
+		}
+	}
+
+	wp_send_json( apply_filters( 'pewc_json_search_variable_products', $products, $term ) );
+
+}
+add_action( 'wp_ajax_pewc_json_search_variable_products', 'pewc_json_search_variable_products' );
 
 /**
  * Detect if we are in the admin Edit Product page (or Add New Product) or Global Group page

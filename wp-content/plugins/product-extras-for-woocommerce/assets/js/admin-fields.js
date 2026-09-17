@@ -131,8 +131,33 @@ jQuery( function( $ ) {
 
 	  $( '.pewc-layered-images' ).on( 'change', this.toggle_layer_image_settings ); // 4.3.8
 
+	  $( document.body ).on( 'change', '.pewc-select-all-enabled', this.toggle_select_all_settings );
+
 	  this.init_conditions();
 	  //$( document.body ).trigger( 'update_field_names_object' );
+
+	  // Apply the initial 'Components only' state to existing fields
+	  $( '.pewc-field-products_layout' ).each( function() {
+		pewc_actions.update_components_only( $( this ).closest( '.field-item' ) );
+	  } );
+
+	  // 4.5.0, ensure the wrapper's 'products-layout-*' class always matches the select's
+	  // current value on page load, since PHP only renders it when products_layout is non-empty
+	  $( '.pewc-field-products_layout' ).each( function() {
+		var wrapper = $( this ).closest( '.field-item' );
+		var layout = $( this ).val();
+		if ( ! wrapper.hasClass( 'products-layout-' + layout ) ) {
+			wrapper.removeClass( function( index, className ) {
+				return ( className.match( /(^|\s)products-layout-\S+/g ) || [] ).join( ' ' );
+			} );
+			wrapper.addClass( 'products-layout-' + layout );
+		}
+	  } );
+
+	  // Apply the initial 'Select All' toggle state to existing fields
+	  $( '.pewc-select-all-enabled' ).each( function() {
+		pewc_actions.toggle_select_all_settings.call( this );
+	  } );
 
 	},
 
@@ -1314,6 +1339,34 @@ jQuery( function( $ ) {
 
       pewc_actions.update_condition_rules( field_id, allow_multiple, new_val );
 
+      // The 'Variable Select' layout only accepts variable products, so swap the
+      // child products search action and re-initialise the enhanced select
+      var child_products_select = $( wrapper ).find( 'select.pewc-field-child_products' );
+      if( child_products_select.length ) {
+        var default_action = child_products_select.attr( 'data-default-action' ) || child_products_select.attr( 'data-action' );
+        var new_action = ( layout == 'variable-select' ) ? 'pewc_json_search_variable_products' : default_action;
+        if( child_products_select.attr( 'data-action' ) != new_action ) {
+          child_products_select.attr( 'data-action', new_action );
+          child_products_select.closest( '.product-extra-field-inner' ).find( 'span.select2.select2-container' ).remove();
+          child_products_select.removeClass( 'enhanced' );
+          $( document.body ).trigger( 'wc-enhanced-select-init' );
+        }
+      }
+      $( wrapper ).find( '.pewc-variable-select-note' ).toggle( layout == 'variable-select' );
+
+      pewc_actions.update_components_only( wrapper );
+
+    },
+
+    /**
+	 * The 'Components only' fields are only relevant to the Components layout
+	 * with independent product quantities
+	 */
+    update_components_only: function( wrapper ) {
+      var layout = $( wrapper ).find( '.pewc-field-products_layout' ).val();
+      var quantities = $( wrapper ).find( '.pewc-field-products_quantities' ).val();
+      var show = ( layout == 'components' && quantities == 'independent' );
+      $( wrapper ).find( '.pewc-components-only' ).toggleClass( 'hidden', ! show );
     },
 
 	update_field_action: function( e ) {
@@ -1353,14 +1406,14 @@ jQuery( function( $ ) {
   			return (className.match (/(^|\s)products-quantities-\S+/g) || []).join(' ');
   		});
   		$(wrapper).addClass('products-quantities-'+quantities);
+  		pewc_actions.update_components_only( wrapper );
     },
 
     /**
 	 * Toggle the per character checkbox
 	 */
 	toggle_per_char: function( e ) {
-      e.preventDefault();
-      var wrapper = $( this ).closest( '.field-item' ).toggleClass( 'per-char-selected' );
+      var wrapper = $( this ).closest( '.field-item' ).toggleClass( 'per-char-selected', $( this ).is( ':checked' ) );
     },
 
     /**
@@ -1590,6 +1643,16 @@ jQuery( function( $ ) {
 		}
 	},
 
+	/**
+	 * Show/hide the 'Select All' option settings (label, price adjustment, price)
+	 * depending on whether the 'Enable Select All Option' toggle is checked
+	 */
+	toggle_select_all_settings: function( e ) {
+		var is_enabled = $( this ).prop( 'checked' );
+		var wrapper = $( this ).closest( '.field-item' );
+		wrapper.toggleClass( 'pewc-select-all-enabled', is_enabled );
+	},
+
   };
 
   pewc_actions.init();
@@ -1749,7 +1812,9 @@ jQuery( function( $ ) {
       options += '</optgroup>';
     }
 
-	if ( $( '.variations_options.variations_tab' ).is( ':visible' ) ) {
+	// 4.4.5, changed condition for adding back attributes on variable products. The original one relies on the variable tab visibility, which might be hidden if Product data is collapsed on page load
+	var product_type = $( '#product-type' ).val() || '';
+	if ( page === 'product' && product_type.indexOf( 'variable' ) !== -1 ) {
 		// 3.11.9. do this for variable products only (maybe including variable subscriptions)
 		// find all attributes
 		var attribute_options = '';

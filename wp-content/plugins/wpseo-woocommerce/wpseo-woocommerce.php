@@ -6,7 +6,7 @@
  *
  * @wordpress-plugin
  * Plugin Name: Yoast SEO: WooCommerce
- * Version:     16.8
+ * Version:     16.9
  * Plugin URI:  https://yoa.st/4fu
  * Description: This extension to WooCommerce and Yoast SEO makes sure there's perfect communication between the two plugins.
  * Author:      Team Yoast
@@ -14,12 +14,12 @@
  * Depends:     Yoast SEO, WooCommerce
  * Text Domain: yoast-woo-seo
  * Domain Path: /languages/
- * Requires at least: 6.8
+ * Requires at least: 6.9
  * Requires PHP: 7.4
- * Requires Yoast SEO: 27.3
+ * Requires Yoast SEO: 28.5
  *
  * WC requires at least: 7.1
- * WC tested up to: 10.6
+ * WC tested up to: 11.1
  *
  * Copyright 2014-2024 Yoast BV (email: support@yoast.com)
  */
@@ -35,7 +35,7 @@ if ( file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
 }
 
 define( 'WPSEO_WOO_PLUGIN_FILE', __FILE__ );
-define( 'WPSEO_WOO_VERSION', '16.8' );
+define( 'WPSEO_WOO_VERSION', '16.9' );
 
 /**
  * Initializes the plugin class, to make sure all the required functionality is loaded, do this after plugins_loaded.
@@ -50,6 +50,10 @@ function initialize_yoast_woocommerce_seo() {
 	$dependency_check = new Yoast_WooCommerce_Dependencies();
 	if ( $dependency_check->check_dependencies( $wp_version ) ) {
 		global $yoast_woo_seo;
+
+		// Loads the dependency injection container.
+		require_once __DIR__ . '/src/functions.php';
+		YoastSEOWooCommerce();
 
 		// Initializes the plugin.
 		$yoast_woo_seo = new Yoast_WooCommerce_SEO();

@@ -342,6 +342,14 @@ class WPSEO_WooCommerce_Schema {
 		unset( $data['offers'] );
 
 		$product_variations = $product->get_available_variations( 'object' );
+
+		/*
+		 * Prime the post and meta caches for all variation images in a single pair of queries.
+		 * WordPress loads each attachment individually, so without this a product with many
+		 * imaged variations triggers an N+1 query pattern that makes schema generation slow.
+		 */
+		$this->prime_variation_image_caches( $product_variations );
+
 		foreach ( $product_variations as $key => $variation ) {
 			$variant_schema = $this->add_individual_product_variation( $product, $variation, $key );
 			if ( isset( $variant_schema['image'] ) ) {
@@ -354,6 +362,37 @@ class WPSEO_WooCommerce_Schema {
 		$data['hasVariant'] = array_values( $data['hasVariant'] );
 
 		return $data;
+	}
+
+	/**
+	 * Primes the post and meta caches for all variation images in bulk.
+	 *
+	 * WordPress loads each attachment's post object and metadata individually, so without
+	 * priming, a product with N imaged variations triggers roughly 2N uncached queries
+	 * (an N+1 pattern). Priming collapses that into a single pair of queries. This only
+	 * warms the cache; the generated schema is unchanged.
+	 *
+	 * @param array<WC_Product_Variation> $variations The product variations.
+	 *
+	 * @return void
+	 */
+	private function prime_variation_image_caches( $variations ) {
+		if ( ! is_callable( '_prime_post_caches' ) ) {
+			return;
+		}
+
+		$image_ids = [];
+		foreach ( $variations as $variation ) {
+			$image_id = $variation->get_image_id();
+			if ( $image_id ) {
+				$image_ids[] = $image_id;
+			}
+		}
+
+		if ( $image_ids !== [] ) {
+			// Prime post objects + post meta (no term cache needed for attachments).
+			_prime_post_caches( array_unique( $image_ids ), false, true );
+		}
 	}
 
 	/**
@@ -670,7 +709,6 @@ class WPSEO_WooCommerce_Schema {
 		$currency           = get_woocommerce_currency();
 		$tax_enabled        = wc_tax_enabled();
 		$prices_include_tax = WPSEO_WooCommerce_Utils::prices_have_tax_included();
-		$decimals           = wc_get_price_decimals();
 		$product_id         = $product->get_id();
 		$product_name       = $product->get_name();
 		$variation_name     = implode( ' / ', $variation->get_attributes() );
@@ -683,7 +721,7 @@ class WPSEO_WooCommerce_Schema {
 			'priceSpecification' => [
 				[
 					'@type'         => 'UnitPriceSpecification',
-					'price'         => wc_format_decimal( $variation->get_regular_price(), $decimals ),
+					'price'         => WPSEO_WooCommerce_Utils::get_display_price( $variation, $variation->get_regular_price() ),
 					'priceCurrency' => $currency,
 				],
 			],
@@ -698,7 +736,7 @@ class WPSEO_WooCommerce_Schema {
 			$offer['priceSpecification'][0]['priceType'] = 'https://schema.org/ListPrice';
 			$sale_offer                                  = [
 				'@type'         => 'UnitPriceSpecification',
-				'price'         => wc_format_decimal( $variation->get_sale_price(), $decimals ),
+				'price'         => WPSEO_WooCommerce_Utils::get_display_price( $variation, $variation->get_sale_price() ),
 				'priceCurrency' => $currency,
 			];
 

@@ -1,0 +1,22 @@
+{
+    "format": "pewc-product-addons",
+    "format_version": 1,
+    "label": "Gaming Boosts",
+    "plugin_version": "4.4.5",
+    "exported_from": "https://pluginrepublic.dev/product-extras",
+    "exported_at": "2026-09-11T08:00:28+00:00",
+    "source_product": {
+        "id": 4525,
+        "title": "Gaming Boosts",
+        "sku": ""
+    },
+    "groups": [],
+    "notes": {
+        "dropped_product_refs": [],
+        "dropped_variation_refs": [],
+        "dropped_field_refs": [],
+        "dropped_category_refs": [],
+        "dropped_uploads": [],
+        "uses_global_groups": true
+    }
+}

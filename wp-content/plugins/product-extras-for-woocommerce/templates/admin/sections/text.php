@@ -12,7 +12,7 @@ if( ! defined( 'ABSPATH' ) ) {
 
 <?php if( apply_filters( 'pewc_show_character_params', true, $item, $post_id ) ) { ?>
 
-	<div class="pewc-fields-wrapper pewc-char-fields split-half no-gap">
+	<div class="pewc-fields-wrapper pewc-char-fields split-thirds no-gap">
 		
 		<div class="product-extra-field">
 			<div class="product-extra-field-inner">
@@ -40,9 +40,6 @@ if( ! defined( 'ABSPATH' ) ) {
 			</div>
 		</div>
 
-	</div>
-	<div class="pewc-fields-wrapper pewc-char-fields">
-
 		<div class="product-extra-field">
 			<div class="product-extra-field-inner">
 				<label class="pewc-checkbox-field-label" for="<?php echo esc_attr( $base_name ); ?>_show_char_counter">
@@ -55,10 +52,10 @@ if( ! defined( 'ABSPATH' ) ) {
 				<?php pewc_checkbox_toggle( 'show_char_counter', $show_char_counter_checked, $group_id, $item_key, 'pewc-field-show-char-counter' ); ?>
 			</div>
 		</div>
-		
-	</div><!-- .pewc-fields-wrapper -->
 
-	<div class="pewc-fields-wrapper pewc-extrachar-fields no-gap">
+	</div>
+
+	<div class="pewc-fields-wrapper pewc-extrachar-fields split-thirds">
 
 		<div class="product-extra-field">
 			<div class="product-extra-field-inner">
@@ -72,9 +69,6 @@ if( ! defined( 'ABSPATH' ) ) {
 				<input type="number" min="0" class="pewc-field-item pewc-field-freechars" name="<?php echo esc_attr( $base_name ); ?>[field_freechars]" value="<?php echo esc_attr( $field_freechars ); ?>" data-field-name="field_freechars">
 			</div>
 		</div>
-
-	</div>
-	<div class="pewc-fields-wrapper pewc-extrachar-fields split-half">
 
 		<div class="product-extra-field">
 			<div class="product-extra-field-inner">

@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: WooCommerce Product Add-Ons Ultimate\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/product-extras-"
 "for-woocommerce\n"
-"POT-Creation-Date: 2026-08-26T10:45:15+00:00\n"
+"POT-Creation-Date: 2026-09-02T12:22:29+00:00\n"
 "PO-Revision-Date: 2019-02-01 14:40+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -2434,7 +2434,7 @@ msgstr "Sujungta tėvinio ir vaikinio produkto kaina"
 msgid "The quantity for &ldquo;%s&rdquo; is not valid and has been corrected."
 msgstr "„%s“ kiekis buvo neteisingas ir buvo pataisytas."
 
-#: inc/functions-calculations.php:1191
+#: inc/functions-calculations.php:1192
 msgid ""
 "There was an error in calculating the price for %s. Please contact the "
 "website administrator about the issue."
@@ -2442,7 +2442,7 @@ msgstr ""
 "Skaičiuojant „%s“ kainą įvyko klaida. Dėl šios problemos kreipkitės į "
 "svetainės administratorių."
 
-#: inc/functions-calculations.php:1219
+#: inc/functions-calculations.php:1220
 msgid ""
 " The following plugin(s) need to be updated to the latest version in order "
 "to use this feature: "
@@ -3676,19 +3676,19 @@ msgstr "Minimalus simbolių skaičius"
 msgid "Max Characters"
 msgstr "Maksimalus simbolių skaičius"
 
-#: templates/admin/sections/text.php:49
+#: templates/admin/sections/text.php:46
 msgid "Show Counter?"
 msgstr "Rodyti skaitiklį?"
 
-#: templates/admin/sections/text.php:67
+#: templates/admin/sections/text.php:64
 msgid "Free Characters"
 msgstr "Nemokami simboliai"
 
-#: templates/admin/sections/text.php:82
+#: templates/admin/sections/text.php:76
 msgid "Only Allow Alphanumeric?"
 msgstr "Leisti tik raides ir skaičius?"
 
-#: templates/admin/sections/text.php:95
+#: templates/admin/sections/text.php:89
 msgid "Only Charge Alphanumeric?"
 msgstr "Taikyti mokestį tik raidėms ir skaičiams?"
 

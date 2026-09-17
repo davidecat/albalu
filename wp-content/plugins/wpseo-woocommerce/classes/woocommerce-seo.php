@@ -252,7 +252,7 @@ class Yoast_WooCommerce_SEO {
 	 * @param string  $type The object type.
 	 * @param WP_Post $post The post object.
 	 *
-	 * @return bool|array False when entry is hidden.
+	 * @return array Empty array when the entry is hidden.
 	 */
 	public function filter_hidden_product( $url, $type, $post ) {
 		if ( empty( $url['loc'] ) ) {
@@ -269,7 +269,7 @@ class Yoast_WooCommerce_SEO {
 
 		$excluded_from_catalog = $this->excluded_from_catalog();
 		if ( in_array( $post->ID, $excluded_from_catalog, true ) ) {
-			return false;
+			return [];
 		}
 
 		return $url;

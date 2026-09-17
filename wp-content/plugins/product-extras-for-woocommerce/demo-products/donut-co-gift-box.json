@@ -1,0 +1,378 @@
+{
+    "format": "pewc-product-addons",
+    "format_version": 1,
+    "label": "Donut Co. Gift Box",
+    "plugin_version": "4.4.5",
+    "exported_from": "https://pluginrepublic.dev/product-extras",
+    "exported_at": "2026-09-11T07:58:45+00:00",
+    "source_product": {
+        "id": 3774,
+        "title": "Donut Co. Gift Box",
+        "sku": ""
+    },
+    "groups": [
+        {
+            "ref": "g0",
+            "meta": {
+                "group_layout": "ul",
+                "condition_action": "hide",
+                "condition_match": "all"
+            },
+            "fields": [
+                {
+                    "ref": "g0f0",
+                    "params": {
+                        "field_label": "Choose your donuts",
+                        "field_type": "products",
+                        "field_price": "",
+                        "field_minchecks": "",
+                        "field_maxchecks": "",
+                        "child_products": [
+                            "id:3773",
+                            "id:3787",
+                            "id:3785",
+                            "id:3786",
+                            "id:3788",
+                            "id:3784"
+                        ],
+                        "products_layout": "checkboxes",
+                        "products_quantities": "independent",
+                        "number_columns": "3",
+                        "select_placeholder": "",
+                        "min_products": "6",
+                        "max_products": "6",
+                        "child_discount": "0",
+                        "discount_type": "fixed",
+                        "field_minchars": "",
+                        "field_maxchars": "",
+                        "field_freechars": "",
+                        "field_minval": "",
+                        "field_maxval": "",
+                        "field_maxdate": "",
+                        "field_maxdate_ymd": "",
+                        "offset_days": "",
+                        "blocked_dates": "",
+                        "field_color": "",
+                        "field_width": "",
+                        "field_default": "",
+                        "field_default_hidden": "",
+                        "field_image": "",
+                        "field_description": "",
+                        "condition_action": "hide",
+                        "condition_match": "all",
+                        "formula": "",
+                        "formula_action": "no-action",
+                        "formula_round": "no-rounding",
+                        "decimal_places": "0",
+                        "max_files": "1",
+                        "field_visibility": "visible",
+                        "price_visibility": "visible",
+                        "option_price_visibility": "visible",
+                        "products_field_id": "",
+                        "child_qty_product_id": "",
+                        "reverse_formula_field": "",
+                        "reverse_input_field": "",
+                        "parent_swatch_id": "",
+                        "field_swatchwidth": "",
+                        "field_step": "",
+                        "x_input": "",
+                        "y_input": "",
+                        "look_up_table": "",
+                        "combined_quantity_field": "",
+                        "field_image_center_x": "",
+                        "field_image_center_y": "",
+                        "field_image_z_index": "",
+                        "field_image_width": "",
+                        "field_ap_center_x": "50",
+                        "field_ap_center_y": "50",
+                        "field_ap_width": "50",
+                        "field_ap_color": "#000000",
+                        "field_ap_size": "12",
+                        "field_ap_font": "default",
+                        "field_ap_color_field": "",
+                        "field_ap_layer_position": "default",
+                        "field_ap_specific_frame_number": "1",
+                        "field_ap_z_index": ""
+                    }
+                }
+            ]
+        }
+    ],
+    "notes": {
+        "dropped_product_refs": [],
+        "dropped_variation_refs": [],
+        "dropped_field_refs": [],
+        "dropped_category_refs": [],
+        "dropped_uploads": [],
+        "uses_global_groups": false
+    },
+    "categories": {
+        "donuts": "Donuts",
+        "filled": "Filled",
+        "iced": "Iced",
+        "product-examples": "Product Examples",
+        "sprinkles": "Sprinkles"
+    },
+    "child_products": {
+        "id:3773": {
+            "match": {
+                "sku": "",
+                "title": "Strawberry Iced"
+            },
+            "product": {
+                "title": "Strawberry Iced",
+                "status": "publish",
+                "catalog_visibility": "hidden",
+                "sku": "",
+                "regular_price": "3.75",
+                "sale_price": "",
+                "date_on_sale_from": "",
+                "date_on_sale_to": "",
+                "short_description": "",
+                "description": "",
+                "tax_status": "taxable",
+                "tax_class": "",
+                "manage_stock": false,
+                "stock_quantity": null,
+                "stock_status": "instock",
+                "backorders": "no",
+                "sold_individually": false,
+                "virtual": false,
+                "downloadable": false,
+                "weight": "",
+                "length": "",
+                "width": "",
+                "height": "",
+                "shipping_class": "",
+                "menu_order": 0,
+                "category_slugs": [
+                    "donuts",
+                    "filled",
+                    "iced",
+                    "product-examples"
+                ],
+                "image": {
+                    "url": "https://pluginrepublic.dev/product-extras/wp-content/uploads/sites/5/2024/05/Item-RGB-batch16-Final_Doughnut-F.png",
+                    "alt": "",
+                    "filename": "Item-RGB-batch16-Final_Doughnut-F.png"
+                }
+            }
+        },
+        "id:3787": {
+            "match": {
+                "sku": "",
+                "title": "Raspberry Squiggle"
+            },
+            "product": {
+                "title": "Raspberry Squiggle",
+                "status": "publish",
+                "catalog_visibility": "hidden",
+                "sku": "",
+                "regular_price": "3.95",
+                "sale_price": "",
+                "date_on_sale_from": "",
+                "date_on_sale_to": "",
+                "short_description": "",
+                "description": "",
+                "tax_status": "taxable",
+                "tax_class": "",
+                "manage_stock": false,
+                "stock_quantity": null,
+                "stock_status": "instock",
+                "backorders": "no",
+                "sold_individually": false,
+                "virtual": false,
+                "downloadable": false,
+                "weight": "",
+                "length": "",
+                "width": "",
+                "height": "",
+                "shipping_class": "",
+                "menu_order": 0,
+                "category_slugs": [
+                    "donuts",
+                    "filled",
+                    "product-examples"
+                ],
+                "image": {
+                    "url": "https://pluginrepublic.dev/product-extras/wp-content/uploads/sites/5/2024/05/Item-RGB-batch16-Final_Doughnut-D.png",
+                    "alt": "",
+                    "filename": "Item-RGB-batch16-Final_Doughnut-D.png"
+                }
+            }
+        },
+        "id:3785": {
+            "match": {
+                "sku": "",
+                "title": "Vanilla and Chocolate with Sprinkles"
+            },
+            "product": {
+                "title": "Vanilla and Chocolate with Sprinkles",
+                "status": "publish",
+                "catalog_visibility": "hidden",
+                "sku": "",
+                "regular_price": "4.25",
+                "sale_price": "",
+                "date_on_sale_from": "",
+                "date_on_sale_to": "",
+                "short_description": "",
+                "description": "",
+                "tax_status": "taxable",
+                "tax_class": "",
+                "manage_stock": false,
+                "stock_quantity": null,
+                "stock_status": "instock",
+                "backorders": "no",
+                "sold_individually": false,
+                "virtual": false,
+                "downloadable": false,
+                "weight": "",
+                "length": "",
+                "width": "",
+                "height": "",
+                "shipping_class": "",
+                "menu_order": 0,
+                "category_slugs": [
+                    "donuts",
+                    "filled",
+                    "product-examples",
+                    "sprinkles"
+                ],
+                "image": {
+                    "url": "https://pluginrepublic.dev/product-extras/wp-content/uploads/sites/5/2024/05/Item-RGB-batch16-Final_Doughnut-B.png",
+                    "alt": "",
+                    "filename": "Item-RGB-batch16-Final_Doughnut-B.png"
+                }
+            }
+        },
+        "id:3786": {
+            "match": {
+                "sku": "",
+                "title": "Lemon and Chocolate with Sprinkles"
+            },
+            "product": {
+                "title": "Lemon and Chocolate with Sprinkles",
+                "status": "publish",
+                "catalog_visibility": "hidden",
+                "sku": "",
+                "regular_price": "4.75",
+                "sale_price": "",
+                "date_on_sale_from": "",
+                "date_on_sale_to": "",
+                "short_description": "",
+                "description": "",
+                "tax_status": "taxable",
+                "tax_class": "",
+                "manage_stock": false,
+                "stock_quantity": null,
+                "stock_status": "instock",
+                "backorders": "no",
+                "sold_individually": false,
+                "virtual": false,
+                "downloadable": false,
+                "weight": "",
+                "length": "",
+                "width": "",
+                "height": "",
+                "shipping_class": "",
+                "menu_order": 0,
+                "category_slugs": [
+                    "donuts",
+                    "product-examples",
+                    "sprinkles"
+                ],
+                "image": {
+                    "url": "https://pluginrepublic.dev/product-extras/wp-content/uploads/sites/5/2024/05/Item-RGB-batch16-Final_Doughnut-C.png",
+                    "alt": "",
+                    "filename": "Item-RGB-batch16-Final_Doughnut-C.png"
+                }
+            }
+        },
+        "id:3788": {
+            "match": {
+                "sku": "",
+                "title": "Chocolate Sprinkles"
+            },
+            "product": {
+                "title": "Chocolate Sprinkles",
+                "status": "publish",
+                "catalog_visibility": "hidden",
+                "sku": "",
+                "regular_price": "3.95",
+                "sale_price": "",
+                "date_on_sale_from": "",
+                "date_on_sale_to": "",
+                "short_description": "",
+                "description": "",
+                "tax_status": "taxable",
+                "tax_class": "",
+                "manage_stock": false,
+                "stock_quantity": null,
+                "stock_status": "instock",
+                "backorders": "no",
+                "sold_individually": false,
+                "virtual": false,
+                "downloadable": false,
+                "weight": "",
+                "length": "",
+                "width": "",
+                "height": "",
+                "shipping_class": "",
+                "menu_order": 0,
+                "category_slugs": [
+                    "donuts",
+                    "product-examples",
+                    "sprinkles"
+                ],
+                "image": {
+                    "url": "https://pluginrepublic.dev/product-extras/wp-content/uploads/sites/5/2024/05/Item-RGB-batch16-Final_Doughnut-E.png",
+                    "alt": "",
+                    "filename": "Item-RGB-batch16-Final_Doughnut-E.png"
+                }
+            }
+        },
+        "id:3784": {
+            "match": {
+                "sku": "",
+                "title": "Vanilla Iced"
+            },
+            "product": {
+                "title": "Vanilla Iced",
+                "status": "publish",
+                "catalog_visibility": "hidden",
+                "sku": "",
+                "regular_price": "3.75",
+                "sale_price": "",
+                "date_on_sale_from": "",
+                "date_on_sale_to": "",
+                "short_description": "",
+                "description": "",
+                "tax_status": "taxable",
+                "tax_class": "",
+                "manage_stock": false,
+                "stock_quantity": null,
+                "stock_status": "instock",
+                "backorders": "no",
+                "sold_individually": false,
+                "virtual": false,
+                "downloadable": false,
+                "weight": "",
+                "length": "",
+                "width": "",
+                "height": "",
+                "shipping_class": "",
+                "menu_order": 0,
+                "category_slugs": [
+                    "donuts",
+                    "iced",
+                    "product-examples"
+                ],
+                "image": {
+                    "url": "https://pluginrepublic.dev/product-extras/wp-content/uploads/sites/5/2024/05/Item-RGB-batch16-Final_Doughnut-A.png",
+                    "alt": "",
+                    "filename": "Item-RGB-batch16-Final_Doughnut-A.png"
+                }
+            }
+        }
+    }
+}

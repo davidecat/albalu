@@ -43,6 +43,8 @@ if( isset( $item['child_products'] ) ) {
 	<input type="hidden" name="<?php echo esc_attr( $id ); ?>_discount_type" value="<?php echo esc_attr( $discount_type ); ?>">
 	<?php $force_quantity = ! empty( $item['force_quantity'] ) ? $item['force_quantity'] : ''; ?>
 	<input type="hidden" name="<?php echo esc_attr( $id ); ?>_force_quantity" value="<?php echo esc_attr( $force_quantity ); ?>">
+	<?php // 4.5.0, 'Select All' option ?>
+	<input type="hidden" name="<?php echo esc_attr( $id ); ?>_select_all_enabled" value="<?php echo esc_attr( ! empty( $item['select_all_enabled'] ) ? 1 : 0 ); ?>">
 
 <?php }
 

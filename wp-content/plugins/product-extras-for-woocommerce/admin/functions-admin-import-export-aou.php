@@ -34,7 +34,8 @@ function pewc_add_import_export_aou_buttons( $groups, $post_id ) {
 	wp_nonce_field( 'pewc_import_export', 'pewc_import_export' );
 	echo '<div class="options_group pewc-group-settings pewc-group-import-export">';
 	printf(
-		'<h2><strong>%s</strong></h2>
+		'<p><strong>%s</strong></p>
+		<p>%s</p>
 		<p class="pewc-import-export-wrapper">
 			<a href="#" class="button pewc-import-aou-groups">%s</a> 
 			<a href="#" class="button pewc-export-aou-groups">%s</a>
@@ -42,6 +43,7 @@ function pewc_add_import_export_aou_buttons( $groups, $post_id ) {
 			<a href="#" class="button pewc-export-aou-cancel">%s</a>
 		</p>',
 		__( 'Import/Export Add-Ons', 'pewc' ),
+		__( 'Use this method to import and export groups and fields within the same site.', 'pewc' ),
 		__( 'Import Groups', 'pewc' ),
 		__( 'Export Groups', 'pewc' ),
 		__( 'Export Selected Group(s)', 'pewc' ),

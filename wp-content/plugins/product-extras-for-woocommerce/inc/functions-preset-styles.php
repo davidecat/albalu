@@ -365,7 +365,7 @@ function pewc_get_preset_styles( $style, $colour ) {
 	.pewc-style-simple .pewc-item input[type=number],
 	.pewc-style-simple .pewc-item input[type=text],
 	.pewc-style-simple .pewc-item textarea {
-		background: none;
+		background: #fff;
 		border: 1px solid #ccc
 	}
 	.pewc-style-colour .pewc-item input[type=number],

@@ -878,6 +878,34 @@ li .pewc-calculation-field-wrapper {
 	width: 100%;
 	margin-bottom: 1em !important
 }
+.pewc-select-all-wrapper {
+	width: 100% !important;
+	flex-basis: 100% !important;
+	margin-bottom: 1em !important;
+	padding-bottom: 1em;
+	border-bottom: 1px solid #ddd;
+}
+.pewc-select-all-wrapper label,
+ul.pewc-product-extra-groups .pewc-item .pewc-checkboxes-list-wrapper .pewc-select-all-wrapper label {
+	display: flex !important;
+	align-items: center !important;
+	position: relative;
+}
+/* The preset "theme-element" checkbox positions itself with top:50% against the nearest
+   position:relative ancestor, which is .pewc-checkbox-wrapper (this row) - not the label.
+   Anchor it to the label instead so it centers on the text only, not on the row's full
+   height (which here includes the divider's padding/border below the text). */
+.pewc-select-all-wrapper > label > span.pewc-theme-element {
+	position: absolute !important;
+	top: 50% !important;
+	transform: translateY( -50% ) !important;
+}
+.pewc-checkbox-wrapper.pewc-select-all-active {
+	opacity: 0.75;
+}
+.pewc-checkbox-wrapper.pewc-select-all-active label {
+	pointer-events: none;
+}
 @media screen and (min-width:767px) {
 	.pewc-checkboxes-list-wrapper.pewc-columns-2 .pewc-checkbox-wrapper,
 	.pewc-radio-list-wrapper.pewc-columns-2 .pewc-radio-wrapper,
@@ -1101,6 +1129,9 @@ body[class*=" storefront-"] .pewc-column-wrapper p.pewc-column-price-wrapper {
 }
 .pewc-column-wrapper h4.pewc-radio-image-desc {
 	margin-top: 0
+}
+.child-product-wrapper .pewc-select-wrapper {
+	margin-bottom: 1em;
 }
 /* Child fields */
 .pewc-checkbox-disabled {
@@ -2479,4 +2510,43 @@ table.dz-preview td.dz-details {
 }
 .theme-woodmart button.pewc-plusminus-btn {
     padding: 0
+}
+/* Variable Select layout */
+.pewc-variable-select-product-wrapper {
+	margin-bottom: 1em;
+}
+.pewc-variable-select-details {
+	display: flex;
+	flex-wrap: nowrap;
+	align-items: flex-start;
+	gap: 1em;
+	margin: 1em 0;
+}
+.pewc-variable-select-details .pewc-variable-select-thumbnail {
+	flex: 0 0 auto;
+	max-width: 120px;
+}
+.pewc-variable-select-details .pewc-variable-select-thumbnail img {
+	display: block;
+	width: 100%;
+	height: auto;
+}
+.pewc-variable-select-details .pewc-variable-select-info {
+	flex: 1 1 auto;
+	min-width: 0;
+}
+.pewc-variable-select-details .pewc-variable-select-detail:empty {
+	display: none;
+}
+.pewc-variable-select-details .pewc-variable-select-detail > * {
+	margin: 0;
+}
+.pewc-variable-select-details .pewc-variable-select-price {
+	font-weight: 600;
+}
+.pewc-variable-select-field-description {
+	margin: 0.5em 0 1em;
+}
+.pewc-variable-select-field-description > *:last-child {
+	margin-bottom: 0;
 }

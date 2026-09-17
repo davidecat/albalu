@@ -897,6 +897,8 @@
 					} else {
 						// Radio group goes here. Checkbox group does not have the Default field?
 						default_value = $( field ).attr( 'data-default-value' );
+						// 4.4.4, reset field value for Radio Group when hidden, so that data-selected-option-price and data-field-price is cleared as well
+						$( field ).attr( 'data-field-value', '' );
 					}
 
 					if ( default_value ) {

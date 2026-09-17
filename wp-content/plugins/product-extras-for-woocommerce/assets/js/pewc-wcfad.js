@@ -412,6 +412,11 @@ const pewc_wcfad = {
 			layout = 'select';
 			strikethrough = false;
 			price_only = true;
+		} else if ( pewc_item.hasClass( 'pewc-item-products-variable-select' ) ) {
+			selector = 'select.pewc-child-select-field option';
+			layout = 'select';
+			strikethrough = false;
+			price_only = true;
 		} else if ( pewc_item.hasClass( 'pewc-item-products-swatches' ) ) {
 			selector = 'input.pewc-swatch-form-field';
 			layout = 'swatches';
@@ -611,12 +616,12 @@ const pewc_wcfad = {
 				if ( isNaN( product_qty ) ) {
 					product_qty = 1;
 				}
-				if ( pewc_item.hasClass( 'pewc-item-products-select' ) && pewc_item.find( 'select.pewc-child-select-field option:selected' ).val() != '' ) {
+				if ( ( pewc_item.hasClass( 'pewc-item-products-select' ) || pewc_item.hasClass( 'pewc-item-products-variable-select' ) ) && pewc_item.find( 'select.pewc-child-select-field option:selected' ).val() != '' ) {
 					curr_quantity = product_qty;
 				}
 			} else if ( pewc_item.find( '.products-quantities-one-only ').length > 0 ) {
 				// Last catcher for child products with One Only quantity
-				if ( pewc_item.hasClass( 'pewc-item-products-select' ) && pewc_item.find( 'select.pewc-child-select-field option:selected' ).val() != '' ) {
+				if ( ( pewc_item.hasClass( 'pewc-item-products-select' ) || pewc_item.hasClass( 'pewc-item-products-variable-select' ) ) && pewc_item.find( 'select.pewc-child-select-field option:selected' ).val() != '' ) {
 					curr_quantity = 1;
 				}
 			}

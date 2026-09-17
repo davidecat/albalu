@@ -916,40 +916,64 @@
 
 				$( this ).closest( '.pewc-item' ).removeClass( 'pewc-active-field' );
 
-				$( this ).find('.pewc-checkbox-form-field:checkbox:checked').each(function() {
-					field_value.push( $( this ).attr( 'data-field-label' ) );
-					var child_product_price = $(this).data('option-cost');
-					// 3.21.4, compatibility with FD
-					if ( parseFloat( $(this).attr('data-wcfad-price') ) > 0 ) {
-						child_product_price = parseFloat( $(this).attr('data-wcfad-price') );
-					}
+				// 4.5.0, 'Select All' option: use the flat Select All price instead of summing individual checkboxes
+				var select_all_field = $( this ).find( '.pewc-select-all-form-field:checked' );
+
+				if( select_all_field.length > 0 ) {
+
+					var select_all_price = parseFloat( select_all_field.data( 'select-all-price' ) ) || 0;
 					var qty = 0;
 
-					// Get the quantity
 					if( quantities == 'linked' ) {
-						//qty = $('form.cart .quantity .qty').val();
-						// 3.27.0
 						qty = pewc_get_quantity( qty, 'linked' );
-						selected_counter++;
-					} else if( quantities == 'independent' ) {
-						qty = $(this).closest('.pewc-checkbox-wrapper').find('.pewc-child-quantity-field').val();
-						selected_counter += parseInt( qty );
-						if ( pewc_vars.multiply_independent == 'yes' /*&& $('form.cart .quantity .qty').val() !== undefined*/ ) {
-							// 3.27.0
-							var main_quantity = pewc_get_quantity();
-							qty = qty * parseFloat( main_quantity );
-						}
 					} else if( quantities == 'one-only' ) {
 						qty = pewc_get_quantity( 1, 'one-only' );
-						selected_counter++;
 					}
 
-					if( child_product_price > 0 ) {
-						child_products_total += parseFloat( child_product_price ) * parseFloat( qty );
-						this_child_total += parseFloat( child_product_price ) * parseFloat( qty );
-					}
+					child_products_total += select_all_price * parseFloat( qty );
+					this_child_total += select_all_price * parseFloat( qty );
+					field_value.push( select_all_field.attr( 'data-field-label' ) );
 
-				});
+					selected_counter = $( this ).find('.pewc-checkbox-form-field:checkbox').length;
+
+				} else {
+
+					$( this ).find('.pewc-checkbox-form-field:checkbox:checked').each(function() {
+						field_value.push( $( this ).attr( 'data-field-label' ) );
+						var child_product_price = $(this).data('option-cost');
+						// 3.21.4, compatibility with FD
+						if ( parseFloat( $(this).attr('data-wcfad-price') ) > 0 ) {
+							child_product_price = parseFloat( $(this).attr('data-wcfad-price') );
+						}
+						var qty = 0;
+
+						// Get the quantity
+						if( quantities == 'linked' ) {
+							//qty = $('form.cart .quantity .qty').val();
+							// 3.27.0
+							qty = pewc_get_quantity( qty, 'linked' );
+							selected_counter++;
+						} else if( quantities == 'independent' ) {
+							qty = $(this).closest('.pewc-checkbox-wrapper').find('.pewc-child-quantity-field').val();
+							selected_counter += parseInt( qty );
+							if ( pewc_vars.multiply_independent == 'yes' /*&& $('form.cart .quantity .qty').val() !== undefined*/ ) {
+								// 3.27.0
+								var main_quantity = pewc_get_quantity();
+								qty = qty * parseFloat( main_quantity );
+							}
+						} else if( quantities == 'one-only' ) {
+							qty = pewc_get_quantity( 1, 'one-only' );
+							selected_counter++;
+						}
+
+						if( child_product_price > 0 ) {
+							child_products_total += parseFloat( child_product_price ) * parseFloat( qty );
+							this_child_total += parseFloat( child_product_price ) * parseFloat( qty );
+						}
+
+					});
+
+				}
 
 				if( field_value.length > 0 ) {
 					$( this ).closest( '.pewc-item' ).attr( 'data-field-price', child_products_total );
@@ -1741,7 +1765,7 @@
 			return;
 		}
 
-		if ( $( this ).closest( '.pewc-item' ).hasClass( 'pewc-item-products-select' ) ) {
+		if ( $( this ).closest( '.pewc-item' ).hasClass( 'pewc-item-products-select' ) || $( this ).closest( '.pewc-item' ).hasClass( 'pewc-item-products-variable-select' ) ) {
 			// this is a Products select field
 			var selIndex = 0;
 			if( $(this).val() > 0 ) {
@@ -1771,6 +1795,169 @@
 		// $( 'body' ).trigger( 'pewc_update_child_quantity', [ $(this).closest('.pewc-checkbox-image-wrapper').find('input[type=checkbox]') ] );
 		$( 'body' ).trigger( 'pewc_update_child_quantity', [ $(this).closest('.pewc-checkbox-wrapper').find('input[type=checkbox]') ] );
 		pewc_update_total_js();
+	});
+
+	// Read and cache the full variation data map for a Variable Select field
+	// from its <script type="application/json"> block.
+	function pewc_get_variable_select_data( wrapper ) {
+		var cached = wrapper.data( 'pewc-variable-select-data' );
+		if ( cached ) {
+			return cached;
+		}
+		var field_id = wrapper.find( '.pewc-variable-select-product' ).data( 'target' );
+		var $json = wrapper.find( '.pewc-variable-select-data[data-for="' + field_id + '"]' );
+		var data = {};
+		if ( $json.length ) {
+			try {
+				data = JSON.parse( $json.text() ) || {};
+			} catch ( e ) {
+				data = {};
+			}
+		}
+		wrapper.data( 'pewc-variable-select-data', data );
+		return data;
+	}
+
+	// Return the variations array for the currently selected product
+	function pewc_get_selected_product_variations( $product_select ) {
+		var wrapper = $product_select.closest( '.pewc-variable-select-wrapper' );
+		var data = pewc_get_variable_select_data( wrapper );
+		var product_id = $product_select.val();
+		if ( product_id === '' || ! data[ product_id ] ) {
+			return [];
+		}
+		return Array.isArray( data[ product_id ] ) ? data[ product_id ] : [];
+	}
+
+	// Variable Select layout: populate the variation select when a variable product is chosen
+	function pewc_populate_variable_select_variations( product_select ) {
+
+		var $product_select = $( product_select );
+		var wrapper = $product_select.closest( '.pewc-variable-select-wrapper' );
+		var $variation_select = wrapper.find( '.pewc-variable-select-variation' );
+		var $details = wrapper.find( '.pewc-variable-select-details' );
+
+		if ( ! $variation_select.length ) {
+			return;
+		}
+
+		var variations = pewc_get_selected_product_variations( $product_select );
+		// data-selected-variation only applies on the very first run (initial page load)
+		var preselect = $variation_select.attr( 'data-selected-variation' );
+		$variation_select.attr( 'data-selected-variation', '' );
+
+		// Stash the variation data so the variation-select change handler can read it
+		wrapper.data( 'pewc-variations', variations );
+
+		$variation_select.empty();
+
+		if ( $product_select.val() === '' || ! variations.length ) {
+			$details.hide();
+			$variation_select.val( '' );
+			$variation_select.trigger( 'change' );
+			$( 'body' ).trigger( 'pewc_force_update_total_js' );
+			return;
+		}
+
+		var matched_preselect = false;
+		$.each( variations, function( index, variation ) {
+			var $option = $( '<option></option>' )
+				.val( variation.id )
+				.text( variation.label )
+				.attr( 'data-option-cost', variation.cost )
+				.attr( 'data-field-value', variation.label )
+				.attr( 'data-stock', variation.stock );
+			if ( variation.disabled ) {
+				$option.attr( 'disabled', 'disabled' );
+			}
+			if ( preselect && parseInt( preselect, 10 ) === parseInt( variation.id, 10 ) ) {
+				$option.prop( 'selected', true );
+				matched_preselect = true;
+			}
+			$variation_select.append( $option );
+		});
+		// Auto-select the first variation when none was pre-selected
+		if ( ! matched_preselect ) {
+			$variation_select.prop( 'selectedIndex', 0 );
+		}
+
+		// Populate the details before revealing the panel to avoid a flash of empty content
+		pewc_update_variable_select_details( $variation_select, true );
+
+		$variation_select.trigger( 'change' );
+		$( 'body' ).trigger( 'pewc_force_update_total_js' );
+
+	}
+
+	// Update the thumbnail, price, stock and description for the selected variation
+	function pewc_update_variable_select_details( variation_select, reveal ) {
+
+		var $variation_select = $( variation_select );
+		var wrapper = $variation_select.closest( '.pewc-variable-select-wrapper' );
+		var $details = wrapper.find( '.pewc-variable-select-details' );
+
+		if ( ! $details.length ) {
+			return;
+		}
+
+		var selected_id = $variation_select.val();
+		var variations = wrapper.data( 'pewc-variations' ) || [];
+		var variation = null;
+
+		$.each( variations, function( index, v ) {
+			if ( parseInt( v.id, 10 ) === parseInt( selected_id, 10 ) ) {
+				variation = v;
+				return false;
+			}
+		});
+
+		if ( ! variation ) {
+			$details.hide();
+			return;
+		}
+
+		var $thumb = $details.find( '.pewc-variable-select-thumbnail' );
+		if ( $thumb.length ) {
+			var new_image = variation.image || '';
+			if ( $thumb.data( 'pewc-current-image' ) !== new_image ) {
+				$thumb.data( 'pewc-current-image', new_image );
+				$thumb.html( new_image );
+			}
+		}
+		$details.find( '.pewc-variable-select-price' ).html( variation.price || '' );
+		$details.find( '.pewc-variable-select-stock' ).html( variation.stock_html || '' );
+		$details.find( '.pewc-variable-select-description' ).html( variation.description || '' );
+
+		// Only reveal once content is in place
+		if ( reveal || $details.is( ':visible' ) ) {
+			$details.show();
+		}
+
+	}
+
+	$( 'body' ).on( 'change', '.pewc-variable-select-product', function() {
+		pewc_populate_variable_select_variations( this );
+	});
+
+	$( 'body' ).on( 'change', '.pewc-variable-select-variation', function() {
+		pewc_update_variable_select_details( this );
+	});
+
+	$( function() {
+		$( '.pewc-variable-select-product' ).each( function() {
+			var wrapper = $( this ).closest( '.pewc-variable-select-wrapper' );
+			var $product_select = $( this );
+			// Stash the variation data so the variation-select change handler works from the start
+			wrapper.data( 'pewc-variations', pewc_get_selected_product_variations( $product_select ) );
+			if ( $product_select.val() === '' ) {
+				return;
+			}
+			// The server has already rendered the details for the stored product/variation.
+			// Only rebuild if that markup is missing (e.g. cached select without the panel).
+			if ( wrapper.find( '.pewc-variable-select-variation option' ).length < 1 ) {
+				pewc_populate_variable_select_variations( this );
+			}
+		});
 	});
 
 	// 3.24.8, Products and Product Categories fields, Radio Images/Radio List layout, independent quantity. Since the quantity input is now outside .products-quantities-independent, the script above doesn't get triggered.
@@ -1902,6 +2089,38 @@
 		} else {
 			$(this).closest('.pewc-checkbox-image-wrapper').removeClass('checked');
 		}
+	});
+
+	// 4.5.0, 'Select All' option for Products fields (Checkboxes List layout)
+	$( 'body' ).on( 'change', '.pewc-select-all-form-field', function( e ) {
+
+		var select_all = $( this );
+		var wrapper = select_all.closest( '.child-product-wrapper' );
+		// Checkboxes that are out of stock/unavailable are already rendered disabled server-side; leave those alone
+		var other_checkboxes = wrapper.find( '.pewc-checkbox-wrapper:not(.pewc-select-all-wrapper):not(.pewc-checkbox-disabled) .pewc-checkbox-form-field' );
+
+		if( select_all.is( ':checked' ) ) {
+			// Check every available child product, but don't use the 'disabled' attribute -
+			// disabled fields are excluded from form submission, so the checkboxes must stay
+			// checked+enabled and are instead visually/interactively locked via the CSS class below
+			other_checkboxes.prop( 'checked', true );
+			wrapper.find( '.pewc-checkbox-wrapper' ).not( '.pewc-select-all-wrapper' ).addClass( 'pewc-select-all-active' );
+		} else {
+			other_checkboxes.prop( 'checked', false );
+			wrapper.find( '.pewc-checkbox-wrapper' ).removeClass( 'pewc-select-all-active' );
+		}
+
+		$( 'body' ).trigger( 'pewc_force_update_total_js' );
+
+	});
+
+	// Prevent the individual checkboxes (and their quantity fields) from being changed while 'Select All' is active
+	$( 'body' ).on( 'click', '.pewc-select-all-active .pewc-checkbox-form-field, .pewc-select-all-active .pewc-child-quantity-field', function( e ) {
+		e.preventDefault();
+		e.stopImmediatePropagation();
+	});
+	$( 'body' ).on( 'keydown', '.pewc-select-all-active .pewc-checkbox-form-field, .pewc-select-all-active .pewc-child-quantity-field', function( e ) {
+		e.preventDefault();
 	});
 
 	// Toggle class on label when text swatch element is updated

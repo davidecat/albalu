@@ -3,13 +3,13 @@
 Plugin Name: Widgets for Google Reviews
 Plugin Title: Widgets for Google Reviews Plugin
 Plugin URI: https://wordpress.org/plugins/wp-reviews-plugin-for-google/
-Description: Embed Google reviews fast and easily into your WordPress site. Increase SEO, trust and sales using Google reviews.
-Tags: google, google places reviews, reviews, widget, google business
+Description: Google Reviews Widget for WordPress. Display Google reviews in 1 minute with 45 professional layouts. Build trust, boost SEO, and increase sales.
+Tags: google reviews, google business, review widget, review slider, social proof
 Author: Trustindex.io <support@trustindex.io>
 Author URI: https://www.trustindex.io/
 Contributors: trustindex
 License: GPLv2 or later
-Version: 13.3.2
+Version: 14.1.1
 Requires at least: 6.2
 Requires PHP: 7.4
 Text Domain: wp-reviews-plugin-for-google
@@ -22,7 +22,7 @@ Copyright 2019 Trustindex Kft (email: support@trustindex.io)
 defined( 'ABSPATH' ) or die( 'No script kiddies please!' );
 require_once plugin_dir_path(__FILE__) . 'include' . DIRECTORY_SEPARATOR . 'cache-plugin-filters.php';
 require_once plugin_dir_path(__FILE__) . 'trustindex-plugin.class.php';
-$trustindex_pm_google = new TrustindexPlugin_google("google", __FILE__, "13.3.2", "Widgets for Google Reviews", "Google");
+$trustindex_pm_google = new TrustindexPlugin_google("google", __FILE__, "14.1.1", "Widgets for Google Reviews", "Google");
 $pluginManager = 'TrustindexPlugin_google';
 $pluginManagerInstance = $trustindex_pm_google;
 add_action('admin_init', function() { ob_start(); });
@@ -41,8 +41,20 @@ echo '<meta name="ti-site-data" content="'.esc_attr(base64_encode(json_encode([
 'p' => esc_html($url),
 ]), 'ti-online-users-'.$pluginManagerInstance->getShortName()),
 ]))).'" />';
+if (current_user_can('manage_options') && !$pluginManagerInstance->isNoticeDismissed('script-embed')) {
+echo '<meta name="ti-notice-script-tag" content="'.esc_attr($pluginManagerInstance->get_shortcode_name()).'" />';
+echo '<meta name="ti-notice-dismiss-url" content="'.esc_url($pluginManagerInstance->getNoticeDismissUrl('script-embed')).'" />';
+}
 });
 add_action('init', function() use($pluginManagerInstance) {
+$dismissNoticeParam = 'ti-dismiss-notice-'.$pluginManagerInstance->getShortName();
+if (isset($_GET[ $dismissNoticeParam ])) {
+check_admin_referer($dismissNoticeParam);
+if (!current_user_can('manage_options')) {
+wp_send_json_error(null, 403);
+}
+wp_send_json_success($pluginManagerInstance->dismissNotice(sanitize_key(wp_unslash($_GET[ $dismissNoticeParam ]))));
+}
 if (isset($_GET['ti-online-users-'.$pluginManagerInstance->getShortName()])) {
 check_admin_referer('ti-online-users-'.$pluginManagerInstance->getShortName());
 $page = isset($_REQUEST['p']) ? sanitize_text_field(wp_unslash($_REQUEST['p'])) : '';
@@ -78,9 +90,9 @@ add_action('widgets_init', [ $pluginManagerInstance, 'init_widget' ]);
 add_action('widgets_init', [ $pluginManagerInstance, 'register_widget' ]);
 }
 add_action('init', function() {
-wp_register_script('trustindex-loader-js', 'https://cdn.trustindex.io/loader.js', [], true, [
-'strategy' => 'async',
-'in_footer' => true,
+wp_register_script('trustindex-loader-js', 'https://cdn.trustindex.io/loader.js', [], null, [ // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion -- The loader URL must not contain cache-busting query parameters.
+'strategy' => is_admin() ? 'defer' : 'async',
+'in_footer' => !is_admin(),
 ]);
 });
 add_action('init', [ $pluginManagerInstance, 'init_shortcode' ]);

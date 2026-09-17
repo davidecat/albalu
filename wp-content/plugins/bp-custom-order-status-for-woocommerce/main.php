@@ -3,12 +3,12 @@
  * Plugin Name: Custom Order Status Manager for WooCommerce
  * Plugin URI: https://wordpress.org/plugins/bp-custom-order-status-for-woocommerce/
  * Description: This plugin allows you to create, delete and edit order statuses to better control the flow of your orders.
- * Version: 2.0
+ * Version: 2.1
  * Author: Bright Plugins
  * Requires PHP: 7.4
  * Requires at least: 4.9
- * Tested up to: 6.9.1
- * WC tested up to: 10.5.2
+ * Tested up to: 7.1
+ * WC tested up to: 11.1.0
  * WC requires at least: 4.0
  * Requires Plugins: woocommerce
  * Author URI: https://brightplugins.com
@@ -26,7 +26,7 @@ define( 'BVOS_TEMPLATE_PATH', untrailingslashit( plugin_dir_path( __FILE__ ) ) .
 define( 'BVOS_PLUGIN_FILE', __FILE__ );
 define( 'COSMBP_ASSETS', plugins_url( '', __FILE__ ) . '/assets' );
 define( 'BVOS_PLUGIN_BASE', plugin_basename( __FILE__ ) );
-define( 'BVOS_PLUGIN_VER', '2.0' );
+define( 'BVOS_PLUGIN_VER', '2.1' );
 
 use Brightplugins_COS\Bootstrap;
 

@@ -220,7 +220,7 @@ abstract class AbstractGateway extends \WC_Payment_Gateway {
 	 */
 	public function process_zero_total_order( $order ) {
 		if ( $this->should_use_saved_payment_method() ) {
-			$this->payment_method_token = $this->get_payment_method_from_request();
+			$this->payment_method_token = $this->get_payment_method_from_request( $order );
 		} else {
 			$result = $this->payment_controller->process_setup_intent( $order, $this );
 			if ( is_wp_error( $result ) || is_array( $result ) ) {

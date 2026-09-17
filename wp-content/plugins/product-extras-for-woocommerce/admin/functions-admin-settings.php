@@ -384,6 +384,53 @@ function pewc_get_general_settings() {
 			'type' => 'sectionend',
 			'id' => 'pewc_optimise_title'
 		),
+
+		'import_export_section_title' => array(
+			'name'     => __( 'Import/Export', 'pewc' ),
+			'type'     => 'title',
+			'desc'     => '',
+			'id'       => 'pewc_import_export_title'
+		),
+		'pewc_enable_addons_library' => array(
+			'name'		=> __( 'Enable add-ons library', 'pewc' ),
+			'type'		=> 'checkbox',
+			'desc_tip'	=> true,
+			'desc'		=> __( 'Show the "Install Add-Ons from Library" section on the product Add-Ons panel, for creating add-on fields from a bundled demo product.', 'pewc' ),
+			'id'		=> 'pewc_enable_addons_library',
+			'default'	=> 'no',
+			'std'		=> 'no'
+		),
+		'pewc_enable_file_import_export' => array(
+			'name'		=> __( 'Enable file import/export', 'pewc' ),
+			'type'		=> 'checkbox',
+			'desc_tip'	=> true,
+			'desc'		=> __( 'Show the "Transfer Add-Ons Between Sites" tools on the product Add-Ons panel, for exporting a product\'s add-ons to a file and importing them elsewhere.', 'pewc' ),
+			'id'		=> 'pewc_enable_file_import_export',
+			'default'	=> 'no',
+			'std'		=> 'no'
+		),
+		'pewc_export_embed_images' => array(
+			'name'		=> __( 'Embed images in add-on exports', 'pewc' ),
+			'type'		=> 'checkbox',
+			'desc_tip'	=> true,
+			'desc'		=> __( 'When exporting add-ons to a file, base64-encode images into the file so it can be imported on sites that cannot reach this site. This makes export files larger.', 'pewc' ),
+			'id'		=> 'pewc_export_embed_images',
+			'default'	=> 'no',
+			'std'		=> 'no'
+		),
+		'pewc_duplicate_child_products' => array(
+			'name'		=> __( 'Duplicate child products', 'pewc' ),
+			'type'		=> 'checkbox',
+			'desc_tip'	=> true,
+			'desc'		=> __( 'When duplicating a product, also duplicate the child products referenced by its Products fields, instead of the duplicate reusing the same child products as the original.', 'pewc' ),
+			'id'		=> 'pewc_duplicate_child_products',
+			'default'	=> 'no',
+			'std'		=> 'no'
+		),
+		'import_export_section_end' => array(
+			'type' => 'sectionend',
+			'id' => 'pewc_import_export_title'
+		),
 		// 'beta_section_title' => array(
 		// 	'name'     => __( 'Beta', 'pewc' ),
 		// 	'type'     => 'title',

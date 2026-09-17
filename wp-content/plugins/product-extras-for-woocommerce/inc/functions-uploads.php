@@ -576,7 +576,8 @@ function pewc_ajax_upload_script_repeatable( $id, $field, $multiply_price ) {
 							action: 'pewc_dropzone_remove',
 							file: file.name,
 							pewc_file_upload: $( '#pewc_file_upload' ).val(),
-							file_data: $( '#' + pewc_id + '_file_data' ).val()
+							file_data: $( '#' + pewc_id + '_file_data' ).val(),
+							field_id: '<?php echo $field['field_id']; ?>' // 4.5.1, was missing here, causing an "Undefined array key" warning in pewc_dropzone_remove()
 						};
 						if ( file.wcpauau_from_cropper != undefined && file.wcpauau_from_cropper == 'yes' ) {
 							remove_data['wcpauau_from_cropper'] = 'yes'; // 3.18.2

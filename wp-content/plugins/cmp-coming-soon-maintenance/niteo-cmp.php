@@ -3,7 +3,7 @@
  Plugin Name: 		CMP - Coming Soon & Maintenance Plugin
  Plugin URI: 		https://wordpress.org/plugins/cmp-coming-soon-maintenance/
  Description:       Display customizable landing page for Coming Soon, Maintenance & Under Construction page.
- Version:           4.1.18
+ Version:           4.1.19
  Author:            NiteoThemes
  Author URI:        https://www.niteothemes.com
  Text Domain:       cmp-coming-soon-maintenance
@@ -72,7 +72,7 @@ if (!class_exists('CMP_Coming_Soon_and_Maintenance')) :
 		// define constants
 		private function constants()
 		{
-			$this->define('CMP_VERSION', '4.1.18');
+			$this->define('CMP_VERSION', '4.1.19');
 			$this->define('CMP_DEBUG', FALSE);
 			$this->define('CMP_AUTHOR', 'NiteoThemes');
 			$this->define('CMP_AUTHOR_HOMEPAGE', 'https://niteothemes.com');
@@ -2388,36 +2388,35 @@ if (!class_exists('CMP_Coming_Soon_and_Maintenance')) :
 		// since 2.2
 		public function cmp_page_filter()
 		{
-			global $wp;
+			global $pagenow;
 
 			$request_uri = isset($_SERVER['REQUEST_URI']) ? wp_unslash($_SERVER['REQUEST_URI']) : '/';
-			$current_url = esc_url_raw(home_url('/' . ltrim($request_uri, '/')));
-
 			$custom_login_url = get_option('niteoCS_custom_login_url', '');
 
-			$request_path = untrailingslashit('/' . ltrim((string) wp_parse_url($current_url, PHP_URL_PATH), '/'));
-			$login_path = untrailingslashit('/' . ltrim((string) wp_parse_url(site_url('wp-login.php'), PHP_URL_PATH), '/'));
+			$request_path = wp_parse_url($request_uri, PHP_URL_PATH);
+			$request_path = is_string($request_path) ? '/' . ltrim($request_path, '/') : '/';
 
-			// Return early only for the actual WordPress login endpoint or AJAX calls.
-			// Query-string values containing "wp-login.php" must not bypass CMP.
-			if ($request_path === $login_path || wp_doing_ajax()) {
+			// Check the script WordPress actually resolved instead of trusting a URL
+			// resembling the login endpoint (for example, /wp-login.php/).
+			if ($pagenow === 'wp-login.php' || wp_doing_ajax()) {
 				return false;
 			}
 
-			// return early if custom login page
-			if ($custom_login_url !== '') {
+			// Return early only for an exact, non-empty custom login path.
+			if (is_string($custom_login_url) && trim($custom_login_url) !== '') {
 				$custom_login_path = wp_parse_url($custom_login_url, PHP_URL_PATH);
-				$custom_login_path = untrailingslashit('/' . ltrim((string) $custom_login_path, '/'));
 
-				if ($request_path === $custom_login_path) {
+				if (is_string($custom_login_path) && trim($custom_login_path, '/') !== '' && $request_path === '/' . ltrim($custom_login_path, '/')) {
 					return false;
 				}
 			}
 
 			// WPS HIDE login integration
 			if (defined('WPS_HIDE_LOGIN_BASENAME')) {
-				$wps_login_path = untrailingslashit('/' . ltrim((string) get_option('whl_page'), '/'));
-				if ($request_path === $wps_login_path) {
+				$wps_login_path = get_option('whl_page', '');
+				$wps_login_path = is_string($wps_login_path) ? wp_parse_url($wps_login_path, PHP_URL_PATH) : '';
+
+				if (is_string($wps_login_path) && trim($wps_login_path, '/') !== '' && $request_path === '/' . ltrim($wps_login_path, '/')) {
 					return false;
 				}
 			}

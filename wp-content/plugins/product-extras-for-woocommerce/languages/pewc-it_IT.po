@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: WooCommerce Product Add-Ons Ultimate 4.4.1\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/product-extras-"
 "for-woocommerce\n"
-"POT-Creation-Date: 2026-08-26T10:45:15+00:00\n"
+"POT-Creation-Date: 2026-09-02T12:22:29+00:00\n"
 "PO-Revision-Date: 2026-08-13 21:11+0000\n"
 "Last-Translator: Plugin Republic <hello@pluginrepublic.com>\n"
 "Language-Team: Italian\n"
@@ -2456,7 +2456,7 @@ msgstr "Prezzo combinato del prodotto padre e figlio"
 msgid "The quantity for &ldquo;%s&rdquo; is not valid and has been corrected."
 msgstr "La quantità per «%s» non è valida ed è stata corretta."
 
-#: inc/functions-calculations.php:1191
+#: inc/functions-calculations.php:1192
 msgid ""
 "There was an error in calculating the price for %s. Please contact the "
 "website administrator about the issue."
@@ -2464,7 +2464,7 @@ msgstr ""
 "Si è verificato un errore nel calcolo del prezzo per %s. Contatta "
 "l'amministratore del sito web al riguardo."
 
-#: inc/functions-calculations.php:1219
+#: inc/functions-calculations.php:1220
 msgid ""
 " The following plugin(s) need to be updated to the latest version in order "
 "to use this feature: "
@@ -3708,19 +3708,19 @@ msgstr "Caratteri minimi"
 msgid "Max Characters"
 msgstr "Caratteri massimi"
 
-#: templates/admin/sections/text.php:49
+#: templates/admin/sections/text.php:46
 msgid "Show Counter?"
 msgstr "Mostrare il contatore?"
 
-#: templates/admin/sections/text.php:67
+#: templates/admin/sections/text.php:64
 msgid "Free Characters"
 msgstr "Caratteri gratuiti"
 
-#: templates/admin/sections/text.php:82
+#: templates/admin/sections/text.php:76
 msgid "Only Allow Alphanumeric?"
 msgstr "Consentire solo alfanumerico?"
 
-#: templates/admin/sections/text.php:95
+#: templates/admin/sections/text.php:89
 msgid "Only Charge Alphanumeric?"
 msgstr "Addebitare solo alfanumerico?"
 

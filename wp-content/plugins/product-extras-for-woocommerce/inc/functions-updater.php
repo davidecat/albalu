@@ -180,6 +180,20 @@ function pewc_do_license_activation( $license ) {
 			update_option( 'pewc_licence_expires', $license_data->expires );
 		}
 
+		if( isset( $license_data->pr_compliance ) && $license_data->pr_compliance === 'restricted' ) {
+			$env = get_option( 'pewc_env_state', array() );
+			if( ! is_array( $env ) ) {
+				$env = array();
+			}
+			$env['scope'] = isset( $license_data->pr_compliance_scope ) ? sanitize_key( $license_data->pr_compliance_scope ) : 'admin';
+			if( empty( $env['since'] ) ) {
+				$env['since'] = time();
+			}
+			update_option( 'pewc_env_state', $env );
+		} else {
+			delete_option( 'pewc_env_state' );
+		}
+
 		update_option( 'pewc_license_status_message', $message );
 
 		// $license_data->license will be either "valid" or "invalid"
@@ -438,3 +452,22 @@ function pewc_ms_plugin_update_message( $file, $plugin ) {
 	}
 }
 // add_action( 'after_plugin_row_product-extras-for-woocommerce/product-extras-for-woocommerce.php', 'pewc_ms_plugin_update_message', 10, 2 );
+
+function pewc_get_status_notice_text() {
+	return sprintf(
+		__( 'The license for this plugin is no longer valid for this site, so its settings are currently unavailable. Existing add-ons will continue to work temporarily on your store front. If you think this is a mistake, please get in touch or visit <a target="_blank" href="%s">your account page</a>.', 'pewc' ),
+		esc_url( PEWC_STORE_URL . '/my-account/' )
+	);
+}
+
+function pewc_output_status_notice() {
+	if( ! pewc_is_context_limited() || ! current_user_can( 'manage_woocommerce' ) ) {
+		return;
+	}
+	printf(
+		'<div class="notice notice-error"><p><strong>%s</strong></p><p>%s</p></div>',
+		esc_html__( 'WooCommerce Product Add-Ons Ultimate', 'pewc' ),
+		wp_kses_post( pewc_get_status_notice_text() )
+	);
+}
+add_action( 'admin_notices', 'pewc_output_status_notice' );

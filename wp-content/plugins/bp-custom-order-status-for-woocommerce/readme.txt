@@ -3,10 +3,10 @@ Contributors: brightvesseldev, kleinmannbrightvessel
 Requires at least: 5.0
 Tags: custom order status,custom status,order status,statuses
 Requires PHP: 7.4
-WC tested up to: 10.5.2
-Tested up to: 6.9.1
+WC tested up to: 11.1.0
+Tested up to: 7.1
 WC requires at least: 4.0
-Stable tag: 2.0
+Stable tag: 2.1
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -82,6 +82,10 @@ Unlock all 19 premium WooCommerce plugins with one club membership. [Join the Cl
 
 
 == Changelog ==
+
+= 2.1 - 07 Sept 26 =
+* Support for WooCommerce 11.1.x
+* Support for WordPress 7.1
 
 = 2.0 -  17 Feb 25 =
 * Fixed: Duplicate “New Order” admin emails occurring with certain payment methods.

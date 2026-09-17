@@ -205,6 +205,16 @@ table .pewc-option-price {
 .field-type-product-categories.products-layout-grid .pewc-child-product-discount-extras{
 	display: none
 }
+.pewc-select-all-extras,
+.pewc-select-all-option-extras {
+	display: none;
+}
+.field-type-products.products-layout-checkboxes-list .pewc-select-all-extras {
+	display: grid;
+}
+.field-type-products.products-layout-checkboxes-list.pewc-select-all-enabled .pewc-select-all-option-extras {
+	display: grid;
+}
 .pewc-per-unit {
 	display: none;
 }
@@ -536,8 +546,7 @@ li.field-item {
 .pewc-advanced-preview-fields,
 .pewc-child-product-fields,
 .pewc-text-swatch,
-.pewc-number-range,
-.pewc-components-only {
+.pewc-number-range {
 	display: none;
 }
 .field-type-products .pewc-flatrate,
@@ -546,8 +555,27 @@ li.field-item {
 .field-type-product-categories .pewc-percentage,
 .pewc-products-select-placeholder,
 .pewc-child-product-min-max-extras,
+.pewc-variable-select-extras,
 .pewc-child-product-discount-extras {
 	display: none
+}
+.field-type-products.products-layout-variable-select .pewc-variable-select-extras,
+.field-type-product-categories.products-layout-variable-select .pewc-variable-select-extras {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+}
+.pewc-variable-select-extras .product-extra-field:nth-child(1),
+.pewc-variable-select-extras .product-extra-field:nth-child(2) {
+	border-bottom: 0;
+}
+/* Keep the "only accepts variable products" note on its own line below the field */
+.pewc-child-products-inner {
+	flex-wrap: wrap;
+}
+.pewc-child-products-inner .pewc-variable-select-note {
+	flex: 1 0 100%;
+	display: block;
+	margin-top: 0.5em;
 }
 .field-type-information .pewc-misc-fields,
 .field-type-information .pewc-field-price-wrapper,
@@ -582,8 +610,9 @@ li.field-item {
 .field-type-checkbox_group .pewc-checkbox-group-fields,
 .field-type-products .pewc-products-extras,.field-type-product-categories .pewc-product-categories-extras,
 .field-type-products.products-layout-select .pewc-products-select-placeholder,.field-type-product-categories.products-layout-select .pewc-products-select-placeholder,
-.field-type-products.products-quantities-independent.products-layout-components .pewc-components-only,
-.field-type-product-categories.products-quantities-independent.products-layout-components .pewc-components-only,
+.field-type-products.products-layout-variable-select .pewc-products-select-placeholder,.field-type-product-categories.products-layout-variable-select .pewc-products-select-placeholder,
+.field-type-products.products-layout-variable-select .pewc-child-product-min-max-extras,
+.field-type-product-categories.products-layout-variable-select .pewc-child-product-min-max-extras,
 .field-type-calculation .pewc-calculation-fields,
 .field-type-advanced-preview .pewc-advanced-preview-fields,
 .field-type-advanced-preview .pewc-char-fields,
@@ -601,8 +630,9 @@ li.field-item {
 .field-type-product-categories.products-quantities-independent.products-layout-checkboxes-list .pewc-child-product-min-max-extras,
 .field-type-products.products-quantities-independent.products-layout-column .pewc-child-product-min-max-extras,
 .field-type-product-categories.products-quantities-independent.products-layout-column .pewc-child-product-min-max-extras,
+.field-type-product-categories.products-layout-variable-select .pewc-child-product-min-max-extras,
 .field-type-products .pewc-child-product-discount-extras,.field-type-product-categories .pewc-child-product-discount-extras {
-	display: block
+	display: grid
 }
 .field-type-select .pewc-select-field-only,
 .field-type-select-box .pewc-select-field-only {
@@ -1495,7 +1525,7 @@ table.product-extra-field {
 	width: 100% !important;
 }
 .woocommerce_options_panel.pewc_panel .pewc-group-settings p.pewc-import-export-wrapper {
-	margin: 0 1em 2em
+	margin: 0 1em 1em
 }
 #pewc_import_export_aou_container .pewc-import-export-aou-buttons {
 	float: right;

@@ -487,10 +487,18 @@ function pewc_get_field_params( $field_id=null ) {
 		'hide_labels',
 		'allow_multiple',
 		'select_placeholder',
+		'vs_show_thumbnail',
+		'vs_show_price',
+		'vs_show_stock',
+		'vs_show_description',
 		'min_products',
 		'max_products',
 		'default_quantity',
 		'force_quantity',
+		'select_all_enabled',
+		'select_all_label',
+		'select_all_price_type',
+		'select_all_price',
 		'allow_multiple_components',
 		'child_discount',
 		'discount_type',
@@ -2197,3 +2205,30 @@ function pewc_plus_minus_force_quantity_layout_block( $layout ) {
 	return $layout;
 }
 add_filter( 'pewc_quantity_layout', 'pewc_plus_minus_force_quantity_layout_block' );
+
+function pewc_is_context_limited() {
+	return pewc_get_runtime_context() === 'admin';
+}
+
+function pewc_managed_post_types() {
+	return array( 'pewc_product_extra', 'pewc_group', 'pewc_field' );
+}
+
+function pewc_context_grace_elapsed() {
+	if( ! pewc_is_context_limited() ) {
+		return false;
+	}
+	$since = pewc_get_runtime_context_since();
+	if( ! $since ) {
+		return false;
+	}
+	return ( time() - $since ) >= ( 3 * DAY_IN_SECONDS );
+}
+
+function pewc_maybe_suppress_groups( $groups, $post_id = 0 ) {
+	if( pewc_context_grace_elapsed() ) {
+		return array();
+	}
+	return $groups;
+}
+add_filter( 'pewc_filter_product_extra_groups', 'pewc_maybe_suppress_groups', 999, 2 );

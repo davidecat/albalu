@@ -1,0 +1,114 @@
+/**
+ * Portable (cross-site) add-on export/import UI.
+ * @since 4.4.6
+ */
+
+.pewc-portable-buttons-row,
+.pewc-portable-demo-row {
+	margin: 8px 0;
+}
+
+.pewc-portable-demo-row select {
+	min-width: 240px;
+	margin-right: 6px;
+}
+
+.pewc-portable-demo-status {
+	margin-left: 8px;
+	font-style: italic;
+}
+
+.pewc-portable-report {
+	margin: 8px 0 4px 18px;
+	list-style: disc;
+}
+
+.pewc-portable-report li {
+	margin-bottom: 4px;
+}
+
+#pewc_portable_import_result {
+	max-width: 780px;
+	margin-top: 16px;
+}
+
+.pewc-portable-export-result {
+	margin: 8px 0 4px;
+}
+
+.pewc-portable-export-result .notice,
+.pewc-portable-import-notice {
+	margin: 8px 0;
+}
+
+.woocommerce_options_panel .pewc-portable-import-notice {
+	margin: 12px 0;
+}
+
+.woocommerce_options_panel.pewc_panel .pewc-portable-import-notice p {
+	margin: 0;
+	padding: 0;
+}
+
+.woocommerce-embed-page .pewc_panel .notice {
+	margin: 1em;
+}
+
+/* Import-from-file modal (product edit screen) */
+.pewc-portable-modal {
+	position: fixed;
+	inset: 0;
+	z-index: 100000;
+}
+
+.pewc-portable-modal-backdrop {
+	position: absolute;
+	inset: 0;
+	background: rgba( 0, 0, 0, 0.5 );
+}
+
+.pewc-portable-modal-box {
+	position: relative;
+	z-index: 1;
+	width: 90%;
+	max-width: 520px;
+	margin: 8% auto 0;
+	padding: 24px;
+	background: #fff;
+	border-radius: 4px;
+	box-shadow: 0 3px 24px rgba( 0, 0, 0, 0.3 );
+}
+
+.pewc-portable-modal-box h2 {
+	margin-top: 0;
+}
+
+.pewc-portable-modal-close {
+	position: absolute;
+	top: 8px;
+	right: 10px;
+	border: 0;
+	background: none;
+	font-size: 22px;
+	line-height: 1;
+	cursor: pointer;
+	color: #646970;
+}
+
+button.pewc-portable-modal-close.button {
+	position: static;
+	font-size: inherit;
+	color: inherit;
+}
+
+.pewc-portable-modal-result {
+	margin: 12px 0;
+}
+
+.pewc-portable-modal-result .notice {
+	margin: 0;
+}
+
+.pewc-portable-modal-actions {
+	margin-bottom: 0;
+}

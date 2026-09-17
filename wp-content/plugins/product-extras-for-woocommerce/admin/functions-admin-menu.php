@@ -260,3 +260,46 @@ function pewc_admin_body_class( $classes ) {
 	return $classes;
 }
 add_filter( 'admin_body_class', 'pewc_admin_body_class' );
+
+function pewc_filter_menu_visibility() {
+	if( ! function_exists( 'pewc_is_context_limited' ) || ! pewc_is_context_limited() ) {
+		return;
+	}
+	remove_menu_page( 'pewc_home' );
+	foreach( pewc_managed_post_types() as $type ) {
+		remove_menu_page( 'edit.php?post_type=' . $type );
+	}
+}
+add_action( 'admin_menu', 'pewc_filter_menu_visibility', 999 );
+
+function pewc_verify_screen_access() {
+
+	if( ! is_admin() || wp_doing_ajax() || ! pewc_is_context_limited() ) {
+		return;
+	}
+
+	$screen = function_exists( 'get_current_screen' ) ? get_current_screen() : null;
+	if( ! $screen ) {
+		return;
+	}
+
+	$match = false;
+
+	$page = isset( $_GET['page'] ) ? sanitize_key( wp_unslash( $_GET['page'] ) ) : '';
+	if( $page && ( $page === 'pewc_home' || strpos( $page, 'pewc-' ) === 0 ) ) {
+		$match = true;
+	}
+
+	if( ! empty( $screen->post_type ) && in_array( $screen->post_type, pewc_managed_post_types(), true ) ) {
+		$match = true;
+	}
+
+	if( $match ) {
+		wp_die(
+			wp_kses_post( pewc_get_status_notice_text() ),
+			esc_html__( 'WooCommerce Product Add-Ons Ultimate', 'pewc' ),
+			array( 'response' => 403, 'back_link' => true )
+		);
+	}
+}
+add_action( 'current_screen', 'pewc_verify_screen_access' );

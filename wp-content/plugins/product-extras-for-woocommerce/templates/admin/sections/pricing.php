@@ -64,7 +64,7 @@ if( ! defined( 'ABSPATH' ) ) {
 
 <?php include( PEWC_DIRNAME . '/templates/admin/views/price-visibility.php' ); ?>
 
-<div class="pewc-fields-wrapper">
+<div class="pewc-fields-wrapper split-half">
 
 	<div class="product-extra-field pewc-flatrate">
 		<div class="product-extra-field-inner">
@@ -83,26 +83,22 @@ if( ! defined( 'ABSPATH' ) ) {
 		</div>
 	</div>
 
-	<?php if( pewc_is_pro() ) { ?>
+	<div class="product-extra-field pewc-percentage">
+		<div class="product-extra-field-inner">
+			
+			<label class="pewc-checkbox-field-label" for="<?php echo esc_attr( $base_name ); ?>_field_percentage">
+				<?php _e( 'Percentage?', 'pewc' ); ?>
+				<?php echo wc_help_tip( 'Enable this option for the field price to be set as a percentage of the product price', 'pewc' ); ?>
+			</label>
 
-		<div class="product-extra-field pewc-percentage">
-			<div class="product-extra-field-inner">
-				
-				<label class="pewc-checkbox-field-label" for="<?php echo esc_attr( $base_name ); ?>_field_percentage">
-					<?php _e( 'Percentage?', 'pewc' ); ?>
-					<?php echo wc_help_tip( 'Enable this option for the field price to be set as a percentage of the product price', 'pewc' ); ?>
-				</label>
-
-			</div>
-			<div class="product-extra-field-inner">
-
-				<?php $checked = ! empty( $item['field_percentage'] ); ?>
-				<?php pewc_checkbox_toggle( 'field_percentage', $checked, $group_id, $item_key, 'pewc-field-percentage' ); ?>
-				
-			</div>
 		</div>
+		<div class="product-extra-field-inner">
 
-	<?php } ?>
+			<?php $checked = ! empty( $item['field_percentage'] ); ?>
+			<?php pewc_checkbox_toggle( 'field_percentage', $checked, $group_id, $item_key, 'pewc-field-percentage' ); ?>
+			
+		</div>
+	</div>
 
 </div>
 

@@ -51,6 +51,10 @@ function pewc_add_to_cart( $cart_item_key, $product_id, $quantity, $variation_id
 
 				} else if( is_array( $value ) ) {
 
+					// 4.5.0, is the 'Select All' option selected for this field?
+					$select_all_selected = ! empty( $_POST[$field_id . '_select_all_enabled'] ) && ! empty( $_POST[$field_id . '_select_all'] );
+					$select_all_overrides = $select_all_selected ? pewc_get_select_all_child_discounts( $field_id, $value ) : array();
+
 					// If $value is an array, we're using checkboxes so add multiple products
 					foreach( $value as $value_id ) {
 
@@ -70,15 +74,26 @@ function pewc_add_to_cart( $cart_item_key, $product_id, $quantity, $variation_id
 							$value_id = $_POST['pewc_child_variants_' . $field_id . '_' . $value_id];
 						}
 
+						$child_discount = $_POST[$field_id . '_child_discount'];
+						$discount_type = $_POST[$field_id . '_discount_type'];
+						$is_select_all_override = false;
+						if( isset( $select_all_overrides[$value_id] ) ) {
+							// 4.5.0, override the per-item discount so the combined total matches the configured Select All price
+							$child_discount = $select_all_overrides[$value_id]['child_discount'];
+							$discount_type = $select_all_overrides[$value_id]['discount_type'];
+							$is_select_all_override = true;
+						}
+
 						$child_product_ids[] = array(
 							'child_product_id'	=> $value_id,
 							'field_id' 				=> $field_id,
 							'quantities'			=> $_POST[$field_id . '_quantities'],
 							'allow_none'			=> $_POST[$field_id . '_allow_none'],
 							'child_quantity'		=> $child_quantity,
-							'child_discount'		=> $_POST[$field_id . '_child_discount'],
-							'discount_type'			=> $_POST[$field_id . '_discount_type'],
+							'child_discount'		=> $child_discount,
+							'discount_type'			=> $discount_type,
 							'force_quantity'		=> isset( $_POST[$field_id . '_force_quantity'] ) ? $_POST[$field_id . '_force_quantity'] : false,
+							'is_select_all_override' => $is_select_all_override,
 						);
 
 					}
@@ -324,8 +339,48 @@ function pewc_add_on_product( $child_product_ids, $original_quantity, $product_i
 
 			$cart_item['product_extras'] = apply_filters( 'pewc_cart_item_extras_child_product', $cart_item['product_extras'], $cart_item_data, $child_product_id );
 
+			// If the child product is a variation, pass its parent ID, variation ID and
+			// resolved attributes so WooCommerce doesn't reject it with a
+			// "<Attribute> is a required field" error (e.g. for 'Any ...' attributes).
+			$add_product_id   = $child_product_id;
+			$add_variation_id = 0;
+			$add_variation    = array();
+			if( $child_product->is_type( 'variation' ) ) {
+				$add_variation_id = $child_product->get_id();
+				$add_product_id   = $child_product->get_parent_id();
+				$add_variation    = pewc_get_variation_add_to_cart_attributes( $child_product );
+			}
+
+			// 4.5.0, when 'Select All' supplies a per-child override (a proportional share of the
+			// Select All price), temporarily reflect it in $_POST's field-level discount keys too.
+			// Other plugins integrating with Products fields (e.g. Bookings for WooCommerce) read
+			// {$field_id}_child_discount / {$field_id}_discount_type directly from $_POST rather than
+			// from this function's $child_product_values, since that's normally a single field-wide
+			// setting; Select All's per-product shares must reach them the same way, one child at a time.
+			$select_all_post_override = ! empty( $child_product_values['is_select_all_override'] );
+			if( $select_all_post_override ) {
+				$original_post_discount = $_POST[$field_id . '_child_discount'] ?? null;
+				$original_post_discount_type = $_POST[$field_id . '_discount_type'] ?? null;
+				$_POST[$field_id . '_child_discount'] = $child_product_values['child_discount'];
+				$_POST[$field_id . '_discount_type'] = $child_product_values['discount_type'];
+			}
+
 			if( apply_filters( 'pewc_add_child_product_to_cart', true, $cart_item['product_extras'], $cart_item_data, $child_product_id ) ) {
-				WC()->cart->add_to_cart( $child_product_id, $quantity, 0, array(), $cart_item );
+				WC()->cart->add_to_cart( $add_product_id, $quantity, $add_variation_id, $add_variation, $cart_item );
+			}
+
+			if( $select_all_post_override ) {
+				// Restore $_POST so later iterations/hooks see the field's own (unrelated) settings
+				if( $original_post_discount === null ) {
+					unset( $_POST[$field_id . '_child_discount'] );
+				} else {
+					$_POST[$field_id . '_child_discount'] = $original_post_discount;
+				}
+				if( $original_post_discount_type === null ) {
+					unset( $_POST[$field_id . '_discount_type'] );
+				} else {
+					$_POST[$field_id . '_discount_type'] = $original_post_discount_type;
+				}
 			}
 
 		}
@@ -334,6 +389,61 @@ function pewc_add_on_product( $child_product_ids, $original_quantity, $product_i
 
 	// 3.13.0
 	do_action( 'pewc_after_pewc_add_on_product', $child_product_ids, $original_quantity, $product_id, $parent_product_hash, $cart_item_data );
+
+}
+
+/**
+ * Build the full set of variation attributes needed to add a variation to the cart.
+ *
+ * WooCommerce's WC_Cart::add_to_cart() rejects a variation whose parent has a
+ * variation attribute set to 'Any ...' unless a concrete value is supplied. This
+ * resolves each variation attribute: the variation's own value where it has one,
+ * otherwise the first option defined on the parent product.
+ *
+ * @param WC_Product_Variation $variation
+ * @return array attribute_{name} => value
+ * @since 4.4.4
+ */
+function pewc_get_variation_add_to_cart_attributes( $variation ) {
+
+	$attributes = array();
+
+	$parent = wc_get_product( $variation->get_parent_id() );
+	if( ! $parent ) {
+		return $attributes;
+	}
+
+	// The variation's stored attributes ('any' attributes are empty here)
+	$variation_attributes = $variation->get_variation_attributes();
+
+	foreach( $parent->get_attributes() as $attribute ) {
+
+		if( ! $attribute->get_variation() ) {
+			continue;
+		}
+
+		$attribute_key = 'attribute_' . sanitize_title( $attribute->get_name() );
+		$value         = isset( $variation_attributes[ $attribute_key ] ) ? $variation_attributes[ $attribute_key ] : '';
+
+		if( '' === $value ) {
+			// 'Any ...' attribute - fall back to the first option defined on the parent
+			$options = $attribute->get_options();
+			if( ! empty( $options ) ) {
+				$first = reset( $options );
+				if( $attribute->is_taxonomy() ) {
+					$term  = get_term( $first, $attribute->get_name() );
+					$value = ( $term && ! is_wp_error( $term ) ) ? $term->slug : sanitize_title( $first );
+				} else {
+					$value = $first;
+				}
+			}
+		}
+
+		$attributes[ $attribute_key ] = $value;
+
+	}
+
+	return apply_filters( 'pewc_variation_add_to_cart_attributes', $attributes, $variation );
 
 }
 
@@ -689,10 +799,166 @@ function pewc_get_discounted_child_price( $child_price, $discount, $discount_typ
 	$discounted_price = $child_price;
 	if( $discount_type == 'fixed' ) {
 		$discounted_price = max( $child_price - $discount, 0 );
+	} else if( $discount_type == 'set' ) {
+		$discounted_price = max( (float) $discount, 0 );
 	} else {
 		$discounted_price = max( $child_price * ( ( 100 -  $discount ) / 100 ), 0 );
 	}
 	return $discounted_price;
+}
+
+/**
+ * Apply a discount/set amount to a Select All total, normalizing 'fixed'/'set' amounts for tax
+ * the same way individual child product discounts are normalized in pewc_add_on_product()
+ * @since 4.5.0
+ */
+function pewc_get_select_all_adjusted_amount( $amount, $price_type, WC_Product $reference_product ) {
+
+	$amount = (float) $amount;
+
+	if ( 'percentage' === $price_type || ! $amount ) {
+		return $amount;
+	}
+
+	// 'fixed' and 'set' are both absolute currency amounts, so both need the same tax normalization
+	// applied to the 'fixed' discount_type in pewc_add_on_product(), to stay consistent across tax display settings
+	if ( ! wc_prices_include_tax() && 'incl' === get_option( 'woocommerce_tax_display_shop' ) ) {
+		$amount = pewc_get_price_without_tax( $amount, $reference_product );
+	} else if ( wc_prices_include_tax() && 'excl' === get_option( 'woocommerce_tax_display_shop' ) ) {
+		$tmp_cart_item = array( 'data' => $reference_product );
+		$amount = $amount * pewc_get_tax_rate( $tmp_cart_item );
+	}
+
+	return $amount;
+}
+
+/**
+ * Work out the price to charge when the 'Select All' option is chosen for a Products field,
+ * based on the total price of all its (in stock, purchasable) child products
+ * @since 4.5.0
+ */
+function pewc_get_select_all_price( $item, $post_id = 0 ) {
+
+	if ( empty( $item['child_products'] ) ) {
+		return 0;
+	}
+
+	$price_type = ! empty( $item['select_all_price_type'] ) ? $item['select_all_price_type'] : 'percentage';
+	$select_all_price = isset( $item['select_all_price'] ) ? (float) $item['select_all_price'] : 0;
+
+	$total = 0;
+	$reference_product = null;
+
+	foreach ( $item['child_products'] as $child_product_id ) {
+		$child_product = wc_get_product( $child_product_id );
+		if ( ! is_object( $child_product ) || $child_product->get_status() !== 'publish' ) {
+			continue;
+		}
+		$total += (float) pewc_maybe_include_tax( $child_product, $child_product->get_price() );
+		if ( ! $reference_product ) {
+			$reference_product = $child_product;
+		}
+	}
+
+	if ( ! $reference_product ) {
+		return 0;
+	}
+
+	if ( 'set' === $price_type ) {
+		$price = pewc_get_select_all_adjusted_amount( $select_all_price, 'set', $reference_product );
+	} else {
+		$amount = pewc_get_select_all_adjusted_amount( $select_all_price, $price_type, $reference_product );
+		$price = pewc_get_discounted_child_price( $total, $amount, $price_type );
+	}
+
+	return apply_filters( 'pewc_select_all_price', $price, $total, $item, $post_id );
+}
+
+/**
+ * When 'Select All' is chosen, work out a per-child-product 'set' price override so that
+ * the combined price of all selected child products matches the configured Select All price,
+ * distributed proportionally according to each child product's own price
+ * @since 4.5.0
+ * @param string $field_id
+ * @param array $selected_child_product_ids The submitted child product IDs (post value of {$field_id}_child_product[])
+ * @return array child_product_id => array( 'child_discount' => float, 'discount_type' => 'set' )
+ */
+function pewc_get_select_all_child_discounts( $field_id, $selected_child_product_ids ) {
+
+	// $field_id here is the 'pewc_group_{group_id}_{field_id}' string (the POST key prefix),
+	// not the field's numeric post ID, so it needs resolving before we can look up its postmeta
+	$numeric_field_id = pewc_get_field_id( $field_id );
+	$item = pewc_create_item_object( $numeric_field_id );
+
+	if( empty( $item ) || empty( $item['select_all_enabled'] ) ) {
+		return array();
+	}
+
+	$select_all_total = pewc_get_select_all_price( $item );
+
+	$prices = array();
+	$raw_total = 0;
+	foreach( $selected_child_product_ids as $child_product_id ) {
+		$child_product = wc_get_product( $child_product_id );
+		if( ! is_object( $child_product ) ) {
+			continue;
+		}
+		$child_price = (float) pewc_maybe_include_tax( $child_product, $child_product->get_price() );
+		$prices[$child_product_id] = $child_price;
+		$raw_total += $child_price;
+	}
+
+	$overrides = array();
+	$remaining = $select_all_total;
+	$count = count( $prices );
+	$i = 0;
+	foreach( $prices as $child_product_id => $child_price ) {
+		$i++;
+		if( $i === $count ) {
+			// Give the last item whatever is left, to avoid rounding remainders
+			$share = $remaining;
+		} else if( $raw_total > 0 ) {
+			$share = round( $select_all_total * ( $child_price / $raw_total ), wc_get_price_decimals() );
+		} else {
+			$share = round( $select_all_total / $count, wc_get_price_decimals() );
+		}
+		$remaining -= $share;
+		$overrides[$child_product_id] = array(
+			'child_discount' => $share,
+			'discount_type'  => 'set',
+		);
+	}
+
+	return $overrides;
+}
+
+/**
+ * Check whether the 'Select All' option should be available for a Products field -
+ * disabled if any child product is out of stock/unpurchasable (since Select All must add
+ * every child product to the cart), or if selecting all products would exceed Max Child Products
+ * @since 4.5.0
+ */
+function pewc_select_all_is_available( $item ) {
+
+	if ( empty( $item['child_products'] ) ) {
+		return false;
+	}
+
+	if ( ! empty( $item['max_products'] ) && count( $item['child_products'] ) > absint( $item['max_products'] ) ) {
+		return false;
+	}
+
+	foreach ( $item['child_products'] as $child_product_id ) {
+		$child_product = wc_get_product( $child_product_id );
+		if ( ! is_object( $child_product ) || $child_product->get_status() !== 'publish' ) {
+			continue;
+		}
+		if ( ! $child_product->is_purchasable() || ( ! $child_product->is_in_stock() && ! $child_product->backorders_allowed() ) ) {
+			return false;
+		}
+	}
+
+	return apply_filters( 'pewc_select_all_is_available', true, $item );
 }
 
 /**
@@ -1416,3 +1682,19 @@ function pewc_set_main_qty_max_from_child_stock() {
 	<?php
 }
 add_action( 'wp_footer', 'pewc_set_main_qty_max_from_child_stock' );
+
+/**
+ * The 'Variable Select' layout renders the field description itself (below the
+ * select), so suppress the standard description output to avoid a duplicate.
+ * @since 4.4.4
+ */
+function pewc_suppress_variable_select_description( $description, $item, $additional_info='' ) {
+
+	if( ! empty( $item['products_layout'] ) && 'variable-select' === $item['products_layout'] ) {
+		// Keep any additional info (min/max etc.), drop the description paragraph
+		return $additional_info ? '<p class="pewc-description">' . $additional_info . '</p>' : '';
+	}
+	return $description;
+
+}
+add_filter( 'pewc_filter_field_description', 'pewc_suppress_variable_select_description', 10, 3 );

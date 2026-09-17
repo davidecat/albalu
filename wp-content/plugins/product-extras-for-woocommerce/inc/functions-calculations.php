@@ -200,9 +200,9 @@ function pewc_recalculate_calculation_fields_in_cart( $cart_item_key, $quantity,
 		}
 	}
 
-	if ( ! $all_replaced && function_exists('pewc_error_log') ) {
+	if ( ! $all_replaced && function_exists( 'pewc_error_log' ) ) {
 		// let's log this for now in case we need to debug
-		$error_log = print_r($fields, true);
+		$error_log = 'Not all replaced:' . print_r( $fields, true );
 		pewc_error_log( $error_log );
 	}
 
@@ -922,10 +922,19 @@ function pewc_enabled_validate_formulas() {
  */
 function pewc_save_data_for_formulas( $passed, $posted, $item, $product_id, $quantity, $variation_id=null ) {
 
-	// if pewc_formulas_in_prices_enabled() is false, pewc_get_field_price() won't return the correct value
-	// commented out pewc_formulas_in_prices_enabled() because data won't be saved if it's disabled, then validation won't run
-	if ( ! isset( WC()->session ) || ! WC()->session->has_session() /*|| ! pewc_formulas_in_prices_enabled()*/ || ! pewc_enabled_validate_formulas() ) {
+	// Don't continue if this is disabled
+	if ( ! pewc_enabled_validate_formulas() ) {
 		return $passed;
+	}
+
+	// we need WC session for validating formulas. This should be set when running this function. If not, something fishy could be going on
+	if ( ! function_exists( 'WC' ) || ! isset( WC()->session ) ) {
+		$message = 'Error in pewc_save_data_for_formulas(). WC:' . function_exists( 'WC' );
+		if ( function_exists( 'WC' ) ) {
+			$message .= ';WC session:' . isset( WC()->session );
+		}
+		pewc_error_log( $message );
+		return false; // fail the validation
 	}
 
 	if ( ! $passed ) {
@@ -1004,7 +1013,8 @@ function pewc_save_data_for_formulas( $passed, $posted, $item, $product_id, $qua
 					// add to field price
 					$field['price'] += $option_price;
 
-					if ( 'select' === $item['field_type'] || 'radio' === $item['field_type'] ) {
+					// 4.4.4, add support for Swatch field, allow multiple disabled
+					if ( 'select' === $item['field_type'] || 'radio' === $item['field_type'] || ( 'image_swatch' === $item['field_type'] && empty( $item['allow_multiple'] ) ) ) {
 						$field['field_option_price'] = $option_price;
 						$field['field_option_price_original'] = $option['price']; // this could have a formula
 					}
@@ -1070,8 +1080,19 @@ add_filter( 'pewc_filter_validate_cart_item_status', 'pewc_save_data_for_formula
  */
 function pewc_validate_cart_item_formulas( $passed, $product_id, $quantity, $variation_id=null, $cart_item_data=array() ) {
 
-	if ( ! isset( WC()->session ) || ! WC()->session->has_session() /*|| ! pewc_formulas_in_prices_enabled()*/ || ! pewc_enabled_validate_formulas() ) {
+	// Don't continue if this is disabled
+	if ( ! pewc_enabled_validate_formulas() ) {
 		return $passed;
+	}
+
+	// we need WC session for validating formulas. This should be set when running this function. If not, something fishy could be going on
+	if ( ! function_exists( 'WC' ) || ! isset( WC()->session ) ) {
+		$message = 'Error in pewc_validate_cart_item_formulas(). WC:' . function_exists( 'WC' );
+		if ( function_exists( 'WC' ) ) {
+			$message .= ';WC session:' . isset( WC()->session );
+		}
+		pewc_error_log( $message );
+		return false;
 	}
 
 	if ( ! $passed ) {
@@ -1100,6 +1121,7 @@ function pewc_validate_cart_item_formulas( $passed, $product_id, $quantity, $var
 	);
 
 	$original_price = $product->get_price();
+	$original_price = pewc_maybe_include_tax( $product, $original_price ); // 4.4.5, if tax settings is exc/inc/inc, validation might fail, so consider the taxed price
 
 	$pewc_global_values = array(
 		'quantity'       => $quantity,
@@ -1138,9 +1160,10 @@ function pewc_validate_cart_item_formulas( $passed, $product_id, $quantity, $var
 		foreach ( $fields as $field_id => $field ) {
 			if ( 'calculation' === $field['type'] ) {
 				if ( ! empty( $field['formula_action'] ) && ( 'cost' === $field['formula_action'] || 'price' === $field['formula_action'] ) ) {
-					if ( empty( $_POST[$field['id']] ) || $_POST[$field['id']] != $field['price'] ) {
+					// 4.4.5, also check $_POST['pewc_calc_set_price']
+					if ( empty( $_POST[$field['id']] ) || $_POST[$field['id']] != $field['price'] || ( 'price' === $field['formula_action'] && $_POST['pewc_calc_set_price'] != $field['price'] ) ) {
 						// evaluated price is not the same as the posted price?
-						pewc_add_calculation_notice( $field_id, $fields, $product );
+						pewc_add_calculation_notice( $field_id, $fields, $product, $other_values );
 						// clean up before returning
 						//WC()->session->__unset( 'pewc_data_for_formulas' );
 						// fail immediately
@@ -1152,7 +1175,7 @@ function pewc_validate_cart_item_formulas( $passed, $product_id, $quantity, $var
 				// field or option price has formula
 				if ( $field['evaluated_formula'] != $field['price'] ) {
 					// evaluated price is not the same as the posted price?
-					pewc_add_calculation_notice( $field_id, $fields, $product );
+					pewc_add_calculation_notice( $field_id, $fields, $product, $other_values );
 					// clean up before returning
 					//WC()->session->__unset( 'pewc_data_for_formulas' );
 					// fail immediately
@@ -1165,7 +1188,7 @@ function pewc_validate_cart_item_formulas( $passed, $product_id, $quantity, $var
 		// find the fields that have unevaluated formulas and add an error message
 		foreach ( $fields as $field_id => $field ) {
 			if ( ! empty( $field['evaluated_formula'] ) && ! pewc_formula_is_evaluated( $field['evaluated_formula'] ) ) {
-				pewc_add_calculation_notice( $field_id, $fields, $product );
+				pewc_add_calculation_notice( $field_id, $fields, $product, $other_values );
 				$passed = false;
 			}
 		}
@@ -1183,7 +1206,7 @@ add_filter( 'woocommerce_add_to_cart_validation', 'pewc_validate_cart_item_formu
  * Add an error notice if a calculation field or a field with formulas in prices fail validation
  * @since 4.4.0
  */
-function pewc_add_calculation_notice( $field_id, $fields, $product ) {
+function pewc_add_calculation_notice( $field_id, $fields, $product, $other_values ) {
 
 	$field = $fields[$field_id];
 	$message = apply_filters( 'pewc_filter_formula_validation_error_text',
@@ -1201,7 +1224,7 @@ function pewc_add_calculation_notice( $field_id, $fields, $product ) {
 			array( 'pewc_field_id' => $field_id )
 		);
 		// log error for debugging
-		pewc_error_log( 'Error in evaluating formulas in prices. Field:' . $field_id . ', All Fields:' . print_r($fields, true) . ', $_POST:' . print_r($_POST, true) );
+		pewc_error_log( 'Error in validating formulas. Field:' . $field_id . ', All Fields:' . print_r($fields, true) . ', Other Values: ' . print_r( $other_values, true ) . ', $_POST:' . print_r($_POST, true) );
 	}
 
 }

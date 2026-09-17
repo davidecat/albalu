@@ -102,8 +102,17 @@ function pewc_get_upload_url() {
 
 function pewc_create_protection_files( $upload_path=false ) {
 
+	// 4.5.1, keep track of whether we were called from an upload (with the $upload array) vs the
+	// scheduled site health check (no args), since the two cases are handled differently below.
+	$is_upload_context = (bool) $upload_path;
+
 	if( $upload_path ) {
-		$upload_path = $upload_path['subdir'] . '/product-extras';
+		// 4.5.1, changed from 'subdir' to 'basedir'. 'subdir' is a relative fragment (e.g. '/product-extras/<hash>'),
+		// so appending '/product-extras' to it produced an absolute-looking but invalid path that was missing the
+		// real base directory. wp_mkdir_p() then tried to create/check that bogus path from the filesystem root,
+		// which triggered open_basedir warnings (and failed outright) on hosts with open_basedir restrictions.
+		$new_upload_dir = $upload_path['path']; // full path to the subdirectory this upload just created
+		$upload_path = $upload_path['basedir'] . '/product-extras';
 	} else {
 		$upload_path = pewc_get_upload_dir();
 	}
@@ -120,8 +129,16 @@ function pewc_create_protection_files( $upload_path=false ) {
 	// Top level blank index.php
 	@file_put_contents( $upload_path . '/index.php', '<?php' . PHP_EOL . '// That whereof we cannot speak, thereof we must remain silent.' );
 
-	// Now place index.php files in all sub folders
-	$folders = pewc_scan_folders( $upload_path );
+	if ( $is_upload_context ) {
+		// 4.5.1, only protect the specific subdirectory this upload just created, instead of scanning the
+		// entire /product-extras tree (pewc_scan_folders() below) on every single upload. That full scan is
+		// meant for the weekly scheduled sweep; running it per-upload gets slower as more customer/date
+		// folders accumulate, and was previously masked by the 'subdir' bug above always failing instantly.
+		pewc_protect_upload_subdir( $upload_path, $new_upload_dir );
+	} else {
+		// Now place index.php files in all sub folders
+		$folders = pewc_scan_folders( $upload_path );
+	}
 
 }
 // Changed to weekly 3.7.7
@@ -599,7 +616,7 @@ function pewc_dropzone_remove() {
 	$existing_file_data = '';
 
 	// 4.4.0
-	$field_id = (int) $_POST['field_id'];
+	$field_id = isset( $_POST['field_id'] ) ? (int) $_POST['field_id'] : 0; // 4.5.1, field_id isn't always sent (see functions-uploads.php fix)
 	if ( isset( WC()->session ) ) {
 		// retrieve the update data from session
 		$existing_file_data = WC()->session->get( 'uploaded_files_' . $field_id );
@@ -860,5 +877,38 @@ function pewc_valid_dropzone_file( $existing_file, $remove_file_name ) {
 	}
 
 	return $valid;
+
+}
+
+/**
+ * Place index.php protection files along the path from the top-level /product-extras folder
+ * down to a specific upload subdirectory, without scanning the rest of the folder tree.
+ *
+ * @since 4.5.1
+ *
+ * @param string $top_level_dir Absolute path to the top-level /product-extras folder.
+ * @param string $target_dir    Absolute path to the subdirectory this upload just created.
+ */
+function pewc_protect_upload_subdir( $top_level_dir, $target_dir ) {
+
+	$top_level_dir = untrailingslashit( str_replace( '\\', '/', $top_level_dir ) );
+	$target_dir    = untrailingslashit( str_replace( '\\', '/', $target_dir ) );
+
+	if ( 0 !== strpos( $target_dir, $top_level_dir ) ) {
+		return; // Not inside the expected folder, bail.
+	}
+
+	$relative = trim( substr( $target_dir, strlen( $top_level_dir ) ), '/' );
+	if ( '' === $relative ) {
+		return;
+	}
+
+	$path = $top_level_dir;
+	foreach ( explode( '/', $relative ) as $segment ) {
+		$path .= '/' . $segment;
+		if ( is_dir( $path ) && ! file_exists( $path . '/index.php' ) && wp_is_writable( $path ) ) {
+			@file_put_contents( $path . '/index.php', '<?php' . PHP_EOL . '// That whereof we cannot speak, thereof we must remain silent.' );
+		}
+	}
 
 }

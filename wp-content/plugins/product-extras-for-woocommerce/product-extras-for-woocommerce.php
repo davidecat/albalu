@@ -3,13 +3,13 @@
 Plugin Name: WooCommerce Product Add-Ons Ultimate
 Plugin URI: https://pluginrepublic.com/wordpress-plugins/woocommerce-product-add-ons-ultimate/
 Description: Add extra fields to WooCommerce products
-Version: 4.4.3
+Version: 4.5.1
 Author: Plugin Republic
 Author URI: https://pluginrepublic.com/
 Requires Plugins: woocommerce
 Text Domain: pewc
 WC requires at least: 3.2
-WC tested up to: 11.0
+WC tested up to: 11.2
 Domain Path: /languages
 */
 
@@ -25,7 +25,7 @@ if ( ! defined( 'PEWC_FILE' ) ) {
 	define( 'PEWC_FILE', __FILE__ );
 }
 if ( ! defined( 'PEWC_PLUGIN_VERSION' ) ) {
-	define( 'PEWC_PLUGIN_VERSION', '4.4.3' );
+	define( 'PEWC_PLUGIN_VERSION', '4.5.1' );
 }
 if ( ! defined( 'PEWC_DIRNAME' ) ) {
 	define( 'PEWC_DIRNAME', dirname( __FILE__ ) );
@@ -111,6 +111,7 @@ require_once dirname( __FILE__ ) . '/admin/functions-admin-export.php';
 require_once dirname( __FILE__ ) . '/admin/functions-admin-field-helpers.php';
 require_once dirname( __FILE__ ) . '/admin/functions-admin-import.php';
 require_once dirname( __FILE__ ) . '/admin/functions-admin-import-export-aou.php';
+require_once dirname( __FILE__ ) . '/admin/functions-admin-portable-export.php';
 require_once dirname( __FILE__ ) . '/admin/functions-admin-menu.php';
 require_once dirname( __FILE__ ) . '/admin/functions-admin-order.php';
 require_once dirname( __FILE__ ) . '/admin/functions-admin-post-types.php';

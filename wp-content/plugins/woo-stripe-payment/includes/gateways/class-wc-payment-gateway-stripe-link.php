@@ -147,7 +147,7 @@ class WC_Payment_Gateway_Stripe_Link extends \WC_Payment_Gateway_Stripe {
 			parent::get_payment_method_data(),
 			[
 				'button'                => [
-					'height' => (int) $this->get_option( 'button_height', 40 ),
+					'height' => (int) $this->get_option( 'button_height', 50 ),
 					'radius' => $this->get_option( 'button_radius', 4 ) . 'px',
 				],
 				'paymentElementOptions' => []

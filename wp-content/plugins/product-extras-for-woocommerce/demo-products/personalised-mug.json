@@ -1,0 +1,76 @@
+{
+    "format": "pewc-product-addons",
+    "format_version": 1,
+    "label": "Personalized Mug",
+    "plugin_version": "4.4.6",
+    "exported_from": "https://demo.pluginrepublic.com",
+    "exported_at": "2026-09-10T00:00:00+00:00",
+    "source_product": {
+        "id": 0,
+        "title": "Personalized Mug",
+        "sku": "DEMO-MUG"
+    },
+    "groups": [
+        {
+            "ref": "g0",
+            "meta": {
+                "group_title": "Personalise your mug",
+                "group_description": "<p>Add a name and choose your options.</p>",
+                "group_layout": "ul"
+            },
+            "fields": [
+                {
+                    "ref": "g0f0",
+                    "params": {
+                        "field_type": "text",
+                        "field_label": "Name to print",
+                        "field_required": "on",
+                        "field_maxchars": "20",
+                        "field_description": "Up to 20 characters."
+                    }
+                },
+                {
+                    "ref": "g0f1",
+                    "params": {
+                        "field_type": "select",
+                        "field_label": "Text colour",
+                        "first_field_empty": "",
+                        "field_options": [
+                            { "value": "Black", "price": "0" },
+                            { "value": "Gold", "price": "2" },
+                            { "value": "Silver", "price": "2" }
+                        ]
+                    }
+                },
+                {
+                    "ref": "g0f2",
+                    "params": {
+                        "field_type": "checkbox",
+                        "field_label": "Add gift wrapping",
+                        "field_price": "3.50"
+                    }
+                },
+                {
+                    "ref": "g0f3",
+                    "params": {
+                        "field_type": "textarea",
+                        "field_label": "Gift message",
+                        "condition_action": "show",
+                        "condition_match": "all",
+                        "condition_field": [ "ref:g0f2" ],
+                        "condition_rule": [ "is" ],
+                        "condition_value": [ "on" ]
+                    }
+                }
+            ]
+        }
+    ],
+    "notes": {
+        "dropped_product_refs": [],
+        "dropped_variation_refs": [],
+        "dropped_field_refs": [],
+        "dropped_category_refs": [],
+        "dropped_uploads": [],
+        "uses_global_groups": false
+    }
+}

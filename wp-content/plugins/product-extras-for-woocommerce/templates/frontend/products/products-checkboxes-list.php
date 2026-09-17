@@ -28,6 +28,51 @@ if( ! empty( $item['products_quantities'] ) ) {
 
 <div class="<?php echo join( ' ', $checkboxes_wrapper_classes ); ?>" data-products-quantities="<?php echo esc_attr( $item['products_quantities'] ); ?>">
 
+<?php
+// 4.5.0, 'Select All' option
+if( ! empty( $item['select_all_enabled'] ) && $item['child_products'] && in_array( $item['products_quantities'], array( 'linked', 'one-only' ) ) ) {
+
+	$select_all_available = pewc_select_all_is_available( $item );
+	$select_all_price = pewc_get_select_all_price( $item, $post_id );
+	$select_all_label = ! empty( $item['select_all_label'] ) ? $item['select_all_label'] : __( 'Select All', 'pewc' );
+	// 4.5.0, run through the same filter regular child product titles use, so integrations
+	// (e.g. Bookings for WooCommerce's per-row markup) keep the Select All row's layout consistent
+	$select_all_display_label = apply_filters( 'pewc_child_product_title', esc_html( $select_all_label ), null );
+	$select_all_price_html = wc_price( $select_all_price );
+
+	$select_all_disabled = $select_all_available ? '' : 'disabled';
+	$select_all_wrapper_classes = array( 'pewc-checkbox-wrapper', 'pewc-select-all-wrapper' );
+	if( ! $select_all_available ) {
+		$select_all_wrapper_classes[] = 'pewc-checkbox-disabled';
+	}
+
+	$select_all_name = $id . '_select_all';
+	$select_all_id = $id . '_select_all';
+
+	$select_all_checkbox = sprintf(
+		'<div class="%s">
+			<label for="%s">
+				<input data-select-all-price="%s" data-field-label="%s" type="checkbox" name="%s" id="%s" class="pewc-select-all-form-field" value="1" %s>
+				<span class="pewc-theme-element"></span>
+				<div class="pewc-checkboxes-list-desc-wrapper">
+					<div class="pewc-checkboxes-list-desc">%s</div>
+				</div>
+			</label>
+		</div>',
+		join( ' ', $select_all_wrapper_classes ),
+		esc_attr( $select_all_id ),
+		esc_attr( $select_all_price ),
+		esc_attr( $select_all_label ),
+		esc_attr( $select_all_name ),
+		esc_attr( $select_all_id ),
+		esc_attr( $select_all_disabled ),
+		$select_all_display_label . apply_filters( 'pewc_option_price_separator', '+', $item ) . '<span class="pewc-child-product-price-label">' . apply_filters( 'pewc_option_price', $select_all_price_html, $item, null ) . '</span>'
+	);
+
+	echo apply_filters( 'pewc_filter_select_all_checkbox', $select_all_checkbox, $select_all_price, $item, $post_id );
+
+} ?>
+
 <?php if( $item['child_products'] ) {
 
 	// 3.26.0

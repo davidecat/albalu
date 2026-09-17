@@ -4,7 +4,7 @@ msgstr ""
 "Project-Id-Version: WooCommerce Product Add-Ons Ultimate\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/product-extras-"
 "for-woocommerce\n"
-"POT-Creation-Date: 2026-08-26T10:45:15+00:00\n"
+"POT-Creation-Date: 2026-09-02T12:22:29+00:00\n"
 "PO-Revision-Date: 2024-06-08 06:14+0900\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -2422,7 +2422,7 @@ msgstr "親製品と子製品の合計価格"
 msgid "The quantity for &ldquo;%s&rdquo; is not valid and has been corrected."
 msgstr "&ldquo;%s&rdquo;の数量が無効なため、修正されました。"
 
-#: inc/functions-calculations.php:1191
+#: inc/functions-calculations.php:1192
 msgid ""
 "There was an error in calculating the price for %s. Please contact the "
 "website administrator about the issue."
@@ -2430,7 +2430,7 @@ msgstr ""
 "%s の価格計算中にエラーが発生しました。この問題についてウェブサイト管理者にお"
 "問い合わせください。"
 
-#: inc/functions-calculations.php:1219
+#: inc/functions-calculations.php:1220
 msgid ""
 " The following plugin(s) need to be updated to the latest version in order "
 "to use this feature: "
@@ -3667,19 +3667,19 @@ msgstr "最小文字数"
 msgid "Max Characters"
 msgstr "最大文字数"
 
-#: templates/admin/sections/text.php:49
+#: templates/admin/sections/text.php:46
 msgid "Show Counter?"
 msgstr "カウンターを表示？"
 
-#: templates/admin/sections/text.php:67
+#: templates/admin/sections/text.php:64
 msgid "Free Characters"
 msgstr "無料文字数"
 
-#: templates/admin/sections/text.php:82
+#: templates/admin/sections/text.php:76
 msgid "Only Allow Alphanumeric?"
 msgstr "英数字のみを許可する？"
 
-#: templates/admin/sections/text.php:95
+#: templates/admin/sections/text.php:89
 msgid "Only Charge Alphanumeric?"
 msgstr "英数字のみを課金する？"
 

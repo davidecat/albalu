@@ -2,39 +2,46 @@
 # This file is distributed under the same license as the WooCommerce Product Add-Ons Ultimate plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: WooCommerce Product Add-Ons Ultimate 4.4.3\n"
-"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/product-extras-for-woocommerce\n"
+"Project-Id-Version: WooCommerce Product Add-Ons Ultimate 4.4.5\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/pewc\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-08-26T10:45:15+00:00\n"
+"POT-Creation-Date: 2026-09-11T09:25:20+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"X-Generator: WP-CLI 2.4.0\n"
+"X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: pewc\n"
 
 #. Plugin Name of the plugin
+#: product-extras-for-woocommerce.php
 #: admin/functions-admin-menu.php:54
-#: admin/functions-admin-settings.php:920
-#: inc/functions-updater.php:276
-#: inc/functions-updater.php:291
+#: admin/functions-admin-menu.php:300
+#: admin/functions-admin-settings.php:958
+#: inc/functions-updater.php:290
+#: inc/functions-updater.php:305
+#: inc/functions-updater.php:469
 msgid "WooCommerce Product Add-Ons Ultimate"
 msgstr ""
 
 #. Plugin URI of the plugin
+#: product-extras-for-woocommerce.php
 msgid "https://pluginrepublic.com/wordpress-plugins/woocommerce-product-add-ons-ultimate/"
 msgstr ""
 
 #. Description of the plugin
+#: product-extras-for-woocommerce.php
 msgid "Add extra fields to WooCommerce products"
 msgstr ""
 
 #. Author of the plugin
+#: product-extras-for-woocommerce.php
 msgid "Plugin Republic"
 msgstr ""
 
 #. Author URI of the plugin
+#: product-extras-for-woocommerce.php
 msgid "https://pluginrepublic.com/"
 msgstr ""
 
@@ -242,31 +249,31 @@ msgstr ""
 
 #: admin/customizer.php:917
 #: admin/functions-admin-settings.php:238
-#: admin/functions-custom-panel.php:517
+#: admin/functions-custom-panel.php:525
 msgid "Price label"
 msgstr ""
 
 #: admin/customizer.php:927
 #: admin/functions-admin-settings.php:245
-#: admin/functions-custom-panel.php:525
+#: admin/functions-custom-panel.php:533
 msgid "Price label display"
 msgstr ""
 
 #: admin/customizer.php:932
 #: admin/functions-admin-settings.php:253
-#: admin/functions-custom-panel.php:529
+#: admin/functions-custom-panel.php:537
 msgid "Before price"
 msgstr ""
 
 #: admin/customizer.php:933
 #: admin/functions-admin-settings.php:254
-#: admin/functions-custom-panel.php:530
+#: admin/functions-custom-panel.php:538
 msgid "After price"
 msgstr ""
 
 #: admin/customizer.php:934
 #: admin/functions-admin-settings.php:255
-#: admin/functions-custom-panel.php:531
+#: admin/functions-custom-panel.php:539
 msgid "Hide price"
 msgstr ""
 
@@ -401,8 +408,9 @@ msgid "Confirm delete? This cannot be undone."
 msgstr ""
 
 #: admin/functions-admin-cleanup-files.php:102
-#: admin/functions-admin-import-export-aou.php:48
-#: admin/functions-admin-import-export-aou.php:120
+#: admin/functions-admin-import-export-aou.php:50
+#: admin/functions-admin-import-export-aou.php:122
+#: admin/functions-admin-portable-export.php:1032
 #: templates/admin/views/group-ajax-condition.php:204
 msgid "Cancel"
 msgstr ""
@@ -442,7 +450,7 @@ msgid "Some files have not been deleted because of an error."
 msgstr ""
 
 #: admin/functions-admin-cleanup-files.php:168
-#: admin/functions-admin-order.php:615
+#: admin/functions-admin-order.php:631
 msgid "Invalid nonce. No files were deleted."
 msgstr ""
 
@@ -521,8 +529,8 @@ msgstr ""
 
 #: admin/functions-admin-conditions.php:216
 #: admin/functions-admin-conditions.php:266
-#: admin/functions-admin-import-export-aou.php:88
-#: admin/functions-admin-import-export-aou.php:107
+#: admin/functions-admin-import-export-aou.php:90
+#: admin/functions-admin-import-export-aou.php:109
 #: admin/functions-admin-post-types.php:168
 #: admin/functions-admin-settings.php:211
 msgid "Global"
@@ -542,9 +550,9 @@ msgid "Click the Export button to export all your Product Add-Ons from orders to
 msgstr ""
 
 #: admin/functions-admin-export.php:35
-#: admin/functions-admin-import-export-aou.php:119
-#: admin/functions-admin-import-export-aou.php:261
-#: admin/functions-admin-import-export-aou.php:401
+#: admin/functions-admin-import-export-aou.php:121
+#: admin/functions-admin-import-export-aou.php:263
+#: admin/functions-admin-import-export-aou.php:403
 #: admin/functions-admin-import.php:26
 msgid "Export"
 msgstr ""
@@ -607,112 +615,118 @@ msgstr ""
 msgid "Status"
 msgstr ""
 
-#: admin/functions-admin-import-export-aou.php:44
+#: admin/functions-admin-import-export-aou.php:45
 msgid "Import/Export Add-Ons"
 msgstr ""
 
-#: admin/functions-admin-import-export-aou.php:45
-#: admin/functions-admin-import-export-aou.php:293
-#: admin/functions-admin-import-export-aou.php:306
-#: admin/functions-admin-import-export-aou.php:307
-#: admin/functions-admin-import-export-aou.php:343
+#: admin/functions-admin-import-export-aou.php:46
+msgid "Use this method to import and export groups and fields within the same site."
+msgstr ""
+
+#: admin/functions-admin-import-export-aou.php:47
+#: admin/functions-admin-import-export-aou.php:295
+#: admin/functions-admin-import-export-aou.php:308
+#: admin/functions-admin-import-export-aou.php:309
+#: admin/functions-admin-import-export-aou.php:345
 #: templates/admin/import-groups.php:42
 msgid "Import Groups"
 msgstr ""
 
-#: admin/functions-admin-import-export-aou.php:46
-#: admin/functions-admin-import-export-aou.php:100
-#: admin/functions-admin-import-export-aou.php:315
-#: admin/functions-admin-import-export-aou.php:316
-#: admin/functions-admin-import-export-aou.php:383
+#: admin/functions-admin-import-export-aou.php:48
+#: admin/functions-admin-import-export-aou.php:102
+#: admin/functions-admin-import-export-aou.php:317
+#: admin/functions-admin-import-export-aou.php:318
+#: admin/functions-admin-import-export-aou.php:385
 msgid "Export Groups"
 msgstr ""
 
-#: admin/functions-admin-import-export-aou.php:47
+#: admin/functions-admin-import-export-aou.php:49
 msgid "Export Selected Group(s)"
 msgstr ""
 
-#: admin/functions-admin-import-export-aou.php:81
+#: admin/functions-admin-import-export-aou.php:83
 msgid "Import Add-On Groups"
 msgstr ""
 
-#: admin/functions-admin-import-export-aou.php:83
+#: admin/functions-admin-import-export-aou.php:85
 msgid "Choose whether to import groups from one or more products or from existing global groups. You'll be able to select which groups to import. All fields within the groups will also be imported."
 msgstr ""
 
-#: admin/functions-admin-import-export-aou.php:87
-#: admin/functions-admin-import-export-aou.php:106
+#: admin/functions-admin-import-export-aou.php:89
+#: admin/functions-admin-import-export-aou.php:108
 msgid "Product(s)"
 msgstr ""
 
-#: admin/functions-admin-import-export-aou.php:101
+#: admin/functions-admin-import-export-aou.php:103
 msgid "Groups: "
 msgstr ""
 
-#: admin/functions-admin-import-export-aou.php:103
+#: admin/functions-admin-import-export-aou.php:105
 msgid "Choose where to export these groups to - either to specific products or to global groups. All fields within your selected groups will also be exported."
 msgstr ""
 
-#: admin/functions-admin-import-export-aou.php:118
-#: admin/functions-admin-import-export-aou.php:354
+#: admin/functions-admin-import-export-aou.php:120
+#: admin/functions-admin-import-export-aou.php:356
 #: admin/functions-admin-import.php:25
+#: admin/functions-admin-portable-export.php:1031
 msgid "Import"
 msgstr ""
 
-#: admin/functions-admin-import-export-aou.php:121
+#: admin/functions-admin-import-export-aou.php:123
+#: admin/functions-admin-portable-export.php:1023
 #: inc/functions-lightbox.php:107
 msgid "Close"
 msgstr ""
 
-#: admin/functions-admin-import-export-aou.php:123
-#: admin/functions-admin-import-export-aou.php:399
+#: admin/functions-admin-import-export-aou.php:125
+#: admin/functions-admin-import-export-aou.php:401
 msgid "Exporting..."
 msgstr ""
 
-#: admin/functions-admin-import-export-aou.php:124
-#: admin/functions-admin-import-export-aou.php:352
+#: admin/functions-admin-import-export-aou.php:126
+#: admin/functions-admin-import-export-aou.php:354
 msgid "Importing..."
 msgstr ""
 
-#: admin/functions-admin-import-export-aou.php:129
+#: admin/functions-admin-import-export-aou.php:131
 msgid "Go to Global Groups"
 msgstr ""
 
-#: admin/functions-admin-import-export-aou.php:132
+#: admin/functions-admin-import-export-aou.php:134
 msgid "Go to Global Add-Ons"
 msgstr ""
 
-#: admin/functions-admin-import-export-aou.php:135
-#: admin/functions-admin-import-export-aou.php:403
+#: admin/functions-admin-import-export-aou.php:137
+#: admin/functions-admin-import-export-aou.php:405
 msgid "Go to"
 msgstr ""
 
-#: admin/functions-admin-import-export-aou.php:198
+#: admin/functions-admin-import-export-aou.php:200
 #: classes/class-pewc-product-extra-post-type.php:185
 #: classes/class-pewc-product-extra-post-type.php:186
 msgid "Global Groups"
 msgstr ""
 
-#: admin/functions-admin-import-export-aou.php:200
+#: admin/functions-admin-import-export-aou.php:202
 #: inc/functions-global-extras.php:29
 #: inc/functions-global-extras.php:30
 msgid "Global Add-Ons"
 msgstr ""
 
-#: admin/functions-admin-import-export-aou.php:205
+#: admin/functions-admin-import-export-aou.php:207
 msgid "No groups found in your selection. Please try again."
 msgstr ""
 
-#: admin/functions-admin-import-export-aou.php:344
-#: admin/functions-admin-import-export-aou.php:384
+#: admin/functions-admin-import-export-aou.php:346
+#: admin/functions-admin-import-export-aou.php:386
 msgid "Go back to Global Groups"
 msgstr ""
 
-#: admin/functions-admin-import-export-aou.php:388
+#: admin/functions-admin-import-export-aou.php:390
 msgid "No Global Groups selected for export."
 msgstr ""
 
-#: admin/functions-admin-import-export-aou.php:393
+#: admin/functions-admin-import-export-aou.php:395
 msgid "Export to products:"
 msgstr ""
 
@@ -791,28 +805,355 @@ msgid "Original price"
 msgstr ""
 
 #: admin/functions-admin-order.php:325
-#: admin/functions-admin-order.php:603
+#: admin/functions-admin-order.php:619
 msgid "All files for this order have been deleted."
 msgstr ""
 
-#: admin/functions-admin-order.php:383
+#: admin/functions-admin-order.php:399
 msgid "Download Files"
 msgstr ""
 
-#: admin/functions-admin-order.php:400
+#: admin/functions-admin-order.php:416
 msgid "Delete uploaded files in this order? This cannot be undone."
 msgstr ""
 
-#: admin/functions-admin-order.php:401
+#: admin/functions-admin-order.php:417
 msgid "Delete Files"
 msgstr ""
 
-#: admin/functions-admin-order.php:609
+#: admin/functions-admin-order.php:625
 msgid "Some files for this order have not been deleted because of an error."
 msgstr ""
 
-#: admin/functions-admin-order.php:669
+#: admin/functions-admin-order.php:685
 msgid "Has uploads?"
+msgstr ""
+
+#: admin/functions-admin-portable-export.php:136
+#: admin/functions-admin-portable-export.php:774
+msgid "Not a valid product."
+msgstr ""
+
+#: admin/functions-admin-portable-export.php:695
+msgid "Export Add-Ons"
+msgstr ""
+
+#: admin/functions-admin-portable-export.php:696
+msgid "Import Add-Ons"
+msgstr ""
+
+#: admin/functions-admin-portable-export.php:724
+#: admin/functions-admin-portable-export.php:766
+#: admin/functions-admin-portable-export.php:1208
+msgid "File import/export is not enabled."
+msgstr ""
+
+#: admin/functions-admin-portable-export.php:727
+msgid "You do not have permission to export add-ons."
+msgstr ""
+
+#: admin/functions-admin-portable-export.php:730
+#: admin/functions-admin-portable-export.php:763
+#: admin/functions-admin-portable-export.php:1183
+msgid "Security check failed."
+msgstr ""
+
+#: admin/functions-admin-portable-export.php:769
+msgid "You do not have permission."
+msgstr ""
+
+#: admin/functions-admin-portable-export.php:810
+#, php-format
+msgid "%d product reference could not be included and must be set up manually on the destination site."
+msgid_plural "%d product references could not be included and must be set up manually on the destination site."
+msgstr[0] ""
+msgstr[1] ""
+
+#: admin/functions-admin-portable-export.php:820
+#, php-format
+msgid "%d variation-specific setting was removed (the field will show for all variations after import)."
+msgid_plural "%d variation-specific settings were removed (the fields will show for all variations after import)."
+msgstr[0] ""
+msgstr[1] ""
+
+#: admin/functions-admin-portable-export.php:830
+#, php-format
+msgid "%d field-to-field reference could not be transferred."
+msgid_plural "%d field-to-field references could not be transferred."
+msgstr[0] ""
+msgstr[1] ""
+
+#: admin/functions-admin-portable-export.php:840
+#, php-format
+msgid "%d default uploaded file was removed."
+msgid_plural "%d default uploaded files were removed."
+msgstr[0] ""
+msgstr[1] ""
+
+#: admin/functions-admin-portable-export.php:849
+msgid "This product also uses global groups. Global groups are not included - assign them separately on the destination site."
+msgstr ""
+
+#: admin/functions-admin-portable-export.php:853
+msgid "Images are referenced by URL. The destination site must be able to reach this site to download them, or turn on \"Embed images in add-on exports\" in the plugin settings."
+msgstr ""
+
+#: admin/functions-admin-portable-export.php:910
+msgid "Export Add-Ons to File"
+msgstr ""
+
+#: admin/functions-admin-portable-export.php:911
+msgid "Choose a product and download its add-on groups and fields as a JSON file. You can import this file onto a product on this or another site."
+msgstr ""
+
+#: admin/functions-admin-portable-export.php:913
+#: admin/functions-admin-portable-export.php:1150
+#: templates/admin/import-groups.php:17
+msgid "Search for a product&hellip;"
+msgstr ""
+
+#: admin/functions-admin-portable-export.php:924
+msgid "Download export file"
+msgstr ""
+
+#: admin/functions-admin-portable-export.php:930
+msgid "Images are embedded in the file so it can be imported on any site."
+msgstr ""
+
+#: admin/functions-admin-portable-export.php:932
+msgid "Images are referenced by URL and downloaded on import - the destination site must be able to reach this site. Turn on \"Embed images in add-on exports\" in the plugin settings to include the image data in the file instead."
+msgstr ""
+
+#: admin/functions-admin-portable-export.php:935
+msgid "If a Products or Product Categories field is included, you can choose to export the simple products it references too. Variable products and product variations are never included."
+msgstr ""
+
+#: admin/functions-admin-portable-export.php:960
+msgid "Install Add-Ons from Library"
+msgstr ""
+
+#: admin/functions-admin-portable-export.php:961
+msgid "Add a ready-made set of add-on fields to this product from one of the demo products."
+msgstr ""
+
+#: admin/functions-admin-portable-export.php:964
+msgid "Demo product"
+msgstr ""
+
+#: admin/functions-admin-portable-export.php:966
+msgid "— Select a demo product —"
+msgstr ""
+
+#: admin/functions-admin-portable-export.php:974
+msgid "Create add-ons"
+msgstr ""
+
+#: admin/functions-admin-portable-export.php:1007
+msgid "Transfer Add-Ons Between Sites"
+msgstr ""
+
+#: admin/functions-admin-portable-export.php:1008
+msgid "Export this product's groups and fields to a file, or import a file exported from a product on this or another site."
+msgstr ""
+
+#: admin/functions-admin-portable-export.php:1011
+msgid "Export to file"
+msgstr ""
+
+#: admin/functions-admin-portable-export.php:1013
+msgid "Import from file"
+msgstr ""
+
+#: admin/functions-admin-portable-export.php:1024
+#: admin/functions-admin-portable-export.php:1143
+msgid "Import Add-Ons from File"
+msgstr ""
+
+#: admin/functions-admin-portable-export.php:1025
+msgid "Choose a JSON file exported from a product. Its groups and fields will be added to this product."
+msgstr ""
+
+#: admin/functions-admin-portable-export.php:1102
+msgid "Could not read the file."
+msgstr ""
+
+#: admin/functions-admin-portable-export.php:1116
+msgid "The file is not valid JSON."
+msgstr ""
+
+#: admin/functions-admin-portable-export.php:1119
+msgid "This file is not a Product Add-Ons export."
+msgstr ""
+
+#: admin/functions-admin-portable-export.php:1122
+msgid "This file was exported from a newer version of the plugin. Please update Product Add-Ons Ultimate."
+msgstr ""
+
+#: admin/functions-admin-portable-export.php:1125
+msgid "This file contains no add-on groups."
+msgstr ""
+
+#: admin/functions-admin-portable-export.php:1144
+msgid "Select a destination product and an export file. The groups and fields in the file will be added to the product."
+msgstr ""
+
+#: admin/functions-admin-portable-export.php:1148
+msgid "Destination product"
+msgstr ""
+
+#: admin/functions-admin-portable-export.php:1161
+msgid "Export file"
+msgstr ""
+
+#: admin/functions-admin-portable-export.php:1167
+msgid "Import add-ons"
+msgstr ""
+
+#: admin/functions-admin-portable-export.php:1186
+msgid "You do not have permission to import add-ons."
+msgstr ""
+
+#: admin/functions-admin-portable-export.php:1191
+msgid "Please choose a valid destination product."
+msgstr ""
+
+#: admin/functions-admin-portable-export.php:1198
+msgid "The add-ons library is not enabled."
+msgstr ""
+
+#: admin/functions-admin-portable-export.php:1203
+msgid "Unknown demo product."
+msgstr ""
+
+#: admin/functions-admin-portable-export.php:1211
+msgid "Please select an export file to upload."
+msgstr ""
+
+#. translators: %s: comma-separated product names
+#: admin/functions-admin-portable-export.php:1288
+#, php-format
+msgid "Linked %1$d child product(s) to existing products by SKU or name (existing products were not modified - check their prices and images if the source differs): %2$s"
+msgstr ""
+
+#. translators: %s: comma-separated product names
+#: admin/functions-admin-portable-export.php:1296
+#, php-format
+msgid "Created %1$d child product(s): %2$s"
+msgstr ""
+
+#: admin/functions-admin-portable-export.php:1304
+#, php-format
+msgid "%d referenced child product could not be linked and was skipped."
+msgid_plural "%d referenced child products could not be linked and were skipped."
+msgstr[0] ""
+msgstr[1] ""
+
+#: admin/functions-admin-portable-export.php:1324
+msgid "Imported group"
+msgstr ""
+
+#: admin/functions-admin-portable-export.php:1358
+msgid "Imported field"
+msgstr ""
+
+#. translators: 1: number of images, 2: field label
+#: admin/functions-admin-portable-export.php:1420
+#, php-format
+msgid "%1$d image for \"%2$s\" could not be imported."
+msgid_plural "%1$d images for \"%2$s\" could not be imported."
+msgstr[0] ""
+msgstr[1] ""
+
+#: admin/functions-admin-portable-export.php:1555
+#, php-format
+msgid "Product references were removed (set these up manually): %s"
+msgstr ""
+
+#: admin/functions-admin-portable-export.php:1556
+#, php-format
+msgid "Variation-specific settings were removed (field will show for all variations): %s"
+msgstr ""
+
+#: admin/functions-admin-portable-export.php:1557
+#, php-format
+msgid "Some field-to-field references could not be transferred: %s"
+msgstr ""
+
+#: admin/functions-admin-portable-export.php:1558
+#, php-format
+msgid "Category references were removed: %s"
+msgstr ""
+
+#: admin/functions-admin-portable-export.php:1559
+#, php-format
+msgid "Default uploaded files were removed: %s"
+msgstr ""
+
+#: admin/functions-admin-portable-export.php:1572
+msgid "The source product also used global groups. Global groups are not included in the export - assign them separately if needed."
+msgstr ""
+
+#: admin/functions-admin-portable-export.php:1780
+msgid "Imported product"
+msgstr ""
+
+#: admin/functions-admin-portable-export.php:1990
+msgid "Please choose a product first."
+msgstr ""
+
+#: admin/functions-admin-portable-export.php:1991
+msgid "Please choose an export file."
+msgstr ""
+
+#: admin/functions-admin-portable-export.php:1992
+msgid "Please choose a demo product."
+msgstr ""
+
+#: admin/functions-admin-portable-export.php:1993
+msgid "Working&hellip;"
+msgstr ""
+
+#: admin/functions-admin-portable-export.php:1994
+msgid "Done."
+msgstr ""
+
+#: admin/functions-admin-portable-export.php:1995
+#, php-format
+msgid "Imported %1$d group(s) and %2$d field(s)."
+msgstr ""
+
+#: admin/functions-admin-portable-export.php:1996
+msgid "Reloading to show the new add-ons&hellip;"
+msgstr ""
+
+#: admin/functions-admin-portable-export.php:1997
+msgid "Go to product"
+msgstr ""
+
+#: admin/functions-admin-portable-export.php:1998
+msgid "Something went wrong."
+msgstr ""
+
+#: admin/functions-admin-portable-export.php:1999
+msgid "Add the add-on groups from this demo product to the current product?"
+msgstr ""
+
+#: admin/functions-admin-portable-export.php:2000
+msgid "This product has a Products or Product Categories field. Do you wish to export the simple products it references so they can be recreated on the destination site? Variable products and product variations are never included."
+msgstr ""
+
+#: admin/functions-admin-portable-export.php:2001
+#, php-format
+msgid "This file includes %d referenced product(s). Any that are not found on this site by SKU or name will be created as new products. Continue?"
+msgstr ""
+
+#: admin/functions-admin-portable-export.php:2002
+msgid "Export file created."
+msgstr ""
+
+#: admin/functions-admin-portable-export.php:2003
+#, php-format
+msgid "%d referenced product(s) included in the file."
 msgstr ""
 
 #: admin/functions-admin-post-types.php:38
@@ -835,7 +1176,7 @@ msgid "Rule"
 msgstr ""
 
 #: admin/functions-admin-post-types.php:42
-#: admin/functions-custom-panel.php:480
+#: admin/functions-custom-panel.php:488
 #: classes/class-pewc-product-extra-post-type.php:1095
 #: classes/class-pewc-settings-tab.php:115
 #: templates/admin/field-item.php:89
@@ -941,7 +1282,7 @@ msgstr ""
 
 #: admin/functions-admin-settings.php:121
 #: admin/functions-admin-settings.php:180
-#: admin/functions-admin-settings.php:803
+#: admin/functions-admin-settings.php:841
 msgid "Disabled"
 msgstr ""
 
@@ -1110,598 +1451,629 @@ msgstr ""
 msgid "Dequeue scripts and stylesheets on non-product pages."
 msgstr ""
 
-#: admin/functions-admin-settings.php:422
+#: admin/functions-admin-settings.php:389
+msgid "Import/Export"
+msgstr ""
+
+#: admin/functions-admin-settings.php:395
+msgid "Enable add-ons library"
+msgstr ""
+
+#: admin/functions-admin-settings.php:398
+msgid "Show the \"Install Add-Ons from Library\" section on the product Add-Ons panel, for creating add-on fields from a bundled demo product."
+msgstr ""
+
+#: admin/functions-admin-settings.php:404
+msgid "Enable file import/export"
+msgstr ""
+
+#: admin/functions-admin-settings.php:407
+msgid "Show the \"Transfer Add-Ons Between Sites\" tools on the product Add-Ons panel, for exporting a product's add-ons to a file and importing them elsewhere."
+msgstr ""
+
+#: admin/functions-admin-settings.php:413
+msgid "Embed images in add-on exports"
+msgstr ""
+
+#: admin/functions-admin-settings.php:416
+msgid "When exporting add-ons to a file, base64-encode images into the file so it can be imported on sites that cannot reach this site. This makes export files larger."
+msgstr ""
+
+#: admin/functions-admin-settings.php:460
 msgid "Date fields"
 msgstr ""
 
-#: admin/functions-admin-settings.php:428
+#: admin/functions-admin-settings.php:466
 msgid "Enable days of the week"
 msgstr ""
 
-#: admin/functions-admin-settings.php:431
+#: admin/functions-admin-settings.php:469
 msgid "Enable the option to disable specific days of the week."
 msgstr ""
 
-#: admin/functions-admin-settings.php:437
+#: admin/functions-admin-settings.php:475
 msgid "Enable offset"
 msgstr ""
 
-#: admin/functions-admin-settings.php:440
+#: admin/functions-admin-settings.php:478
 msgid "Enable an option to offset the minimum date by a set number of days."
 msgstr ""
 
-#: admin/functions-admin-settings.php:446
+#: admin/functions-admin-settings.php:484
 msgid "Enable blocked dates"
 msgstr ""
 
-#: admin/functions-admin-settings.php:449
+#: admin/functions-admin-settings.php:487
 msgid "Enable a field to enter dates that are unavailable."
 msgstr ""
 
-#: admin/functions-admin-settings.php:473
+#: admin/functions-admin-settings.php:511
 #: classes/class-pewc-settings-tab.php:116
 #: templates/admin/field-item.php:90
 msgid "Uploads"
 msgstr ""
 
-#: admin/functions-admin-settings.php:479
+#: admin/functions-admin-settings.php:517
 msgid "Users must be logged in to upload"
 msgstr ""
 
-#: admin/functions-admin-settings.php:482
+#: admin/functions-admin-settings.php:520
 msgid "For security reasons, it is strongly recommended that you require users to be logged in before allowing them to upload files."
 msgstr ""
 
-#: admin/functions-admin-settings.php:488
+#: admin/functions-admin-settings.php:526
 msgid "Max file size (MB)"
 msgstr ""
 
-#: admin/functions-admin-settings.php:491
+#: admin/functions-admin-settings.php:529
 msgid "The max file size for uploads (in MB)"
 msgstr ""
 
-#: admin/functions-admin-settings.php:496
+#: admin/functions-admin-settings.php:534
 msgid "Enable PDF uploads"
 msgstr ""
 
-#: admin/functions-admin-settings.php:499
+#: admin/functions-admin-settings.php:537
 msgid "Allow users to upload PDFs."
 msgstr ""
 
-#: admin/functions-admin-settings.php:504
+#: admin/functions-admin-settings.php:542
 msgid "Enable AJAX uploader"
 msgstr ""
 
-#: admin/functions-admin-settings.php:507
+#: admin/functions-admin-settings.php:545
 msgid "Add uploaded images via AJAX."
 msgstr ""
 
-#: admin/functions-admin-settings.php:512
+#: admin/functions-admin-settings.php:550
 msgid "Retain Upload Graphic"
 msgstr ""
 
-#: admin/functions-admin-settings.php:515
+#: admin/functions-admin-settings.php:553
 msgid "Retain the upload graphic even after a file has been uploaded."
 msgstr ""
 
-#: admin/functions-admin-settings.php:521
+#: admin/functions-admin-settings.php:559
 msgid "Disable Add to Cart button"
 msgstr ""
 
-#: admin/functions-admin-settings.php:524
+#: admin/functions-admin-settings.php:562
 msgid "Disable the add to cart button while files are being uploaded."
 msgstr ""
 
-#: admin/functions-admin-settings.php:530
+#: admin/functions-admin-settings.php:568
 msgid "Attach uploads to emails"
 msgstr ""
 
-#: admin/functions-admin-settings.php:533
+#: admin/functions-admin-settings.php:571
 msgid "Add uploaded images to new order emails."
 msgstr ""
 
-#: admin/functions-admin-settings.php:539
+#: admin/functions-admin-settings.php:577
 msgid "Rename uploads"
 msgstr ""
 
-#: admin/functions-admin-settings.php:542
+#: admin/functions-admin-settings.php:580
 msgid "Rename uploads using the following tags: {original_file_name}, {order_number}, {date}, {product_id}, {product_sku}, {group_id}, {field_id}"
 msgstr ""
 
-#: admin/functions-admin-settings.php:547
+#: admin/functions-admin-settings.php:585
 msgid "Organise uploads by order"
 msgstr ""
 
-#: admin/functions-admin-settings.php:550
+#: admin/functions-admin-settings.php:588
 msgid "Organise uploads into unique folders for each order"
 msgstr ""
 
-#: admin/functions-admin-settings.php:556
+#: admin/functions-admin-settings.php:594
 msgid "File types"
 msgstr ""
 
-#: admin/functions-admin-settings.php:559
+#: admin/functions-admin-settings.php:597
 msgid "Enter the permitted file types. Please remember that allowing users to upload files to your server carries a security risk, so please use this feature with caution."
 msgstr ""
 
-#: admin/functions-admin-settings.php:586
+#: admin/functions-admin-settings.php:624
 msgid "Swatches settings"
 msgstr ""
 
-#: admin/functions-admin-settings.php:601
+#: admin/functions-admin-settings.php:639
 #: templates/admin/sections/display.php:39
 msgid "Replace main image"
 msgstr ""
 
-#: admin/functions-admin-settings.php:604
+#: admin/functions-admin-settings.php:642
 msgid "Enable this option to replace the main product image with the selected image swatch."
 msgstr ""
 
-#: admin/functions-admin-settings.php:625
+#: admin/functions-admin-settings.php:663
 msgid "Resize swatch layer"
 msgstr ""
 
-#: admin/functions-admin-settings.php:628
+#: admin/functions-admin-settings.php:666
 msgid "Enable this option to resize swatch images to match the base image before generating the layered image."
 msgstr ""
 
-#: admin/functions-admin-settings.php:652
-#: admin/functions-custom-panel.php:484
+#: admin/functions-admin-settings.php:690
+#: admin/functions-custom-panel.php:492
 #: classes/class-pewc-settings-tab.php:120
 #: inc/functions-pro-helpers.php:21
 #: templates/admin/field-item.php:85
 msgid "Products"
 msgstr ""
 
-#: admin/functions-admin-settings.php:658
+#: admin/functions-admin-settings.php:696
 msgid "Include variations as child products"
 msgstr ""
 
-#: admin/functions-admin-settings.php:661
+#: admin/functions-admin-settings.php:699
 msgid "Enable this to include variations as child products."
 msgstr ""
 
-#: admin/functions-admin-settings.php:667
+#: admin/functions-admin-settings.php:705
 msgid "Exclude SKUs from child variants"
 msgstr ""
 
-#: admin/functions-admin-settings.php:670
+#: admin/functions-admin-settings.php:708
 msgid "Enable this to exclude SKUs from child variant names."
 msgstr ""
 
-#: admin/functions-admin-settings.php:676
+#: admin/functions-admin-settings.php:714
 msgid "Hide child products in the cart"
 msgstr ""
 
-#: admin/functions-admin-settings.php:679
+#: admin/functions-admin-settings.php:717
 msgid "Enable this to hide child products in the cart."
 msgstr ""
 
-#: admin/functions-admin-settings.php:685
+#: admin/functions-admin-settings.php:723
 msgid "Display child products as metadata"
 msgstr ""
 
-#: admin/functions-admin-settings.php:688
+#: admin/functions-admin-settings.php:726
 msgid "Enable this to display child products as metadata for parent products in the cart."
 msgstr ""
 
-#: admin/functions-admin-settings.php:694
+#: admin/functions-admin-settings.php:732
 msgid "Hide parent products in the cart"
 msgstr ""
 
-#: admin/functions-admin-settings.php:697
+#: admin/functions-admin-settings.php:735
 msgid "Enable this to hide parent products in the cart."
 msgstr ""
 
-#: admin/functions-admin-settings.php:703
+#: admin/functions-admin-settings.php:741
 msgid "Hide child products in the order"
 msgstr ""
 
-#: admin/functions-admin-settings.php:706
+#: admin/functions-admin-settings.php:744
 msgid "Enable this to hide child products in the order."
 msgstr ""
 
-#: admin/functions-admin-settings.php:712
+#: admin/functions-admin-settings.php:750
 msgid "Hide parent products in the order"
 msgstr ""
 
-#: admin/functions-admin-settings.php:715
+#: admin/functions-admin-settings.php:753
 msgid "Enable this to hide parent products in the order."
 msgstr ""
 
-#: admin/functions-admin-settings.php:721
+#: admin/functions-admin-settings.php:759
 msgid "Indent child products"
 msgstr ""
 
-#: admin/functions-admin-settings.php:724
+#: admin/functions-admin-settings.php:762
 msgid "Add padding to child products in the cart and order."
 msgstr ""
 
-#: admin/functions-admin-settings.php:730
+#: admin/functions-admin-settings.php:768
 msgid "Multiply independent quantities"
 msgstr ""
 
-#: admin/functions-admin-settings.php:733
+#: admin/functions-admin-settings.php:771
 msgid "Enable this to multiply child product independent quantities when parent product quantities are adjusted."
 msgstr ""
 
-#: admin/functions-admin-settings.php:739
+#: admin/functions-admin-settings.php:777
 msgid "Remove parent if child product out of stock"
 msgstr ""
 
-#: admin/functions-admin-settings.php:742
+#: admin/functions-admin-settings.php:780
 msgid "Enable this to automatically remove parent products if a child product is out of stock."
 msgstr ""
 
-#: admin/functions-admin-settings.php:748
+#: admin/functions-admin-settings.php:786
 msgid "Do not remove parent"
 msgstr ""
 
-#: admin/functions-admin-settings.php:751
+#: admin/functions-admin-settings.php:789
 msgid "Enable this to keep the parent product in the cart when a required child product is removed."
 msgstr ""
 
-#: admin/functions-admin-settings.php:758
+#: admin/functions-admin-settings.php:796
 msgid "Show stock status"
 msgstr ""
 
-#: admin/functions-admin-settings.php:761
+#: admin/functions-admin-settings.php:799
 msgid "Enable this to add a child product's stock status to their name"
 msgstr ""
 
-#: admin/functions-admin-settings.php:768
+#: admin/functions-admin-settings.php:806
 msgid "Redirect hidden products"
 msgstr ""
 
-#: admin/functions-admin-settings.php:771
+#: admin/functions-admin-settings.php:809
 msgid "Enable this to prevent users purchasing child products direct from their product page."
 msgstr ""
 
-#: admin/functions-admin-settings.php:777
+#: admin/functions-admin-settings.php:815
 msgid "Enable plus minus buttons"
 msgstr ""
 
-#: admin/functions-admin-settings.php:780
+#: admin/functions-admin-settings.php:818
 msgid "Enable this to show + and - buttons alongside quantity fields in Products fields."
 msgstr ""
 
-#: admin/functions-admin-settings.php:790
+#: admin/functions-admin-settings.php:828
 msgid "QuickView"
 msgstr ""
 
-#: admin/functions-admin-settings.php:796
+#: admin/functions-admin-settings.php:834
 msgid "Enable QuickView for child products"
 msgstr ""
 
-#: admin/functions-admin-settings.php:799
+#: admin/functions-admin-settings.php:837
 msgid "Select this to show extra information for child products when clicking the child product title."
 msgstr ""
 
-#: admin/functions-admin-settings.php:804
+#: admin/functions-admin-settings.php:842
 #: templates/admin/group-settings.php:44
 msgid "Lightbox"
 msgstr ""
 
-#: admin/functions-admin-settings.php:805
+#: admin/functions-admin-settings.php:843
 msgid "New tab"
 msgstr ""
 
-#: admin/functions-admin-settings.php:809
+#: admin/functions-admin-settings.php:847
 msgid "Optional link text"
 msgstr ""
 
-#: admin/functions-admin-settings.php:812
+#: admin/functions-admin-settings.php:850
 msgid "Enter text here to display as a separate link below the product name. Leave this empty to link directly from the product name."
 msgstr ""
 
-#: admin/functions-admin-settings.php:834
+#: admin/functions-admin-settings.php:872
 #: classes/class-pewc-settings-tab.php:121
 #: templates/admin/field-item.php:83
 msgid "Calculations"
 msgstr ""
 
-#: admin/functions-admin-settings.php:840
+#: admin/functions-admin-settings.php:878
 msgid "Variable 1"
 msgstr ""
 
-#: admin/functions-admin-settings.php:843
+#: admin/functions-admin-settings.php:881
 msgid "Enter a value for variable_1 that will be used in calculations"
 msgstr ""
 
-#: admin/functions-admin-settings.php:851
+#: admin/functions-admin-settings.php:889
 msgid "Variable 2"
 msgstr ""
 
-#: admin/functions-admin-settings.php:854
+#: admin/functions-admin-settings.php:892
 msgid "Enter a value for variable_2 that will be used in calculations"
 msgstr ""
 
-#: admin/functions-admin-settings.php:862
+#: admin/functions-admin-settings.php:900
 msgid "Variable 3"
 msgstr ""
 
-#: admin/functions-admin-settings.php:865
+#: admin/functions-admin-settings.php:903
 msgid "Enter a value for variable_3 that will be used in calculations"
 msgstr ""
 
-#: admin/functions-admin-settings.php:873
+#: admin/functions-admin-settings.php:911
 msgid "Zero value for missing fields"
 msgstr ""
 
-#: admin/functions-admin-settings.php:876
+#: admin/functions-admin-settings.php:914
 msgid "Return a 0 as the value for any fields that are not included on the page."
 msgstr ""
 
-#: admin/functions-admin-settings.php:884
+#: admin/functions-admin-settings.php:922
 msgid "Recalculate Calculation fields in cart (beta)"
 msgstr ""
 
-#: admin/functions-admin-settings.php:887
+#: admin/functions-admin-settings.php:925
 msgid "Recalculate Calculation fields in cart when a product quantity is updated. Only works if a formula has the {quantity} tag."
 msgstr ""
 
-#: admin/functions-admin-settings.php:893
+#: admin/functions-admin-settings.php:931
 msgid "Validate Calculation fields (beta)"
 msgstr ""
 
-#: admin/functions-admin-settings.php:896
+#: admin/functions-admin-settings.php:934
 msgid "Validate Calculation fields before a product is added to the cart."
 msgstr ""
 
-#: admin/functions-admin-settings.php:926
+#: admin/functions-admin-settings.php:964
+#: classes/class-pewc-settings-tab.php:167
+#: classes/class-pewc-settings-tab.php:258
+#: classes/class-pewc-settings-tab.php:314
 msgid "License key"
 msgstr ""
 
-#: admin/functions-admin-settings.php:929
+#: admin/functions-admin-settings.php:967
 msgid "Enter your license key here. You should have received a key with the email containing the plugin download link."
 msgstr ""
 
-#: admin/functions-admin-settings.php:953
+#: admin/functions-admin-settings.php:991
 #: classes/class-pewc-settings-tab.php:123
 msgid "Integrations"
 msgstr ""
 
-#: admin/functions-admin-settings.php:959
+#: admin/functions-admin-settings.php:997
 msgid "Enable compatibility with Polylang"
 msgstr ""
 
-#: admin/functions-admin-settings.php:962
+#: admin/functions-admin-settings.php:1000
 msgid "Enable this only if you have Polylang installed. Also, if you have added the Polylang compatibility snippets before, please remove them before enabling this setting."
 msgstr ""
 
-#: admin/functions-admin-settings.php:977
+#: admin/functions-admin-settings.php:1015
 msgid "Dynamic Pricing and Discount Rules"
 msgstr ""
 
-#: admin/functions-admin-settings.php:983
+#: admin/functions-admin-settings.php:1021
 msgid "Disable Dynamic Pricing and Discount Rules price labels"
 msgstr ""
 
-#: admin/functions-admin-settings.php:986
+#: admin/functions-admin-settings.php:1024
 msgid "Prevent Dynamic Pricing and Discount Rules from updating the price labels on the product page."
 msgstr ""
 
-#: admin/functions-admin-settings.php:992
+#: admin/functions-admin-settings.php:1030
 msgid "Disable add-on prices on pricing table"
 msgstr ""
 
-#: admin/functions-admin-settings.php:995
+#: admin/functions-admin-settings.php:1033
 msgid "Prevent Add-Ons Ultimate from adding add-on field prices to the pricing table on the product page."
 msgstr ""
 
-#: admin/functions-admin-settings.php:1001
+#: admin/functions-admin-settings.php:1039
 msgid "Apply User Role Pricing to add-on field prices"
 msgstr ""
 
-#: admin/functions-admin-settings.php:1004
+#: admin/functions-admin-settings.php:1042
 msgid "Adjust add-on field prices if User Role Pricing is enabled in Dynamic Pricing and Discount Rules."
 msgstr ""
 
-#: admin/functions-admin-settings.php:1010
+#: admin/functions-admin-settings.php:1048
 msgid "Disable discounts for add-ons"
 msgstr ""
 
-#: admin/functions-admin-settings.php:1013
+#: admin/functions-admin-settings.php:1051
 msgid "Select this if you don't wish to apply dynamic discounts to add-on field prices."
 msgstr ""
 
-#: admin/functions-admin-settings.php:1028
+#: admin/functions-admin-settings.php:1066
 msgid "Custom user fields"
 msgstr ""
 
-#: admin/functions-admin-settings.php:1034
+#: admin/functions-admin-settings.php:1072
 msgid "Enable user fields"
 msgstr ""
 
-#: admin/functions-admin-settings.php:1037
+#: admin/functions-admin-settings.php:1075
 msgid "Select this to use custom user data in your add-on fields."
 msgstr ""
 
-#: admin/functions-admin-settings.php:1061
+#: admin/functions-admin-settings.php:1099
 #: classes/class-pewc-settings-tab.php:124
 msgid "Validation"
 msgstr ""
 
-#: admin/functions-admin-settings.php:1067
+#: admin/functions-admin-settings.php:1105
 msgid "Optimised validation"
 msgstr ""
 
-#: admin/functions-admin-settings.php:1070
+#: admin/functions-admin-settings.php:1108
 msgid "This will enable validation of add-on fields using Javascript."
 msgstr ""
 
-#: admin/functions-admin-settings.php:1076
+#: admin/functions-admin-settings.php:1114
 msgid "Hide totals until validated"
 msgstr ""
 
-#: admin/functions-admin-settings.php:1079
+#: admin/functions-admin-settings.php:1117
 msgid "This will hide the subtotals fields until all required fields have been completed. Requires Optimised validation."
 msgstr ""
 
-#: admin/functions-admin-settings.php:1085
+#: admin/functions-admin-settings.php:1123
 msgid "Disable groups"
 msgstr ""
 
-#: admin/functions-admin-settings.php:1088
+#: admin/functions-admin-settings.php:1126
 msgid "Disable the next groups until all required fields in the current group are completed. Only works if groups are displayed as Accordion, Steps, or Tabs. Requires Optimised validation."
 msgstr ""
 
-#: admin/functions-admin-settings.php:1094
+#: admin/functions-admin-settings.php:1132
 msgid "Disable scroll on Steps layout"
 msgstr ""
 
-#: admin/functions-admin-settings.php:1097
+#: admin/functions-admin-settings.php:1135
 msgid "Disable the scrolling animation on Steps layout when validation fails. Requires Optimised validation."
 msgstr ""
 
-#: admin/functions-admin-settings.php:1121
+#: admin/functions-admin-settings.php:1159
 #: classes/class-pewc-settings-tab.php:122
 #: templates/admin/field-item.php:98
 #: templates/admin/sections/conditions.php:21
 msgid "Conditions"
 msgstr ""
 
-#: admin/functions-admin-settings.php:1127
+#: admin/functions-admin-settings.php:1165
 msgid "Reset field values"
 msgstr ""
 
-#: admin/functions-admin-settings.php:1130
+#: admin/functions-admin-settings.php:1168
 msgid "Reset field values to null when fields are hidden through a condition."
 msgstr ""
 
-#: admin/functions-admin-settings.php:1136
+#: admin/functions-admin-settings.php:1174
 msgid "Display hidden fields as disabled"
 msgstr ""
 
-#: admin/functions-admin-settings.php:1139
+#: admin/functions-admin-settings.php:1177
 msgid "If a field is hidden by a condition, select this option to make it visible but disabled."
 msgstr ""
 
-#: admin/functions-admin-settings.php:1144
+#: admin/functions-admin-settings.php:1182
 msgid "Use AJAX conditions"
 msgstr ""
 
-#: admin/functions-admin-settings.php:1147
+#: admin/functions-admin-settings.php:1185
 msgid "Use AJAX when loading and managing conditions in the backend. Improves performance. Also allows you to use fields in other groups when 'Display groups as post type' is enabled"
 msgstr ""
 
-#: admin/functions-custom-panel.php:105
+#: admin/functions-custom-panel.php:113
 msgid "Select all groups"
 msgstr ""
 
-#: admin/functions-custom-panel.php:106
+#: admin/functions-custom-panel.php:114
 #: classes/class-pewc-product-extra-post-type.php:174
 msgid "Add Group"
 msgstr ""
 
-#: admin/functions-custom-panel.php:181
+#: admin/functions-custom-panel.php:189
 #: classes/class-pewc-product-extra-post-type.php:173
 #: templates/admin/new-group.php:22
 msgid "Group"
 msgstr ""
 
-#: admin/functions-custom-panel.php:475
+#: admin/functions-custom-panel.php:483
 msgid "Calculation"
 msgstr ""
 
-#: admin/functions-custom-panel.php:476
+#: admin/functions-custom-panel.php:484
 #: templates/admin/field-item.php:84
 msgid "Calendar List"
 msgstr ""
 
-#: admin/functions-custom-panel.php:477
+#: admin/functions-custom-panel.php:485
 msgid "Checkbox"
 msgstr ""
 
-#: admin/functions-custom-panel.php:478
+#: admin/functions-custom-panel.php:486
 #: inc/functions-pro-helpers.php:23
 msgid "Checkbox Group"
 msgstr ""
 
-#: admin/functions-custom-panel.php:479
+#: admin/functions-custom-panel.php:487
 msgid "Color Picker"
 msgstr ""
 
-#: admin/functions-custom-panel.php:481
+#: admin/functions-custom-panel.php:489
 #: templates/admin/field-item.php:92
 #: templates/admin/sections/information.php:20
 msgid "Information"
 msgstr ""
 
-#: admin/functions-custom-panel.php:482
+#: admin/functions-custom-panel.php:490
 msgid "Name Your Price"
 msgstr ""
 
-#: admin/functions-custom-panel.php:483
+#: admin/functions-custom-panel.php:491
 #: templates/admin/field-item.php:88
 msgid "Number"
 msgstr ""
 
-#: admin/functions-custom-panel.php:485
+#: admin/functions-custom-panel.php:493
 #: inc/functions-pro-helpers.php:22
 #: templates/admin/sections/products.php:61
 msgid "Product Categories"
 msgstr ""
 
-#: admin/functions-custom-panel.php:486
+#: admin/functions-custom-panel.php:494
 msgid "Radio Group"
 msgstr ""
 
-#: admin/functions-custom-panel.php:487
+#: admin/functions-custom-panel.php:495
 #: templates/admin/sections/products.php:110
 msgid "Select"
 msgstr ""
 
-#: admin/functions-custom-panel.php:488
+#: admin/functions-custom-panel.php:496
 msgid "Select Box"
 msgstr ""
 
-#: admin/functions-custom-panel.php:489
+#: admin/functions-custom-panel.php:497
 msgid "Swatch"
 msgstr ""
 
-#: admin/functions-custom-panel.php:490
+#: admin/functions-custom-panel.php:498
 #: templates/admin/field-item.php:87
 msgid "Text"
 msgstr ""
 
-#: admin/functions-custom-panel.php:491
+#: admin/functions-custom-panel.php:499
 msgid "Textarea"
 msgstr ""
 
-#: admin/functions-custom-panel.php:492
+#: admin/functions-custom-panel.php:500
 msgid "Upload"
 msgstr ""
 
-#: admin/functions-custom-panel.php:503
+#: admin/functions-custom-panel.php:511
 msgid "All required fields"
 msgstr ""
 
-#: admin/functions-custom-panel.php:504
+#: admin/functions-custom-panel.php:512
 msgid "All required fields if first field complete"
 msgstr ""
 
-#: admin/functions-custom-panel.php:519
+#: admin/functions-custom-panel.php:527
 msgid "Additional or replacement text for the price."
 msgstr ""
 
-#: admin/functions-custom-panel.php:527
+#: admin/functions-custom-panel.php:535
 msgid "Decide where to display the label."
 msgstr ""
 
-#: admin/functions-custom-panel.php:539
+#: admin/functions-custom-panel.php:547
 msgid "Minimum price"
 msgstr ""
 
-#: admin/functions-custom-panel.php:541
+#: admin/functions-custom-panel.php:549
 msgid "Set an optional minimum price for this product."
 msgstr ""
 
-#: admin/functions-custom-panel.php:548
+#: admin/functions-custom-panel.php:556
 msgid "Force minimum price"
 msgstr ""
 
-#: admin/functions-custom-panel.php:550
+#: admin/functions-custom-panel.php:558
 msgid "Enable this to automatically increase the product price to the minimum."
 msgstr ""
 
@@ -2075,12 +2447,6 @@ msgstr ""
 msgid "Upgrade"
 msgstr ""
 
-#: classes/class-pewc-settings-tab.php:167
-#: classes/class-pewc-settings-tab.php:258
-#: classes/class-pewc-settings-tab.php:314
-msgid "Licence key"
-msgstr ""
-
 #: classes/class-pewc-settings-tab.php:171
 msgid "(Preset)"
 msgstr ""
@@ -2256,14 +2622,16 @@ msgid "Combined parent and child product price"
 msgstr ""
 
 #: inc/functions-calculations.php:265
+#, php-format
 msgid "The quantity for &ldquo;%s&rdquo; is not valid and has been corrected."
 msgstr ""
 
-#: inc/functions-calculations.php:1191
+#: inc/functions-calculations.php:1214
+#, php-format
 msgid "There was an error in calculating the price for %s. Please contact the website administrator about the issue."
 msgstr ""
 
-#: inc/functions-calculations.php:1219
+#: inc/functions-calculations.php:1242
 msgid " The following plugin(s) need to be updated to the latest version in order to use this feature: "
 msgstr ""
 
@@ -2282,21 +2650,23 @@ msgstr ""
 #: inc/functions-cart.php:1665
 #: inc/functions-cart.php:2327
 #: inc/functions-cart.php:2350
-#: inc/functions-cart.php:2417
-#: inc/functions-cart.php:2511
-#: inc/functions-cart.php:2522
-#: inc/functions-cart.php:2564
+#: inc/functions-cart.php:2423
+#: inc/functions-cart.php:2517
+#: inc/functions-cart.php:2528
+#: inc/functions-cart.php:2570
 #: inc/functions-js-validation.php:54
 msgid " is a required field."
 msgstr ""
 
 #: inc/functions-cart.php:1514
 #: inc/functions-js-validation.php:121
+#, php-format
 msgid "%s requires at least %s items to be selected"
 msgstr ""
 
 #: inc/functions-cart.php:1531
 #: inc/functions-js-validation.php:137
+#, php-format
 msgid "%s requires a maximum of %s items to be selected"
 msgstr ""
 
@@ -2306,16 +2676,19 @@ msgstr ""
 
 #: inc/functions-cart.php:1600
 #: inc/functions-js-validation.php:101
+#, php-format
 msgid "%s requires you to choose %s products"
 msgstr ""
 
 #: inc/functions-cart.php:1617
 #: inc/functions-js-validation.php:71
+#, php-format
 msgid "%s requires you to choose a minimum of %s products"
 msgstr ""
 
 #: inc/functions-cart.php:1634
 #: inc/functions-js-validation.php:87
+#, php-format
 msgid "%s requires you to choose a maximum of %s products"
 msgstr ""
 
@@ -2336,6 +2709,7 @@ msgid "Flat rate cost"
 msgstr ""
 
 #: inc/functions-cart.php:2145
+#, php-format
 msgid "%s has been updated."
 msgid_plural "%s have been updated."
 msgstr[0] ""
@@ -2355,35 +2729,36 @@ msgstr ""
 msgid ": maximum number of characters: "
 msgstr ""
 
-#: inc/functions-cart.php:2441
+#: inc/functions-cart.php:2447
 #: inc/functions-js-validation.php:171
 msgid ": minimum value is "
 msgstr ""
 
-#: inc/functions-cart.php:2444
+#: inc/functions-cart.php:2450
 #: inc/functions-js-validation.php:178
 msgid ": maximum value is "
 msgstr ""
 
-#: inc/functions-cart.php:2617
+#: inc/functions-cart.php:2623
 #: inc/functions-js-validation.php:201
+#, php-format
 msgid "%s requires a minimum of %s files to be uploaded"
 msgstr ""
 
-#: inc/functions-cart.php:2647
+#: inc/functions-cart.php:2653
 msgid "The uploaded file has failed a security check. Please try uploading it again: "
 msgstr ""
 
-#: inc/functions-cart.php:2667
+#: inc/functions-cart.php:2673
 msgid ": File size too large."
 msgstr ""
 
-#: inc/functions-cart.php:2677
-#: inc/functions-cart.php:2722
+#: inc/functions-cart.php:2683
+#: inc/functions-cart.php:2728
 msgid " is a required upload field."
 msgstr ""
 
-#: inc/functions-cart.php:2705
+#: inc/functions-cart.php:2711
 msgid ": File not valid."
 msgstr ""
 
@@ -2445,6 +2820,7 @@ msgid "This page is no longer available."
 msgstr ""
 
 #: inc/functions-global-extras.php:66
+#, php-format
 msgid "You can now edit your Global Add-Ons from <a href=\"%s\">this page</a>."
 msgstr ""
 
@@ -2562,6 +2938,7 @@ msgid "For the vast majority of users, you won't notice a difference after the m
 msgstr ""
 
 #: inc/functions-migration.php:183
+#, php-format
 msgid "You have %s products with Add-Ons that need to be updated and %s global rules. "
 msgstr ""
 
@@ -2627,10 +3004,12 @@ msgid "see this support article"
 msgstr ""
 
 #: inc/functions-pro-helpers.php:51
+#, php-format
 msgid "This field is not available with the Basic licence. Please %s or %s to use this field."
 msgstr ""
 
 #: inc/functions-pro-helpers.php:56
+#, php-format
 msgid "If you have recently upgraded to Pro, please %s."
 msgstr ""
 
@@ -2748,24 +3127,34 @@ msgid "There was a problem in activating your license: "
 msgstr ""
 
 #: inc/functions-updater.php:165
+#, php-format
 msgid " Please ensure you enter the correct licence key as the plugin may not work correctly without it. Your licence key will be on the email you were sent with the download link or on <a target=\"_blank\" href=\"%s\">your account page</a>."
 msgstr ""
 
 #: inc/functions-updater.php:171
-#: inc/functions-updater.php:319
+#: inc/functions-updater.php:333
+#, php-format
 msgid "<p><a href=\"%s\">Enter your licence key here</a></p>"
 msgstr ""
 
-#: inc/functions-updater.php:281
+#: inc/functions-updater.php:295
+#, php-format
 msgid "Your license is not currently activated. Please ensure you activate your license in order to use all the features of this plugin. Your license number will be on the email you were sent with the download link or on <a target=\"_blank\" href=\"%s\">your account page</a>."
 msgstr ""
 
-#: inc/functions-updater.php:286
+#: inc/functions-updater.php:300
+#, php-format
 msgid "<p><a href=\"%s\">Enter your license key here</a></p>"
 msgstr ""
 
-#: inc/functions-updater.php:314
+#: inc/functions-updater.php:328
+#, php-format
 msgid "Your licence is not currently activated. Please ensure you activate your licence in order to use all the features of this plugin. Your licence number will be on the email you were sent with the download link or on <a target=\"_blank\" href=\"%s\">your account page</a>."
+msgstr ""
+
+#: inc/functions-updater.php:458
+#, php-format
+msgid "The licence for this plugin is no longer valid for this site, so its settings are currently unavailable. Existing add-ons will continue to work temporarily on your store front. If you think this is a mistake, please get in touch or visit <a target=\"_blank\" href=\"%s\">your account page</a>."
 msgstr ""
 
 #: inc/functions-uploads.php:34
@@ -2943,10 +3332,6 @@ msgstr ""
 
 #: templates/admin/group.php:167
 msgid "Repeat Limit"
-msgstr ""
-
-#: templates/admin/import-groups.php:17
-msgid "Search for a product&hellip;"
 msgstr ""
 
 #: templates/admin/import-groups.php:37
@@ -3278,23 +3663,23 @@ msgstr ""
 msgid "Flat Rate?"
 msgstr ""
 
-#: templates/admin/sections/pricing.php:92
+#: templates/admin/sections/pricing.php:90
 msgid "Percentage?"
 msgstr ""
 
-#: templates/admin/sections/pricing.php:117
+#: templates/admin/sections/pricing.php:113
 msgid "Discount"
 msgstr ""
 
-#: templates/admin/sections/pricing.php:134
+#: templates/admin/sections/pricing.php:130
 msgid "Discount Type"
 msgstr ""
 
-#: templates/admin/sections/pricing.php:143
+#: templates/admin/sections/pricing.php:139
 msgid "Fixed Amount"
 msgstr ""
 
-#: templates/admin/sections/pricing.php:144
+#: templates/admin/sections/pricing.php:140
 msgid "Percentage"
 msgstr ""
 
@@ -3414,19 +3799,19 @@ msgstr ""
 msgid "Max Characters"
 msgstr ""
 
-#: templates/admin/sections/text.php:49
+#: templates/admin/sections/text.php:46
 msgid "Show Counter?"
 msgstr ""
 
-#: templates/admin/sections/text.php:67
+#: templates/admin/sections/text.php:64
 msgid "Free Characters"
 msgstr ""
 
-#: templates/admin/sections/text.php:82
+#: templates/admin/sections/text.php:76
 msgid "Only Allow Alphanumeric?"
 msgstr ""
 
-#: templates/admin/sections/text.php:95
+#: templates/admin/sections/text.php:89
 msgid "Only Charge Alphanumeric?"
 msgstr ""
 

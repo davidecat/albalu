@@ -373,6 +373,32 @@ class iubendaParser {
 	}
 
 	/**
+	 * Swap the body of a single IUBENDA marker, leaving both delimiters byte for byte intact.
+	 *
+	 * The body is located by offset rather than by searching for it, because a body that is
+	 * also a substring of the delimiters (for example "-" or "-->") would otherwise corrupt
+	 * them and could leave an unterminated HTML comment.
+	 *
+	 * @param string $match     Full marker match, delimiters included.
+	 * @param string $body      Captured marker body.
+	 * @param string $converted Replacement for the body.
+	 * @return string
+	 */
+	private function replace_marker_body( $match, $body, $converted ) {
+		// the opening delimiter is always the leading <!-- ... --> comment
+		if ( ! preg_match( '/^<!--\s*[A-Za-z0-9_-]+\s*-->/', $match, $open ) )
+			return $match;
+
+		$offset = strlen( $open[0] );
+
+		// the body must sit immediately after the opening delimiter
+		if ( substr( $match, $offset, strlen( $body ) ) !== $body )
+			return $match;
+
+		return substr_replace( $match, $converted, $offset, strlen( $body ) );
+	}
+
+	/**
 	 * Convert scripts, iframe and other code inside IUBENDAs comment in text/plain to not generate cookies
 	 *
 	 * @param mixed $content
@@ -551,90 +577,7 @@ class iubendaParser {
 						}
 					}
 
-					// AdSense check by Peste Vasile Alexandru, AdSense here
-					$ad_found = false;
-
-					while ( preg_match( "#google_ad_client =(.*?);#i", $html ) ) {
-						$ad_found = true;
-						$ad_client = null;
-						$ad_slot = null;
-						$ad_width = null;
-						$ad_height = null;
-						$ad_block = null;
-
-						preg_match( "#google_ad_client =(.*?);#i", $html, $ad_client );
-						preg_match( "#google_ad_slot =(.*?);#i", $html, $ad_slot );
-						preg_match( "#google_ad_width =(.*?);#i", $html, $ad_width );
-						preg_match( "#google_ad_height =(.*?);#i", $html, $ad_height );
-
-						$html = preg_replace( "#google_ad_client =(.*?);#i", "", $html, 1 );
-						$html = preg_replace( "#google_ad_slot =(.*?);#i", "", $html, 1 );
-						$html = preg_replace( "#google_ad_width =(.*?);#i", "", $html, 1 );
-						$html = preg_replace( "#google_ad_height =(.*?);#i", "", $html, 1 );
-
-						$ad_client = trim( $ad_client[1] ?: '' );
-						$ad_slot = trim( $ad_slot[1] ?: '' );
-						$ad_width = trim( $ad_width[1] ?: '' );
-						$ad_height = trim( $ad_height[1] ?: '' );
-
-						$ad_class = 'class="' . $this->iub_class . '_google_ads"';
-						$ad_style = 'style="width:' . $ad_width . 'px; height:' . $ad_height . 'px;"';
-
-						$ad_client = 'data-client=' . $ad_client;
-						$ad_slot = 'data-slot=' . $ad_slot;
-						$ad_width = 'data-width="' . $ad_width . '"';
-						$ad_height = 'data-height="' . $ad_height . '"';
-
-						$ad_block = "<div $ad_style $ad_class $ad_width $ad_height $ad_slot $ad_client></div>";
-
-						$html = preg_replace( '#(<[^>]+) src="//pagead2.googlesyndication.com/pagead/show_ads.js"(.*?)</script>#i', $ad_block, $html, 1 );
-					}
-
-					if ( $ad_found ) {
-						$adsense_callback = "
-						<script>
-							function iubenda_adsense_unblock() {
-								var t = 1;
-								jQuery('." . $this->iub_class . "_google_ads').each(function() {
-									var banner = jQuery(this);
-									setTimeout(function(){
-										var client = banner.data('client');
-										var slot = banner.data('slot');
-										var width = banner.data('width');
-										var height = banner.data('height');
-										var adsense_script = '<scr'+'ipt>'
-												+ 'google_ad_client = " . chr( 34 ) . "'+client+'" . chr( 34 ) . ";'
-												+ 'google_ad_slot = '+slot+';'
-												+ 'google_ad_width = '+width+';'
-												+ 'google_ad_height = '+height+';'
-												+ '</scr'+'ipt>';
-										var script = document.createElement('script');
-										var ads = document.createElement('ads');
-										var w = document.write;
-										script.setAttribute('type', 'text/javascript');
-										script.setAttribute('src', 'http://pagead2.googlesyndication.com/pagead/show_ads.js');
-										document.write = (function(params) {
-											ads.innerHTML = params;
-											document.write = w;
-										});
-										banner.html(adsense_script).append(ads).append(script);
-									}, t);
-									t += 300;
-								});
-							}
-
-							if ( 'callback' in _iub.csConfiguration ) {
-								_iub.csConfiguration.callback.onConsentGiven = iubenda_adsense_unblock;
-							} else {
-								_iub.csConfiguration.callback = {};
-
-								_iub.csConfiguration.callback.onConsentGiven = iubenda_adsense_unblock;
-							}
-						</script>";
-
-						$html = str_replace( '</body>', $adsense_callback . '</body>', $html );
-					}
-
+					// update content
 					$this->content_page = $html;
 				}
 				break;
@@ -880,66 +823,70 @@ class iubendaParser {
 	 * @return void
 	 */
 	public function parse_comments() {
-		// skip
-		preg_match_all( constant( 'self::IUB_REGEX_SKIP_PATTERN' ), $this->content_page, $scripts );
+		// skip: replace each marker in place so the conversion can never mutate bytes outside its own marker
+		$skipped = preg_replace_callback(
+			constant( 'self::IUB_REGEX_SKIP_PATTERN' ),
+			function ( $matches ) {
+				$body = $matches[1];
 
-		// found any content?
-		if ( is_array( $scripts[1] ) ) {
-			$count = count( $scripts[1] );
-			$js_scripts = array();
-
-			for ( $j = 0; $j < $count; $j++ ) {
-				$this->skipped_comments_detected[] = $scripts[1][$j];
+				$this->skipped_comments_detected[] = $body;
 
 				// get HTML dom from string
-				$html = str_get_html( $scripts[1][$j], true, true, false );
+				$html = str_get_html( $body, true, true, false );
+
+				// leave the marker untouched if the body is empty or too large to parse
+				if ( ! is_object( $html ) )
+					return $matches[0];
 
 				// skip scripts and iframes inside iubenda's comments
-				$js_scripts[] = $this->skip_tags( $html );
-			}
+				$converted = $this->skip_tags( $html );
 
-			if ( ( is_array( $scripts[1] ) && is_array( $js_scripts ) ) && ( $count >= 1 && count( $js_scripts ) >= 1 ) )
-				$this->content_page = strtr( $this->content_page, array_combine( $scripts[1], $js_scripts ) );
-		}
+				// scoped to this marker only, preserving the surrounding delimiters
+				return $this->replace_marker_body( $matches[0], $body, $converted );
+			},
+			$this->content_page
+		);
 
-		unset( $scripts );
+		// keep the original page if the regex engine failed (null return)
+		if ( null !== $skipped )
+			$this->content_page = $skipped;
 
 		// block
 		foreach ( array( 'IUB_REGEX_PATTERN', 'IUB_REGEX_PATTERN_2', 'IUB_REGEX_PURPOSE_PATTERN' ) as $pattern ) {
-			preg_match_all( constant( 'self::' . $pattern ), $this->content_page, $scripts );
+			$blocked = preg_replace_callback(
+				constant( 'self::' . $pattern ),
+				function ( $matches ) use ( $pattern ) {
+					$args = array(
+						'pattern' => $pattern
+					);
 
-			$chunks = array();
-			$args = array(
-				'pattern' => $pattern
-			);
+					if ( $pattern === 'IUB_REGEX_PURPOSE_PATTERN' ) {
+						$args['number'] = $matches[1];
+						$body = $matches[2];
+					} else
+						$body = $matches[1];
 
-			if ( $pattern === 'IUB_REGEX_PURPOSE_PATTERN' ) {
-				$numbers = $scripts[1];
-				$chunks = $scripts[2];
-			} else
-				$chunks = $scripts[1];
-
-			// found any content?
-			if ( is_array( $chunks ) ) {
-				$count = count( $chunks );
-				$js_scripts = array();
-
-				for ( $j = 0; $j < $count; $j++ ) {
-					$this->iub_comments_detected[] = $chunks[$j];
+					$this->iub_comments_detected[] = $body;
 
 					// get HTML dom from string
-					$html = str_get_html( $chunks[$j], true, true, false );
+					$html = str_get_html( $body, true, true, false );
 
-					if ( $pattern === 'IUB_REGEX_PURPOSE_PATTERN' )
-						$args['number'] = $numbers[$j];
+					// leave the marker untouched if the body is empty or too large to parse
+					if ( ! is_object( $html ) )
+						return $matches[0];
 
 					// convert scripts, iframes and other code inside IUBENDAs comment in text/plain to not generate cookies
-					$js_scripts[] = $this->create_tags( $html, $args );
-				}
+					$converted = $this->create_tags( $html, $args );
 
-				if ( ( is_array( $chunks ) && is_array( $js_scripts ) ) && ( $count >= 1 && count( $js_scripts ) >= 1 ) )
-					$this->content_page = strtr( $this->content_page, array_combine( $chunks, $js_scripts ) );
-			}
+					// scoped to this marker only, preserving the surrounding delimiters
+					return $this->replace_marker_body( $matches[0], $body, $converted );
+				},
+				$this->content_page
+			);
+
+			// keep the original page if the regex engine failed (null return)
+			if ( null !== $blocked )
+				$this->content_page = $blocked;
 		}
 	}
 

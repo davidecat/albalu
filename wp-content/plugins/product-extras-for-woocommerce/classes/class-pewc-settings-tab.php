@@ -164,7 +164,7 @@ if( ! class_exists( 'PEWC_Settings_Tab' ) ) {
 			$key = $key_from_constant ? PEWC_LICENSE_KEY : get_option( 'pewc_license_key' ); ?>
 			<tr valign="top">
 				<th scope="row" class="titledesc">
-					<?php _e( 'Licence key', 'pewc' ); ?>
+					<?php _e( 'License key', 'pewc' ); ?>
 				</th>
 				<td class="forminp forminp-text">
 					<?php if( $key_from_constant ) { ?>
@@ -255,7 +255,7 @@ if( ! class_exists( 'PEWC_Settings_Tab' ) ) {
 			$key = get_option( 'wcpauau_license_key' ); ?>
 			<tr valign="top">
 				<th scope="row" class="titledesc">
-					<?php _e( 'Licence key', 'pewc' ); ?>
+					<?php _e( 'License key', 'pewc' ); ?>
 				</th>
 				<td class="forminp forminp-text">
 					<input name="wcpauau_license_key" id="wcpauau_license_key" type="password" style="" value="<?php echo $key; ?>" class="" placeholder="">
@@ -311,7 +311,7 @@ if( ! class_exists( 'PEWC_Settings_Tab' ) ) {
 			$key = get_option( 'acaou_license_key' ); ?>
 			<tr valign="top">
 				<th scope="row" class="titledesc">
-					<?php _e( 'Licence key', 'pewc' ); ?>
+					<?php _e( 'License key', 'pewc' ); ?>
 				</th>
 				<td class="forminp forminp-text">
 					<input name="acaou_license_key" id="acaou_license_key" type="password" style="" value="<?php echo $key; ?>" class="" placeholder="">
