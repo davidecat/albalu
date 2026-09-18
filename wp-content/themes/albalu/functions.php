@@ -2303,8 +2303,19 @@ add_filter( 'wpseo_schema_product', function( $data ) {
 	   quindi sei riferimenti su sette puntano al nulla e Google non ricava
 	   nessuna immagine. Li sostituiamo con gli URL veri, che e' anche la
 	   forma che Google documenta per Product. */
+	$albalu_img_ids = array_merge( array( $product->get_image_id() ), $product->get_gallery_image_ids() );
+	// Sui variabili le foto stanno spesso sulle variazioni e non nella galleria
+	// del padre: senza queste il gruppo dichiarerebbe una sola immagine.
+	if ( $product->is_type( 'variable' ) ) {
+		foreach ( $product->get_children() as $albalu_var_id ) {
+			$albalu_var = wc_get_product( $albalu_var_id );
+			if ( $albalu_var && $albalu_var->get_image_id() ) {
+				$albalu_img_ids[] = $albalu_var->get_image_id();
+			}
+		}
+	}
 	$albalu_immagini = array();
-	foreach ( array_merge( array( $product->get_image_id() ), $product->get_gallery_image_ids() ) as $albalu_img_id ) {
+	foreach ( $albalu_img_ids as $albalu_img_id ) {
 		if ( ! $albalu_img_id ) {
 			continue;
 		}
