@@ -2297,6 +2297,26 @@ add_filter( 'wpseo_schema_product', function( $data ) {
 		}
 	}
 
+	/* Campo image: Yoast lo popola con riferimenti @id a nodi ImageObject
+	   (#primaryimage, #NOMEFILE.jpg). Su questa pagina quei nodi non esistono:
+	   ne viene emesso uno solo, per giunta in un blocco <script> separato,
+	   quindi sei riferimenti su sette puntano al nulla e Google non ricava
+	   nessuna immagine. Li sostituiamo con gli URL veri, che e' anche la
+	   forma che Google documenta per Product. */
+	$albalu_immagini = array();
+	foreach ( array_merge( array( $product->get_image_id() ), $product->get_gallery_image_ids() ) as $albalu_img_id ) {
+		if ( ! $albalu_img_id ) {
+			continue;
+		}
+		$albalu_src = wp_get_attachment_image_url( $albalu_img_id, 'full' );
+		if ( $albalu_src && ! in_array( $albalu_src, $albalu_immagini, true ) ) {
+			$albalu_immagini[] = $albalu_src;
+		}
+	}
+	if ( ! empty( $albalu_immagini ) ) {
+		$data['image'] = $albalu_immagini;
+	}
+
 	$price = (float) $product->get_price();
 	$shipping_cost = ( $price >= 149 ) ? '0' : '6.90';
 
