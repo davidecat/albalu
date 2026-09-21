@@ -20,23 +20,59 @@ class Wc_Smart_Cod_Ai_Outbox {
 	const MAX_BATCH_SIZE        = 10;
 	const DEFAULT_BATCH_SIZE    = self::MAX_BATCH_SIZE;
 	const DEFAULT_INTERVAL      = 10 * MINUTE_IN_SECONDS;
+	const DATA_SHARING_SETTING  = 'enable_smart_cod_ai_data_sharing';
+	const ACTION_GROUP          = 'wsc-smart-cod-ai';
+	const PERSISTED_EVIDENCE_MASK = 14;
+
+	/**
+	 * A merchant can explicitly disable the relay. This check happens before a
+	 * queued action reads an order or creates an HTTP request.
+	 *
+	 * @return bool
+	 */
+	public static function is_data_sharing_enabled() {
+		$settings = get_option( 'woocommerce_cod_settings', array() );
+		return is_array( $settings ) && isset( $settings[ self::DATA_SHARING_SETTING ] ) && 'yes' === $settings[ self::DATA_SHARING_SETTING ];
+	}
 
 	/**
 	 * @return void
 	 */
 	public static function deactivate() {
+		self::cancel_scheduled_work();
+	}
+
+	/**
+	 * Cancels pending single-batch actions as well as WP-Cron fallbacks.
+	 *
+	 * @return void
+	 */
+	public static function cancel_scheduled_work() {
+		if ( function_exists( 'as_unschedule_all_actions' ) ) {
+			// Omit args and group deliberately: queued batches have variable order-ID
+			// arguments, while this hook is owned exclusively by Smart COD AI.
+			as_unschedule_all_actions( self::EVENT );
+		}
 		wp_clear_scheduled_hook( self::EVENT );
 		delete_option( self::LOCK_OPTION );
 	}
 
 	public static function queue_order_events( $records ) {
+		if ( ! self::is_data_sharing_enabled() ) {
+			return false;
+		}
 		$ids = array();
+		$evidence_by_order = array();
 		foreach ( (array) $records as $record ) {
 			if ( isset( $record['order_id'] ) ) {
-				$ids[] = absint( $record['order_id'] );
+				$order_id = absint( $record['order_id'] );
+				$ids[] = $order_id;
+				if ( $order_id && isset( $record['dispatch_evidence'] ) ) {
+					$evidence_by_order[ $order_id ] = absint( $record['dispatch_evidence'] ) & self::PERSISTED_EVIDENCE_MASK;
+				}
 			}
 		}
-		return self::schedule_order_ids( $ids, 60 );
+		return self::schedule_order_ids( $ids, 60, false, $evidence_by_order );
 	}
 
 	/**
@@ -75,38 +111,127 @@ class Wc_Smart_Cod_Ai_Outbox {
 	}
 
 	/**
+	 * Checks only this installation's previously shared cancelled-COD events.
+	 * Raw checkout identity never leaves WordPress; transport or service errors
+	 * return null so the checkout always fails open.
+	 *
+	 * @param string $email Billing email from the current checkout.
+	 * @param string $phone Billing telephone from the current checkout.
+	 * @return array|null Strict service result, or null when no decision is safe.
+	 */
+	public static function lookup_own_shop_cod_risk( $email, $phone ) {
+		if ( ! self::is_data_sharing_enabled() ) {
+			return null;
+		}
+
+		$country = self::get_operating_country();
+		$email   = strtolower( trim( sanitize_email( (string) $email ) ) );
+		if ( '' !== $email && ! filter_var( $email, FILTER_VALIDATE_EMAIL ) ) {
+			$email = '';
+		}
+		$phone = self::normalise_network_phone( $phone, $country );
+		$identity = array(
+			'country'     => $country,
+			'email_token' => '' !== $email ? self::identity_token( $email ) : '',
+			'phone_token' => strlen( preg_replace( '/\D/', '', $phone ) ) >= 5 ? self::identity_token( $phone ) : '',
+		);
+		if ( '' === $country || ( '' === $identity['email_token'] && '' === $identity['phone_token'] ) ) {
+			return null;
+		}
+
+		// Enrollment happens in the background after opt-in. Never add its longer
+		// registration request to a shopper's checkout path.
+		$enrollment = get_option( self::ENROLLED_OPTION );
+		if ( ! is_array( $enrollment ) || ! isset( $enrollment['site_domain'], $enrollment['operating_country'] )
+			|| ! self::safe_equals( self::get_site_domain(), (string) $enrollment['site_domain'] )
+			|| ! self::safe_equals( $country, (string) $enrollment['operating_country'] ) ) {
+			return null;
+		}
+
+		$body = self::encode_json(
+			array(
+				'schema_version'        => '1.0',
+				'installation_id'       => self::installation_id(),
+				'identity_token_scheme' => 1,
+				'network_identity'       => $identity,
+			)
+		);
+		$endpoint = self::lookup_endpoint();
+		if ( false === $body || ! self::is_allowed_endpoint( $endpoint ) ) {
+			return null;
+		}
+
+		try {
+			$response = wp_safe_remote_post(
+				$endpoint,
+				array(
+					'timeout'             => 1,
+					'redirection'         => 0,
+					'sslverify'           => true,
+					'limit_response_size' => 4096,
+					'headers'             => self::signed_headers( $body ),
+					'body'                => $body,
+				)
+			);
+		} catch ( Exception $exception ) {
+			return null;
+		}
+
+		if ( is_wp_error( $response ) || 200 !== absint( wp_remote_retrieve_response_code( $response ) ) ) {
+			return null;
+		}
+		$result = json_decode( wp_remote_retrieve_body( $response ), true );
+		$count  = is_array( $result ) && isset( $result['own_shop_qualifying_cancelled_cod_count'] ) && is_int( $result['own_shop_qualifying_cancelled_cod_count'] )
+			? $result['own_shop_qualifying_cancelled_cod_count']
+			: -1;
+		$decision = is_array( $result ) && isset( $result['decision'] ) ? (string) $result['decision'] : '';
+		if ( $count < 0 || ! in_array( $decision, array( 'allow_cod', 'disable_cod' ), true ) || ( $count > 0 ) !== ( 'disable_cod' === $decision ) ) {
+			return null;
+		}
+
+		return array( 'disable_cod' => 'disable_cod' === $decision, 'count' => min( 50, $count ) );
+	}
+
+	/**
 	 * Sends at most one small batch. The installation enrolls itself once using
 	 * a locally generated public key; there is no API key to provision or enter.
 	 */
-	public static function send_order_ids( $order_ids = array() ) {
+	public static function send_order_ids( $order_ids = array(), $scheduled_evidence = array() ) {
+		if ( ! self::is_data_sharing_enabled() ) {
+			self::cancel_scheduled_work();
+			return;
+		}
 		$order_ids = array_values( array_filter( array_unique( array_map( 'absint', (array) $order_ids ) ) ) );
+		$scheduled_evidence = self::normalise_scheduled_evidence( $scheduled_evidence, $order_ids );
 		if ( empty( $order_ids ) ) {
 			return;
 		}
 		if ( ! self::acquire_lock() ) {
-			self::schedule_order_ids( $order_ids, self::retry_delay(), true );
+			self::schedule_order_ids( $order_ids, self::retry_delay(), true, $scheduled_evidence );
 			return;
 		}
 
 		try {
 			$current_ids = array_slice( $order_ids, 0, self::batch_size() );
 			$remaining_ids = array_slice( $order_ids, self::batch_size() );
+			$current_evidence = self::evidence_for_order_ids( $current_ids, $scheduled_evidence );
+			$remaining_evidence = self::evidence_for_order_ids( $remaining_ids, $scheduled_evidence );
 			if ( ! empty( $remaining_ids ) ) {
 				// Also protects jobs scheduled by an older plugin version with too many IDs.
-				self::schedule_order_ids( $remaining_ids, self::interval() );
+				self::schedule_order_ids( $remaining_ids, self::interval(), false, $remaining_evidence );
 			}
 			if ( '' === self::get_operating_country() ) {
-				self::schedule_order_ids( $current_ids, DAY_IN_SECONDS, true );
+				self::schedule_order_ids( $current_ids, DAY_IN_SECONDS, true, $current_evidence );
 				return;
 			}
 			$endpoint = self::endpoint();
 			$event_order_ids = array();
-			$events = self::build_events( $current_ids, $event_order_ids );
+			$events = self::build_events( $current_ids, $event_order_ids, $current_evidence );
 			if ( empty( $events ) ) {
 				return;
 			}
 			if ( ! self::is_allowed_endpoint( $endpoint ) || ! self::ensure_enrolled() ) {
-				self::schedule_order_ids( $current_ids, DAY_IN_SECONDS, true );
+				self::schedule_order_ids( $current_ids, DAY_IN_SECONDS, true, $current_evidence );
 				return;
 			}
 
@@ -118,7 +243,7 @@ class Wc_Smart_Cod_Ai_Outbox {
 				)
 			);
 			if ( false === $body ) {
-				self::schedule_order_ids( $current_ids, self::retry_delay(), true );
+				self::schedule_order_ids( $current_ids, self::retry_delay(), true, $current_evidence );
 				return;
 			}
 
@@ -142,7 +267,7 @@ class Wc_Smart_Cod_Ai_Outbox {
 					&& $ack['accepted'] + $ack['duplicates'] === count( $events ) ) {
 					return;
 				}
-				self::schedule_order_ids( $current_ids, self::retry_delay(), true );
+				self::schedule_order_ids( $current_ids, self::retry_delay(), true, $current_evidence );
 				return;
 			}
 			if ( in_array( $code, array( 400, 413, 422 ), true ) ) {
@@ -153,18 +278,18 @@ class Wc_Smart_Cod_Ai_Outbox {
 					&& is_int( $index ) && isset( $event_order_ids[ $index ] ) ) {
 					$rejected_id = $event_order_ids[ $index ];
 					$other_ids = array_values( array_diff( $current_ids, array( $rejected_id ) ) );
-					self::schedule_order_ids( $other_ids, wp_rand( HOUR_IN_SECONDS, 2 * HOUR_IN_SECONDS ), true );
-					self::schedule_order_ids( array( $rejected_id ), DAY_IN_SECONDS, true );
+					self::schedule_order_ids( $other_ids, wp_rand( HOUR_IN_SECONDS, 2 * HOUR_IN_SECONDS ), true, self::evidence_for_order_ids( $other_ids, $current_evidence ) );
+					self::schedule_order_ids( array( $rejected_id ), DAY_IN_SECONDS, true, self::evidence_for_order_ids( array( $rejected_id ), $current_evidence ) );
 					return;
 				}
 				if ( 413 === $code && count( $current_ids ) > 1 ) {
 					$parts = array_chunk( $current_ids, (int) ceil( count( $current_ids ) / 2 ) );
 					foreach ( $parts as $part_index => $part ) {
-						self::schedule_order_ids( $part, HOUR_IN_SECONDS + ( $part_index * self::interval() ), true );
+						self::schedule_order_ids( $part, HOUR_IN_SECONDS + ( $part_index * self::interval() ), true, self::evidence_for_order_ids( $part, $current_evidence ) );
 					}
 					return;
 				}
-				self::schedule_order_ids( $current_ids, DAY_IN_SECONDS, true );
+				self::schedule_order_ids( $current_ids, DAY_IN_SECONDS, true, $current_evidence );
 				return;
 			}
 			if ( 401 === $code ) {
@@ -173,25 +298,29 @@ class Wc_Smart_Cod_Ai_Outbox {
 			$delay = 403 === $code ? DAY_IN_SECONDS : ( in_array( $code, array( 401, 429, 502, 503, 504 ), true )
 				? wp_rand( HOUR_IN_SECONDS, 2 * HOUR_IN_SECONDS )
 				: self::retry_delay() );
-			self::schedule_order_ids( $current_ids, $delay, true );
+			self::schedule_order_ids( $current_ids, $delay, true, $current_evidence );
 		} catch ( Exception $exception ) {
-			self::schedule_order_ids( isset( $current_ids ) ? $current_ids : $order_ids, self::retry_delay(), true );
+			$fallback_ids = isset( $current_ids ) ? $current_ids : $order_ids;
+			self::schedule_order_ids( $fallback_ids, self::retry_delay(), true, isset( $current_evidence ) ? $current_evidence : $scheduled_evidence );
 		} finally {
 			self::release_lock();
 		}
 	}
 
-	private static function build_events( $order_ids, &$event_order_ids = array() ) {
+	private static function build_events( $order_ids, &$event_order_ids = array(), $scheduled_evidence = array() ) {
 		$events = array();
 		$event_order_ids = array();
 		foreach ( array_unique( array_map( 'absint', (array) $order_ids ) ) as $order_id ) {
 			$order  = function_exists( 'wc_get_order' ) ? wc_get_order( $order_id ) : false;
-			$record = class_exists( 'Wc_Smart_Cod_Cancelled_Cod_Collector' ) ? Wc_Smart_Cod_Cancelled_Cod_Collector::get_record_for_order( $order_id ) : array();
+			$evidence = isset( $scheduled_evidence[ $order_id ] ) ? absint( $scheduled_evidence[ $order_id ] ) : 0;
+			$record = class_exists( 'Wc_Smart_Cod_Cancelled_Cod_Collector' ) ? Wc_Smart_Cod_Cancelled_Cod_Collector::get_record_for_order( $order_id, array(), $evidence ) : array();
 			if ( ! $order || empty( $record ) ) {
 				continue;
 			}
 			$tracking = self::tracking_payload( self::decode_list( $record['tracking_data'] ) );
-			if ( empty( $tracking ) ) {
+			$dispatch_evidence = isset( $record['dispatch_evidence'] ) ? absint( $record['dispatch_evidence'] ) : 0;
+			$prior_completed_tracked_cod_count = isset( $record['prior_completed_tracked_cod_count'] ) ? min( 50, absint( $record['prior_completed_tracked_cod_count'] ) ) : 0;
+			if ( 0 === $dispatch_evidence ) {
 				continue;
 			}
 			$network_identity = self::network_identity( $order );
@@ -199,11 +328,14 @@ class Wc_Smart_Cod_Ai_Outbox {
 				continue;
 			}
 			$payload = array(
-				'schema_version' => '1.3', 'identity_token_scheme' => 1, 'event_type' => 'cancelled_cod_order', 'occurred_at_utc' => $record['cancelled_at_gmt'],
+				'schema_version' => '1.6', 'identity_token_scheme' => 1, 'event_type' => 'cancelled_cod_order', 'occurred_at_utc' => $record['cancelled_at_gmt'],
 				'source' => array( 'installation_id' => self::installation_id(), 'operating_country' => self::get_operating_country(), 'plugin' => 'wc-smart-cod', 'plugin_version' => defined( 'SMART_COD_VER' ) ? SMART_COD_VER : '' ),
 				'order' => array( 'reference' => self::order_reference( $order_id ), 'payment_method' => 'cod' ),
 				'network_identity' => $network_identity, 'location_identity' => self::location_identity( $order ), 'ml_context' => self::ml_context( $order, $record['cancelled_at_gmt'] ),
-				'shipment' => array( 'shipping_method_slug' => self::shipping_method_slug( $record['shipping_methods'] ), 'trackings' => $tracking ),
+				// A cumulative snapshot. The central service must use MAX per
+				// installation/customer, never SUM across cancelled events.
+				'customer_history' => array( 'prior_completed_tracked_cod_count' => $prior_completed_tracked_cod_count ),
+				'shipment' => array( 'shipping_method_slug' => self::shipping_method_slug( $record['shipping_methods'] ), 'dispatch_evidence' => $dispatch_evidence, 'trackings' => $tracking ),
 			);
 			$events[] = array( 'payload' => $payload );
 			$event_order_ids[] = $order_id;
@@ -661,7 +793,7 @@ class Wc_Smart_Cod_Ai_Outbox {
 			return wp_generate_uuid4();
 		}
 		$seed = function_exists( 'wp_generate_password' ) ? wp_generate_password( 64, true, true ) : uniqid( '', true );
-		$hash = hash( 'sha256', $seed . '|' . uniqid( '', true ) . '|' . mt_rand() );
+		$hash = hash( 'sha256', $seed . '|' . uniqid( '', true ) . '|' . wp_rand() );
 		return substr( $hash, 0, 8 ) . '-' . substr( $hash, 8, 4 ) . '-4' . substr( $hash, 13, 3 ) . '-a' . substr( $hash, 17, 3 ) . '-' . substr( $hash, 20, 12 );
 	}
 
@@ -684,6 +816,12 @@ class Wc_Smart_Cod_Ai_Outbox {
 		return esc_url_raw( apply_filters( 'wsc_smart_cod_ai_registration_endpoint', $endpoint ) );
 	}
 
+	/** @return string */
+	private static function lookup_endpoint() {
+		$endpoint = defined( 'WSC_SMART_COD_AI_LOOKUP_ENDPOINT' ) ? WSC_SMART_COD_AI_LOOKUP_ENDPOINT : 'https://api.woosmartcod.com/v1/cod-protection-check';
+		return esc_url_raw( apply_filters( 'wsc_smart_cod_ai_lookup_endpoint', $endpoint ) );
+	}
+
 	/**
 	 * Limits automatic transmission to the Smart COD domain and HTTPS. A filter
 	 * may customise a path, but cannot turn this client into an arbitrary relay.
@@ -702,8 +840,12 @@ class Wc_Smart_Cod_Ai_Outbox {
 	 * time and is never persisted in a plugin-owned database table. Split a
 	 * historical collector batch to the same maximum size as an HTTP payload.
 	 */
-	private static function schedule_order_ids( $order_ids, $delay, $retry = false ) {
+	private static function schedule_order_ids( $order_ids, $delay, $retry = false, $scheduled_evidence = array() ) {
+		if ( ! self::is_data_sharing_enabled() ) {
+			return false;
+		}
 		$order_ids = array_values( array_filter( array_unique( array_map( 'absint', (array) $order_ids ) ) ) );
+		$scheduled_evidence = self::normalise_scheduled_evidence( $scheduled_evidence, $order_ids );
 		if ( empty( $order_ids ) ) {
 			return true;
 		}
@@ -711,13 +853,15 @@ class Wc_Smart_Cod_Ai_Outbox {
 		$all_scheduled = true;
 		foreach ( array_chunk( $order_ids, self::batch_size() ) as $index => $chunk ) {
 			$run_delay = $delay + ( $index * self::interval() );
+			$chunk_evidence = self::evidence_for_order_ids( $chunk, $scheduled_evidence );
+			$args = array( $chunk, $chunk_evidence );
 			try {
 				if ( function_exists( 'as_next_scheduled_action' ) && function_exists( 'as_schedule_single_action' ) ) {
 					$pending = $retry && function_exists( 'as_get_scheduled_actions' )
-						? as_get_scheduled_actions( array( 'hook' => self::EVENT, 'args' => array( $chunk ), 'group' => 'wsc-smart-cod-ai', 'status' => 'pending', 'per_page' => 1 ), 'ids' )
+						? as_get_scheduled_actions( array( 'hook' => self::EVENT, 'args' => $args, 'group' => self::ACTION_GROUP, 'status' => 'pending', 'per_page' => 1 ), 'ids' )
 						: array();
-					$exists = $retry ? ! empty( $pending ) : false !== as_next_scheduled_action( self::EVENT, array( $chunk ), 'wsc-smart-cod-ai' );
-					if ( $exists || as_schedule_single_action( time() + $run_delay, self::EVENT, array( $chunk ), 'wsc-smart-cod-ai' ) > 0 ) {
+					$exists = $retry ? ! empty( $pending ) : false !== as_next_scheduled_action( self::EVENT, $args, self::ACTION_GROUP );
+					if ( $exists || as_schedule_single_action( time() + $run_delay, self::EVENT, $args, self::ACTION_GROUP ) > 0 ) {
 						continue;
 					}
 				}
@@ -725,7 +869,7 @@ class Wc_Smart_Cod_Ai_Outbox {
 				// Action Scheduler may fail while WP-Cron can still persist the job.
 			}
 			try {
-				if ( ! wp_next_scheduled( self::EVENT, array( $chunk ) ) && ! wp_schedule_single_event( time() + $run_delay, self::EVENT, array( $chunk ) ) ) {
+				if ( ! wp_next_scheduled( self::EVENT, $args ) && ! wp_schedule_single_event( time() + $run_delay, self::EVENT, $args ) ) {
 					$all_scheduled = false;
 				}
 			} catch ( Exception $exception ) {
@@ -733,6 +877,31 @@ class Wc_Smart_Cod_Ai_Outbox {
 			}
 		}
 		return $all_scheduled;
+	}
+
+	/**
+	 * Retains only non-identifying evidence flags while an Action Scheduler job
+	 * waits to send. No order payload or customer value is stored locally.
+	 *
+	 * @return array
+	 */
+	private static function normalise_scheduled_evidence( $evidence, $order_ids ) {
+		$allowed = array_fill_keys( array_map( 'absint', (array) $order_ids ), true );
+		$normalised = array();
+		foreach ( (array) $evidence as $order_id => $value ) {
+			$order_id = absint( $order_id );
+			if ( $order_id && isset( $allowed[ $order_id ] ) ) {
+				$normalised[ $order_id ] = absint( $value ) & self::PERSISTED_EVIDENCE_MASK;
+			}
+		}
+		return $normalised;
+	}
+
+	/**
+	 * @return array
+	 */
+	private static function evidence_for_order_ids( $order_ids, $evidence ) {
+		return self::normalise_scheduled_evidence( $evidence, $order_ids );
 	}
 
 	/**
