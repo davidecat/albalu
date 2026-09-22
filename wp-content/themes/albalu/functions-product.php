@@ -234,10 +234,20 @@ function albalu_add_inline_styles_single_product() {
 	body.woocommerce.single-product .quantity-addtocart-wrapper { width: 100%; display: flex; gap: 10px; align-items: stretch; }
 	body.woocommerce.single-product .quantity-addtocart-wrapper .quantity { flex: 0 0 auto; display: flex; align-items: center; }
 	body.woocommerce.single-product .quantity-addtocart-wrapper .single_add_to_cart_button { flex: 1 1 auto; height: 52px; }
-	.albalu-purchase-benefits { margin-top: 10px; border-top: 1px solid rgba(0,0,0,0.1); }
-	.albalu-purchase-benefits .item { gap: 12px; padding: 12px 0;  }
-	.albalu-purchase-benefits .item img.benefit-icon { width: 80px; height: 50px; object-fit: contain; display: inline-block; }
+	.albalu-purchase-benefits { margin-top: 12px; }
+	.albalu-purchase-benefits .item { gap: 12px; padding: 12px 0; }
+	.albalu-purchase-benefits .item img.benefit-icon { width: 80px; height: 50px; object-fit: contain; display: inline-block; flex-shrink: 0; }
 	.albalu-purchase-benefits .item p { margin: 0; }
+	.albalu-purchase-benefits .albalu-delivery-highlight {
+		gap: 12px;
+		padding: 14px 16px;
+		border: 2px solid var(--bs-primary, #2f6f73);
+		background-color: #eae3e0;
+		border-radius: 4px;
+		box-shadow: 0 0 0 3px rgba(47, 111, 115, 0.12);
+	}
+	.albalu-purchase-benefits .albalu-delivery-highlight p { font-weight: 500; color: var(--color-titoli, #3F494F); }
+	.albalu-purchase-benefits .albalu-delivery-highlight strong { font-weight: 700; }
 	.albalu-payment-trust-badges { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; margin: 12px 0 4px; padding: 10px 0; border-top: 1px solid rgba(0,0,0,0.08); border-bottom: 1px solid rgba(0,0,0,0.08); }
 	.albalu-payment-trust-badges img { width: 56px; height: 36px; object-fit: contain; }
 	.albalu-product-reviews-section .woocommerce-Reviews { max-width: 100%; }
@@ -286,7 +296,7 @@ function albalu_static_benefits_below_addtocart() {
 	$text = wp_kses_post( $text );
 
 	echo '<div class="albalu-purchase-benefits">';
-	echo '<div class="d-flex align-items-center item border-top border-bottom"><img class="benefit-icon" src="' . $base . '/truck.svg" alt="Spedizione"><p>' . $text . '</p></div>';
+	echo '<div class="d-flex align-items-center item albalu-delivery-highlight"><img class="benefit-icon" src="' . $base . '/truck.svg" alt="Spedizione"><p>' . $text . '</p></div>';
 	echo '</div>';
 }
 add_action( 'woocommerce_after_add_to_cart_form', 'albalu_static_benefits_below_addtocart', 20 );
