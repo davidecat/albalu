@@ -15,33 +15,128 @@ add_filter( 'woocommerce_output_related_products_args', function( $args ) {
 	return $args;
 } );
 
-
 /**
- * 1. Remove All Tabs & Render Separately
+ * Related products: same product category only (no tags / cross-category mix).
  */
+add_filter( 'woocommerce_related_products', 'albalu_related_products_same_category', 20, 3 );
+function albalu_related_products_same_category( $related_posts, $product_id, $args ) {
+	$product_id = (int) $product_id;
+	if ( ! $product_id ) {
+		return $related_posts;
+	}
 
-// Remove ALL Tabs (Description, Reviews, Additional Info)
-add_filter( 'woocommerce_product_tabs', 'albalu_remove_all_tabs', 98 );
-function albalu_remove_all_tabs( $tabs ) {
-    return array(); // Removes all tabs
+	$term_ids = wc_get_product_term_ids( $product_id, 'product_cat' );
+	$term_ids = array_values( array_filter( array_map( 'intval', (array) $term_ids ) ) );
+
+	// Prefer the most specific (deepest) category.
+	$best_term_id = 0;
+	$best_depth   = -1;
+	foreach ( $term_ids as $tid ) {
+		if ( $tid === (int) get_option( 'default_product_cat' ) ) {
+			continue;
+		}
+		$ancestors = get_ancestors( $tid, 'product_cat' );
+		$depth     = is_array( $ancestors ) ? count( $ancestors ) : 0;
+		if ( $depth > $best_depth ) {
+			$best_depth   = $depth;
+			$best_term_id = $tid;
+		}
+	}
+
+	if ( ! $best_term_id && ! empty( $term_ids ) ) {
+		$best_term_id = (int) $term_ids[0];
+	}
+
+	if ( ! $best_term_id ) {
+		return array();
+	}
+
+	$limit = isset( $args['posts_per_page'] ) ? max( 1, (int) $args['posts_per_page'] ) : 12;
+
+	$query = new WP_Query(
+		array(
+			'post_type'              => 'product',
+			'post_status'            => 'publish',
+			'posts_per_page'         => $limit,
+			'post__not_in'           => array( $product_id ),
+			'fields'                 => 'ids',
+			'no_found_rows'          => true,
+			'update_post_meta_cache' => false,
+			'update_post_term_cache' => false,
+			'orderby'                => 'rand',
+			'tax_query'              => array(
+				array(
+					'taxonomy'         => 'product_cat',
+					'field'            => 'term_id',
+					'terms'            => array( $best_term_id ),
+					'include_children' => false,
+				),
+			),
+		)
+	);
+
+	return ! empty( $query->posts ) ? array_map( 'intval', $query->posts ) : array();
 }
 
-// Render Description After Single Product Summary (Full Width, Below Image/Summary)
+// Do not mix related products by tags when WC builds its default list (our filter replaces it).
+add_filter( 'woocommerce_product_related_posts_relate_by_tag', '__return_false' );
+
+
+/**
+ * 1. Remove Description/Additional tabs & render description + reviews separately
+ */
+
+// Keep Reviews available as a native section (tabs UI removed for design).
+add_filter( 'woocommerce_product_tabs', 'albalu_remove_product_tabs', 98 );
+function albalu_remove_product_tabs( $tabs ) {
+	unset( $tabs['description'], $tabs['additional_information'], $tabs['reviews'] );
+	return $tabs;
+}
+
+/**
+ * Trust strip + description (full width).
+ */
 add_action( 'woocommerce_after_single_product_summary', 'albalu_render_product_description', 5 );
 function albalu_render_product_description() {
-    global $post;
+	global $post, $product;
 
-    if ( ! $post ) {
-        return;
-    }
+	if ( ! $post ) {
+		return;
+	}
 
-    $content = $post->post_content;
-    
-    if ( ! $content ) {
-        return;
-    }
+	$content = $post->post_content;
 
-    echo <<<HTML
+	$review_count = 0;
+	$average      = 0;
+	if ( $product instanceof WC_Product && wc_review_ratings_enabled() ) {
+		$review_count = (int) $product->get_review_count();
+		$average      = (float) $product->get_average_rating();
+	}
+
+	$stars_html = '';
+	if ( $review_count > 0 && $average > 0 ) {
+		$full  = (int) round( $average );
+		$full  = max( 0, min( 5, $full ) );
+		for ( $i = 0; $i < 5; $i++ ) {
+			$stars_html .= $i < $full
+				? '<i class="fas fa-star"></i>'
+				: '<i class="far fa-star"></i>';
+		}
+		$reviews_label = esc_html(
+			sprintf(
+				/* translators: %s: number of reviews */
+				_n( '%s recensione', '%s recensioni', $review_count, 'albalu' ),
+				number_format_i18n( $review_count )
+			)
+		);
+	} else {
+		for ( $i = 0; $i < 5; $i++ ) {
+			$stars_html .= '<i class="fas fa-star"></i>';
+		}
+		$reviews_label = esc_html__( 'Scrivi la prima recensione', 'albalu' );
+	}
+
+	echo <<<HTML
 <section class="trust-strip py-4" style="background-color: #eae3e0; width: 100vw; max-width: 100vw; margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); clear: both;">
     <div class="container">
         <div class="row align-items-center">
@@ -58,11 +153,9 @@ function albalu_render_product_description() {
                     <div class="text-start lh-1">
                         <div class="d-flex align-items-center mb-1">
                             <span class="fw-bold me-2" style="color: #3F494F;">Albalù Bomboniere</span>
-                            <span class="text-warning small" style="font-size: 0.8rem;">
-                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-                            </span>
+                            <span class="text-warning small" style="font-size: 0.8rem;">{$stars_html}</span>
                         </div>
-                        <span class="small text-muted fw-bold" style="font-size: 0.85rem;">+800 recensioni</span>
+                        <a href="#reviews" class="small text-muted fw-bold text-decoration-none" style="font-size: 0.85rem;">{$reviews_label}</a>
                     </div>
                 </div>
             </div>
@@ -71,7 +164,8 @@ function albalu_render_product_description() {
 </section>
 HTML;
 
-    echo <<<HTML
+	if ( $content ) {
+		echo <<<HTML
 <section class="albalu-product-description-section py-4" style="width: 100vw; max-width: 100vw; margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); clear: both;">
   <div class="container">
     <h2 class="h2 mb-4 border-bottom py-2">Descrizione</h2>
@@ -81,6 +175,24 @@ HTML;
   </div>
 </section>
 HTML;
+	}
+}
+
+/**
+ * Native WooCommerce reviews section (replaces the removed Reviews tab).
+ */
+add_action( 'woocommerce_after_single_product_summary', 'albalu_render_product_reviews_section', 12 );
+function albalu_render_product_reviews_section() {
+	if ( ! comments_open() ) {
+		return;
+	}
+	?>
+	<section class="albalu-product-reviews-section py-4" style="width: 100vw; max-width: 100vw; margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); clear: both;">
+		<div class="container">
+			<?php comments_template(); ?>
+		</div>
+	</section>
+	<?php
 }
 
 function wrap_quantity_addtocart() {
@@ -126,20 +238,55 @@ function albalu_add_inline_styles_single_product() {
 	.albalu-purchase-benefits .item { gap: 12px; padding: 12px 0;  }
 	.albalu-purchase-benefits .item img.benefit-icon { width: 80px; height: 50px; object-fit: contain; display: inline-block; }
 	.albalu-purchase-benefits .item p { margin: 0; }
+	.albalu-payment-trust-badges { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; margin: 12px 0 4px; padding: 10px 0; border-top: 1px solid rgba(0,0,0,0.08); border-bottom: 1px solid rgba(0,0,0,0.08); }
+	.albalu-payment-trust-badges img { width: 56px; height: 36px; object-fit: contain; }
+	.albalu-product-reviews-section .woocommerce-Reviews { max-width: 100%; }
+	.albalu-product-reviews-section #reviews { scroll-margin-top: 80px; }
 	";
 	wp_add_inline_style('main', $css);
 }
 add_action('wp_enqueue_scripts', 'albalu_add_inline_styles_single_product', 30);
 
-function albalu_static_benefits_below_addtocart() {
-	if ( ! is_product() ) return;
+/**
+ * Payment trust badges — moved above add-to-cart (after excerpt) for clearer trust signal.
+ */
+function albalu_payment_trust_badges_html() {
 	$base = esc_url( get_stylesheet_directory_uri() . '/assets/img' );
+	ob_start();
+	?>
+	<div class="albalu-payment-trust-badges" aria-label="<?php esc_attr_e( 'Metodi di pagamento', 'albalu' ); ?>">
+		<img src="<?php echo $base; ?>/paypal.svg" alt="PayPal e Carte di Credito" width="56" height="36" loading="lazy">
+		<img src="<?php echo $base; ?>/klarna.svg" alt="Klarna" width="56" height="36" loading="lazy">
+		<img src="<?php echo $base; ?>/consegna.svg" alt="Contrassegno" width="56" height="36" loading="lazy">
+		<img src="<?php echo $base; ?>/bancario.svg" alt="Bonifico bancario" width="56" height="36" loading="lazy">
+	</div>
+	<?php
+	return ob_get_clean();
+}
+
+function albalu_render_payment_trust_badges_summary() {
+	if ( ! is_product() ) {
+		return;
+	}
+	echo albalu_payment_trust_badges_html(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+}
+add_action( 'woocommerce_single_product_summary', 'albalu_render_payment_trust_badges_summary', 25 );
+
+/**
+ * Delivery time under add-to-cart (editable via Impostazioni Albalù).
+ */
+function albalu_static_benefits_below_addtocart() {
+	if ( ! is_product() ) {
+		return;
+	}
+	$base = esc_url( get_stylesheet_directory_uri() . '/assets/img' );
+	$text = function_exists( 'albalu_get_delivery_time_text' )
+		? albalu_get_delivery_time_text()
+		: 'Realizziamo e spediamo il tuo ordine in <strong>7/13 giorni lavorativi</strong>.';
+	$text = wp_kses_post( $text );
+
 	echo '<div class="albalu-purchase-benefits">';
-		echo '<div class="d-flex align-items-center item border-top border-bottom"><img class="benefit-icon" src="'.$base.'/truck.svg" alt="Spedizione"><p>Realizziamo e spediamo il tuo ordine in <strong>7/13 giorni lavorativi</strong>.</p></div>';
-		echo '<div class="d-flex align-items-center item "><img class="benefit-icon" src="'.$base.'/paypal.svg" alt="Pagamenti PayPal"><p>Pagamenti sicuri con <strong>PayPal e Carte di Credito</strong>.</p></div>';
-		echo '<div class="d-flex align-items-center item"><img class="benefit-icon" src="'.$base.'/klarna.svg" alt="Klarna 3 rate"><p>Pagamento in <strong>3 rate senza interessi</strong> con Klarna.</p></div>';
-		echo '<div class="d-flex align-items-center item"><img class="benefit-icon" src="'.$base.'/consegna.svg" alt="Contrassegno"><p>Pagamento in <strong>contrassegno</strong> alla consegna.</p></div>';
-		echo '<div class="d-flex align-items-center item border-bottom"><img class="benefit-icon" src="'.$base.'/bancario.svg" alt="Bonifico bancario"><p>Pagamento con <strong>bonifico bancario</strong>.</p></div>';
+	echo '<div class="d-flex align-items-center item border-top border-bottom"><img class="benefit-icon" src="' . $base . '/truck.svg" alt="Spedizione"><p>' . $text . '</p></div>';
 	echo '</div>';
 }
 add_action( 'woocommerce_after_add_to_cart_form', 'albalu_static_benefits_below_addtocart', 20 );
@@ -213,4 +360,3 @@ function albalu_render_global_faq_section() {
     echo '</div>'; // .row
     echo '</div>'; // .container
 }
-

@@ -753,6 +753,25 @@ function bootscore_child_enqueue_styles() {
 
   $modificated_CustomJS = date('YmdHi', filemtime(get_stylesheet_directory() . '/assets/js/custom.js'));
   wp_enqueue_script('custom-js', get_stylesheet_directory_uri() . '/assets/js/custom.js', $swiper_dep, $modificated_CustomJS, true);
+
+  // Inline until next SCSS → main.min.css compile (top bar + checkout icon alignment).
+  $albalu_global_css = '
+  .top-bar-mobile{overflow:hidden;white-space:nowrap;-webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
+  .top-bar-mobile__track{display:inline-flex;align-items:center;gap:2.5rem;padding-block:.15rem;animation:albalu-topbar-marquee 28s linear infinite;will-change:transform}
+  .top-bar-mobile__item{flex:0 0 auto;font-size:.8rem;letter-spacing:.02em}
+  .top-bar-mobile:hover .top-bar-mobile__track{animation-play-state:paused}
+  @keyframes albalu-topbar-marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+  @media (prefers-reduced-motion:reduce){.top-bar-mobile{overflow-x:auto;-webkit-overflow-scrolling:touch;-webkit-mask-image:none;mask-image:none}.top-bar-mobile__track{animation:none}}
+  .woocommerce-checkout #payment ul.payment_methods li{display:flex;flex-wrap:wrap;align-items:center;gap:.35rem .5rem;line-height:1.3}
+  .woocommerce-checkout #payment ul.payment_methods li>input{flex:0 0 auto;margin-top:0;align-self:center}
+  .woocommerce-checkout #payment ul.payment_methods li>label{display:inline-flex;flex-wrap:wrap;align-items:center;gap:.4rem .65rem;margin:0;flex:1 1 auto;min-width:0}
+  .woocommerce-checkout #payment ul.payment_methods li img,
+  .woocommerce-checkout #payment ul.payment_methods li label img{display:inline-block;max-height:28px;width:auto;max-width:72px;object-fit:contain;vertical-align:middle;margin:0!important;float:none!important}
+  .woocommerce-checkout #payment ul.payment_methods li .payment_box{flex:1 0 100%;width:100%}
+  .woocommerce-checkout,.woocommerce-order-received{overflow-x:clip}
+  .woocommerce-checkout .page-title-bar,.woocommerce-order-received .page-title-bar{max-width:100vw;box-sizing:border-box}
+  ';
+  wp_add_inline_style( 'main', $albalu_global_css );
 }
 
 add_filter('bootscore/skip_cart', '__return_false');
@@ -1017,7 +1036,7 @@ function albalu_cart_collaterals_layout() {
 
 require_once get_stylesheet_directory() . '/functions-product.php';
 
-// Register Options Page for Global FAQ
+// Register Options Page for Global FAQ + Albalù theme settings
 add_action('acf/init', 'albalu_register_faq_options_page');
 function albalu_register_faq_options_page() {
     if( function_exists('acf_add_options_sub_page') ) {
@@ -1029,7 +1048,81 @@ function albalu_register_faq_options_page() {
             'capability'    => 'edit_posts',
             'redirect'      => false,
         ));
+        acf_add_options_sub_page(array(
+            'page_title'    => 'Impostazioni Albalù',
+            'menu_title'    => 'Impostazioni Albalù',
+            'parent_slug'   => 'edit.php?post_type=product',
+            'menu_slug'     => 'albalu-impostazioni',
+            'capability'    => 'edit_posts',
+            'redirect'      => false,
+        ));
     }
+}
+
+/**
+ * Default top-bar messages (desktop + mobile fallback).
+ */
+function albalu_get_default_top_bar_messages() {
+	return array(
+		'Bomboniere 100% Made in Italy',
+		'SPEDIZIONE GRATUITA OLTRE 149€',
+		'Hai bisogno di aiuto? Contattaci!',
+	);
+}
+
+/**
+ * Editable top-bar messages from ACF options (Impostazioni Albalù).
+ */
+function albalu_get_top_bar_messages() {
+	$messages = array();
+	if ( function_exists( 'have_rows' ) && have_rows( 'mobile_top_banner', 'option' ) ) {
+		while ( have_rows( 'mobile_top_banner', 'option' ) ) {
+			the_row();
+			$text = trim( (string) get_sub_field( 'message' ) );
+			if ( $text !== '' ) {
+				$messages[] = $text;
+			}
+		}
+	}
+	if ( empty( $messages ) ) {
+		$messages = albalu_get_default_top_bar_messages();
+	}
+	return $messages;
+}
+
+/**
+ * Delivery time copy (product page) — editable via Impostazioni Albalù.
+ */
+function albalu_get_delivery_time_text() {
+	$default = 'Realizziamo e spediamo il tuo ordine in <strong>7/13 giorni lavorativi</strong>.';
+	if ( function_exists( 'get_field' ) ) {
+		$text = get_field( 'delivery_time_text', 'option' );
+		if ( is_string( $text ) && trim( $text ) !== '' ) {
+			return $text;
+		}
+	}
+	return $default;
+}
+
+/**
+ * Delivery day range for Schema.org (synced with visible copy defaults).
+ *
+ * @return int[] { min, max }
+ */
+function albalu_get_delivery_day_range() {
+	$min = 7;
+	$max = 13;
+	if ( function_exists( 'get_field' ) ) {
+		$acf_min = get_field( 'delivery_min_days', 'option' );
+		$acf_max = get_field( 'delivery_max_days', 'option' );
+		if ( $acf_min !== null && $acf_min !== '' && $acf_min !== false ) {
+			$min = max( 1, (int) $acf_min );
+		}
+		if ( $acf_max !== null && $acf_max !== '' && $acf_max !== false ) {
+			$max = max( $min, (int) $acf_max );
+		}
+	}
+	return array( $min, $max );
 }
 
 // Admin notice if ACF Options Page is not available (Only for Admin)
@@ -1463,7 +1556,13 @@ add_action( 'bootscore_before_title', function( $context ) {
 	</div></div></div></main></div></div><!-- close page.php wrappers temporarily -->
 	<section class="page-title-bar bg-albalu-warm py-4 mb-4">
 		<div class="container">
-			<?php the_title( '<h1 class="fs-2 fw-normal mb-0">', '</h1>' ); ?>
+			<?php
+			if ( function_exists( 'is_order_received_page' ) && is_order_received_page() ) {
+				echo '<h1 class="fs-2 fw-normal mb-0">' . esc_html__( 'Ordine ricevuto', 'albalu' ) . '</h1>';
+			} else {
+				the_title( '<h1 class="fs-2 fw-normal mb-0">', '</h1>' );
+			}
+			?>
 		</div>
 	</section>
 	<div class="site-content container pt-3 pb-5"><div class="content-area"><div class="row"><div class="col"><main class="site-main"><div class="entry-header" style="display:none;">
@@ -2342,21 +2441,27 @@ add_filter( 'wpseo_schema_product', function( $data ) {
 			'@type'          => 'DefinedRegion',
 			'addressCountry' => 'IT',
 		),
-		'deliveryTime'        => array(
-			'@type'        => 'ShippingDeliveryTime',
-			'handlingTime' => array(
-				'@type'    => 'QuantitativeValue',
-				'minValue' => 1,
-				'maxValue' => 6,
-				'unitCode' => 'DAY',
-			),
-			'transitTime'  => array(
-				'@type'    => 'QuantitativeValue',
-				'minValue' => 1,
-				'maxValue' => 7,
-				'unitCode' => 'DAY',
-			),
-		),
+		'deliveryTime'        => ( function() {
+			list( $ship_min, $ship_max ) = function_exists( 'albalu_get_delivery_day_range' )
+				? albalu_get_delivery_day_range()
+				: array( 7, 13 );
+			// Single handling window matching the visible “X/Y giorni lavorativi” copy.
+			return array(
+				'@type'        => 'ShippingDeliveryTime',
+				'handlingTime' => array(
+					'@type'    => 'QuantitativeValue',
+					'minValue' => $ship_min,
+					'maxValue' => $ship_max,
+					'unitCode' => 'DAY',
+				),
+				'transitTime'  => array(
+					'@type'    => 'QuantitativeValue',
+					'minValue' => 0,
+					'maxValue' => 0,
+					'unitCode' => 'DAY',
+				),
+			);
+		} )(),
 	);
 
 	$return_policy = array(

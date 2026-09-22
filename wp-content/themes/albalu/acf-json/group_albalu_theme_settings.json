@@ -1,0 +1,137 @@
+{
+    "key": "group_albalu_theme_settings",
+    "title": "Impostazioni Albalù",
+    "fields": [
+        {
+            "key": "field_albalu_delivery_time_text",
+            "label": "Testo tempo di consegna",
+            "name": "delivery_time_text",
+            "aria-label": "",
+            "type": "textarea",
+            "instructions": "Mostrato sotto il pulsante Acquista nella pagina prodotto. Puoi usare HTML semplice (es. <strong>). Lascia vuoto per il testo di default.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "Realizziamo e spediamo il tuo ordine in <strong>7\/13 giorni lavorativi<\/strong>.",
+            "maxlength": "",
+            "allow_in_bindings": 0,
+            "rows": 3,
+            "placeholder": "Realizziamo e spediamo il tuo ordine in <strong>7\/13 giorni lavorativi<\/strong>.",
+            "new_lines": ""
+        },
+        {
+            "key": "field_albalu_delivery_min_days",
+            "label": "Giorni consegna (min)",
+            "name": "delivery_min_days",
+            "aria-label": "",
+            "type": "number",
+            "instructions": "Usato nello schema SEO (handling + transit). Default: 7",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": 7,
+            "min": 1,
+            "max": 60,
+            "placeholder": "7",
+            "step": 1,
+            "prepend": "",
+            "append": "giorni"
+        },
+        {
+            "key": "field_albalu_delivery_max_days",
+            "label": "Giorni consegna (max)",
+            "name": "delivery_max_days",
+            "aria-label": "",
+            "type": "number",
+            "instructions": "Usato nello schema SEO. Default: 13",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": 13,
+            "min": 1,
+            "max": 90,
+            "placeholder": "13",
+            "step": 1,
+            "prepend": "",
+            "append": "giorni"
+        },
+        {
+            "key": "field_albalu_mobile_top_banner",
+            "label": "Banner superiore mobile (scorrevole)",
+            "name": "mobile_top_banner",
+            "aria-label": "",
+            "type": "repeater",
+            "instructions": "Messaggi mostrati nella barra superiore su mobile (scroll orizzontale). Su desktop restano le prime 3 voci in colonna.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "layout": "table",
+            "pagination": 0,
+            "min": 0,
+            "max": 10,
+            "collapsed": "field_albalu_mobile_banner_text",
+            "button_label": "Aggiungi messaggio",
+            "rows_per_page": 20,
+            "sub_fields": [
+                {
+                    "key": "field_albalu_mobile_banner_text",
+                    "label": "Messaggio",
+                    "name": "message",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "",
+                    "required": 1,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "maxlength": "",
+                    "allow_in_bindings": 0,
+                    "placeholder": "Es: SPEDIZIONE GRATUITA OLTRE 149€",
+                    "prepend": "",
+                    "append": "",
+                    "parent_repeater": "field_albalu_mobile_top_banner"
+                }
+            ]
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "options_page",
+                "operator": "==",
+                "value": "albalu-impostazioni"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "Testi globali prodotto e banner mobile",
+    "show_in_rest": 0,
+    "display_title": "",
+    "modified": 1758518400
+}

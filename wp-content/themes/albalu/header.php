@@ -35,23 +35,71 @@ defined('ABSPATH') || exit;
     <?php dynamic_sidebar('top-bar'); ?>
   <?php endif; ?>
 
-  <!-- 1. Top Bar (Beige Color) -->
+  <!-- 1. Top Bar (Beige Color) — desktop columns / mobile scrollable -->
+  <?php
+  $albalu_top_messages = function_exists( 'albalu_get_top_bar_messages' )
+    ? albalu_get_top_bar_messages()
+    : array(
+        'Bomboniere 100% Made in Italy',
+        'SPEDIZIONE GRATUITA OLTRE 149€',
+        'Hai bisogno di aiuto? Contattaci!',
+      );
+  $albalu_top_desktop = array_slice( $albalu_top_messages, 0, 3 );
+  while ( count( $albalu_top_desktop ) < 3 ) {
+    $albalu_top_desktop[] = '';
+  }
+  ?>
   <div class="top-bar py-2 small fw-bold" style="background-color: #eae3e0; color: var(--color-titoli);">
     <div class="container">
-        <div class="row align-items-center">
+        <!-- Desktop: up to 3 columns -->
+        <div class="row align-items-center d-none d-md-flex">
             <div class="col-md-4 text-center text-md-start">
-                Bomboniere 100% Made in Italy
+                <?php echo esc_html( $albalu_top_desktop[0] ); ?>
             </div>
             <div class="col-md-4 text-center fw-medium">
-                SPEDIZIONE GRATUITA OLTRE 149€
+                <?php echo esc_html( $albalu_top_desktop[1] ); ?>
             </div>
             <div class="col-md-4 text-center text-md-end">
-                <ul class="list-inline mb-0">
-                    <li class="list-inline-item">
-                        <i class="fas fa-phone-alt me-1 text-secondary"></i> Hai bisogno di aiuto? <a href="#colophon" class="text-decoration-underline text-dark">Contattaci</a>!
-                    </li>
-                </ul>
+                <?php if ( $albalu_top_desktop[2] !== '' ) : ?>
+                  <?php
+                  $msg = $albalu_top_desktop[2];
+                  if ( stripos( $msg, 'contatt' ) !== false ) {
+                    echo '<i class="fas fa-phone-alt me-1 text-secondary"></i> ';
+                    echo wp_kses(
+                      preg_replace(
+                        '/(Contattaci!?)/iu',
+                        '<a href="#colophon" class="text-decoration-underline text-dark">$1</a>',
+                        esc_html( $msg )
+                      ),
+                      array(
+                        'a' => array(
+                          'href'  => array(),
+                          'class' => array(),
+                        ),
+                      )
+                    );
+                  } else {
+                    echo esc_html( $msg );
+                  }
+                  ?>
+                <?php endif; ?>
             </div>
+        </div>
+
+        <!-- Mobile: horizontal scrollable / marquee banner -->
+        <div class="top-bar-mobile d-md-none" aria-label="<?php esc_attr_e( 'Messaggi promozionali', 'albalu' ); ?>">
+          <div class="top-bar-mobile__track">
+            <?php
+            // Duplicate messages so CSS marquee loops seamlessly.
+            $loop_messages = array_merge( $albalu_top_messages, $albalu_top_messages );
+            foreach ( $loop_messages as $msg ) :
+              if ( $msg === '' ) {
+                continue;
+              }
+              ?>
+              <span class="top-bar-mobile__item"><?php echo esc_html( $msg ); ?></span>
+            <?php endforeach; ?>
+          </div>
         </div>
     </div>
   </div>

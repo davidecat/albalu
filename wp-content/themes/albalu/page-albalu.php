@@ -10,7 +10,13 @@ get_header();
     <?php if ( ! is_front_page() ) : ?>
     <section class="page-title-bar bg-albalu-warm py-4 mb-4">
         <div class="container">
-            <?php the_title('<h1 class="fs-2 fw-normal mb-0">', '</h1>'); ?>
+            <?php
+            if ( function_exists( 'is_order_received_page' ) && is_order_received_page() ) {
+                echo '<h1 class="fs-2 fw-normal mb-0">' . esc_html__( 'Ordine ricevuto', 'albalu' ) . '</h1>';
+            } else {
+                the_title('<h1 class="fs-2 fw-normal mb-0">', '</h1>');
+            }
+            ?>
         </div>
     </section>
     <?php endif; ?>
