@@ -19,20 +19,27 @@ if ( empty( $columns ) ) {
     $columns = 4; // Default to 4 if not set
 }
 
-// Map columns to Bootstrap classes
-$col_class = 'col-6 col-lg-3'; // Default for 4 columns
-if ($columns == 1) $col_class = 'col-12';
-if ($columns == 2) $col_class = 'col-6';
-if ($columns == 3) $col_class = 'col-6 col-lg-4';
-if ($columns == 4) $col_class = 'col-6 col-lg-3';
-if ($columns == 5) $col_class = 'col-6 col-lg-2'; // 5 cols (approx)
-if ($columns >= 6) $col_class = 'col-6 col-lg-2';
+// Map columns to Bootstrap classes — 2 per row on mobile (col-6)
+$col_class = 'col-6 col-lg-3'; // Default for 4 desktop columns
+if ( $columns == 1 ) {
+	$col_class = 'col-12';
+} elseif ( $columns == 2 ) {
+	$col_class = 'col-6';
+} elseif ( $columns == 3 ) {
+	$col_class = 'col-6 col-lg-4';
+} elseif ( $columns == 4 ) {
+	$col_class = 'col-6 col-lg-3';
+} elseif ( $columns == 5 ) {
+	$col_class = 'col-6 col-lg-2';
+} elseif ( $columns >= 6 ) {
+	$col_class = 'col-6 col-lg-2';
+}
 
-$col_class .= ' mb-4';
+$col_class .= ' mb-1 mb-md-2';
 ?>
 <div <?php wc_product_class( $col_class, $product ); ?>>
 	<div class="product-inner card h-100 border-1">
-        <div class="card-body p-4 text-left">
+        <div class="card-body p-1 p-md-3 text-left">
             <?php
             /**
              * Hook: woocommerce_before_shop_loop_item.

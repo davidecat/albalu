@@ -1,0 +1,91 @@
+{
+    "key": "group_albalu_product_delivery",
+    "title": "Tempi di consegna (prodotto)",
+    "fields": [
+        {
+            "key": "field_albalu_product_delivery_time_text",
+            "label": "Testo tempo di consegna",
+            "name": "delivery_time_text",
+            "aria-label": "",
+            "type": "textarea",
+            "instructions": "Se compilato, sostituisce il testo globale (Impostazioni Albalù) su questo prodotto. Puoi usare HTML semplice (es. <strong>). Lascia vuoto per usare il globale.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "allow_in_bindings": 0,
+            "rows": 3,
+            "placeholder": "Lascia vuoto per usare Impostazioni Albalù",
+            "new_lines": ""
+        },
+        {
+            "key": "field_albalu_product_delivery_min_days",
+            "label": "Giorni consegna (min)",
+            "name": "delivery_min_days",
+            "aria-label": "",
+            "type": "number",
+            "instructions": "Override per schema SEO di questo prodotto. Lascia vuoto per usare il globale.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "min": 1,
+            "max": 60,
+            "placeholder": "",
+            "step": 1,
+            "prepend": "",
+            "append": "giorni"
+        },
+        {
+            "key": "field_albalu_product_delivery_max_days",
+            "label": "Giorni consegna (max)",
+            "name": "delivery_max_days",
+            "aria-label": "",
+            "type": "number",
+            "instructions": "Override per schema SEO di questo prodotto. Lascia vuoto per usare il globale.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "min": 1,
+            "max": 90,
+            "placeholder": "",
+            "step": 1,
+            "prepend": "",
+            "append": "giorni"
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "post_type",
+                "operator": "==",
+                "value": "product"
+            }
+        ]
+    ],
+    "menu_order": 20,
+    "position": "side",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "Override opzionali dei tempi di consegna (priorità sul globale)",
+    "show_in_rest": 0,
+    "display_title": "",
+    "modified": 1774257000
+}

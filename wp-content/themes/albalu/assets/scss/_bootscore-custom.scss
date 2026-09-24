@@ -400,17 +400,88 @@ h1, h2, h3, h4, h5, h6, p {
 
 /* WooCommerce Customizations */
 h2.woocommerce-loop-product__title {
-    font-size: 1rem !important;
-    line-height: 1.5rem;
+    font-size: 0.95rem !important;
+    line-height: 1.35rem;
     display: -webkit-box;
-    -webkit-line-clamp: 2;
+    -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
+    margin-bottom: 0.35rem !important;
+}
+
+.woocommerce ul.products .product-inner.card,
+.woocommerce .products .product-inner.card {
+  border-radius: 0.35rem;
+  box-shadow: none;
+}
+
+.woocommerce .products .product .card-body {
+  padding: 0.5rem !important;
+}
+
+@media (max-width: 767.98px) {
+  .woocommerce .products .product .card-body {
+    padding: 0.3rem !important;
+  }
+
+  /* Compact cards so ~3 rows fit in a typical phone viewport */
+  .woocommerce .products .product img,
+  .woocommerce .products .product .attachment-woocommerce_thumbnail {
+    max-height: 28vw;
+    width: auto !important;
+    max-width: 100%;
+    height: auto !important;
+    object-fit: contain;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+  }
+
+  h2.woocommerce-loop-product__title {
+    font-size: 0.78rem !important;
+    line-height: 1.05rem;
+    -webkit-line-clamp: 2;
+    margin-bottom: 0.15rem !important;
+  }
+
+  body:not(.single-product) .products .woocommerce-Price-amount {
+    font-size: 0.85rem !important;
+  }
+
+  .products .albalu-sale-badge {
+    font-size: 0.65rem !important;
+    padding: 0.12rem 0.3rem !important;
+    margin-bottom: 0.15rem !important;
+    letter-spacing: 0;
+  }
+
+  .albalu-loop-cta {
+    font-size: 0.72rem !important;
+  }
+
+  .woocommerce .products .product .albalu-loop-cta {
+    line-height: 1.2;
+  }
+
+  .woocommerce .products.row {
+    --bs-gutter-x: 0.35rem;
+    --bs-gutter-y: 0.35rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .woocommerce .products .product .card-body {
+    padding: 0.75rem !important;
+  }
 }
 
 .woocommerce-Price-amount {
     font-size: 1.3rem !important;
     font-weight: 500;
+}
+
+body:not(.single-product) .products .woocommerce-Price-amount {
+    font-size: 1.15rem !important;
 }
 
 .single-product .pewc-main-price .woocommerce-Price-amount {
@@ -662,6 +733,23 @@ body:not(.single-product) .price del {
     letter-spacing: 0.5px;
     font-weight: 400;
     background-color: #f3915c;
+    color: #fff;
+    border-radius: 0.25rem;
+}
+
+/* Loop: same orange badge as before, above the image (does not cover the photo) */
+.products .albalu-sale-badge {
+  position: static !important;
+  display: inline-block;
+  margin: 0 0 0.35rem;
+  float: none;
+  z-index: auto;
+  background-color: #f3915c !important;
+  color: #fff !important;
+  border-radius: 0.25rem;
+  font-size: 0.9rem;
+  font-weight: 400;
+  letter-spacing: 0.5px;
 }
 
 .woocommerce-product-gallery .badge.onsale {
@@ -1722,44 +1810,196 @@ ul.pewc-product-extra-groups > li > .pewc-item-field-wrapper > .pewc-description
     line-height: 1.8rem;
 }
 
-// Product subcategories listing
+// Category subcategories — horizontal scroll (mobile) + wrap grid (desktop)
+.albalu-subcats {
+  --albalu-subcat-size: 5.5rem;
+  background: var(--bg-albalu-warm, #eae3e0);
+  border-radius: 0.5rem;
+  padding: 1rem 0.5rem 1.15rem;
+  margin-left: 0;
+  margin-right: 0;
+
+  &__heading {
+    text-align: center;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--color-titoli, #0E1011);
+    margin: 0 0 0.85rem;
+  }
+
+  &__viewport {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  &__track {
+    list-style: none;
+    margin: 0;
+    padding: 0.25rem 0.35rem 0.5rem;
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 0.85rem;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    width: 100%;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  &__item {
+    flex: 0 0 auto;
+    width: var(--albalu-subcat-size) !important;
+    max-width: var(--albalu-subcat-size);
+    scroll-snap-align: start;
+    float: none !important; // WC leftover .product float
+    margin: 0 !important;
+    padding: 0 !important;
+    clear: none !important;
+    position: relative;
+  }
+
+  &__link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.45rem;
+    text-decoration: none;
+    color: inherit;
+
+    &:hover,
+    &:focus-visible {
+      .albalu-subcats__label {
+        color: #578E99;
+      }
+
+      .albalu-subcats__thumb {
+        box-shadow: 0 0 0 2px #578E99;
+      }
+    }
+  }
+
+  &__thumb {
+    display: block;
+    width: var(--albalu-subcat-size);
+    height: var(--albalu-subcat-size);
+    border-radius: 50%;
+    overflow: hidden;
+    background: #fff;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+    transition: box-shadow 0.2s ease;
+  }
+
+  &__img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+  }
+
+  &__label {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    width: 100%;
+    text-align: center;
+    font-size: 0.7rem;
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: var(--color-titoli, #0E1011);
+    transition: color 0.2s ease;
+  }
+
+  &__nav {
+    display: none;
+    flex: 0 0 auto;
+    z-index: 2;
+    width: 2rem;
+    height: 2rem;
+    border: none;
+    border-radius: 50%;
+    background: #578E99;
+    color: #fff;
+    font-size: 1.35rem;
+    line-height: 1;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+    padding: 0;
+
+    &:hover,
+    &:focus-visible {
+      background: darken(#578E99, 8%);
+    }
+
+    &[hidden] {
+      display: none !important;
+    }
+
+    &--prev {
+      margin-right: 0.15rem;
+    }
+
+    &--next {
+      margin-left: 0.15rem;
+    }
+  }
+
+  // Mobile: show arrows when track overflows
+  @media (max-width: 991.98px) {
+    &__nav.is-visible {
+      display: inline-flex;
+    }
+  }
+
+  // Desktop: wrap all items, no scroll / arrows
+  @media (min-width: 992px) {
+    --albalu-subcat-size: 7rem;
+    padding: 1.5rem 1.25rem 1.75rem;
+
+    &__heading {
+      font-size: 1.15rem;
+      margin-bottom: 1.25rem;
+    }
+
+    &__track {
+      flex-wrap: wrap;
+      justify-content: center;
+      overflow: visible;
+      scroll-snap-type: none;
+      gap: 1.5rem 1.75rem;
+      padding: 0;
+    }
+
+    &__item {
+      width: var(--albalu-subcat-size);
+    }
+
+    &__label {
+      font-size: 0.78rem;
+    }
+
+    &__nav {
+      display: none !important;
+    }
+  }
+}
+
+// Legacy circle overlay (kept inert if old markup remains)
 .product-category .card {
   border: none;
   box-shadow: none;
   background: transparent;
-  text-align: center;
-  position: relative;
-  overflow: hidden;
-
-  .card-img-top {
-    border-radius: 50%;
-    aspect-ratio: 1;
-    object-fit: cover;
-  }
-
-  .card-body {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    padding: 1rem;
-    display: flex;
-    justify-content: center;
-    // Account for the circular image: position within the bottom visible area
-    padding-bottom: 12%;
-  }
-
-  .woocommerce-loop-category__title {
-    font-size: 1rem;
-    font-weight: 600;
-    margin-bottom: 0;
-    color: #fff;
-    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
-
-    .count {
-      display: none;
-    }
-  }
 }
 
 // Product detail price override

@@ -279,4 +279,37 @@ jQuery(function ($) {
         }
     });
 
+    // Category subcategories: mobile horizontal scroll + arrow buttons
+    function albaluInitSubcats($root) {
+        var $track = $root.find('.albalu-subcats__track');
+        var $prev = $root.find('.albalu-subcats__nav--prev');
+        var $next = $root.find('.albalu-subcats__nav--next');
+        if (!$track.length) {
+            return;
+        }
+
+        function updateNav() {
+            var el = $track[0];
+            var maxScroll = el.scrollWidth - el.clientWidth;
+            var canScroll = maxScroll > 4 && window.matchMedia('(max-width: 991.98px)').matches;
+            $prev.toggleClass('is-visible', canScroll && el.scrollLeft > 4).prop('hidden', !canScroll);
+            $next.toggleClass('is-visible', canScroll && el.scrollLeft < maxScroll - 4).prop('hidden', !canScroll);
+        }
+
+        function scrollByDir(dir) {
+            var amount = Math.max(160, Math.floor($track[0].clientWidth * 0.7));
+            $track[0].scrollBy({ left: dir * amount, behavior: 'smooth' });
+        }
+
+        $prev.on('click', function () { scrollByDir(-1); });
+        $next.on('click', function () { scrollByDir(1); });
+        $track.on('scroll', updateNav);
+        $(window).on('resize', updateNav);
+        updateNav();
+    }
+
+    $('.albalu-subcats').each(function () {
+        albaluInitSubcats($(this));
+    });
+
 }); // jQuery End

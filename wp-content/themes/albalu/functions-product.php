@@ -283,15 +283,17 @@ function albalu_render_payment_trust_badges_summary() {
 add_action( 'woocommerce_single_product_summary', 'albalu_render_payment_trust_badges_summary', 25 );
 
 /**
- * Delivery time under add-to-cart (editable via Impostazioni Albalù).
+ * Delivery time under add-to-cart (product override → Impostazioni Albalù).
  */
 function albalu_static_benefits_below_addtocart() {
 	if ( ! is_product() ) {
 		return;
 	}
 	$base = esc_url( get_stylesheet_directory_uri() . '/assets/img' );
+	global $product;
+	$product_id = ( $product instanceof WC_Product ) ? $product->get_id() : get_the_ID();
 	$text = function_exists( 'albalu_get_delivery_time_text' )
-		? albalu_get_delivery_time_text()
+		? albalu_get_delivery_time_text( $product_id )
 		: 'Realizziamo e spediamo il tuo ordine in <strong>7/13 giorni lavorativi</strong>.';
 	$text = wp_kses_post( $text );
 

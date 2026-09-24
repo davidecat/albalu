@@ -770,6 +770,39 @@ function bootscore_child_enqueue_styles() {
   .woocommerce-checkout #payment ul.payment_methods li .payment_box{flex:1 0 100%;width:100%}
   .woocommerce-checkout,.woocommerce-order-received{overflow-x:clip}
   .woocommerce-checkout .page-title-bar,.woocommerce-order-received .page-title-bar{max-width:100vw;box-sizing:border-box}
+  .albalu-subcats{--albalu-subcat-size:5.5rem;background:var(--bg-albalu-warm,#eae3e0);border-radius:.5rem;padding:1rem .5rem 1.15rem}
+  .albalu-subcats__heading{text-align:center;font-size:1rem;font-weight:600;color:var(--color-titoli,#0E1011);margin:0 0 .85rem}
+  .albalu-subcats__viewport{position:relative;display:flex;align-items:center}
+  .albalu-subcats__track{list-style:none;margin:0;padding:.25rem .35rem .5rem;display:flex;flex-wrap:nowrap;gap:.85rem;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none;width:100%}
+  .albalu-subcats__track::-webkit-scrollbar{display:none}
+  .albalu-subcats__item{flex:0 0 auto;width:var(--albalu-subcat-size)!important;max-width:var(--albalu-subcat-size);scroll-snap-align:start;float:none!important;margin:0!important;padding:0!important;clear:none!important;position:relative}
+  .albalu-subcats__link{display:flex;flex-direction:column;align-items:center;gap:.45rem;text-decoration:none;color:inherit}
+  .albalu-subcats__link:hover .albalu-subcats__label,.albalu-subcats__link:focus-visible .albalu-subcats__label{color:#578E99}
+  .albalu-subcats__link:hover .albalu-subcats__thumb,.albalu-subcats__link:focus-visible .albalu-subcats__thumb{box-shadow:0 0 0 2px #578E99}
+  .albalu-subcats__thumb{display:block;width:var(--albalu-subcat-size);height:var(--albalu-subcat-size);border-radius:50%;overflow:hidden;background:#fff;box-shadow:0 1px 4px rgba(0,0,0,.08);transition:box-shadow .2s ease}
+  .albalu-subcats__img{display:block;width:100%;height:100%;object-fit:cover;border-radius:50%}
+  .albalu-subcats__label{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;width:100%;text-align:center;font-size:.7rem;font-weight:700;line-height:1.2;letter-spacing:.02em;text-transform:uppercase;color:var(--color-titoli,#0E1011);transition:color .2s ease}
+  .albalu-subcats__nav{display:none;flex:0 0 auto;z-index:2;width:2rem;height:2rem;border:none;border-radius:50%;background:#578E99;color:#fff;font-size:1.35rem;line-height:1;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,.15);padding:0}
+  .albalu-subcats__nav[hidden]{display:none!important}
+  .albalu-subcats__nav--prev{margin-right:.15rem}
+  .albalu-subcats__nav--next{margin-left:.15rem}
+  @media (max-width:991.98px){.albalu-subcats__nav.is-visible{display:inline-flex}}
+  @media (min-width:992px){.albalu-subcats{--albalu-subcat-size:7rem;padding:1.5rem 1.25rem 1.75rem}.albalu-subcats__heading{font-size:1.15rem;margin-bottom:1.25rem}.albalu-subcats__track{flex-wrap:wrap;justify-content:center;overflow:visible;scroll-snap-type:none;gap:1.5rem 1.75rem;padding:0}.albalu-subcats__label{font-size:.78rem}.albalu-subcats__nav{display:none!important}}
+  h2.woocommerce-loop-product__title{font-size:.95rem!important;line-height:1.35rem;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;margin-bottom:.35rem!important}
+  .woocommerce .products .product .card-body{padding:.5rem!important}
+  @media (min-width:768px){.woocommerce .products .product .card-body{padding:.75rem!important}}
+  .woocommerce .products .product-inner.card{border-radius:.35rem}
+  body:not(.single-product) .products .woocommerce-Price-amount{font-size:1.15rem!important}
+  .products .albalu-sale-badge{position:static!important;display:inline-block;margin:0 0 .35rem;float:none;z-index:auto;background-color:#f3915c!important;color:#fff!important;border-radius:.25rem;font-size:.9rem;font-weight:400;letter-spacing:.5px}
+  @media (max-width:767.98px){
+    .woocommerce .products .product .card-body{padding:.3rem!important}
+    .woocommerce .products .product img,.woocommerce .products .product .attachment-woocommerce_thumbnail{max-height:28vw;width:auto!important;max-width:100%;height:auto!important;object-fit:contain;margin-left:auto;margin-right:auto;display:block}
+    h2.woocommerce-loop-product__title{font-size:.78rem!important;line-height:1.05rem;-webkit-line-clamp:2;margin-bottom:.15rem!important}
+    body:not(.single-product) .products .woocommerce-Price-amount{font-size:.85rem!important}
+    .products .albalu-sale-badge{font-size:.65rem!important;padding:.12rem .3rem!important;margin-bottom:.15rem!important;letter-spacing:0}
+    .albalu-loop-cta{font-size:.72rem!important;line-height:1.2}
+    .woocommerce .products.row{--bs-gutter-x:.35rem;--bs-gutter-y:.35rem}
+  }
   ';
   wp_add_inline_style( 'main', $albalu_global_css );
 }
@@ -855,10 +888,16 @@ add_action( 'template_redirect', function() {
     }
 } );
 
-/* Override Bootscore sale flash badge classes */
-add_filter( 'woocommerce_sale_flash', function( $html, $post, $product ) {
-    return '<span class="badge position-absolute start-0 mt-3 ms-3 me-4 z-1 py-2 px-2">' . esc_html__( 'Sale!', 'woocommerce' ) . '</span>';
-}, 20, 3 );
+/* Override Bootscore sale flash: loop badge sits above the image (no overlay). */
+add_filter( 'woocommerce_sale_flash', 'albalu_custom_sale_badge', 20, 3 );
+function albalu_custom_sale_badge( $html, $post, $product ) {
+	// Related / upsells / archive / carousels: same orange badge as before, above the photo.
+	if ( wc_get_loop_prop( 'name' ) || ! is_product() ) {
+		return '<span class="badge albalu-sale-badge py-2 px-2">' . esc_html__( 'Sale!', 'woocommerce' ) . '</span>';
+	}
+	// Main single-product gallery: original absolute top-left overlay.
+	return '<span class="badge position-absolute start-0 mt-3 ms-3 me-4 z-1 py-2 px-2">' . esc_html__( 'Sale!', 'woocommerce' ) . '</span>';
+}
 
 function albalu_setup() {
     add_theme_support( 'post-thumbnails' );
@@ -976,7 +1015,7 @@ function albalu_custom_category_header() {
 function albalu_custom_add_to_cart_link( $html, $product, $args ) {
     $link = get_permalink( $product->get_id() );
     return sprintf(
-        '<div class="mt-auto pt-2"><a href="%s" class="text-decoration-none fw-bold small d-inline-block" style="color: var(--color-cta-chiaro);">Vedi il prodotto <i class="fas fa-arrow-right ms-1"></i></a></div>',
+        '<div class="mt-auto pt-1"><a href="%s" class="albalu-loop-cta text-decoration-none fw-bold small d-inline-block" style="color: var(--color-cta-chiaro);">Vedi il prodotto <i class="fas fa-arrow-right ms-1" aria-hidden="true"></i></a></div>',
         esc_url( $link )
     );
 }
@@ -999,15 +1038,6 @@ function replace_add_to_cart_button_class( $button_html, $product ) {
 add_filter( 'woocommerce_product_add_to_cart_text', 'custom_woocommerce_product_add_to_cart_text' );
 function custom_woocommerce_product_add_to_cart_text() {
     return __( 'Vedi il prodotto', 'woocommerce' ); // Replace "Buy Now" with your desired text
-}
-
-
-add_filter('woocommerce_sale_flash', 'albalu_custom_sale_badge', 20, 3);
-function albalu_custom_sale_badge($html, $post, $product) {
-    if ( is_product() ) {
-        return $html;
-    }
-    return '<span class="badge position-absolute start-0 mt-3 ms-3 me-4 z-1 py-2 px-2">' . esc_html__('Sale!', 'woocommerce') . '</span>';
 }
 
 
@@ -1091,37 +1121,93 @@ function albalu_get_top_bar_messages() {
 }
 
 /**
- * Delivery time copy (product page) — editable via Impostazioni Albalù.
+ * Resolve product ID for delivery helpers (explicit ID, global product, or current post).
+ *
+ * @param int|null $product_id Optional product ID.
+ * @return int
  */
-function albalu_get_delivery_time_text() {
+function albalu_resolve_delivery_product_id( $product_id = null ) {
+	if ( $product_id ) {
+		return (int) $product_id;
+	}
+	global $product;
+	if ( $product instanceof WC_Product ) {
+		return (int) $product->get_id();
+	}
+	$post_id = get_the_ID();
+	return ( $post_id && get_post_type( $post_id ) === 'product' ) ? (int) $post_id : 0;
+}
+
+/**
+ * Delivery time copy — product override first, then Impostazioni Albalù, then default.
+ *
+ * @param int|null $product_id Optional product ID.
+ * @return string
+ */
+function albalu_get_delivery_time_text( $product_id = null ) {
 	$default = 'Realizziamo e spediamo il tuo ordine in <strong>7/13 giorni lavorativi</strong>.';
-	if ( function_exists( 'get_field' ) ) {
-		$text = get_field( 'delivery_time_text', 'option' );
+	if ( ! function_exists( 'get_field' ) ) {
+		return $default;
+	}
+
+	$product_id = albalu_resolve_delivery_product_id( $product_id );
+	if ( $product_id ) {
+		$text = get_field( 'delivery_time_text', $product_id );
 		if ( is_string( $text ) && trim( $text ) !== '' ) {
 			return $text;
 		}
 	}
+
+	$text = get_field( 'delivery_time_text', 'option' );
+	if ( is_string( $text ) && trim( $text ) !== '' ) {
+		return $text;
+	}
+
 	return $default;
 }
 
 /**
- * Delivery day range for Schema.org (synced with visible copy defaults).
+ * Delivery day range for Schema.org (product override → global → defaults).
  *
+ * @param int|null $product_id Optional product ID.
  * @return int[] { min, max }
  */
-function albalu_get_delivery_day_range() {
+function albalu_get_delivery_day_range( $product_id = null ) {
 	$min = 7;
 	$max = 13;
-	if ( function_exists( 'get_field' ) ) {
-		$acf_min = get_field( 'delivery_min_days', 'option' );
-		$acf_max = get_field( 'delivery_max_days', 'option' );
-		if ( $acf_min !== null && $acf_min !== '' && $acf_min !== false ) {
-			$min = max( 1, (int) $acf_min );
+	if ( ! function_exists( 'get_field' ) ) {
+		return array( $min, $max );
+	}
+
+	$product_id = albalu_resolve_delivery_product_id( $product_id );
+
+	$acf_min = null;
+	$acf_max = null;
+	if ( $product_id ) {
+		$product_min = get_field( 'delivery_min_days', $product_id );
+		$product_max = get_field( 'delivery_max_days', $product_id );
+		if ( $product_min !== null && $product_min !== '' && $product_min !== false ) {
+			$acf_min = $product_min;
 		}
-		if ( $acf_max !== null && $acf_max !== '' && $acf_max !== false ) {
-			$max = max( $min, (int) $acf_max );
+		if ( $product_max !== null && $product_max !== '' && $product_max !== false ) {
+			$acf_max = $product_max;
 		}
 	}
+
+	if ( $acf_min === null ) {
+		$acf_min = get_field( 'delivery_min_days', 'option' );
+	}
+	if ( $acf_max === null ) {
+		$acf_max = get_field( 'delivery_max_days', 'option' );
+	}
+
+	if ( $acf_min !== null && $acf_min !== '' && $acf_min !== false ) {
+		$min = max( 1, (int) $acf_min );
+	}
+	if ( $acf_max !== null && $acf_max !== '' && $acf_max !== false ) {
+		$max = max( $min, (int) $acf_max );
+	}
+
 	return array( $min, $max );
 }
 
@@ -2441,9 +2527,9 @@ add_filter( 'wpseo_schema_product', function( $data ) {
 			'@type'          => 'DefinedRegion',
 			'addressCountry' => 'IT',
 		),
-		'deliveryTime'        => ( function() {
+		'deliveryTime'        => ( function() use ( $product ) {
 			list( $ship_min, $ship_max ) = function_exists( 'albalu_get_delivery_day_range' )
-				? albalu_get_delivery_day_range()
+				? albalu_get_delivery_day_range( $product ? $product->get_id() : null )
 				: array( 7, 13 );
 			// Single handling window matching the visible “X/Y giorni lavorativi” copy.
 			return array(

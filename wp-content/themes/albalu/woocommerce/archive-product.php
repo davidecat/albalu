@@ -50,15 +50,26 @@ if ( woocommerce_product_loop() ) {
 
 	if ( ! empty( $subcategories ) && ! is_wp_error( $subcategories ) ) {
 		?>
-		<div class="row g-4 mb-5 products subcategories-section">
-			<?php
-			foreach ( $subcategories as $subcategory ) {
-				wc_get_template( 'content-product_cat.php', array(
-					'category' => $subcategory,
-				) );
-			}
-			?>
-		</div>
+		<section class="albalu-subcats mb-4" aria-label="<?php esc_attr_e( 'Sottocategorie', 'bootscore-child' ); ?>">
+			<p class="albalu-subcats__heading"><?php esc_html_e( 'Scegli la categoria', 'bootscore-child' ); ?></p>
+			<div class="albalu-subcats__viewport">
+				<button type="button" class="albalu-subcats__nav albalu-subcats__nav--prev" aria-label="<?php esc_attr_e( 'Precedente', 'bootscore-child' ); ?>">
+					<span aria-hidden="true">&lsaquo;</span>
+				</button>
+				<ul class="albalu-subcats__track">
+					<?php
+					foreach ( $subcategories as $subcategory ) {
+						wc_get_template( 'content-product_cat.php', array(
+							'category' => $subcategory,
+						) );
+					}
+					?>
+				</ul>
+				<button type="button" class="albalu-subcats__nav albalu-subcats__nav--next" aria-label="<?php esc_attr_e( 'Successivo', 'bootscore-child' ); ?>">
+					<span aria-hidden="true">&rsaquo;</span>
+				</button>
+			</div>
+		</section>
 		<?php
 	}
 

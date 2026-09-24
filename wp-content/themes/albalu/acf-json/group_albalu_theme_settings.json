@@ -8,7 +8,7 @@
             "name": "delivery_time_text",
             "aria-label": "",
             "type": "textarea",
-            "instructions": "Mostrato sotto il pulsante Acquista nella pagina prodotto. Puoi usare HTML semplice (es. <strong>). Lascia vuoto per il testo di default.",
+            "instructions": "Mostrato sotto il pulsante Acquista nella pagina prodotto (default globale). Se un prodotto ha il proprio testo, quello ha priorità. Puoi usare HTML semplice (es. <strong>). Lascia vuoto per il testo di default.",
             "required": 0,
             "conditional_logic": 0,
             "wrapper": {
@@ -29,7 +29,7 @@
             "name": "delivery_min_days",
             "aria-label": "",
             "type": "number",
-            "instructions": "Usato nello schema SEO (handling + transit). Default: 7",
+            "instructions": "Usato nello schema SEO (handling + transit). Default globale: 7. Un valore sul singolo prodotto ha priorità.",
             "required": 0,
             "conditional_logic": 0,
             "wrapper": {
@@ -51,7 +51,7 @@
             "name": "delivery_max_days",
             "aria-label": "",
             "type": "number",
-            "instructions": "Usato nello schema SEO. Default: 13",
+            "instructions": "Usato nello schema SEO. Default globale: 13. Un valore sul singolo prodotto ha priorità.",
             "required": 0,
             "conditional_logic": 0,
             "wrapper": {
@@ -130,8 +130,8 @@
     "instruction_placement": "label",
     "hide_on_screen": "",
     "active": true,
-    "description": "Testi globali prodotto e banner mobile",
+    "description": "Testi globali prodotto e banner mobile (override possibili sul singolo prodotto)",
     "show_in_rest": 0,
     "display_title": "",
-    "modified": 1758518400
+    "modified": 1774257000
 }
