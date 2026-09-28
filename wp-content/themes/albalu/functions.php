@@ -803,6 +803,9 @@ function bootscore_child_enqueue_styles() {
     .albalu-loop-cta{font-size:.72rem!important;line-height:1.2}
     .woocommerce .products.row{--bs-gutter-x:.35rem;--bs-gutter-y:.35rem}
   }
+  .woocommerce .star-rating span::before,.woocommerce .products .star-rating span::before,.woocommerce p.stars a::before{color:#FFC107!important}
+  .woocommerce .star-rating::before,.woocommerce .products .star-rating::before{color:#e0e0e0!important}
+  .albalu-yellow-stars{color:#FFC107;letter-spacing:.05em;font-size:1.05em;line-height:1}
   ';
   wp_add_inline_style( 'main', $albalu_global_css );
 }

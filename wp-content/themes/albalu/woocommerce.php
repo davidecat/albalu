@@ -24,7 +24,7 @@ get_header();
 
   <?php if ( ! is_checkout() ) : ?>
   <div class="container container px-auto text-center my-3 fw-medium">
-    <p>+10000 Clienti Soddisfatti <img draggable="false" role="img" class="emoji" alt="⭐" src="https://s.w.org/images/core/emoji/17.0.2/svg/2b50.svg"><img draggable="false" role="img" class="emoji" alt="⭐" src="https://s.w.org/images/core/emoji/17.0.2/svg/2b50.svg"><img draggable="false" role="img" class="emoji" alt="⭐" src="https://s.w.org/images/core/emoji/17.0.2/svg/2b50.svg"><img draggable="false" role="img" class="emoji" alt="⭐" src="https://s.w.org/images/core/emoji/17.0.2/svg/2b50.svg"><img draggable="false" role="img" class="emoji" alt="⭐" src="https://s.w.org/images/core/emoji/17.0.2/svg/2b50.svg"></p>
+    <p class="mb-0">+10000 Clienti Soddisfatti <span class="albalu-yellow-stars" aria-hidden="true">★★★★★</span><span class="visually-hidden">5 stelle</span></p>
   </div>
   <?php endif; ?>
 

@@ -235,10 +235,41 @@ function albalu_add_inline_styles_single_product() {
 	body.woocommerce.single-product .quantity-addtocart-wrapper .quantity { flex: 0 0 auto; display: flex; align-items: center; }
 	body.woocommerce.single-product .quantity-addtocart-wrapper .single_add_to_cart_button { flex: 1 1 auto; height: 52px; }
 	.albalu-purchase-benefits { margin-top: 12px; }
+	.albalu-product-media { width: 100%; position: relative; }
+	.albalu-gallery-sticky-placeholder { display: none; pointer-events: none; }
+	.albalu-purchase-benefits--under-gallery {
+		margin-top: 14px;
+		width: 100%;
+		max-width: 100%;
+		box-sizing: border-box;
+		position: relative;
+		z-index: 2;
+		clear: both;
+	}
 	.albalu-purchase-benefits .item { gap: 12px; padding: 12px 0; }
-	.albalu-purchase-benefits .item img.benefit-icon { width: 80px; height: 50px; object-fit: contain; display: inline-block; flex-shrink: 0; }
-	.albalu-purchase-benefits .item p { margin: 0; }
+	.albalu-purchase-benefits .item img.benefit-icon {
+		width: 80px !important;
+		max-width: 80px !important;
+		height: 50px !important;
+		max-height: 50px !important;
+		object-fit: contain !important;
+		display: inline-block !important;
+		flex-shrink: 0;
+	}
+	/* WooCommerce forces div.images img { width:100% } — do not let that inflate the truck */
+	.albalu-product-media .albalu-purchase-benefits img,
+	.albalu-product-media .albalu-delivery-highlight img {
+		width: 80px !important;
+		max-width: 80px !important;
+		height: 50px !important;
+		max-height: 50px !important;
+		object-fit: contain !important;
+	}
+	.albalu-purchase-benefits .item p { margin: 0; flex: 1 1 auto; font-size: 0.95rem; line-height: 1.35; }
 	.albalu-purchase-benefits .albalu-delivery-highlight {
+		display: flex !important;
+		flex-direction: row !important;
+		align-items: center !important;
 		gap: 12px;
 		padding: 14px 16px;
 		border: 2px solid var(--bs-primary, #2f6f73);
@@ -248,8 +279,39 @@ function albalu_add_inline_styles_single_product() {
 	}
 	.albalu-purchase-benefits .albalu-delivery-highlight p { font-weight: 500; color: var(--color-titoli, #3F494F); }
 	.albalu-purchase-benefits .albalu-delivery-highlight strong { font-weight: 700; }
-	.albalu-payment-trust-badges { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; margin: 12px 0 4px; padding: 10px 0; border-top: 1px solid rgba(0,0,0,0.08); border-bottom: 1px solid rgba(0,0,0,0.08); }
-	.albalu-payment-trust-badges img { width: 56px; height: 36px; object-fit: contain; }
+	.albalu-payment-trust-badges {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 8px;
+		margin: 12px 0 8px;
+		padding: 12px 14px;
+		border: 1px solid rgba(0,0,0,0.12);
+		border-radius: 8px;
+		background: #fff;
+		width: 100%;
+		max-width: 100%;
+		box-sizing: border-box;
+	}
+	.albalu-payment-trust-badges__title {
+		margin: 0;
+		font-size: 0.85rem;
+		font-weight: 700;
+		color: var(--color-titoli, #0E1011);
+		letter-spacing: 0.02em;
+	}
+	.albalu-payment-trust-badges__icons {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: 8px 10px;
+	}
+	.albalu-payment-trust-badges img {
+		width: 56px;
+		height: 36px;
+		object-fit: contain;
+		border-radius: 4px;
+	}
 	.albalu-product-reviews-section .woocommerce-Reviews { max-width: 100%; }
 	.albalu-product-reviews-section #reviews { scroll-margin-top: 80px; }
 	";
@@ -258,17 +320,24 @@ function albalu_add_inline_styles_single_product() {
 add_action('wp_enqueue_scripts', 'albalu_add_inline_styles_single_product', 30);
 
 /**
- * Payment trust badges — moved above add-to-cart (after excerpt) for clearer trust signal.
+ * Payment trust badges — in summary column (aligned with title/description, like live).
  */
 function albalu_payment_trust_badges_html() {
 	$base = esc_url( get_stylesheet_directory_uri() . '/assets/img' );
 	ob_start();
 	?>
-	<div class="albalu-payment-trust-badges" aria-label="<?php esc_attr_e( 'Metodi di pagamento', 'albalu' ); ?>">
-		<img src="<?php echo $base; ?>/paypal.svg" alt="PayPal e Carte di Credito" width="56" height="36" loading="lazy">
-		<img src="<?php echo $base; ?>/klarna.svg" alt="Klarna" width="56" height="36" loading="lazy">
-		<img src="<?php echo $base; ?>/consegna.svg" alt="Contrassegno" width="56" height="36" loading="lazy">
-		<img src="<?php echo $base; ?>/bancario.svg" alt="Bonifico bancario" width="56" height="36" loading="lazy">
+	<div class="albalu-payment-trust-badges" aria-label="<?php esc_attr_e( 'Pagamenti Certificati', 'albalu' ); ?>">
+		<p class="albalu-payment-trust-badges__title"><?php esc_html_e( 'Pagamenti Certificati', 'albalu' ); ?></p>
+		<div class="albalu-payment-trust-badges__icons">
+			<img src="<?php echo $base; ?>/paypal.svg" alt="PayPal" width="56" height="36" loading="lazy">
+			<img src="<?php echo $base; ?>/visa.svg" alt="Visa" width="56" height="36" loading="lazy">
+			<img src="<?php echo $base; ?>/mastercard.svg" alt="Mastercard" width="56" height="36" loading="lazy">
+			<img src="<?php echo $base; ?>/maestro.svg" alt="Maestro" width="56" height="36" loading="lazy">
+			<img src="<?php echo $base; ?>/amex.svg" alt="American Express" width="56" height="36" loading="lazy">
+			<img src="<?php echo $base; ?>/klarna.svg" alt="Klarna" width="56" height="36" loading="lazy">
+			<img src="<?php echo $base; ?>/consegna.svg" alt="Contrassegno" width="56" height="36" loading="lazy">
+			<img src="<?php echo $base; ?>/bancario.svg" alt="Bonifico bancario" width="56" height="36" loading="lazy">
+		</div>
 	</div>
 	<?php
 	return ob_get_clean();
@@ -280,28 +349,37 @@ function albalu_render_payment_trust_badges_summary() {
 	}
 	echo albalu_payment_trust_badges_html(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 }
+// After excerpt (20), before add-to-cart (30) — same column as title / live alignment.
 add_action( 'woocommerce_single_product_summary', 'albalu_render_payment_trust_badges_summary', 25 );
 
 /**
- * Delivery time under add-to-cart (product override → Impostazioni Albalù).
+ * Delivery time box HTML (product override → Impostazioni Albalù).
  */
-function albalu_static_benefits_below_addtocart() {
-	if ( ! is_product() ) {
-		return;
-	}
+function albalu_delivery_box_html() {
 	$base = esc_url( get_stylesheet_directory_uri() . '/assets/img' );
 	global $product;
 	$product_id = ( $product instanceof WC_Product ) ? $product->get_id() : get_the_ID();
-	$text = function_exists( 'albalu_get_delivery_time_text' )
+	$text       = function_exists( 'albalu_get_delivery_time_text' )
 		? albalu_get_delivery_time_text( $product_id )
 		: 'Realizziamo e spediamo il tuo ordine in <strong>7/13 giorni lavorativi</strong>.';
 	$text = wp_kses_post( $text );
 
-	echo '<div class="albalu-purchase-benefits">';
-	echo '<div class="d-flex align-items-center item albalu-delivery-highlight"><img class="benefit-icon" src="' . $base . '/truck.svg" alt="Spedizione"><p>' . $text . '</p></div>';
+	ob_start();
+	echo '<div class="albalu-purchase-benefits albalu-purchase-benefits--under-gallery">';
+	echo '<div class="d-flex align-items-center item albalu-delivery-highlight"><img class="benefit-icon" src="' . $base . '/truck.svg" alt="Spedizione" width="80" height="50" loading="lazy"><p>' . $text . '</p></div>';
 	echo '</div>';
+	return ob_get_clean();
 }
-add_action( 'woocommerce_after_add_to_cart_form', 'albalu_static_benefits_below_addtocart', 20 );
+
+/**
+ * Render delivery box (used under the product gallery).
+ */
+function albalu_render_delivery_box() {
+	if ( ! is_product() ) {
+		return;
+	}
+	echo albalu_delivery_box_html(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+}
 
 function albalu_faq_link_below_addtocart() {
 	if ( ! is_product() ) return;

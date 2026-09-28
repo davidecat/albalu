@@ -399,6 +399,26 @@ h1, h2, h3, h4, h5, h6, p {
 }
 
 /* WooCommerce Customizations */
+/* Yellow rating stars (product + archive + reviews + header) */
+.woocommerce .star-rating span::before,
+.woocommerce .products .star-rating span::before,
+.woocommerce ul.products .star-rating span::before {
+  color: #FFC107 !important;
+}
+.woocommerce .star-rating::before,
+.woocommerce .products .star-rating::before {
+  color: #e0e0e0 !important;
+}
+.woocommerce p.stars a::before {
+  color: #FFC107 !important;
+}
+.albalu-yellow-stars {
+  color: #FFC107;
+  letter-spacing: 0.05em;
+  font-size: 1.05em;
+  line-height: 1;
+}
+
 h2.woocommerce-loop-product__title {
     font-size: 0.95rem !important;
     line-height: 1.35rem;
