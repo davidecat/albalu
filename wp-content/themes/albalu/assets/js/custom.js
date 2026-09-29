@@ -114,17 +114,80 @@ jQuery(function ($) {
         });
     });
 
-    // Desktop/mobile sticky gallery disabled: it covers the delivery box
-    // (truck) placed under the gallery when scrolling. Gallery scrolls normally.
-    if ($('body').hasClass('single-product')) {
-        var $galleryReset = $('.woocommerce-product-gallery');
-        if ($galleryReset.length) {
-            $galleryReset.css({
-                position: '',
-                top: '',
-                left: '',
-                width: '',
-                zIndex: ''
+    // Sticky product gallery on desktop
+    if (window.innerWidth >= 992 && $('body').hasClass('single-product')) {
+        var $gallery = $('.woocommerce-product-gallery');
+        var $summary = $('.summary.entry-summary');
+
+        if ($gallery.length && $summary.length) {
+            var galleryWidth = $gallery.outerWidth();
+            var galleryLeft = $gallery.offset().left;
+            var galleryTop = $gallery.offset().top;
+            var summaryBottom = $summary.offset().top + $summary.outerHeight();
+            var galleryHeight = $gallery.outerHeight();
+            var topOffset = 20;
+
+            $(window).on('scroll resize', function () {
+                var scrollTop = $(window).scrollTop();
+                summaryBottom = $summary.offset().top + $summary.outerHeight();
+                galleryHeight = $gallery.outerHeight();
+                galleryWidth = $gallery.hasClass('is-sticky-fixed') ? galleryWidth : $gallery.outerWidth();
+                galleryLeft = $gallery.hasClass('is-sticky-fixed') ? galleryLeft : $gallery.offset().left;
+                galleryTop = $gallery.hasClass('is-sticky-fixed') || $gallery.hasClass('is-sticky-absolute')
+                    ? galleryTop
+                    : $gallery.offset().top;
+
+                if (scrollTop + topOffset > galleryTop && scrollTop + topOffset + galleryHeight < summaryBottom) {
+                    $gallery.addClass('is-sticky-fixed').removeClass('is-sticky-absolute').css({
+                        position: 'fixed',
+                        top: topOffset + 'px',
+                        width: galleryWidth + 'px',
+                        left: galleryLeft + 'px'
+                    });
+                } else if (scrollTop + topOffset + galleryHeight >= summaryBottom) {
+                    $gallery.addClass('is-sticky-absolute').removeClass('is-sticky-fixed').css({
+                        position: 'absolute',
+                        top: (summaryBottom - galleryHeight - $gallery.parent().offset().top) + 'px',
+                        width: galleryWidth + 'px',
+                        left: ''
+                    });
+                } else {
+                    $gallery.removeClass('is-sticky-fixed is-sticky-absolute').css({
+                        position: '',
+                        top: '',
+                        width: '',
+                        left: ''
+                    });
+                }
+            });
+        }
+    }
+
+    // Mobile sticky product gallery – use position:sticky + fix ancestors
+    if (window.innerWidth < 992 && $('body').hasClass('single-product')) {
+        var $mGallery = $('.woocommerce-product-gallery');
+        if ($mGallery.length) {
+            // Force all ancestors to have overflow:visible so sticky works
+            $mGallery.parents().each(function () {
+                var el = $(this);
+                var tag = this.tagName.toLowerCase();
+                if (tag === 'html' || tag === 'body') return;
+                var ov = el.css('overflow');
+                var ovX = el.css('overflow-x');
+                var ovY = el.css('overflow-y');
+                if (ov !== 'visible' || ovX !== 'visible' || ovY !== 'visible') {
+                    el.css({
+                        'overflow': 'visible',
+                        'overflow-x': 'visible',
+                        'overflow-y': 'visible'
+                    });
+                }
+            });
+            $mGallery.css({
+                'position': 'sticky',
+                'top': '0',
+                'z-index': '1000',
+                'background': '#fff'
             });
         }
     }

@@ -235,16 +235,11 @@ function albalu_add_inline_styles_single_product() {
 	body.woocommerce.single-product .quantity-addtocart-wrapper .quantity { flex: 0 0 auto; display: flex; align-items: center; }
 	body.woocommerce.single-product .quantity-addtocart-wrapper .single_add_to_cart_button { flex: 1 1 auto; height: 52px; }
 	.albalu-purchase-benefits { margin-top: 12px; }
-	.albalu-product-media { width: 100%; position: relative; }
-	.albalu-gallery-sticky-placeholder { display: none; pointer-events: none; }
-	.albalu-purchase-benefits--under-gallery {
-		margin-top: 14px;
+	.albalu-purchase-benefits--banner {
+		margin: 0;
 		width: 100%;
 		max-width: 100%;
 		box-sizing: border-box;
-		position: relative;
-		z-index: 2;
-		clear: both;
 	}
 	.albalu-purchase-benefits .item { gap: 12px; padding: 12px 0; }
 	.albalu-purchase-benefits .item img.benefit-icon {
@@ -256,20 +251,12 @@ function albalu_add_inline_styles_single_product() {
 		display: inline-block !important;
 		flex-shrink: 0;
 	}
-	/* WooCommerce forces div.images img { width:100% } — do not let that inflate the truck */
-	.albalu-product-media .albalu-purchase-benefits img,
-	.albalu-product-media .albalu-delivery-highlight img {
-		width: 80px !important;
-		max-width: 80px !important;
-		height: 50px !important;
-		max-height: 50px !important;
-		object-fit: contain !important;
-	}
 	.albalu-purchase-benefits .item p { margin: 0; flex: 1 1 auto; font-size: 0.95rem; line-height: 1.35; }
 	.albalu-purchase-benefits .albalu-delivery-highlight {
 		display: flex !important;
 		flex-direction: row !important;
 		align-items: center !important;
+		justify-content: center;
 		gap: 12px;
 		padding: 14px 16px;
 		border: 2px solid var(--bs-primary, #2f6f73);
@@ -277,7 +264,7 @@ function albalu_add_inline_styles_single_product() {
 		border-radius: 4px;
 		box-shadow: 0 0 0 3px rgba(47, 111, 115, 0.12);
 	}
-	.albalu-purchase-benefits .albalu-delivery-highlight p { font-weight: 500; color: var(--color-titoli, #3F494F); }
+	.albalu-purchase-benefits .albalu-delivery-highlight p { font-weight: 500; color: var(--color-titoli, #3F494F); text-align: left; }
 	.albalu-purchase-benefits .albalu-delivery-highlight strong { font-weight: 700; }
 	.albalu-payment-trust-badges {
 		display: flex;
@@ -365,14 +352,14 @@ function albalu_delivery_box_html() {
 	$text = wp_kses_post( $text );
 
 	ob_start();
-	echo '<div class="albalu-purchase-benefits albalu-purchase-benefits--under-gallery">';
+	echo '<div class="albalu-purchase-benefits albalu-purchase-benefits--banner">';
 	echo '<div class="d-flex align-items-center item albalu-delivery-highlight"><img class="benefit-icon" src="' . $base . '/truck.svg" alt="Spedizione" width="80" height="50" loading="lazy"><p>' . $text . '</p></div>';
 	echo '</div>';
 	return ob_get_clean();
 }
 
 /**
- * Render delivery box (used under the product gallery).
+ * Render delivery box (full-width banner under “+10000 Clienti Soddisfatti”).
  */
 function albalu_render_delivery_box() {
 	if ( ! is_product() ) {

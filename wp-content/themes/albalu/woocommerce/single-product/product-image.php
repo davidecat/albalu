@@ -34,10 +34,10 @@ $wrapper_classes   = apply_filters(
 		'woocommerce-product-gallery',
 		'woocommerce-product-gallery--' . ( $post_thumbnail_id ? 'with-images' : 'without-images' ),
 		'woocommerce-product-gallery--columns-' . absint( $columns ),
+		'images',
 	)
 );
 ?>
-<div class="images albalu-product-media">
 <div class="<?php echo esc_attr( implode( ' ', array_map( 'sanitize_html_class', $wrapper_classes ) ) ); ?>" data-columns="<?php echo esc_attr( $columns ); ?>" style="opacity: 0; transition: opacity .25s ease-in-out;">
 	<div class="woocommerce-product-gallery__wrapper">
 		<?php
@@ -60,11 +60,4 @@ $wrapper_classes   = apply_filters(
 		do_action( 'woocommerce_product_thumbnails' );
 		?>
 	</div>
-</div>
-<?php
-// Delivery box below gallery (customer request: clearer under the main image).
-if ( function_exists( 'albalu_render_delivery_box' ) ) {
-	albalu_render_delivery_box();
-}
-?>
 </div>

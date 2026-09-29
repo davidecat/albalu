@@ -26,6 +26,11 @@ get_header();
   <div class="container container px-auto text-center my-3 fw-medium">
     <p class="mb-0">+10000 Clienti Soddisfatti <span class="albalu-yellow-stars" aria-hidden="true">★★★★★</span><span class="visually-hidden">5 stelle</span></p>
   </div>
+  <?php if ( is_product() && function_exists( 'albalu_render_delivery_box' ) ) : ?>
+  <div class="container mb-3">
+    <?php albalu_render_delivery_box(); ?>
+  </div>
+  <?php endif; ?>
   <?php endif; ?>
 
   <?php if ( is_product_category() ) : ?>
