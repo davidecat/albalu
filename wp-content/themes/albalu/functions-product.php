@@ -252,6 +252,9 @@ function albalu_add_inline_styles_single_product() {
 		flex-shrink: 0;
 	}
 	.albalu-purchase-benefits .item p { margin: 0; flex: 1 1 auto; font-size: 0.95rem; line-height: 1.35; }
+	@media (min-width: 992px) {
+		.albalu-purchase-benefits .item p { font-size: 1.4rem; }
+	}
 	.albalu-purchase-benefits .albalu-delivery-highlight {
 		display: flex !important;
 		flex-direction: row !important;
