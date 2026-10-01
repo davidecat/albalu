@@ -121,49 +121,56 @@ function bootscore_product_slider($atts) {
 
           <?php while ($query->have_posts()) : $query->the_post(); ?>
 
-            <div <?php wc_product_class('swiper-slide card h-auto mb-5 d-flex px-4 text-left product-card'); ?>>
-              <?php
-              /**
-               * Hook: woocommerce_before_shop_loop_item.
-               *
-               * @hooked woocommerce_template_loop_product_link_open - 10
-               */
-              do_action('woocommerce_before_shop_loop_item');
+            <?php
+            // Same card markup as category/shop listing (content-product.php)
+            global $product;
+            if ( ! is_a( $product, 'WC_Product' ) ) {
+              $product = wc_get_product( get_the_ID() );
+            }
+            ?>
+            <div <?php wc_product_class( 'swiper-slide mb-2 product-card', $product ); ?>>
+              <div class="product-inner card h-100 border-1">
+                <div class="card-body p-1 p-md-3 text-left d-flex flex-column">
+                  <?php
+                  /**
+                   * Hook: woocommerce_before_shop_loop_item.
+                   *
+                   * @hooked woocommerce_template_loop_product_link_open - 10
+                   */
+                  do_action( 'woocommerce_before_shop_loop_item' );
 
-              /**
-               * Hook: woocommerce_before_shop_loop_item_title.
-               *
-               * @hooked woocommerce_show_product_loop_sale_flash - 10
-               * @hooked woocommerce_template_loop_product_thumbnail - 10
-               */
-              do_action('woocommerce_before_shop_loop_item_title');
+                  /**
+                   * Hook: woocommerce_before_shop_loop_item_title.
+                   *
+                   * @hooked woocommerce_show_product_loop_sale_flash - 10
+                   * @hooked woocommerce_template_loop_product_thumbnail - 10
+                   */
+                  do_action( 'woocommerce_before_shop_loop_item_title' );
 
-              ?>
-              <div class="card-body d-flex flex-column">
-                <?php
-                /**
-                 * Hook: woocommerce_shop_loop_item_title.
-                 *
-                 * @hooked woocommerce_template_loop_product_title - 10
-                 */
-                do_action('woocommerce_shop_loop_item_title');
+                  /**
+                   * Hook: woocommerce_shop_loop_item_title.
+                   *
+                   * @hooked woocommerce_template_loop_product_title - 10
+                   */
+                  do_action( 'woocommerce_shop_loop_item_title' );
 
-                /**
-                 * Hook: woocommerce_after_shop_loop_item_title.
-                 *
-                 * @hooked woocommerce_template_loop_rating - 5
-                 * @hooked woocommerce_template_loop_price - 10
-                 */
-                do_action('woocommerce_after_shop_loop_item_title');
+                  /**
+                   * Hook: woocommerce_after_shop_loop_item_title.
+                   *
+                   * @hooked woocommerce_template_loop_rating - 5
+                   * @hooked woocommerce_template_loop_price - 10
+                   */
+                  do_action( 'woocommerce_after_shop_loop_item_title' );
 
-                /**
-                 * Hook: woocommerce_after_shop_loop_item.
-                 *
-                 * @hooked woocommerce_template_loop_product_link_close - 5
-                 * @hooked woocommerce_template_loop_add_to_cart - 10
-                 */
-                do_action('woocommerce_after_shop_loop_item');
-                ?>
+                  /**
+                   * Hook: woocommerce_after_shop_loop_item.
+                   *
+                   * @hooked woocommerce_template_loop_product_link_close - 5
+                   * @hooked woocommerce_template_loop_add_to_cart - 10
+                   */
+                  do_action( 'woocommerce_after_shop_loop_item' );
+                  ?>
+                </div>
               </div>
             </div>
 

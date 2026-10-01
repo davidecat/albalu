@@ -38,17 +38,17 @@ if ( $related_products ) :
 						setup_postdata( $GLOBALS['post'] = $post_object ); // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited, Squiz.PHP.DisallowMultipleAssignments.Found
 						?>
 
-						<div <?php wc_product_class( 'swiper-slide card h-auto mb-5 d-flex px-4 text-left product-card' ); ?>>
-							<?php
-							do_action( 'woocommerce_before_shop_loop_item' );
-							do_action( 'woocommerce_before_shop_loop_item_title' );
-							?>
-							<div class="card-body d-flex flex-column">
-								<?php
-								do_action( 'woocommerce_shop_loop_item_title' );
-								do_action( 'woocommerce_after_shop_loop_item_title' );
-								do_action( 'woocommerce_after_shop_loop_item' );
-								?>
+						<div <?php wc_product_class( 'swiper-slide mb-2 product-card', $related_product ); ?>>
+							<div class="product-inner card h-100 border-1">
+								<div class="card-body p-1 p-md-3 text-left d-flex flex-column">
+									<?php
+									do_action( 'woocommerce_before_shop_loop_item' );
+									do_action( 'woocommerce_before_shop_loop_item_title' );
+									do_action( 'woocommerce_shop_loop_item_title' );
+									do_action( 'woocommerce_after_shop_loop_item_title' );
+									do_action( 'woocommerce_after_shop_loop_item' );
+									?>
+								</div>
 							</div>
 						</div>
 

@@ -422,6 +422,7 @@ h1, h2, h3, h4, h5, h6, p {
 h2.woocommerce-loop-product__title {
     font-size: 0.95rem !important;
     line-height: 1.35rem;
+    min-height: calc(1.35rem * 3);
     display: -webkit-box;
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
@@ -430,23 +431,41 @@ h2.woocommerce-loop-product__title {
 }
 
 .woocommerce ul.products .product-inner.card,
-.woocommerce .products .product-inner.card {
+.woocommerce .products .product-inner.card,
+.product-slider .product-inner.card {
   border-radius: 0.35rem;
   box-shadow: none;
 }
 
-.woocommerce .products .product .card-body {
+.woocommerce .products .product .card-body,
+.product-slider .product .card-body {
   padding: 0.5rem !important;
 }
 
+.product-slider .product img,
+.product-slider .product .card-img-top,
+.product-slider .product .attachment-woocommerce_thumbnail {
+  width: auto !important;
+  max-width: 100%;
+  height: auto !important;
+  object-fit: contain;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+}
+
 @media (max-width: 767.98px) {
-  .woocommerce .products .product .card-body {
+  .woocommerce .products .product .card-body,
+  .product-slider .product .card-body {
     padding: 0.3rem !important;
   }
 
   /* Compact cards so ~3 rows fit in a typical phone viewport */
   .woocommerce .products .product img,
-  .woocommerce .products .product .attachment-woocommerce_thumbnail {
+  .woocommerce .products .product .attachment-woocommerce_thumbnail,
+  .product-slider .product img,
+  .product-slider .product .card-img-top,
+  .product-slider .product .attachment-woocommerce_thumbnail {
     max-height: 28vw;
     width: auto !important;
     max-width: 100%;
@@ -460,27 +479,22 @@ h2.woocommerce-loop-product__title {
   h2.woocommerce-loop-product__title {
     font-size: 0.78rem !important;
     line-height: 1.05rem;
-    -webkit-line-clamp: 2;
+    min-height: calc(1.05rem * 3);
+    -webkit-line-clamp: 3;
     margin-bottom: 0.15rem !important;
   }
 
-  body:not(.single-product) .products .woocommerce-Price-amount {
+  body:not(.single-product) .products .woocommerce-Price-amount,
+  body:not(.single-product) .product-slider .woocommerce-Price-amount {
     font-size: 0.85rem !important;
   }
 
-  .products .albalu-sale-badge {
+  .products .albalu-sale-badge,
+  .product-slider .albalu-sale-badge {
     font-size: 0.65rem !important;
     padding: 0.12rem 0.3rem !important;
     margin-bottom: 0.15rem !important;
     letter-spacing: 0;
-  }
-
-  .albalu-loop-cta {
-    font-size: 0.72rem !important;
-  }
-
-  .woocommerce .products .product .albalu-loop-cta {
-    line-height: 1.2;
   }
 
   .woocommerce .products.row {
@@ -490,7 +504,8 @@ h2.woocommerce-loop-product__title {
 }
 
 @media (min-width: 768px) {
-  .woocommerce .products .product .card-body {
+  .woocommerce .products .product .card-body,
+  .product-slider .product .card-body {
     padding: 0.75rem !important;
   }
 }
@@ -500,7 +515,8 @@ h2.woocommerce-loop-product__title {
     font-weight: 500;
 }
 
-body:not(.single-product) .products .woocommerce-Price-amount {
+body:not(.single-product) .products .woocommerce-Price-amount,
+body:not(.single-product) .product-slider .woocommerce-Price-amount {
     font-size: 1.15rem !important;
 }
 
@@ -758,7 +774,8 @@ body:not(.single-product) .price del {
 }
 
 /* Loop: same orange badge as before, above the image (does not cover the photo) */
-.products .albalu-sale-badge {
+.products .albalu-sale-badge,
+.product-slider .albalu-sale-badge {
   position: static !important;
   display: inline-block;
   margin: 0 0 0.35rem;
@@ -1807,7 +1824,17 @@ ul.pewc-product-extra-groups > li > .pewc-item-field-wrapper > .pewc-description
 
 // Related products swiper: add inner padding so slide borders aren't clipped
 .related.products .product-slider .swiper {
-  padding: 0 1px;
+  padding: 0 1px 2.5rem;
+}
+
+// Room below cards so pagination dots don't overlap product bottoms
+.product-slider .swiper {
+  padding-bottom: 2.5rem;
+}
+
+.product-slider .swiper-pagination {
+  bottom: 0 !important;
+  position: absolute;
 }
 
 // Swiper: square bullets with orange active state
@@ -1819,9 +1846,11 @@ ul.pewc-product-extra-groups > li > .pewc-item-field-wrapper > .pewc-description
   background: #F3915C;
 }
 
-.product-slider .swiper-slide .card-body {
-  padding: 0;
+.product-slider .swiper-slide {
+  height: auto !important;
 }
+
+/* Match category listing: padding comes from shared .product .card-body rules */
 
 .albalu-product-description, .term-description  {
     color: #3f494f;

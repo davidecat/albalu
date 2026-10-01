@@ -788,19 +788,23 @@ function bootscore_child_enqueue_styles() {
   .albalu-subcats__nav--next{margin-left:.15rem}
   @media (max-width:991.98px){.albalu-subcats__nav.is-visible{display:inline-flex}}
   @media (min-width:992px){.albalu-subcats{--albalu-subcat-size:7rem;padding:1.5rem 1.25rem 1.75rem}.albalu-subcats__heading{font-size:1.15rem;margin-bottom:1.25rem}.albalu-subcats__track{flex-wrap:wrap;justify-content:center;overflow:visible;scroll-snap-type:none;gap:1.5rem 1.75rem;padding:0}.albalu-subcats__label{font-size:.78rem}.albalu-subcats__nav{display:none!important}}
-  h2.woocommerce-loop-product__title{font-size:.95rem!important;line-height:1.35rem;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;margin-bottom:.35rem!important}
-  .woocommerce .products .product .card-body{padding:.5rem!important}
-  @media (min-width:768px){.woocommerce .products .product .card-body{padding:.75rem!important}}
-  .woocommerce .products .product-inner.card{border-radius:.35rem}
-  body:not(.single-product) .products .woocommerce-Price-amount{font-size:1.15rem!important}
-  .products .albalu-sale-badge{position:static!important;display:inline-block;margin:0 0 .35rem;float:none;z-index:auto;background-color:#f3915c!important;color:#fff!important;border-radius:.25rem;font-size:.9rem;font-weight:400;letter-spacing:.5px}
+  h2.woocommerce-loop-product__title{font-size:.95rem!important;line-height:1.35rem;min-height:calc(1.35rem * 3);display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;margin-bottom:.35rem!important}
+  .woocommerce .products .product .card-body,.product-slider .product .card-body{padding:.5rem!important}
+  @media (min-width:768px){.woocommerce .products .product .card-body,.product-slider .product .card-body{padding:.75rem!important}}
+  .woocommerce .products .product-inner.card,.product-slider .product-inner.card{border-radius:.35rem}
+  body:not(.single-product) .products .woocommerce-Price-amount,body:not(.single-product) .product-slider .woocommerce-Price-amount{font-size:1.15rem!important}
+  .products .albalu-sale-badge,.product-slider .albalu-sale-badge{position:static!important;display:inline-block;margin:0 0 .35rem;float:none;z-index:auto;background-color:#f3915c!important;color:#fff!important;border-radius:.25rem;font-size:.9rem;font-weight:400;letter-spacing:.5px}
+  .product-slider .swiper-slide{height:auto!important}
+  .product-slider .swiper{padding-bottom:2.5rem}
+  .product-slider .swiper-pagination{bottom:0!important;position:absolute}
+  .product-slider .product-inner.card{box-shadow:none}
+  .product-slider .product img,.product-slider .product .card-img-top,.product-slider .product .attachment-woocommerce_thumbnail{width:auto!important;max-width:100%;height:auto!important;object-fit:contain;margin-left:auto;margin-right:auto;display:block}
   @media (max-width:767.98px){
-    .woocommerce .products .product .card-body{padding:.3rem!important}
-    .woocommerce .products .product img,.woocommerce .products .product .attachment-woocommerce_thumbnail{max-height:28vw;width:auto!important;max-width:100%;height:auto!important;object-fit:contain;margin-left:auto;margin-right:auto;display:block}
-    h2.woocommerce-loop-product__title{font-size:.78rem!important;line-height:1.05rem;-webkit-line-clamp:2;margin-bottom:.15rem!important}
-    body:not(.single-product) .products .woocommerce-Price-amount{font-size:.85rem!important}
-    .products .albalu-sale-badge{font-size:.65rem!important;padding:.12rem .3rem!important;margin-bottom:.15rem!important;letter-spacing:0}
-    .albalu-loop-cta{font-size:.72rem!important;line-height:1.2}
+    .woocommerce .products .product .card-body,.product-slider .product .card-body{padding:.3rem!important}
+    .woocommerce .products .product img,.woocommerce .products .product .attachment-woocommerce_thumbnail,.product-slider .product img,.product-slider .product .card-img-top,.product-slider .product .attachment-woocommerce_thumbnail{max-height:28vw;width:auto!important;max-width:100%;height:auto!important;object-fit:contain;margin-left:auto;margin-right:auto;display:block}
+    h2.woocommerce-loop-product__title{font-size:.78rem!important;line-height:1.05rem;min-height:calc(1.05rem * 3);-webkit-line-clamp:3;margin-bottom:.15rem!important}
+    body:not(.single-product) .products .woocommerce-Price-amount,body:not(.single-product) .product-slider .woocommerce-Price-amount{font-size:.85rem!important}
+    .products .albalu-sale-badge,.product-slider .albalu-sale-badge{font-size:.65rem!important;padding:.12rem .3rem!important;margin-bottom:.15rem!important;letter-spacing:0}
     .woocommerce .products.row{--bs-gutter-x:.35rem;--bs-gutter-y:.35rem}
   }
   .woocommerce .star-rating span::before,.woocommerce .products .star-rating span::before,.woocommerce p.stars a::before{color:#FFC107!important}
@@ -974,10 +978,11 @@ add_filter( 'wp_get_attachment_image_attributes', function( $attr, $attachment )
     return $attr;
 }, 10, 2 );
 
-/* Force "Vedi il prodotto" text on loop buttons to match design */
-// add_filter( 'woocommerce_product_add_to_cart_text', function() {
-//    return 'Vedi il prodotto';
-// } );
+/**
+ * Hide "Vedi il prodotto" / loop add-to-cart on all product cards
+ * (shop, category, homepage swiper, related, cross-sells)
+ */
+add_filter( 'woocommerce_loop_add_to_cart_link', '__return_empty_string', 100 );
 
 /**
  * CUSTOM CATEGORY PAGE LAYOUT
@@ -1001,9 +1006,6 @@ function albalu_customize_category_layout() {
         remove_action('woocommerce_archive_description', 'woocommerce_product_archive_description', 10);
         add_action('woocommerce_after_shop_loop', 'woocommerce_taxonomy_archive_description', 15);
         add_action('woocommerce_after_shop_loop', 'woocommerce_product_archive_description', 15);
-        
-        // 4. Custom Add to Cart Link (Vedi il prodotto)
-        add_filter('woocommerce_loop_add_to_cart_link', 'albalu_custom_add_to_cart_link', 10, 3);
     }
 }
 
@@ -1013,34 +1015,6 @@ function albalu_custom_category_header() {
         <div class="small fw-bold text-uppercase mb-1" style="letter-spacing: 1px;">ALBALU STORE</div>
     </header>
     <?php
-}
-
-function albalu_custom_add_to_cart_link( $html, $product, $args ) {
-    $link = get_permalink( $product->get_id() );
-    return sprintf(
-        '<div class="mt-auto pt-1"><a href="%s" class="albalu-loop-cta text-decoration-none fw-bold small d-inline-block" style="color: var(--color-cta-chiaro);">Vedi il prodotto <i class="fas fa-arrow-right ms-1" aria-hidden="true"></i></a></div>',
-        esc_url( $link )
-    );
-}
-
-
-add_filter( 'woocommerce_loop_add_to_cart_link', 'replace_add_to_cart_button_class', 10, 2 );
-
-function replace_add_to_cart_button_class( $button_html, $product ) {
-    // Check if the current button uses btn-primary class and replace it
-    if ( strpos( $button_html, 'btn-primary' ) !== false ) {
-        $button_html = str_replace( 'btn-primary', 'btn-link text-start px-0 text-decoration-none ', $button_html );
-    } 
-    // The default WooCommerce class for the button is 'button' and 'add_to_cart_button'
-    // If your theme uses the default 'button' class, you can replace that instead:
-    // $button_html = str_replace( 'button', 'btn-secondary', $button_html );
-
-    return $button_html;
-}
-// Change "Add to cart" text on shop archives
-add_filter( 'woocommerce_product_add_to_cart_text', 'custom_woocommerce_product_add_to_cart_text' );
-function custom_woocommerce_product_add_to_cart_text() {
-    return __( 'Vedi il prodotto', 'woocommerce' ); // Replace "Buy Now" with your desired text
 }
 
 
